@@ -25,45 +25,27 @@
     <parent>
         <groupId>de.uniulm.omi.executionware</groupId>
         <artifactId>executionware</artifactId>
-        <version>1.0.7-RELEASE</version>
+        <version>${my.version}</version>
     </parent>
     <artifactId>executionware-drivers</artifactId>
     <packaging>jar</packaging>
-
-    <repositories>
-        <!-- Internal repository -->
-        <repository>
-            <id>omi-snapshots</id>
-            <name>OMI Snapshots</name>
-            <url>http://eladron.e-technik.uni-ulm.de:8081/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>omi</id>
-            <name>OMI Releases</name>
-            <url>http://eladron.e-technik.uni-ulm.de:8081/nexus/content/repositories/releases/</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
             <groupId>de.uniulm.omi.executionware</groupId>
             <artifactId>executionware-api</artifactId>
-            <version>LATEST</version>
         </dependency>
         <dependency>
             <groupId>de.uniulm.omi.executionware</groupId>
             <artifactId>executionware-core</artifactId>
-            <version>LATEST</version>
         </dependency>
         <dependency>
             <groupId>org.apache.jclouds</groupId>
             <artifactId>jclouds-all</artifactId>
-            <version>1.8.1</version>
         </dependency>
         <dependency>
             <groupId>de.uniulm.omi.flexiant</groupId>
             <artifactId>flexiant-client</artifactId>
-            <version>1.2.5-RELEASE</version>
         </dependency>
     </dependencies>
 </project>
