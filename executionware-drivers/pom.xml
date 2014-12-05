@@ -26,6 +26,7 @@
         <groupId>de.uniulm.omi.executionware</groupId>
         <artifactId>executionware</artifactId>
         <version>${my.version}</version>
+        <relativePath>..</relativePath>
     </parent>
     <artifactId>executionware-drivers</artifactId>
     <packaging>jar</packaging>
