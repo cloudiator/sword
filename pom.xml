@@ -22,7 +22,7 @@
 
     <properties>
 
-        <my.version>1.9.11-RELEASE</my.version>
+        <my.version>1.0.11-RELEASE</my.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.11</junit.version>
@@ -36,7 +36,7 @@
 
     <groupId>de.uniulm.omi.executionware</groupId>
     <artifactId>executionware</artifactId>
-    <version>1.9.11-RELEASE</version>
+    <version>1.0.11-RELEASE</version>
     <packaging>pom</packaging>
 
     <modules>
