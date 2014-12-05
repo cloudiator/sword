@@ -25,7 +25,7 @@
     <parent>
         <groupId>de.uniulm.omi.executionware</groupId>
         <artifactId>executionware</artifactId>
-        <version>1.0.6-RELEASE</version>
+        <version>1.0.7-RELEASE</version>
     </parent>
     <artifactId>executionware-drivers</artifactId>
     <packaging>jar</packaging>
@@ -63,7 +63,7 @@
         <dependency>
             <groupId>de.uniulm.omi.flexiant</groupId>
             <artifactId>flexiant-client</artifactId>
-            <version>1.2.3-RELEASE</version>
+            <version>1.2.5-RELEASE</version>
         </dependency>
     </dependencies>
 </project>
