@@ -25,7 +25,7 @@ import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.drivers.flexiant.FlexiantComputeClientApi;
-import de.uniulm.omi.flexiant.FlexiantImage;
+import de.uniulm.omi.flexiant.domain.FlexiantImage;
 
 import java.util.Set;
 

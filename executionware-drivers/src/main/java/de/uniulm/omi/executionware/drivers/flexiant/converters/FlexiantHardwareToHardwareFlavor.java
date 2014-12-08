@@ -21,7 +21,7 @@ package de.uniulm.omi.executionware.drivers.flexiant.converters;
 import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.core.domain.builders.HardwareFlavorBuilder;
-import de.uniulm.omi.flexiant.FlexiantHardware;
+import de.uniulm.omi.flexiant.domain.FlexiantHardware;
 
 /**
  * Created by daniel on 05.12.14.
@@ -30,6 +30,6 @@ public class FlexiantHardwareToHardwareFlavor implements Converter<FlexiantHardw
 
     @Override
     public HardwareFlavor apply(FlexiantHardware flexiantHardware) {
-        return new HardwareFlavorBuilder().id(flexiantHardware.getId()).build();
+        return new HardwareFlavorBuilder().id(flexiantHardware.getId()).cores(flexiantHardware.getCores()).mbRam(flexiantHardware.getRam()).build();
     }
 }

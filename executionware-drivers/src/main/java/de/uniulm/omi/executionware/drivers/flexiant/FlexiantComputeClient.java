@@ -21,7 +21,11 @@ package de.uniulm.omi.executionware.drivers.flexiant;
 import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
 import de.uniulm.omi.executionware.api.exceptions.DriverException;
-import de.uniulm.omi.flexiant.*;
+import de.uniulm.omi.flexiant.client.api.FlexiantException;
+import de.uniulm.omi.flexiant.domain.FlexiantHardware;
+import de.uniulm.omi.flexiant.domain.FlexiantImage;
+import de.uniulm.omi.flexiant.domain.FlexiantLocation;
+import de.uniulm.omi.flexiant.domain.FlexiantServer;
 
 import java.util.Set;
 
@@ -30,11 +34,11 @@ import java.util.Set;
  */
 public class FlexiantComputeClient implements FlexiantComputeClientApi {
 
-    private final de.uniulm.omi.flexiant.FlexiantComputeClient flexiantComputeClient;
+    private final de.uniulm.omi.flexiant.client.compute.FlexiantComputeClient flexiantComputeClient;
 
     @Inject
     public FlexiantComputeClient(ServiceConfiguration serviceConfiguration) {
-        flexiantComputeClient = new de.uniulm.omi.flexiant.FlexiantComputeClient(
+        flexiantComputeClient = new de.uniulm.omi.flexiant.client.compute.FlexiantComputeClient(
                 serviceConfiguration.getEndpoint(),
                 serviceConfiguration.getCredentials().getUser(),
                 serviceConfiguration.getCredentials().getPassword()

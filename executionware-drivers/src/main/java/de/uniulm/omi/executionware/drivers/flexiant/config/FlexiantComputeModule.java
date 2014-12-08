@@ -31,9 +31,9 @@ import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantLocationT
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.HardwareSupplier;
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.ImageSupplier;
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.LocationSupplier;
-import de.uniulm.omi.flexiant.FlexiantHardware;
-import de.uniulm.omi.flexiant.FlexiantImage;
-import de.uniulm.omi.flexiant.FlexiantLocation;
+import de.uniulm.omi.flexiant.domain.FlexiantHardware;
+import de.uniulm.omi.flexiant.domain.FlexiantImage;
+import de.uniulm.omi.flexiant.domain.FlexiantLocation;
 
 import java.util.Set;
 

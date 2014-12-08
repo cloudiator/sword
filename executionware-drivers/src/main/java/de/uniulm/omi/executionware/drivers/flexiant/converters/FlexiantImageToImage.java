@@ -21,9 +21,7 @@ package de.uniulm.omi.executionware.drivers.flexiant.converters;
 import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.core.domain.builders.ImageBuilder;
-import de.uniulm.omi.flexiant.FlexiantImage;
-
-import javax.annotation.Nullable;
+import de.uniulm.omi.flexiant.domain.FlexiantImage;
 
 /**
  * Created by daniel on 05.12.14.

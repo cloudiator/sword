@@ -19,10 +19,10 @@
 package de.uniulm.omi.executionware.drivers.flexiant;
 
 import com.google.inject.ImplementedBy;
-import de.uniulm.omi.flexiant.FlexiantHardware;
-import de.uniulm.omi.flexiant.FlexiantImage;
-import de.uniulm.omi.flexiant.FlexiantLocation;
-import de.uniulm.omi.flexiant.FlexiantServer;
+import de.uniulm.omi.flexiant.domain.FlexiantHardware;
+import de.uniulm.omi.flexiant.domain.FlexiantImage;
+import de.uniulm.omi.flexiant.domain.FlexiantLocation;
+import de.uniulm.omi.flexiant.domain.FlexiantServer;
 
 import java.util.Set;
 

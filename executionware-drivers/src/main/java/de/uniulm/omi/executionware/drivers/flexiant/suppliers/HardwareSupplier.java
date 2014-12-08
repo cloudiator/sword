@@ -25,7 +25,7 @@ import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.drivers.flexiant.FlexiantComputeClientApi;
-import de.uniulm.omi.flexiant.FlexiantHardware;
+import de.uniulm.omi.flexiant.domain.FlexiantHardware;
 
 import java.util.Set;
 

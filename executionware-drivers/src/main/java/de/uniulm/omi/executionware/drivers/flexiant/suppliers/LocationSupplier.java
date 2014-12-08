@@ -25,7 +25,7 @@ import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.drivers.flexiant.FlexiantComputeClientApi;
-import de.uniulm.omi.flexiant.FlexiantLocation;
+import de.uniulm.omi.flexiant.domain.FlexiantLocation;
 
 import java.util.Set;
 
