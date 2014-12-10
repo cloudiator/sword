@@ -37,8 +37,10 @@ public class BaseComputeService implements ComputeService {
     private final Supplier<Set<? extends Image>> imageSupplier;
     private final Supplier<Set<? extends Location>> locationSupplier;
     private final Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier;
+    private final Supplier<Set<? extends VirtualMachine>> virtualMachineSupplier;
 
-    public BaseComputeService(Supplier<Set<? extends Image>> imageSupplier, Supplier<Set<? extends Location>> locationSupplier, Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier) {
+    public BaseComputeService(Supplier<Set<? extends Image>> imageSupplier, Supplier<Set<? extends Location>> locationSupplier, Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier, Supplier<Set<? extends VirtualMachine>> virtualMachineSupplier) {
+        this.virtualMachineSupplier = virtualMachineSupplier;
         checkNotNull(imageSupplier);
         checkNotNull(locationSupplier);
         checkNotNull(hardwareFlavorSupplier);
@@ -84,7 +86,7 @@ public class BaseComputeService implements ComputeService {
 
     @Override
     public Iterable<? extends VirtualMachine> listVirtualMachines() {
-        return null;
+        return this.virtualMachineSupplier.get();
     }
 
     @Override

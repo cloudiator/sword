@@ -23,17 +23,21 @@ import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.domain.Location;
+import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.core.config.BaseComputeModule;
 import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantHardwareToHardwareFlavor;
 import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantImageToImage;
 import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantLocationToLocation;
+import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantServerToVirtualMachine;
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.HardwareSupplier;
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.ImageSupplier;
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.LocationSupplier;
+import de.uniulm.omi.executionware.drivers.flexiant.suppliers.VirtualMachineSupplier;
 import de.uniulm.omi.flexiant.domain.FlexiantHardware;
 import de.uniulm.omi.flexiant.domain.FlexiantImage;
 import de.uniulm.omi.flexiant.domain.FlexiantLocation;
+import de.uniulm.omi.flexiant.domain.FlexiantServer;
 
 import java.util.Set;
 
@@ -58,6 +62,11 @@ public class FlexiantComputeModule extends BaseComputeModule {
     }
 
     @Override
+    public Class<? extends Supplier<Set<? extends VirtualMachine>>> getVirtualMachineSupplier() {
+        return VirtualMachineSupplier.class;
+    }
+
+    @Override
     protected void configure() {
         super.configure();
 
@@ -73,5 +82,8 @@ public class FlexiantComputeModule extends BaseComputeModule {
         bind(new TypeLiteral<Converter<FlexiantHardware, HardwareFlavor>>() {
         }).to(FlexiantHardwareToHardwareFlavor.class);
 
+        //bind the virtual machine converter
+        bind(new TypeLiteral<Converter<FlexiantServer, VirtualMachine>>() {
+        }).to(FlexiantServerToVirtualMachine.class);
     }
 }

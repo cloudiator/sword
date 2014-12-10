@@ -23,14 +23,18 @@ import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.domain.Location;
+import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.core.config.BaseComputeModule;
+import de.uniulm.omi.executionware.drivers.jclouds.converters.JCloudsComputeMetadataToVirtualMachine;
 import de.uniulm.omi.executionware.drivers.jclouds.converters.JCloudsHardwareToHardwareFlavor;
 import de.uniulm.omi.executionware.drivers.jclouds.converters.JCloudsImageToImage;
 import de.uniulm.omi.executionware.drivers.jclouds.converters.JCloudsLocationToLocation;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.HardwareSupplier;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.ImageSupplier;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.LocationSupplier;
+import de.uniulm.omi.executionware.drivers.jclouds.suppliers.VirtualMachineSupplier;
+import org.jclouds.compute.domain.ComputeMetadata;
 
 import java.util.Set;
 
@@ -55,6 +59,11 @@ public class JCloudsComputeModule extends BaseComputeModule {
     }
 
     @Override
+    public Class<? extends Supplier<Set<? extends VirtualMachine>>> getVirtualMachineSupplier() {
+        return VirtualMachineSupplier.class;
+    }
+
+    @Override
     protected void configure() {
         super.configure();
 
@@ -69,6 +78,10 @@ public class JCloudsComputeModule extends BaseComputeModule {
         //bind the hardware converter
         bind(new TypeLiteral<Converter<org.jclouds.compute.domain.Hardware, HardwareFlavor>>() {
         }).to(JCloudsHardwareToHardwareFlavor.class);
+
+        //bind the virtual machine converter
+        bind(new TypeLiteral<Converter<ComputeMetadata, VirtualMachine>>() {
+        }).to(JCloudsComputeMetadataToVirtualMachine.class);
 
     }
 }

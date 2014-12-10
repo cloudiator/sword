@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.domain.Location;
+import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.core.base.BaseComputeService;
 
@@ -33,7 +34,16 @@ import java.util.Set;
 public class FlexiantComputeService extends BaseComputeService {
 
     @Inject
-    public FlexiantComputeService(Supplier<Set<? extends Image>> imageSupplier, Supplier<Set<? extends Location>> locationSupplier, Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier) {
-        super(imageSupplier, locationSupplier, hardwareFlavorSupplier);
+    public FlexiantComputeService(
+            Supplier<Set<? extends Image>> imageSupplier,
+            Supplier<Set<? extends Location>> locationSupplier,
+            Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier,
+            Supplier<Set<? extends VirtualMachine>> virtualMachineSupplier) {
+        super(
+                imageSupplier,
+                locationSupplier,
+                hardwareFlavorSupplier,
+                virtualMachineSupplier
+        );
     }
 }
