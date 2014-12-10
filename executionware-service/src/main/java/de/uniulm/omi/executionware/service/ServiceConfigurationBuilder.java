@@ -21,6 +21,8 @@ package de.uniulm.omi.executionware.service;
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
 import de.uniulm.omi.executionware.core.domain.impl.CredentialsImpl;
 
+import javax.annotation.Nullable;
+
 /**
  * Created by daniel on 02.12.14.
  */
@@ -30,6 +32,8 @@ public class ServiceConfigurationBuilder {
     private String username;
     private String password;
     private String provider;
+    @Nullable
+    private String nodeGroup;
 
     public ServiceConfigurationBuilder endpoint(String endpoint) {
         this.endpoint = endpoint;
@@ -51,8 +55,13 @@ public class ServiceConfigurationBuilder {
         return this;
     }
 
+    public ServiceConfigurationBuilder nodeGroup(String nodeGroup) {
+        this.nodeGroup = nodeGroup;
+        return this;
+    }
+
     public ServiceConfiguration build() {
-        return new ServiceConfigurationImpl(this.provider, this.endpoint, new CredentialsImpl(username, password));
+        return new ServiceConfigurationImpl(this.provider, this.endpoint, new CredentialsImpl(username, password), this.nodeGroup);
     }
 
 }

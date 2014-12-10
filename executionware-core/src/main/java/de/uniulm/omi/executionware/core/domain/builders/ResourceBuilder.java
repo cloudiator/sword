@@ -27,7 +27,7 @@ public abstract class ResourceBuilder {
 
     protected String id;
 
-    public ResourceBuilder id(String id) {
+    public ResourceBuilder id(final String id) {
         this.id = id;
         return this;
     }

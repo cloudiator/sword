@@ -21,6 +21,8 @@ package de.uniulm.omi.executionware.service;
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
 import de.uniulm.omi.executionware.api.domain.Credentials;
 
+import javax.annotation.Nullable;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -32,8 +34,9 @@ public class ServiceConfigurationImpl implements ServiceConfiguration {
     private final String provider;
     private final String endpoint;
     private final Credentials credentials;
+    private final String nodeGroup;
 
-    public ServiceConfigurationImpl(String provider, String endpoint, Credentials credentials) {
+    public ServiceConfigurationImpl(String provider, String endpoint, Credentials credentials, @Nullable String nodeGroup) {
         checkNotNull(provider);
         checkNotNull(endpoint);
         checkNotNull(credentials);
@@ -42,6 +45,7 @@ public class ServiceConfigurationImpl implements ServiceConfiguration {
         this.provider = provider;
         this.endpoint = endpoint;
         this.credentials = credentials;
+        this.nodeGroup = nodeGroup;
     }
 
     @Override
@@ -57,5 +61,11 @@ public class ServiceConfigurationImpl implements ServiceConfiguration {
     @Override
     public Credentials getCredentials() {
         return credentials;
+    }
+
+    @Override
+    @Nullable
+    public String getNodeGroup() {
+        return nodeGroup;
     }
 }

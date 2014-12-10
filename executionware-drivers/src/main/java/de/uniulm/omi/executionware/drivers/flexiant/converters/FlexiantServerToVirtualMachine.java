@@ -16,20 +16,20 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.api;
+package de.uniulm.omi.executionware.drivers.flexiant.converters;
 
-import de.uniulm.omi.executionware.api.domain.Credentials;
+import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.domain.VirtualMachine;
+import de.uniulm.omi.executionware.core.domain.builders.VirtualMachineBuilder;
+import de.uniulm.omi.flexiant.domain.FlexiantServer;
 
 /**
- * Created by daniel on 02.12.14.
+ * Created by daniel on 10.12.14.
  */
-public interface ServiceConfiguration {
+public class FlexiantServerToVirtualMachine implements Converter<FlexiantServer, VirtualMachine> {
 
-    public String getEndpoint();
-
-    public String getProvider();
-
-    public Credentials getCredentials();
-
-    public String getNodeGroup();
+    @Override
+    public VirtualMachine apply(FlexiantServer flexiantServer) {
+        return new VirtualMachineBuilder().id(flexiantServer.getId()).description(flexiantServer.getName()).build();
+    }
 }

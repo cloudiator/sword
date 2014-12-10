@@ -16,20 +16,20 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.api;
+package de.uniulm.omi.executionware.drivers.jclouds.converters;
 
-import de.uniulm.omi.executionware.api.domain.Credentials;
+import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.domain.VirtualMachine;
+import de.uniulm.omi.executionware.core.domain.builders.VirtualMachineBuilder;
+import org.jclouds.compute.domain.ComputeMetadata;
 
 /**
- * Created by daniel on 02.12.14.
+ * Created by daniel on 09.12.14.
  */
-public interface ServiceConfiguration {
+public class JCloudsComputeMetadataToVirtualMachine implements Converter<ComputeMetadata, VirtualMachine> {
 
-    public String getEndpoint();
-
-    public String getProvider();
-
-    public Credentials getCredentials();
-
-    public String getNodeGroup();
+    @Override
+    public VirtualMachine apply(ComputeMetadata computeMetadata) {
+        return new VirtualMachineBuilder().id(computeMetadata.getId()).description(computeMetadata.getName()).build();
+    }
 }

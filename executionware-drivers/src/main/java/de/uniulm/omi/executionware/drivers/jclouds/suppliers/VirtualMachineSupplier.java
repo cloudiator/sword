@@ -22,28 +22,29 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.converters.Converter;
-import de.uniulm.omi.executionware.api.domain.Location;
+import de.uniulm.omi.executionware.api.domain.VirtualMachine;
+import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClientApi;
+import org.jclouds.compute.domain.ComputeMetadata;
 
 import java.util.Set;
-import de.uniulm.omi.executionware.api.supplier.Supplier;
 
 /**
- * Created by daniel on 03.12.14.
+ * Created by daniel on 09.12.14.
  */
-public class LocationSupplier implements Supplier<Set<? extends Location>> {
+public class VirtualMachineSupplier implements Supplier<Set<? extends VirtualMachine>> {
 
     private final JCloudsComputeClientApi jCloudsComputeClient;
-    private final Converter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation;
+    private final Converter<ComputeMetadata, VirtualMachine> jCloudsComputeMetadataToVirtualMachine;
 
     @Inject
-    public LocationSupplier(JCloudsComputeClientApi jCloudsComputeClientApi, Converter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation) {
-        this.jCloudsComputeClient = jCloudsComputeClientApi;
-        this.jCloudsLocationToLocation = jCloudsLocationToLocation;
+    public VirtualMachineSupplier(JCloudsComputeClientApi jCloudsComputeClient, Converter<ComputeMetadata, VirtualMachine> jCloudsComputeMetadataToVirtualMachine) {
+        this.jCloudsComputeClient = jCloudsComputeClient;
+        this.jCloudsComputeMetadataToVirtualMachine = jCloudsComputeMetadataToVirtualMachine;
     }
 
     @Override
-    public Set<? extends Location> get() {
-        return Sets.newHashSet(Iterables.transform(jCloudsComputeClient.listAssignableLocations(), this.jCloudsLocationToLocation));
+    public Set<? extends VirtualMachine> get() {
+        return Sets.newHashSet(Iterables.transform(jCloudsComputeClient.listNodes(), this.jCloudsComputeMetadataToVirtualMachine));
     }
 }

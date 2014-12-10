@@ -32,12 +32,12 @@ public abstract class DescribedResourceBuilder extends ResourceBuilder {
     public abstract DescribedResource build();
 
     @Override
-    public DescribedResourceBuilder id(String id) {
+    public DescribedResourceBuilder id(final String id) {
         super.id(id);
         return this;
     }
 
-    public DescribedResourceBuilder description(String description) {
+    public DescribedResourceBuilder description(final String description) {
         this.description = description;
         return this;
     }

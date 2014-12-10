@@ -21,13 +21,5 @@ package de.uniulm.omi.executionware.api.domain;
 /**
  * Created by daniel on 06.10.14.
  */
-public interface VirtualMachine {
-
-    public Location getLocation();
-
-    public Image getImage();
-
-    public HardwareFlavor getHardware();
-
-
+public interface VirtualMachine extends DescribedResource {
 }

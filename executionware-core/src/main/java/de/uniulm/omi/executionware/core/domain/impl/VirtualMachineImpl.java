@@ -16,20 +16,25 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.api;
+package de.uniulm.omi.executionware.core.domain.impl;
 
-import de.uniulm.omi.executionware.api.domain.Credentials;
+import de.uniulm.omi.executionware.api.domain.VirtualMachine;
+
+import javax.annotation.Nullable;
 
 /**
- * Created by daniel on 02.12.14.
+ * Created by daniel on 09.12.14.
  */
-public interface ServiceConfiguration {
+public class VirtualMachineImpl extends DescribedResourceImpl implements VirtualMachine {
 
-    public String getEndpoint();
+    public VirtualMachineImpl(String id, @Nullable String description) {
+        super(id, description);
+    }
 
-    public String getProvider();
-
-    public Credentials getCredentials();
-
-    public String getNodeGroup();
+    @Override
+    public String toString() {
+        return String.format(
+                "VirtualMachine(id: %s, description: %s)",
+                this.id, this.description);
+    }
 }

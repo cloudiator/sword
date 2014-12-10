@@ -16,20 +16,30 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.api;
+package de.uniulm.omi.executionware.core.domain.builders;
 
-import de.uniulm.omi.executionware.api.domain.Credentials;
+import de.uniulm.omi.executionware.api.domain.VirtualMachine;
+import de.uniulm.omi.executionware.core.domain.impl.VirtualMachineImpl;
 
 /**
- * Created by daniel on 02.12.14.
+ * Created by daniel on 09.12.14.
  */
-public interface ServiceConfiguration {
+public class VirtualMachineBuilder extends DescribedResourceBuilder {
 
-    public String getEndpoint();
+    @Override
+    public VirtualMachineBuilder id(final String id) {
+        super.id(id);
+        return this;
+    }
 
-    public String getProvider();
+    @Override
+    public VirtualMachineBuilder description(final String description) {
+        super.description(description);
+        return this;
+    }
 
-    public Credentials getCredentials();
-
-    public String getNodeGroup();
+    @Override
+    public VirtualMachine build() {
+        return new VirtualMachineImpl(this.id, this.description);
+    }
 }
