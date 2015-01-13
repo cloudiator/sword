@@ -22,7 +22,7 @@
 
     <properties>
 
-        <my.version>1.0.16-RELEASE</my.version>
+        <my.version>1.2.0-SNAPSHOT</my.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.11</junit.version>
@@ -31,12 +31,12 @@
         <guice.version>3.0</guice.version>
         <guava.version>18.0</guava.version>
         <jclouds.version>1.8.1</jclouds.version>
-        <flexiant.version>1.3.9-RELEASE</flexiant.version>
+        <flexiant.version>1.2.0-SNAPSHOT</flexiant.version>
     </properties>
 
     <groupId>de.uniulm.omi.executionware</groupId>
     <artifactId>executionware</artifactId>
-    <version>1.0.16-RELEASE</version>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>

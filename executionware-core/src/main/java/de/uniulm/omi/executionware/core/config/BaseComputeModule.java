@@ -24,6 +24,7 @@ import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
+import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 
 import java.util.Set;
@@ -46,6 +47,8 @@ public abstract class BaseComputeModule extends AbstractModule {
 
         bind(new TypeLiteral<Supplier<Set<? extends VirtualMachine>>>() {
         }).to(getVirtualMachineSupplier());
+
+        bind(CreateVirtualMachineStrategy.class).to(getCreateVirtualMachineStrategy());
     }
 
     public abstract Class<? extends Supplier<Set<? extends Image>>> getImageSupplier();
@@ -55,5 +58,7 @@ public abstract class BaseComputeModule extends AbstractModule {
     public abstract Class<? extends Supplier<Set<? extends HardwareFlavor>>> getHardwareFlavorSupplier();
 
     public abstract Class<? extends Supplier<Set<? extends VirtualMachine>>> getVirtualMachineSupplier();
+
+    public abstract Class<? extends CreateVirtualMachineStrategy> getCreateVirtualMachineStrategy();
 
 }

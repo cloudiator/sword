@@ -60,6 +60,11 @@ public class ServiceBuilder {
         return this;
     }
 
+    public ServiceBuilder nodeGroup(String nodeGroup) {
+        this.serviceConfigurationBuilder.nodeGroup(nodeGroup);
+        return this;
+    }
+
     public ComputeService build() {
         ServiceConfiguration serviceConfiguration = this.serviceConfigurationBuilder.build();
         ProviderConfiguration providerConfiguration = Providers.getConfigurationByName(serviceConfiguration.getProvider());

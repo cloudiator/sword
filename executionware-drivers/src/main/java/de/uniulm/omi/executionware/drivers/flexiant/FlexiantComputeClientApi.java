@@ -19,10 +19,7 @@
 package de.uniulm.omi.executionware.drivers.flexiant;
 
 import com.google.inject.ImplementedBy;
-import de.uniulm.omi.flexiant.domain.FlexiantHardware;
-import de.uniulm.omi.flexiant.domain.FlexiantImage;
-import de.uniulm.omi.flexiant.domain.FlexiantLocation;
-import de.uniulm.omi.flexiant.domain.FlexiantServer;
+import de.uniulm.omi.flexiant.domain.impl.*;
 
 import java.util.Set;
 
@@ -32,12 +29,14 @@ import java.util.Set;
 @ImplementedBy(FlexiantComputeClient.class)
 public interface FlexiantComputeClientApi {
 
-    public Set<? extends FlexiantImage> listImages();
+    public Set<? extends Image> listImages();
 
-    public Set<? extends FlexiantHardware> listHardware();
+    public Set<? extends Hardware> listHardware();
 
-    public Set<? extends FlexiantLocation> listLocations();
+    public Set<? extends Location> listLocations();
 
-    public Set<? extends FlexiantServer> listServers();
+    public Set<? extends Server> listServers();
+
+    public Server createServer(ServerTemplate flexiantServerTemplate);
 
 }

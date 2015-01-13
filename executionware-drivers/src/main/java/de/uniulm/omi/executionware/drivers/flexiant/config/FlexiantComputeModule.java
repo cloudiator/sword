@@ -24,20 +24,20 @@ import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
+import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.core.config.BaseComputeModule;
 import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantHardwareToHardwareFlavor;
 import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantImageToImage;
 import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantLocationToLocation;
 import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantServerToVirtualMachine;
+import de.uniulm.omi.executionware.drivers.flexiant.strategy.FlexiantCreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.HardwareSupplier;
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.ImageSupplier;
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.LocationSupplier;
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.VirtualMachineSupplier;
-import de.uniulm.omi.flexiant.domain.FlexiantHardware;
-import de.uniulm.omi.flexiant.domain.FlexiantImage;
-import de.uniulm.omi.flexiant.domain.FlexiantLocation;
-import de.uniulm.omi.flexiant.domain.FlexiantServer;
+import de.uniulm.omi.flexiant.domain.impl.Hardware;
+import de.uniulm.omi.flexiant.domain.impl.Server;
 
 import java.util.Set;
 
@@ -67,23 +67,28 @@ public class FlexiantComputeModule extends BaseComputeModule {
     }
 
     @Override
+    public Class<? extends CreateVirtualMachineStrategy> getCreateVirtualMachineStrategy() {
+        return FlexiantCreateVirtualMachineStrategy.class;
+    }
+
+    @Override
     protected void configure() {
         super.configure();
 
         //bind the image converter
-        bind(new TypeLiteral<Converter<FlexiantImage, Image>>() {
+        bind(new TypeLiteral<Converter<de.uniulm.omi.flexiant.domain.impl.Image, Image>>() {
         }).to(FlexiantImageToImage.class);
 
         //bind the location converter
-        bind(new TypeLiteral<Converter<FlexiantLocation, Location>>() {
+        bind(new TypeLiteral<Converter<de.uniulm.omi.flexiant.domain.impl.Location, Location>>() {
         }).to(FlexiantLocationToLocation.class);
 
         //bind the hardware converter
-        bind(new TypeLiteral<Converter<FlexiantHardware, HardwareFlavor>>() {
+        bind(new TypeLiteral<Converter<Hardware, HardwareFlavor>>() {
         }).to(FlexiantHardwareToHardwareFlavor.class);
 
         //bind the virtual machine converter
-        bind(new TypeLiteral<Converter<FlexiantServer, VirtualMachine>>() {
+        bind(new TypeLiteral<Converter<Server, VirtualMachine>>() {
         }).to(FlexiantServerToVirtualMachine.class);
     }
 }

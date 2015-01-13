@@ -32,7 +32,6 @@ public class ServiceConfigurationBuilder {
     private String username;
     private String password;
     private String provider;
-    @Nullable
     private String nodeGroup;
 
     public ServiceConfigurationBuilder endpoint(String endpoint) {

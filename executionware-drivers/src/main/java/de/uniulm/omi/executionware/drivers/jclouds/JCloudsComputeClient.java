@@ -21,16 +21,16 @@ package de.uniulm.omi.executionware.drivers.jclouds;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
+import de.uniulm.omi.executionware.api.exceptions.DriverException;
 import org.jclouds.ContextBuilder;
 import org.jclouds.compute.ComputeServiceContext;
-import org.jclouds.compute.domain.ComputeMetadata;
-import org.jclouds.compute.domain.Hardware;
-import org.jclouds.compute.domain.Image;
+import org.jclouds.compute.RunNodesException;
+import org.jclouds.compute.domain.*;
 import org.jclouds.domain.Location;
 
 import java.util.Set;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.*;
 
 /**
  * Created by daniel on 01.12.14.
@@ -38,16 +38,20 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class JCloudsComputeClient implements JCloudsComputeClientApi {
 
     private final ComputeServiceContext computeServiceContext;
+    private final ServiceConfiguration serviceConfiguration;
 
     @Inject
     public JCloudsComputeClient(ServiceConfiguration serviceConfiguration) {
 
         checkNotNull(serviceConfiguration);
+        this.serviceConfiguration = serviceConfiguration;
 
         this.computeServiceContext = ContextBuilder.newBuilder(serviceConfiguration.getProvider())
                 .endpoint(serviceConfiguration.getEndpoint())
                 .credentials(serviceConfiguration.getCredentials().getUser(), serviceConfiguration.getCredentials().getPassword())
                 .buildView(ComputeServiceContext.class);
+
+
     }
 
     @Override
@@ -69,4 +73,22 @@ public class JCloudsComputeClient implements JCloudsComputeClientApi {
     public Set<? extends ComputeMetadata> listNodes() {
         return this.computeServiceContext.getComputeService().listNodes();
     }
+
+    @Override
+    public NodeMetadata createNode(Template template) {
+        try {
+            Set<? extends NodeMetadata> nodesInGroup = this.computeServiceContext.getComputeService().createNodesInGroup(this.serviceConfiguration.getNodeGroup(), 1, template);
+            checkElementIndex(0, nodesInGroup.size());
+            checkState(nodesInGroup.size() == 1);
+            return nodesInGroup.iterator().next();
+        } catch (RunNodesException e) {
+            throw new DriverException(e);
+        }
+    }
+
+    @Override
+    public TemplateBuilder templateBuilder() {
+        return this.computeServiceContext.getComputeService().templateBuilder();
+    }
+
 }

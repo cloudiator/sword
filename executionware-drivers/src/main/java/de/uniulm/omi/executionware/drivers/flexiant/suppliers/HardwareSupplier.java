@@ -25,7 +25,7 @@ import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.drivers.flexiant.FlexiantComputeClientApi;
-import de.uniulm.omi.flexiant.domain.FlexiantHardware;
+import de.uniulm.omi.flexiant.domain.impl.Hardware;
 
 import java.util.Set;
 
@@ -35,10 +35,10 @@ import java.util.Set;
 public class HardwareSupplier implements Supplier<Set<? extends HardwareFlavor>> {
 
     private final FlexiantComputeClientApi flexiantComputeClient;
-    private final Converter<FlexiantHardware, HardwareFlavor> hardwareConverter;
+    private final Converter<Hardware, HardwareFlavor> hardwareConverter;
 
     @Inject
-    public HardwareSupplier(FlexiantComputeClientApi flexiantComputeClient, Converter<FlexiantHardware, HardwareFlavor> hardwareConverter) {
+    public HardwareSupplier(FlexiantComputeClientApi flexiantComputeClient, Converter<Hardware, HardwareFlavor> hardwareConverter) {
         this.flexiantComputeClient = flexiantComputeClient;
         this.hardwareConverter = hardwareConverter;
     }

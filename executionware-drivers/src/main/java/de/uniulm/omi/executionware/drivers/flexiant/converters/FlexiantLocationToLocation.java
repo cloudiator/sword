@@ -21,15 +21,14 @@ package de.uniulm.omi.executionware.drivers.flexiant.converters;
 import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.core.domain.builders.LocationBuilder;
-import de.uniulm.omi.flexiant.domain.FlexiantLocation;
 
 /**
  * Created by daniel on 05.12.14.
  */
-public class FlexiantLocationToLocation implements Converter<FlexiantLocation, Location> {
+public class FlexiantLocationToLocation implements Converter<de.uniulm.omi.flexiant.domain.impl.Location, Location> {
 
     @Override
-    public Location apply(FlexiantLocation flexiantLocation) {
-        return new LocationBuilder().id(flexiantLocation.getId()).description(flexiantLocation.getName()).build();
+    public Location apply(de.uniulm.omi.flexiant.domain.impl.Location location) {
+        return new LocationBuilder().id(location.getId()).description(location.getName()).build();
     }
 }

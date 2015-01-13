@@ -25,7 +25,7 @@ import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.drivers.flexiant.FlexiantComputeClientApi;
-import de.uniulm.omi.flexiant.domain.FlexiantServer;
+import de.uniulm.omi.flexiant.domain.impl.Server;
 
 import java.util.Set;
 
@@ -35,10 +35,10 @@ import java.util.Set;
 public class VirtualMachineSupplier implements Supplier<Set<? extends VirtualMachine>> {
 
     private final FlexiantComputeClientApi flexiantComputeClient;
-    private final Converter<FlexiantServer, VirtualMachine> virtualMachineConverter;
+    private final Converter<Server, VirtualMachine> virtualMachineConverter;
 
     @Inject
-    public VirtualMachineSupplier(FlexiantComputeClientApi flexiantComputeClient, Converter<FlexiantServer, VirtualMachine> virtualMachineConverter) {
+    public VirtualMachineSupplier(FlexiantComputeClientApi flexiantComputeClient, Converter<Server, VirtualMachine> virtualMachineConverter) {
         this.flexiantComputeClient = flexiantComputeClient;
         this.virtualMachineConverter = virtualMachineConverter;
     }

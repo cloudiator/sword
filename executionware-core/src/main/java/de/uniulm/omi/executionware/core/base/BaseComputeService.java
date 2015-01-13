@@ -18,11 +18,10 @@
 
 package de.uniulm.omi.executionware.core.base;
 
-import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
-import de.uniulm.omi.executionware.api.domain.Image;
-import de.uniulm.omi.executionware.api.domain.Location;
-import de.uniulm.omi.executionware.api.domain.VirtualMachine;
+import com.google.inject.Inject;
+import de.uniulm.omi.executionware.api.domain.*;
 import de.uniulm.omi.executionware.api.service.ComputeService;
+import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 
 import java.util.Set;
@@ -38,15 +37,26 @@ public class BaseComputeService implements ComputeService {
     private final Supplier<Set<? extends Location>> locationSupplier;
     private final Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier;
     private final Supplier<Set<? extends VirtualMachine>> virtualMachineSupplier;
+    private final CreateVirtualMachineStrategy createVirtualMachineStrategy;
 
-    public BaseComputeService(Supplier<Set<? extends Image>> imageSupplier, Supplier<Set<? extends Location>> locationSupplier, Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier, Supplier<Set<? extends VirtualMachine>> virtualMachineSupplier) {
-        this.virtualMachineSupplier = virtualMachineSupplier;
+    @Inject
+    public BaseComputeService(
+            Supplier<Set<? extends Image>> imageSupplier,
+            Supplier<Set<? extends Location>> locationSupplier,
+            Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier,
+            Supplier<Set<? extends VirtualMachine>> virtualMachineSupplier,
+            CreateVirtualMachineStrategy createVirtualMachineStrategy) {
+
         checkNotNull(imageSupplier);
         checkNotNull(locationSupplier);
         checkNotNull(hardwareFlavorSupplier);
+        checkNotNull(virtualMachineSupplier);
+        checkNotNull(createVirtualMachineStrategy);
         this.imageSupplier = imageSupplier;
         this.locationSupplier = locationSupplier;
         this.hardwareFlavorSupplier = hardwareFlavorSupplier;
+        this.virtualMachineSupplier = virtualMachineSupplier;
+        this.createVirtualMachineStrategy = createVirtualMachineStrategy;
     }
 
     @Override
@@ -92,5 +102,10 @@ public class BaseComputeService implements ComputeService {
     @Override
     public void destroyVirtualMachine() {
 
+    }
+
+    @Override
+    public VirtualMachine createVirtualMachine(final VirtualMachineTemplate virtualMachineTemplate) {
+        return this.createVirtualMachineStrategy.apply(virtualMachineTemplate);
     }
 }

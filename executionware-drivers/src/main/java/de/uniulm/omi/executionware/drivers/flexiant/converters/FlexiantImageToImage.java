@@ -21,15 +21,15 @@ package de.uniulm.omi.executionware.drivers.flexiant.converters;
 import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.core.domain.builders.ImageBuilder;
-import de.uniulm.omi.flexiant.domain.FlexiantImage;
+
 
 /**
  * Created by daniel on 05.12.14.
  */
-public class FlexiantImageToImage implements Converter<FlexiantImage, Image> {
+public class FlexiantImageToImage implements Converter<de.uniulm.omi.flexiant.domain.impl.Image, Image> {
 
     @Override
-    public Image apply(FlexiantImage flexiantImage) {
-        return new ImageBuilder().id(flexiantImage.getId()).description(flexiantImage.getName()).build();
+    public Image apply(de.uniulm.omi.flexiant.domain.impl.Image image) {
+        return new ImageBuilder().id(image.getId()).description(image.getName()).build();
     }
 }

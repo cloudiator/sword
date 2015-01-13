@@ -24,12 +24,14 @@ import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
+import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.core.config.BaseComputeModule;
 import de.uniulm.omi.executionware.drivers.jclouds.converters.JCloudsComputeMetadataToVirtualMachine;
 import de.uniulm.omi.executionware.drivers.jclouds.converters.JCloudsHardwareToHardwareFlavor;
 import de.uniulm.omi.executionware.drivers.jclouds.converters.JCloudsImageToImage;
 import de.uniulm.omi.executionware.drivers.jclouds.converters.JCloudsLocationToLocation;
+import de.uniulm.omi.executionware.drivers.jclouds.strategy.JcloudsCreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.HardwareSupplier;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.ImageSupplier;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.LocationSupplier;
@@ -61,6 +63,11 @@ public class JCloudsComputeModule extends BaseComputeModule {
     @Override
     public Class<? extends Supplier<Set<? extends VirtualMachine>>> getVirtualMachineSupplier() {
         return VirtualMachineSupplier.class;
+    }
+
+    @Override
+    public Class<? extends CreateVirtualMachineStrategy> getCreateVirtualMachineStrategy() {
+        return JcloudsCreateVirtualMachineStrategy.class;
     }
 
     @Override

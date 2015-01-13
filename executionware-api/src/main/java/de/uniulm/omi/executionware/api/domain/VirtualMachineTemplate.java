@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 University of Ulm
+ * Copyright (c) 2015 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -16,29 +16,16 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.drivers.jclouds;
-
-import com.google.inject.ImplementedBy;
-import org.jclouds.compute.domain.*;
-import org.jclouds.domain.Location;
-
-import java.util.Set;
+package de.uniulm.omi.executionware.api.domain;
 
 /**
- * Created by daniel on 02.12.14.
+ * Created by daniel on 09.01.15.
  */
-@ImplementedBy(JCloudsComputeClient.class)
-public interface JCloudsComputeClientApi {
+public interface VirtualMachineTemplate {
 
-    Set<? extends Image> listImages();
+    public String getImageId();
 
-    Set<? extends Hardware> listHardwareProfiles();
+    public String getHardwareFlavorId();
 
-    Set<? extends Location> listAssignableLocations();
-
-    Set<? extends ComputeMetadata> listNodes();
-
-    public NodeMetadata createNode(Template template);
-
-    public TemplateBuilder templateBuilder();
+    public String getLocationId();
 }

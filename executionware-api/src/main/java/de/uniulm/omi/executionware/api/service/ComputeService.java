@@ -18,10 +18,7 @@
 
 package de.uniulm.omi.executionware.api.service;
 
-import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
-import de.uniulm.omi.executionware.api.domain.Image;
-import de.uniulm.omi.executionware.api.domain.Location;
-import de.uniulm.omi.executionware.api.domain.VirtualMachine;
+import de.uniulm.omi.executionware.api.domain.*;
 
 /**
  * Created by daniel on 29.10.14.
@@ -45,4 +42,6 @@ public interface ComputeService {
     public Iterable<? extends VirtualMachine> listVirtualMachines();
 
     public void destroyVirtualMachine();
+
+    public VirtualMachine createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
 }

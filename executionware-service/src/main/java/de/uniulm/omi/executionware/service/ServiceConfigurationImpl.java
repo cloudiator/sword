@@ -36,12 +36,15 @@ public class ServiceConfigurationImpl implements ServiceConfiguration {
     private final Credentials credentials;
     private final String nodeGroup;
 
-    public ServiceConfigurationImpl(String provider, String endpoint, Credentials credentials, @Nullable String nodeGroup) {
+    public ServiceConfigurationImpl(String provider, String endpoint, Credentials credentials, String nodeGroup) {
         checkNotNull(provider);
-        checkNotNull(endpoint);
-        checkNotNull(credentials);
         checkArgument(!provider.isEmpty());
+        checkNotNull(endpoint);
         checkArgument(!endpoint.isEmpty());
+        checkNotNull(credentials);
+        checkNotNull(nodeGroup);
+        checkArgument(!nodeGroup.isEmpty());
+
         this.provider = provider;
         this.endpoint = endpoint;
         this.credentials = credentials;
