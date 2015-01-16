@@ -25,14 +25,21 @@ import de.uniulm.omi.executionware.core.domain.impl.LocationImpl;
  */
 public class LocationBuilder extends DescribedResourceBuilder {
 
+    private boolean isAssignable;
+
     @Override
     public LocationImpl build() {
-        return new LocationImpl(this.id, this.description);
+        return new LocationImpl(this.id, this.isAssignable, this.description);
     }
 
     @Override
     public LocationBuilder id(String id) {
         super.id(id);
+        return this;
+    }
+
+    public LocationBuilder assignable(boolean isAssignable) {
+        this.isAssignable = isAssignable;
         return this;
     }
 

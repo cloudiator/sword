@@ -30,6 +30,6 @@ public class FlexiantServerToVirtualMachine implements Converter<Server, Virtual
 
     @Override
     public VirtualMachine apply(Server server) {
-        return new VirtualMachineBuilder().id(server.getId()).description(server.getName()).build();
+        return new VirtualMachineBuilder().id(server.getLocationUUID() + "/" + server.getId()).description(server.getName()).build();
     }
 }

@@ -21,6 +21,7 @@ package de.uniulm.omi.executionware.drivers.flexiant.converters;
 import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.core.domain.builders.LocationBuilder;
+import de.uniulm.omi.flexiant.domain.impl.LocationScope;
 
 /**
  * Created by daniel on 05.12.14.
@@ -29,6 +30,9 @@ public class FlexiantLocationToLocation implements Converter<de.uniulm.omi.flexi
 
     @Override
     public Location apply(de.uniulm.omi.flexiant.domain.impl.Location location) {
-        return new LocationBuilder().id(location.getId()).description(location.getName()).build();
+
+        final boolean assignable = location.getLocationScope().equals(LocationScope.VDC);
+
+        return new LocationBuilder().id(location.getId()).assignable(assignable).description(location.getName()).build();
     }
 }

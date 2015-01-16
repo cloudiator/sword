@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
-import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClientApi;
+import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClient;
 import org.jclouds.compute.domain.Hardware;
 
 import java.util.Set;
@@ -34,17 +34,17 @@ import java.util.Set;
  */
 public class HardwareSupplier implements Supplier<Set<? extends HardwareFlavor>> {
 
-    private final JCloudsComputeClientApi jCloudsComputeClientApi;
+    private final JCloudsComputeClient jCloudsComputeClient;
     private final Converter<org.jclouds.compute.domain.Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor;
 
     @Inject
-    public HardwareSupplier(JCloudsComputeClientApi jCloudsComputeClientApi, Converter<Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor) {
-        this.jCloudsComputeClientApi = jCloudsComputeClientApi;
+    public HardwareSupplier(JCloudsComputeClient jCloudsComputeClient, Converter<Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor) {
+        this.jCloudsComputeClient = jCloudsComputeClient;
         this.jCloudsHardwareToHardwareFlavor = jCloudsHardwareToHardwareFlavor;
     }
 
     @Override
     public Set<? extends HardwareFlavor> get() {
-        return Sets.newHashSet(Iterables.transform(jCloudsComputeClientApi.listHardwareProfiles(), this.jCloudsHardwareToHardwareFlavor));
+        return Sets.newHashSet(Iterables.transform(jCloudsComputeClient.listHardwareProfiles(), this.jCloudsHardwareToHardwareFlavor));
     }
 }

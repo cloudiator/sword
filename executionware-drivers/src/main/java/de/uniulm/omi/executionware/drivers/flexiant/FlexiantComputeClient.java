@@ -18,75 +18,27 @@
 
 package de.uniulm.omi.executionware.drivers.flexiant;
 
-import com.google.inject.Inject;
-import de.uniulm.omi.executionware.api.ServiceConfiguration;
-import de.uniulm.omi.executionware.api.exceptions.DriverException;
-import de.uniulm.omi.flexiant.client.api.FlexiantException;
+import com.google.inject.ImplementedBy;
 import de.uniulm.omi.flexiant.domain.impl.*;
 
 import java.util.Set;
 
-
 /**
- * Created by daniel on 05.12.14.
+ * Created by daniel on 04.12.14.
  */
-public class FlexiantComputeClient implements FlexiantComputeClientApi {
+@ImplementedBy(FlexiantComputeClientImpl.class)
+public interface FlexiantComputeClient {
 
-    private final de.uniulm.omi.flexiant.client.compute.FlexiantComputeClient flexiantComputeClient;
+    public Set<? extends Image> listImages();
 
-    @Inject
-    public FlexiantComputeClient(ServiceConfiguration serviceConfiguration) {
-        flexiantComputeClient = new de.uniulm.omi.flexiant.client.compute.FlexiantComputeClient(
-                serviceConfiguration.getEndpoint(),
-                serviceConfiguration.getCredentials().getUser(),
-                serviceConfiguration.getCredentials().getPassword()
-        );
-    }
+    public Set<? extends Hardware> listHardware();
 
-    @Override
-    public Set<? extends Image> listImages() {
-        try {
-            return this.flexiantComputeClient.getImages(null);
-        } catch (FlexiantException e) {
-            throw new DriverException("Could not retrieve images", e);
-        }
-    }
+    public Set<? extends Location> listLocations();
 
-    @Override
-    public Set<? extends Hardware> listHardware() {
-        try {
-            return this.flexiantComputeClient.getHardwareFlavors(null);
-        } catch (FlexiantException e) {
-            throw new DriverException("Could not retrieve hardware", e);
-        }
-    }
+    public Set<? extends Server> listServers();
 
-    @Override
-    public Set<? extends Location> listLocations() {
-        try {
-            return this.flexiantComputeClient.getLocations();
-        } catch (FlexiantException e) {
-            throw new DriverException("Could not retrieve images", e);
-        }
-    }
+    public Server createServer(ServerTemplate flexiantServerTemplate);
 
-    @Override
-    public Set<? extends Server> listServers() {
-        try {
-            return this.flexiantComputeClient.getServers(null);
-        } catch (FlexiantException e) {
-            throw new DriverException("Could not retrieve servers.", e);
-        }
-    }
-
-    @Override
-    public Server createServer(ServerTemplate serverTemplate) {
-        try {
-            return this.flexiantComputeClient.createServer(serverTemplate);
-        } catch (FlexiantException e) {
-            throw new DriverException(e);
-        }
-    }
-
+    public void deleteServer(String serverUUID);
 
 }

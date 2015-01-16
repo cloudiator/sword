@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 University of Ulm
+ * Copyright (c) 2015 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -16,27 +16,13 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.drivers.flexiant;
+package de.uniulm.omi.executionware.api.strategy;
 
-import com.google.inject.ImplementedBy;
-import de.uniulm.omi.flexiant.domain.impl.*;
 
-import java.util.Set;
+import de.uniulm.omi.executionware.api.util.Consumer;
 
 /**
- * Created by daniel on 04.12.14.
+ * Created by daniel on 14.01.15.
  */
-@ImplementedBy(FlexiantComputeClient.class)
-public interface FlexiantComputeClientApi {
-
-    public Set<? extends Image> listImages();
-
-    public Set<? extends Hardware> listHardware();
-
-    public Set<? extends Location> listLocations();
-
-    public Set<? extends Server> listServers();
-
-    public Server createServer(ServerTemplate flexiantServerTemplate);
-
+public interface DeleteVirtualMachineStrategy extends Consumer<String> {
 }

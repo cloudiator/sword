@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 University of Ulm
+ * Copyright (c) 2015 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -16,19 +16,30 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.drivers.jclouds.converters;
+package de.uniulm.omi.executionware.core.ssh;
 
-import de.uniulm.omi.executionware.api.converters.Converter;
-import de.uniulm.omi.executionware.api.domain.Location;
-import de.uniulm.omi.executionware.core.domain.builders.LocationBuilder;
+import de.uniulm.omi.executionware.api.ssh.SshResponse;
 
 /**
- * Created by daniel on 03.12.14.
+ * Created by daniel on 16.01.15.
  */
-public class JCloudsLocationToLocation implements Converter<org.jclouds.domain.Location, Location> {
+public class SshResponseImpl implements SshResponse {
+
+    private final String response;
+    private final int exitStatus;
+
+    public SshResponseImpl(String response, int exitStatus) {
+        this.response = response;
+        this.exitStatus = exitStatus;
+    }
 
     @Override
-    public Location apply(org.jclouds.domain.Location location) {
-        return new LocationBuilder().id(location.getId()).assignable(true).description(location.getDescription()).build();
+    public String getResponse() {
+        return this.response;
+    }
+
+    @Override
+    public int getExitStatus() {
+        return this.exitStatus;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 University of Ulm
+ * Copyright (c) 2015 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -16,35 +16,26 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.drivers.jclouds.suppliers;
+package de.uniulm.omi.executionware.drivers.jclouds.strategy;
 
-
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import de.uniulm.omi.executionware.api.converters.Converter;
-import de.uniulm.omi.executionware.api.domain.Image;
-import de.uniulm.omi.executionware.api.supplier.Supplier;
+import de.uniulm.omi.executionware.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClient;
 
-import java.util.Set;
-
 /**
- * Created by daniel on 02.12.14.
+ * Created by daniel on 14.01.15.
  */
-public class ImageSupplier implements Supplier<Set<? extends Image>> {
+public class JCloudsDeleteVirtualMachineStrategy implements DeleteVirtualMachineStrategy {
 
     private final JCloudsComputeClient jCloudsComputeClient;
-    private final Converter<org.jclouds.compute.domain.Image, Image> jCloudsImageToImage;
 
     @Inject
-    public ImageSupplier(JCloudsComputeClient jCloudsComputeClient, Converter<org.jclouds.compute.domain.Image, Image> jCloudsImageToImage) {
+    public JCloudsDeleteVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient) {
         this.jCloudsComputeClient = jCloudsComputeClient;
-        this.jCloudsImageToImage = jCloudsImageToImage;
     }
 
     @Override
-    public Set<? extends Image> get() {
-        return Sets.newHashSet(Iterables.transform(jCloudsComputeClient.listImages(), this.jCloudsImageToImage));
+    public void apply(String s) {
+        this.jCloudsComputeClient.deleteNode(s);
     }
 }

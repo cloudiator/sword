@@ -27,12 +27,21 @@ import javax.annotation.Nullable;
  */
 public class LocationImpl extends DescribedResourceImpl implements Location {
 
-    public LocationImpl(String id, @Nullable String description) {
+    private final boolean isAssignable;
+
+    public LocationImpl(String id, boolean isAssignable, @Nullable String description) {
         super(id, description);
+        this.isAssignable = isAssignable;
     }
+
 
     @Override
     public String toString() {
-        return String.format("Location(id: %s, description: %s)", id, description);
+        return String.format("Location(id: %s, assignable: %s, description: %s)", id, isAssignable, description);
+    }
+
+    @Override
+    public boolean isAssignable() {
+        return this.isAssignable;
     }
 }

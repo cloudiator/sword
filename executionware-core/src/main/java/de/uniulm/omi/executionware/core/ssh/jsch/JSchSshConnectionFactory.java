@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 University of Ulm
+ * Copyright (c) 2015 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -16,19 +16,20 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.drivers.jclouds.converters;
+package de.uniulm.omi.executionware.core.ssh.jsch;
 
-import de.uniulm.omi.executionware.api.converters.Converter;
-import de.uniulm.omi.executionware.api.domain.Location;
-import de.uniulm.omi.executionware.core.domain.builders.LocationBuilder;
+import com.google.common.net.HostAndPort;
+import de.uniulm.omi.executionware.api.domain.LoginCredential;
+import de.uniulm.omi.executionware.api.ssh.SshConnection;
+import de.uniulm.omi.executionware.api.ssh.SshConnectionFactory;
 
 /**
- * Created by daniel on 03.12.14.
+ * Created by daniel on 15.01.15.
  */
-public class JCloudsLocationToLocation implements Converter<org.jclouds.domain.Location, Location> {
+public class JSchSshConnectionFactory implements SshConnectionFactory {
 
     @Override
-    public Location apply(org.jclouds.domain.Location location) {
-        return new LocationBuilder().id(location.getId()).assignable(true).description(location.getDescription()).build();
+    public SshConnection create(final HostAndPort hostAndPort, final LoginCredential loginCredential) {
+        return new JSchSshConnection(hostAndPort, loginCredential, new JSchSessionFactoryImpl());
     }
 }

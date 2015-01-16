@@ -23,7 +23,7 @@ import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
-import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClientApi;
+import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClient;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Template;
 
@@ -34,12 +34,12 @@ import javax.annotation.Nullable;
  */
 public class JcloudsCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
-    private final JCloudsComputeClientApi jCloudsComputeClient;
+    private final JCloudsComputeClient jCloudsComputeClient;
     private final Converter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter;
 
 
     @Inject
-    public JcloudsCreateVirtualMachineStrategy(JCloudsComputeClientApi jCloudsComputeClient, Converter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter) {
+    public JcloudsCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient, Converter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter) {
         this.jCloudsComputeClient = jCloudsComputeClient;
         this.computeMetadataVirtualMachineConverter = computeMetadataVirtualMachineConverter;
     }

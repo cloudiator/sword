@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.domain.*;
 import de.uniulm.omi.executionware.api.service.ComputeService;
 import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.executionware.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 
 import java.util.Set;
@@ -38,6 +39,7 @@ public class BaseComputeService implements ComputeService {
     private final Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier;
     private final Supplier<Set<? extends VirtualMachine>> virtualMachineSupplier;
     private final CreateVirtualMachineStrategy createVirtualMachineStrategy;
+    private final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy;
 
     @Inject
     public BaseComputeService(
@@ -45,18 +47,21 @@ public class BaseComputeService implements ComputeService {
             Supplier<Set<? extends Location>> locationSupplier,
             Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier,
             Supplier<Set<? extends VirtualMachine>> virtualMachineSupplier,
-            CreateVirtualMachineStrategy createVirtualMachineStrategy) {
+            CreateVirtualMachineStrategy createVirtualMachineStrategy,
+            DeleteVirtualMachineStrategy deleteVirtualMachineStrategy) {
 
         checkNotNull(imageSupplier);
         checkNotNull(locationSupplier);
         checkNotNull(hardwareFlavorSupplier);
         checkNotNull(virtualMachineSupplier);
         checkNotNull(createVirtualMachineStrategy);
+        checkNotNull(deleteVirtualMachineStrategy);
         this.imageSupplier = imageSupplier;
         this.locationSupplier = locationSupplier;
         this.hardwareFlavorSupplier = hardwareFlavorSupplier;
         this.virtualMachineSupplier = virtualMachineSupplier;
         this.createVirtualMachineStrategy = createVirtualMachineStrategy;
+        this.deleteVirtualMachineStrategy = deleteVirtualMachineStrategy;
     }
 
     @Override
@@ -100,8 +105,8 @@ public class BaseComputeService implements ComputeService {
     }
 
     @Override
-    public void destroyVirtualMachine() {
-
+    public void deleteVirtualMachine(String virtualMachineId) {
+        this.deleteVirtualMachineStrategy.apply(virtualMachineId);
     }
 
     @Override

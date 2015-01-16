@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 University of Ulm
+ * Copyright (c) 2015 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -16,34 +16,27 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.drivers.flexiant.suppliers;
+package de.uniulm.omi.executionware.drivers.flexiant.strategy;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import de.uniulm.omi.executionware.api.converters.Converter;
-import de.uniulm.omi.executionware.api.domain.Image;
-import de.uniulm.omi.executionware.api.supplier.Supplier;
+import de.uniulm.omi.executionware.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.drivers.flexiant.FlexiantComputeClient;
-
-import java.util.Set;
+import de.uniulm.omi.executionware.drivers.flexiant.util.FlexiantUtil;
 
 /**
- * Created by daniel on 05.12.14.
+ * Created by daniel on 14.01.15.
  */
-public class ImageSupplier implements Supplier<Set<? extends Image>> {
+public class FlexiantDeleteVirtualMachineStrategy implements DeleteVirtualMachineStrategy {
 
     private final FlexiantComputeClient flexiantComputeClient;
-    private final Converter<de.uniulm.omi.flexiant.domain.impl.Image, Image> imageConverter;
 
     @Inject
-    public ImageSupplier(FlexiantComputeClient flexiantComputeClient, Converter<de.uniulm.omi.flexiant.domain.impl.Image, Image> imageConverter) {
+    public FlexiantDeleteVirtualMachineStrategy(FlexiantComputeClient flexiantComputeClient) {
         this.flexiantComputeClient = flexiantComputeClient;
-        this.imageConverter = imageConverter;
     }
 
     @Override
-    public Set<? extends Image> get() {
-        return Sets.newHashSet(Iterables.transform(flexiantComputeClient.listImages(), this.imageConverter));
+    public void apply(String virtualMachineId) {
+        flexiantComputeClient.deleteServer(FlexiantUtil.stripLocation(virtualMachineId));
     }
 }

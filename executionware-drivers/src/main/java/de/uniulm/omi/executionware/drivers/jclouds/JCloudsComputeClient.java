@@ -18,77 +18,29 @@
 
 package de.uniulm.omi.executionware.drivers.jclouds;
 
-
-import com.google.inject.Inject;
-import de.uniulm.omi.executionware.api.ServiceConfiguration;
-import de.uniulm.omi.executionware.api.exceptions.DriverException;
-import org.jclouds.ContextBuilder;
-import org.jclouds.compute.ComputeServiceContext;
-import org.jclouds.compute.RunNodesException;
+import com.google.inject.ImplementedBy;
 import org.jclouds.compute.domain.*;
 import org.jclouds.domain.Location;
 
 import java.util.Set;
 
-import static com.google.common.base.Preconditions.*;
-
 /**
- * Created by daniel on 01.12.14.
+ * Created by daniel on 02.12.14.
  */
-public class JCloudsComputeClient implements JCloudsComputeClientApi {
+@ImplementedBy(JCloudsComputeClientImpl.class)
+public interface JCloudsComputeClient {
 
-    private final ComputeServiceContext computeServiceContext;
-    private final ServiceConfiguration serviceConfiguration;
+    Set<? extends Image> listImages();
 
-    @Inject
-    public JCloudsComputeClient(ServiceConfiguration serviceConfiguration) {
+    Set<? extends Hardware> listHardwareProfiles();
 
-        checkNotNull(serviceConfiguration);
-        this.serviceConfiguration = serviceConfiguration;
+    Set<? extends Location> listAssignableLocations();
 
-        this.computeServiceContext = ContextBuilder.newBuilder(serviceConfiguration.getProvider())
-                .endpoint(serviceConfiguration.getEndpoint())
-                .credentials(serviceConfiguration.getCredentials().getUser(), serviceConfiguration.getCredentials().getPassword())
-                .buildView(ComputeServiceContext.class);
+    Set<? extends ComputeMetadata> listNodes();
 
+    public NodeMetadata createNode(Template template);
 
-    }
+    public void deleteNode(String id);
 
-    @Override
-    public Set<? extends Image> listImages() {
-        return this.computeServiceContext.getComputeService().listImages();
-    }
-
-    @Override
-    public Set<? extends Hardware> listHardwareProfiles() {
-        return this.computeServiceContext.getComputeService().listHardwareProfiles();
-    }
-
-    @Override
-    public Set<? extends Location> listAssignableLocations() {
-        return this.computeServiceContext.getComputeService().listAssignableLocations();
-    }
-
-    @Override
-    public Set<? extends ComputeMetadata> listNodes() {
-        return this.computeServiceContext.getComputeService().listNodes();
-    }
-
-    @Override
-    public NodeMetadata createNode(Template template) {
-        try {
-            Set<? extends NodeMetadata> nodesInGroup = this.computeServiceContext.getComputeService().createNodesInGroup(this.serviceConfiguration.getNodeGroup(), 1, template);
-            checkElementIndex(0, nodesInGroup.size());
-            checkState(nodesInGroup.size() == 1);
-            return nodesInGroup.iterator().next();
-        } catch (RunNodesException e) {
-            throw new DriverException(e);
-        }
-    }
-
-    @Override
-    public TemplateBuilder templateBuilder() {
-        return this.computeServiceContext.getComputeService().templateBuilder();
-    }
-
+    public TemplateBuilder templateBuilder();
 }

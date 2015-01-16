@@ -25,6 +25,7 @@ import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.executionware.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.core.config.BaseComputeModule;
 import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantHardwareToHardwareFlavor;
@@ -32,6 +33,7 @@ import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantImageToIm
 import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantLocationToLocation;
 import de.uniulm.omi.executionware.drivers.flexiant.converters.FlexiantServerToVirtualMachine;
 import de.uniulm.omi.executionware.drivers.flexiant.strategy.FlexiantCreateVirtualMachineStrategy;
+import de.uniulm.omi.executionware.drivers.flexiant.strategy.FlexiantDeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.HardwareSupplier;
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.ImageSupplier;
 import de.uniulm.omi.executionware.drivers.flexiant.suppliers.LocationSupplier;
@@ -69,6 +71,11 @@ public class FlexiantComputeModule extends BaseComputeModule {
     @Override
     public Class<? extends CreateVirtualMachineStrategy> getCreateVirtualMachineStrategy() {
         return FlexiantCreateVirtualMachineStrategy.class;
+    }
+
+    @Override
+    public Class<? extends DeleteVirtualMachineStrategy> getDeleteVirtualMachineStrategy() {
+        return FlexiantDeleteVirtualMachineStrategy.class;
     }
 
     @Override

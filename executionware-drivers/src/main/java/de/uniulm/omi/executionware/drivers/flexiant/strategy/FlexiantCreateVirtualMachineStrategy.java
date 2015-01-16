@@ -24,7 +24,8 @@ import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
-import de.uniulm.omi.executionware.drivers.flexiant.FlexiantComputeClientApi;
+import de.uniulm.omi.executionware.drivers.flexiant.FlexiantComputeClient;
+import de.uniulm.omi.executionware.drivers.flexiant.util.FlexiantUtil;
 import de.uniulm.omi.flexiant.domain.impl.Server;
 import de.uniulm.omi.flexiant.domain.impl.ServerTemplate;
 
@@ -35,13 +36,13 @@ import java.util.Random;
  */
 public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
-    private final FlexiantComputeClientApi flexiantComputeClient;
+    private final FlexiantComputeClient flexiantComputeClient;
     private final static Random random = new Random();
     private final ServiceConfiguration serviceConfiguration;
     private final Converter<Server, VirtualMachine> serverVirtualMachineConverter;
 
     @Inject
-    public FlexiantCreateVirtualMachineStrategy(FlexiantComputeClientApi flexiantComputeClient, ServiceConfiguration serviceConfiguration, Converter<Server, VirtualMachine> serverVirtualMachineConverter) {
+    public FlexiantCreateVirtualMachineStrategy(FlexiantComputeClient flexiantComputeClient, ServiceConfiguration serviceConfiguration, Converter<Server, VirtualMachine> serverVirtualMachineConverter) {
         this.flexiantComputeClient = flexiantComputeClient;
         this.serviceConfiguration = serviceConfiguration;
         this.serverVirtualMachineConverter = serverVirtualMachineConverter;
@@ -52,8 +53,8 @@ public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachin
 
         final ServerTemplate.FlexiantServerTemplateBuilder flexiantServerTemplateBuilder = new ServerTemplate.FlexiantServerTemplateBuilder();
         final ServerTemplate serverTemplate = flexiantServerTemplateBuilder
-                .hardwareId(virtualMachineTemplate.getHardwareFlavorId())
-                .image(virtualMachineTemplate.getImageId())
+                .hardwareId(FlexiantUtil.stripLocation(virtualMachineTemplate.getHardwareFlavorId()))
+                .image(FlexiantUtil.stripLocation(virtualMachineTemplate.getImageId()))
                 .vdc(virtualMachineTemplate.getLocationId())
                 .serverName(generateRandomNameWithNodeGroup())
                 .build();
@@ -62,7 +63,9 @@ public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachin
     }
 
     protected String generateRandomNameWithNodeGroup() {
-        String name = String.valueOf(FlexiantCreateVirtualMachineStrategy.random.nextInt(1000));
+        String name = String.valueOf(FlexiantCreateVirtualMachineStrategy.random.nextInt(999));
         return serviceConfiguration.getNodeGroup() + "-" + name;
     }
+
+
 }

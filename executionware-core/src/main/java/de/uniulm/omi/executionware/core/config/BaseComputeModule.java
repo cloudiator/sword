@@ -25,6 +25,7 @@ import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.executionware.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 
 import java.util.Set;
@@ -49,6 +50,8 @@ public abstract class BaseComputeModule extends AbstractModule {
         }).to(getVirtualMachineSupplier());
 
         bind(CreateVirtualMachineStrategy.class).to(getCreateVirtualMachineStrategy());
+
+        bind(DeleteVirtualMachineStrategy.class).to(getDeleteVirtualMachineStrategy());
     }
 
     public abstract Class<? extends Supplier<Set<? extends Image>>> getImageSupplier();
@@ -60,5 +63,7 @@ public abstract class BaseComputeModule extends AbstractModule {
     public abstract Class<? extends Supplier<Set<? extends VirtualMachine>>> getVirtualMachineSupplier();
 
     public abstract Class<? extends CreateVirtualMachineStrategy> getCreateVirtualMachineStrategy();
+
+    public abstract Class<? extends DeleteVirtualMachineStrategy> getDeleteVirtualMachineStrategy();
 
 }

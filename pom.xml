@@ -32,6 +32,7 @@
         <guava.version>18.0</guava.version>
         <jclouds.version>1.8.1</jclouds.version>
         <flexiant.version>1.2.0-SNAPSHOT</flexiant.version>
+        <jsch.version>0.1.51</jsch.version>
     </properties>
 
     <groupId>de.uniulm.omi.executionware</groupId>
@@ -128,6 +129,11 @@
                 <groupId>de.uniulm.omi.flexiant</groupId>
                 <artifactId>flexiant-client</artifactId>
                 <version>${flexiant.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jcraft</groupId>
+                <artifactId>jsch</artifactId>
+                <version>${jsch.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

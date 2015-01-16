@@ -23,7 +23,7 @@ import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.Location;
-import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClientApi;
+import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClient;
 
 import java.util.Set;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
@@ -33,12 +33,12 @@ import de.uniulm.omi.executionware.api.supplier.Supplier;
  */
 public class LocationSupplier implements Supplier<Set<? extends Location>> {
 
-    private final JCloudsComputeClientApi jCloudsComputeClient;
+    private final JCloudsComputeClient jCloudsComputeClient;
     private final Converter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation;
 
     @Inject
-    public LocationSupplier(JCloudsComputeClientApi jCloudsComputeClientApi, Converter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation) {
-        this.jCloudsComputeClient = jCloudsComputeClientApi;
+    public LocationSupplier(JCloudsComputeClient jCloudsComputeClient, Converter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation) {
+        this.jCloudsComputeClient = jCloudsComputeClient;
         this.jCloudsLocationToLocation = jCloudsLocationToLocation;
     }
 

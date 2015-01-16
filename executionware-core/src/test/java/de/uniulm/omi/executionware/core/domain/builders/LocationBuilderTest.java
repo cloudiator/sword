@@ -41,8 +41,9 @@ public class LocationBuilderTest {
     public void builderTest() {
         String id = "abcdefg";
         String description = "This is a very fine location";
-        LocationImpl location = this.locationBuilder.id(id).description(description).build();
-        assertThat(location.getId(),equalTo(id));
-        assertThat(location.getDescription(),equalTo(description));
+        LocationImpl location = this.locationBuilder.id(id).assignable(true).description(description).build();
+        assertThat(location.getId(), equalTo(id));
+        assertThat(location.getDescription(), equalTo(description));
+        assertThat(location.isAssignable(), equalTo(true));
     }
 }

@@ -30,6 +30,6 @@ public class FlexiantImageToImage implements Converter<de.uniulm.omi.flexiant.do
 
     @Override
     public Image apply(de.uniulm.omi.flexiant.domain.impl.Image image) {
-        return new ImageBuilder().id(image.getId()).description(image.getName()).build();
+        return new ImageBuilder().id(image.getLocationUUID() + "/" + image.getId()).description(image.getName()).build();
     }
 }

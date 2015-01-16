@@ -65,6 +65,10 @@ public class ServiceBuilder {
         return this;
     }
 
+    public ServiceBuilder loginCredentials(String username, String sshKey) {
+        return this;
+    }
+
     public ComputeService build() {
         ServiceConfiguration serviceConfiguration = this.serviceConfigurationBuilder.build();
         ProviderConfiguration providerConfiguration = Providers.getConfigurationByName(serviceConfiguration.getProvider());

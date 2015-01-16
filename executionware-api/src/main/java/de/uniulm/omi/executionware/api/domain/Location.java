@@ -22,4 +22,7 @@ package de.uniulm.omi.executionware.api.domain;
  * Created by daniel on 06.10.14.
  */
 public interface Location extends DescribedResource {
+
+    public boolean isAssignable();
+
 }

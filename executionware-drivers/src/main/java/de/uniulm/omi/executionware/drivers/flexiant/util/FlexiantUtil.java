@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 University of Ulm
+ * Copyright (c) 2015 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -16,19 +16,18 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.drivers.jclouds.converters;
-
-import de.uniulm.omi.executionware.api.converters.Converter;
-import de.uniulm.omi.executionware.api.domain.Location;
-import de.uniulm.omi.executionware.core.domain.builders.LocationBuilder;
+package de.uniulm.omi.executionware.drivers.flexiant.util;
 
 /**
- * Created by daniel on 03.12.14.
+ * Created by daniel on 14.01.15.
  */
-public class JCloudsLocationToLocation implements Converter<org.jclouds.domain.Location, Location> {
+public class FlexiantUtil {
 
-    @Override
-    public Location apply(org.jclouds.domain.Location location) {
-        return new LocationBuilder().id(location.getId()).assignable(true).description(location.getDescription()).build();
+    private FlexiantUtil() {}
+
+    public static String stripLocation(final String locationPrefixedId) {
+        String[] parts = locationPrefixedId.split("/");
+        return parts[1];
     }
+
 }

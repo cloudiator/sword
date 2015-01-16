@@ -20,6 +20,8 @@ package de.uniulm.omi.executionware.core.config;
 
 import com.google.inject.AbstractModule;
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
+import de.uniulm.omi.executionware.api.ssh.SshConnectionFactory;
+import de.uniulm.omi.executionware.core.ssh.jsch.JSchSshConnectionFactory;
 
 /**
  * Created by daniel on 02.12.14.
@@ -35,5 +37,6 @@ public class BaseModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(ServiceConfiguration.class).toInstance(this.serviceConfiguration);
+        bind(SshConnectionFactory.class).to(JSchSshConnectionFactory.class);
     }
 }

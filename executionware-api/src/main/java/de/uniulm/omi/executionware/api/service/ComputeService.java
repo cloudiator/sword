@@ -24,7 +24,7 @@ import de.uniulm.omi.executionware.api.domain.*;
  * Created by daniel on 29.10.14.
  */
 public interface ComputeService {
-
+    
     public Image getImage();
 
     public VirtualMachine getVirtualMachine();
@@ -41,7 +41,7 @@ public interface ComputeService {
 
     public Iterable<? extends VirtualMachine> listVirtualMachines();
 
-    public void destroyVirtualMachine();
+    public void deleteVirtualMachine(String virtualMachineId);
 
     public VirtualMachine createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
 }

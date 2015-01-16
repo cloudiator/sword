@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
-import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClientApi;
+import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClient;
 import org.jclouds.compute.domain.ComputeMetadata;
 
 import java.util.Set;
@@ -34,11 +34,11 @@ import java.util.Set;
  */
 public class VirtualMachineSupplier implements Supplier<Set<? extends VirtualMachine>> {
 
-    private final JCloudsComputeClientApi jCloudsComputeClient;
+    private final JCloudsComputeClient jCloudsComputeClient;
     private final Converter<ComputeMetadata, VirtualMachine> jCloudsComputeMetadataToVirtualMachine;
 
     @Inject
-    public VirtualMachineSupplier(JCloudsComputeClientApi jCloudsComputeClient, Converter<ComputeMetadata, VirtualMachine> jCloudsComputeMetadataToVirtualMachine) {
+    public VirtualMachineSupplier(JCloudsComputeClient jCloudsComputeClient, Converter<ComputeMetadata, VirtualMachine> jCloudsComputeMetadataToVirtualMachine) {
         this.jCloudsComputeClient = jCloudsComputeClient;
         this.jCloudsComputeMetadataToVirtualMachine = jCloudsComputeMetadataToVirtualMachine;
     }

@@ -31,7 +31,7 @@ public class FlexiantHardwareToHardwareFlavor implements Converter<Hardware, Har
     @Override
     public HardwareFlavor apply(Hardware hardware) {
         return new HardwareFlavorBuilder()
-                .id(hardware.getId())
+                .id(hardware.getLocationUUID() + "/" + hardware.getId())
                 .cores(hardware.getCores())
                 .mbRam(hardware.getRam())
                 .build();
