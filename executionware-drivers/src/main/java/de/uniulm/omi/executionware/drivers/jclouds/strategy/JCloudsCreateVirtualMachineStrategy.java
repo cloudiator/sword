@@ -32,14 +32,14 @@ import javax.annotation.Nullable;
 /**
  * Created by daniel on 12.01.15.
  */
-public class JcloudsCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
+public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
     private final JCloudsComputeClient jCloudsComputeClient;
     private final Converter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter;
 
 
     @Inject
-    public JcloudsCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient, Converter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter) {
+    public JCloudsCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient, Converter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter) {
         this.jCloudsComputeClient = jCloudsComputeClient;
         this.computeMetadataVirtualMachineConverter = computeMetadataVirtualMachineConverter;
     }
