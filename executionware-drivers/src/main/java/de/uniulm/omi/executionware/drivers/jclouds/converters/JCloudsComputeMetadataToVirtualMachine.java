@@ -22,6 +22,8 @@ import de.uniulm.omi.executionware.api.converters.Converter;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.core.domain.builders.VirtualMachineBuilder;
 import org.jclouds.compute.domain.ComputeMetadata;
+import org.jclouds.compute.domain.NodeMetadata;
+import org.jclouds.compute.domain.internal.NodeMetadataImpl;
 
 /**
  * Created by daniel on 09.12.14.

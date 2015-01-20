@@ -22,7 +22,7 @@ import com.google.inject.AbstractModule;
 import de.uniulm.omi.executionware.api.exceptions.ProviderNotFoundException;
 import de.uniulm.omi.executionware.core.base.BaseComputeService;
 import de.uniulm.omi.executionware.drivers.flexiant.config.FlexiantComputeModule;
-import de.uniulm.omi.executionware.drivers.jclouds.config.JCloudsComputeModule;
+import de.uniulm.omi.executionware.drivers.openstack.config.OpenstackComputeModule;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,10 +47,10 @@ public class Providers {
     }
 
     private static void registerDefaultProviders() {
-        final Set<AbstractModule> jCloudsModules = new HashSet<>();
-        jCloudsModules.add(new JCloudsComputeModule());
-        registerProvider(new ProviderConfiguration("openstack-nova", jCloudsModules, BaseComputeService.class));
-        Set<AbstractModule> flexiantModules = new HashSet<>();
+        final Set<AbstractModule> openstackModules = new HashSet<>();
+        openstackModules.add(new OpenstackComputeModule());
+        registerProvider(new ProviderConfiguration("openstack-nova", openstackModules, BaseComputeService.class));
+        final Set<AbstractModule> flexiantModules = new HashSet<>();
         flexiantModules.add(new FlexiantComputeModule());
         registerProvider(new ProviderConfiguration("flexiant", flexiantModules, BaseComputeService.class));
     }

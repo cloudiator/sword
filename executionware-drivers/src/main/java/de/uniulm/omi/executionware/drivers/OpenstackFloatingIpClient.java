@@ -18,9 +18,29 @@
 
 package de.uniulm.omi.executionware.drivers;
 
+import com.google.inject.ImplementedBy;
+import org.jclouds.openstack.nova.v2_0.domain.FloatingIP;
+
+import javax.annotation.Nullable;
+import java.util.Set;
+
 /**
  * Created by daniel on 19.01.15.
  */
-public interface OpenstackFloatingIpClient extends org.jclouds.openstack.nova.v2_0.extensions.FloatingIPApi {
+@ImplementedBy(OpenstackFloatingIpClientImpl.class)
+public interface OpenstackFloatingIpClient {
 
+    boolean isAvailable(String region);
+
+    Set<FloatingIP> list(String region);
+
+    @Nullable
+    FloatingIP allocateFromPool(String pool, String region);
+
+    @Nullable
+    FloatingIP create(String region);
+
+    void addToServer(String region, String address, String serverId);
+
+    void removeFromServer(String region, String address, String serverId);
 }

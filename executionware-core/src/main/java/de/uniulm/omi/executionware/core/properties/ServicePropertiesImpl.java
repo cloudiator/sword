@@ -18,23 +18,42 @@
 
 package de.uniulm.omi.executionware.core.properties;
 
-import de.uniulm.omi.executionware.api.ServiceConfiguration;
 import de.uniulm.omi.executionware.api.properties.ServiceProperties;
 
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by daniel on 19.01.15.
  */
 public class ServicePropertiesImpl implements ServiceProperties {
 
+    private final Map<String, String> propertiesHolder;
+
+    public ServicePropertiesImpl() {
+        this.propertiesHolder = new HashMap<>();
+    }
+
+    void setProperty(String key, String value) {
+        this.propertiesHolder.put(key, value);
+    }
+
     @Override
     public String getProperty(String key) {
-        return null;
+        return this.propertiesHolder.get(key);
     }
 
     @Override
     public String getProperty(String key, String defaultValue) {
-        return null;
+        String value = this.getProperty(key);
+        if (value == null) {
+            return defaultValue;
+        }
+        return value;
+    }
+
+    @Override
+    public Map<String, String> getProperties() {
+        return this.propertiesHolder;
     }
 }

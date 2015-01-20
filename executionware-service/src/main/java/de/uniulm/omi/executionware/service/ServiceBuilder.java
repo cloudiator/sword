@@ -22,6 +22,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
+import de.uniulm.omi.executionware.api.domain.LoginCredential;
+import de.uniulm.omi.executionware.api.properties.ServiceProperties;
 import de.uniulm.omi.executionware.api.service.ComputeService;
 import de.uniulm.omi.executionware.core.config.BaseModule;
 import de.uniulm.omi.executionware.service.providers.ProviderConfiguration;
@@ -65,7 +67,13 @@ public class ServiceBuilder {
         return this;
     }
 
-    public ServiceBuilder loginCredentials(String username, String sshKey) {
+    public ServiceBuilder loginCredentials(LoginCredential loginCredential) {
+        this.serviceConfigurationBuilder.loginCredential(loginCredential);
+        return this;
+    }
+
+    public ServiceBuilder properties(ServiceProperties serviceProperties) {
+        this.serviceConfigurationBuilder.properties(serviceProperties);
         return this;
     }
 

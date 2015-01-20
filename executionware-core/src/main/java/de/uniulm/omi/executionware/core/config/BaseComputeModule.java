@@ -18,12 +18,16 @@
 
 package de.uniulm.omi.executionware.core.config;
 
+import com.google.common.base.Optional;
 import com.google.inject.AbstractModule;
+import com.google.inject.Injector;
+import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
+import de.uniulm.omi.executionware.api.extensions.PublicIpService;
 import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
@@ -52,18 +56,26 @@ public abstract class BaseComputeModule extends AbstractModule {
         bind(CreateVirtualMachineStrategy.class).to(getCreateVirtualMachineStrategy());
 
         bind(DeleteVirtualMachineStrategy.class).to(getDeleteVirtualMachineStrategy());
+
+        bind(new TypeLiteral<Supplier<Set<? extends VirtualMachine>>>() {
+        }).to(getVirtualMachineSupplier());
+
     }
 
-    public abstract Class<? extends Supplier<Set<? extends Image>>> getImageSupplier();
+    @Provides
+    protected Optional<PublicIpService> provideFloatingIpService(Injector injector) {
+        return Optional.absent();
+    }
 
-    public abstract Class<? extends Supplier<Set<? extends Location>>> getLocationSupplier();
+    protected abstract Class<? extends Supplier<Set<? extends Image>>> getImageSupplier();
 
-    public abstract Class<? extends Supplier<Set<? extends HardwareFlavor>>> getHardwareFlavorSupplier();
+    protected abstract Class<? extends Supplier<Set<? extends Location>>> getLocationSupplier();
 
-    public abstract Class<? extends Supplier<Set<? extends VirtualMachine>>> getVirtualMachineSupplier();
+    protected abstract Class<? extends Supplier<Set<? extends HardwareFlavor>>> getHardwareFlavorSupplier();
 
-    public abstract Class<? extends CreateVirtualMachineStrategy> getCreateVirtualMachineStrategy();
+    protected abstract Class<? extends Supplier<Set<? extends VirtualMachine>>> getVirtualMachineSupplier();
 
-    public abstract Class<? extends DeleteVirtualMachineStrategy> getDeleteVirtualMachineStrategy();
+    protected abstract Class<? extends CreateVirtualMachineStrategy> getCreateVirtualMachineStrategy();
 
+    protected abstract Class<? extends DeleteVirtualMachineStrategy> getDeleteVirtualMachineStrategy();
 }

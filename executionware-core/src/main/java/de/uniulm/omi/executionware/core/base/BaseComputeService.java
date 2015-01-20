@@ -18,9 +18,15 @@
 
 package de.uniulm.omi.executionware.core.base;
 
+import com.google.common.base.Optional;
+import com.google.common.net.HostAndPort;
 import com.google.inject.Inject;
+import de.uniulm.omi.executionware.api.ServiceConfiguration;
 import de.uniulm.omi.executionware.api.domain.*;
+import de.uniulm.omi.executionware.api.extensions.PublicIpService;
 import de.uniulm.omi.executionware.api.service.ComputeService;
+import de.uniulm.omi.executionware.api.ssh.SshConnection;
+import de.uniulm.omi.executionware.api.ssh.SshConnectionFactory;
 import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
@@ -40,6 +46,9 @@ public class BaseComputeService implements ComputeService {
     private final Supplier<Set<? extends VirtualMachine>> virtualMachineSupplier;
     private final CreateVirtualMachineStrategy createVirtualMachineStrategy;
     private final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy;
+    private final SshConnectionFactory sshConnectionFactory;
+    private final ServiceConfiguration serviceConfiguration;
+    private final Optional<PublicIpService> publicIpService;
 
     @Inject
     public BaseComputeService(
@@ -48,7 +57,11 @@ public class BaseComputeService implements ComputeService {
             Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier,
             Supplier<Set<? extends VirtualMachine>> virtualMachineSupplier,
             CreateVirtualMachineStrategy createVirtualMachineStrategy,
-            DeleteVirtualMachineStrategy deleteVirtualMachineStrategy) {
+            DeleteVirtualMachineStrategy deleteVirtualMachineStrategy,
+            SshConnectionFactory sshConnectionFactory,
+            ServiceConfiguration serviceConfiguration,
+            Optional<PublicIpService> publicIpService
+    ) {
 
         checkNotNull(imageSupplier);
         checkNotNull(locationSupplier);
@@ -56,12 +69,18 @@ public class BaseComputeService implements ComputeService {
         checkNotNull(virtualMachineSupplier);
         checkNotNull(createVirtualMachineStrategy);
         checkNotNull(deleteVirtualMachineStrategy);
+        checkNotNull(sshConnectionFactory);
+        checkNotNull(serviceConfiguration);
+        checkNotNull(publicIpService);
         this.imageSupplier = imageSupplier;
         this.locationSupplier = locationSupplier;
         this.hardwareFlavorSupplier = hardwareFlavorSupplier;
         this.virtualMachineSupplier = virtualMachineSupplier;
         this.createVirtualMachineStrategy = createVirtualMachineStrategy;
         this.deleteVirtualMachineStrategy = deleteVirtualMachineStrategy;
+        this.sshConnectionFactory = sshConnectionFactory;
+        this.serviceConfiguration = serviceConfiguration;
+        this.publicIpService = publicIpService;
     }
 
     @Override
@@ -112,5 +131,15 @@ public class BaseComputeService implements ComputeService {
     @Override
     public VirtualMachine createVirtualMachine(final VirtualMachineTemplate virtualMachineTemplate) {
         return this.createVirtualMachineStrategy.apply(virtualMachineTemplate);
+    }
+
+    @Override
+    public SshConnection getSshConnection(HostAndPort hostAndPort) {
+        return this.sshConnectionFactory.create(hostAndPort, serviceConfiguration.getLoginCredential());
+    }
+
+    @Override
+    public Optional<PublicIpService> getPublicIpService() {
+        return this.publicIpService;
     }
 }

@@ -18,8 +18,25 @@
 
 package de.uniulm.omi.executionware.drivers.openstack.config;
 
+import com.google.common.base.Optional;
+import com.google.inject.Injector;
+import de.uniulm.omi.executionware.api.extensions.PublicIpService;
+import de.uniulm.omi.executionware.drivers.jclouds.config.JCloudsComputeModule;
+import de.uniulm.omi.executionware.drivers.openstack.extendsions.OpenstackPublicIpService;
+
 /**
  * Created by daniel on 19.01.15.
  */
-public class OpenstackComputeModule {
+public class OpenstackComputeModule extends JCloudsComputeModule {
+
+    @Override
+    protected void configure() {
+        super.configure();
+        bind(PublicIpService.class).to(OpenstackPublicIpService.class);
+    }
+
+    @Override
+    protected Optional<PublicIpService> provideFloatingIpService(Injector injector) {
+        return Optional.fromNullable(injector.getInstance(OpenstackPublicIpService.class));
+    }
 }

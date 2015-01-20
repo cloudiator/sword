@@ -18,8 +18,29 @@
 
 package de.uniulm.omi.executionware.drivers.openstack.extendsions;
 
+import com.google.inject.Inject;
+import de.uniulm.omi.executionware.api.extensions.PublicIpService;
+import de.uniulm.omi.executionware.drivers.openstack.strategy.OpenstackFloatingIpStrategy;
+
 /**
  * Created by daniel on 19.01.15.
  */
-public class OpenstackPublicIpService {
+public class OpenstackPublicIpService implements PublicIpService {
+
+    private final OpenstackFloatingIpStrategy openstackFloatingIpStrategy;
+
+    @Inject
+    public OpenstackPublicIpService(OpenstackFloatingIpStrategy openstackFloatingIpStrategy) {
+        this.openstackFloatingIpStrategy = openstackFloatingIpStrategy;
+    }
+
+    @Override
+    public String addPublicIp(String virtualMachineId) {
+        return this.openstackFloatingIpStrategy.assignPublicIpToVirtualMachine(virtualMachineId);
+    }
+
+    @Override
+    public void removePublicIp(String virtualMachineId, String address) {
+        this.openstackFloatingIpStrategy.removePublicIpFromVirtualMachine(virtualMachineId, address);
+    }
 }

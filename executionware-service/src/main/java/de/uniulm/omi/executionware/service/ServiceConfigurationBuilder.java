@@ -19,9 +19,9 @@
 package de.uniulm.omi.executionware.service;
 
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
+import de.uniulm.omi.executionware.api.domain.LoginCredential;
+import de.uniulm.omi.executionware.api.properties.ServiceProperties;
 import de.uniulm.omi.executionware.core.domain.impl.CredentialsImpl;
-
-import javax.annotation.Nullable;
 
 /**
  * Created by daniel on 02.12.14.
@@ -33,6 +33,8 @@ public class ServiceConfigurationBuilder {
     private String password;
     private String provider;
     private String nodeGroup;
+    private LoginCredential loginCredential;
+    private ServiceProperties serviceProperties;
 
     public ServiceConfigurationBuilder endpoint(String endpoint) {
         this.endpoint = endpoint;
@@ -59,8 +61,18 @@ public class ServiceConfigurationBuilder {
         return this;
     }
 
+    public ServiceConfigurationBuilder properties(ServiceProperties serviceProperties) {
+        this.serviceProperties = serviceProperties;
+        return this;
+    }
+
+    public ServiceConfigurationBuilder loginCredential(LoginCredential loginCredential) {
+        this.loginCredential = loginCredential;
+        return this;
+    }
+
     public ServiceConfiguration build() {
-        return new ServiceConfigurationImpl(this.provider, this.endpoint, new CredentialsImpl(username, password), this.nodeGroup);
+        return new ServiceConfigurationImpl(this.provider, this.endpoint, new CredentialsImpl(username, password), this.nodeGroup, this.loginCredential, this.serviceProperties);
     }
 
 }

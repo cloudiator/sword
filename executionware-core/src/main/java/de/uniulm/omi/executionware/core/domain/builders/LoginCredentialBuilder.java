@@ -35,6 +35,12 @@ public class LoginCredentialBuilder {
     @Nullable
     private String password;
 
+    private LoginCredentialBuilder(){}
+
+    public static LoginCredentialBuilder newBuilder() {
+        return new LoginCredentialBuilder();
+    }
+
     public LoginCredential build() {
         return new LoginCredentialImpl(this.username, Optional.fromNullable(this.privateKey), Optional.fromNullable(this.password));
     }

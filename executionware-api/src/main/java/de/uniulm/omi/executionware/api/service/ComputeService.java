@@ -18,13 +18,17 @@
 
 package de.uniulm.omi.executionware.api.service;
 
+import com.google.common.base.Optional;
+import com.google.common.net.HostAndPort;
 import de.uniulm.omi.executionware.api.domain.*;
+import de.uniulm.omi.executionware.api.extensions.PublicIpService;
+import de.uniulm.omi.executionware.api.ssh.SshConnection;
 
 /**
  * Created by daniel on 29.10.14.
  */
 public interface ComputeService {
-    
+
     public Image getImage();
 
     public VirtualMachine getVirtualMachine();
@@ -44,4 +48,8 @@ public interface ComputeService {
     public void deleteVirtualMachine(String virtualMachineId);
 
     public VirtualMachine createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
+
+    public SshConnection getSshConnection(HostAndPort hostAndPort);
+
+    public Optional<PublicIpService> getPublicIpService();
 }

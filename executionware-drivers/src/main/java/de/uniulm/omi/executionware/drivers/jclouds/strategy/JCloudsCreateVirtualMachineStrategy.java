@@ -27,8 +27,6 @@ import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClient;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Template;
 
-import javax.annotation.Nullable;
-
 /**
  * Created by daniel on 12.01.15.
  */
@@ -44,7 +42,6 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
         this.computeMetadataVirtualMachineConverter = computeMetadataVirtualMachineConverter;
     }
 
-    @Nullable
     @Override
     public VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
 

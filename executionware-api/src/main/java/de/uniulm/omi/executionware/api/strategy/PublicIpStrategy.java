@@ -18,13 +18,13 @@
 
 package de.uniulm.omi.executionware.api.strategy;
 
-import de.uniulm.omi.executionware.api.domain.VirtualMachine;
-
 /**
  * Created by daniel on 19.01.15.
  */
 public interface PublicIpStrategy {
 
-    public String assignPublicIpToVirtualMachine(VirtualMachine virtualMachine);
+    public String assignPublicIpToVirtualMachine(String virtualMachineId);
+
+    public void removePublicIpFromVirtualMachine(String virtualMachineId, String address);
 
 }
