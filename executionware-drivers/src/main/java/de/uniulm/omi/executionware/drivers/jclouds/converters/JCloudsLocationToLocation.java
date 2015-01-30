@@ -18,14 +18,14 @@
 
 package de.uniulm.omi.executionware.drivers.jclouds.converters;
 
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.core.domain.builders.LocationBuilder;
 
 /**
  * Created by daniel on 03.12.14.
  */
-public class JCloudsLocationToLocation implements Converter<org.jclouds.domain.Location, Location> {
+public class JCloudsLocationToLocation implements OneWayConverter<org.jclouds.domain.Location, Location> {
 
     @Override
     public Location apply(org.jclouds.domain.Location location) {

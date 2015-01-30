@@ -21,7 +21,7 @@ package de.uniulm.omi.executionware.drivers.jclouds.suppliers;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClient;
 
@@ -34,10 +34,10 @@ import de.uniulm.omi.executionware.api.supplier.Supplier;
 public class LocationSupplier implements Supplier<Set<? extends Location>> {
 
     private final JCloudsComputeClient jCloudsComputeClient;
-    private final Converter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation;
+    private final OneWayConverter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation;
 
     @Inject
-    public LocationSupplier(JCloudsComputeClient jCloudsComputeClient, Converter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation) {
+    public LocationSupplier(JCloudsComputeClient jCloudsComputeClient, OneWayConverter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation) {
         this.jCloudsComputeClient = jCloudsComputeClient;
         this.jCloudsLocationToLocation = jCloudsLocationToLocation;
     }

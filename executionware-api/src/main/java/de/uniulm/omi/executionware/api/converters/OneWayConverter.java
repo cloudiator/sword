@@ -21,7 +21,13 @@ package de.uniulm.omi.executionware.api.converters;
 import com.google.common.base.Function;
 
 /**
- * Created by daniel on 02.12.14.
+ * A one-way converter for converting one type to another type.
+ *
+ * Extends {@link com.google.common.base.Function} so it can be used
+ * in their functional programming methods.
+ *
+ * @param <T> the type to be converted.
+ * @param <S> the resulting type.
  */
-public interface Converter<T,S> extends Function<T,S> {
+public interface OneWayConverter<T,S> extends Function<T,S> {
 }

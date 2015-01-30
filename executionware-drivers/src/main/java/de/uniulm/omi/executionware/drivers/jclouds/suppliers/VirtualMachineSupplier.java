@@ -21,7 +21,7 @@ package de.uniulm.omi.executionware.drivers.jclouds.suppliers;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClient;
@@ -35,10 +35,10 @@ import java.util.Set;
 public class VirtualMachineSupplier implements Supplier<Set<? extends VirtualMachine>> {
 
     private final JCloudsComputeClient jCloudsComputeClient;
-    private final Converter<ComputeMetadata, VirtualMachine> jCloudsComputeMetadataToVirtualMachine;
+    private final OneWayConverter<ComputeMetadata, VirtualMachine> jCloudsComputeMetadataToVirtualMachine;
 
     @Inject
-    public VirtualMachineSupplier(JCloudsComputeClient jCloudsComputeClient, Converter<ComputeMetadata, VirtualMachine> jCloudsComputeMetadataToVirtualMachine) {
+    public VirtualMachineSupplier(JCloudsComputeClient jCloudsComputeClient, OneWayConverter<ComputeMetadata, VirtualMachine> jCloudsComputeMetadataToVirtualMachine) {
         this.jCloudsComputeClient = jCloudsComputeClient;
         this.jCloudsComputeMetadataToVirtualMachine = jCloudsComputeMetadataToVirtualMachine;
     }

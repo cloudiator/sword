@@ -20,7 +20,7 @@ package de.uniulm.omi.executionware.drivers.flexiant.strategy;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
@@ -39,10 +39,10 @@ public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachin
     private final FlexiantComputeClient flexiantComputeClient;
     private final static Random random = new Random();
     private final ServiceConfiguration serviceConfiguration;
-    private final Converter<Server, VirtualMachine> serverVirtualMachineConverter;
+    private final OneWayConverter<Server, VirtualMachine> serverVirtualMachineConverter;
 
     @Inject
-    public FlexiantCreateVirtualMachineStrategy(FlexiantComputeClient flexiantComputeClient, ServiceConfiguration serviceConfiguration, Converter<Server, VirtualMachine> serverVirtualMachineConverter) {
+    public FlexiantCreateVirtualMachineStrategy(FlexiantComputeClient flexiantComputeClient, ServiceConfiguration serviceConfiguration, OneWayConverter<Server, VirtualMachine> serverVirtualMachineConverter) {
         this.flexiantComputeClient = flexiantComputeClient;
         this.serviceConfiguration = serviceConfiguration;
         this.serverVirtualMachineConverter = serverVirtualMachineConverter;

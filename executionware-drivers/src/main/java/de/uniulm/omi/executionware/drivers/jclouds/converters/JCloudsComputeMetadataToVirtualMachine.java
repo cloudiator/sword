@@ -18,20 +18,41 @@
 
 package de.uniulm.omi.executionware.drivers.jclouds.converters;
 
-import de.uniulm.omi.executionware.api.converters.Converter;
+import com.google.inject.Inject;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
+import de.uniulm.omi.executionware.api.domain.LoginCredential;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.core.domain.builders.VirtualMachineBuilder;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.NodeMetadata;
-import org.jclouds.compute.domain.internal.NodeMetadataImpl;
+import org.jclouds.domain.LoginCredentials;
 
 /**
  * Created by daniel on 09.12.14.
  */
-public class JCloudsComputeMetadataToVirtualMachine implements Converter<ComputeMetadata, VirtualMachine> {
+public class JCloudsComputeMetadataToVirtualMachine implements OneWayConverter<ComputeMetadata, VirtualMachine> {
+
+    private final OneWayConverter<LoginCredentials,LoginCredential> loginCredentialConverter;
+
+    @Inject
+    public JCloudsComputeMetadataToVirtualMachine(OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter) {
+        this.loginCredentialConverter = loginCredentialConverter;
+    }
 
     @Override
-    public VirtualMachine apply(ComputeMetadata computeMetadata) {
-        return new VirtualMachineBuilder().id(computeMetadata.getId()).description(computeMetadata.getName()).build();
+    public VirtualMachine apply(final ComputeMetadata computeMetadata) {
+
+        VirtualMachineBuilder virtualMachineBuilder = VirtualMachineBuilder.newBuilder();
+        virtualMachineBuilder.id(computeMetadata.getId()).description(computeMetadata.getName());
+
+        if(computeMetadata instanceof NodeMetadata) {
+            ((NodeMetadata) computeMetadata).getPrivateAddresses().forEach(virtualMachineBuilder::addPrivateIpAddress);
+            ((NodeMetadata) computeMetadata).getPublicAddresses().forEach(virtualMachineBuilder::addPublicIpAddress);
+            if(((NodeMetadata) computeMetadata).getCredentials() != null) {
+                virtualMachineBuilder.loginCredential(this.loginCredentialConverter.apply(((NodeMetadata) computeMetadata).getCredentials()));
+            }
+        }
+
+        return virtualMachineBuilder.build();
     }
 }

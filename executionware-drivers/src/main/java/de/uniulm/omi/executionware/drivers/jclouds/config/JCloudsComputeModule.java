@@ -19,26 +19,23 @@
 package de.uniulm.omi.executionware.drivers.jclouds.config;
 
 import com.google.inject.TypeLiteral;
-import de.uniulm.omi.executionware.api.converters.Converter;
-import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
+import de.uniulm.omi.executionware.api.domain.*;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.domain.Location;
-import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.core.config.BaseComputeModule;
-import de.uniulm.omi.executionware.drivers.jclouds.converters.JCloudsComputeMetadataToVirtualMachine;
-import de.uniulm.omi.executionware.drivers.jclouds.converters.JCloudsHardwareToHardwareFlavor;
-import de.uniulm.omi.executionware.drivers.jclouds.converters.JCloudsImageToImage;
-import de.uniulm.omi.executionware.drivers.jclouds.converters.JCloudsLocationToLocation;
+import de.uniulm.omi.executionware.drivers.jclouds.converters.*;
 import de.uniulm.omi.executionware.drivers.jclouds.strategy.JCloudsDeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.HardwareSupplier;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.ImageSupplier;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.LocationSupplier;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.VirtualMachineSupplier;
-import org.jclouds.compute.domain.ComputeMetadata;
+import org.jclouds.compute.domain.*;
+import org.jclouds.domain.*;
 
 import java.util.Set;
 
@@ -82,20 +79,23 @@ public class JCloudsComputeModule extends BaseComputeModule {
         super.configure();
 
         //bind the image converter
-        bind(new TypeLiteral<Converter<org.jclouds.compute.domain.Image, Image>>() {
+        bind(new TypeLiteral<OneWayConverter<org.jclouds.compute.domain.Image, Image>>() {
         }).to(JCloudsImageToImage.class);
 
         //bind the location converter
-        bind(new TypeLiteral<Converter<org.jclouds.domain.Location, Location>>() {
+        bind(new TypeLiteral<OneWayConverter<org.jclouds.domain.Location, Location>>() {
         }).to(JCloudsLocationToLocation.class);
 
         //bind the hardware converter
-        bind(new TypeLiteral<Converter<org.jclouds.compute.domain.Hardware, HardwareFlavor>>() {
+        bind(new TypeLiteral<OneWayConverter<Hardware, HardwareFlavor>>() {
         }).to(JCloudsHardwareToHardwareFlavor.class);
 
         //bind the virtual machine converter
-        bind(new TypeLiteral<Converter<ComputeMetadata, VirtualMachine>>() {
+        bind(new TypeLiteral<OneWayConverter<ComputeMetadata, VirtualMachine>>() {
         }).to(JCloudsComputeMetadataToVirtualMachine.class);
 
+        //bind the login credential converter
+        bind(new TypeLiteral<OneWayConverter<LoginCredentials,LoginCredential>>() {
+        }).to(JCloudsLoginCredentialsToLoginCredential.class);
     }
 }

@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.executionware.drivers.jclouds.converters;
 
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.core.domain.builders.HardwareFlavorBuilder;
 import org.jclouds.compute.domain.Hardware;
@@ -27,7 +27,7 @@ import org.jclouds.compute.domain.Processor;
 /**
  * Created by daniel on 03.12.14.
  */
-public class JCloudsHardwareToHardwareFlavor implements Converter<org.jclouds.compute.domain.Hardware, HardwareFlavor> {
+public class JCloudsHardwareToHardwareFlavor implements OneWayConverter<Hardware, HardwareFlavor> {
 
     @Override
     public HardwareFlavor apply(Hardware hardware) {

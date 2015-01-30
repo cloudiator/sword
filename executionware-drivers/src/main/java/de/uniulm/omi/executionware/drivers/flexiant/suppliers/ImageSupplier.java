@@ -21,7 +21,7 @@ package de.uniulm.omi.executionware.drivers.flexiant.suppliers;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.drivers.flexiant.FlexiantComputeClient;
@@ -34,10 +34,10 @@ import java.util.Set;
 public class ImageSupplier implements Supplier<Set<? extends Image>> {
 
     private final FlexiantComputeClient flexiantComputeClient;
-    private final Converter<de.uniulm.omi.flexiant.domain.impl.Image, Image> imageConverter;
+    private final OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Image, Image> imageConverter;
 
     @Inject
-    public ImageSupplier(FlexiantComputeClient flexiantComputeClient, Converter<de.uniulm.omi.flexiant.domain.impl.Image, Image> imageConverter) {
+    public ImageSupplier(FlexiantComputeClient flexiantComputeClient, OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Image, Image> imageConverter) {
         this.flexiantComputeClient = flexiantComputeClient;
         this.imageConverter = imageConverter;
     }

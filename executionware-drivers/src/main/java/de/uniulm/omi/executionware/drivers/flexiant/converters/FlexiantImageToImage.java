@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.executionware.drivers.flexiant.converters;
 
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.core.domain.builders.ImageBuilder;
 
@@ -26,7 +26,7 @@ import de.uniulm.omi.executionware.core.domain.builders.ImageBuilder;
 /**
  * Created by daniel on 05.12.14.
  */
-public class FlexiantImageToImage implements Converter<de.uniulm.omi.flexiant.domain.impl.Image, Image> {
+public class FlexiantImageToImage implements OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Image, Image> {
 
     @Override
     public Image apply(de.uniulm.omi.flexiant.domain.impl.Image image) {

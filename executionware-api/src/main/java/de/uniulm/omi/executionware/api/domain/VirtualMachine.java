@@ -18,8 +18,19 @@
 
 package de.uniulm.omi.executionware.api.domain;
 
+import com.google.common.base.Optional;
+
+import java.util.Set;
+
 /**
  * Created by daniel on 06.10.14.
  */
 public interface VirtualMachine extends DescribedResource {
+
+    public Set<String> getPublicAddresses();
+
+    public Set<String> getPrivateAddresses();
+
+    public Optional<LoginCredential> getLoginCredential();
+
 }

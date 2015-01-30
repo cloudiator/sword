@@ -18,18 +18,30 @@
 
 package de.uniulm.omi.executionware.drivers.flexiant.converters;
 
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
+import de.uniulm.omi.executionware.core.domain.builders.LoginCredentialBuilder;
 import de.uniulm.omi.executionware.core.domain.builders.VirtualMachineBuilder;
 import de.uniulm.omi.flexiant.domain.impl.Server;
+
+import java.util.HashSet;
 
 /**
  * Created by daniel on 10.12.14.
  */
-public class FlexiantServerToVirtualMachine implements Converter<Server, VirtualMachine> {
+public class FlexiantServerToVirtualMachine implements OneWayConverter<Server, VirtualMachine> {
 
     @Override
-    public VirtualMachine apply(Server server) {
-        return new VirtualMachineBuilder().id(server.getLocationUUID() + "/" + server.getId()).description(server.getName()).build();
+    public VirtualMachine apply(final Server server) {
+
+        final VirtualMachineBuilder virtualMachineBuilder = VirtualMachineBuilder.newBuilder();
+        virtualMachineBuilder.id(server.getLocationUUID() + "/" + server.getId()).description(server.getName());
+        if(server.getPublicIpAddress() != null) {
+            virtualMachineBuilder.addPublicIpAddress(server.getPublicIpAddress());
+        }
+        if(server.getPrivateIpAddress() != null) {
+            virtualMachineBuilder.addPrivateIpAddress(server.getPrivateIpAddress());
+        }
+        return virtualMachineBuilder.build();
     }
 }
