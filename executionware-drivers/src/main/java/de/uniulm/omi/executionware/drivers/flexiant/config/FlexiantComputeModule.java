@@ -19,7 +19,7 @@
 package de.uniulm.omi.executionware.drivers.flexiant.config;
 
 import com.google.inject.TypeLiteral;
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.domain.Location;
@@ -83,19 +83,19 @@ public class FlexiantComputeModule extends BaseComputeModule {
         super.configure();
 
         //bind the image converter
-        bind(new TypeLiteral<Converter<de.uniulm.omi.flexiant.domain.impl.Image, Image>>() {
+        bind(new TypeLiteral<OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Image, Image>>() {
         }).to(FlexiantImageToImage.class);
 
         //bind the location converter
-        bind(new TypeLiteral<Converter<de.uniulm.omi.flexiant.domain.impl.Location, Location>>() {
+        bind(new TypeLiteral<OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Location, Location>>() {
         }).to(FlexiantLocationToLocation.class);
 
         //bind the hardware converter
-        bind(new TypeLiteral<Converter<Hardware, HardwareFlavor>>() {
+        bind(new TypeLiteral<OneWayConverter<Hardware, HardwareFlavor>>() {
         }).to(FlexiantHardwareToHardwareFlavor.class);
 
         //bind the virtual machine converter
-        bind(new TypeLiteral<Converter<Server, VirtualMachine>>() {
+        bind(new TypeLiteral<OneWayConverter<Server, VirtualMachine>>() {
         }).to(FlexiantServerToVirtualMachine.class);
     }
 }

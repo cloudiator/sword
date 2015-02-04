@@ -18,17 +18,39 @@
 
 package de.uniulm.omi.executionware.core.domain.impl;
 
+import com.google.common.base.Optional;
+import de.uniulm.omi.executionware.api.domain.LoginCredential;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 
 import javax.annotation.Nullable;
+import java.util.Set;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 09.12.14.
  */
 public class VirtualMachineImpl extends DescribedResourceImpl implements VirtualMachine {
 
-    public VirtualMachineImpl(String id, @Nullable String description) {
+    //TODO: make immutable
+    private final Set<String> publicIpAddresses;
+
+    //TODO: make immutable
+    private final Set<String> privateIpAddresses;
+
+    private final Optional<LoginCredential> loginCredential;
+
+    public VirtualMachineImpl(String id, @Nullable String description, Set<String> publicIpAddresses, Set<String> privateIpAddresses, Optional<LoginCredential> loginCredential) {
         super(id, description);
+
+
+        checkNotNull(publicIpAddresses);
+        checkNotNull(privateIpAddresses);
+        checkNotNull(loginCredential);
+
+        this.publicIpAddresses = publicIpAddresses;
+        this.privateIpAddresses = privateIpAddresses;
+        this.loginCredential = loginCredential;
     }
 
     @Override
@@ -36,5 +58,20 @@ public class VirtualMachineImpl extends DescribedResourceImpl implements Virtual
         return String.format(
                 "VirtualMachine(id: %s, description: %s)",
                 this.id, this.description);
+    }
+
+    @Override
+    public Set<String> getPublicAddresses() {
+        return this.publicIpAddresses;
+    }
+
+    @Override
+    public Set<String> getPrivateAddresses() {
+        return this.privateIpAddresses;
+    }
+
+    @Override
+    public Optional<LoginCredential> getLoginCredential() {
+        return this.loginCredential;
     }
 }

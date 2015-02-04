@@ -19,7 +19,7 @@
 package de.uniulm.omi.executionware.drivers.jclouds.strategy;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 import de.uniulm.omi.executionware.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
@@ -33,11 +33,11 @@ import org.jclouds.compute.domain.Template;
 public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
     private final JCloudsComputeClient jCloudsComputeClient;
-    private final Converter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter;
+    private final OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter;
 
 
     @Inject
-    public JCloudsCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient, Converter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter) {
+    public JCloudsCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient, OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter) {
         this.jCloudsComputeClient = jCloudsComputeClient;
         this.computeMetadataVirtualMachineConverter = computeMetadataVirtualMachineConverter;
     }

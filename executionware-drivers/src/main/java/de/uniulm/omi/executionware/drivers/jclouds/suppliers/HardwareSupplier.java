@@ -21,7 +21,7 @@ package de.uniulm.omi.executionware.drivers.jclouds.suppliers;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClient;
@@ -35,10 +35,10 @@ import java.util.Set;
 public class HardwareSupplier implements Supplier<Set<? extends HardwareFlavor>> {
 
     private final JCloudsComputeClient jCloudsComputeClient;
-    private final Converter<org.jclouds.compute.domain.Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor;
+    private final OneWayConverter<Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor;
 
     @Inject
-    public HardwareSupplier(JCloudsComputeClient jCloudsComputeClient, Converter<Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor) {
+    public HardwareSupplier(JCloudsComputeClient jCloudsComputeClient, OneWayConverter<Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor) {
         this.jCloudsComputeClient = jCloudsComputeClient;
         this.jCloudsHardwareToHardwareFlavor = jCloudsHardwareToHardwareFlavor;
     }

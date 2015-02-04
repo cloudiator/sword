@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.executionware.drivers.flexiant.converters;
 
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.HardwareFlavor;
 import de.uniulm.omi.executionware.core.domain.builders.HardwareFlavorBuilder;
 import de.uniulm.omi.flexiant.domain.impl.Hardware;
@@ -26,7 +26,7 @@ import de.uniulm.omi.flexiant.domain.impl.Hardware;
 /**
  * Created by daniel on 05.12.14.
  */
-public class FlexiantHardwareToHardwareFlavor implements Converter<Hardware, HardwareFlavor> {
+public class FlexiantHardwareToHardwareFlavor implements OneWayConverter<Hardware, HardwareFlavor> {
 
     @Override
     public HardwareFlavor apply(Hardware hardware) {

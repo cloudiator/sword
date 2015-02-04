@@ -22,7 +22,7 @@ package de.uniulm.omi.executionware.drivers.jclouds.suppliers;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 import de.uniulm.omi.executionware.drivers.jclouds.JCloudsComputeClient;
@@ -35,10 +35,10 @@ import java.util.Set;
 public class ImageSupplier implements Supplier<Set<? extends Image>> {
 
     private final JCloudsComputeClient jCloudsComputeClient;
-    private final Converter<org.jclouds.compute.domain.Image, Image> jCloudsImageToImage;
+    private final OneWayConverter<org.jclouds.compute.domain.Image, Image> jCloudsImageToImage;
 
     @Inject
-    public ImageSupplier(JCloudsComputeClient jCloudsComputeClient, Converter<org.jclouds.compute.domain.Image, Image> jCloudsImageToImage) {
+    public ImageSupplier(JCloudsComputeClient jCloudsComputeClient, OneWayConverter<org.jclouds.compute.domain.Image, Image> jCloudsImageToImage) {
         this.jCloudsComputeClient = jCloudsComputeClient;
         this.jCloudsImageToImage = jCloudsImageToImage;
     }

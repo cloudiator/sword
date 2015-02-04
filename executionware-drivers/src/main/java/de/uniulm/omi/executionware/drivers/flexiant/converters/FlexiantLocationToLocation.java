@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.executionware.drivers.flexiant.converters;
 
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.core.domain.builders.LocationBuilder;
 import de.uniulm.omi.flexiant.domain.impl.LocationScope;
@@ -26,7 +26,7 @@ import de.uniulm.omi.flexiant.domain.impl.LocationScope;
 /**
  * Created by daniel on 05.12.14.
  */
-public class FlexiantLocationToLocation implements Converter<de.uniulm.omi.flexiant.domain.impl.Location, Location> {
+public class FlexiantLocationToLocation implements OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Location, Location> {
 
     @Override
     public Location apply(de.uniulm.omi.flexiant.domain.impl.Location location) {

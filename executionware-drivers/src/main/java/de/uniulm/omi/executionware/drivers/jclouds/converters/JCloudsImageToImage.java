@@ -18,14 +18,14 @@
 
 package de.uniulm.omi.executionware.drivers.jclouds.converters;
 
-import de.uniulm.omi.executionware.api.converters.Converter;
+import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.Image;
 import de.uniulm.omi.executionware.core.domain.builders.ImageBuilder;
 
 /**
  * Created by daniel on 01.12.14.
  */
-public class JCloudsImageToImage implements Converter<org.jclouds.compute.domain.Image, Image> {
+public class JCloudsImageToImage implements OneWayConverter<org.jclouds.compute.domain.Image, Image> {
 
     @Override
     public Image apply(org.jclouds.compute.domain.Image image) {
