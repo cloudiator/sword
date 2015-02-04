@@ -3,11 +3,11 @@ package de.uniulm.omi.executionware.api.util;
 /**
  * Created by daniel on 28.01.15.
  */
-public interface IdWithLocation {
+public interface IdScopedByLocation {
 
     public String getId();
 
-    public String getLocation();
+    public String getLocationId();
 
     public String getIdWithLocation();
 

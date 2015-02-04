@@ -20,8 +20,13 @@ package de.uniulm.omi.executionware.drivers.openstack.strategy;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.strategy.PublicIpStrategy;
+import de.uniulm.omi.executionware.api.util.IdScopedByLocation;
+import de.uniulm.omi.executionware.core.util.IdScopeByLocations;
 import de.uniulm.omi.executionware.drivers.OpenstackFloatingIpClient;
 import org.jclouds.openstack.nova.v2_0.domain.FloatingIP;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 19.01.15.
@@ -32,6 +37,7 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
 
     @Inject
     public OpenstackFloatingIpStrategy(OpenstackFloatingIpClient openstackFloatingIpClient) {
+        checkNotNull(openstackFloatingIpClient);
         this.openstackFloatingIpClient = openstackFloatingIpClient;
     }
 
@@ -42,10 +48,15 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
      * @todo maybe retry assignment because of race condition?
      */
     public String assignPublicIpToVirtualMachine(String virtualMachineId) {
+
+        checkNotNull(virtualMachineId);
+        checkArgument(!virtualMachineId.isEmpty());
+
         FloatingIP toAssign = null;
+        IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
 
         //loop all available floating ips, and check if we have an unassigned.
-        for (FloatingIP floatingIP : this.openstackFloatingIpClient.list(getRegionFromVirtualMachineId(virtualMachineId))) {
+        for (FloatingIP floatingIP : this.openstackFloatingIpClient.list(virtualMachineScopedId.getLocationId())) {
             if (floatingIP.getInstanceId() == null) {
                 toAssign = floatingIP;
                 break;
@@ -53,7 +64,7 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
         }
         if (toAssign == null) {
             // we found nothing to assign, next step is trying to allocate
-            toAssign = this.openstackFloatingIpClient.create(getRegionFromVirtualMachineId(virtualMachineId));
+            toAssign = this.openstackFloatingIpClient.create(virtualMachineScopedId.getLocationId());
 
         }
         if (toAssign == null) {
@@ -61,7 +72,7 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
             throw new RuntimeException("Neither possible to assign empty nor allocate new ip.");
         }
         // finally assign the found ip
-        this.openstackFloatingIpClient.addToServer(getRegionFromVirtualMachineId(virtualMachineId), toAssign.getIp(), getVirtualMachineId(virtualMachineId));
+        this.openstackFloatingIpClient.addToServer(virtualMachineScopedId.getLocationId(), toAssign.getIp(), virtualMachineScopedId.getId());
         return toAssign.getIp();
     }
 
@@ -71,20 +82,7 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
      * Current implementation only removes it from virtual machine
      */
     public void removePublicIpFromVirtualMachine(String virtualMachineId, String address) {
-        this.openstackFloatingIpClient.removeFromServer(getRegionFromVirtualMachineId(virtualMachineId), address, getVirtualMachineId(virtualMachineId));
-    }
-
-    /**
-     * @todo: we need this at many places, refactor it.
-     */
-    protected String getRegionFromVirtualMachineId(String virtualMachineId) {
-        return virtualMachineId.split("/")[0];
-    }
-
-    /**
-     * @todo: we need this at many places, refactor it.
-     */
-    protected String getVirtualMachineId(String virtualMachineId) {
-        return virtualMachineId.split("/")[1];
+        IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
+        this.openstackFloatingIpClient.removeFromServer(virtualMachineScopedId.getLocationId(), address, virtualMachineScopedId.getId());
     }
 }
