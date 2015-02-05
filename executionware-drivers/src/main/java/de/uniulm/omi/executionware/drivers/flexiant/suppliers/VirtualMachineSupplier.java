@@ -32,7 +32,7 @@ import java.util.Set;
 /**
  * Created by daniel on 10.12.14.
  */
-public class VirtualMachineSupplier implements Supplier<Set<? extends VirtualMachine>> {
+public class VirtualMachineSupplier implements Supplier<Set<VirtualMachine>> {
 
     private final FlexiantComputeClient flexiantComputeClient;
     private final OneWayConverter<Server, VirtualMachine> virtualMachineConverter;
@@ -44,7 +44,7 @@ public class VirtualMachineSupplier implements Supplier<Set<? extends VirtualMac
     }
 
     @Override
-    public Set<? extends VirtualMachine> get() {
+    public Set<VirtualMachine> get() {
         return Sets.newHashSet(Iterables.transform(flexiantComputeClient.listServers(), this.virtualMachineConverter));
     }
 }

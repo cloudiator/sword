@@ -51,7 +51,6 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
                 .credentials(serviceConfiguration.getCredentials().getUser(), serviceConfiguration.getCredentials().getPassword())
                 .buildView(ComputeServiceContext.class);
 
-
     }
 
     @Override

@@ -32,7 +32,7 @@ import java.util.Set;
 /**
  * Created by daniel on 05.12.14.
  */
-public class HardwareSupplier implements Supplier<Set<? extends HardwareFlavor>> {
+public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
 
     private final FlexiantComputeClient flexiantComputeClient;
     private final OneWayConverter<Hardware, HardwareFlavor> hardwareConverter;
@@ -44,7 +44,7 @@ public class HardwareSupplier implements Supplier<Set<? extends HardwareFlavor>>
     }
 
     @Override
-    public Set<? extends HardwareFlavor> get() {
+    public Set<HardwareFlavor> get() {
         return Sets.newHashSet(Iterables.transform(flexiantComputeClient.listHardware(), this.hardwareConverter));
     }
 }

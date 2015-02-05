@@ -29,13 +29,13 @@ import java.util.Set;
 @ImplementedBy(FlexiantComputeClientImpl.class)
 public interface FlexiantComputeClient {
 
-    public Set<? extends Image> listImages();
+    public Set<Image> listImages();
 
-    public Set<? extends Hardware> listHardware();
+    public Set<Hardware> listHardware();
 
-    public Set<? extends Location> listLocations();
+    public Set<Location> listLocations();
 
-    public Set<? extends Server> listServers();
+    public Set<Server> listServers();
 
     public Server createServer(ServerTemplate flexiantServerTemplate);
 

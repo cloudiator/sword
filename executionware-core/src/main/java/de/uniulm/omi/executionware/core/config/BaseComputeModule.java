@@ -41,25 +41,21 @@ public abstract class BaseComputeModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(new TypeLiteral<Supplier<Set<? extends Image>>>() {
+        bind(new TypeLiteral<Supplier<Set<Image>>>() {
         }).to(getImageSupplier());
 
-        bind(new TypeLiteral<Supplier<Set<? extends Location>>>() {
+        bind(new TypeLiteral<Supplier<Set<Location>>>() {
         }).to(getLocationSupplier());
 
-        bind(new TypeLiteral<Supplier<Set<? extends HardwareFlavor>>>() {
+        bind(new TypeLiteral<Supplier<Set<HardwareFlavor>>>() {
         }).to(getHardwareFlavorSupplier());
 
-        bind(new TypeLiteral<Supplier<Set<? extends VirtualMachine>>>() {
+        bind(new TypeLiteral<Supplier<Set<VirtualMachine>>>() {
         }).to(getVirtualMachineSupplier());
 
         bind(CreateVirtualMachineStrategy.class).to(getCreateVirtualMachineStrategy());
 
         bind(DeleteVirtualMachineStrategy.class).to(getDeleteVirtualMachineStrategy());
-
-        bind(new TypeLiteral<Supplier<Set<? extends VirtualMachine>>>() {
-        }).to(getVirtualMachineSupplier());
-
     }
 
     @Provides
@@ -67,13 +63,13 @@ public abstract class BaseComputeModule extends AbstractModule {
         return Optional.absent();
     }
 
-    protected abstract Class<? extends Supplier<Set<? extends Image>>> getImageSupplier();
+    protected abstract Class<? extends Supplier<Set<Image>>> getImageSupplier();
 
-    protected abstract Class<? extends Supplier<Set<? extends Location>>> getLocationSupplier();
+    protected abstract Class<? extends Supplier<Set<Location>>> getLocationSupplier();
 
-    protected abstract Class<? extends Supplier<Set<? extends HardwareFlavor>>> getHardwareFlavorSupplier();
+    protected abstract Class<? extends Supplier<Set<HardwareFlavor>>> getHardwareFlavorSupplier();
 
-    protected abstract Class<? extends Supplier<Set<? extends VirtualMachine>>> getVirtualMachineSupplier();
+    protected abstract Class<? extends Supplier<Set<VirtualMachine>>> getVirtualMachineSupplier();
 
     protected abstract Class<? extends CreateVirtualMachineStrategy> getCreateVirtualMachineStrategy();
 

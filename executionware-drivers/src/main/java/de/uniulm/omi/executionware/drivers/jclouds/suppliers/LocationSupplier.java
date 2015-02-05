@@ -31,7 +31,7 @@ import de.uniulm.omi.executionware.api.supplier.Supplier;
 /**
  * Created by daniel on 03.12.14.
  */
-public class LocationSupplier implements Supplier<Set<? extends Location>> {
+public class LocationSupplier implements Supplier<Set<Location>> {
 
     private final JCloudsComputeClient jCloudsComputeClient;
     private final OneWayConverter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation;
@@ -43,7 +43,7 @@ public class LocationSupplier implements Supplier<Set<? extends Location>> {
     }
 
     @Override
-    public Set<? extends Location> get() {
+    public Set<Location> get() {
         return Sets.newHashSet(Iterables.transform(jCloudsComputeClient.listAssignableLocations(), this.jCloudsLocationToLocation));
     }
 }

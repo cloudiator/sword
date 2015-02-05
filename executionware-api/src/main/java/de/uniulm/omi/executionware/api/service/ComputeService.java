@@ -37,13 +37,13 @@ public interface ComputeService {
 
     public HardwareFlavor getFlavor();
 
-    public Iterable<? extends HardwareFlavor> listHardwareFlavors();
+    public Iterable<HardwareFlavor> listHardwareFlavors();
 
-    public Iterable<? extends Image> listImages();
+    public Iterable<Image> listImages();
 
-    public Iterable<? extends Location> listLocations();
+    public Iterable<Location> listLocations();
 
-    public Iterable<? extends VirtualMachine> listVirtualMachines();
+    public Iterable<VirtualMachine> listVirtualMachines();
 
     public void deleteVirtualMachine(String virtualMachineId);
 

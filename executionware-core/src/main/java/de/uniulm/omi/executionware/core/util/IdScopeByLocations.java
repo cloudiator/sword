@@ -29,7 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class IdScopeByLocations {
 
     private IdScopeByLocations() {
-        
+
     }
 
     public static IdScopedByLocation from(String locationId, String id) {

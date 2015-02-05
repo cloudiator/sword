@@ -31,7 +31,7 @@ import java.util.Set;
 /**
  * Created by daniel on 05.12.14.
  */
-public class ImageSupplier implements Supplier<Set<? extends Image>> {
+public class ImageSupplier implements Supplier<Set<Image>> {
 
     private final FlexiantComputeClient flexiantComputeClient;
     private final OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Image, Image> imageConverter;
@@ -43,7 +43,7 @@ public class ImageSupplier implements Supplier<Set<? extends Image>> {
     }
 
     @Override
-    public Set<? extends Image> get() {
+    public Set<Image> get() {
         return Sets.newHashSet(Iterables.transform(flexiantComputeClient.listImages(), this.imageConverter));
     }
 }

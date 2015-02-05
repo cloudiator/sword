@@ -49,22 +49,22 @@ import java.util.Set;
 public class FlexiantComputeModule extends BaseComputeModule {
 
     @Override
-    protected Class<? extends Supplier<Set<? extends Image>>> getImageSupplier() {
+    protected Class<? extends Supplier<Set<Image>>> getImageSupplier() {
         return ImageSupplier.class;
     }
 
     @Override
-    protected Class<? extends Supplier<Set<? extends Location>>> getLocationSupplier() {
+    protected Class<? extends Supplier<Set<Location>>> getLocationSupplier() {
         return LocationSupplier.class;
     }
 
     @Override
-    protected Class<? extends Supplier<Set<? extends HardwareFlavor>>> getHardwareFlavorSupplier() {
+    protected Class<? extends Supplier<Set<HardwareFlavor>>> getHardwareFlavorSupplier() {
         return HardwareSupplier.class;
     }
 
     @Override
-    protected Class<? extends Supplier<Set<? extends VirtualMachine>>> getVirtualMachineSupplier() {
+    protected Class<? extends Supplier<Set<VirtualMachine>>> getVirtualMachineSupplier() {
         return VirtualMachineSupplier.class;
     }
 

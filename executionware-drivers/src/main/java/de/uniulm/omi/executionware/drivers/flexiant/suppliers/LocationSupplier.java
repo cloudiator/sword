@@ -31,7 +31,7 @@ import java.util.Set;
 /**
  * Created by daniel on 05.12.14.
  */
-public class LocationSupplier implements Supplier<Set<? extends Location>> {
+public class LocationSupplier implements Supplier<Set<Location>> {
 
     private final FlexiantComputeClient flexiantComputeClient;
     private final OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Location, Location> locationConverter;
@@ -43,7 +43,7 @@ public class LocationSupplier implements Supplier<Set<? extends Location>> {
     }
 
     @Override
-    public Set<? extends Location> get() {
+    public Set<Location> get() {
         return Sets.newHashSet(Iterables.transform(flexiantComputeClient.listLocations(), this.locationConverter));
     }
 }

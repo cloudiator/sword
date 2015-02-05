@@ -32,7 +32,7 @@ import java.util.Set;
 /**
  * Created by daniel on 03.12.14.
  */
-public class HardwareSupplier implements Supplier<Set<? extends HardwareFlavor>> {
+public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
 
     private final JCloudsComputeClient jCloudsComputeClient;
     private final OneWayConverter<Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor;
@@ -44,7 +44,7 @@ public class HardwareSupplier implements Supplier<Set<? extends HardwareFlavor>>
     }
 
     @Override
-    public Set<? extends HardwareFlavor> get() {
+    public Set<HardwareFlavor> get() {
         return Sets.newHashSet(Iterables.transform(jCloudsComputeClient.listHardwareProfiles(), this.jCloudsHardwareToHardwareFlavor));
     }
 }

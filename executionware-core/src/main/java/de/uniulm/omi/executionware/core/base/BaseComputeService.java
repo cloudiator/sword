@@ -40,10 +40,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class BaseComputeService implements ComputeService {
 
-    private final Supplier<Set<? extends Image>> imageSupplier;
-    private final Supplier<Set<? extends Location>> locationSupplier;
-    private final Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier;
-    private final Supplier<Set<? extends VirtualMachine>> virtualMachineSupplier;
+    private final Supplier<Set<Image>> imageSupplier;
+    private final Supplier<Set<Location>> locationSupplier;
+    private final Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier;
+    private final Supplier<Set<VirtualMachine>> virtualMachineSupplier;
     private final CreateVirtualMachineStrategy createVirtualMachineStrategy;
     private final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy;
     private final SshConnectionFactory sshConnectionFactory;
@@ -52,10 +52,10 @@ public class BaseComputeService implements ComputeService {
 
     @Inject
     public BaseComputeService(
-            Supplier<Set<? extends Image>> imageSupplier,
-            Supplier<Set<? extends Location>> locationSupplier,
-            Supplier<Set<? extends HardwareFlavor>> hardwareFlavorSupplier,
-            Supplier<Set<? extends VirtualMachine>> virtualMachineSupplier,
+            Supplier<Set<Image>> imageSupplier,
+            Supplier<Set<Location>> locationSupplier,
+            Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier,
+            Supplier<Set<VirtualMachine>> virtualMachineSupplier,
             CreateVirtualMachineStrategy createVirtualMachineStrategy,
             DeleteVirtualMachineStrategy deleteVirtualMachineStrategy,
             SshConnectionFactory sshConnectionFactory,
@@ -104,22 +104,22 @@ public class BaseComputeService implements ComputeService {
     }
 
     @Override
-    public Iterable<? extends HardwareFlavor> listHardwareFlavors() {
+    public Iterable<HardwareFlavor> listHardwareFlavors() {
         return this.hardwareFlavorSupplier.get();
     }
 
     @Override
-    public Iterable<? extends Image> listImages() {
+    public Iterable<Image> listImages() {
         return this.imageSupplier.get();
     }
 
     @Override
-    public Iterable<? extends Location> listLocations() {
+    public Iterable<Location> listLocations() {
         return this.locationSupplier.get();
     }
 
     @Override
-    public Iterable<? extends VirtualMachine> listVirtualMachines() {
+    public Iterable<VirtualMachine> listVirtualMachines() {
         return this.virtualMachineSupplier.get();
     }
 

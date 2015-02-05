@@ -32,7 +32,7 @@ import java.util.Set;
 /**
  * Created by daniel on 02.12.14.
  */
-public class ImageSupplier implements Supplier<Set<? extends Image>> {
+public class ImageSupplier implements Supplier<Set<Image>> {
 
     private final JCloudsComputeClient jCloudsComputeClient;
     private final OneWayConverter<org.jclouds.compute.domain.Image, Image> jCloudsImageToImage;
@@ -44,7 +44,7 @@ public class ImageSupplier implements Supplier<Set<? extends Image>> {
     }
 
     @Override
-    public Set<? extends Image> get() {
+    public Set<Image> get() {
         return Sets.newHashSet(Iterables.transform(jCloudsComputeClient.listImages(), this.jCloudsImageToImage));
     }
 }

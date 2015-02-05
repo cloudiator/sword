@@ -47,7 +47,7 @@ public class FlexiantComputeClientImpl implements FlexiantComputeClient {
     }
 
     @Override
-    public Set<? extends Image> listImages() {
+    public Set<Image> listImages() {
         try {
             return this.flexiantComputeClient.getImages(null);
         } catch (FlexiantException e) {
@@ -56,7 +56,7 @@ public class FlexiantComputeClientImpl implements FlexiantComputeClient {
     }
 
     @Override
-    public Set<? extends Hardware> listHardware() {
+    public Set<Hardware> listHardware() {
         try {
             return this.flexiantComputeClient.getHardwareFlavors(null);
         } catch (FlexiantException e) {
@@ -65,7 +65,7 @@ public class FlexiantComputeClientImpl implements FlexiantComputeClient {
     }
 
     @Override
-    public Set<? extends Location> listLocations() {
+    public Set<Location> listLocations() {
         try {
             return this.flexiantComputeClient.getLocations();
         } catch (FlexiantException e) {
@@ -74,7 +74,7 @@ public class FlexiantComputeClientImpl implements FlexiantComputeClient {
     }
 
     @Override
-    public Set<? extends Server> listServers() {
+    public Set<Server> listServers() {
         try {
             return this.flexiantComputeClient.getServers(serviceConfiguration.getNodeGroup(), null);
         } catch (FlexiantException e) {
