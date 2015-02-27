@@ -22,7 +22,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.strategy.PublicIpStrategy;
 import de.uniulm.omi.executionware.api.util.IdScopedByLocation;
 import de.uniulm.omi.executionware.core.util.IdScopeByLocations;
-import de.uniulm.omi.executionware.drivers.OpenstackFloatingIpClient;
+import de.uniulm.omi.executionware.drivers.openstack.OpenstackFloatingIpClient;
 import org.jclouds.openstack.nova.v2_0.domain.FloatingIP;
 
 import static com.google.common.base.Preconditions.checkArgument;

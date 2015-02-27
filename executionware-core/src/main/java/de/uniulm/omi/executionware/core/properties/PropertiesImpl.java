@@ -18,24 +18,23 @@
 
 package de.uniulm.omi.executionware.core.properties;
 
-import de.uniulm.omi.executionware.api.properties.ServiceProperties;
+import com.google.common.collect.ImmutableMap;
+import de.uniulm.omi.executionware.api.properties.Properties;
 
-import java.util.HashMap;
 import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 19.01.15.
  */
-public class ServicePropertiesImpl implements ServiceProperties {
+public class PropertiesImpl implements Properties {
 
     private final Map<String, String> propertiesHolder;
 
-    public ServicePropertiesImpl() {
-        this.propertiesHolder = new HashMap<>();
-    }
-
-    void setProperty(String key, String value) {
-        this.propertiesHolder.put(key, value);
+    public PropertiesImpl(ImmutableMap<String, String> propertiesHolder) {
+        checkNotNull(propertiesHolder);
+        this.propertiesHolder = propertiesHolder;
     }
 
     @Override

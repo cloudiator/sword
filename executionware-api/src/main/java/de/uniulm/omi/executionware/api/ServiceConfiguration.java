@@ -20,7 +20,6 @@ package de.uniulm.omi.executionware.api;
 
 import de.uniulm.omi.executionware.api.domain.Credentials;
 import de.uniulm.omi.executionware.api.domain.LoginCredential;
-import de.uniulm.omi.executionware.api.properties.ServiceProperties;
 
 /**
  * Created by daniel on 02.12.14.
@@ -36,6 +35,4 @@ public interface ServiceConfiguration {
     public String getNodeGroup();
 
     public LoginCredential getLoginCredential();
-
-    public ServiceProperties getServiceProperties();
 }

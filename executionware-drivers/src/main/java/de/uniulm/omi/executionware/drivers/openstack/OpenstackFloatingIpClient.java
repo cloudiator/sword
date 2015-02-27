@@ -16,34 +16,31 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.core.properties;
+package de.uniulm.omi.executionware.drivers.openstack;
 
-import com.google.common.collect.ImmutableMap;
-import de.uniulm.omi.executionware.api.properties.Properties;
+import com.google.inject.ImplementedBy;
+import org.jclouds.openstack.nova.v2_0.domain.FloatingIP;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.annotation.Nullable;
+import java.util.Set;
 
 /**
  * Created by daniel on 19.01.15.
  */
-public class PropertiesBuilder {
+@ImplementedBy(OpenstackFloatingIpClientImpl.class)
+public interface OpenstackFloatingIpClient {
 
-    private final Map<String, String> serviceProperties;
+    boolean isAvailable(String region);
 
-    private PropertiesBuilder() {
-        serviceProperties = new HashMap<>();
-    }
+    Set<FloatingIP> list(String region);
 
-    public static PropertiesBuilder create() {
-        return new PropertiesBuilder();
-    }
+    @Nullable
+    FloatingIP allocateFromPool(String pool, String region);
 
-    public void setProperty(String key, String value) {
-        this.serviceProperties.put(key, value);
-    }
+    @Nullable
+    FloatingIP create(String region);
 
-    public Properties build() {
-        return new PropertiesImpl(ImmutableMap.<String, String>builder().putAll(this.serviceProperties).build());
-    }
+    void addToServer(String region, String address, String serverId);
+
+    void removeFromServer(String region, String address, String serverId);
 }

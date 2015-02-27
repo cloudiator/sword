@@ -23,7 +23,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
 import de.uniulm.omi.executionware.api.domain.LoginCredential;
-import de.uniulm.omi.executionware.api.properties.ServiceProperties;
+import de.uniulm.omi.executionware.api.properties.Properties;
 import de.uniulm.omi.executionware.api.service.ComputeService;
 import de.uniulm.omi.executionware.core.config.BaseModule;
 import de.uniulm.omi.executionware.service.providers.ProviderConfiguration;
@@ -41,6 +41,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ServiceBuilder {
 
     private final ServiceConfigurationBuilder serviceConfigurationBuilder;
+    private Properties properties;
 
     private ServiceBuilder(String provider) {
         this.serviceConfigurationBuilder = new ServiceConfigurationBuilder();
@@ -72,8 +73,8 @@ public class ServiceBuilder {
         return this;
     }
 
-    public ServiceBuilder properties(ServiceProperties serviceProperties) {
-        this.serviceConfigurationBuilder.properties(serviceProperties);
+    public ServiceBuilder properties(Properties properties) {
+        this.properties = properties;
         return this;
     }
 
@@ -92,7 +93,7 @@ public class ServiceBuilder {
 
     protected Set<Module> getBasicModules(ServiceConfiguration serviceConfiguration) {
         Set<Module> modules = new HashSet<>();
-        modules.add(new BaseModule(serviceConfiguration));
+        modules.add(new BaseModule(serviceConfiguration, this.properties));
         return modules;
     }
 }

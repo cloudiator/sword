@@ -21,7 +21,7 @@ package de.uniulm.omi.executionware.service;
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
 import de.uniulm.omi.executionware.api.domain.Credentials;
 import de.uniulm.omi.executionware.api.domain.LoginCredential;
-import de.uniulm.omi.executionware.api.properties.ServiceProperties;
+import de.uniulm.omi.executionware.api.properties.Properties;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -36,9 +36,8 @@ public class ServiceConfigurationImpl implements ServiceConfiguration {
     private final Credentials credentials;
     private final String nodeGroup;
     private final LoginCredential loginCredential;
-    private final ServiceProperties serviceProperties;
 
-    public ServiceConfigurationImpl(String provider, String endpoint, Credentials credentials, String nodeGroup, LoginCredential loginCredential, ServiceProperties serviceProperties) {
+    public ServiceConfigurationImpl(String provider, String endpoint, Credentials credentials, String nodeGroup, LoginCredential loginCredential) {
         checkNotNull(provider);
         checkArgument(!provider.isEmpty());
         checkNotNull(endpoint);
@@ -47,14 +46,12 @@ public class ServiceConfigurationImpl implements ServiceConfiguration {
         checkNotNull(nodeGroup);
         checkArgument(!nodeGroup.isEmpty());
         checkNotNull(loginCredential);
-        checkNotNull(serviceProperties);
 
         this.provider = provider;
         this.endpoint = endpoint;
         this.credentials = credentials;
         this.nodeGroup = nodeGroup;
         this.loginCredential = loginCredential;
-        this.serviceProperties = serviceProperties;
     }
 
     @Override
@@ -80,10 +77,5 @@ public class ServiceConfigurationImpl implements ServiceConfiguration {
     @Override
     public LoginCredential getLoginCredential() {
         return loginCredential;
-    }
-
-    @Override
-    public ServiceProperties getServiceProperties() {
-        return this.serviceProperties;
     }
 }

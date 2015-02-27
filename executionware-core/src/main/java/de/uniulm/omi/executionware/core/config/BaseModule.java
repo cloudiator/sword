@@ -19,9 +19,15 @@
 package de.uniulm.omi.executionware.core.config;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.name.Names;
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
+import de.uniulm.omi.executionware.api.properties.Properties;
 import de.uniulm.omi.executionware.api.ssh.SshConnectionFactory;
 import de.uniulm.omi.executionware.core.ssh.jsch.JSchSshConnectionFactory;
+
+import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 02.12.14.
@@ -29,14 +35,22 @@ import de.uniulm.omi.executionware.core.ssh.jsch.JSchSshConnectionFactory;
 public class BaseModule extends AbstractModule {
 
     private final ServiceConfiguration serviceConfiguration;
+    private final Properties properties;
 
-    public BaseModule(ServiceConfiguration serviceConfiguration) {
+    public BaseModule(ServiceConfiguration serviceConfiguration, @Nullable Properties properties) {
+
+        checkNotNull(serviceConfiguration);
+
         this.serviceConfiguration = serviceConfiguration;
+        this.properties = properties;
     }
 
     @Override
     protected void configure() {
         bind(ServiceConfiguration.class).toInstance(this.serviceConfiguration);
         bind(SshConnectionFactory.class).to(JSchSshConnectionFactory.class);
+        if (this.properties != null) {
+            Names.bindProperties(binder(), this.properties.getProperties());
+        }
     }
 }

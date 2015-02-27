@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Created by daniel on 19.01.15.
  */
-public interface ServiceProperties {
+public interface Properties {
 
     public String getProperty(String key);
 

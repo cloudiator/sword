@@ -16,11 +16,12 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.drivers;
+package de.uniulm.omi.executionware.drivers.openstack;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
+import de.uniulm.omi.executionware.drivers.openstack.OpenstackFloatingIpClient;
 import org.jclouds.ContextBuilder;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.FloatingIP;
