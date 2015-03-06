@@ -19,9 +19,12 @@
 package de.uniulm.omi.executionware.drivers.jclouds;
 
 
+import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.ServiceConfiguration;
 import de.uniulm.omi.executionware.api.exceptions.DriverException;
+import de.uniulm.omi.executionware.api.logging.LoggerFactory;
+import de.uniulm.omi.executionware.drivers.jclouds.logging.LoggingModule;
 import org.jclouds.ContextBuilder;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.RunNodesException;
@@ -41,14 +44,17 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
     private final ServiceConfiguration serviceConfiguration;
 
     @Inject
-    public JCloudsComputeClientImpl(ServiceConfiguration serviceConfiguration) {
+    public JCloudsComputeClientImpl(ServiceConfiguration serviceConfiguration, LoggerFactory loggerFactory) {
 
         checkNotNull(serviceConfiguration);
+        checkNotNull(loggerFactory);
+
         this.serviceConfiguration = serviceConfiguration;
 
         this.computeServiceContext = ContextBuilder.newBuilder(serviceConfiguration.getProvider())
                 .endpoint(serviceConfiguration.getEndpoint())
                 .credentials(serviceConfiguration.getCredentials().getUser(), serviceConfiguration.getCredentials().getPassword())
+                .modules(ImmutableSet.of(new LoggingModule(loggerFactory)))
                 .buildView(ComputeServiceContext.class);
 
     }

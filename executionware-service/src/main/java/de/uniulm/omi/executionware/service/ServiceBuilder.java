@@ -26,6 +26,8 @@ import de.uniulm.omi.executionware.api.domain.LoginCredential;
 import de.uniulm.omi.executionware.api.properties.Properties;
 import de.uniulm.omi.executionware.api.service.ComputeService;
 import de.uniulm.omi.executionware.core.config.BaseModule;
+import de.uniulm.omi.executionware.core.config.LoggingModule;
+import de.uniulm.omi.executionware.core.logging.NullLoggingModule;
 import de.uniulm.omi.executionware.service.providers.ProviderConfiguration;
 import de.uniulm.omi.executionware.service.providers.Providers;
 
@@ -42,6 +44,7 @@ public class ServiceBuilder {
 
     private final ServiceConfigurationBuilder serviceConfigurationBuilder;
     private Properties properties;
+    private LoggingModule loggingModule;
 
     private ServiceBuilder(String provider) {
         this.serviceConfigurationBuilder = new ServiceConfigurationBuilder();
@@ -50,6 +53,11 @@ public class ServiceBuilder {
 
     public static ServiceBuilder newServiceBuilder(String provider) {
         return new ServiceBuilder(provider);
+    }
+
+    public ServiceBuilder loggingModule(LoggingModule loggingModule) {
+        this.loggingModule = loggingModule;
+        return this;
     }
 
     public ServiceBuilder endpoint(String endpoint) {
@@ -88,6 +96,7 @@ public class ServiceBuilder {
     protected Injector buildInjector(Collection<? extends Module> modules, ServiceConfiguration serviceConfiguration) {
         Collection<Module> basicModules = this.getBasicModules(serviceConfiguration);
         basicModules.addAll(modules);
+        basicModules.add(buildLoggingModule());
         return Guice.createInjector(basicModules);
     }
 
@@ -95,5 +104,12 @@ public class ServiceBuilder {
         Set<Module> modules = new HashSet<>();
         modules.add(new BaseModule(serviceConfiguration, this.properties));
         return modules;
+    }
+
+    protected LoggingModule buildLoggingModule() {
+        if (loggingModule == null) {
+            return new NullLoggingModule();
+        }
+        return loggingModule;
     }
 }
