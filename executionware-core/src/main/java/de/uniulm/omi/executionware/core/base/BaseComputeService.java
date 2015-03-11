@@ -29,8 +29,10 @@ import de.uniulm.omi.executionware.api.ssh.SshConnection;
 import de.uniulm.omi.executionware.api.ssh.SshConnectionFactory;
 import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.strategy.DeleteVirtualMachineStrategy;
+import de.uniulm.omi.executionware.api.strategy.GetStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
 
+import javax.annotation.Nullable;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -49,6 +51,10 @@ public class BaseComputeService implements ComputeService {
     private final SshConnectionFactory sshConnectionFactory;
     private final ServiceConfiguration serviceConfiguration;
     private final Optional<PublicIpService> publicIpService;
+    private final GetStrategy<String, Image> imageGetStrategy;
+    private final GetStrategy<String, Location> locationGetStrategy;
+    private final GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy;
+    private final GetStrategy<String, VirtualMachine> virtualMachineGetStrategy;
 
     @Inject
     public BaseComputeService(
@@ -56,6 +62,10 @@ public class BaseComputeService implements ComputeService {
             Supplier<Set<Location>> locationSupplier,
             Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier,
             Supplier<Set<VirtualMachine>> virtualMachineSupplier,
+            GetStrategy<String, Image> imageGetStrategy,
+            GetStrategy<String, Location> locationGetStrategy,
+            GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy,
+            GetStrategy<String, VirtualMachine> virtualMachineGetStrategy,
             CreateVirtualMachineStrategy createVirtualMachineStrategy,
             DeleteVirtualMachineStrategy deleteVirtualMachineStrategy,
             SshConnectionFactory sshConnectionFactory,
@@ -72,6 +82,10 @@ public class BaseComputeService implements ComputeService {
         checkNotNull(sshConnectionFactory);
         checkNotNull(serviceConfiguration);
         checkNotNull(publicIpService);
+        checkNotNull(imageGetStrategy);
+        checkNotNull(locationGetStrategy);
+        checkNotNull(hardwareFlavorGetStrategy);
+        checkNotNull(virtualMachineGetStrategy);
         this.imageSupplier = imageSupplier;
         this.locationSupplier = locationSupplier;
         this.hardwareFlavorSupplier = hardwareFlavorSupplier;
@@ -81,26 +95,38 @@ public class BaseComputeService implements ComputeService {
         this.sshConnectionFactory = sshConnectionFactory;
         this.serviceConfiguration = serviceConfiguration;
         this.publicIpService = publicIpService;
+        this.imageGetStrategy = imageGetStrategy;
+        this.locationGetStrategy = locationGetStrategy;
+        this.hardwareFlavorGetStrategy = hardwareFlavorGetStrategy;
+        this.virtualMachineGetStrategy = virtualMachineGetStrategy;
     }
 
     @Override
-    public Image getImage() {
-        return null;
+    @Nullable
+    public Image getImage(String id) {
+        checkNotNull(id);
+        return this.imageGetStrategy.get(id);
     }
 
     @Override
-    public VirtualMachine getVirtualMachine() {
-        return null;
+    @Nullable
+    public VirtualMachine getVirtualMachine(String id) {
+        checkNotNull(id);
+        return this.virtualMachineGetStrategy.get(id);
     }
 
     @Override
-    public Location getLocation() {
-        return null;
+    @Nullable
+    public Location getLocation(String id) {
+        checkNotNull(id);
+        return this.locationGetStrategy.get(id);
     }
 
     @Override
-    public HardwareFlavor getFlavor() {
-        return null;
+    @Nullable
+    public HardwareFlavor getHardwareFlavor(String id) {
+        checkNotNull(id);
+        return this.hardwareFlavorGetStrategy.get(id);
     }
 
     @Override

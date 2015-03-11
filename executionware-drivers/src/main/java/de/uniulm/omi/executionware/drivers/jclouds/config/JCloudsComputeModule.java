@@ -21,56 +21,55 @@ package de.uniulm.omi.executionware.drivers.jclouds.config;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.executionware.api.converters.OneWayConverter;
 import de.uniulm.omi.executionware.api.domain.*;
-import de.uniulm.omi.executionware.api.domain.Image;
-import de.uniulm.omi.executionware.api.domain.Location;
 import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
-import de.uniulm.omi.executionware.core.config.BaseComputeModule;
+import de.uniulm.omi.executionware.core.config.AbstractComputeModule;
 import de.uniulm.omi.executionware.drivers.jclouds.converters.*;
-import de.uniulm.omi.executionware.drivers.jclouds.strategy.JCloudsDeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
+import de.uniulm.omi.executionware.drivers.jclouds.strategy.JCloudsDeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.HardwareSupplier;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.ImageSupplier;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.LocationSupplier;
 import de.uniulm.omi.executionware.drivers.jclouds.suppliers.VirtualMachineSupplier;
-import org.jclouds.compute.domain.*;
-import org.jclouds.domain.*;
+import org.jclouds.compute.domain.ComputeMetadata;
+import org.jclouds.compute.domain.Hardware;
+import org.jclouds.domain.LoginCredentials;
 
 import java.util.Set;
 
 /**
  * Created by daniel on 02.12.14.
  */
-public class JCloudsComputeModule extends BaseComputeModule {
+public class JCloudsComputeModule extends AbstractComputeModule {
 
     @Override
-    protected Class<? extends Supplier<Set<Image>>> getImageSupplier() {
+    protected Class<? extends Supplier<Set<Image>>> imageSupplier() {
         return ImageSupplier.class;
     }
 
     @Override
-    protected Class<? extends Supplier<Set<Location>>> getLocationSupplier() {
+    protected Class<? extends Supplier<Set<Location>>> locationSupplier() {
         return LocationSupplier.class;
     }
 
     @Override
-    protected Class<? extends Supplier<Set<HardwareFlavor>>> getHardwareFlavorSupplier() {
+    protected Class<? extends Supplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
         return HardwareSupplier.class;
     }
 
     @Override
-    protected Class<? extends Supplier<Set<VirtualMachine>>> getVirtualMachineSupplier() {
+    protected Class<? extends Supplier<Set<VirtualMachine>>> virtualMachineSupplier() {
         return VirtualMachineSupplier.class;
     }
 
     @Override
-    protected Class<? extends CreateVirtualMachineStrategy> getCreateVirtualMachineStrategy() {
+    protected Class<? extends CreateVirtualMachineStrategy> createVirtualMachineStrategy() {
         return JCloudsCreateVirtualMachineStrategy.class;
     }
 
     @Override
-    protected Class<? extends DeleteVirtualMachineStrategy> getDeleteVirtualMachineStrategy() {
+    protected Class<? extends DeleteVirtualMachineStrategy> deleteVirtualMachineStrategy() {
         return JCloudsDeleteVirtualMachineStrategy.class;
     }
 
@@ -95,7 +94,7 @@ public class JCloudsComputeModule extends BaseComputeModule {
         }).to(JCloudsComputeMetadataToVirtualMachine.class);
 
         //bind the login credential converter
-        bind(new TypeLiteral<OneWayConverter<LoginCredentials,LoginCredential>>() {
+        bind(new TypeLiteral<OneWayConverter<LoginCredentials, LoginCredential>>() {
         }).to(JCloudsLoginCredentialsToLoginCredential.class);
     }
 }

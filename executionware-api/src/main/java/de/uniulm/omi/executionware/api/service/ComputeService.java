@@ -24,18 +24,24 @@ import de.uniulm.omi.executionware.api.domain.*;
 import de.uniulm.omi.executionware.api.extensions.PublicIpService;
 import de.uniulm.omi.executionware.api.ssh.SshConnection;
 
+import javax.annotation.Nullable;
+
 /**
  * Created by daniel on 29.10.14.
  */
 public interface ComputeService {
 
-    public Image getImage();
+    @Nullable
+    public Image getImage(String id);
 
-    public VirtualMachine getVirtualMachine();
+    @Nullable
+    public VirtualMachine getVirtualMachine(String id);
 
-    public Location getLocation();
+    @Nullable
+    public Location getLocation(String id);
 
-    public HardwareFlavor getFlavor();
+    @Nullable
+    public HardwareFlavor getHardwareFlavor(String id);
 
     public Iterable<HardwareFlavor> listHardwareFlavors();
 
