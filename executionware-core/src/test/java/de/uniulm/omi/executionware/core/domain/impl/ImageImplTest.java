@@ -30,39 +30,39 @@ import static org.hamcrest.Matchers.nullValue;
 public class ImageImplTest {
 
     private final String idTest = "123456";
-    private final String descriptionTest = "Description";
+    private final String nameTest = "name";
 
     @Test(expected = NullPointerException.class)
     public void idNotNullableTest() {
-        final ImageImpl image = new ImageImpl(null, this.descriptionTest);
+        final ImageImpl image = new ImageImpl(null, this.nameTest);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void idNotEmptyTest() {
-        final ImageImpl image = new ImageImpl("",this.descriptionTest);
+        final ImageImpl image = new ImageImpl("",this.nameTest);
     }
 
-    @Test
-    public void descriptionIsNullableTest() {
+    @Test(expected = NullPointerException.class)
+    public void nameNotNullableTest() {
         final ImageImpl image = new ImageImpl(this.idTest, null);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void nameNotEmptyTest() {
+        final ImageImpl image = new ImageImpl(this.idTest,"");
+    }
+
 
     @Test
     public void getIdTest() {
-        final ImageImpl image = new ImageImpl(this.idTest, null);
-        assertThat(image.getId(), equalTo(this.idTest));
+        final ImageImpl image = new ImageImpl(idTest, nameTest);
+        assertThat(image.id(), equalTo(this.idTest));
     }
 
     @Test
-    public void getDescriptionTest() {
-        final ImageImpl image = new ImageImpl(this.idTest, this.descriptionTest);
-        assertThat(image.getDescription(), equalTo(this.descriptionTest));
-    }
-
-    @Test
-    public void getDescriptionNullTest() {
-        final ImageImpl image = new ImageImpl(this.idTest, null);
-        assertThat(image.getDescription(), nullValue());
+    public void getNameTest() {
+        final ImageImpl image = new ImageImpl(idTest, nameTest);
+        assertThat(image.name(), equalTo(nameTest));
     }
 
 }

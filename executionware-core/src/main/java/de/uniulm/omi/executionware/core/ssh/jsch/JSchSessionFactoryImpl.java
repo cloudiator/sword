@@ -38,11 +38,11 @@ public class JSchSessionFactoryImpl implements JSchSessionFactory {
     @Override
     public Session getSession(HostAndPort hostAndPort, LoginCredential loginCredential) throws JSchException {
         if (loginCredential.isPrivateKeyCredential()) {
-            this.jSch.addIdentity(loginCredential.getPrivateKey().get());
+            this.jSch.addIdentity(loginCredential.privateKey().get());
         }
-        Session session = this.jSch.getSession(loginCredential.getUsername(), hostAndPort.getHostText(), hostAndPort.getPort());
+        Session session = this.jSch.getSession(loginCredential.username(), hostAndPort.getHostText(), hostAndPort.getPort());
         if (loginCredential.isPasswordCredential()) {
-            session.setPassword(loginCredential.getPassword().get());
+            session.setPassword(loginCredential.password().get());
         }
         session.setConfig("StrictHostKeyChecking", "no");
         session.connect();

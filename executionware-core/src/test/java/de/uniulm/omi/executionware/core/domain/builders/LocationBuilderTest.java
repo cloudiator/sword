@@ -30,20 +30,20 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class LocationBuilderTest {
 
-    LocationBuilder locationBuilder;
+    private LocationBuilder locationBuilder;
 
     @Before
     public void before() {
-        this.locationBuilder = new LocationBuilder();
+        this.locationBuilder = LocationBuilder.newBuilder();
     }
 
     @Test
     public void builderTest() {
         String id = "abcdefg";
-        String description = "This is a very fine location";
-        LocationImpl location = this.locationBuilder.id(id).assignable(true).description(description).build();
-        assertThat(location.getId(), equalTo(id));
-        assertThat(location.getDescription(), equalTo(description));
+        String name = "This is a very fine location";
+        LocationImpl location = this.locationBuilder.id(id).assignable(true).name(name).build();
+        assertThat(location.id(), equalTo(id));
+        assertThat(location.name(), equalTo(name));
         assertThat(location.isAssignable(), equalTo(true));
     }
 }

@@ -23,13 +23,21 @@ import de.uniulm.omi.executionware.core.domain.impl.LocationImpl;
 /**
  * Created by daniel on 03.12.14.
  */
-public class LocationBuilder extends DescribedResourceBuilder {
+public class LocationBuilder extends ResourceBuilder {
 
     private boolean isAssignable;
 
+    private LocationBuilder() {
+
+    }
+
+    public static LocationBuilder newBuilder() {
+        return new LocationBuilder();
+    }
+
     @Override
     public LocationImpl build() {
-        return new LocationImpl(this.id, this.isAssignable, this.description);
+        return new LocationImpl(this.id, this.name, this.isAssignable);
     }
 
     @Override
@@ -38,14 +46,14 @@ public class LocationBuilder extends DescribedResourceBuilder {
         return this;
     }
 
-    public LocationBuilder assignable(boolean isAssignable) {
-        this.isAssignable = isAssignable;
+    @Override
+    public LocationBuilder name(final String name) {
+        this.name = name;
         return this;
     }
 
-    @Override
-    public LocationBuilder description(String description) {
-        super.description(description);
+    public LocationBuilder assignable(boolean isAssignable) {
+        this.isAssignable = isAssignable;
         return this;
     }
 }

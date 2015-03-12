@@ -30,21 +30,23 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class HardwareFlavorBuilderTest {
 
-    HardwareFlavorBuilder hardwareFlavorBuilder;
+    private HardwareFlavorBuilder hardwareFlavorBuilder;
 
     @Before
     public void before() {
-        this.hardwareFlavorBuilder = new HardwareFlavorBuilder();
+        this.hardwareFlavorBuilder = HardwareFlavorBuilder.newBuilder();
     }
 
     @Test
     public void builderTest() {
         String id = "abcdefg";
+        String name = "hardware";
         int cores = 1;
         int mbRam = 1024;
 
-        HardwareFlavorImpl hardwareFlavor = this.hardwareFlavorBuilder.id(id).cores(cores).mbRam(mbRam).build();
-        assertThat(hardwareFlavor.getId(), equalTo(id));
+        HardwareFlavorImpl hardwareFlavor = this.hardwareFlavorBuilder.id(id).name(name).cores(cores).mbRam(mbRam).build();
+        assertThat(hardwareFlavor.id(), equalTo(id));
+        assertThat(hardwareFlavor.name(), equalTo(name));
         assertThat(hardwareFlavor.mbRam(), equalTo(mbRam));
         assertThat(hardwareFlavor.numberOfCores(), equalTo(cores));
     }

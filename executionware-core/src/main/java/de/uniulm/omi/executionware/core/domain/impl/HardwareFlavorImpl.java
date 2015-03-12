@@ -30,8 +30,8 @@ public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
     protected int cores;
     protected int ram;
 
-    public HardwareFlavorImpl(String id, int cores, int ram) {
-        super(id);
+    public HardwareFlavorImpl(String id, String name, int cores, int ram) {
+        super(id, name);
         checkArgument(cores > 0, "Cores must be > 0");
         checkArgument(ram > 0, "RAM must be > 0");
         this.cores = cores;
@@ -50,6 +50,6 @@ public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
 
     @Override
     public String toString() {
-        return String.format("Hardware(id: %s, cores: %s, ram: %s)", id, cores, ram);
+        return String.format("Hardware(id: %s, name: %s, cores: %s, ram: %s)", id, name, cores, ram);
     }
 }

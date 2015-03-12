@@ -35,6 +35,10 @@ public class JCloudsHardwareToHardwareFlavor implements OneWayConverter<Hardware
         for (Processor processor : hardware.getProcessors()) {
             cores += processor.getCores();
         }
-        return new HardwareFlavorBuilder().id(hardware.getId()).cores(cores).mbRam(hardware.getRam()).build();
+        return HardwareFlavorBuilder.newBuilder().id(hardware.getId()).name(generateName(cores, hardware.getRam())).cores(cores).mbRam(hardware.getRam()).build();
+    }
+
+    private String generateName(int cores, int ram) {
+        return String.valueOf(cores) + ram;
     }
 }

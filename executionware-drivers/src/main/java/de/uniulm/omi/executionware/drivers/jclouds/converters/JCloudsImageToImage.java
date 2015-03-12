@@ -29,6 +29,6 @@ public class JCloudsImageToImage implements OneWayConverter<org.jclouds.compute.
 
     @Override
     public Image apply(org.jclouds.compute.domain.Image image) {
-        return new ImageBuilder().id(image.getId()).description(image.getDescription()).build();
+        return ImageBuilder.newBuilder().id(image.getId()).name(image.getDescription()).build();
     }
 }

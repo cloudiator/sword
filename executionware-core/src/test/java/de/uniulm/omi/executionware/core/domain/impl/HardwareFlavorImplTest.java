@@ -30,58 +30,74 @@ import static org.hamcrest.Matchers.equalTo;
 public class HardwareFlavorImplTest {
 
     private final String idTest = "123456";
+    private final String nameTest = "name";
     private final int coresTest = 1;
     private final int ramTest = 1024;
     private HardwareFlavorImpl hardwareFlavor;
 
     @Before
     public void before() {
-        this.hardwareFlavor = new HardwareFlavorImpl(this.idTest, this.coresTest, this.ramTest);
+        this.hardwareFlavor = new HardwareFlavorImpl(idTest, nameTest, coresTest, ramTest);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void coresNotZeroTest() {
-        new HardwareFlavorImpl(this.idTest, 0, this.ramTest);
+        new HardwareFlavorImpl(idTest, nameTest, 0, ramTest);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void coresNotNegativeTest() {
-        new HardwareFlavorImpl(this.idTest, -1, this.ramTest);
+        new HardwareFlavorImpl(idTest, nameTest, -1, ramTest);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void ramNotZeroTest() {
-        new HardwareFlavorImpl(this.idTest, this.coresTest, 0);
+        new HardwareFlavorImpl(idTest, nameTest, coresTest, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void ramNotNegativeTest() {
-        new HardwareFlavorImpl(this.idTest, this.coresTest, -1);
+        new HardwareFlavorImpl(idTest, nameTest, coresTest, -1);
     }
 
     @Test(expected = NullPointerException.class)
     public void idNotNullTest() {
-        new HardwareFlavorImpl(null, this.coresTest, this.ramTest);
+        new HardwareFlavorImpl(null, nameTest, coresTest, ramTest);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void idNotEmptyTest() {
-        new HardwareFlavorImpl("", this.coresTest, this.ramTest);
+        new HardwareFlavorImpl("", nameTest, coresTest, ramTest);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nameNotNullTest() {
+        new HardwareFlavorImpl(idTest, null, coresTest, ramTest);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void nameNotEmptyTest() {
+        new HardwareFlavorImpl(idTest, "", coresTest, ramTest);
     }
 
     @Test
     public void getIdTest() {
-        assertThat(hardwareFlavor.getId(), equalTo(this.idTest));
+        assertThat(hardwareFlavor.id(), equalTo(idTest));
     }
 
     @Test
     public void getCoresTest() {
-        assertThat(hardwareFlavor.numberOfCores(), equalTo(this.coresTest));
+        assertThat(hardwareFlavor.numberOfCores(), equalTo(coresTest));
     }
 
     @Test
     public void getRamTest() {
-        assertThat(hardwareFlavor.mbRam(), equalTo(this.ramTest));
+        assertThat(hardwareFlavor.mbRam(), equalTo(ramTest));
+    }
+
+    @Test
+    public void getNameTest() {
+        assertThat(hardwareFlavor.name(), equalTo(nameTest));
     }
 
 }

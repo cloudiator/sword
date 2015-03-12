@@ -22,7 +22,6 @@ import com.google.common.base.Optional;
 import de.uniulm.omi.executionware.api.domain.LoginCredential;
 import de.uniulm.omi.executionware.api.domain.VirtualMachine;
 
-import javax.annotation.Nullable;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -30,7 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by daniel on 09.12.14.
  */
-public class VirtualMachineImpl extends DescribedResourceImpl implements VirtualMachine {
+public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
 
     //TODO: make immutable
     private final Set<String> publicIpAddresses;
@@ -40,8 +39,8 @@ public class VirtualMachineImpl extends DescribedResourceImpl implements Virtual
 
     private final Optional<LoginCredential> loginCredential;
 
-    public VirtualMachineImpl(String id, @Nullable String description, Set<String> publicIpAddresses, Set<String> privateIpAddresses, Optional<LoginCredential> loginCredential) {
-        super(id, description);
+    public VirtualMachineImpl(String id, String name, Set<String> publicIpAddresses, Set<String> privateIpAddresses, Optional<LoginCredential> loginCredential) {
+        super(id, name);
 
 
         checkNotNull(publicIpAddresses);
@@ -57,21 +56,21 @@ public class VirtualMachineImpl extends DescribedResourceImpl implements Virtual
     public String toString() {
         return String.format(
                 "VirtualMachine(id: %s, description: %s)",
-                this.id, this.description);
+                this.id, this.name);
     }
 
     @Override
-    public Set<String> getPublicAddresses() {
+    public Set<String> publicAddresses() {
         return this.publicIpAddresses;
     }
 
     @Override
-    public Set<String> getPrivateAddresses() {
+    public Set<String> privateAddresses() {
         return this.privateIpAddresses;
     }
 
     @Override
-    public Optional<LoginCredential> getLoginCredential() {
+    public Optional<LoginCredential> loginCredential() {
         return this.loginCredential;
     }
 }

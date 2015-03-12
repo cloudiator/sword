@@ -30,6 +30,6 @@ public class FlexiantImageToImage implements OneWayConverter<de.uniulm.omi.flexi
 
     @Override
     public Image apply(de.uniulm.omi.flexiant.domain.impl.Image image) {
-        return new ImageBuilder().id(image.getLocationUUID() + "/" + image.getId()).description(image.getName()).build();
+        return ImageBuilder.newBuilder().id(image.getLocationUUID() + "/" + image.getId()).name(image.getName()).build();
     }
 }

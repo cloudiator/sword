@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.executionware.core.domain.impl;
 
+import de.uniulm.omi.executionware.core.domain.builders.LocationBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,28 +32,63 @@ import static org.hamcrest.Matchers.nullValue;
 public class LocationImplTest {
 
     private final String idTest = "123456";
-    private final String descriptionTest = "This is a very fine location";
+    private final String nameTest = "This is a very fine location";
     private final boolean assignableTest = true;
     private LocationImpl location;
 
     @Before
     public void before() {
-        this.location = new LocationImpl(this.idTest, this.assignableTest, this.descriptionTest);
+        this.location = LocationBuilder
+                .newBuilder()
+                .id(idTest)
+                .name(nameTest)
+                .assignable(assignableTest)
+                .build();
     }
 
     @Test(expected = NullPointerException.class)
     public void idNotNullableTest() {
-        final LocationImpl location = new LocationImpl(null, this.assignableTest, this.descriptionTest);
+        final LocationImpl location = LocationBuilder
+                .newBuilder()
+                .id(null)
+                .name(nameTest)
+                .assignable(assignableTest)
+                .build();
     }
 
-    @Test
-    public void descriptionNullTest() {
-        final LocationImpl location = new LocationImpl(this.idTest, this.assignableTest, null);
+    @Test(expected = NullPointerException.class)
+    public void nameNotNullableTest() {
+        final LocationImpl location = LocationBuilder
+                .newBuilder()
+                .id(idTest)
+                .name(null)
+                .assignable(assignableTest)
+                .build();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void idNotEmptyTest() {
+        final LocationImpl location = LocationBuilder
+                .newBuilder()
+                .id("")
+                .name(nameTest)
+                .assignable(assignableTest)
+                .build();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void nameNotEmptyTest() {
+        final LocationImpl location = LocationBuilder
+                .newBuilder()
+                .id(idTest)
+                .name("")
+                .assignable(assignableTest)
+                .build();
     }
 
     @Test
     public void getIdTest() {
-        assertThat(this.location.getId(), equalTo(this.idTest));
+        assertThat(this.location.id(), equalTo(this.idTest));
     }
 
     @Test
@@ -61,20 +97,14 @@ public class LocationImplTest {
     }
 
     @Test
-    public void getDescriptionTest() {
-        assertThat(this.location.getDescription(), equalTo(this.descriptionTest));
-    }
-
-    @Test
-    public void getDescriptionNullTest() {
-        final LocationImpl location = new LocationImpl(this.idTest, this.assignableTest, null);
-        assertThat(location.getDescription(), nullValue());
+    public void getNameTest() {
+        assertThat(this.location.name(), equalTo(this.nameTest));
     }
 
     @Test
     public void toStringTest() {
         assertThat(this.location.toString().contains(this.idTest), equalTo(true));
-        assertThat(this.location.toString().contains(this.descriptionTest), equalTo(true));
+        assertThat(this.location.toString().contains(this.nameTest), equalTo(true));
         assertThat(this.location.toString().contains(String.valueOf(this.assignableTest)), equalTo(true));
     }
 

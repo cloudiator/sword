@@ -20,19 +20,17 @@ package de.uniulm.omi.executionware.core.domain.impl;
 
 import de.uniulm.omi.executionware.api.domain.Image;
 
-import javax.annotation.Nullable;
-
 /**
  * Created by daniel on 01.12.14.
  */
-public class ImageImpl extends DescribedResourceImpl implements Image {
+public class ImageImpl extends ResourceImpl implements Image {
 
-    public ImageImpl(String id, @Nullable String description) {
-        super(id, description);
+    public ImageImpl(String id, String name) {
+        super(id, name);
     }
 
     @Override
     public String toString() {
-        return String.format("Image(id: %s, description: %s)", id, description);
+        return String.format("Image(id: %s, name: %s)", id, name);
     }
 }

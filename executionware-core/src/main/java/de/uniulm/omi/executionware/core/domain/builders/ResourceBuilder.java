@@ -26,9 +26,15 @@ import de.uniulm.omi.executionware.api.domain.Resource;
 public abstract class ResourceBuilder {
 
     protected String id;
+    protected String name;
 
     public ResourceBuilder id(final String id) {
         this.id = id;
+        return this;
+    }
+
+    public ResourceBuilder name(final String name) {
+        this.name = name;
         return this;
     }
 

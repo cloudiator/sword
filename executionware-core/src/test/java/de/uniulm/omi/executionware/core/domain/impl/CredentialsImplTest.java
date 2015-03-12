@@ -60,11 +60,11 @@ public class CredentialsImplTest {
 
     @Test
     public void getUserTest() {
-        assertThat(this.credentials.getUser(), equalTo(this.userTest));
+        assertThat(this.credentials.user(), equalTo(this.userTest));
     }
 
     @Test
     public void getPasswordTest() {
-        assertThat(this.credentials.getPassword(), equalTo(this.passwordTest));
+        assertThat(this.credentials.password(), equalTo(this.passwordTest));
     }
 }

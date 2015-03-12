@@ -28,14 +28,28 @@ public class HardwareFlavorBuilder extends ResourceBuilder {
     private int cores;
     private int mbRam;
 
+    private HardwareFlavorBuilder() {
+        
+    }
+
+    public static HardwareFlavorBuilder newBuilder() {
+        return new HardwareFlavorBuilder();
+    }
+
     @Override
     public HardwareFlavorImpl build() {
-        return new HardwareFlavorImpl(this.id, this.cores, this.mbRam);
+        return new HardwareFlavorImpl(this.id, this.name, this.cores, this.mbRam);
     }
 
     @Override
     public HardwareFlavorBuilder id(String id) {
         super.id(id);
+        return this;
+    }
+
+    @Override
+    public HardwareFlavorBuilder name(final String name) {
+        this.name = name;
         return this;
     }
 

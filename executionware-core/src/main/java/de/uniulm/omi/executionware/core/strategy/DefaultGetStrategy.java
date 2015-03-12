@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.executionware.core;
+package de.uniulm.omi.executionware.core.strategy;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.executionware.api.domain.*;
@@ -42,7 +42,7 @@ public class DefaultGetStrategy<T extends Resource> implements GetStrategy<Strin
     @Override
     public T get(String s) {
         for (T t : supplier.get()) {
-            if (t.getId().equals(s)) {
+            if (t.id().equals(s)) {
                 return t;
             }
         }

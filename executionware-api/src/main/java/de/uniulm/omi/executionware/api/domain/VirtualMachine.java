@@ -25,12 +25,12 @@ import java.util.Set;
 /**
  * Created by daniel on 06.10.14.
  */
-public interface VirtualMachine extends DescribedResource {
+public interface VirtualMachine extends Resource {
 
-    public Set<String> getPublicAddresses();
+    public Set<String> publicAddresses();
 
-    public Set<String> getPrivateAddresses();
+    public Set<String> privateAddresses();
 
-    public Optional<LoginCredential> getLoginCredential();
+    public Optional<LoginCredential> loginCredential();
 
 }

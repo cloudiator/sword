@@ -30,7 +30,7 @@ public class FlexiantHardwareToHardwareFlavor implements OneWayConverter<Hardwar
 
     @Override
     public HardwareFlavor apply(Hardware hardware) {
-        return new HardwareFlavorBuilder()
+        return HardwareFlavorBuilder.newBuilder()
                 .id(hardware.getLocationUUID() + "/" + hardware.getId())
                 .cores(hardware.getCores())
                 .mbRam(hardware.getRam())

@@ -23,7 +23,15 @@ import de.uniulm.omi.executionware.core.domain.impl.ImageImpl;
 /**
  * Created by daniel on 01.12.14.
  */
-public class ImageBuilder extends DescribedResourceBuilder {
+public class ImageBuilder extends ResourceBuilder {
+
+    private ImageBuilder() {
+
+    }
+
+    public static ImageBuilder newBuilder() {
+        return new ImageBuilder();
+    }
 
     @Override
     public ImageBuilder id(String id) {
@@ -32,13 +40,13 @@ public class ImageBuilder extends DescribedResourceBuilder {
     }
 
     @Override
-    public ImageBuilder description(String description) {
-        super.description(description);
+    public ImageBuilder name(final String name) {
+        this.name = name;
         return this;
     }
 
     @Override
     public ImageImpl build() {
-        return new ImageImpl(this.id, this.description);
+        return new ImageImpl(this.id, this.name);
     }
 }

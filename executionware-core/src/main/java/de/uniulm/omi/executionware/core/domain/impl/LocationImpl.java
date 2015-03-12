@@ -25,19 +25,19 @@ import javax.annotation.Nullable;
 /**
  * Created by daniel on 03.12.14.
  */
-public class LocationImpl extends DescribedResourceImpl implements Location {
+public class LocationImpl extends ResourceImpl implements Location {
 
     private final boolean isAssignable;
 
-    public LocationImpl(String id, boolean isAssignable, @Nullable String description) {
-        super(id, description);
+    public LocationImpl(String id, String name, boolean isAssignable) {
+        super(id, name);
         this.isAssignable = isAssignable;
     }
 
 
     @Override
     public String toString() {
-        return String.format("Location(id: %s, assignable: %s, description: %s)", id, isAssignable, description);
+        return String.format("Location(id: %s, name: %s, assignable: %s)", id, name, isAssignable);
     }
 
     @Override

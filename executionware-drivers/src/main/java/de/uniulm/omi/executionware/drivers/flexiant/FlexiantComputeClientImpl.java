@@ -23,7 +23,6 @@ import de.uniulm.omi.executionware.api.ServiceConfiguration;
 import de.uniulm.omi.executionware.api.exceptions.DriverException;
 import de.uniulm.omi.flexiant.client.api.FlexiantException;
 import de.uniulm.omi.flexiant.domain.impl.*;
-import org.jclouds.ssh.SshClient;
 
 import java.util.Set;
 
@@ -40,8 +39,8 @@ public class FlexiantComputeClientImpl implements FlexiantComputeClient {
     public FlexiantComputeClientImpl(ServiceConfiguration serviceConfiguration) {
         flexiantComputeClient = new de.uniulm.omi.flexiant.client.compute.FlexiantComputeClient(
                 serviceConfiguration.getEndpoint(),
-                serviceConfiguration.getCredentials().getUser(),
-                serviceConfiguration.getCredentials().getPassword()
+                serviceConfiguration.getCredentials().user(),
+                serviceConfiguration.getCredentials().password()
         );
         this.serviceConfiguration = serviceConfiguration;
     }

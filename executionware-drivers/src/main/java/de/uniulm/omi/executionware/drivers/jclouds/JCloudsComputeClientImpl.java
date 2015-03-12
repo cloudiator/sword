@@ -53,7 +53,7 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
 
         this.computeServiceContext = ContextBuilder.newBuilder(serviceConfiguration.getProvider())
                 .endpoint(serviceConfiguration.getEndpoint())
-                .credentials(serviceConfiguration.getCredentials().getUser(), serviceConfiguration.getCredentials().getPassword())
+                .credentials(serviceConfiguration.getCredentials().user(), serviceConfiguration.getCredentials().password())
                 .modules(ImmutableSet.of(new LoggingModule(loggerFactory)))
                 .buildView(ComputeServiceContext.class);
 

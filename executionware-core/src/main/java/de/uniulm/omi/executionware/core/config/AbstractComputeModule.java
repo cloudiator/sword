@@ -32,7 +32,7 @@ import de.uniulm.omi.executionware.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.executionware.api.strategy.GetStrategy;
 import de.uniulm.omi.executionware.api.supplier.Supplier;
-import de.uniulm.omi.executionware.core.DefaultGetStrategy;
+import de.uniulm.omi.executionware.core.strategy.DefaultGetStrategy;
 
 import java.util.Set;
 

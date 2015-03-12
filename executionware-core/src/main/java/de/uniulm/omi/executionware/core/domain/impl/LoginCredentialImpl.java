@@ -48,17 +48,17 @@ public class LoginCredentialImpl implements LoginCredential {
     }
 
     @Override
-    public String getUsername() {
+    public String username() {
         return this.username;
     }
 
     @Override
-    public Optional<String> getPassword() {
+    public Optional<String> password() {
         return this.password;
     }
 
     @Override
-    public Optional<String> getPrivateKey() {
+    public Optional<String> privateKey() {
         return this.privateKey;
     }
 

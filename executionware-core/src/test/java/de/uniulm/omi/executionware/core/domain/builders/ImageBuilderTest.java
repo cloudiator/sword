@@ -30,20 +30,20 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class ImageBuilderTest {
 
-    ImageBuilder imageBuilder;
+    private ImageBuilder imageBuilder;
 
     @Before
     public void before() {
-        this.imageBuilder = new ImageBuilder();
+        this.imageBuilder = ImageBuilder.newBuilder();
     }
 
     @Test
     public void builderTest() {
         String id = "abcdefg";
-        String description = "This is a very fine image.";
-        ImageImpl image = this.imageBuilder.id(id).description(description).build();
-        assertThat(image.getId(), equalTo(id));
-        assertThat(image.getDescription(), equalTo(description));
+        String name = "This is a very fine image.";
+        ImageImpl image = this.imageBuilder.id(id).name(name).build();
+        assertThat(image.id(), equalTo(id));
+        assertThat(image.name(), equalTo(name));
     }
 
 }

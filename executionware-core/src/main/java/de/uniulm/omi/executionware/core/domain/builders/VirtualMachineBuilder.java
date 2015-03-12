@@ -30,7 +30,7 @@ import java.util.Set;
 /**
  * Created by daniel on 09.12.14.
  */
-public class VirtualMachineBuilder extends DescribedResourceBuilder {
+public class VirtualMachineBuilder extends ResourceBuilder {
 
     private final Set<String> publicIpAddresses;
     private final Set<String> privateIpAddresses;
@@ -48,13 +48,13 @@ public class VirtualMachineBuilder extends DescribedResourceBuilder {
 
     @Override
     public VirtualMachineBuilder id(final String id) {
-        super.id(id);
+        this.id = id;
         return this;
     }
 
     @Override
-    public VirtualMachineBuilder description(final String description) {
-        super.description(description);
+    public VirtualMachineBuilder name(final String name) {
+        this.name = name;
         return this;
     }
 
@@ -75,6 +75,6 @@ public class VirtualMachineBuilder extends DescribedResourceBuilder {
 
     @Override
     public VirtualMachine build() {
-        return new VirtualMachineImpl(this.id, this.description, publicIpAddresses, privateIpAddresses, Optional.fromNullable(loginCredential));
+        return new VirtualMachineImpl(this.id, this.name, publicIpAddresses, privateIpAddresses, Optional.fromNullable(loginCredential));
     }
 }

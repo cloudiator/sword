@@ -33,6 +33,6 @@ public class FlexiantLocationToLocation implements OneWayConverter<de.uniulm.omi
 
         final boolean assignable = location.getLocationScope().equals(LocationScope.VDC);
 
-        return new LocationBuilder().id(location.getId()).assignable(assignable).description(location.getName()).build();
+        return LocationBuilder.newBuilder().id(location.getId()).assignable(assignable).name(location.getName()).build();
     }
 }

@@ -43,7 +43,7 @@ public class JCloudsComputeMetadataToVirtualMachine implements OneWayConverter<C
     public VirtualMachine apply(final ComputeMetadata computeMetadata) {
 
         VirtualMachineBuilder virtualMachineBuilder = VirtualMachineBuilder.newBuilder();
-        virtualMachineBuilder.id(computeMetadata.getId()).description(computeMetadata.getName());
+        virtualMachineBuilder.id(computeMetadata.getId()).name(computeMetadata.getName());
 
         if(computeMetadata instanceof NodeMetadata) {
             ((NodeMetadata) computeMetadata).getPrivateAddresses().forEach(virtualMachineBuilder::addPrivateIpAddress);

@@ -43,12 +43,12 @@ public class CredentialsImpl implements Credentials {
     }
 
     @Override
-    public String getUser() {
+    public String user() {
         return this.user;
     }
 
     @Override
-    public String getPassword() {
+    public String password() {
         return this.password;
     }
 }

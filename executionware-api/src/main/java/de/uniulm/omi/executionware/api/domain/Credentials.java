@@ -23,8 +23,8 @@ package de.uniulm.omi.executionware.api.domain;
  */
 public interface Credentials {
 
-    public String getUser();
+    public String user();
 
-    public String getPassword();
+    public String password();
 
 }

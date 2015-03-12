@@ -20,6 +20,8 @@ package de.uniulm.omi.executionware.core.domain.impl;
 
 import de.uniulm.omi.executionware.api.domain.Resource;
 
+import javax.annotation.Nullable;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -29,20 +31,29 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public abstract class ResourceImpl implements Resource {
 
     protected final String id;
+    protected final String name;
 
-    public ResourceImpl(String id) {
+    public ResourceImpl(final String id, final String name) {
         checkNotNull(id);
         checkArgument(!id.isEmpty(), "ID must not be empty.");
         this.id = id;
+        checkNotNull(name);
+        checkArgument(!name.isEmpty(), "Name must not be empty.");
+        this.name = name;
     }
 
     @Override
-    public String getId() {
+    public String id() {
         return this.id;
     }
 
     @Override
+    public String name() {
+        return this.name;
+    }
+
+    @Override
     public String toString() {
-        return String.format("Resource(id: %s)", this.id);
+        return String.format("Resource(id: %s, name: %s)", this.id, this.name);
     }
 }

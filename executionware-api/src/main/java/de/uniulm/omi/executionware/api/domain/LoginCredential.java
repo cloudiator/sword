@@ -25,11 +25,11 @@ import com.google.common.base.Optional;
  */
 public interface LoginCredential {
 
-    public String getUsername();
+    public String username();
 
-    public Optional<String> getPassword();
+    public Optional<String> password();
 
-    public Optional<String> getPrivateKey();
+    public Optional<String> privateKey();
 
     public boolean isPasswordCredential();
 

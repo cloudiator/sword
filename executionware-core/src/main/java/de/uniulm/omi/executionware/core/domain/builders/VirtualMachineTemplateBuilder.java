@@ -33,7 +33,7 @@ public class VirtualMachineTemplateBuilder {
     private VirtualMachineTemplateBuilder() {
     }
 
-    public static VirtualMachineTemplateBuilder create() {
+    public static VirtualMachineTemplateBuilder newBuilder() {
         return new VirtualMachineTemplateBuilder();
     }
 

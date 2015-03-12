@@ -21,6 +21,6 @@ package de.uniulm.omi.executionware.api.domain;
 /**
  * Created by daniel on 06.10.14.
  */
-public interface Image extends DescribedResource {
+public interface Image extends Resource {
 
 }

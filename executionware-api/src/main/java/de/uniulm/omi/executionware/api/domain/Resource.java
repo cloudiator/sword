@@ -23,6 +23,8 @@ package de.uniulm.omi.executionware.api.domain;
  */
 public interface Resource {
 
-    public String getId();
+    public String id();
+
+    public String name();
 
 }

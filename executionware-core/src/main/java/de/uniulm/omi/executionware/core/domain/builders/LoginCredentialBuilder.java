@@ -35,7 +35,9 @@ public class LoginCredentialBuilder {
     @Nullable
     private String password;
 
-    private LoginCredentialBuilder(){}
+    private LoginCredentialBuilder() {
+
+    }
 
     public static LoginCredentialBuilder newBuilder() {
         return new LoginCredentialBuilder();
