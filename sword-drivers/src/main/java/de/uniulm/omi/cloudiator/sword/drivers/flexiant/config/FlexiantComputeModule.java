@@ -19,6 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.config;
 
 import com.google.inject.TypeLiteral;
+import de.uniulm.omi.cloudiator.flexiant.client.domain.Hardware;
+import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
 import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
@@ -38,8 +40,6 @@ import de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers.HardwareSupplie
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers.ImageSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers.LocationSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers.VirtualMachineSupplier;
-import de.uniulm.omi.flexiant.domain.impl.Hardware;
-import de.uniulm.omi.flexiant.domain.impl.Server;
 
 import java.util.Set;
 
@@ -78,12 +78,13 @@ public class FlexiantComputeModule extends AbstractComputeModule {
         super.configure();
 
         //bind the image converter
-        bind(new TypeLiteral<OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Image, Image>>() {
-        }).to(FlexiantImageToImage.class);
+        bind(
+            new TypeLiteral<OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image>>() {
+            }).to(FlexiantImageToImage.class);
 
         //bind the location converter
         bind(
-            new TypeLiteral<OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Location, Location>>() {
+            new TypeLiteral<OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location>>() {
             }).to(FlexiantLocationToLocation.class);
 
         //bind the hardware converter

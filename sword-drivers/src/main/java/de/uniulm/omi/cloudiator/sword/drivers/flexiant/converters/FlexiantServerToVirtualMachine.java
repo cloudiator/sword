@@ -19,10 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 
 
+import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
 import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.core.domain.builders.VirtualMachineBuilder;
-import de.uniulm.omi.flexiant.domain.impl.Server;
 
 /**
  * Created by daniel on 10.12.14.

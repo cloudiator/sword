@@ -19,15 +19,14 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant;
 
 import com.google.inject.ImplementedBy;
-import de.uniulm.omi.flexiant.domain.impl.*;
+import de.uniulm.omi.cloudiator.flexiant.client.domain.*;
 
 import java.util.Set;
 
 /**
  * Created by daniel on 04.12.14.
  */
-@ImplementedBy(FlexiantComputeClientImpl.class)
-public interface FlexiantComputeClient {
+@ImplementedBy(FlexiantComputeClientImpl.class) public interface FlexiantComputeClient {
 
     public Set<Image> listImages();
 

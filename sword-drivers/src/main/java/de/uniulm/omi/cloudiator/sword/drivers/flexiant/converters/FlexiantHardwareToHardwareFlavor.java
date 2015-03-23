@@ -18,10 +18,10 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 
+import de.uniulm.omi.cloudiator.flexiant.client.domain.Hardware;
 import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.core.domain.builders.HardwareFlavorBuilder;
-import de.uniulm.omi.flexiant.domain.impl.Hardware;
 
 /**
  * Created by daniel on 05.12.14.

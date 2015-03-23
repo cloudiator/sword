@@ -19,10 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant;
 
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.flexiant.client.api.FlexiantException;
+import de.uniulm.omi.cloudiator.flexiant.client.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.DriverException;
-import de.uniulm.omi.flexiant.client.api.FlexiantException;
-import de.uniulm.omi.flexiant.domain.impl.*;
 
 import java.util.Set;
 
@@ -32,13 +32,15 @@ import java.util.Set;
  */
 public class FlexiantComputeClientImpl implements FlexiantComputeClient {
 
-    private final de.uniulm.omi.flexiant.client.compute.FlexiantComputeClient flexiantComputeClient;
+    private final de.uniulm.omi.cloudiator.flexiant.client.compute.FlexiantComputeClient
+        flexiantComputeClient;
     private final ServiceConfiguration serviceConfiguration;
 
     @Inject public FlexiantComputeClientImpl(ServiceConfiguration serviceConfiguration) {
-        flexiantComputeClient = new de.uniulm.omi.flexiant.client.compute.FlexiantComputeClient(
-            serviceConfiguration.getEndpoint(), serviceConfiguration.getCredentials().user(),
-            serviceConfiguration.getCredentials().password());
+        flexiantComputeClient =
+            new de.uniulm.omi.cloudiator.flexiant.client.compute.FlexiantComputeClient(
+                serviceConfiguration.getEndpoint(), serviceConfiguration.getCredentials().user(),
+                serviceConfiguration.getCredentials().password());
         this.serviceConfiguration = serviceConfiguration;
     }
 

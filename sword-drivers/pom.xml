@@ -44,7 +44,7 @@
             <artifactId>jclouds-all</artifactId>
         </dependency>
         <dependency>
-            <groupId>de.uniulm.omi.flexiant</groupId>
+            <groupId>de.uniulm.omi.cloudiator.flexiant</groupId>
             <artifactId>flexiant-client</artifactId>
         </dependency>
     </dependencies>

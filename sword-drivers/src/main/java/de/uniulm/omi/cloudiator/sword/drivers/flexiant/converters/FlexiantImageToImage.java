@@ -28,9 +28,9 @@ import de.uniulm.omi.cloudiator.sword.core.domain.builders.ImageBuilder;
  * Created by daniel on 05.12.14.
  */
 public class FlexiantImageToImage
-    implements OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Image, Image> {
+    implements OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image> {
 
-    @Override public Image apply(de.uniulm.omi.flexiant.domain.impl.Image image) {
+    @Override public Image apply(de.uniulm.omi.cloudiator.flexiant.client.domain.Image image) {
         return ImageBuilder.newBuilder().id(image.getLocationUUID() + "/" + image.getId())
             .name(image.getName()).build();
     }

@@ -19,18 +19,19 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 
 
+import de.uniulm.omi.cloudiator.flexiant.client.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.core.domain.builders.LocationBuilder;
-import de.uniulm.omi.flexiant.domain.impl.LocationScope;
 
 /**
  * Created by daniel on 05.12.14.
  */
 public class FlexiantLocationToLocation
-    implements OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Location, Location> {
+    implements OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location> {
 
-    @Override public Location apply(de.uniulm.omi.flexiant.domain.impl.Location location) {
+    @Override
+    public Location apply(de.uniulm.omi.cloudiator.flexiant.client.domain.Location location) {
 
         final boolean assignable = location.getLocationScope().equals(LocationScope.VDC);
 

@@ -21,11 +21,11 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.flexiant.client.domain.Hardware;
 import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
-import de.uniulm.omi.flexiant.domain.impl.Hardware;
 
 import java.util.Set;
 

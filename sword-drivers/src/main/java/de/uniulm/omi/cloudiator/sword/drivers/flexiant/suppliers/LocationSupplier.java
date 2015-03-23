@@ -34,11 +34,11 @@ import java.util.Set;
 public class LocationSupplier implements Supplier<Set<Location>> {
 
     private final FlexiantComputeClient flexiantComputeClient;
-    private final OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Location, Location>
+    private final OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location>
         locationConverter;
 
     @Inject public LocationSupplier(FlexiantComputeClient flexiantComputeClient,
-        OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Location, Location> locationConverter) {
+        OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location> locationConverter) {
         this.flexiantComputeClient = flexiantComputeClient;
         this.locationConverter = locationConverter;
     }

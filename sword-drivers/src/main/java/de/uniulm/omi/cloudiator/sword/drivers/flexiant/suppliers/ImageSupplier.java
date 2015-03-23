@@ -34,10 +34,11 @@ import java.util.Set;
 public class ImageSupplier implements Supplier<Set<Image>> {
 
     private final FlexiantComputeClient flexiantComputeClient;
-    private final OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Image, Image> imageConverter;
+    private final OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image>
+        imageConverter;
 
     @Inject public ImageSupplier(FlexiantComputeClient flexiantComputeClient,
-        OneWayConverter<de.uniulm.omi.flexiant.domain.impl.Image, Image> imageConverter) {
+        OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image> imageConverter) {
         this.flexiantComputeClient = flexiantComputeClient;
         this.imageConverter = imageConverter;
     }
