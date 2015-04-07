@@ -43,13 +43,5 @@
             <groupId>de.uniulm.omi.cloudiator</groupId>
             <artifactId>sword-drivers</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
     </dependencies>
 </project>
