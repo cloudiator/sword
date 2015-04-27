@@ -47,12 +47,16 @@ public class Providers {
     }
 
     private static void registerDefaultProviders() {
+        //Openstack
         final Set<AbstractModule> openstackModules = new HashSet<>();
         openstackModules.add(new OpenstackComputeModule());
-        registerProvider(new ProviderConfiguration("openstack-nova", openstackModules, BaseComputeService.class));
+        registerProvider(new ProviderConfiguration("openstack-nova", openstackModules,
+            BaseComputeService.class));
+        //Flexiant
         final Set<AbstractModule> flexiantModules = new HashSet<>();
         flexiantModules.add(new FlexiantComputeModule());
-        registerProvider(new ProviderConfiguration("flexiant", flexiantModules, BaseComputeService.class));
+        registerProvider(
+            new ProviderConfiguration("flexiant", flexiantModules, BaseComputeService.class));
     }
 
     public static void registerProvider(ProviderConfiguration providerConfiguration) {
@@ -60,10 +64,13 @@ public class Providers {
         registry.put(providerConfiguration.getName(), providerConfiguration);
     }
 
-    public static ProviderConfiguration getConfigurationByName(String name) throws ProviderNotFoundException {
+    public static ProviderConfiguration getConfigurationByName(String name)
+        throws ProviderNotFoundException {
 
         if (!registry.containsKey(name)) {
-            throw new ProviderNotFoundException(String.format("Could not find provider %s. Available providers are: %s", name, registry.keySet()));
+            throw new ProviderNotFoundException(String
+                .format("Could not find provider %s. Available providers are: %s", name,
+                    registry.keySet()));
         }
 
         return registry.get(name);
