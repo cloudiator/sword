@@ -20,6 +20,8 @@ package de.uniulm.omi.cloudiator.sword.core.util;
 
 import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
 
+import javax.annotation.Nullable;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -32,24 +34,26 @@ public class IdScopeByLocations {
 
     }
 
-    public static IdScopedByLocation from(String locationId, String id) {
-        checkNotNull(locationId);
-        checkArgument(!locationId.isEmpty());
+    public static IdScopedByLocation from(@Nullable String locationId, String id) {
+        checkNotNull(id);
+        checkArgument(!id.isEmpty());
+        return new IdScopedByLocationImpl(locationId, id);
+    }
+
+    public static IdScopedByLocation from(String id) {
         checkNotNull(id);
         checkArgument(!id.isEmpty());
 
-        return new IdScopedByLocationImpl(id, locationId);
-    }
+        String[] parts = id.split(IdScopedByLocationImpl.DELIMITER);
 
-    public static IdScopedByLocation from(String idWithLocation) {
-        checkNotNull(idWithLocation);
-        checkArgument(!idWithLocation.isEmpty());
-
-        String[] parts = idWithLocation.split(IdScopedByLocationImpl.DELIMITER);
-
-        checkArgument(parts.length == 2);
-
-        return new IdScopedByLocationImpl(parts[0], parts[1]);
+        switch (parts.length) {
+            case 1:
+                return new IdScopedByLocationImpl(null, parts[0]);
+            case 2:
+                return new IdScopedByLocationImpl(parts[0], parts[1]);
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
 }
