@@ -32,7 +32,7 @@ public class HardwareFlavorImplTest {
     private final String idTest = "123456";
     private final String nameTest = "name";
     private final int coresTest = 1;
-    private final int ramTest = 1024;
+    private final long ramTest = 1024;
     private HardwareFlavorImpl hardwareFlavor;
 
     @Before

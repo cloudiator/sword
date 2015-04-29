@@ -24,5 +24,5 @@ package de.uniulm.omi.cloudiator.sword.api.domain;
 public interface HardwareFlavor extends Resource {
     int numberOfCores();
 
-    int mbRam();
+    long mbRam();
 }

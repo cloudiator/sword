@@ -26,7 +26,7 @@ import de.uniulm.omi.cloudiator.sword.core.domain.impl.HardwareFlavorImpl;
 public class HardwareFlavorBuilder extends ResourceBuilder {
 
     private int cores;
-    private int mbRam;
+    private long mbRam;
 
     private HardwareFlavorBuilder() {
         
@@ -58,7 +58,7 @@ public class HardwareFlavorBuilder extends ResourceBuilder {
         return this;
     }
 
-    public HardwareFlavorBuilder mbRam(int mbRam) {
+    public HardwareFlavorBuilder mbRam(long mbRam) {
         this.mbRam = mbRam;
         return this;
     }

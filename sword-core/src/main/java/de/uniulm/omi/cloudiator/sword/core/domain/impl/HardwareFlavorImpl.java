@@ -28,9 +28,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
 
     protected int cores;
-    protected int ram;
+    protected long ram;
 
-    public HardwareFlavorImpl(String id, String name, int cores, int ram) {
+    public HardwareFlavorImpl(String id, String name, int cores, long ram) {
         super(id, name);
         checkArgument(cores > 0, "Cores must be > 0");
         checkArgument(ram > 0, "RAM must be > 0");
@@ -44,7 +44,7 @@ public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
     }
 
     @Override
-    public int mbRam() {
+    public long mbRam() {
         return ram;
     }
 

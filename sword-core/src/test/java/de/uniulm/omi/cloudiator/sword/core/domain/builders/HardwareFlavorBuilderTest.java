@@ -42,7 +42,7 @@ public class HardwareFlavorBuilderTest {
         String id = "abcdefg";
         String name = "hardware";
         int cores = 1;
-        int mbRam = 1024;
+        long mbRam = 1024;
 
         HardwareFlavorImpl hardwareFlavor = this.hardwareFlavorBuilder.id(id).name(name).cores(cores).mbRam(mbRam).build();
         assertThat(hardwareFlavor.id(), equalTo(id));
