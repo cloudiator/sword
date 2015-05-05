@@ -50,6 +50,7 @@ public class RemoteConnectionImpl implements RemoteConnection {
 
     public int executeCommand(String command) {
 
+        //TODO: split commands for windows powershell commands
         int exitCode = this.overthereConnection.execute(CmdLine.build(command));
 
         return exitCode;
@@ -69,7 +70,7 @@ public class RemoteConnectionImpl implements RemoteConnection {
      */
     private void openWindowsConnection(LoginCredential loginCredential){
 
-        checkArgument(!loginCredential.password().isPresent());
+        checkArgument(loginCredential.password().isPresent());
         checkArgument(!loginCredential.password().get().isEmpty());
 
         this.setWindowsConnectionOptions(loginCredential.password().get());
