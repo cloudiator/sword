@@ -26,4 +26,6 @@ public class Constants {
     private Constants() {
     }
 
+    public static final String OS_TYPE_LINUX = "linux";
+    public static final String OS_TYPE_WINDWOS = "windows";
 }
