@@ -31,8 +31,11 @@ public class RemoteConnectionImpl implements RemoteConnection {
         checkNotNull(loginCredential);
         checkArgument(!loginCredential.username().isEmpty());
 
+        //setting general attributes for the RemoteConnection
         this.setGeneralConnectionOptions(remoteAddress, loginCredential.username());
 
+        //opens a OS specific RemoteConnection
+        //TODO: handle possible timeouts when opening the connection
         if(osType.equals(Constants.OS_TYPE_LINUX)){
 
             this.openLinuxConnection(loginCredential);
@@ -50,8 +53,10 @@ public class RemoteConnectionImpl implements RemoteConnection {
 
     public int executeCommand(String command) {
 
-        //TODO: split commands for windows powershell commands
-        int exitCode = this.overthereConnection.execute(CmdLine.build(command));
+        //split the command into separate commands otherwise Windows commands can't be recognized
+        String [] splittedCommands = command.split("\\s+");
+
+        int exitCode = this.overthereConnection.execute(CmdLine.build(splittedCommands));
 
         return exitCode;
 
