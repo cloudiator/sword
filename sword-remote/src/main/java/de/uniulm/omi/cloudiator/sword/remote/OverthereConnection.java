@@ -16,12 +16,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by Daniel Seybold on 04.05.2015.
  */
-public class RemoteConnectionImpl implements RemoteConnection {
+public class OverthereConnection implements RemoteConnection {
 
-    private final OverthereConnection overthereConnection;
+    private final com.xebialabs.overthere.OverthereConnection overthereConnection;
 
 
-    public RemoteConnectionImpl(OverthereConnection overthereConnection){
+    public OverthereConnection(com.xebialabs.overthere.OverthereConnection overthereConnection){
 
         checkNotNull(overthereConnection);
 

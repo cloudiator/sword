@@ -22,7 +22,7 @@ import com.google.common.base.Optional;
 import com.google.common.net.HostAndPort;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
-import de.uniulm.omi.cloudiator.sword.api.ssh.SshConnection;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 
 import javax.annotation.Nullable;
 
@@ -55,7 +55,7 @@ public interface ComputeService {
 
     public VirtualMachine createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
 
-    public SshConnection getSshConnection(HostAndPort hostAndPort);
+    public RemoteConnection getRemoteConnection(HostAndPort hostAndPort, OSFamily osFamily);
 
     public Optional<PublicIpService> getPublicIpService();
 }
