@@ -35,10 +35,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
         this.setGeneralConnectionOptions(remoteAddress, loginCredential.username());
 
         //opens a OS specific RemoteConnection
-        //TODO: handle possible timeouts when opening the connection
-        for (int i = 0; i < 5; i++) {
-
-        }
+        //TODO: handle possible timeouts when opening the connection, use delegator pattern, repeat 3 times
 
         switch (osFamily) {
             case UNIX:
@@ -76,7 +73,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
      * @param username
      */
     private void setGeneralConnectionOptions(String remoteAddress, String username) {
-
+        //TODO: handle port paramter
         this.connectionOptions.set(ConnectionOptions.ADDRESS, remoteAddress);
         this.connectionOptions.set(ConnectionOptions.USERNAME, username);
     }
