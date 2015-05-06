@@ -19,8 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.core.domain.builders;
 
 import com.google.common.base.Optional;
-import de.uniulm.omi.cloudiator.sword.core.domain.impl.LoginCredentialImpl;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.sword.core.domain.impl.LoginCredentialImpl;
 
 import javax.annotation.Nullable;
 
@@ -30,10 +30,8 @@ import javax.annotation.Nullable;
 public class LoginCredentialBuilder {
 
     private String username;
-    @Nullable
-    private String privateKey;
-    @Nullable
-    private String password;
+    @Nullable private String privateKey;
+    @Nullable private String password;
 
     private LoginCredentialBuilder() {
 
@@ -44,7 +42,8 @@ public class LoginCredentialBuilder {
     }
 
     public LoginCredential build() {
-        return new LoginCredentialImpl(this.username, Optional.fromNullable(this.privateKey), Optional.fromNullable(this.password));
+        return new LoginCredentialImpl(this.username, Optional.fromNullable(this.password),
+            Optional.fromNullable(this.privateKey));
     }
 
     public LoginCredentialBuilder username(String username) {
