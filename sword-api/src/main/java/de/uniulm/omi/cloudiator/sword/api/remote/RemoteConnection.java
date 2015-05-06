@@ -1,21 +1,9 @@
 package de.uniulm.omi.cloudiator.sword.api.remote;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
-
 /**
  * Created by Daniel Seybold on 04.05.2015.
  */
 public interface RemoteConnection {
-
-    /**
-     * Opens a RemoteConnection to a remote host
-     * @param remoteAddress
-     * @param osType
-     * @param loginCredential
-     * @param port the
-     * @return
-     */
-    public boolean open(String remoteAddress, String osType, LoginCredential loginCredential, int port);
 
     /**
      *

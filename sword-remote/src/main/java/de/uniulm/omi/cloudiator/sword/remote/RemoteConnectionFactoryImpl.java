@@ -1,7 +1,10 @@
-package de.uniulm.omi.cloudiator.sword.core.remote;
+package de.uniulm.omi.cloudiator.sword.remote;
 
 
-import com.xebialabs.overthere.*;
+import com.xebialabs.overthere.ConnectionOptions;
+import com.xebialabs.overthere.OperatingSystemFamily;
+import com.xebialabs.overthere.Overthere;
+import com.xebialabs.overthere.OverthereConnection;
 import com.xebialabs.overthere.cifs.CifsConnectionBuilder;
 import com.xebialabs.overthere.cifs.CifsConnectionType;
 import com.xebialabs.overthere.ssh.SshConnectionBuilder;
@@ -9,22 +12,20 @@ import com.xebialabs.overthere.ssh.SshConnectionType;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Created by Daniel Seybold on 04.05.2015.
+ * Created by Daniel Seybold on 06.05.2015.
  */
-public class RemoteConnectionImpl implements RemoteConnection {
+public class RemoteConnectionFactoryImpl implements RemoteConnectionFactory {
 
-    private OverthereConnection overthereConnection;
-    private ConnectionOptions connectionOptions = new ConnectionOptions();
+    private final ConnectionOptions connectionOptions = new ConnectionOptions();
 
-
-
-    public boolean open(String remoteAddress, String osType, LoginCredential loginCredential, int port) {
-
+    @Override
+    public RemoteConnection createRemoteConnection(String remoteAddress, String osType, LoginCredential loginCredential, int port) {
         checkNotNull(remoteAddress);
         checkArgument(!remoteAddress.isEmpty());
 
@@ -38,49 +39,34 @@ public class RemoteConnectionImpl implements RemoteConnection {
         //TODO: handle possible timeouts when opening the connection
         if(osType.equals(Constants.OS_TYPE_LINUX)){
 
-            this.openLinuxConnection(loginCredential);
-            return true;
+
+            return new RemoteConnectionImpl(this.openLinuxConnection(loginCredential));
 
         }else if(osType.equals(Constants.OS_TYPE_WINDWOS)){
-            this.openWindowsConnection(loginCredential);
-            return true;
+
+            return new RemoteConnectionImpl(this.openWindowsConnection(loginCredential));
         }else{
-            return false;
+            return null;
         }
 
-
     }
-
-    public int executeCommand(String command) {
-
-        //split the command into separate commands otherwise Windows commands can't be recognized
-        String [] splittedCommands = command.split("\\s+");
-
-        int exitCode = this.overthereConnection.execute(CmdLine.build(splittedCommands));
-
-        return exitCode;
-
-    }
-
-    public void close() {
-
-        this.overthereConnection.close();
-
-    }
-
 
     /**
      * Opens a RemoteConnection to a Windows server
      * @param loginCredential
+     * @return the Overthere Windows connection
+     *
      */
-    private void openWindowsConnection(LoginCredential loginCredential){
+    private OverthereConnection openWindowsConnection(LoginCredential loginCredential){
 
         checkArgument(loginCredential.password().isPresent());
         checkArgument(!loginCredential.password().get().isEmpty());
 
         this.setWindowsConnectionOptions(loginCredential.password().get());
 
-        this.overthereConnection  = Overthere.getConnection("cifs", this.connectionOptions);
+        OverthereConnection overthereConnection  = Overthere.getConnection("cifs", this.connectionOptions);
+
+        return overthereConnection;
 
     }
 
@@ -111,13 +97,15 @@ public class RemoteConnectionImpl implements RemoteConnection {
     /**
      * Opens a RemoteConnection to a Linux server
      * @param loginCredential
+     * @return the Overthere Linux connection
      */
-    private void openLinuxConnection(LoginCredential loginCredential){
+    private OverthereConnection openLinuxConnection(LoginCredential loginCredential){
 
         this.setLinuxConnectionOptions(loginCredential);
 
-        this.overthereConnection = Overthere.getConnection("ssh", this.connectionOptions);
+        OverthereConnection overthereConnection = Overthere.getConnection("ssh", this.connectionOptions);
 
+        return overthereConnection;
     }
 
     /**
@@ -133,7 +121,7 @@ public class RemoteConnectionImpl implements RemoteConnection {
         if(loginCredential.isPrivateKeyCredential()){
             checkArgument(!loginCredential.privateKey().get().isEmpty());
 
-            this.connectionOptions.set(SshConnectionBuilder.PRIVATE_KEY,loginCredential.privateKey().get());
+            this.connectionOptions.set(SshConnectionBuilder.PRIVATE_KEY, loginCredential.privateKey().get());
 
         }else{
             checkArgument(!loginCredential.password().get().isEmpty());
@@ -142,7 +130,4 @@ public class RemoteConnectionImpl implements RemoteConnection {
         }
 
     }
-
-
-
 }
