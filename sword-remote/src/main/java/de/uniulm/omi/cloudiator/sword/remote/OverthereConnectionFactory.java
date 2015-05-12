@@ -4,6 +4,7 @@ package de.uniulm.omi.cloudiator.sword.remote;
 import com.xebialabs.overthere.ConnectionOptions;
 import com.xebialabs.overthere.OperatingSystemFamily;
 import com.xebialabs.overthere.Overthere;
+import com.xebialabs.overthere.RuntimeIOException;
 import com.xebialabs.overthere.cifs.CifsConnectionBuilder;
 import com.xebialabs.overthere.cifs.CifsConnectionType;
 import com.xebialabs.overthere.ssh.SshConnectionBuilder;
@@ -23,6 +24,17 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
 
     private final ConnectionOptions connectionOptions = new ConnectionOptions();
 
+    /**
+     * An internal counter for the number of retry approaches for Overthere connections
+     */
+    private static final int CONNECTIONRETRYCOUNTER = 3;
+
+    /**
+     * the factor of increasing the timeout value for an Overthere connection, if a connection approach isn't successful
+     */
+    private static final int INCREASETIMEOUTFACTOR = 2;
+
+
     @Override
     public RemoteConnection createRemoteConnection(String remoteAddress, OSFamily osFamily, LoginCredential loginCredential, int port) {
         checkNotNull(remoteAddress);
@@ -31,12 +43,54 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
         checkNotNull(loginCredential);
         checkArgument(!loginCredential.username().isEmpty());
 
+        checkNotNull(port);
+        checkArgument(!(port == 0));
+
         //setting general attributes for the RemoteConnection
-        this.setGeneralConnectionOptions(remoteAddress, loginCredential.username());
+        this.setGeneralConnectionOptions(remoteAddress, loginCredential.username(), port);
 
         //opens a OS specific RemoteConnection
-        //TODO: handle possible timeouts when opening the connection, use delegator pattern, repeat 3 times
+        return this.createRemoteConnectionWithRetry(osFamily, loginCredential);
 
+    }
+
+    /**
+     * tries to open a Overthere connection and in case of a timeout retrying it for {@value #CONNECTIONRETRYCOUNTER}
+     * @param osFamily
+     * @param loginCredential
+     * @return
+     */
+    private RemoteConnection createRemoteConnectionWithRetry(OSFamily osFamily, LoginCredential loginCredential){
+
+        for(int i = 0; i < OverthereConnectionFactory.CONNECTIONRETRYCOUNTER; i++) {
+
+            try {
+                return this.createRemoteConnectionSpecific(osFamily, loginCredential);
+
+            }catch(RuntimeIOException e){
+                //TODO: log exeception and write number of approaches
+
+                //increase the Overthere connection timeout
+                if(!this.connectionOptions.containsKey(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS) ){
+                    this.connectionOptions.set(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS, ConnectionOptions.CONNECTION_TIMEOUT_MILLIS_DEFAULT * OverthereConnectionFactory.INCREASETIMEOUTFACTOR);
+                }else{
+                    int currentTimeoutValue = this.connectionOptions.get(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS);
+                    this.connectionOptions.set(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS, currentTimeoutValue * OverthereConnectionFactory.INCREASETIMEOUTFACTOR);
+                }
+
+            }
+        }
+
+        throw new RuntimeException("Unable to connect to host " + this.connectionOptions.get(ConnectionOptions.ADDRESS) + " after " + OverthereConnectionFactory.CONNECTIONRETRYCOUNTER + " approaches!");
+    }
+
+    /**
+     * Creates the operating system specific Overthere connection
+     * @param osFamily
+     * @param loginCredential
+     * @return
+     */
+    private RemoteConnection createRemoteConnectionSpecific(OSFamily osFamily, LoginCredential loginCredential){
         switch (osFamily) {
             case UNIX:
                 return new OverthereConnection(this.openLinuxConnection(loginCredential));
@@ -55,6 +109,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
      */
     private com.xebialabs.overthere.OverthereConnection openWindowsConnection(LoginCredential loginCredential) {
 
+        checkNotNull(loginCredential.password());
         checkArgument(loginCredential.password().isPresent());
         checkArgument(!loginCredential.password().get().isEmpty());
 
@@ -71,11 +126,13 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
      *
      * @param remoteAddress
      * @param username
+     * @param port
      */
-    private void setGeneralConnectionOptions(String remoteAddress, String username) {
-        //TODO: handle port paramter
+    private void setGeneralConnectionOptions(String remoteAddress, String username, int port) {
+
         this.connectionOptions.set(ConnectionOptions.ADDRESS, remoteAddress);
         this.connectionOptions.set(ConnectionOptions.USERNAME, username);
+        this.connectionOptions.set(ConnectionOptions.PORT, port);
     }
 
     /**
