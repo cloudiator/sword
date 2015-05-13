@@ -28,6 +28,8 @@ import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 
+import java.io.PrintWriter;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -48,13 +50,43 @@ public class OverthereConnection implements RemoteConnection {
 
     public int executeCommand(String command) {
 
+        checkNotNull(command);
+        checkArgument(!command.isEmpty());
+
         //split the command into separate commands otherwise Windows commands can't be recognized
         String [] splittedCommands = command.split("\\s+");
+        System.out.println(CmdLine.build(splittedCommands));
 
+        //String hack = "java -jar visor.jar -conf default.properties &> /dev/null &";
         int exitCode = this.overthereConnection.execute(CmdLine.build(splittedCommands));
-
+        //int exitCode = this.overthereConnection.execute(CmdLine.build().addRaw(hack));
         return exitCode;
 
+    }
+
+    public int writeFile(String pathAndFilename, String content, boolean setExecutable){
+
+        checkNotNull(pathAndFilename);
+        checkNotNull(content);
+        checkNotNull(setExecutable);
+
+        checkArgument(!pathAndFilename.isEmpty());
+        checkArgument(!content.isEmpty());
+
+
+        OverthereFile overthereFile = this.overthereConnection.getFile(pathAndFilename);
+        if(setExecutable){
+            overthereFile.setExecutable(setExecutable);
+        }
+
+        PrintWriter writer = new PrintWriter(overthereFile.getOutputStream());
+        try{
+            writer.print(content);
+        }finally {
+            writer.close();
+        }
+
+        return 0;
     }
 
     public void close() {
