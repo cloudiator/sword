@@ -13,6 +13,15 @@ public interface RemoteConnection {
     public int executeCommand(String command);
 
     /**
+     * Writes content to the specified file, creates the file if it doesn't exist
+     * @param pathAndFilename to the file
+     * @param content of the file to write
+     * @param setExecutable
+     * @return the exit value when the file is written
+     */
+    public int writeFile(String pathAndFilename, String content, boolean setExecutable);
+
+    /**
      * Closes the existing RemoteConnection
      */
     public void close();
