@@ -45,6 +45,7 @@
         <module>sword-core</module>
         <module>sword-drivers</module>
         <module>sword-service</module>
+        <module>sword-logging-log4j</module>
     </modules>
 
     <name>sword</name>

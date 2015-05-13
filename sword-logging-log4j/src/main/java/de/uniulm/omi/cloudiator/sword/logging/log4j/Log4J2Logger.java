@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.core.logging;
+package de.uniulm.omi.cloudiator.sword.logging.log4j;
 
 import de.uniulm.omi.cloudiator.sword.api.logging.Logger;
 import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;

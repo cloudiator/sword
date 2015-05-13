@@ -18,15 +18,21 @@
 
 package de.uniulm.omi.cloudiator.sword.core.logging;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.matcher.Matchers;
 import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
-import de.uniulm.omi.cloudiator.sword.core.config.LoggingModule;
+import de.uniulm.omi.cloudiator.sword.core.logging.LoggingTypeListener;
 
 /**
  * Created by daniel on 06.03.15.
  */
-public class Log4JLoggingModule extends LoggingModule {
+public abstract class LoggingModule extends AbstractModule {
+
     @Override
-    protected LoggerFactory getLoggerFactory() {
-        return new Log4J2Logger.Log4JLoggingFactory();
+    protected void configure() {
+        bindListener(Matchers.any(), new LoggingTypeListener(getLoggerFactory()));
+        bind(LoggerFactory.class).toInstance(getLoggerFactory());
     }
+
+    protected abstract LoggerFactory getLoggerFactory();
 }
