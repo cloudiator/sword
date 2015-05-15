@@ -19,19 +19,17 @@
 package de.uniulm.omi.cloudiator.sword.remote;
 
 
-import com.xebialabs.overthere.*;
-import com.xebialabs.overthere.cifs.CifsConnectionBuilder;
-import com.xebialabs.overthere.cifs.CifsConnectionType;
-import com.xebialabs.overthere.ssh.SshConnectionBuilder;
-import com.xebialabs.overthere.ssh.SshConnectionType;
-import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
+import com.xebialabs.overthere.CmdLine;
+import com.xebialabs.overthere.ConnectionOptions;
+import com.xebialabs.overthere.OverthereFile;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
+import com.xebialabs.overthere.OperatingSystemFamily;
 
 import java.io.PrintWriter;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
 
 /**
  * Created by Daniel Seybold on 04.05.2015.
@@ -53,13 +51,37 @@ public class OverthereConnection implements RemoteConnection {
         checkNotNull(command);
         checkArgument(!command.isEmpty());
 
+        switch ((OperatingSystemFamily)this.overthereConnection.getOptions().get(ConnectionOptions.OPERATING_SYSTEM)){
+            case WINDOWS:
+                return this.executeWindwosCommand(command);
+
+            case UNIX:
+                return this.executeLinuxCommand(command);
+            default:
+                throw new UnsupportedOperationException("Execution of RemoteConnection to given OSFamily (" + ConnectionOptions.OPERATING_SYSTEM.toString() + ") not supported.");
+        }
+
+
+    }
+
+    private int executeLinuxCommand(String command){
+
+        //wrong escaping of the characters
+        //int exitCode = this.overthereConnection.execute(CmdLine.build(splittedCommands));
+
+        //TODO: check why CmdLine.build(command) escapes characters in the wrong way
+        int exitCode = this.overthereConnection.execute(CmdLine.build().addRaw(command));
+
+        return exitCode;
+    }
+
+    private int executeWindwosCommand(String command){
+
         //split the command into separate commands otherwise Windows commands can't be recognized
         String [] splittedCommands = command.split("\\s+");
-        System.out.println(CmdLine.build(splittedCommands));
 
-        //String hack = "java -jar visor.jar -conf default.properties &> /dev/null &";
         int exitCode = this.overthereConnection.execute(CmdLine.build(splittedCommands));
-        //int exitCode = this.overthereConnection.execute(CmdLine.build().addRaw(hack));
+
         return exitCode;
 
     }

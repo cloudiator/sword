@@ -154,7 +154,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
     }
 
     /**
-     * Sets Windwos specific attributes
+     * Sets Windows specific attributes
      *
      * @param password
      */
