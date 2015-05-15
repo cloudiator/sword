@@ -16,23 +16,17 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.core.config;
+package de.uniulm.omi.cloudiator.sword.logging.log4j;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.matcher.Matchers;
 import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
-import de.uniulm.omi.cloudiator.sword.core.logging.LoggingTypeListener;
+import de.uniulm.omi.cloudiator.sword.core.logging.LoggingModule;
 
 /**
  * Created by daniel on 06.03.15.
  */
-public abstract class LoggingModule extends AbstractModule {
-
+public class Log4JLoggingModule extends LoggingModule {
     @Override
-    protected void configure() {
-        bindListener(Matchers.any(), new LoggingTypeListener(getLoggerFactory()));
-        bind(LoggerFactory.class).toInstance(getLoggerFactory());
+    protected LoggerFactory getLoggerFactory() {
+        return new Log4J2Logger.Log4JLoggingFactory();
     }
-
-    protected abstract LoggerFactory getLoggerFactory();
 }

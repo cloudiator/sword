@@ -27,7 +27,7 @@ import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 import de.uniulm.omi.cloudiator.sword.api.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.core.config.BaseModule;
-import de.uniulm.omi.cloudiator.sword.core.config.LoggingModule;
+import de.uniulm.omi.cloudiator.sword.core.logging.LoggingModule;
 import de.uniulm.omi.cloudiator.sword.core.logging.NullLoggingModule;
 import de.uniulm.omi.cloudiator.sword.remote.OverthereModule;
 import de.uniulm.omi.cloudiator.sword.service.providers.ProviderConfiguration;
