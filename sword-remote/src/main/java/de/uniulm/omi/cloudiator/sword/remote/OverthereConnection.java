@@ -77,10 +77,12 @@ public class OverthereConnection implements RemoteConnection {
 
     private int executeWindwosCommand(String command){
 
+        //TODO: check why the Overthere encoding doesn't work for Windows and Linux!
         //split the command into separate commands otherwise Windows commands can't be recognized
         String [] splittedCommands = command.split("\\s+");
-
         int exitCode = this.overthereConnection.execute(CmdLine.build(splittedCommands));
+
+        //int exitCode = this.overthereConnection.execute(CmdLine.build().addRaw(command));
 
         return exitCode;
 
@@ -95,7 +97,22 @@ public class OverthereConnection implements RemoteConnection {
         checkArgument(!pathAndFilename.isEmpty());
         checkArgument(!content.isEmpty());
 
+        //TODO: check again if windows wrtieFile works or build a switch case instead
 
+        switch ((OperatingSystemFamily)this.overthereConnection.getOptions().get(ConnectionOptions.OPERATING_SYSTEM)){
+            case WINDOWS:
+                return this.writeFileToWindows(pathAndFilename, content);
+
+            case UNIX:
+                return this.writeFileToUnix(pathAndFilename, content, setExecutable);
+            default:
+                throw new UnsupportedOperationException("Execution of RemoteConnection.writeFile to given OSFamily (" + ConnectionOptions.OPERATING_SYSTEM.toString() + ") not supported.");
+        }
+
+
+    }
+
+    private int writeFileToUnix(String pathAndFilename, String content, boolean setExecutable){
         OverthereFile overthereFile = this.overthereConnection.getFile(pathAndFilename);
         if(setExecutable){
             overthereFile.setExecutable(setExecutable);
@@ -110,6 +127,18 @@ public class OverthereConnection implements RemoteConnection {
 
         return 0;
     }
+
+    private int writeFileToWindows(String pathAndFilename, String content){
+
+        String powershellContent = content.replaceAll(System.getProperty("line.separator"), "$( [System.Environment]::NewLine )");
+        //System.out.println(powershellContent);
+        //return 0;
+        //TODO: replace \n with powershell newlines
+        int returnCode = this.executeWindwosCommand("powershell -command New-Item "+pathAndFilename+" -type file -force -value \""+powershellContent+"\"");
+        return returnCode;
+    }
+
+
 
     public void close() {
 
