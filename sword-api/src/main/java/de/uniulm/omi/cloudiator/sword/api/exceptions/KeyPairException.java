@@ -6,7 +6,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -16,18 +16,29 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.api.strategy;
-
-import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
+package de.uniulm.omi.cloudiator.sword.api.exceptions;
 
 /**
- * Created by daniel on 19.01.15.
+ * Created by daniel on 19.05.15.
  */
-public interface PublicIpStrategy {
+public class KeyPairException extends Exception {
+    public KeyPairException() {
+    }
 
-    public String assignPublicIpToVirtualMachine(String virtualMachineId) throws PublicIpException;
+    public KeyPairException(String message) {
+        super(message);
+    }
 
-    public void removePublicIpFromVirtualMachine(String virtualMachineId, String address)
-        throws PublicIpException;
+    public KeyPairException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
+    public KeyPairException(Throwable cause) {
+        super(cause);
+    }
+
+    public KeyPairException(String message, Throwable cause, boolean enableSuppression,
+        boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

@@ -6,7 +6,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -16,18 +16,23 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.api.strategy;
+package de.uniulm.omi.cloudiator.sword.api.extensions;
 
-import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
+import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
+import de.uniulm.omi.cloudiator.sword.api.exceptions.KeyPairException;
 
 /**
- * Created by daniel on 19.01.15.
+ * Created by daniel on 18.05.15.
  */
-public interface PublicIpStrategy {
+public interface KeyPairService {
 
-    public String assignPublicIpToVirtualMachine(String virtualMachineId) throws PublicIpException;
+    KeyPair create(String name) throws KeyPairException;
 
-    public void removePublicIpFromVirtualMachine(String virtualMachineId, String address)
-        throws PublicIpException;
+    KeyPair create(String name, String publicKey) throws KeyPairException;
+
+    boolean delete(String name) throws KeyPairException;
+
+    KeyPair get(String name) throws KeyPairException;
+
 
 }

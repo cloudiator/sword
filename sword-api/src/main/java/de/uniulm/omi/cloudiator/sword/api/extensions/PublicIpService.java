@@ -18,11 +18,13 @@
 
 package de.uniulm.omi.cloudiator.sword.api.extensions;
 
+import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
+
 /**
  * Created by daniel on 16.01.15.
  */
 public interface PublicIpService {
-    public String addPublicIp(String virtualMachineId);
+    public String addPublicIp(String virtualMachineId) throws PublicIpException;
 
-    public void removePublicIp(String virtualMachineId, String address);
+    public void removePublicIp(String virtualMachineId, String address) throws PublicIpException;
 }

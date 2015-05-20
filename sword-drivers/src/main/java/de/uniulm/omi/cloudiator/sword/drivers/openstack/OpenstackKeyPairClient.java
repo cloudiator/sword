@@ -6,7 +6,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -16,18 +16,25 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.api.strategy;
+package de.uniulm.omi.cloudiator.sword.drivers.openstack;
 
-import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
+import com.google.inject.ImplementedBy;
+import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 
 /**
- * Created by daniel on 19.01.15.
+ * Created by daniel on 18.05.15.
  */
-public interface PublicIpStrategy {
+@ImplementedBy(OpenstackMultiRegionKeyPairClient.class) public interface OpenstackKeyPairClient {
 
-    public String assignPublicIpToVirtualMachine(String virtualMachineId) throws PublicIpException;
+    boolean isAvailable();
 
-    public void removePublicIpFromVirtualMachine(String virtualMachineId, String address)
-        throws PublicIpException;
+    KeyPair create(String name);
 
+    KeyPair createWithPublicKey(String name, String publicKey);
+
+    boolean delete(String name);
+
+    KeyPair get(String name);
+
+    Iterable<KeyPair> list();
 }

@@ -73,6 +73,11 @@
                 <version>${jclouds.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.jclouds</groupId>
+                <artifactId>jclouds-compute</artifactId>
+                <version>${jclouds.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>de.uniulm.omi.cloudiator.flexiant</groupId>
                 <artifactId>flexiant-client</artifactId>
                 <version>${flexiant.version}</version>

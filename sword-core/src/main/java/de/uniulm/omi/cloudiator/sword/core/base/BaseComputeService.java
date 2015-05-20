@@ -23,6 +23,7 @@ import com.google.common.net.HostAndPort;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.api.ssh.SshConnection;
@@ -51,6 +52,7 @@ public class BaseComputeService implements ComputeService {
     private final SshConnectionFactory sshConnectionFactory;
     private final ServiceConfiguration serviceConfiguration;
     private final Optional<PublicIpService> publicIpService;
+    private final Optional<KeyPairService> keyPairService;
     private final GetStrategy<String, Image> imageGetStrategy;
     private final GetStrategy<String, Location> locationGetStrategy;
     private final GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy;
@@ -67,7 +69,7 @@ public class BaseComputeService implements ComputeService {
         CreateVirtualMachineStrategy createVirtualMachineStrategy,
         DeleteVirtualMachineStrategy deleteVirtualMachineStrategy,
         SshConnectionFactory sshConnectionFactory, ServiceConfiguration serviceConfiguration,
-        Optional<PublicIpService> publicIpService) {
+        Optional<PublicIpService> publicIpService, Optional<KeyPairService> keyPairService) {
 
         checkNotNull(imageSupplier);
         checkNotNull(locationSupplier);
@@ -78,6 +80,7 @@ public class BaseComputeService implements ComputeService {
         checkNotNull(sshConnectionFactory);
         checkNotNull(serviceConfiguration);
         checkNotNull(publicIpService);
+        checkNotNull(keyPairService);
         checkNotNull(imageGetStrategy);
         checkNotNull(locationGetStrategy);
         checkNotNull(hardwareFlavorGetStrategy);
@@ -91,6 +94,7 @@ public class BaseComputeService implements ComputeService {
         this.sshConnectionFactory = sshConnectionFactory;
         this.serviceConfiguration = serviceConfiguration;
         this.publicIpService = publicIpService;
+        this.keyPairService = keyPairService;
         this.imageGetStrategy = imageGetStrategy;
         this.locationGetStrategy = locationGetStrategy;
         this.hardwareFlavorGetStrategy = hardwareFlavorGetStrategy;
@@ -109,37 +113,37 @@ public class BaseComputeService implements ComputeService {
 
     @Override @Nullable public Location getLocation(String id) {
         checkNotNull(id);
-        return this.locationGetStrategy.get(id);
+        return locationGetStrategy.get(id);
     }
 
     @Override @Nullable public HardwareFlavor getHardwareFlavor(String id) {
         checkNotNull(id);
-        return this.hardwareFlavorGetStrategy.get(id);
+        return hardwareFlavorGetStrategy.get(id);
     }
 
     @Override public Iterable<HardwareFlavor> listHardwareFlavors() {
-        return this.hardwareFlavorSupplier.get();
+        return hardwareFlavorSupplier.get();
     }
 
     @Override public Iterable<Image> listImages() {
-        return this.imageSupplier.get();
+        return imageSupplier.get();
     }
 
     @Override public Iterable<Location> listLocations() {
-        return this.locationSupplier.get();
+        return locationSupplier.get();
     }
 
     @Override public Iterable<VirtualMachine> listVirtualMachines() {
-        return this.virtualMachineSupplier.get();
+        return virtualMachineSupplier.get();
     }
 
     @Override public void deleteVirtualMachine(String virtualMachineId) {
-        this.deleteVirtualMachineStrategy.apply(virtualMachineId);
+        deleteVirtualMachineStrategy.apply(virtualMachineId);
     }
 
     @Override public VirtualMachine createVirtualMachine(
         final VirtualMachineTemplate virtualMachineTemplate) {
-        return this.createVirtualMachineStrategy.apply(virtualMachineTemplate);
+        return createVirtualMachineStrategy.apply(virtualMachineTemplate);
     }
 
     @Override public SshConnection getSshConnection(HostAndPort hostAndPort) {
@@ -148,6 +152,10 @@ public class BaseComputeService implements ComputeService {
     }
 
     @Override public Optional<PublicIpService> getPublicIpService() {
-        return this.publicIpService;
+        return publicIpService;
+    }
+
+    @Override public Optional<KeyPairService> getKeyPairService() {
+        return keyPairService;
     }
 }

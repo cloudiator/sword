@@ -20,9 +20,16 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.config;
 
 import com.google.common.base.Optional;
 import com.google.inject.Injector;
+import com.google.inject.TypeLiteral;
+import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.NovaKeyPairToKeypair;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.extendsions.OpenstackKeyPairService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extendsions.OpenstackPublicIpService;
+import org.jclouds.openstack.nova.v2_0.NovaApi;
+import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 
 
 /**
@@ -32,10 +39,17 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
 
     @Override protected void configure() {
         super.configure();
-        bind(PublicIpService.class).to(OpenstackPublicIpService.class);
+        bind(NovaApi.class).toProvider(NovaApiProvider.class);
+        bind(
+            new TypeLiteral<OneWayConverter<KeyPair, de.uniulm.omi.cloudiator.sword.api.domain.KeyPair>>() {
+            }).to(NovaKeyPairToKeypair.class);
     }
 
     @Override protected Optional<PublicIpService> provideFloatingIpService(Injector injector) {
         return Optional.fromNullable(injector.getInstance(OpenstackPublicIpService.class));
+    }
+
+    @Override protected Optional<KeyPairService> provideKeyPairService(Injector injector) {
+        return Optional.fromNullable(injector.getInstance(OpenstackKeyPairService.class));
     }
 }

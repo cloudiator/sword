@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.api.service;
 import com.google.common.base.Optional;
 import com.google.common.net.HostAndPort;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.ssh.SshConnection;
 
@@ -31,31 +32,29 @@ import javax.annotation.Nullable;
  */
 public interface ComputeService {
 
-    @Nullable
-    public Image getImage(String id);
+    @Nullable Image getImage(String id);
 
-    @Nullable
-    public VirtualMachine getVirtualMachine(String id);
+    @Nullable VirtualMachine getVirtualMachine(String id);
 
-    @Nullable
-    public Location getLocation(String id);
+    @Nullable Location getLocation(String id);
 
-    @Nullable
-    public HardwareFlavor getHardwareFlavor(String id);
+    @Nullable HardwareFlavor getHardwareFlavor(String id);
 
-    public Iterable<HardwareFlavor> listHardwareFlavors();
+    Iterable<HardwareFlavor> listHardwareFlavors();
 
-    public Iterable<Image> listImages();
+    Iterable<Image> listImages();
 
-    public Iterable<Location> listLocations();
+    Iterable<Location> listLocations();
 
-    public Iterable<VirtualMachine> listVirtualMachines();
+    Iterable<VirtualMachine> listVirtualMachines();
 
-    public void deleteVirtualMachine(String virtualMachineId);
+    void deleteVirtualMachine(String virtualMachineId);
 
-    public VirtualMachine createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
+    VirtualMachine createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
 
-    public SshConnection getSshConnection(HostAndPort hostAndPort);
+    SshConnection getSshConnection(HostAndPort hostAndPort);
 
-    public Optional<PublicIpService> getPublicIpService();
+    Optional<PublicIpService> getPublicIpService();
+
+    Optional<KeyPairService> getKeyPairService();
 }
