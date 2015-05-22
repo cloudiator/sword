@@ -112,6 +112,14 @@ public class OverthereConnection implements RemoteConnection {
 
     }
 
+
+    /**
+     * Using the Overthere method to write a file to the Linux filesystem
+     * @param pathAndFilename
+     * @param content
+     * @param setExecutable
+     * @return
+     */
     private int writeFileToUnix(String pathAndFilename, String content, boolean setExecutable){
         OverthereFile overthereFile = this.overthereConnection.getFile(pathAndFilename);
         if(setExecutable){
@@ -128,14 +136,25 @@ public class OverthereConnection implements RemoteConnection {
         return 0;
     }
 
+    /**
+     * Writes a file to the Windows filesystem, using simple echo >> command to avoid escaping/line break issues
+     * Original Overthere writeFile method didn't work for windows
+     * @param pathAndFilename the absolute path to the file and filename
+     * @param content of the file to write
+     * @return
+     */
     private int writeFileToWindows(String pathAndFilename, String content){
 
-        String powershellContent = content.replaceAll(System.getProperty("line.separator"), "$( [System.Environment]::NewLine )");
-        //System.out.println(powershellContent);
-        //return 0;
-        //TODO: replace \n with powershell newlines
-        int returnCode = this.executeWindwosCommand("powershell -command New-Item "+pathAndFilename+" -type file -force -value \""+powershellContent+"\"");
-        return returnCode;
+        //spilt at newline
+        String[] splittedContent = content.split("\\r?\\n");
+
+        //use plain CMD commands to avoid escaping issues with powershell
+        for(String line : splittedContent){
+            this.executeCommand("echo " + line + " >> " + pathAndFilename);
+        }
+
+        return 0;
+
     }
 
 
