@@ -148,9 +148,9 @@ public class OverthereConnection implements RemoteConnection {
         //spilt at newline
         String[] splittedContent = content.split("\\r?\\n");
 
-        //use plain CMD commands to avoid escaping issues with powershell
+        //use powershell Add-Content to avoid line break issues with windows in config file
         for(String line : splittedContent){
-            this.executeCommand("echo " + line + " >> " + pathAndFilename);
+            this.executeCommand("powershell -command  Add-Content " +pathAndFilename+" '"+ line +"'");
         }
 
         return 0;
