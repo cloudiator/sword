@@ -52,6 +52,11 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
      */
     private static final int INCREASETIMEOUTFACTOR = 2;
 
+    /**
+     * An extendet timeout for WinRm connections (default timeout is PT60.000S)
+     */
+    private static final String EXTENDEDWINRMTIMEOUT = "PT120.000S";
+
 
     @Override
     public RemoteConnection createRemoteConnection(String remoteAddress, OSFamily osFamily, LoginCredential loginCredential, int port) {
@@ -164,6 +169,8 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
         this.connectionOptions.set(ConnectionOptions.OPERATING_SYSTEM, OperatingSystemFamily.WINDOWS);
         //CifsConnectionType WINRM_NATIVE is only supported on Windows hosts, use instead WINRM_INTERNAL
         this.connectionOptions.set(CifsConnectionBuilder.CONNECTION_TYPE, CifsConnectionType.WINRM_INTERNAL);
+        //set a higher timeout for WindowsConnections
+        this.connectionOptions.set(CifsConnectionBuilder.WINRM_TIMEMOUT, OverthereConnectionFactory.EXTENDEDWINRMTIMEOUT);
 
     }
 
