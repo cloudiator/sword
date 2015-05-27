@@ -51,15 +51,23 @@ public class OverthereConnection implements RemoteConnection {
         checkNotNull(command);
         checkArgument(!command.isEmpty());
 
+        int returnCode;
+
         switch ((OperatingSystemFamily)this.overthereConnection.getOptions().get(ConnectionOptions.OPERATING_SYSTEM)){
             case WINDOWS:
-                return this.executeWindwosCommand(command);
+                returnCode =  this.executeWindwosCommand(command);
+                this.checkReturnCode(returnCode, command, OperatingSystemFamily.WINDOWS);
+                return returnCode;
 
             case UNIX:
-                return this.executeLinuxCommand(command);
+                returnCode = this.executeLinuxCommand(command);
+                this.checkReturnCode(returnCode, command, OperatingSystemFamily.UNIX);
+                return returnCode;
             default:
                 throw new UnsupportedOperationException("Execution of RemoteConnection to given OSFamily (" + ConnectionOptions.OPERATING_SYSTEM.toString() + ") not supported.");
         }
+
+
 
 
     }
@@ -155,6 +163,21 @@ public class OverthereConnection implements RemoteConnection {
 
         return 0;
 
+    }
+
+
+    private void checkReturnCode(int returnCode, String command, OperatingSystemFamily operatingSystemFamily){
+
+        checkNotNull(returnCode);
+        checkNotNull(command);
+        checkNotNull(operatingSystemFamily);
+
+        checkArgument(!command.isEmpty());
+
+
+        if(returnCode != 0){
+            throw new RuntimeException("RemoteConnection command failed on " + operatingSystemFamily.toString() + " host: " + command);
+        }
     }
 
 
