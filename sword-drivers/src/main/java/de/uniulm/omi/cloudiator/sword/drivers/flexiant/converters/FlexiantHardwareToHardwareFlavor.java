@@ -29,8 +29,10 @@ import de.uniulm.omi.cloudiator.sword.core.domain.builders.HardwareFlavorBuilder
 public class FlexiantHardwareToHardwareFlavor implements OneWayConverter<Hardware, HardwareFlavor> {
 
     @Override public HardwareFlavor apply(Hardware hardware) {
-        return HardwareFlavorBuilder.newBuilder()
-            .id(hardware.getLocationUUID() + "/" + hardware.getId()).cores(hardware.getCores())
+
+        String id = hardware.getLocationUUID() + "/" + hardware.getId();
+
+        return HardwareFlavorBuilder.newBuilder().id(id).name(id).cores(hardware.getCores())
             .mbRam(hardware.getRam()).build();
     }
 }
