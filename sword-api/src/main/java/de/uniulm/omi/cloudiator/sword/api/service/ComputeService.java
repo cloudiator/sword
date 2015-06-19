@@ -25,34 +25,17 @@ import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.ssh.SshConnection;
 
-import javax.annotation.Nullable;
-
 /**
  * Created by daniel on 29.10.14.
  */
-public interface ComputeService {
-
-    @Nullable Image getImage(String id);
-
-    @Nullable VirtualMachine getVirtualMachine(String id);
-
-    @Nullable Location getLocation(String id);
-
-    @Nullable HardwareFlavor getHardwareFlavor(String id);
-
-    Iterable<HardwareFlavor> listHardwareFlavors();
-
-    Iterable<Image> listImages();
-
-    Iterable<Location> listLocations();
-
-    Iterable<VirtualMachine> listVirtualMachines();
+public interface ComputeService<H extends HardwareFlavor, I extends Image, L extends Location, V extends VirtualMachine>
+    extends DiscoveryService<H, I, L, V> {
 
     void deleteVirtualMachine(String virtualMachineId);
 
-    VirtualMachine createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
+    V createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
 
-    SshConnection getSshConnection(HostAndPort hostAndPort);
+    SshConnection getSshConnection(HostAndPort hostAndPort, LoginCredential loginCredential);
 
     Optional<PublicIpService> getPublicIpService();
 

@@ -41,7 +41,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by daniel on 02.12.14.
  */
-public class BaseComputeService implements ComputeService {
+public class BaseComputeService
+    implements ComputeService<HardwareFlavor, Image, Location, VirtualMachine> {
 
     private final Supplier<Set<Image>> imageSupplier;
     private final Supplier<Set<Location>> locationSupplier;
@@ -146,9 +147,9 @@ public class BaseComputeService implements ComputeService {
         return createVirtualMachineStrategy.apply(virtualMachineTemplate);
     }
 
-    @Override public SshConnection getSshConnection(HostAndPort hostAndPort) {
-        return this.sshConnectionFactory
-            .create(hostAndPort, serviceConfiguration.getLoginCredential());
+    @Override public SshConnection getSshConnection(HostAndPort hostAndPort,
+        LoginCredential loginCredential) {
+        return this.sshConnectionFactory.create(hostAndPort, loginCredential);
     }
 
     @Override public Optional<PublicIpService> getPublicIpService() {

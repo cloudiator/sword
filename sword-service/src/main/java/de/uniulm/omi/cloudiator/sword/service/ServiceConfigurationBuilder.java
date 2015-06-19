@@ -32,7 +32,6 @@ public class ServiceConfigurationBuilder {
     private String password;
     private String provider;
     private String nodeGroup;
-    private LoginCredential loginCredential;
 
     public ServiceConfigurationBuilder endpoint(String endpoint) {
         this.endpoint = endpoint;
@@ -59,13 +58,8 @@ public class ServiceConfigurationBuilder {
         return this;
     }
 
-    public ServiceConfigurationBuilder loginCredential(LoginCredential loginCredential) {
-        this.loginCredential = loginCredential;
-        return this;
-    }
-
     public ServiceConfiguration build() {
-        return new ServiceConfigurationImpl(this.provider, this.endpoint, new CredentialsImpl(username, password), this.nodeGroup, this.loginCredential);
+        return new ServiceConfigurationImpl(this.provider, this.endpoint, new CredentialsImpl(username, password), this.nodeGroup);
     }
 
 }

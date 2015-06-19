@@ -19,20 +19,17 @@
 package de.uniulm.omi.cloudiator.sword.api;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.Credentials;
-import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 
 /**
  * Created by daniel on 02.12.14.
  */
 public interface ServiceConfiguration {
 
-    public String getEndpoint();
+    String getEndpoint();
 
-    public String getProvider();
+    String getProvider();
 
-    public Credentials getCredentials();
+    Credentials getCredentials();
 
-    public String getNodeGroup();
-
-    public LoginCredential getLoginCredential();
+    String getNodeGroup();
 }

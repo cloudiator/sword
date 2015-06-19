@@ -22,7 +22,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
-import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.core.config.BaseModule;
@@ -76,24 +76,22 @@ public class ServiceBuilder {
         return this;
     }
 
-    public ServiceBuilder loginCredentials(LoginCredential loginCredential) {
-        this.serviceConfigurationBuilder.loginCredential(loginCredential);
-        return this;
-    }
-
     public ServiceBuilder properties(Properties properties) {
         this.properties = properties;
         return this;
     }
 
-    public ComputeService build() {
+    public ComputeService<HardwareFlavor, Image, Location, VirtualMachine> build() {
         ServiceConfiguration serviceConfiguration = this.serviceConfigurationBuilder.build();
-        ProviderConfiguration providerConfiguration = Providers.getConfigurationByName(serviceConfiguration.getProvider());
+        ProviderConfiguration providerConfiguration =
+            Providers.getConfigurationByName(serviceConfiguration.getProvider());
         checkNotNull(providerConfiguration);
-        return this.buildInjector(providerConfiguration.getModules(), serviceConfiguration).getInstance(providerConfiguration.getComputeService());
+        return this.buildInjector(providerConfiguration.getModules(), serviceConfiguration)
+            .getInstance(providerConfiguration.getComputeService());
     }
 
-    protected Injector buildInjector(Collection<? extends Module> modules, ServiceConfiguration serviceConfiguration) {
+    protected Injector buildInjector(Collection<? extends Module> modules,
+        ServiceConfiguration serviceConfiguration) {
         Collection<Module> basicModules = this.getBasicModules(serviceConfiguration);
         basicModules.addAll(modules);
         basicModules.add(buildLoggingModule());

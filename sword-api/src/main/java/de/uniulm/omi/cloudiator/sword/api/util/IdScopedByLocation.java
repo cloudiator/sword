@@ -5,10 +5,10 @@ package de.uniulm.omi.cloudiator.sword.api.util;
  */
 public interface IdScopedByLocation {
 
-    public String getId();
+    String getId();
 
-    public String getLocationId();
+    String getLocationId();
 
-    public String getIdWithLocation();
+    String getIdWithLocation();
 
 }
