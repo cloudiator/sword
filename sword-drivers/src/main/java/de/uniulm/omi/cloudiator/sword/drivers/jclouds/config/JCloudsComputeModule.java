@@ -41,7 +41,7 @@ import java.util.Set;
 /**
  * Created by daniel on 02.12.14.
  */
-public class JCloudsComputeModule extends AbstractComputeModule {
+public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
     @Override protected Class<? extends Supplier<Set<Image>>> imageSupplier() {
         return ImageSupplier.class;
@@ -69,6 +69,8 @@ public class JCloudsComputeModule extends AbstractComputeModule {
         return JCloudsDeleteVirtualMachineStrategy.class;
     }
 
+    protected abstract Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter();
+
     @Override protected void configure() {
         super.configure();
 
@@ -91,5 +93,10 @@ public class JCloudsComputeModule extends AbstractComputeModule {
         //bind the login credential converter
         bind(new TypeLiteral<OneWayConverter<LoginCredentials, LoginCredential>>() {
         }).to(JCloudsLoginCredentialsToLoginCredential.class);
+
+        //bind the template options converter
+        bind(
+            new TypeLiteral<OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>>() {
+            }).to(templateOptionsConverter());
     }
 }

@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.extendsions;
 
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.OpenstackFloatingIpStrategy;
 
@@ -35,13 +36,13 @@ public class OpenstackPublicIpService implements PublicIpService {
         this.openstackFloatingIpStrategy = openstackFloatingIpStrategy;
     }
 
-    @Override
-    public String addPublicIp(String virtualMachineId) {
+    @Override public String addPublicIp(String virtualMachineId) throws PublicIpException {
         return this.openstackFloatingIpStrategy.assignPublicIpToVirtualMachine(virtualMachineId);
     }
 
-    @Override
-    public void removePublicIp(String virtualMachineId, String address) {
-        this.openstackFloatingIpStrategy.removePublicIpFromVirtualMachine(virtualMachineId, address);
+    @Override public void removePublicIp(String virtualMachineId, String address)
+        throws PublicIpException {
+        this.openstackFloatingIpStrategy
+            .removePublicIpFromVirtualMachine(virtualMachineId, address);
     }
 }

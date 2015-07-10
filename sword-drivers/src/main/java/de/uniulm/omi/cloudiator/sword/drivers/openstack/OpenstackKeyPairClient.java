@@ -6,7 +6,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -16,18 +16,25 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.api.domain;
+package de.uniulm.omi.cloudiator.sword.drivers.openstack;
+
+import com.google.inject.ImplementedBy;
+import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 
 /**
- * Created by daniel on 09.01.15.
+ * Created by daniel on 18.05.15.
  */
-public interface VirtualMachineTemplate {
+@ImplementedBy(OpenstackMultiRegionKeyPairClient.class) public interface OpenstackKeyPairClient {
 
-    String imageId();
+    boolean isAvailable();
 
-    String hardwareFlavorId();
+    KeyPair create(String name);
 
-    String locationId();
+    KeyPair createWithPublicKey(String name, String publicKey);
 
-    TemplateOptions templateOptions();
+    boolean delete(String name);
+
+    KeyPair get(String name);
+
+    Iterable<KeyPair> list();
 }

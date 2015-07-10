@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain.impl;
 
+import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 
 /**
@@ -28,25 +29,29 @@ public class VirtualMachineTemplateImpl implements VirtualMachineTemplate {
     private final String imageId;
     private final String hardwareFlavorId;
     private final String locationId;
+    private final TemplateOptions templateOptions;
 
-    public VirtualMachineTemplateImpl(String imageId, String hardwareFlavorId, String locationId) {
+    public VirtualMachineTemplateImpl(String imageId, String hardwareFlavorId, String locationId,
+        TemplateOptions templateOptions) {
         this.imageId = imageId;
         this.hardwareFlavorId = hardwareFlavorId;
         this.locationId = locationId;
+        this.templateOptions = templateOptions;
     }
 
-    @Override
-    public String getImageId() {
+    @Override public String imageId() {
         return this.imageId;
     }
 
-    @Override
-    public String getHardwareFlavorId() {
+    @Override public String hardwareFlavorId() {
         return this.hardwareFlavorId;
     }
 
-    @Override
-    public String getLocationId() {
+    @Override public String locationId() {
         return this.locationId;
+    }
+
+    @Override public TemplateOptions templateOptions() {
+        return templateOptions;
     }
 }

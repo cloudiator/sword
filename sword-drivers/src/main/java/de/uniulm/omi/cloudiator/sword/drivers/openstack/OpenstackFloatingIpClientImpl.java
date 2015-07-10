@@ -20,9 +20,6 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
-
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
-import org.jclouds.ContextBuilder;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.FloatingIP;
 import org.jclouds.openstack.nova.v2_0.extensions.FloatingIPApi;
@@ -40,52 +37,40 @@ public class OpenstackFloatingIpClientImpl implements OpenstackFloatingIpClient 
 
     private final NovaApi novaApi;
 
-    @Inject
-    public OpenstackFloatingIpClientImpl(ServiceConfiguration serviceConfiguration) {
-        checkNotNull(serviceConfiguration);
-
-        this.novaApi = ContextBuilder.newBuilder(serviceConfiguration.getProvider())
-                .endpoint(serviceConfiguration.getEndpoint())
-                .credentials(serviceConfiguration.getCredentials().user(), serviceConfiguration.getCredentials().password())
-                .buildApi(NovaApi.class);
+    @Inject public OpenstackFloatingIpClientImpl(NovaApi novaApi) {
+        checkNotNull(novaApi);
+        this.novaApi = novaApi;
     }
 
-    @Override
-    public boolean isAvailable(String region) {
-        final Optional<? extends FloatingIPApi> floatingIPExtensionForZone = this.novaApi.getFloatingIPExtensionForZone(region);
+    @Override public boolean isAvailable(String region) {
+        final Optional<? extends FloatingIPApi> floatingIPExtensionForZone =
+            this.novaApi.getFloatingIPApi(region);
         return floatingIPExtensionForZone.isPresent();
     }
 
-    protected FloatingIPApi getFloatingIPExtensionForZone(String region) {
-        final Optional<? extends FloatingIPApi> floatingIPExtensionForZone = this.novaApi.getFloatingIPExtensionForZone(region);
-        checkArgument(floatingIPExtensionForZone.isPresent(), "Floating IP service is not available in region " + region);
-        return floatingIPExtensionForZone.get();
+    private FloatingIPApi getFloatingIPExtensionForZone(String region) {
+        checkArgument(isAvailable(region),
+            "Floating IP service is not available in region " + region);
+        return this.novaApi.getFloatingIPApi(region).get();
     }
 
-    @Override
-    public Set<FloatingIP> list(String region) {
+    @Override public Set<FloatingIP> list(String region) {
         return getFloatingIPExtensionForZone(region).list().toSet();
     }
 
-    @Override
-    @Nullable
-    public FloatingIP allocateFromPool(String pool, String region) {
+    @Override @Nullable public FloatingIP allocateFromPool(String pool, String region) {
         return getFloatingIPExtensionForZone(region).allocateFromPool(pool);
     }
 
-    @Override
-    @Nullable
-    public FloatingIP create(String region) {
+    @Override @Nullable public FloatingIP create(String region) {
         return getFloatingIPExtensionForZone(region).create();
     }
 
-    @Override
-    public void addToServer(String region, String address, String serverId) {
+    @Override public void addToServer(String region, String address, String serverId) {
         getFloatingIPExtensionForZone(region).addToServer(address, serverId);
     }
 
-    @Override
-    public void removeFromServer(String region, String address, String serverId) {
+    @Override public void removeFromServer(String region, String address, String serverId) {
         getFloatingIPExtensionForZone(region).removeFromServer(address, serverId);
     }
 

@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
 import de.uniulm.omi.cloudiator.sword.api.strategy.PublicIpStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
 import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
@@ -43,11 +44,12 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
 
     @Override
     /**
+     * @todo check if floating ip client is available in the given region?
      * @todo handle pools (Property?)
      * @todo maybe throw some other exception
      * @todo maybe retry assignment because of race condition?
-     */
-    public String assignPublicIpToVirtualMachine(String virtualMachineId) {
+     */ public String assignPublicIpToVirtualMachine(String virtualMachineId)
+        throws PublicIpException {
 
         checkNotNull(virtualMachineId);
         checkArgument(!virtualMachineId.isEmpty());
@@ -55,8 +57,16 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
         FloatingIP toAssign = null;
         IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
 
+        //check if the floating ip service is available in the region of the virtual machine
+        if (!openstackFloatingIpClient.isAvailable(virtualMachineScopedId.getLocationId())) {
+            throw new PublicIpException(
+                "Openstack floating IP extension is not available in region "
+                    + virtualMachineScopedId.getLocationId() + ".");
+        }
+
         //loop all available floating ips, and check if we have an unassigned.
-        for (FloatingIP floatingIP : this.openstackFloatingIpClient.list(virtualMachineScopedId.getLocationId())) {
+        for (FloatingIP floatingIP : this.openstackFloatingIpClient
+            .list(virtualMachineScopedId.getLocationId())) {
             if (floatingIP.getInstanceId() == null) {
                 toAssign = floatingIP;
                 break;
@@ -64,15 +74,18 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
         }
         if (toAssign == null) {
             // we found nothing to assign, next step is trying to allocate
-            toAssign = this.openstackFloatingIpClient.create(virtualMachineScopedId.getLocationId());
+            toAssign =
+                this.openstackFloatingIpClient.create(virtualMachineScopedId.getLocationId());
 
         }
         if (toAssign == null) {
             // no other idea -> throw exception
-            throw new RuntimeException("Neither possible to assign empty nor allocate new ip.");
+            throw new PublicIpException("Neither possible to assign empty nor allocate new ip.");
         }
         // finally assign the found ip
-        this.openstackFloatingIpClient.addToServer(virtualMachineScopedId.getLocationId(), toAssign.getIp(), virtualMachineScopedId.getId());
+        this.openstackFloatingIpClient
+            .addToServer(virtualMachineScopedId.getLocationId(), toAssign.getIp(),
+                virtualMachineScopedId.getId());
         return toAssign.getIp();
     }
 
@@ -80,9 +93,18 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
     /**
      * @todo make configurable if floating ip should only be detached from machine or if it should be deallocated.
      * Current implementation only removes it from virtual machine
-     */
-    public void removePublicIpFromVirtualMachine(String virtualMachineId, String address) {
+     */ public void removePublicIpFromVirtualMachine(String virtualMachineId, String address)
+        throws PublicIpException {
         IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
-        this.openstackFloatingIpClient.removeFromServer(virtualMachineScopedId.getLocationId(), address, virtualMachineScopedId.getId());
+
+        if (!openstackFloatingIpClient.isAvailable(virtualMachineScopedId.getLocationId())) {
+            throw new PublicIpException(
+                "Openstack floating IP extension is not available in region "
+                    + virtualMachineScopedId.getLocationId() + ".");
+        }
+
+        this.openstackFloatingIpClient
+            .removeFromServer(virtualMachineScopedId.getLocationId(), address,
+                virtualMachineScopedId.getId());
     }
 }

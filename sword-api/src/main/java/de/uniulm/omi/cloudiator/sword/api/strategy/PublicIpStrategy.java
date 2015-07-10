@@ -18,13 +18,16 @@
 
 package de.uniulm.omi.cloudiator.sword.api.strategy;
 
+import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
+
 /**
  * Created by daniel on 19.01.15.
  */
 public interface PublicIpStrategy {
 
-    public String assignPublicIpToVirtualMachine(String virtualMachineId);
+    public String assignPublicIpToVirtualMachine(String virtualMachineId) throws PublicIpException;
 
-    public void removePublicIpFromVirtualMachine(String virtualMachineId, String address);
+    public void removePublicIpFromVirtualMachine(String virtualMachineId, String address)
+        throws PublicIpException;
 
 }

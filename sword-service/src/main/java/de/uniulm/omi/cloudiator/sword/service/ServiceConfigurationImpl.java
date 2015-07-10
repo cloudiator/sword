@@ -20,7 +20,6 @@ package de.uniulm.omi.cloudiator.sword.service;
 
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.Credentials;
-import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -34,9 +33,9 @@ public class ServiceConfigurationImpl implements ServiceConfiguration {
     private final String endpoint;
     private final Credentials credentials;
     private final String nodeGroup;
-    private final LoginCredential loginCredential;
 
-    public ServiceConfigurationImpl(String provider, String endpoint, Credentials credentials, String nodeGroup, LoginCredential loginCredential) {
+    public ServiceConfigurationImpl(String provider, String endpoint, Credentials credentials,
+        String nodeGroup) {
         checkNotNull(provider);
         checkArgument(!provider.isEmpty());
         checkNotNull(endpoint);
@@ -44,37 +43,26 @@ public class ServiceConfigurationImpl implements ServiceConfiguration {
         checkNotNull(credentials);
         checkNotNull(nodeGroup);
         checkArgument(!nodeGroup.isEmpty());
-        checkNotNull(loginCredential);
 
         this.provider = provider;
         this.endpoint = endpoint;
         this.credentials = credentials;
         this.nodeGroup = nodeGroup;
-        this.loginCredential = loginCredential;
     }
 
-    @Override
-    public String getEndpoint() {
+    @Override public String getEndpoint() {
         return endpoint;
     }
 
-    @Override
-    public String getProvider() {
+    @Override public String getProvider() {
         return provider;
     }
 
-    @Override
-    public Credentials getCredentials() {
+    @Override public Credentials getCredentials() {
         return credentials;
     }
 
-    @Override
-    public String getNodeGroup() {
+    @Override public String getNodeGroup() {
         return nodeGroup;
-    }
-
-    @Override
-    public LoginCredential getLoginCredential() {
-        return loginCredential;
     }
 }

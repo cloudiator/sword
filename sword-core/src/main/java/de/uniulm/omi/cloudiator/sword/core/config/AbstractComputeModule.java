@@ -27,6 +27,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
@@ -72,6 +73,10 @@ public abstract class AbstractComputeModule extends AbstractModule {
     }
 
     @Provides protected Optional<PublicIpService> provideFloatingIpService(Injector injector) {
+        return Optional.absent();
+    }
+
+    @Provides protected Optional<KeyPairService> provideKeyPairService(Injector injector) {
         return Optional.absent();
     }
 

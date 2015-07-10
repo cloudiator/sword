@@ -54,9 +54,9 @@ public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachin
         final ServerTemplate.FlexiantServerTemplateBuilder flexiantServerTemplateBuilder =
             new ServerTemplate.FlexiantServerTemplateBuilder();
         final ServerTemplate serverTemplate = flexiantServerTemplateBuilder
-            .hardwareId(FlexiantUtil.stripLocation(virtualMachineTemplate.getHardwareFlavorId()))
-            .image(FlexiantUtil.stripLocation(virtualMachineTemplate.getImageId()))
-            .vdc(virtualMachineTemplate.getLocationId())
+            .hardwareId(FlexiantUtil.stripLocation(virtualMachineTemplate.hardwareFlavorId()))
+            .image(FlexiantUtil.stripLocation(virtualMachineTemplate.imageId()))
+            .vdc(virtualMachineTemplate.locationId())
             .serverName(generateRandomNameWithNodeGroup()).build();
 
         return this.serverVirtualMachineConverter
