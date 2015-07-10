@@ -23,7 +23,7 @@ import com.google.common.net.HostAndPort;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
-import de.uniulm.omi.cloudiator.sword.api.ssh.SshConnection;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 
 /**
  * Created by daniel on 29.10.14.
@@ -35,7 +35,8 @@ public interface ComputeService<H extends HardwareFlavor, I extends Image, L ext
 
     V createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
 
-    SshConnection getSshConnection(HostAndPort hostAndPort, LoginCredential loginCredential);
+    RemoteConnection getRemoteConnection(HostAndPort hostAndPort, OSFamily osFamily,
+        LoginCredential loginCredential);
 
     Optional<PublicIpService> getPublicIpService();
 

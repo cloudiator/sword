@@ -22,8 +22,6 @@ package de.uniulm.omi.cloudiator.sword.api.properties;
  * Created by daniel on 27.02.15.
  */
 public class Constants {
-
     private Constants() {
     }
-
 }

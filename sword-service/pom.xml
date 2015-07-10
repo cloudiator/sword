@@ -43,5 +43,9 @@
             <groupId>de.uniulm.omi.cloudiator</groupId>
             <artifactId>sword-drivers</artifactId>
         </dependency>
+        <dependency>
+            <groupId>de.uniulm.omi.cloudiator</groupId>
+            <artifactId>sword-remote</artifactId>
+        </dependency>
     </dependencies>
 </project>

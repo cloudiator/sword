@@ -6,7 +6,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -16,14 +16,17 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.api.ssh;
+package de.uniulm.omi.cloudiator.sword.remote;
 
-import com.google.common.net.HostAndPort;
-import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.sword.api.remote.AbstractRemoteModule;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 
 /**
- * Created by daniel on 15.01.15.
+ * Created by Daniel Seybold on 06.05.2015.
  */
-public interface SshConnectionFactory {
-    public SshConnection create(HostAndPort hostAndPort, LoginCredential loginCredential);
+public class OverthereModule extends AbstractRemoteModule {
+    @Override
+    protected Class<? extends RemoteConnectionFactory> getRemoteConnectionFactory() {
+        return OverthereConnectionFactory.class;
+    }
 }

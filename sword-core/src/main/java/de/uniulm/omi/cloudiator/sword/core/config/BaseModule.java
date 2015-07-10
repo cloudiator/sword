@@ -22,8 +22,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
-import de.uniulm.omi.cloudiator.sword.api.ssh.SshConnectionFactory;
-import de.uniulm.omi.cloudiator.sword.core.ssh.jsch.JSchSshConnectionFactory;
 
 import javax.annotation.Nullable;
 
@@ -45,9 +43,9 @@ public class BaseModule extends AbstractModule {
         this.properties = properties;
     }
 
-    @Override protected void configure() {
+    @Override
+    protected void configure() {
         bind(ServiceConfiguration.class).toInstance(this.serviceConfiguration);
-        bind(SshConnectionFactory.class).to(JSchSshConnectionFactory.class);
         if (this.properties != null) {
             Names.bindProperties(binder(), this.properties.getProperties());
         }

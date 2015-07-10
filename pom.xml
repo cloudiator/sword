@@ -45,6 +45,7 @@
         <module>sword-core</module>
         <module>sword-drivers</module>
         <module>sword-service</module>
+        <module>sword-remote</module>
         <module>sword-logging-log4j</module>
     </modules>
 
@@ -68,8 +69,13 @@
                 <version>${my.version}</version>
             </dependency>
             <dependency>
+                <groupId>de.uniulm.omi.cloudiator</groupId>
+                <artifactId>sword-remote</artifactId>
+                <version>${my.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.jclouds</groupId>
-                <artifactId>jclouds-all</artifactId>
+                <artifactId>jclouds-allcompute</artifactId>
                 <version>${jclouds.version}</version>
             </dependency>
             <dependency>

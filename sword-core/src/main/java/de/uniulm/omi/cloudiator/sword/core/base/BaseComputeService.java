@@ -25,9 +25,9 @@ import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
-import de.uniulm.omi.cloudiator.sword.api.ssh.SshConnection;
-import de.uniulm.omi.cloudiator.sword.api.ssh.SshConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
@@ -50,7 +50,7 @@ public class BaseComputeService
     private final Supplier<Set<VirtualMachine>> virtualMachineSupplier;
     private final CreateVirtualMachineStrategy createVirtualMachineStrategy;
     private final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy;
-    private final SshConnectionFactory sshConnectionFactory;
+    private final RemoteConnectionFactory remoteConnectionFactory;
     private final ServiceConfiguration serviceConfiguration;
     private final Optional<PublicIpService> publicIpService;
     private final Optional<KeyPairService> keyPairService;
@@ -69,7 +69,7 @@ public class BaseComputeService
         GetStrategy<String, VirtualMachine> virtualMachineGetStrategy,
         CreateVirtualMachineStrategy createVirtualMachineStrategy,
         DeleteVirtualMachineStrategy deleteVirtualMachineStrategy,
-        SshConnectionFactory sshConnectionFactory, ServiceConfiguration serviceConfiguration,
+        RemoteConnectionFactory remoteConnectionFactory, ServiceConfiguration serviceConfiguration,
         Optional<PublicIpService> publicIpService, Optional<KeyPairService> keyPairService) {
 
         checkNotNull(imageSupplier);
@@ -78,7 +78,7 @@ public class BaseComputeService
         checkNotNull(virtualMachineSupplier);
         checkNotNull(createVirtualMachineStrategy);
         checkNotNull(deleteVirtualMachineStrategy);
-        checkNotNull(sshConnectionFactory);
+        checkNotNull(remoteConnectionFactory);
         checkNotNull(serviceConfiguration);
         checkNotNull(publicIpService);
         checkNotNull(keyPairService);
@@ -86,13 +86,14 @@ public class BaseComputeService
         checkNotNull(locationGetStrategy);
         checkNotNull(hardwareFlavorGetStrategy);
         checkNotNull(virtualMachineGetStrategy);
+
         this.imageSupplier = imageSupplier;
         this.locationSupplier = locationSupplier;
         this.hardwareFlavorSupplier = hardwareFlavorSupplier;
         this.virtualMachineSupplier = virtualMachineSupplier;
         this.createVirtualMachineStrategy = createVirtualMachineStrategy;
         this.deleteVirtualMachineStrategy = deleteVirtualMachineStrategy;
-        this.sshConnectionFactory = sshConnectionFactory;
+        this.remoteConnectionFactory = remoteConnectionFactory;
         this.serviceConfiguration = serviceConfiguration;
         this.publicIpService = publicIpService;
         this.keyPairService = keyPairService;
@@ -147,9 +148,12 @@ public class BaseComputeService
         return createVirtualMachineStrategy.apply(virtualMachineTemplate);
     }
 
-    @Override public SshConnection getSshConnection(HostAndPort hostAndPort,
+    @Override
+    public RemoteConnection getRemoteConnection(HostAndPort hostAndPort, OSFamily osFamily,
         LoginCredential loginCredential) {
-        return this.sshConnectionFactory.create(hostAndPort, loginCredential);
+        return this.remoteConnectionFactory
+            .createRemoteConnection(hostAndPort.getHostText(), osFamily, loginCredential,
+                hostAndPort.getPort());
     }
 
     @Override public Optional<PublicIpService> getPublicIpService() {
