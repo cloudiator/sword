@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
@@ -35,20 +36,26 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
     private final JCloudsComputeClient jCloudsComputeClient;
     private final OneWayConverter<ComputeMetadata, VirtualMachine>
         computeMetadataVirtualMachineConverter;
+    private final OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>
+        templateOptionsConverter;
 
 
     @Inject public JCloudsCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient,
-        OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter) {
+        OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter,
+        OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions> templateOptionsConverter) {
         this.jCloudsComputeClient = jCloudsComputeClient;
         this.computeMetadataVirtualMachineConverter = computeMetadataVirtualMachineConverter;
+        this.templateOptionsConverter = templateOptionsConverter;
     }
 
     @Override public VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
 
         final Template template = this.jCloudsComputeClient.templateBuilder()
-            .hardwareId(virtualMachineTemplate.getHardwareFlavorId())
-            .imageId(virtualMachineTemplate.getImageId())
-            .locationId(virtualMachineTemplate.getLocationId()).build();
+            .hardwareId(virtualMachineTemplate.hardwareFlavorId())
+            .imageId(virtualMachineTemplate.imageId())
+            .locationId(virtualMachineTemplate.locationId())
+            .options(templateOptionsConverter.apply(virtualMachineTemplate.templateOptions()))
+            .build();
 
         return this.computeMetadataVirtualMachineConverter
             .apply(this.jCloudsComputeClient.createNode(template));

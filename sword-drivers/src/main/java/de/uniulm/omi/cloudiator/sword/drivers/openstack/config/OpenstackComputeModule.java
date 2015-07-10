@@ -22,10 +22,12 @@ import com.google.common.base.Optional;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.NovaKeyPairToKeypair;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.TemplateOptionsToNovaTemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extendsions.OpenstackKeyPairService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extendsions.OpenstackPublicIpService;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
@@ -36,6 +38,11 @@ import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
  * Created by daniel on 19.01.15.
  */
 public class OpenstackComputeModule extends JCloudsComputeModule {
+
+    @Override
+    protected Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter() {
+        return TemplateOptionsToNovaTemplateOptions.class;
+    }
 
     @Override protected void configure() {
         super.configure();

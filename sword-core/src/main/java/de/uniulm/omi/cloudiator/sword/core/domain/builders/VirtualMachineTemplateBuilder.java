@@ -18,8 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain.builders;
 
-import de.uniulm.omi.cloudiator.sword.core.domain.impl.VirtualMachineTemplateImpl;
+import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
+import de.uniulm.omi.cloudiator.sword.core.domain.impl.VirtualMachineTemplateImpl;
 
 /**
  * Created by daniel on 09.01.15.
@@ -29,6 +30,7 @@ public class VirtualMachineTemplateBuilder {
     private String imageId;
     private String hardwareFlavorId;
     private String locationId;
+    private TemplateOptions templateOptions;
 
     private VirtualMachineTemplateBuilder() {
     }
@@ -52,8 +54,14 @@ public class VirtualMachineTemplateBuilder {
         return this;
     }
 
+    public VirtualMachineTemplateBuilder templateOptions(final TemplateOptions templateOptions) {
+        this.templateOptions = templateOptions;
+        return this;
+    }
+
     public VirtualMachineTemplate build() {
-        return new VirtualMachineTemplateImpl(imageId, hardwareFlavorId, locationId);
+        return new VirtualMachineTemplateImpl(imageId, hardwareFlavorId, locationId,
+            templateOptions);
     }
 
 
