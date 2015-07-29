@@ -22,6 +22,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
+import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
+import de.uniulm.omi.cloudiator.sword.core.base.BaseConnectionService;
 
 import javax.annotation.Nullable;
 
@@ -43,9 +45,9 @@ public class BaseModule extends AbstractModule {
         this.properties = properties;
     }
 
-    @Override
-    protected void configure() {
+    @Override protected void configure() {
         bind(ServiceConfiguration.class).toInstance(this.serviceConfiguration);
+        bind(ConnectionService.class).to(BaseConnectionService.class);
         if (this.properties != null) {
             Names.bindProperties(binder(), this.properties.getProperties());
         }

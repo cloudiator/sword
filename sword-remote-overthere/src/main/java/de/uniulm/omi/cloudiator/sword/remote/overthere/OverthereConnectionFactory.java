@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.remote;
+package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 
 import com.xebialabs.overthere.ConnectionOptions;
@@ -59,7 +59,8 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
 
 
     @Override
-    public RemoteConnection createRemoteConnection(String remoteAddress, OSFamily osFamily, LoginCredential loginCredential, int port) {
+    public RemoteConnection createRemoteConnection(String remoteAddress, OSFamily osFamily,
+        LoginCredential loginCredential, int port) {
         checkNotNull(remoteAddress);
         checkArgument(!remoteAddress.isEmpty());
 
@@ -79,48 +80,60 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
 
     /**
      * tries to open a Overthere connection and in case of a timeout retrying it for {@value #CONNECTIONRETRYCOUNTER}
+     *
      * @param osFamily
      * @param loginCredential
      * @return
      */
-    private RemoteConnection createRemoteConnectionWithRetry(OSFamily osFamily, LoginCredential loginCredential){
+    private RemoteConnection createRemoteConnectionWithRetry(OSFamily osFamily,
+        LoginCredential loginCredential) {
 
-        for(int i = 0; i < OverthereConnectionFactory.CONNECTIONRETRYCOUNTER; i++) {
+        for (int i = 0; i < OverthereConnectionFactory.CONNECTIONRETRYCOUNTER; i++) {
 
             try {
                 return this.createRemoteConnectionSpecific(osFamily, loginCredential);
 
-            }catch(RuntimeIOException e){
+            } catch (RuntimeIOException e) {
                 //TODO: log exeception and write number of approaches
 
                 //increase the Overthere connection timeout
-                if(!this.connectionOptions.containsKey(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS) ){
-                    this.connectionOptions.set(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS, ConnectionOptions.CONNECTION_TIMEOUT_MILLIS_DEFAULT * OverthereConnectionFactory.INCREASETIMEOUTFACTOR);
-                }else{
-                    int currentTimeoutValue = this.connectionOptions.get(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS);
-                    this.connectionOptions.set(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS, currentTimeoutValue * OverthereConnectionFactory.INCREASETIMEOUTFACTOR);
+                if (!this.connectionOptions
+                    .containsKey(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS)) {
+                    this.connectionOptions.set(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS,
+                        ConnectionOptions.CONNECTION_TIMEOUT_MILLIS_DEFAULT
+                            * OverthereConnectionFactory.INCREASETIMEOUTFACTOR);
+                } else {
+                    int currentTimeoutValue =
+                        this.connectionOptions.get(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS);
+                    this.connectionOptions.set(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS,
+                        currentTimeoutValue * OverthereConnectionFactory.INCREASETIMEOUTFACTOR);
                 }
 
             }
         }
 
-        throw new RuntimeException("Unable to connect to host " + this.connectionOptions.get(ConnectionOptions.ADDRESS) + " after " + OverthereConnectionFactory.CONNECTIONRETRYCOUNTER + " approaches!");
+        throw new RuntimeException(
+            "Unable to connect to host " + this.connectionOptions.get(ConnectionOptions.ADDRESS)
+                + " after " + OverthereConnectionFactory.CONNECTIONRETRYCOUNTER + " approaches!");
     }
 
     /**
      * Creates the operating system specific Overthere connection
+     *
      * @param osFamily
      * @param loginCredential
      * @return
      */
-    private RemoteConnection createRemoteConnectionSpecific(OSFamily osFamily, LoginCredential loginCredential){
+    private RemoteConnection createRemoteConnectionSpecific(OSFamily osFamily,
+        LoginCredential loginCredential) {
         switch (osFamily) {
             case UNIX:
                 return new OverthereConnection(this.openLinuxConnection(loginCredential));
             case WINDOWS:
                 return new OverthereConnection(this.openWindowsConnection(loginCredential));
             default:
-                throw new UnsupportedOperationException("Remote connection to given OSFamily (" + osFamily + ") not supported.");
+                throw new UnsupportedOperationException(
+                    "Remote connection to given OSFamily (" + osFamily + ") not supported.");
         }
     }
 
@@ -130,7 +143,8 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
      * @param loginCredential
      * @return the Overthere Windows connection
      */
-    private com.xebialabs.overthere.OverthereConnection openWindowsConnection(LoginCredential loginCredential) {
+    private com.xebialabs.overthere.OverthereConnection openWindowsConnection(
+        LoginCredential loginCredential) {
 
         checkNotNull(loginCredential.password());
         checkArgument(loginCredential.password().isPresent());
@@ -138,9 +152,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
 
         this.setWindowsConnectionOptions(loginCredential.password().get());
 
-        com.xebialabs.overthere.OverthereConnection overthereConnection = Overthere.getConnection("cifs", this.connectionOptions);
-
-        return overthereConnection;
+        return Overthere.getConnection("cifs", this.connectionOptions);
 
     }
 
@@ -166,11 +178,14 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
     private void setWindowsConnectionOptions(String password) {
 
         this.connectionOptions.set(ConnectionOptions.PASSWORD, password);
-        this.connectionOptions.set(ConnectionOptions.OPERATING_SYSTEM, OperatingSystemFamily.WINDOWS);
+        this.connectionOptions
+            .set(ConnectionOptions.OPERATING_SYSTEM, OperatingSystemFamily.WINDOWS);
         //CifsConnectionType WINRM_NATIVE is only supported on Windows hosts, use instead WINRM_INTERNAL
-        this.connectionOptions.set(CifsConnectionBuilder.CONNECTION_TYPE, CifsConnectionType.WINRM_INTERNAL);
+        this.connectionOptions
+            .set(CifsConnectionBuilder.CONNECTION_TYPE, CifsConnectionType.WINRM_INTERNAL);
         //set a higher timeout for WindowsConnections
-        this.connectionOptions.set(CifsConnectionBuilder.WINRM_TIMEMOUT, OverthereConnectionFactory.EXTENDEDWINRMTIMEOUT);
+        this.connectionOptions.set(CifsConnectionBuilder.WINRM_TIMEMOUT,
+            OverthereConnectionFactory.EXTENDEDWINRMTIMEOUT);
 
     }
 
@@ -180,13 +195,12 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
      * @param loginCredential
      * @return the Overthere Linux connection
      */
-    private com.xebialabs.overthere.OverthereConnection openLinuxConnection(LoginCredential loginCredential) {
+    private com.xebialabs.overthere.OverthereConnection openLinuxConnection(
+        LoginCredential loginCredential) {
 
         this.setLinuxConnectionOptions(loginCredential);
 
-        com.xebialabs.overthere.OverthereConnection overthereConnection = Overthere.getConnection("ssh", this.connectionOptions);
-
-        return overthereConnection;
+        return Overthere.getConnection("ssh", this.connectionOptions);
     }
 
     /**
@@ -203,12 +217,14 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
         if (loginCredential.isPrivateKeyCredential()) {
             checkArgument(!loginCredential.privateKey().get().isEmpty());
 
-            this.connectionOptions.set(SshConnectionBuilder.PRIVATE_KEY, loginCredential.privateKey().get());
+            this.connectionOptions
+                .set(SshConnectionBuilder.PRIVATE_KEY, loginCredential.privateKey().get());
 
         } else {
             checkArgument(!loginCredential.password().get().isEmpty());
 
-            this.connectionOptions.set(ConnectionOptions.PASSWORD, loginCredential.password().get());
+            this.connectionOptions
+                .set(ConnectionOptions.PASSWORD, loginCredential.password().get());
         }
 
     }

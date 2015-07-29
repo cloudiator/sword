@@ -16,14 +16,14 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.remote;
+package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 
 import com.xebialabs.overthere.CmdLine;
 import com.xebialabs.overthere.ConnectionOptions;
+import com.xebialabs.overthere.OperatingSystemFamily;
 import com.xebialabs.overthere.OverthereFile;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
-import com.xebialabs.overthere.OperatingSystemFamily;
 
 import java.io.PrintWriter;
 
@@ -39,7 +39,7 @@ public class OverthereConnection implements RemoteConnection {
     private final com.xebialabs.overthere.OverthereConnection overthereConnection;
 
 
-    public OverthereConnection(com.xebialabs.overthere.OverthereConnection overthereConnection){
+    public OverthereConnection(com.xebialabs.overthere.OverthereConnection overthereConnection) {
 
         checkNotNull(overthereConnection);
 
@@ -53,9 +53,10 @@ public class OverthereConnection implements RemoteConnection {
 
         int returnCode;
 
-        switch ((OperatingSystemFamily)this.overthereConnection.getOptions().get(ConnectionOptions.OPERATING_SYSTEM)){
+        switch ((OperatingSystemFamily) this.overthereConnection.getOptions()
+            .get(ConnectionOptions.OPERATING_SYSTEM)) {
             case WINDOWS:
-                returnCode =  this.executeWindwosCommand(command);
+                returnCode = this.executeWindwosCommand(command);
                 this.checkReturnCode(returnCode, command, OperatingSystemFamily.WINDOWS);
                 return returnCode;
 
@@ -64,39 +65,37 @@ public class OverthereConnection implements RemoteConnection {
                 this.checkReturnCode(returnCode, command, OperatingSystemFamily.UNIX);
                 return returnCode;
             default:
-                throw new UnsupportedOperationException("Execution of RemoteConnection to given OSFamily (" + ConnectionOptions.OPERATING_SYSTEM.toString() + ") not supported.");
+                throw new UnsupportedOperationException(
+                    "Execution of RemoteConnection to given OSFamily ("
+                        + ConnectionOptions.OPERATING_SYSTEM + ") not supported.");
         }
-
 
 
 
     }
 
-    private int executeLinuxCommand(String command){
+    private int executeLinuxCommand(String command) {
 
         //wrong escaping of the characters
         //int exitCode = this.overthereConnection.execute(CmdLine.build(splittedCommands));
 
         //TODO: check why CmdLine.build(command) escapes characters in the wrong way
-        int exitCode = this.overthereConnection.execute(CmdLine.build().addRaw(command));
-
-        return exitCode;
+        return this.overthereConnection.execute(CmdLine.build().addRaw(command));
     }
 
-    private int executeWindwosCommand(String command){
+    private int executeWindwosCommand(String command) {
 
         //TODO: check why the Overthere encoding doesn't work for Windows and Linux!
         //split the command into separate commands otherwise Windows commands can't be recognized
-        String [] splittedCommands = command.split("\\s+");
-        int exitCode = this.overthereConnection.execute(CmdLine.build(splittedCommands));
+        String[] splittedCommands = command.split("\\s+");
 
         //int exitCode = this.overthereConnection.execute(CmdLine.build().addRaw(command));
 
-        return exitCode;
+        return this.overthereConnection.execute(CmdLine.build(splittedCommands));
 
     }
 
-    public int writeFile(String pathAndFilename, String content, boolean setExecutable){
+    public int writeFile(String pathAndFilename, String content, boolean setExecutable) {
 
         checkNotNull(pathAndFilename);
         checkNotNull(content);
@@ -107,14 +106,17 @@ public class OverthereConnection implements RemoteConnection {
 
         //TODO: check again if windows wrtieFile works or build a switch case instead
 
-        switch ((OperatingSystemFamily)this.overthereConnection.getOptions().get(ConnectionOptions.OPERATING_SYSTEM)){
+        switch ((OperatingSystemFamily) this.overthereConnection.getOptions()
+            .get(ConnectionOptions.OPERATING_SYSTEM)) {
             case WINDOWS:
                 return this.writeFileToWindows(pathAndFilename, content);
 
             case UNIX:
                 return this.writeFileToUnix(pathAndFilename, content, setExecutable);
             default:
-                throw new UnsupportedOperationException("Execution of RemoteConnection.writeFile to given OSFamily (" + ConnectionOptions.OPERATING_SYSTEM.toString() + ") not supported.");
+                throw new UnsupportedOperationException(
+                    "Execution of RemoteConnection.writeFile to given OSFamily ("
+                        + ConnectionOptions.OPERATING_SYSTEM + ") not supported.");
         }
 
 
@@ -123,22 +125,20 @@ public class OverthereConnection implements RemoteConnection {
 
     /**
      * Using the Overthere method to write a file to the Linux filesystem
+     *
      * @param pathAndFilename
      * @param content
      * @param setExecutable
      * @return
      */
-    private int writeFileToUnix(String pathAndFilename, String content, boolean setExecutable){
+    private int writeFileToUnix(String pathAndFilename, String content, boolean setExecutable) {
         OverthereFile overthereFile = this.overthereConnection.getFile(pathAndFilename);
-        if(setExecutable){
+        if (setExecutable) {
             overthereFile.setExecutable(setExecutable);
         }
 
-        PrintWriter writer = new PrintWriter(overthereFile.getOutputStream());
-        try{
+        try (PrintWriter writer = new PrintWriter(overthereFile.getOutputStream())) {
             writer.print(content);
-        }finally {
-            writer.close();
         }
 
         return 0;
@@ -147,18 +147,20 @@ public class OverthereConnection implements RemoteConnection {
     /**
      * Writes a file to the Windows filesystem, using simple echo >> command to avoid escaping/line break issues
      * Original Overthere writeFile method didn't work for windows
+     *
      * @param pathAndFilename the absolute path to the file and filename
-     * @param content of the file to write
+     * @param content         of the file to write
      * @return
      */
-    private int writeFileToWindows(String pathAndFilename, String content){
+    private int writeFileToWindows(String pathAndFilename, String content) {
 
         //spilt at newline
         String[] splittedContent = content.split("\\r?\\n");
 
         //use powershell Add-Content to avoid line break issues with windows in config file
-        for(String line : splittedContent){
-            this.executeCommand("powershell -command  Add-Content " +pathAndFilename+" '"+ line +"'");
+        for (String line : splittedContent) {
+            this.executeCommand(
+                "powershell -command  Add-Content " + pathAndFilename + " '" + line + "'");
         }
 
         return 0;
@@ -166,7 +168,8 @@ public class OverthereConnection implements RemoteConnection {
     }
 
 
-    private void checkReturnCode(int returnCode, String command, OperatingSystemFamily operatingSystemFamily){
+    private void checkReturnCode(int returnCode, String command,
+        OperatingSystemFamily operatingSystemFamily) {
 
         checkNotNull(returnCode);
         checkNotNull(command);
@@ -175,8 +178,10 @@ public class OverthereConnection implements RemoteConnection {
         checkArgument(!command.isEmpty());
 
 
-        if(returnCode != 0){
-            throw new RuntimeException("RemoteConnection command failed on " + operatingSystemFamily.toString() + " host: " + command);
+        if (returnCode != 0) {
+            throw new RuntimeException(
+                "RemoteConnection command failed on " + operatingSystemFamily.toString() + " host: "
+                    + command);
         }
     }
 

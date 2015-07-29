@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.remote;
+package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 import de.uniulm.omi.cloudiator.sword.api.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;

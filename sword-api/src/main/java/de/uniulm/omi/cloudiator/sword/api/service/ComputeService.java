@@ -19,11 +19,9 @@
 package de.uniulm.omi.cloudiator.sword.api.service;
 
 import com.google.common.base.Optional;
-import com.google.common.net.HostAndPort;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 
 /**
  * Created by daniel on 29.10.14.
@@ -35,8 +33,7 @@ public interface ComputeService<H extends HardwareFlavor, I extends Image, L ext
 
     V createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
 
-    RemoteConnection getRemoteConnection(HostAndPort hostAndPort, OSFamily osFamily,
-        LoginCredential loginCredential);
+    ConnectionService getConnectionService();
 
     Optional<PublicIpService> getPublicIpService();
 

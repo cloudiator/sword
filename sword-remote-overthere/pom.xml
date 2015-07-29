@@ -27,43 +27,55 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sword-remote</artifactId>
+    <artifactId>sword-remote-overthere</artifactId>
 
     <properties>
         <my.version>1.2.0-SNAPSHOT</my.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <bouncycastle.version>1.51</bouncycastle.version>
+        <overthere.version>4.0.0</overthere.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk15on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xebialabs.overthere</groupId>
+                <artifactId>overthere</artifactId>
+                <version>${overthere.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
             <groupId>de.uniulm.omi.cloudiator</groupId>
             <artifactId>sword-api</artifactId>
-            <version>${my.version}</version>
         </dependency>
         <dependency>
             <groupId>de.uniulm.omi.cloudiator</groupId>
             <artifactId>sword-core</artifactId>
-            <version>${my.version}</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.51</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk15on</artifactId>
-            <version>1.51</version>
         </dependency>
         <dependency>
             <groupId>com.xebialabs.overthere</groupId>
             <artifactId>overthere</artifactId>
-            <version>4.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.12</version>
         </dependency>
     </dependencies>
 

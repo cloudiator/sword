@@ -19,15 +19,14 @@
 package de.uniulm.omi.cloudiator.sword.core.base;
 
 import com.google.common.base.Optional;
-import com.google.common.net.HostAndPort;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
@@ -50,14 +49,13 @@ public class BaseComputeService
     private final Supplier<Set<VirtualMachine>> virtualMachineSupplier;
     private final CreateVirtualMachineStrategy createVirtualMachineStrategy;
     private final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy;
-    private final RemoteConnectionFactory remoteConnectionFactory;
-    private final ServiceConfiguration serviceConfiguration;
     private final Optional<PublicIpService> publicIpService;
     private final Optional<KeyPairService> keyPairService;
     private final GetStrategy<String, Image> imageGetStrategy;
     private final GetStrategy<String, Location> locationGetStrategy;
     private final GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy;
     private final GetStrategy<String, VirtualMachine> virtualMachineGetStrategy;
+    private final ConnectionService connectionService;
 
     @Inject public BaseComputeService(Supplier<Set<Image>> imageSupplier,
         Supplier<Set<Location>> locationSupplier,
@@ -70,7 +68,9 @@ public class BaseComputeService
         CreateVirtualMachineStrategy createVirtualMachineStrategy,
         DeleteVirtualMachineStrategy deleteVirtualMachineStrategy,
         RemoteConnectionFactory remoteConnectionFactory, ServiceConfiguration serviceConfiguration,
-        Optional<PublicIpService> publicIpService, Optional<KeyPairService> keyPairService) {
+        Optional<PublicIpService> publicIpService, Optional<KeyPairService> keyPairService,
+        ConnectionService connectionService) {
+
 
         checkNotNull(imageSupplier);
         checkNotNull(locationSupplier);
@@ -86,6 +86,7 @@ public class BaseComputeService
         checkNotNull(locationGetStrategy);
         checkNotNull(hardwareFlavorGetStrategy);
         checkNotNull(virtualMachineGetStrategy);
+        checkNotNull(connectionService);
 
         this.imageSupplier = imageSupplier;
         this.locationSupplier = locationSupplier;
@@ -93,14 +94,13 @@ public class BaseComputeService
         this.virtualMachineSupplier = virtualMachineSupplier;
         this.createVirtualMachineStrategy = createVirtualMachineStrategy;
         this.deleteVirtualMachineStrategy = deleteVirtualMachineStrategy;
-        this.remoteConnectionFactory = remoteConnectionFactory;
-        this.serviceConfiguration = serviceConfiguration;
         this.publicIpService = publicIpService;
         this.keyPairService = keyPairService;
         this.imageGetStrategy = imageGetStrategy;
         this.locationGetStrategy = locationGetStrategy;
         this.hardwareFlavorGetStrategy = hardwareFlavorGetStrategy;
         this.virtualMachineGetStrategy = virtualMachineGetStrategy;
+        this.connectionService = connectionService;
     }
 
     @Override @Nullable public Image getImage(String id) {
@@ -148,12 +148,8 @@ public class BaseComputeService
         return createVirtualMachineStrategy.apply(virtualMachineTemplate);
     }
 
-    @Override
-    public RemoteConnection getRemoteConnection(HostAndPort hostAndPort, OSFamily osFamily,
-        LoginCredential loginCredential) {
-        return this.remoteConnectionFactory
-            .createRemoteConnection(hostAndPort.getHostText(), osFamily, loginCredential,
-                hostAndPort.getPort());
+    @Override public ConnectionService getConnectionService() {
+        return connectionService;
     }
 
     @Override public Optional<PublicIpService> getPublicIpService() {

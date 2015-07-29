@@ -7,8 +7,7 @@ import com.google.inject.AbstractModule;
  */
 public abstract class AbstractRemoteModule extends AbstractModule {
 
-    @Override
-    protected void configure() {
+    @Override protected void configure() {
         bind(RemoteConnectionFactory.class).to(getRemoteConnectionFactory());
     }
 

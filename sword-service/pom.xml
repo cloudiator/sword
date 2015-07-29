@@ -45,7 +45,7 @@
         </dependency>
         <dependency>
             <groupId>de.uniulm.omi.cloudiator</groupId>
-            <artifactId>sword-remote</artifactId>
+            <artifactId>sword-remote-overthere</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -43,6 +43,7 @@ import java.util.Set;
 public abstract class AbstractComputeModule extends AbstractModule {
 
     @Override protected void configure() {
+
         bind(new TypeLiteral<Supplier<Set<Image>>>() {
         }).to(imageSupplier());
 
