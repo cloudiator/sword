@@ -27,91 +27,75 @@ import org.apache.logging.log4j.LogManager;
  */
 public class Log4J2Logger implements Logger {
 
-    private final org.apache.logging.log4j.Logger log4J2Logger;
+    private final org.apache.logging.log4j.Logger delegate;
 
-    public Log4J2Logger(org.apache.logging.log4j.Logger log4J2Logger) {
-        this.log4J2Logger = log4J2Logger;
+    public Log4J2Logger(org.apache.logging.log4j.Logger delegate) {
+        this.delegate = delegate;
     }
 
-    @Override
-    public boolean isTraceEnabled() {
-        return log4J2Logger.isTraceEnabled();
+    @Override public boolean isTraceEnabled() {
+        return delegate.isTraceEnabled();
     }
 
-    @Override
-    public boolean isDebugEnabled() {
-        return log4J2Logger.isDebugEnabled();
+    @Override public boolean isDebugEnabled() {
+        return delegate.isDebugEnabled();
     }
 
-    @Override
-    public boolean isInfoEnabled() {
-        return log4J2Logger.isInfoEnabled();
+    @Override public boolean isInfoEnabled() {
+        return delegate.isInfoEnabled();
     }
 
-    @Override
-    public boolean isWarnEnabled() {
-        return log4J2Logger.isWarnEnabled();
+    @Override public boolean isWarnEnabled() {
+        return delegate.isWarnEnabled();
     }
 
-    @Override
-    public boolean isErrorEnabled() {
-        return log4J2Logger.isErrorEnabled();
+    @Override public boolean isErrorEnabled() {
+        return delegate.isErrorEnabled();
     }
 
-    @Override
-    public boolean isFatalEnabled() {
-        return log4J2Logger.isFatalEnabled();
+    @Override public boolean isFatalEnabled() {
+        return delegate.isFatalEnabled();
     }
 
-    @Override
-    public void trace(String message) {
-        log4J2Logger.trace(message);
+    @Override public void trace(String message) {
+        delegate.trace(message);
     }
 
-    @Override
-    public void debug(String message) {
-        log4J2Logger.debug(message);
+    @Override public void debug(String message) {
+        delegate.debug(message);
     }
 
-    @Override
-    public void info(String message) {
-        log4J2Logger.info(message);
+    @Override public void info(String message) {
+        delegate.info(message);
     }
 
-    @Override
-    public void warn(String message) {
-        log4J2Logger.warn(message);
+    @Override public void warn(String message) {
+        delegate.warn(message);
     }
 
-    @Override
-    public void warn(String message, Throwable throwable) {
-        log4J2Logger.warn(message, throwable);
+    @Override public void warn(String message, Throwable throwable) {
+        delegate.warn(message, throwable);
     }
 
-    @Override
-    public void error(String message) {
-        log4J2Logger.error(message);
+    @Override public void error(String message) {
+        delegate.error(message);
     }
 
-    @Override
-    public void error(String message, Throwable throwable) {
-        log4J2Logger.error(message, throwable);
+    @Override public void error(String message, Throwable throwable) {
+        delegate.error(message, throwable);
     }
 
 
-    @Override
-    public void fatal(String message) {
-        log4J2Logger.fatal(message);
+    @Override public void fatal(String message) {
+        delegate.fatal(message);
     }
 
-    @Override
-    public void fatal(String message, Throwable throwable) {
-        log4J2Logger.fatal(message, throwable);
+    @Override public void fatal(String message, Throwable throwable) {
+        delegate.fatal(message, throwable);
     }
 
     public static class Log4JLoggingFactory implements LoggerFactory {
-        @Override
-        public Logger getLogger(String category) {
+        @Override public Logger getLogger(String category) {
             return new Log4J2Logger(LogManager.getLogger(category));
         }
     }

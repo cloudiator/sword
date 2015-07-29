@@ -36,24 +36,24 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class OverthereConnection implements RemoteConnection {
 
-    private final com.xebialabs.overthere.OverthereConnection overthereConnection;
+    private final com.xebialabs.overthere.OverthereConnection delegate;
 
 
-    public OverthereConnection(com.xebialabs.overthere.OverthereConnection overthereConnection) {
+    public OverthereConnection(com.xebialabs.overthere.OverthereConnection delegate) {
 
-        checkNotNull(overthereConnection);
+        checkNotNull(delegate);
 
-        this.overthereConnection = overthereConnection;
+        this.delegate = delegate;
     }
 
-    public int executeCommand(String command) {
+    @Override public int executeCommand(String command) {
 
         checkNotNull(command);
         checkArgument(!command.isEmpty());
 
         int returnCode;
 
-        switch ((OperatingSystemFamily) this.overthereConnection.getOptions()
+        switch ((OperatingSystemFamily) this.delegate.getOptions()
             .get(ConnectionOptions.OPERATING_SYSTEM)) {
             case WINDOWS:
                 returnCode = this.executeWindwosCommand(command);
@@ -65,9 +65,7 @@ public class OverthereConnection implements RemoteConnection {
                 this.checkReturnCode(returnCode, command, OperatingSystemFamily.UNIX);
                 return returnCode;
             default:
-                throw new UnsupportedOperationException(
-                    "Execution of RemoteConnection to given OSFamily ("
-                        + ConnectionOptions.OPERATING_SYSTEM + ") not supported.");
+                throw new AssertionError("Unsupported operating system family");
         }
 
 
@@ -80,7 +78,7 @@ public class OverthereConnection implements RemoteConnection {
         //int exitCode = this.overthereConnection.execute(CmdLine.build(splittedCommands));
 
         //TODO: check why CmdLine.build(command) escapes characters in the wrong way
-        return this.overthereConnection.execute(CmdLine.build().addRaw(command));
+        return this.delegate.execute(CmdLine.build().addRaw(command));
     }
 
     private int executeWindwosCommand(String command) {
@@ -91,7 +89,7 @@ public class OverthereConnection implements RemoteConnection {
 
         //int exitCode = this.overthereConnection.execute(CmdLine.build().addRaw(command));
 
-        return this.overthereConnection.execute(CmdLine.build(splittedCommands));
+        return this.delegate.execute(CmdLine.build(splittedCommands));
 
     }
 
@@ -106,7 +104,7 @@ public class OverthereConnection implements RemoteConnection {
 
         //TODO: check again if windows wrtieFile works or build a switch case instead
 
-        switch ((OperatingSystemFamily) this.overthereConnection.getOptions()
+        switch ((OperatingSystemFamily) this.delegate.getOptions()
             .get(ConnectionOptions.OPERATING_SYSTEM)) {
             case WINDOWS:
                 return this.writeFileToWindows(pathAndFilename, content);
@@ -132,11 +130,12 @@ public class OverthereConnection implements RemoteConnection {
      * @return
      */
     private int writeFileToUnix(String pathAndFilename, String content, boolean setExecutable) {
-        OverthereFile overthereFile = this.overthereConnection.getFile(pathAndFilename);
+        OverthereFile overthereFile = this.delegate.getFile(pathAndFilename);
         if (setExecutable) {
             overthereFile.setExecutable(setExecutable);
         }
 
+        // todo relies on default encoding, fix this
         try (PrintWriter writer = new PrintWriter(overthereFile.getOutputStream())) {
             writer.print(content);
         }
@@ -189,7 +188,7 @@ public class OverthereConnection implements RemoteConnection {
 
     public void close() {
 
-        this.overthereConnection.close();
+        this.delegate.close();
 
     }
 

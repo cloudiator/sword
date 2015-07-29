@@ -105,7 +105,7 @@ public class OpenstackMultiRegionKeyPairClient implements OpenstackKeyPairClient
         return keyPairs;
     }
 
-    private class OpenstackKeyPairSingleRegionClient {
+    private static class OpenstackKeyPairSingleRegionClient {
 
         private final NovaApi novaApi;
 

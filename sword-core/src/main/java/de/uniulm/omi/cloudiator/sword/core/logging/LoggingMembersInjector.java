@@ -38,12 +38,11 @@ public class LoggingMembersInjector<T> implements MembersInjector<T> {
         field.setAccessible(true);
     }
 
-    @Override
-    public void injectMembers(T instance) {
+    @Override public void injectMembers(T instance) {
         try {
             field.set(instance, logger);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 }

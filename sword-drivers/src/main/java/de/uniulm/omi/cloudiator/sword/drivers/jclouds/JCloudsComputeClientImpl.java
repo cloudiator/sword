@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.DriverException;
 import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging.LoggingModule;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging.JCloudsLoggingModule;
 import org.jclouds.ContextBuilder;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.RunNodesException;
@@ -55,7 +55,7 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
             .endpoint(serviceConfiguration.getEndpoint())
             .credentials(serviceConfiguration.getCredentials().user(),
                 serviceConfiguration.getCredentials().password())
-            .modules(ImmutableSet.of(new LoggingModule(loggerFactory)))
+            .modules(ImmutableSet.of(new JCloudsLoggingModule(loggerFactory)))
             .buildView(ComputeServiceContext.class);
 
     }

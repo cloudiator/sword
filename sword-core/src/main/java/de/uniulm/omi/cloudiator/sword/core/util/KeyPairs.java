@@ -29,6 +29,10 @@ import java.util.Map;
  */
 public class KeyPairs {
 
+    private KeyPairs() {
+
+    }
+
     public static KeyPair generate(String name) {
         final Map.Entry<String, String> sshKeyPair =
             SshKeys.generate().entrySet().iterator().next();

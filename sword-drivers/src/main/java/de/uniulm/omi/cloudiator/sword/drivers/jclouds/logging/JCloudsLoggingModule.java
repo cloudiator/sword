@@ -27,11 +27,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by daniel on 06.03.15.
  */
-public class LoggingModule extends org.jclouds.logging.config.LoggingModule {
+public class JCloudsLoggingModule extends org.jclouds.logging.config.LoggingModule {
 
     private final LoggerFactory loggerFactory;
 
-    public LoggingModule(LoggerFactory loggerFactory) {
+    public JCloudsLoggingModule(LoggerFactory loggerFactory) {
         checkNotNull(loggerFactory);
         this.loggerFactory = loggerFactory;
     }
@@ -42,60 +42,59 @@ public class LoggingModule extends org.jclouds.logging.config.LoggingModule {
 
     private static class DelegateLoggerFactory implements Logger.LoggerFactory {
 
-        private final de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory
-            delegateLoggerFactory;
+        private final de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory delegate;
 
         private DelegateLoggerFactory(
             de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory deleteLoggerFactory) {
             checkNotNull(deleteLoggerFactory);
-            this.delegateLoggerFactory = deleteLoggerFactory;
+            this.delegate = deleteLoggerFactory;
         }
 
         @Override public Logger getLogger(String category) {
-            return new DelegateLogger(this.delegateLoggerFactory.getLogger(category), category);
+            return new DelegateLogger(this.delegate.getLogger(category), category);
         }
     }
 
 
     private static class DelegateLogger extends BaseLogger {
 
-        private final de.uniulm.omi.cloudiator.sword.api.logging.Logger delegateLogger;
+        private final de.uniulm.omi.cloudiator.sword.api.logging.Logger delegate;
         private final String category;
 
-        private DelegateLogger(de.uniulm.omi.cloudiator.sword.api.logging.Logger delegateLogger,
+        private DelegateLogger(de.uniulm.omi.cloudiator.sword.api.logging.Logger delegate,
             String category) {
-            checkNotNull(delegateLogger);
+            checkNotNull(delegate);
             checkNotNull(category);
-            this.delegateLogger = delegateLogger;
+            this.delegate = delegate;
             this.category = category;
         }
 
         @Override protected void logError(String message, Throwable e) {
-            delegateLogger.error(message, e);
+            delegate.error(message, e);
         }
 
         @Override protected void logError(String message) {
-            delegateLogger.error(message);
+            delegate.error(message);
         }
 
         @Override protected void logWarn(String message, Throwable e) {
-            delegateLogger.warn(message, e);
+            delegate.warn(message, e);
         }
 
         @Override protected void logWarn(String message) {
-            delegateLogger.warn(message);
+            delegate.warn(message);
         }
 
         @Override protected void logInfo(String message) {
-            delegateLogger.info(message);
+            delegate.info(message);
         }
 
         @Override protected void logDebug(String message) {
-            delegateLogger.debug(message);
+            delegate.debug(message);
         }
 
         @Override protected void logTrace(String message) {
-            delegateLogger.trace(message);
+            delegate.trace(message);
         }
 
         @Override public String getCategory() {
@@ -103,23 +102,23 @@ public class LoggingModule extends org.jclouds.logging.config.LoggingModule {
         }
 
         @Override public boolean isTraceEnabled() {
-            return delegateLogger.isTraceEnabled();
+            return delegate.isTraceEnabled();
         }
 
         @Override public boolean isDebugEnabled() {
-            return delegateLogger.isDebugEnabled();
+            return delegate.isDebugEnabled();
         }
 
         @Override public boolean isInfoEnabled() {
-            return delegateLogger.isInfoEnabled();
+            return delegate.isInfoEnabled();
         }
 
         @Override public boolean isWarnEnabled() {
-            return delegateLogger.isWarnEnabled();
+            return delegate.isWarnEnabled();
         }
 
         @Override public boolean isErrorEnabled() {
-            return delegateLogger.isErrorEnabled() || delegateLogger.isFatalEnabled();
+            return delegate.isErrorEnabled() || delegate.isFatalEnabled();
         }
     }
 
