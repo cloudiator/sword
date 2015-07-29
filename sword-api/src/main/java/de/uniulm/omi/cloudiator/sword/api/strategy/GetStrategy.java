@@ -22,9 +22,20 @@ package de.uniulm.omi.cloudiator.sword.api.strategy;
 import javax.annotation.Nullable;
 
 /**
- * Created by daniel on 11.03.15.
+ * A generic strategy for retrieving things.
+ *
+ * @param <S> used for searching.
+ * @param <T> gets retrieved
  */
 public interface GetStrategy<S, T> {
-    @Nullable
-    T get(S s);
+
+    /**
+     * Searches for a T using the provided argument s.
+     *
+     * @param s the id.
+     * @return T if found, otherwise null.
+     * @throws NullPointerException     if the given s is null.
+     * @throws IllegalArgumentException if the given s is invalid.
+     */
+    @Nullable T get(S s);
 }

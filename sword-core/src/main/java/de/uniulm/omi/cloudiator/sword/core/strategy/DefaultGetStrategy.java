@@ -26,21 +26,41 @@ import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
 import javax.annotation.Nullable;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+
 /**
- * Created by daniel on 11.03.15.
+ * A generic get strategy, that uses the supplier and searches for the correct
+ * id within the supplier.
+ *
+ * @param <T> the resource to search for.
+ * @author Daniel Baur <daniel.baur@uni-ulm.de>
  */
 public class DefaultGetStrategy<T extends Resource> implements GetStrategy<String, T> {
 
     private final Supplier<Set<T>> supplier;
 
-    @Inject
-    public DefaultGetStrategy(Supplier<Set<T>> supplier) {
+    /**
+     * Creates a default get strategy.
+     *
+     * @param supplier the supplier in which to search for the id.
+     */
+    @Inject public DefaultGetStrategy(Supplier<Set<T>> supplier) {
         this.supplier = supplier;
     }
 
-    @Nullable
-    @Override
-    public T get(String s) {
+    /**
+     * Searches for the given id in the supplier.
+     *
+     * @param s the id.
+     * @return the found resource or null.
+     * @throws NullPointerException     if the given id is null.
+     * @throws IllegalArgumentException if the given id is empty.
+     */
+    @Nullable @Override public T get(String s) {
+        checkNotNull(s);
+        checkArgument(!s.isEmpty());
         for (T t : supplier.get()) {
             if (t.id().equals(s)) {
                 return t;
@@ -49,30 +69,48 @@ public class DefaultGetStrategy<T extends Resource> implements GetStrategy<Strin
         return null;
     }
 
-    public static class DefaultVirtualMachineGetStrategy extends DefaultGetStrategy<VirtualMachine> {
-        @Inject
-        public DefaultVirtualMachineGetStrategy(Supplier<Set<VirtualMachine>> supplier) {
+    /**
+     * A generic get strategy for virtual machines.
+     *
+     * @todo necessary?
+     */
+    public static class DefaultVirtualMachineGetStrategy
+        extends DefaultGetStrategy<VirtualMachine> {
+        @Inject public DefaultVirtualMachineGetStrategy(Supplier<Set<VirtualMachine>> supplier) {
             super(supplier);
         }
     }
 
+
+    /**
+     * A generic get strategy for images.
+     * * @todo necessary?
+     */
     public static class DefaultImageGetStrategy extends DefaultGetStrategy<Image> {
-        @Inject
-        public DefaultImageGetStrategy(Supplier<Set<Image>> supplier) {
+        @Inject public DefaultImageGetStrategy(Supplier<Set<Image>> supplier) {
             super(supplier);
         }
     }
 
+
+    /**
+     * A generic get strategy for locations.
+     * * @todo necessary?
+     */
     public static class DefaultLocationGetStrategy extends DefaultGetStrategy<Location> {
-        @Inject
-        public DefaultLocationGetStrategy(Supplier<Set<Location>> supplier) {
+        @Inject public DefaultLocationGetStrategy(Supplier<Set<Location>> supplier) {
             super(supplier);
         }
     }
 
-    public static class DefaultHardwareFlavorGetStrategy extends DefaultGetStrategy<HardwareFlavor> {
-        @Inject
-        public DefaultHardwareFlavorGetStrategy(Supplier<Set<HardwareFlavor>> supplier) {
+
+    /**
+     * A generic get strategy for hardware flavors.
+     * * @todo necessary?
+     */
+    public static class DefaultHardwareFlavorGetStrategy
+        extends DefaultGetStrategy<HardwareFlavor> {
+        @Inject public DefaultHardwareFlavorGetStrategy(Supplier<Set<HardwareFlavor>> supplier) {
             super(supplier);
         }
     }

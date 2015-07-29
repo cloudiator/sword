@@ -24,8 +24,10 @@ import de.uniulm.omi.cloudiator.sword.core.domain.impl.LoginCredentialImpl;
 
 import javax.annotation.Nullable;
 
+
 /**
- * Created by daniel on 15.01.15.
+ * Builder for a LoginCredential object.
+ * Create new builder by calling newBuilder() method.
  */
 public class LoginCredentialBuilder {
 
@@ -37,25 +39,53 @@ public class LoginCredentialBuilder {
 
     }
 
+    /**
+     * Creates a new Builder.
+     *
+     * @return a new builder.
+     */
     public static LoginCredentialBuilder newBuilder() {
         return new LoginCredentialBuilder();
     }
 
+    /**
+     * Builds the object.
+     *
+     * @return the created login credential.
+     */
     public LoginCredential build() {
         return new LoginCredentialImpl(this.username, Optional.fromNullable(this.password),
             Optional.fromNullable(this.privateKey));
     }
 
+    /**
+     * The username used for login.
+     *
+     * @param username the username for the user.
+     * @return fluid interface
+     */
     public LoginCredentialBuilder username(String username) {
         this.username = username;
         return this;
     }
 
+    /**
+     * The private key.
+     *
+     * @param privateKey the private key used for login.
+     * @return fluid interface
+     */
     public LoginCredentialBuilder privateKey(String privateKey) {
         this.privateKey = privateKey;
         return this;
     }
 
+    /**
+     * The password for the login.
+     *
+     * @param password the password for the login.
+     * @return fluid interface
+     */
     public LoginCredentialBuilder password(String password) {
         this.password = password;
         return this;

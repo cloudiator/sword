@@ -21,12 +21,23 @@ package de.uniulm.omi.cloudiator.sword.api.domain;
 import java.util.Map;
 
 /**
- * Created by daniel on 09.07.15.
+ * Options for a {@link VirtualMachineTemplate}.
  */
 public interface TemplateOptions {
 
+    /**
+     * The keypair to use for the virtual machine.
+     *
+     * @return the name of the keypair.
+     */
     String keyPairName();
 
+    /**
+     * A map of additional generic options in
+     * key->value form.
+     *
+     * @return a map
+     */
     Map<Object, Object> additionalOptions();
 
 }
