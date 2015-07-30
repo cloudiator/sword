@@ -64,8 +64,7 @@ public class Providers {
         registry.put(providerConfiguration.getName(), providerConfiguration);
     }
 
-    public static ProviderConfiguration getConfigurationByName(String name)
-        throws ProviderNotFoundException {
+    public static ProviderConfiguration getConfigurationByName(String name) {
 
         if (!registry.containsKey(name)) {
             throw new ProviderNotFoundException(String

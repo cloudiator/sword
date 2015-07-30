@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 
 /**
@@ -28,15 +29,17 @@ public interface TemplateOptions {
     /**
      * The keypair to use for the virtual machine.
      *
-     * @return the name of the keypair.
+     * @return the name of the keypair or null.
      */
-    String keyPairName();
+    @Nullable String keyPairName();
 
     /**
      * A map of additional generic options in
      * key->value form.
+     * <p/>
+     * The map is immutable ({@link com.google.common.collect.ImmutableMap})
      *
-     * @return a map
+     * @return an immutable map
      */
     Map<Object, Object> additionalOptions();
 

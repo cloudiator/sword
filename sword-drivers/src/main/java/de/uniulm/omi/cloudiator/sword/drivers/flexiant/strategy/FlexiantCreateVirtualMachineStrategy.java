@@ -37,7 +37,7 @@ import java.util.Random;
 public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
     private final FlexiantComputeClient flexiantComputeClient;
-    private final static Random random = new Random();
+    private static final Random random = new Random();
     private final ServiceConfiguration serviceConfiguration;
     private final OneWayConverter<Server, VirtualMachine> serverVirtualMachineConverter;
 
@@ -56,8 +56,8 @@ public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachin
         final ServerTemplate serverTemplate = flexiantServerTemplateBuilder
             .hardwareId(FlexiantUtil.stripLocation(virtualMachineTemplate.hardwareFlavorId()))
             .image(FlexiantUtil.stripLocation(virtualMachineTemplate.imageId()))
-            .vdc(virtualMachineTemplate.locationId())
-            .serverName(generateRandomNameWithNodeGroup()).build();
+            .vdc(virtualMachineTemplate.locationId()).serverName(generateRandomNameWithNodeGroup())
+            .build();
 
         return this.serverVirtualMachineConverter
             .apply(this.flexiantComputeClient.createServer(serverTemplate));
