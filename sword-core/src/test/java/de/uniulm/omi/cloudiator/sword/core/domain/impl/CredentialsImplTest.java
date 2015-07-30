@@ -33,38 +33,31 @@ public class CredentialsImplTest {
     private String passwordTest = "secret123?password";
     private CredentialsImpl credentials;
 
-    @Before
-    public void before() {
+    @Before public void before() {
         this.credentials = new CredentialsImpl(this.userTest, this.passwordTest);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void userNotNullTest() {
-        final CredentialsImpl credentials = new CredentialsImpl(null, this.passwordTest);
+    @Test(expected = NullPointerException.class) public void userNotNullTest() {
+        new CredentialsImpl(null, this.passwordTest);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void userNotEmptyTest() {
-        final CredentialsImpl credentials = new CredentialsImpl("", this.passwordTest);
+    @Test(expected = IllegalArgumentException.class) public void userNotEmptyTest() {
+        new CredentialsImpl("", this.passwordTest);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void passwordNotNullTest() {
-        final CredentialsImpl credentials = new CredentialsImpl(this.userTest, null);
+    @Test(expected = NullPointerException.class) public void passwordNotNullTest() {
+        new CredentialsImpl(this.userTest, null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void passwordNotEmptyTest() {
-        final CredentialsImpl credentials = new CredentialsImpl(this.userTest, "");
+    @Test(expected = IllegalArgumentException.class) public void passwordNotEmptyTest() {
+        new CredentialsImpl(this.userTest, "");
     }
 
-    @Test
-    public void getUserTest() {
+    @Test public void getUserTest() {
         assertThat(this.credentials.user(), equalTo(this.userTest));
     }
 
-    @Test
-    public void getPasswordTest() {
+    @Test public void getPasswordTest() {
         assertThat(this.credentials.password(), equalTo(this.passwordTest));
     }
 }

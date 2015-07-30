@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain.impl;
 
+import de.uniulm.omi.cloudiator.sword.core.domain.builders.HardwareFlavorBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,68 +36,65 @@ public class HardwareFlavorImplTest {
     private final long ramTest = 1024;
     private HardwareFlavorImpl hardwareFlavor;
 
-    @Before
-    public void before() {
-        this.hardwareFlavor = new HardwareFlavorImpl(idTest, nameTest, coresTest, ramTest);
+    @Before public void before() {
+        this.hardwareFlavor =
+            HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(coresTest)
+                .mbRam(ramTest).build();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void coresNotZeroTest() {
-        new HardwareFlavorImpl(idTest, nameTest, 0, ramTest);
+    @Test(expected = IllegalArgumentException.class) public void coresNotZeroTest() {
+        HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(0).mbRam(ramTest)
+            .build();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void coresNotNegativeTest() {
-        new HardwareFlavorImpl(idTest, nameTest, -1, ramTest);
+    @Test(expected = IllegalArgumentException.class) public void coresNotNegativeTest() {
+        HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(-1).mbRam(ramTest)
+            .build();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void ramNotZeroTest() {
-        new HardwareFlavorImpl(idTest, nameTest, coresTest, 0);
+    @Test(expected = IllegalArgumentException.class) public void ramNotZeroTest() {
+        HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(coresTest).mbRam(0)
+            .build();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void ramNotNegativeTest() {
-        new HardwareFlavorImpl(idTest, nameTest, coresTest, -1);
+    @Test(expected = IllegalArgumentException.class) public void ramNotNegativeTest() {
+        HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(coresTest).mbRam(-1)
+            .build();
     }
 
-    @Test(expected = NullPointerException.class)
-    public void idNotNullTest() {
-        new HardwareFlavorImpl(null, nameTest, coresTest, ramTest);
+    @Test(expected = NullPointerException.class) public void idNotNullTest() {
+        HardwareFlavorBuilder.newBuilder().id(null).name(nameTest).cores(coresTest).mbRam(ramTest)
+            .build();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void idNotEmptyTest() {
-        new HardwareFlavorImpl("", nameTest, coresTest, ramTest);
+    @Test(expected = IllegalArgumentException.class) public void idNotEmptyTest() {
+        HardwareFlavorBuilder.newBuilder().id("").name(nameTest).cores(coresTest).mbRam(ramTest)
+            .build();
     }
 
-    @Test(expected = NullPointerException.class)
-    public void nameNotNullTest() {
-        new HardwareFlavorImpl(idTest, null, coresTest, ramTest);
+    @Test(expected = NullPointerException.class) public void nameNotNullTest() {
+        HardwareFlavorBuilder.newBuilder().id(idTest).name(null).cores(coresTest).mbRam(ramTest)
+            .build();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void nameNotEmptyTest() {
-        new HardwareFlavorImpl(idTest, "", coresTest, ramTest);
+    @Test(expected = IllegalArgumentException.class) public void nameNotEmptyTest() {
+        HardwareFlavorBuilder.newBuilder().id(idTest).name("").cores(coresTest).mbRam(ramTest)
+            .build();
     }
 
-    @Test
-    public void getIdTest() {
+    @Test public void getIdTest() {
         assertThat(hardwareFlavor.id(), equalTo(idTest));
     }
 
-    @Test
-    public void getCoresTest() {
+    @Test public void getCoresTest() {
         assertThat(hardwareFlavor.numberOfCores(), equalTo(coresTest));
     }
 
-    @Test
-    public void getRamTest() {
+    @Test public void getRamTest() {
         assertThat(hardwareFlavor.mbRam(), equalTo(ramTest));
     }
 
-    @Test
-    public void getNameTest() {
+    @Test public void getNameTest() {
         assertThat(hardwareFlavor.name(), equalTo(nameTest));
     }
 

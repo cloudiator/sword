@@ -56,7 +56,7 @@ public class KeyPairImplTest {
         KeyPairBuilder.newBuilder().name("name").privateKey("").publicKey("publicKey").build();
     }
 
-    public void testContructorAllowsNullPrivateKey() {
+    @Test public void testConstructorAllowsNullPrivateKey() {
         KeyPairBuilder.newBuilder().name("name").privateKey(null).publicKey("publicKey").build();
     }
 
