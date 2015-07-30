@@ -19,9 +19,12 @@
 package de.uniulm.omi.cloudiator.sword.core.domain.impl;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.core.domain.builders.TemplateOptionsBuilder;
 import org.junit.Test;
+
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -49,9 +52,12 @@ public class TemplateOptionsImplTest {
     }
 
     @Test public void testAdditionalOptions() throws Exception {
+        Map<Object, Object> map = Maps.newHashMapWithExpectedSize(1);
+        map.put("key2", "value2");
         TemplateOptions templateOptions =
-            TemplateOptionsBuilder.newBuilder().addOption("key", "value").build();
+            TemplateOptionsBuilder.newBuilder().addOption("key", "value").addOptions(map).build();
         assertThat(templateOptions.additionalOptions().get("key"), equalTo("value"));
+        assertThat(templateOptions.additionalOptions().get("key2"), equalTo("value2"));
     }
 
     @Test public void testAdditionalOptionsIsImmutable() throws Exception {

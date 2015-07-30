@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain.builders;
 
+import com.google.common.base.Optional;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.core.domain.impl.VirtualMachineTemplateImpl;

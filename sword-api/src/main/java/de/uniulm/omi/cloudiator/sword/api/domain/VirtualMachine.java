@@ -23,14 +23,32 @@ import com.google.common.base.Optional;
 import java.util.Set;
 
 /**
- * Created by daniel on 06.10.14.
+ * Represents a virtual machine.
  */
 public interface VirtualMachine extends Resource {
 
-    public Set<String> publicAddresses();
+    /**
+     * The public ip addresses under which this virtual machine is reachable.
+     *
+     * @return an immutable set of ip addresses.
+     */
+    Set<String> publicAddresses();
 
-    public Set<String> privateAddresses();
+    /**
+     * The private up addresses assigned to the virtual machine.
+     *
+     * @return an immutable set of up addresses.
+     */
+    Set<String> privateAddresses();
 
-    public Optional<LoginCredential> loginCredential();
+    /**
+     * {@link Optional} login credentials.
+     * <p/>
+     * The login credentials are normally only available
+     * if the machine was just created.
+     *
+     * @return optional login credentials.
+     */
+    Optional<LoginCredential> loginCredential();
 
 }

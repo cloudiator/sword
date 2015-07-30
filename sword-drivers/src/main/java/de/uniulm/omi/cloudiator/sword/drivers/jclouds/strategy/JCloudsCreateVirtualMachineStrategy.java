@@ -27,6 +27,7 @@ import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Template;
+import org.jclouds.compute.domain.TemplateBuilder;
 
 /**
  * Created by daniel on 12.01.15.
@@ -50,12 +51,18 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
 
     @Override public VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
 
-        final Template template = this.jCloudsComputeClient.templateBuilder()
-            .hardwareId(virtualMachineTemplate.hardwareFlavorId())
+        final TemplateBuilder templateBuilder = jCloudsComputeClient.templateBuilder();
+
+        templateBuilder.hardwareId(virtualMachineTemplate.hardwareFlavorId())
             .imageId(virtualMachineTemplate.imageId())
-            .locationId(virtualMachineTemplate.locationId())
-            .options(templateOptionsConverter.apply(virtualMachineTemplate.templateOptions()))
-            .build();
+            .locationId(virtualMachineTemplate.locationId());
+
+        if (virtualMachineTemplate.templateOptions().isPresent()) {
+            templateBuilder.options(
+                templateOptionsConverter.apply(virtualMachineTemplate.templateOptions().get()));
+        }
+
+        final Template template = templateBuilder.build();
 
         return this.computeMetadataVirtualMachineConverter
             .apply(this.jCloudsComputeClient.createNode(template));

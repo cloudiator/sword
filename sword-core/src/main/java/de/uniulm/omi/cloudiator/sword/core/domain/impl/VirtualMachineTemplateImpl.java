@@ -18,25 +18,52 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain.impl;
 
+import com.google.common.base.Optional;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 
+import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
- * Created by daniel on 09.01.15.
+ * Basic implementation of the {@link VirtualMachineTemplate} interface.
  */
 public class VirtualMachineTemplateImpl implements VirtualMachineTemplate {
 
     private final String imageId;
     private final String hardwareFlavorId;
     private final String locationId;
-    private final TemplateOptions templateOptions;
+    private final Optional<TemplateOptions> templateOptions;
 
+    /**
+     * Constructor.
+     * <p/>
+     * Use {@link de.uniulm.omi.cloudiator.sword.core.domain.builders.VirtualMachineTemplateBuilder}
+     * to create new objects.
+     *
+     * @param imageId          the id of the image (non null).
+     * @param hardwareFlavorId the id of the image (non null).
+     * @param locationId       the id of the location (non null).
+     * @param templateOptions  the template options to use.
+     */
     public VirtualMachineTemplateImpl(String imageId, String hardwareFlavorId, String locationId,
-        TemplateOptions templateOptions) {
+        @Nullable TemplateOptions templateOptions) {
+
+        checkNotNull(imageId);
+        checkArgument(!imageId.isEmpty());
+
+        checkNotNull(hardwareFlavorId);
+        checkArgument(!hardwareFlavorId.isEmpty());
+
+        checkNotNull(locationId);
+        checkArgument(!locationId.isEmpty());
+
         this.imageId = imageId;
         this.hardwareFlavorId = hardwareFlavorId;
         this.locationId = locationId;
-        this.templateOptions = templateOptions;
+        this.templateOptions = Optional.fromNullable(templateOptions);
     }
 
     @Override public String imageId() {
@@ -51,7 +78,7 @@ public class VirtualMachineTemplateImpl implements VirtualMachineTemplate {
         return this.locationId;
     }
 
-    @Override public TemplateOptions templateOptions() {
+    @Override public Optional<TemplateOptions> templateOptions() {
         return templateOptions;
     }
 }

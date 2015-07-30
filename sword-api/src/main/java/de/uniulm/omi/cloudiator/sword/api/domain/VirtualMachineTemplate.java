@@ -18,16 +18,30 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import com.google.common.base.Optional;
+
 /**
- * Created by daniel on 09.01.15.
+ * A template for starting virtual machines.
  */
 public interface VirtualMachineTemplate {
 
+    /**
+     * @return the id of the image to use.
+     */
     String imageId();
 
+    /**
+     * @return the id of the hardware flavor to use.
+     */
     String hardwareFlavorId();
 
+    /**
+     * @return the id of the location to use.
+     */
     String locationId();
 
-    TemplateOptions templateOptions();
+    /**
+     * @return an {@link Optional}{@link TemplateOptions} for running the virtual machine.
+     */
+    Optional<TemplateOptions> templateOptions();
 }
