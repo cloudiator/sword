@@ -27,7 +27,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Created by daniel on 18.05.15.
+ * Basic implementation of the {@link KeyPair} interface.
  */
 public class KeyPairImpl implements KeyPair {
 
@@ -35,6 +35,18 @@ public class KeyPairImpl implements KeyPair {
     private final String publicKey;
     @Nullable private final String privateKey;
 
+    /**
+     * Constructor.
+     * <p/>
+     * Use {@link de.uniulm.omi.cloudiator.sword.core.domain.builders.KeyPairBuilder} to
+     * create new objects of this type.
+     *
+     * @param name       The name of the keypair (mandatory).
+     * @param publicKey  The public key of the keypair (mandatory).
+     * @param privateKey The private key of the keypair (optional)
+     * @throws NullPointerException     if any of the mandatory attributes is null.
+     * @throws IllegalArgumentException if any of the supplied strings is empty.
+     */
     public KeyPairImpl(String name, String publicKey, @Nullable String privateKey) {
 
         checkNotNull(name);

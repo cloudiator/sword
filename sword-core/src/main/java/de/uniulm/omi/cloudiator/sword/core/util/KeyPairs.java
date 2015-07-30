@@ -36,7 +36,7 @@ public class KeyPairs {
     public static KeyPair generate(String name) {
         final Map.Entry<String, String> sshKeyPair =
             SshKeys.generate().entrySet().iterator().next();
-        return KeyPairBuilder.create().name(name).publicKey(sshKeyPair.getKey())
+        return KeyPairBuilder.newBuilder().name(name).publicKey(sshKeyPair.getKey())
             .privateKey(sshKeyPair.getValue()).build();
     }
 }

@@ -22,7 +22,9 @@ import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.core.domain.impl.KeyPairImpl;
 
 /**
- * Created by daniel on 18.05.15.
+ * Builder for a {@link KeyPair}.
+ * <p/>
+ * Use {@link #newBuilder()} to create a new builder instance.
  */
 public class KeyPairBuilder {
 
@@ -33,25 +35,45 @@ public class KeyPairBuilder {
     private KeyPairBuilder() {
     }
 
-    public static KeyPairBuilder create() {
+    /**
+     * @return a new builder instance.
+     */
+    public static KeyPairBuilder newBuilder() {
         return new KeyPairBuilder();
     }
 
+    /**
+     * @param name the name of the keypair.
+     * @return fluid interface
+     */
     public KeyPairBuilder name(String name) {
         this.name = name;
         return this;
     }
 
+    /**
+     * @param publicKey the public key.
+     * @return fluid interface.
+     */
     public KeyPairBuilder publicKey(String publicKey) {
         this.publicKey = publicKey;
         return this;
     }
 
+    /**
+     * @param privateKey the private key.
+     * @return fluid interface
+     */
     public KeyPairBuilder privateKey(String privateKey) {
         this.privateKey = privateKey;
         return this;
     }
 
+    /**
+     * Builds the keypair.
+     *
+     * @return the created keypair.
+     */
     public KeyPair build() {
         return new KeyPairImpl(name, publicKey, privateKey);
     }

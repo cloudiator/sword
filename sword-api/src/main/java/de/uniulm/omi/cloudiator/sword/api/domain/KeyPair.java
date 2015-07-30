@@ -21,14 +21,27 @@ package de.uniulm.omi.cloudiator.sword.api.domain;
 import com.google.common.base.Optional;
 
 /**
- * Created by daniel on 18.05.15.
+ * Represents a public/private keypair for accessing
+ * servers with SSH.
+ * <p/>
+ * The private key is optional, and is normally only available
+ * if the keypair was just created.
  */
 public interface KeyPair {
 
+    /**
+     * @return the name of the keypair.
+     */
     String name();
 
+    /**
+     * @return the public key.
+     */
     String publicKey();
 
+    /**
+     * @return an {@link Optional} private key.
+     */
     Optional<String> privateKey();
 
 }
