@@ -27,37 +27,53 @@ import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.domain.LoginCredentials;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
- * Created by daniel on 09.12.14.
+ * Converts a jclouds {@link ComputeMetadata} object into
+ * a {@link VirtualMachine} object.
+ *
+ * Requires the compute metadata object to be of type
+ * {@link NodeMetadata}, as otherwise not all required
+ * information is available.
  */
 public class JCloudsComputeMetadataToVirtualMachine
     implements OneWayConverter<ComputeMetadata, VirtualMachine> {
 
     private final OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter;
 
+    /**
+     * Constructor.
+     *
+     * @param loginCredentialConverter a converter for the login credentials (non null)
+     */
     @Inject public JCloudsComputeMetadataToVirtualMachine(
         OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter) {
+
+        checkNotNull(loginCredentialConverter);
+
         this.loginCredentialConverter = loginCredentialConverter;
     }
 
     @Override public VirtualMachine apply(final ComputeMetadata computeMetadata) {
 
+        checkArgument(computeMetadata instanceof NodeMetadata);
+
         VirtualMachineBuilder virtualMachineBuilder = VirtualMachineBuilder.newBuilder();
         virtualMachineBuilder.id(computeMetadata.getId()).name(computeMetadata.getName());
 
-        if (computeMetadata instanceof NodeMetadata) {
-            ((NodeMetadata) computeMetadata).getPrivateAddresses()
-                .forEach(virtualMachineBuilder::addPrivateIpAddress);
-            ((NodeMetadata) computeMetadata).getPublicAddresses()
-                .forEach(virtualMachineBuilder::addPublicIpAddress);
-            if (((NodeMetadata) computeMetadata).getCredentials() != null) {
-                virtualMachineBuilder.loginCredential(this.loginCredentialConverter
-                    .apply(((NodeMetadata) computeMetadata).getCredentials()));
-            }
-        } else {
-            throw new IllegalArgumentException("Got ComputeMetadata, expected NodeMetadata");
+        ((NodeMetadata) computeMetadata).getPrivateAddresses()
+            .forEach(virtualMachineBuilder::addPrivateIpAddress);
+        ((NodeMetadata) computeMetadata).getPublicAddresses()
+            .forEach(virtualMachineBuilder::addPublicIpAddress);
+        if (((NodeMetadata) computeMetadata).getCredentials() != null) {
+            virtualMachineBuilder.loginCredential(this.loginCredentialConverter
+                .apply(((NodeMetadata) computeMetadata).getCredentials()));
         }
 
         return virtualMachineBuilder.build();
     }
+
+
 }
