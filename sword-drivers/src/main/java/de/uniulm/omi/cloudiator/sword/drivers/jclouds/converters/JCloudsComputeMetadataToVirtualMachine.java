@@ -54,6 +54,8 @@ public class JCloudsComputeMetadataToVirtualMachine
                 virtualMachineBuilder.loginCredential(this.loginCredentialConverter
                     .apply(((NodeMetadata) computeMetadata).getCredentials()));
             }
+        } else {
+            throw new IllegalArgumentException("Got ComputeMetadata, expected NodeMetadata");
         }
 
         return virtualMachineBuilder.build();
