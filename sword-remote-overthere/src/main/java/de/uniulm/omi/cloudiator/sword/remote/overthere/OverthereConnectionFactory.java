@@ -29,6 +29,8 @@ import com.xebialabs.overthere.ssh.SshConnectionBuilder;
 import com.xebialabs.overthere.ssh.SshConnectionType;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.OSFamily;
+import de.uniulm.omi.cloudiator.sword.api.logging.InjectLogger;
+import de.uniulm.omi.cloudiator.sword.api.logging.Logger;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 
@@ -39,6 +41,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by Daniel Seybold on 06.05.2015.
  */
 public class OverthereConnectionFactory implements RemoteConnectionFactory {
+
+    @InjectLogger
+    Logger logger;
 
     private final ConnectionOptions connectionOptions = new ConnectionOptions();
 
@@ -88,6 +93,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
     private RemoteConnection createRemoteConnectionWithRetry(OSFamily osFamily,
         LoginCredential loginCredential) {
 
+        logger.debug("this is a logging test");
         for (int i = 0; i < OverthereConnectionFactory.CONNECTIONRETRYCOUNTER; i++) {
 
             try {
