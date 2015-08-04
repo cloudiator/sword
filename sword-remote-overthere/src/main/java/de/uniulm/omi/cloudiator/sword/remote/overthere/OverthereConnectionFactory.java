@@ -97,7 +97,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
         for (int i = 1; i <= OverthereConnectionFactory.CONNECTIONRETRYCOUNTER; i++) {
 
             try {
-                
+
                 return this.createRemoteConnectionSpecific(osFamily, loginCredential);
 
             } catch (RuntimeIOException e) {
@@ -140,7 +140,10 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
             case UNIX:
                 return new OverthereConnection(this.openLinuxConnection(loginCredential));
             case WINDOWS:
-                return new OverthereConnection(this.openWindowsConnection(loginCredential));
+                OverthereConnection windowsConnection = new OverthereConnection(this.openWindowsConnection(loginCredential));
+                this.checkWindowsConnection(windowsConnection);
+                //return new OverthereConnection(this.openWindowsConnection(loginCredential));
+                return windowsConnection;
             default:
                 throw new UnsupportedOperationException(
                     "Remote connection to given OSFamily (" + osFamily + ") not supported.");
@@ -239,8 +242,15 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
 
     }
 
+    /**
+     * Test if the WindowsConnection is established with a dummy command
+     * Necessary because for Windows Overthere throws TimeoutException with first command execution
+     * @param windowsConnection
+     */
+    private void checkWindowsConnection(OverthereConnection windowsConnection){
+        checkNotNull(windowsConnection);
 
-    private void checkWindowsConnection(){
-
+        //execute dummy command to check if Connection is enabled
+        windowsConnection.executeCommand("echo windows connection established");
     }
 }
