@@ -18,15 +18,30 @@
 
 package de.uniulm.omi.cloudiator.sword.api.util;
 
+import javax.annotation.Nullable;
+
 /**
- * Created by daniel on 28.01.15.
+ * Represents an id which has a location scope,
+ * e.g. regionOne/1 where regionOne is the location scope
+ * and 1 is the real id.
+ * <p/>
+ * Use {@link IdScopeByLocations} to create objects.
  */
 public interface IdScopedByLocation {
 
+    /**
+     * @return the id part of the scoped id.
+     */
     String getId();
 
-    String getLocationId();
+    /**
+     * @return the location part of the scoped id, null if no location scope exists.
+     */
+    @Nullable String getLocationId();
 
+    /**
+     * @return the scoped id as string.
+     */
     String getIdWithLocation();
 
 }
