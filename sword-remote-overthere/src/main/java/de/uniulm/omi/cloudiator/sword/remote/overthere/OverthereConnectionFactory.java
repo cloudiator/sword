@@ -50,7 +50,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
     /**
      * An internal counter for the number of retry approaches for Overthere connections
      */
-    private static final int CONNECTIONRETRYCOUNTER = 3;
+    private static final int CONNECTIONRETRYCOUNTER = 4;
 
     /**
      * the factor of increasing the timeout value for an Overthere connection, if a connection approach isn't successful
@@ -93,15 +93,18 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
     private RemoteConnection createRemoteConnectionWithRetry(OSFamily osFamily,
         LoginCredential loginCredential) {
 
-        logger.debug("this is a logging test");
-        for (int i = 0; i < OverthereConnectionFactory.CONNECTIONRETRYCOUNTER; i++) {
+
+        for (int i = 1; i <= OverthereConnectionFactory.CONNECTIONRETRYCOUNTER; i++) {
 
             try {
+                
                 return this.createRemoteConnectionSpecific(osFamily, loginCredential);
 
             } catch (RuntimeIOException e) {
-                //TODO: log exeception and write number of approaches
 
+                if(i < OverthereConnectionFactory.CONNECTIONRETRYCOUNTER){
+                    logger.debug("Remote Connection could not be established, retry attempt: " + i);
+                }
                 //increase the Overthere connection timeout
                 if (!this.connectionOptions
                     .containsKey(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS)) {
@@ -132,6 +135,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
      */
     private RemoteConnection createRemoteConnectionSpecific(OSFamily osFamily,
         LoginCredential loginCredential) {
+
         switch (osFamily) {
             case UNIX:
                 return new OverthereConnection(this.openLinuxConnection(loginCredential));
@@ -232,6 +236,11 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
             this.connectionOptions
                 .set(ConnectionOptions.PASSWORD, loginCredential.password().get());
         }
+
+    }
+
+
+    private void checkWindowsConnection(){
 
     }
 }
