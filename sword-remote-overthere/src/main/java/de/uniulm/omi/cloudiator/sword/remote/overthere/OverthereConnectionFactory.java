@@ -121,8 +121,8 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
         }
 
         throw new IllegalStateException(
-            "Unable to connect to host " + this.connectionOptions.get(ConnectionOptions.ADDRESS)
-                + this.connectionOptions.get(ConnectionOptions.PORT) + " after "
+            "Unable to connect to host " + this.connectionOptions.get(ConnectionOptions.ADDRESS) +
+                " on port " + this.connectionOptions.get(ConnectionOptions.PORT) + " after "
                 + OverthereConnectionFactory.CONNECTIONRETRYCOUNTER + " approaches!");
     }
 
