@@ -24,7 +24,10 @@ import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.core.domain.builders.TemplateOptionsBuilder;
 import org.junit.Test;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -37,7 +40,12 @@ public class TemplateOptionsImplTest {
 
     @Test(expected = NullPointerException.class)
     public void testConstructorDisallowsNullAdditionalOptions() {
-        new TemplateOptionsImpl("test", null);
+        new TemplateOptionsImpl("test", null, Collections.singleton(1));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testConstructorDisallowsNullInboundPorts() {
+        new TemplateOptionsImpl("test", new HashMap<>(), null);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -58,6 +66,13 @@ public class TemplateOptionsImplTest {
             TemplateOptionsBuilder.newBuilder().addOption("key", "value").addOptions(map).build();
         assertThat(templateOptions.additionalOptions().get("key"), equalTo("value"));
         assertThat(templateOptions.additionalOptions().get("key2"), equalTo("value2"));
+    }
+
+    @Test public void testInboundPorts() throws Exception {
+        Set<Integer> inboundPorts = Collections.singleton(1);
+        TemplateOptions templateOptions =
+            TemplateOptionsBuilder.newBuilder().inboundPorts(inboundPorts).build();
+        assertThat(templateOptions.inboundPorts().contains(1), equalTo(true));
     }
 
     @Test public void testAdditionalOptionsIsImmutable() throws Exception {

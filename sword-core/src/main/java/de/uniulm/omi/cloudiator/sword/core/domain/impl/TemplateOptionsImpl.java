@@ -19,10 +19,12 @@
 package de.uniulm.omi.cloudiator.sword.core.domain.impl;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -33,6 +35,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class TemplateOptionsImpl implements TemplateOptions {
 
     @Nullable private final String keyPairName;
+    private final Set<Integer> inboundPorts;
     private final Map<Object, Object> additionalOptions;
 
     /**
@@ -43,23 +46,31 @@ public class TemplateOptionsImpl implements TemplateOptions {
      *
      * @param keyPairName       the name of the keypair to use (optional).
      * @param additionalOptions a key->value map for addition options (mandatory).
+     * @param inboundPorts      a set of ports to open (mandatory)
      * @throws NullPointerException     if a mandatory argument is null.
      * @throws IllegalArgumentException if the keyPairName is an empty string.
      */
-    public TemplateOptionsImpl(@Nullable String keyPairName,
-        Map<Object, Object> additionalOptions) {
+    public TemplateOptionsImpl(@Nullable String keyPairName, Map<Object, Object> additionalOptions,
+        Set<Integer> inboundPorts) {
+
 
         if (keyPairName != null) {
             checkArgument(!keyPairName.isEmpty());
         }
         checkNotNull(additionalOptions);
+        checkNotNull(inboundPorts);
 
         this.keyPairName = keyPairName;
+        this.inboundPorts = ImmutableSet.copyOf(inboundPorts);
         this.additionalOptions = ImmutableMap.copyOf(additionalOptions);
     }
 
     @Nullable @Override public String keyPairName() {
         return keyPairName;
+    }
+
+    @Override public Set<Integer> inboundPorts() {
+        return inboundPorts;
     }
 
     @Override public Map<Object, Object> additionalOptions() {

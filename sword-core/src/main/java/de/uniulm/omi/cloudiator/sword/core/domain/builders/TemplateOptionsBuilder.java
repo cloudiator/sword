@@ -22,7 +22,9 @@ import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.core.domain.impl.TemplateOptionsImpl;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A builder for {@link TemplateOptions} objects.
@@ -33,9 +35,11 @@ public class TemplateOptionsBuilder {
 
     private String keyPairName;
     private Map<Object, Object> additionalOptions;
+    private Set<Integer> inboundPorts;
 
     private TemplateOptionsBuilder() {
         additionalOptions = new HashMap<>();
+        inboundPorts = new HashSet<>();
     }
 
     /**
@@ -83,12 +87,25 @@ public class TemplateOptionsBuilder {
     }
 
     /**
+     * Adds multiple inbound ports to the template.
+     * <p/>
+     * This methods is not idempotent.
+     *
+     * @param inboundPorts the inbound ports to add.
+     * @return fluid interface
+     */
+    public TemplateOptionsBuilder inboundPorts(Set<Integer> inboundPorts) {
+        this.inboundPorts.addAll(inboundPorts);
+        return this;
+    }
+
+    /**
      * Builds the template options object.
      *
      * @return the template options.
      */
     public TemplateOptions build() {
-        return new TemplateOptionsImpl(keyPairName, additionalOptions);
+        return new TemplateOptionsImpl(keyPairName, additionalOptions, inboundPorts);
     }
 
 
