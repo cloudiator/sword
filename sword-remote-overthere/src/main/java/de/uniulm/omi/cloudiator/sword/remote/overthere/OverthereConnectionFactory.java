@@ -49,17 +49,22 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
     /**
      * An internal counter for the number of retry approaches for Overthere connections
      */
-    private static final int CONNECTIONRETRYCOUNTER = 10;
+    private static final int CONNECTION_RETRY_COUNTER = 10;
 
     /**
      * the factor of increasing the timeout value for an Overthere connection, if a connection approach isn't successful
      */
-    private static final int INCREASETIMEOUTFACTOR = 2;
+    private static final int INCREASE_TIMEOUT_FACTOR = 2;
+
+    /**
+     * The basic connection timeout in seconds.
+     */
+    private static final int BASIC_CONNECTION_TIMEOUT = 10;
 
     /**
      * An extendet timeout for WinRm connections (default timeout is PT60.000S)
      */
-    private static final String EXTENDEDWINRMTIMEOUT = "PT120.000S";
+    private static final String EXTENDED_WINRM_TIMEOUT = "PT120.000S";
 
 
     @Override
@@ -83,7 +88,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
     }
 
     /**
-     * tries to open a Overthere connection and in case of a timeout retrying it for {@value #CONNECTIONRETRYCOUNTER}
+     * tries to open a Overthere connection and in case of a timeout retrying it for {@value #CONNECTION_RETRY_COUNTER}
      *
      * @param osFamily
      * @param loginCredential
@@ -94,7 +99,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
 
 
         Exception lastException = null;
-        for (int i = 1; i <= OverthereConnectionFactory.CONNECTIONRETRYCOUNTER; i++) {
+        for (int i = 1; i <= OverthereConnectionFactory.CONNECTION_RETRY_COUNTER; i++) {
 
             try {
 
@@ -103,20 +108,14 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
             } catch (RuntimeIOException e) {
 
                 lastException = e;
-                if (i < OverthereConnectionFactory.CONNECTIONRETRYCOUNTER) {
+                if (i < OverthereConnectionFactory.CONNECTION_RETRY_COUNTER) {
                     logger.debug("Remote Connection could not be established, retry attempt: " + i);
                 }
-                //increase the Overthere connection timeout
-                if (!this.connectionOptions
-                    .containsKey(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS)) {
-                    this.connectionOptions.set(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS,
-                        ConnectionOptions.CONNECTION_TIMEOUT_MILLIS_DEFAULT
-                            * OverthereConnectionFactory.INCREASETIMEOUTFACTOR);
-                } else {
-                    int currentTimeoutValue =
-                        this.connectionOptions.get(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS);
-                    this.connectionOptions.set(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS,
-                        currentTimeoutValue * OverthereConnectionFactory.INCREASETIMEOUTFACTOR);
+
+                try {
+                    Thread.sleep(BASIC_CONNECTION_TIMEOUT * 1000 * INCREASE_TIMEOUT_FACTOR * i);
+                } catch (InterruptedException interrupt) {
+                    throw new IllegalStateException(interrupt);
                 }
 
             }
@@ -125,7 +124,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
         throw new IllegalStateException(
             "Unable to connect to host " + this.connectionOptions.get(ConnectionOptions.ADDRESS) +
                 " on port " + this.connectionOptions.get(ConnectionOptions.PORT) + " after "
-                + OverthereConnectionFactory.CONNECTIONRETRYCOUNTER + " approaches!",
+                + OverthereConnectionFactory.CONNECTION_RETRY_COUNTER + " approaches!",
             lastException);
     }
 
@@ -202,7 +201,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
             .set(CifsConnectionBuilder.CONNECTION_TYPE, CifsConnectionType.WINRM_INTERNAL);
         //set a higher timeout for WindowsConnections
         this.connectionOptions.set(CifsConnectionBuilder.WINRM_TIMEMOUT,
-            OverthereConnectionFactory.EXTENDEDWINRMTIMEOUT);
+            OverthereConnectionFactory.EXTENDED_WINRM_TIMEOUT);
 
     }
 
