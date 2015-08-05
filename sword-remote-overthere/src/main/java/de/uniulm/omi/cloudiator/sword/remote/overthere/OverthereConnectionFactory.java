@@ -42,8 +42,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class OverthereConnectionFactory implements RemoteConnectionFactory {
 
-    @InjectLogger
-    Logger logger;
+    @InjectLogger Logger logger;
 
     private final ConnectionOptions connectionOptions = new ConnectionOptions();
 
@@ -102,7 +101,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
 
             } catch (RuntimeIOException e) {
 
-                if(i < OverthereConnectionFactory.CONNECTIONRETRYCOUNTER){
+                if (i < OverthereConnectionFactory.CONNECTIONRETRYCOUNTER) {
                     logger.debug("Remote Connection could not be established, retry attempt: " + i);
                 }
                 //increase the Overthere connection timeout
@@ -123,7 +122,8 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
 
         throw new IllegalStateException(
             "Unable to connect to host " + this.connectionOptions.get(ConnectionOptions.ADDRESS)
-                + " after " + OverthereConnectionFactory.CONNECTIONRETRYCOUNTER + " approaches!");
+                + this.connectionOptions.get(ConnectionOptions.PORT) + " after "
+                + OverthereConnectionFactory.CONNECTIONRETRYCOUNTER + " approaches!");
     }
 
     /**
@@ -140,7 +140,8 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
             case UNIX:
                 return new OverthereConnection(this.openLinuxConnection(loginCredential));
             case WINDOWS:
-                OverthereConnection windowsConnection = new OverthereConnection(this.openWindowsConnection(loginCredential));
+                OverthereConnection windowsConnection =
+                    new OverthereConnection(this.openWindowsConnection(loginCredential));
                 this.checkWindowsConnection(windowsConnection);
                 //return new OverthereConnection(this.openWindowsConnection(loginCredential));
                 return windowsConnection;
@@ -245,9 +246,10 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
     /**
      * Test if the WindowsConnection is established with a dummy command
      * Necessary because for Windows Overthere throws TimeoutException with first command execution
+     *
      * @param windowsConnection
      */
-    private void checkWindowsConnection(OverthereConnection windowsConnection){
+    private void checkWindowsConnection(OverthereConnection windowsConnection) {
         checkNotNull(windowsConnection);
 
         //execute dummy command to check if Connection is enabled
