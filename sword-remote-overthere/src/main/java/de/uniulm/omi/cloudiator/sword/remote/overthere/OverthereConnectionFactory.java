@@ -49,7 +49,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
     /**
      * An internal counter for the number of retry approaches for Overthere connections
      */
-    private static final int CONNECTIONRETRYCOUNTER = 4;
+    private static final int CONNECTIONRETRYCOUNTER = 10;
 
     /**
      * the factor of increasing the timeout value for an Overthere connection, if a connection approach isn't successful
