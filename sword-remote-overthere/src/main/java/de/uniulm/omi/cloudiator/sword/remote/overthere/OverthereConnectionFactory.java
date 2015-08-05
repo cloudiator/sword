@@ -93,6 +93,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
         LoginCredential loginCredential) {
 
 
+        Exception lastException = null;
         for (int i = 1; i <= OverthereConnectionFactory.CONNECTIONRETRYCOUNTER; i++) {
 
             try {
@@ -101,6 +102,7 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
 
             } catch (RuntimeIOException e) {
 
+                lastException = e;
                 if (i < OverthereConnectionFactory.CONNECTIONRETRYCOUNTER) {
                     logger.debug("Remote Connection could not be established, retry attempt: " + i);
                 }
@@ -123,7 +125,8 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
         throw new IllegalStateException(
             "Unable to connect to host " + this.connectionOptions.get(ConnectionOptions.ADDRESS) +
                 " on port " + this.connectionOptions.get(ConnectionOptions.PORT) + " after "
-                + OverthereConnectionFactory.CONNECTIONRETRYCOUNTER + " approaches!");
+                + OverthereConnectionFactory.CONNECTIONRETRYCOUNTER + " approaches!",
+            lastException);
     }
 
     /**
