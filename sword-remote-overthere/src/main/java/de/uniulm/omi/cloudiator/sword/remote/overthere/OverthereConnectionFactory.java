@@ -29,6 +29,8 @@ import com.xebialabs.overthere.ssh.SshConnectionBuilder;
 import com.xebialabs.overthere.ssh.SshConnectionType;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.OSFamily;
+import de.uniulm.omi.cloudiator.sword.api.logging.InjectLogger;
+import de.uniulm.omi.cloudiator.sword.api.logging.Logger;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 
@@ -40,12 +42,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class OverthereConnectionFactory implements RemoteConnectionFactory {
 
+    @InjectLogger
+    Logger logger;
+
     private final ConnectionOptions connectionOptions = new ConnectionOptions();
 
     /**
      * An internal counter for the number of retry approaches for Overthere connections
      */
-    private static final int CONNECTIONRETRYCOUNTER = 3;
+    private static final int CONNECTIONRETRYCOUNTER = 4;
 
     /**
      * the factor of increasing the timeout value for an Overthere connection, if a connection approach isn't successful
@@ -88,14 +93,18 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
     private RemoteConnection createRemoteConnectionWithRetry(OSFamily osFamily,
         LoginCredential loginCredential) {
 
-        for (int i = 0; i < OverthereConnectionFactory.CONNECTIONRETRYCOUNTER; i++) {
+
+        for (int i = 1; i <= OverthereConnectionFactory.CONNECTIONRETRYCOUNTER; i++) {
 
             try {
+
                 return this.createRemoteConnectionSpecific(osFamily, loginCredential);
 
             } catch (RuntimeIOException e) {
-                //TODO: log exeception and write number of approaches
 
+                if(i < OverthereConnectionFactory.CONNECTIONRETRYCOUNTER){
+                    logger.debug("Remote Connection could not be established, retry attempt: " + i);
+                }
                 //increase the Overthere connection timeout
                 if (!this.connectionOptions
                     .containsKey(ConnectionOptions.CONNECTION_TIMEOUT_MILLIS)) {
@@ -126,11 +135,15 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
      */
     private RemoteConnection createRemoteConnectionSpecific(OSFamily osFamily,
         LoginCredential loginCredential) {
+
         switch (osFamily) {
             case UNIX:
                 return new OverthereConnection(this.openLinuxConnection(loginCredential));
             case WINDOWS:
-                return new OverthereConnection(this.openWindowsConnection(loginCredential));
+                OverthereConnection windowsConnection = new OverthereConnection(this.openWindowsConnection(loginCredential));
+                this.checkWindowsConnection(windowsConnection);
+                //return new OverthereConnection(this.openWindowsConnection(loginCredential));
+                return windowsConnection;
             default:
                 throw new UnsupportedOperationException(
                     "Remote connection to given OSFamily (" + osFamily + ") not supported.");
@@ -227,5 +240,17 @@ public class OverthereConnectionFactory implements RemoteConnectionFactory {
                 .set(ConnectionOptions.PASSWORD, loginCredential.password().get());
         }
 
+    }
+
+    /**
+     * Test if the WindowsConnection is established with a dummy command
+     * Necessary because for Windows Overthere throws TimeoutException with first command execution
+     * @param windowsConnection
+     */
+    private void checkWindowsConnection(OverthereConnection windowsConnection){
+        checkNotNull(windowsConnection);
+
+        //execute dummy command to check if Connection is enabled
+        windowsConnection.executeCommand("echo windows connection established");
     }
 }
