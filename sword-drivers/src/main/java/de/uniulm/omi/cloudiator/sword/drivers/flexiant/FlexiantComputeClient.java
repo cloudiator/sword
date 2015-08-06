@@ -28,16 +28,16 @@ import java.util.Set;
  */
 @ImplementedBy(FlexiantComputeClientImpl.class) public interface FlexiantComputeClient {
 
-    public Set<Image> listImages();
+    Set<Image> listImages();
 
-    public Set<Hardware> listHardware();
+    Set<Hardware> listHardware();
 
-    public Set<Location> listLocations();
+    Set<Location> listLocations();
 
-    public Set<Server> listServers();
+    Set<Server> listServers();
 
-    public Server createServer(ServerTemplate flexiantServerTemplate);
+    Server createServer(ServerTemplate flexiantServerTemplate);
 
-    public void deleteServer(String serverUUID);
+    void deleteServer(String serverUUID);
 
 }

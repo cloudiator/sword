@@ -19,8 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 
 
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.LocationScope;
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.core.domain.builders.LocationBuilder;
 

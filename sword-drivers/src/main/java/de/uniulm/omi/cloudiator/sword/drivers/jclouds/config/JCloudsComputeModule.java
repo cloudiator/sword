@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.config;
 
 import com.google.inject.TypeLiteral;
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;

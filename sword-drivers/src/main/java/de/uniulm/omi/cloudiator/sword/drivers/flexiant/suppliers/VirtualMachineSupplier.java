@@ -22,7 +22,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;

@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.config;
 import com.google.common.base.Optional;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
