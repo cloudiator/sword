@@ -16,5 +16,6 @@ public interface RemoteConnectionFactory {
      * @param port the specific port for opening a RemoteConnection
      * @return
      */
-    public RemoteConnection createRemoteConnection(String remoteAddress, OSFamily osFamily, LoginCredential loginCredential, int port);
+    RemoteConnection createRemoteConnection(String remoteAddress, OSFamily osFamily,
+        LoginCredential loginCredential, int port);
 }

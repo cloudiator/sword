@@ -26,23 +26,83 @@ import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import javax.annotation.Nullable;
 
 /**
- * Created by daniel on 19.06.15.
+ * Provides methods to either directly fetch
+ * resources (HardwareFlavor, Image, Location and Virtual Machine)
+ * stored at the cloud provider or
+ * to fetch all resources of a specific type.
+ *
+ * @param <H> the type of the {@link HardwareFlavor}
+ * @param <I> the type of the {@link Image}
+ * @param <L> the type of the {@link Location}
+ * @param <V> the type of the {@link VirtualMachine}
  */
 public interface DiscoveryService<H extends HardwareFlavor, I extends Image, L extends Location, V extends VirtualMachine> {
 
+    /**
+     * Retrieves the hardware flavor with the specified id.
+     *
+     * @param id mandatory id for the hardware flavor.
+     * @return the hardware flavor or null if not found.
+     * @throws NullPointerException     if the id is null.
+     * @throws IllegalArgumentException if the id is empty.
+     */
     @Nullable H getHardwareFlavor(String id);
 
+    /**
+     * Retrieves the image with the specified id.
+     *
+     * @param id mandatory id for the image.
+     * @return the image or null if not found.
+     * @throws NullPointerException     if the id is null.
+     * @throws IllegalArgumentException if the id is empty.
+     */
     @Nullable I getImage(String id);
 
+    /**
+     * Retrieves the location with the specified id.
+     *
+     * @param id mandatory id for the location.
+     * @return the location or null if not found.
+     * @throws NullPointerException     if the id is null.
+     * @throws IllegalArgumentException if the id is empty.
+     */
     @Nullable L getLocation(String id);
 
+    /**
+     * Retrieves the virtual machine with the specified id.
+     *
+     * @param id mandatory id for the virtual machine.
+     * @return the virtual machine or null if not found.
+     * @throws NullPointerException     if the id is null.
+     * @throws IllegalArgumentException if the id is empty.
+     */
     @Nullable V getVirtualMachine(String id);
 
+    /**
+     * Retrieves an {@link Iterable} of the hardware flavors offered by the cloud provider.
+     *
+     * @return the hardware flavors offered.
+     */
     Iterable<H> listHardwareFlavors();
 
+    /**
+     * Retrieves an {@link Iterable} of the images offered by the cloud provider.
+     *
+     * @return the images offered.
+     */
     Iterable<I> listImages();
 
+    /**
+     * Retrieves an {@link Iterable} of the locations offered by the cloud provider.
+     *
+     * @return the locations offered.
+     */
     Iterable<L> listLocations();
 
+    /**
+     * Retrieves an {@link Iterable} of the virtual machines offered by the cloud provider.
+     *
+     * @return the virtual machines offered.
+     */
     Iterable<V> listVirtualMachines();
 }

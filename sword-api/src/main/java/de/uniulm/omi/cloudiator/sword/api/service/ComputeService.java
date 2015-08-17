@@ -24,18 +24,54 @@ import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 
 /**
- * Created by daniel on 29.10.14.
+ * Compute service interface. Offers method for interaction with the compute API of the cloud
+ * providers.
+ *
+ * @param <H> the type of {@link HardwareFlavor}
+ * @param <I> the type of {@link Image}
+ * @param <L> the type of {@link Location}
+ * @param <V> the type of {@link VirtualMachine}
  */
 public interface ComputeService<H extends HardwareFlavor, I extends Image, L extends Location, V extends VirtualMachine>
     extends DiscoveryService<H, I, L, V> {
 
+    /**
+     * Deletes a virtual machine.
+     *
+     * @param virtualMachineId a mandatory id of the virtual machine.
+     * @throws NullPointerException     if the virtual machine id is null.
+     * @throws IllegalArgumentException if the virtual machine id is empty.
+     */
     void deleteVirtualMachine(String virtualMachineId);
 
+    /**
+     * Creates a virtual machine ({@link VirtualMachine}) for the given {@link VirtualMachineTemplate}.
+     *
+     * @param virtualMachineTemplate mandatory virtual machine template.
+     * @return the created virtual machine.
+     * @throws NullPointerException if the virtual machine template is null.
+     */
     V createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
 
+    /**
+     * Returns a {@link ConnectionService} that is used for connecting to
+     * virtual machines.
+     *
+     * @return a connection service.
+     */
     ConnectionService getConnectionService();
 
+    /**
+     * Returns an {@link Optional} {@link PublicIpService} for the cloud provider.
+     *
+     * @return an optional public ip service.
+     */
     Optional<PublicIpService> getPublicIpService();
 
+    /**
+     * Returns an {@link Optional} {@link KeyPairService} for the cloud provider.
+     *
+     * @return an optional key pair service.
+     */
     Optional<KeyPairService> getKeyPairService();
 }

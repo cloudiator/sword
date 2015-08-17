@@ -19,7 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.api.exceptions;
 
 /**
- * Created by daniel on 03.12.14.
+ * An exception that is thrown if the desired provider can
+ * not be found.
  */
 public class ProviderNotFoundException extends RuntimeException {
 
@@ -29,5 +30,18 @@ public class ProviderNotFoundException extends RuntimeException {
 
     public ProviderNotFoundException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    public ProviderNotFoundException() {
+        super();
+    }
+
+    public ProviderNotFoundException(Throwable cause) {
+        super(cause);
+    }
+
+    protected ProviderNotFoundException(String message, Throwable cause, boolean enableSuppression,
+        boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 }

@@ -21,15 +21,27 @@ package de.uniulm.omi.cloudiator.sword.api;
 import de.uniulm.omi.cloudiator.sword.api.domain.Credentials;
 
 /**
- * Created by daniel on 02.12.14.
+ * Provides the configuration of the service.
  */
 public interface ServiceConfiguration {
 
+    /**
+     * @return the address of the api endpoint of the service provider.
+     */
     String getEndpoint();
 
+    /**
+     * @return the name of the provider.
+     */
     String getProvider();
 
+    /**
+     * @return the credentials for the api endpoint.
+     */
     Credentials getCredentials();
 
+    /**
+     * @return the node group.
+     */
     String getNodeGroup();
 }

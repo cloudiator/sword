@@ -21,10 +21,32 @@ package de.uniulm.omi.cloudiator.sword.api.extensions;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
 
 /**
- * Created by daniel on 16.01.15.
+ * An interface that handles the assignment of public ips to
+ * virtual machines.
  */
 public interface PublicIpService {
-    public String addPublicIp(String virtualMachineId) throws PublicIpException;
 
-    public void removePublicIp(String virtualMachineId, String address) throws PublicIpException;
+    /**
+     * Adds a public ip to the virtual machine.
+     *
+     * @param virtualMachineId the unique identifier for the virtual machine.
+     * @return the assigned ip address as string (mandatory).
+     * @throws PublicIpException        if an error occurs during the assignment of the ip.
+     * @throws NullPointerException     if the virtualMachineId is null
+     * @throws IllegalArgumentException if the virtualMachineId is empty.
+     * @todo define format of the address.
+     */
+    String addPublicIp(String virtualMachineId) throws PublicIpException;
+
+    /**
+     * Removes the public ip from the virtual machine.
+     *
+     * @param virtualMachineId the unique identifier for the virtual machine (mandatory).
+     * @param address          the ip address which shall be removed (mandatory).
+     * @throws PublicIpException        if an error occurs during the de-assignment of the ip.
+     * @throws NullPointerException     if one of the argument is null.
+     * @throws IllegalArgumentException if one of the arguments is empty.
+     * @todo define format of the address.
+     */
+    void removePublicIp(String virtualMachineId, String address) throws PublicIpException;
 }

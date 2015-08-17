@@ -35,6 +35,7 @@ import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
 import javax.annotation.Nullable;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -105,21 +106,25 @@ public class BaseComputeService
 
     @Override @Nullable public Image getImage(String id) {
         checkNotNull(id);
+        checkArgument(!id.isEmpty());
         return this.imageGetStrategy.get(id);
     }
 
     @Override @Nullable public VirtualMachine getVirtualMachine(String id) {
         checkNotNull(id);
+        checkArgument(!id.isEmpty());
         return this.virtualMachineGetStrategy.get(id);
     }
 
     @Override @Nullable public Location getLocation(String id) {
         checkNotNull(id);
+        checkArgument(!id.isEmpty());
         return locationGetStrategy.get(id);
     }
 
     @Override @Nullable public HardwareFlavor getHardwareFlavor(String id) {
         checkNotNull(id);
+        checkArgument(!id.isEmpty());
         return hardwareFlavorGetStrategy.get(id);
     }
 
@@ -140,11 +145,14 @@ public class BaseComputeService
     }
 
     @Override public void deleteVirtualMachine(String virtualMachineId) {
+        checkNotNull(virtualMachineId);
+        checkArgument(!virtualMachineId.isEmpty());
         deleteVirtualMachineStrategy.apply(virtualMachineId);
     }
 
     @Override public VirtualMachine createVirtualMachine(
         final VirtualMachineTemplate virtualMachineTemplate) {
+        checkNotNull(virtualMachineTemplate);
         return createVirtualMachineStrategy.apply(virtualMachineTemplate);
     }
 

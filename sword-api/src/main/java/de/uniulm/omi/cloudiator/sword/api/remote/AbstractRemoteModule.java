@@ -3,7 +3,7 @@ package de.uniulm.omi.cloudiator.sword.api.remote;
 import com.google.inject.AbstractModule;
 
 /**
- * Created by Daniel Seybold on 06.05.2015.
+ * An abstract module for the definition of an own remote connection module.
  */
 public abstract class AbstractRemoteModule extends AbstractModule {
 
@@ -11,5 +11,11 @@ public abstract class AbstractRemoteModule extends AbstractModule {
         bind(RemoteConnectionFactory.class).to(getRemoteConnectionFactory());
     }
 
+    /**
+     * Used for defining the class that will be used for creating
+     * remote connections ({@link RemoteConnectionFactory}).
+     *
+     * @return a class implementing a RemoteConnectionFactory.
+     */
     protected abstract Class<? extends RemoteConnectionFactory> getRemoteConnectionFactory();
 }

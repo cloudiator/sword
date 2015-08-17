@@ -19,37 +19,103 @@
 package de.uniulm.omi.cloudiator.sword.api.logging;
 
 /**
- * Created by daniel on 05.03.15.
+ * Logger interface. Defines methods for logging.
  */
 public interface Logger {
 
-    public boolean isTraceEnabled();
+    /**
+     * @return true if trace logging is enabled, otherwise false.
+     */
+    boolean isTraceEnabled();
 
-    public boolean isDebugEnabled();
+    /**
+     * @return true of debug logging is enabled, otherwise false.
+     */
+    boolean isDebugEnabled();
 
-    public boolean isInfoEnabled();
+    /**
+     * @return true if info logging is enabled, otherwise false.
+     */
+    boolean isInfoEnabled();
 
-    public boolean isWarnEnabled();
+    /**
+     * @return true if warn logging is enabled, otherwise false.
+     */
+    boolean isWarnEnabled();
 
-    public boolean isErrorEnabled();
+    /**
+     * @return true if error logging is enabled, otherwise false.
+     */
+    boolean isErrorEnabled();
 
-    public boolean isFatalEnabled();
+    /**
+     * @return true if fatal logging is enabled, otherwise false.
+     */
+    boolean isFatalEnabled();
 
-    public void trace(String message);
+    /**
+     * Logs a message on trace level.
+     *
+     * @param message the message to log.
+     */
+    void trace(String message);
 
-    public void debug(String message);
+    /**
+     * Logs a message on debug level.
+     *
+     * @param message the message to log.
+     */
+    void debug(String message);
 
-    public void info(String message);
+    /**
+     * Logs a message on info level.
+     *
+     * @param message the message to log.
+     */
+    void info(String message);
 
-    public void warn(String message);
+    /**
+     * Logs a message on warning level.
+     *
+     * @param message message to log.
+     */
+    void warn(String message);
 
-    public void warn(String message, Throwable throwable);
+    /**
+     * Logs a message and a {@link Throwable} on warn level.
+     *
+     * @param message   the message to log.
+     * @param throwable the throwable to log.
+     */
+    void warn(String message, Throwable throwable);
 
-    public void error(String message);
+    /**
+     * Logs a message on error level.
+     *
+     * @param message the message to log.
+     */
+    void error(String message);
 
-    public void error(String message, Throwable throwable);
+    /**
+     * Logs a message and a {@link Throwable} on error level.
+     *
+     * @param message   the message to log.
+     * @param throwable the throwable to log.
+     */
+    void error(String message, Throwable throwable);
 
-    public void fatal(String message);
+    /**
+     * Logs a message and a {@link Throwable} on fatal level.
+     *
+     * @param message the message to log.
+     */
+    void fatal(String message);
 
-    public void fatal(String message, Throwable throwable);
+    /**
+     * Logs a message and a {@link Throwable} on fatal level.
+     *
+     * @param message   the message to log.
+     * @param throwable the throwable to log.
+     */
+    void fatal(String message, Throwable throwable);
 }

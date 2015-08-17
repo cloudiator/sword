@@ -25,9 +25,9 @@ import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
  */
 public interface PublicIpStrategy {
 
-    public String assignPublicIpToVirtualMachine(String virtualMachineId) throws PublicIpException;
+    String assignPublicIpToVirtualMachine(String virtualMachineId) throws PublicIpException;
 
-    public void removePublicIpFromVirtualMachine(String virtualMachineId, String address)
+    void removePublicIpFromVirtualMachine(String virtualMachineId, String address)
         throws PublicIpException;
 
 }

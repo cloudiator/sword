@@ -19,10 +19,18 @@
 package de.uniulm.omi.cloudiator.sword.api.util;
 
 /**
- * Created by daniel on 14.01.15.
+ * A function that applies an action to the given object.
+ *
+ * @param <T> the type of the object.
  */
 public interface Consumer<T> {
 
-    public void apply(T t);
+    /**
+     * Applies the action to t.
+     *
+     * @param t the object the action is applied to.
+     * @throws NullPointerException if the given object is null.
+     */
+    void apply(T t);
 
 }

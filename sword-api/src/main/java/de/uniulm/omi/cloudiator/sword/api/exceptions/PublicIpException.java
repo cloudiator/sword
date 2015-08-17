@@ -19,7 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.api.exceptions;
 
 /**
- * Created by daniel on 19.05.15.
+ * An exception that is thrown if it is not possible
+ * to assign a public ip to the virtual machine.
  */
 public class PublicIpException extends Exception {
 

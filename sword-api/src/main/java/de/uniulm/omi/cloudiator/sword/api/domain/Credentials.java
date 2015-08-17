@@ -19,12 +19,19 @@
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
 /**
- * Created by daniel on 06.10.14.
+ * Represents the credentials required
+ * to login into a provider.
  */
 public interface Credentials {
 
-    public String user();
+    /**
+     * @return the user required for login.
+     */
+    String user();
 
-    public String password();
+    /**
+     * @return the password required for login.
+     */
+    String password();
 
 }
