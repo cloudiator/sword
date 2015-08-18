@@ -19,8 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
 /**
- * Created by daniel on 06.10.14.
+ * An image offered by the provider.
  */
 public interface Image extends Resource {
-
+    // intentionally left empty.
 }

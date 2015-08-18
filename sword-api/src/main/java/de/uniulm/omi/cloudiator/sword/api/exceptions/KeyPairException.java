@@ -19,7 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.api.exceptions;
 
 /**
- * Created by daniel on 19.05.15.
+ * An exception that is thrown while acquiring a keypair
+ * at the cloud provider.
  */
 public class KeyPairException extends Exception {
     public KeyPairException() {
@@ -41,4 +42,6 @@ public class KeyPairException extends Exception {
         boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
+
+
 }

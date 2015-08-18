@@ -19,7 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.api.exceptions;
 
 /**
- * Created by daniel on 05.12.14.
+ * Exception that is thrown when a runtime error
+ * occurs during interaction with the drivers.
  */
 public class DriverException extends RuntimeException {
 
@@ -33,5 +34,14 @@ public class DriverException extends RuntimeException {
 
     public DriverException(Throwable cause) {
         super(cause);
+    }
+
+    public DriverException() {
+        super();
+    }
+
+    protected DriverException(String message, Throwable cause, boolean enableSuppression,
+        boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 }

@@ -32,26 +32,23 @@ public abstract class ResourceImpl implements Resource {
     protected final String name;
 
     public ResourceImpl(final String id, final String name) {
-        checkNotNull(id);
+        checkNotNull(id, "ID is required.");
         checkArgument(!id.isEmpty(), "ID must not be empty.");
         this.id = id;
-        checkNotNull(name);
+        checkNotNull(name, "Name is required.");
         checkArgument(!name.isEmpty(), "Name must not be empty.");
         this.name = name;
     }
 
-    @Override
-    public String id() {
-        return this.id;
+    @Override public String id() {
+        return id;
     }
 
-    @Override
-    public String name() {
-        return this.name;
+    @Override public String name() {
+        return name;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Resource(id: %s, name: %s)", this.id, this.name);
+    @Override public String toString() {
+        return name;
     }
 }

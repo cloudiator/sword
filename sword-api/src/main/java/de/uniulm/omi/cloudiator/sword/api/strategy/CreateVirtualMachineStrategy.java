@@ -23,8 +23,8 @@ import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 
 /**
- * Created by daniel on 09.01.15.
+ * Strategy for the creation of virtual machines.
  */
-public interface CreateVirtualMachineStrategy extends Function<VirtualMachineTemplate, VirtualMachine> {
-
+public interface CreateVirtualMachineStrategy
+    extends Function<VirtualMachineTemplate, VirtualMachine> {
 }

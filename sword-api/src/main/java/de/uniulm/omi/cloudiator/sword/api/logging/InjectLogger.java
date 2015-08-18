@@ -27,10 +27,7 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Created by daniel on 06.03.15.
+ * Binding annotation for the injection of a logger.
  */
-@BindingAnnotation
-@Target({FIELD})
-@Retention(RUNTIME)
-public @interface InjectLogger {
+@BindingAnnotation @Target({FIELD}) @Retention(RUNTIME) public @interface InjectLogger {
 }

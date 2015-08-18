@@ -25,8 +25,12 @@ import de.uniulm.omi.cloudiator.sword.api.exceptions.KeyPairException;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackKeyPairClient;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
- * Created by daniel on 18.05.15.
+ * Implementation of the {@link KeyPairService} interface
+ * for Openstack.
  */
 public class OpenstackKeyPairService implements KeyPairService {
 
@@ -34,26 +38,48 @@ public class OpenstackKeyPairService implements KeyPairService {
         keyPairConverter;
     private final OpenstackKeyPairClient openstackKeyPairClient;
 
+    /**
+     * Constructor.
+     *
+     * @param keyPairConverter       a converter for converting {@link org.jclouds.openstack.nova.v2_0.domain.KeyPair}
+     *                               objects to {@link KeyPair} objects (non null).
+     * @param openstackKeyPairClient an openstack client for key pairs (non null).
+     * @throws NullPointerException if any of the supplied arguments is null.
+     */
     @Inject public OpenstackKeyPairService(
         OneWayConverter<org.jclouds.openstack.nova.v2_0.domain.KeyPair, KeyPair> keyPairConverter,
         OpenstackKeyPairClient openstackKeyPairClient) {
+
+        checkNotNull(keyPairConverter);
+        checkNotNull(openstackKeyPairClient);
+
         this.keyPairConverter = keyPairConverter;
         this.openstackKeyPairClient = openstackKeyPairClient;
     }
 
     @Override public KeyPair create(String name) throws KeyPairException {
+        checkNotNull(name);
+        checkArgument(!name.isEmpty());
         return keyPairConverter.apply(openstackKeyPairClient.create(name));
     }
 
     @Override public KeyPair create(String name, String publicKey) throws KeyPairException {
-        return keyPairConverter.apply(openstackKeyPairClient.create(name));
+        checkNotNull(name);
+        checkArgument(!name.isEmpty());
+        checkNotNull(publicKey);
+        checkArgument(!publicKey.isEmpty());
+        return keyPairConverter.apply(openstackKeyPairClient.createWithPublicKey(name, publicKey));
     }
 
     @Override public boolean delete(String name) throws KeyPairException {
+        checkNotNull(name);
+        checkArgument(!name.isEmpty());
         return openstackKeyPairClient.delete(name);
     }
 
     @Override public KeyPair get(String name) throws KeyPairException {
+        checkNotNull(name);
+        checkArgument(!name.isEmpty());
         return keyPairConverter.apply(openstackKeyPairClient.get(name));
     }
 }

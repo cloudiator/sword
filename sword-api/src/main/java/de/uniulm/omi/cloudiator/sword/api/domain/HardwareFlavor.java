@@ -19,10 +19,22 @@
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
 /**
- * Created by daniel on 06.10.14.
+ * Represents an offered hardware flavor by the
+ * provider.
  */
 public interface HardwareFlavor extends Resource {
+
+    /**
+     * Returns the number of cores the offer has. Always > 0.
+     *
+     * @return the number of cores.
+     */
     int numberOfCores();
 
+    /**
+     * Returns the amount of ram the offer has. Always > 0.
+     *
+     * @return the amount of ram.
+     */
     long mbRam();
 }

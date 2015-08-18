@@ -19,12 +19,18 @@
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
 /**
- * Created by daniel on 06.10.14.
+ * A basic resource located at the cloud provider.
  */
 public interface Resource {
 
+    /**
+     * @return a unique identifier for the resource.
+     */
     public String id();
 
+    /**
+     * @return a human readable name for the resource.
+     */
     public String name();
 
 }

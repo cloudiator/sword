@@ -22,7 +22,7 @@ package de.uniulm.omi.cloudiator.sword.api.strategy;
 import de.uniulm.omi.cloudiator.sword.api.util.Consumer;
 
 /**
- * Created by daniel on 14.01.15.
+ * Strategy for the deletion of a virtual machine..
  */
 public interface DeleteVirtualMachineStrategy extends Consumer<String> {
 }

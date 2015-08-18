@@ -23,25 +23,40 @@ import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.OpenstackFloatingIpStrategy;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 
 /**
- * Created by daniel on 19.01.15.
+ * Implementation of the {@link PublicIpService} interface for Openstack.
  */
 public class OpenstackPublicIpService implements PublicIpService {
 
     private final OpenstackFloatingIpStrategy openstackFloatingIpStrategy;
 
-    @Inject
-    public OpenstackPublicIpService(OpenstackFloatingIpStrategy openstackFloatingIpStrategy) {
+    /**
+     * @param openstackFloatingIpStrategy a mandatory strategy for assigning public ips in openstack.
+     */
+    @Inject public OpenstackPublicIpService(
+        OpenstackFloatingIpStrategy openstackFloatingIpStrategy) {
+        checkNotNull(openstackFloatingIpStrategy);
         this.openstackFloatingIpStrategy = openstackFloatingIpStrategy;
     }
 
     @Override public String addPublicIp(String virtualMachineId) throws PublicIpException {
+        checkNotNull(virtualMachineId);
+        checkArgument(!virtualMachineId.isEmpty());
         return this.openstackFloatingIpStrategy.assignPublicIpToVirtualMachine(virtualMachineId);
     }
 
     @Override public void removePublicIp(String virtualMachineId, String address)
         throws PublicIpException {
+
+        checkNotNull(virtualMachineId);
+        checkArgument(!virtualMachineId.isEmpty());
+        checkNotNull(address);
+        checkArgument(!address.isEmpty());
+
         this.openstackFloatingIpStrategy
             .removePublicIpFromVirtualMachine(virtualMachineId, address);
     }
