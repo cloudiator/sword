@@ -45,9 +45,10 @@ public class OpenstackKeyPairServiceTest {
     }
 
     @Test public void testDelete() throws Exception {
+        //todo
     }
 
     @Test public void testGet() throws Exception {
-
+        //todo
     }
 }
