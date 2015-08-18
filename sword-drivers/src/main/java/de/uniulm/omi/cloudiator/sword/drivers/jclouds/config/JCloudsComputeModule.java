@@ -23,7 +23,7 @@ import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
+import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.*;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
@@ -43,19 +43,19 @@ import java.util.Set;
  */
 public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
-    @Override protected Class<? extends Supplier<Set<Image>>> imageSupplier() {
+    @Override protected Class<? extends ResourceSupplier<Set<Image>>> imageSupplier() {
         return ImageSupplier.class;
     }
 
-    @Override protected Class<? extends Supplier<Set<Location>>> locationSupplier() {
+    @Override protected Class<? extends ResourceSupplier<Set<Location>>> locationSupplier() {
         return LocationSupplier.class;
     }
 
-    @Override protected Class<? extends Supplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
+    @Override protected Class<? extends ResourceSupplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
         return HardwareSupplier.class;
     }
 
-    @Override protected Class<? extends Supplier<Set<VirtualMachine>>> virtualMachineSupplier() {
+    @Override protected Class<? extends ResourceSupplier<Set<VirtualMachine>>> virtualMachineSupplier() {
         return VirtualMachineSupplier.class;
     }
 

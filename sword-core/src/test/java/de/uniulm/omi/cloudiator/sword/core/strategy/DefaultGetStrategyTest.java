@@ -21,8 +21,7 @@ package de.uniulm.omi.cloudiator.sword.core.strategy;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.Resource;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
-import de.uniulm.omi.cloudiator.sword.core.domain.impl.ResourceImpl;
+import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,7 +41,7 @@ public class DefaultGetStrategyTest {
     private final Resource resourceToRetrieve = new TestResource("1", "eins");
 
     @Before public void setUp() throws Exception {
-        Supplier<Set<Resource>> resourceSupplier = () -> {
+        ResourceSupplier<Set<Resource>> resourceSupplier = () -> {
             Set<Resource> resourceSet = new HashSet<>(2);
             resourceSet.add(resourceToRetrieve);
             resourceSet.add(new TestResource("2", "zwei"));
@@ -69,9 +68,22 @@ public class DefaultGetStrategyTest {
         getStrategy.get("");
     }
 
-    private final static class TestResource extends ResourceImpl implements Resource {
+    private final static class TestResource implements Resource {
+
+        private final String id;
+        private final String name;
+
         public TestResource(String id, String name) {
-            super(id, name);
+            this.id = id;
+            this.name = name;
+        }
+
+        @Override public String id() {
+            return id;
+        }
+
+        @Override public String name() {
+            return name;
         }
     }
 }

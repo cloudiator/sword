@@ -32,7 +32,7 @@ import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
+import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.core.strategy.DefaultGetStrategy;
 
 import java.util.Set;
@@ -44,16 +44,16 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
     @Override protected void configure() {
 
-        bind(new TypeLiteral<Supplier<Set<Image>>>() {
+        bind(new TypeLiteral<ResourceSupplier<Set<Image>>>() {
         }).to(imageSupplier());
 
-        bind(new TypeLiteral<Supplier<Set<Location>>>() {
+        bind(new TypeLiteral<ResourceSupplier<Set<Location>>>() {
         }).to(locationSupplier());
 
-        bind(new TypeLiteral<Supplier<Set<HardwareFlavor>>>() {
+        bind(new TypeLiteral<ResourceSupplier<Set<HardwareFlavor>>>() {
         }).to(hardwareFlavorSupplier());
 
-        bind(new TypeLiteral<Supplier<Set<VirtualMachine>>>() {
+        bind(new TypeLiteral<ResourceSupplier<Set<VirtualMachine>>>() {
         }).to(virtualMachineSupplier());
 
         bind(CreateVirtualMachineStrategy.class).to(createVirtualMachineStrategy());
@@ -73,21 +73,21 @@ public abstract class AbstractComputeModule extends AbstractModule {
         }).to(getHardwareFlavorStrategy());
     }
 
-    @Provides protected Optional<PublicIpService> provideFloatingIpService(Injector injector) {
-        return Optional.absent();
+    @Provides final Optional<PublicIpService> provideFloatingIpService(Injector injector) {
+        return publicIpService(injector);
     }
 
-    @Provides protected Optional<KeyPairService> provideKeyPairService(Injector injector) {
-        return Optional.absent();
+    @Provides final Optional<KeyPairService> provideKeyPairService(Injector injector) {
+        return keyPairService(injector);
     }
 
-    protected abstract Class<? extends Supplier<Set<Image>>> imageSupplier();
+    protected abstract Class<? extends ResourceSupplier<Set<Image>>> imageSupplier();
 
-    protected abstract Class<? extends Supplier<Set<Location>>> locationSupplier();
+    protected abstract Class<? extends ResourceSupplier<Set<Location>>> locationSupplier();
 
-    protected abstract Class<? extends Supplier<Set<HardwareFlavor>>> hardwareFlavorSupplier();
+    protected abstract Class<? extends ResourceSupplier<Set<HardwareFlavor>>> hardwareFlavorSupplier();
 
-    protected abstract Class<? extends Supplier<Set<VirtualMachine>>> virtualMachineSupplier();
+    protected abstract Class<? extends ResourceSupplier<Set<VirtualMachine>>> virtualMachineSupplier();
 
     protected abstract Class<? extends CreateVirtualMachineStrategy> createVirtualMachineStrategy();
 
@@ -107,6 +107,14 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
     protected Class<? extends GetStrategy<String, HardwareFlavor>> getHardwareFlavorStrategy() {
         return DefaultGetStrategy.DefaultHardwareFlavorGetStrategy.class;
+    }
+
+    protected Optional<PublicIpService> publicIpService(Injector injector) {
+        return Optional.absent();
+    }
+
+    protected Optional<KeyPairService> keyPairService(Injector injector) {
+        return Optional.absent();
     }
 
 

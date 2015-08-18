@@ -93,7 +93,7 @@ public class OverthereConnection implements RemoteConnection {
 
     }
 
-    public int writeFile(String pathAndFilename, String content, boolean setExecutable) {
+    @Override public int writeFile(String pathAndFilename, String content, boolean setExecutable) {
 
         checkNotNull(pathAndFilename);
         checkNotNull(content);
@@ -185,8 +185,7 @@ public class OverthereConnection implements RemoteConnection {
     }
 
 
-
-    public void close() {
+    @Override public void close() {
 
         this.delegate.close();
 

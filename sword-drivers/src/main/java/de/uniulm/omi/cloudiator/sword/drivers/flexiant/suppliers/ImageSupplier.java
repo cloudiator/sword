@@ -23,7 +23,7 @@ import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
-import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
+import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
 
 import java.util.Set;
@@ -31,7 +31,7 @@ import java.util.Set;
 /**
  * Created by daniel on 05.12.14.
  */
-public class ImageSupplier implements Supplier<Set<Image>> {
+public class ImageSupplier implements ResourceSupplier<Set<Image>> {
 
     private final FlexiantComputeClient flexiantComputeClient;
     private final OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image>

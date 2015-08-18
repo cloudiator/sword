@@ -51,12 +51,12 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
             new TypeLiteral<OneWayConverter<KeyPair, de.uniulm.omi.cloudiator.sword.api.domain.KeyPair>>() {
             }).to(NovaKeyPairToKeypair.class);
     }
-
-    @Override protected Optional<PublicIpService> provideFloatingIpService(Injector injector) {
+    
+    @Override protected Optional<PublicIpService> publicIpService(Injector injector) {
         return Optional.fromNullable(injector.getInstance(OpenstackPublicIpService.class));
     }
 
-    @Override protected Optional<KeyPairService> provideKeyPairService(Injector injector) {
+    @Override protected Optional<KeyPairService> keyPairService(Injector injector) {
         return Optional.fromNullable(injector.getInstance(OpenstackKeyPairService.class));
     }
 }

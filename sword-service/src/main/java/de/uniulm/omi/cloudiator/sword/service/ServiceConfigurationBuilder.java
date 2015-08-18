@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.service;
 
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
-import de.uniulm.omi.cloudiator.sword.core.domain.impl.CredentialsImpl;
+import de.uniulm.omi.cloudiator.sword.core.domain.CredentialsBuilder;
 
 /**
  * Created by daniel on 02.12.14.
@@ -59,7 +59,8 @@ public class ServiceConfigurationBuilder {
 
     public ServiceConfiguration build() {
         return new ServiceConfigurationImpl(this.provider, this.endpoint,
-            new CredentialsImpl(username, password), this.nodeGroup);
+            CredentialsBuilder.newBuilder().user(username).password(password).build(),
+            this.nodeGroup);
     }
 
 }

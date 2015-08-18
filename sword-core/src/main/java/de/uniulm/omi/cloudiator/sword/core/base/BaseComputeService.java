@@ -30,7 +30,7 @@ import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
+import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -44,10 +44,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class BaseComputeService
     implements ComputeService<HardwareFlavor, Image, Location, VirtualMachine> {
 
-    private final Supplier<Set<Image>> imageSupplier;
-    private final Supplier<Set<Location>> locationSupplier;
-    private final Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier;
-    private final Supplier<Set<VirtualMachine>> virtualMachineSupplier;
+    private final ResourceSupplier<Set<Image>> imageSupplier;
+    private final ResourceSupplier<Set<Location>> locationSupplier;
+    private final ResourceSupplier<Set<HardwareFlavor>> hardwareFlavorSupplier;
+    private final ResourceSupplier<Set<VirtualMachine>> virtualMachineSupplier;
     private final CreateVirtualMachineStrategy createVirtualMachineStrategy;
     private final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy;
     private final Optional<PublicIpService> publicIpService;
@@ -58,10 +58,10 @@ public class BaseComputeService
     private final GetStrategy<String, VirtualMachine> virtualMachineGetStrategy;
     private final ConnectionService connectionService;
 
-    @Inject public BaseComputeService(Supplier<Set<Image>> imageSupplier,
-        Supplier<Set<Location>> locationSupplier,
-        Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier,
-        Supplier<Set<VirtualMachine>> virtualMachineSupplier,
+    @Inject public BaseComputeService(ResourceSupplier<Set<Image>> imageSupplier,
+        ResourceSupplier<Set<Location>> locationSupplier,
+        ResourceSupplier<Set<HardwareFlavor>> hardwareFlavorSupplier,
+        ResourceSupplier<Set<VirtualMachine>> virtualMachineSupplier,
         GetStrategy<String, Image> imageGetStrategy,
         GetStrategy<String, Location> locationGetStrategy,
         GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy,

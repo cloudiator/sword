@@ -22,7 +22,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.core.domain.builders.LoginCredentialBuilder;
+import de.uniulm.omi.cloudiator.sword.core.domain.LoginCredentialBuilder;
 import org.jclouds.domain.LoginCredentials;
 
 import static com.google.common.base.Preconditions.checkNotNull;
