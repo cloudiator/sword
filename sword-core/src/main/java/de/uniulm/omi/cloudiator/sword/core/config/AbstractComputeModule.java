@@ -38,10 +38,13 @@ import de.uniulm.omi.cloudiator.sword.core.strategy.DefaultGetStrategy;
 import java.util.Set;
 
 /**
- * Created by daniel on 02.12.14.
+ * An abstract skeleton for compute modules.
  */
 public abstract class AbstractComputeModule extends AbstractModule {
 
+    /**
+     * Can be extended to load own implementation of classes.
+     */
     @Override protected void configure() {
 
         bind(new TypeLiteral<ResourceSupplier<Set<Image>>>() {
@@ -81,38 +84,96 @@ public abstract class AbstractComputeModule extends AbstractModule {
         return keyPairService(injector);
     }
 
+    /**
+     * @return the {@link Image} {@link ResourceSupplier} to use.
+     */
     protected abstract Class<? extends ResourceSupplier<Set<Image>>> imageSupplier();
 
+    /**
+     * @return the {@link Location} {@link ResourceSupplier} to use.
+     */
     protected abstract Class<? extends ResourceSupplier<Set<Location>>> locationSupplier();
 
+    /**
+     * @return the {@link HardwareFlavor} {@link ResourceSupplier} to use.
+     */
     protected abstract Class<? extends ResourceSupplier<Set<HardwareFlavor>>> hardwareFlavorSupplier();
 
+    /**
+     * @return the {@link VirtualMachine} {@link ResourceSupplier} to use
+     */
     protected abstract Class<? extends ResourceSupplier<Set<VirtualMachine>>> virtualMachineSupplier();
 
+    /**
+     * @return the {@link CreateVirtualMachineStrategy} used for creating {@link VirtualMachine}s
+     */
     protected abstract Class<? extends CreateVirtualMachineStrategy> createVirtualMachineStrategy();
 
+    /**
+     * @return the {@link DeleteVirtualMachineStrategy} used for deleting {@link VirtualMachine}s
+     */
     protected abstract Class<? extends DeleteVirtualMachineStrategy> deleteVirtualMachineStrategy();
 
+    /**
+     * Extension point for the {@link GetStrategy} for {@link VirtualMachine}s
+     * Defaults to {@link de.uniulm.omi.cloudiator.sword.core.strategy.DefaultGetStrategy.DefaultVirtualMachineGetStrategy}
+     *
+     * @return the strategy class to use.
+     */
     protected Class<? extends GetStrategy<String, VirtualMachine>> getVirtualMachineStrategy() {
         return DefaultGetStrategy.DefaultVirtualMachineGetStrategy.class;
     }
 
+    /**
+     * Extension point for the {@link GetStrategy} for {@link Image}s
+     * Defaults to {@link de.uniulm.omi.cloudiator.sword.core.strategy.DefaultGetStrategy.DefaultImageGetStrategy}
+     *
+     * @return the strategy class to use.
+     */
     protected Class<? extends GetStrategy<String, Image>> getImageStrategy() {
         return DefaultGetStrategy.DefaultImageGetStrategy.class;
     }
 
+    /**
+     * Extension point for the {@link GetStrategy} for {@link Location}s.
+     * Defaults to {@link de.uniulm.omi.cloudiator.sword.core.strategy.DefaultGetStrategy.DefaultLocationGetStrategy}
+     *
+     * @return the strategy class to use.
+     */
     protected Class<? extends GetStrategy<String, Location>> getLocationStrategy() {
         return DefaultGetStrategy.DefaultLocationGetStrategy.class;
     }
 
+    /**
+     * Extension point for the {@link GetStrategy} for {@link HardwareFlavor}s.
+     * Defaults to {@link de.uniulm.omi.cloudiator.sword.core.strategy.DefaultGetStrategy.DefaultHardwareFlavorGetStrategy}
+     *
+     * @return the strategy class to use.
+     */
     protected Class<? extends GetStrategy<String, HardwareFlavor>> getHardwareFlavorStrategy() {
         return DefaultGetStrategy.DefaultHardwareFlavorGetStrategy.class;
     }
 
+    /**
+     * Extension point for adding a {@link PublicIpService} extension.
+     * <p>
+     * Defaults to {@link com.google.common.base.Absent}
+     *
+     * @param injector injector for instantiating new classes.
+     * @return an optional public ip service.
+     */
     protected Optional<PublicIpService> publicIpService(Injector injector) {
         return Optional.absent();
     }
 
+    /**
+     * Extension point for adding a {@link KeyPairService} extension.
+     * <p>
+     * Defaults to {@link com.google.common.base.Absent}
+     *
+     * @param injector injector for instantiating new classes.
+     * @return an optional key pair service.
+     */
     protected Optional<KeyPairService> keyPairService(Injector injector) {
         return Optional.absent();
     }

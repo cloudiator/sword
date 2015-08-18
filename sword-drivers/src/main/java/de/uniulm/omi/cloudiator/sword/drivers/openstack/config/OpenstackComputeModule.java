@@ -33,9 +33,8 @@ import de.uniulm.omi.cloudiator.sword.drivers.openstack.extendsions.OpenstackPub
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 
-
 /**
- * Created by daniel on 19.01.15.
+ * Compute module for the openstack nova compute api.
  */
 public class OpenstackComputeModule extends JCloudsComputeModule {
 
@@ -51,7 +50,7 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
             new TypeLiteral<OneWayConverter<KeyPair, de.uniulm.omi.cloudiator.sword.api.domain.KeyPair>>() {
             }).to(NovaKeyPairToKeypair.class);
     }
-    
+
     @Override protected Optional<PublicIpService> publicIpService(Injector injector) {
         return Optional.fromNullable(injector.getInstance(OpenstackPublicIpService.class));
     }

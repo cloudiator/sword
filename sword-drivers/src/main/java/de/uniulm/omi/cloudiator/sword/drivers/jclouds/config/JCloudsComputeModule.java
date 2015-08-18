@@ -39,7 +39,8 @@ import org.jclouds.domain.LoginCredentials;
 import java.util.Set;
 
 /**
- * Created by daniel on 02.12.14.
+ * An abstract compute module for cloud providers that are supported using
+ * jclouds.
  */
 public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
@@ -51,11 +52,13 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         return LocationSupplier.class;
     }
 
-    @Override protected Class<? extends ResourceSupplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
+    @Override
+    protected Class<? extends ResourceSupplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
         return HardwareSupplier.class;
     }
 
-    @Override protected Class<? extends ResourceSupplier<Set<VirtualMachine>>> virtualMachineSupplier() {
+    @Override
+    protected Class<? extends ResourceSupplier<Set<VirtualMachine>>> virtualMachineSupplier() {
         return VirtualMachineSupplier.class;
     }
 
