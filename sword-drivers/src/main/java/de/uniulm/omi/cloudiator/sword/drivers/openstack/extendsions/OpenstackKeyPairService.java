@@ -68,7 +68,7 @@ public class OpenstackKeyPairService implements KeyPairService {
         checkArgument(!name.isEmpty());
         checkNotNull(publicKey);
         checkArgument(!publicKey.isEmpty());
-        return keyPairConverter.apply(openstackKeyPairClient.create(name));
+        return keyPairConverter.apply(openstackKeyPairClient.createWithPublicKey(name, publicKey));
     }
 
     @Override public boolean delete(String name) throws KeyPairException {

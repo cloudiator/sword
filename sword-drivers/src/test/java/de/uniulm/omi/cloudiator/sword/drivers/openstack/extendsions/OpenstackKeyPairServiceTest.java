@@ -34,14 +34,14 @@ public class OpenstackKeyPairServiceTest {
 
     @Test public void testCreate() throws Exception {
         openstackKeyPairService.create("name");
-        verify(openstackKeyPairClient.create("name"));
-        verify(keyPairConverter.apply(keyPair));
+        verify(openstackKeyPairClient).create("name");
+        verify(keyPairConverter).apply(keyPair);
     }
 
     @Test public void testCreatePublicKey() throws Exception {
         openstackKeyPairService.create("name", "publicKey");
-        verify(openstackKeyPairClient.createWithPublicKey("name", "publicKey"));
-        verify(keyPairConverter.apply(keyPair));
+        verify(openstackKeyPairClient).createWithPublicKey("name", "publicKey");
+        verify(keyPairConverter).apply(keyPair);
     }
 
     @Test public void testDelete() throws Exception {
