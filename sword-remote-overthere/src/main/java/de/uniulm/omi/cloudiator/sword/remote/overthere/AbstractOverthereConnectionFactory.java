@@ -14,9 +14,19 @@ public abstract class AbstractOverthereConnectionFactory implements RemoteConnec
     @Override
     public RemoteConnection createRemoteConnection(String remoteAddress, OSFamily osFamily,
         LoginCredential loginCredential, int port) {
+        ConnectionOptions connectionOptions =
+            buildConnectionOptions(remoteAddress, loginCredential.username(), port);
 
-        buildConnectionOptions(remoteAddress, loginCredential.username(), port);
-        return null;
+        if (loginCredential.isPasswordCredential()) {
+            this.setPassword(connectionOptions, loginCredential.password().get());
+        } else if (loginCredential.isPrivateKeyCredential()) {
+            this.setKey(connectionOptions, loginCredential.privateKey().get());
+        } else {
+            throw new IllegalStateException(
+                "Login credentials do not provide password or private key.");
+        }
+
+        return openConnection(connectionOptions);
     }
 
     private ConnectionOptions buildConnectionOptions(String remoteAddress, String username,
@@ -25,6 +35,8 @@ public abstract class AbstractOverthereConnectionFactory implements RemoteConnec
         connectionOptions.set(ConnectionOptions.ADDRESS, remoteAddress);
         connectionOptions.set(ConnectionOptions.USERNAME, username);
         connectionOptions.set(ConnectionOptions.PORT, port);
+
+        buildConnectionOptions(connectionOptions);
 
         return connectionOptions;
     }
