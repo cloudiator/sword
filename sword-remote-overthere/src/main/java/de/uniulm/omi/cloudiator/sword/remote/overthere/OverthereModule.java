@@ -18,15 +18,15 @@
 
 package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
-import de.uniulm.omi.cloudiator.sword.api.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
+import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
 
 /**
  * Created by Daniel Seybold on 06.05.2015.
  */
 public class OverthereModule extends AbstractRemoteModule {
-    @Override
-    protected Class<? extends RemoteConnectionFactory> getRemoteConnectionFactory() {
-        return OverthereConnectionFactory.class;
+
+    @Override protected RemoteConnectionFactory getRemoteConnectionFactory() {
+        return new OverthereDecidingConnectionFactory();
     }
 }

@@ -40,7 +40,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by Daniel Seybold on 06.05.2015.
  */
-public class OverthereConnectionFactory implements RemoteConnectionFactory {
+@Deprecated public class OverthereConnectionFactory implements RemoteConnectionFactory {
 
     @InjectLogger
     Logger logger;

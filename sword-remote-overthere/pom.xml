@@ -53,6 +53,7 @@
                 <artifactId>overthere</artifactId>
                 <version>${overthere.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -64,6 +65,10 @@
         <dependency>
             <groupId>de.uniulm.omi.cloudiator</groupId>
             <artifactId>sword-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.uniulm.omi.cloudiator</groupId>
+            <artifactId>sword-remote</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
