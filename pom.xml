@@ -45,6 +45,7 @@
         <module>sword-core</module>
         <module>sword-drivers</module>
         <module>sword-service</module>
+        <module>sword-remote</module>
         <module>sword-remote-overthere</module>
         <module>sword-logging-log4j</module>
     </modules>
@@ -66,6 +67,11 @@
             <dependency>
                 <groupId>de.uniulm.omi.cloudiator</groupId>
                 <artifactId>sword-core</artifactId>
+                <version>${my.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.uniulm.omi.cloudiator</groupId>
+                <artifactId>sword-remote</artifactId>
                 <version>${my.version}</version>
             </dependency>
             <dependency>

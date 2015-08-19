@@ -23,7 +23,7 @@ import com.google.common.base.Optional;
 /**
  * Represents a credential for login on a remote
  * machine.
- * <p/>
+ * <p>
  * The login credential always has a username, but either
  * a password or a private key.
  */
