@@ -19,10 +19,17 @@
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
 /**
- * Created by daniel on 06.10.14.
+ * Represents a virtual location offered by
+ * the provider.
  */
 public interface Location extends Resource {
 
-    public boolean isAssignable();
+    /**
+     * A location is assignable, if it can be used
+     * for starting virtual machines at the provider.
+     *
+     * @return true if assignable, no if not.
+     */
+    boolean isAssignable();
 
 }

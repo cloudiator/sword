@@ -21,9 +21,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
+import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import org.jclouds.compute.domain.Hardware;
 
@@ -32,7 +33,7 @@ import java.util.Set;
 /**
  * Created by daniel on 03.12.14.
  */
-public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
+public class HardwareSupplier implements ResourceSupplier<Set<HardwareFlavor>> {
 
     private final JCloudsComputeClient jCloudsComputeClient;
     private final OneWayConverter<Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor;

@@ -19,8 +19,15 @@
 package de.uniulm.omi.cloudiator.sword.api.logging;
 
 /**
- * Created by daniel on 06.03.15.
+ * Factory class for loggers.
  */
 public interface LoggerFactory {
+
+    /**
+     * Returns a {@link Logger} for the given category.
+     *
+     * @param category the category for logging.
+     * @return a logger
+     */
     Logger getLogger(String category);
 }

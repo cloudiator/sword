@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.config;
 import com.google.common.base.Optional;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
@@ -33,9 +33,8 @@ import de.uniulm.omi.cloudiator.sword.drivers.openstack.extendsions.OpenstackPub
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 
-
 /**
- * Created by daniel on 19.01.15.
+ * Compute module for the openstack nova compute api.
  */
 public class OpenstackComputeModule extends JCloudsComputeModule {
 
@@ -52,11 +51,11 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
             }).to(NovaKeyPairToKeypair.class);
     }
 
-    @Override protected Optional<PublicIpService> provideFloatingIpService(Injector injector) {
+    @Override protected Optional<PublicIpService> publicIpService(Injector injector) {
         return Optional.fromNullable(injector.getInstance(OpenstackPublicIpService.class));
     }
 
-    @Override protected Optional<KeyPairService> provideKeyPairService(Injector injector) {
+    @Override protected Optional<KeyPairService> keyPairService(Injector injector) {
         return Optional.fromNullable(injector.getInstance(OpenstackKeyPairService.class));
     }
 }

@@ -19,7 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.api.exceptions;
 
 /**
- * Created by daniel on 15.01.15.
+ * Exception that is thrown if it was not possible to connect to
+ * the virtual machine via ssh.
  */
 public class SshException extends RuntimeException {
 

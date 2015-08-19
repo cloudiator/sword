@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.core.util;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
-import de.uniulm.omi.cloudiator.sword.core.domain.builders.KeyPairBuilder;
+import de.uniulm.omi.cloudiator.sword.core.domain.KeyPairBuilder;
 import org.jclouds.ssh.SshKeys;
 
 import java.util.Map;

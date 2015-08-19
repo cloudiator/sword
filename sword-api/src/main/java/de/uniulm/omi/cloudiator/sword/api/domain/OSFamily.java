@@ -1,11 +1,18 @@
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
 /**
- * Created by Daniel Seybold on 06.05.2015.
+ * Enumeration for the operating system family
+ * the OS belongs to.
  */
 public enum OSFamily {
 
+    /**
+     * A windows operating system.
+     */
     WINDOWS,
+    /**
+     * A unix operating system.
+     */
     UNIX
 
 }

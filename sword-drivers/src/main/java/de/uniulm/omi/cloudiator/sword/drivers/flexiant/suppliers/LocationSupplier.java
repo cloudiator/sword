@@ -21,9 +21,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
+import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
 
 import java.util.Set;
@@ -31,7 +31,7 @@ import java.util.Set;
 /**
  * Created by daniel on 05.12.14.
  */
-public class LocationSupplier implements Supplier<Set<Location>> {
+public class LocationSupplier implements ResourceSupplier<Set<Location>> {
 
     private final FlexiantComputeClient flexiantComputeClient;
     private final OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location>

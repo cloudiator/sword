@@ -19,10 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.core.domain.builders.VirtualMachineBuilder;
+import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineBuilder;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.domain.LoginCredentials;
@@ -33,7 +33,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Converts a jclouds {@link ComputeMetadata} object into
  * a {@link VirtualMachine} object.
- *
+ * <p/>
  * Requires the compute metadata object to be of type
  * {@link NodeMetadata}, as otherwise not all required
  * information is available.

@@ -18,9 +18,10 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.core.domain.builders.HardwareFlavorBuilder;
+import de.uniulm.omi.cloudiator.sword.core.domain.HardwareFlavorBuilder;
 import org.jclouds.compute.domain.Hardware;
 import org.jclouds.compute.domain.Processor;
 

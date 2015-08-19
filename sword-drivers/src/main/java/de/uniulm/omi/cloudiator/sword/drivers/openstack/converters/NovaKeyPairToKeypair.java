@@ -18,8 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.converters;
 
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.core.domain.builders.KeyPairBuilder;
+
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.core.domain.KeyPairBuilder;
 import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 
 import javax.annotation.Nullable;

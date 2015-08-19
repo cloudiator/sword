@@ -25,10 +25,10 @@ import java.util.Map;
  */
 public interface Properties {
 
-    public String getProperty(String key);
+    String getProperty(String key);
 
-    public String getProperty(String key, String defaultValue);
+    String getProperty(String key, String defaultValue);
 
-    public Map<String, String> getProperties();
+    Map<String, String> getProperties();
 
 }

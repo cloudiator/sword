@@ -23,7 +23,7 @@ import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
 /**
  * Created by daniel on 06.03.15.
  */
-public class NullLoggingModule extends LoggingModule {
+public class NullLoggingModule extends AbstractLoggingModule {
 
     @Override
     protected LoggerFactory getLoggerFactory() {

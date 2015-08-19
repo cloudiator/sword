@@ -6,7 +6,7 @@ package de.uniulm.omi.cloudiator.sword.api.remote;
 public interface RemoteConnectionResponse {
 
 
-    public String getResponse();
+    String getResponse();
 
-    public int getExitStatus();
+    int getExitStatus();
 }

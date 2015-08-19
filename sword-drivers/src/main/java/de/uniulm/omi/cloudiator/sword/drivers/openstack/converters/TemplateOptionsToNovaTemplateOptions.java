@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.converters;
 
+import com.google.common.primitives.Ints;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
 import org.jclouds.compute.options.TemplateOptions;
 import org.jclouds.openstack.nova.v2_0.compute.options.NovaTemplateOptions;
@@ -31,6 +32,9 @@ public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOption
         de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions templateOptions) {
         NovaTemplateOptions novaTemplateOptions = new NovaTemplateOptions();
         novaTemplateOptions.keyPairName(templateOptions.keyPairName());
+        novaTemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
         return novaTemplateOptions;
     }
+
+
 }

@@ -22,9 +22,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
-import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
+import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 
 import java.util.Set;
@@ -32,7 +33,7 @@ import java.util.Set;
 /**
  * Created by daniel on 02.12.14.
  */
-public class ImageSupplier implements Supplier<Set<Image>> {
+public class ImageSupplier implements ResourceSupplier<Set<Image>> {
 
     private final JCloudsComputeClient jCloudsComputeClient;
     private final OneWayConverter<org.jclouds.compute.domain.Image, Image> jCloudsImageToImage;

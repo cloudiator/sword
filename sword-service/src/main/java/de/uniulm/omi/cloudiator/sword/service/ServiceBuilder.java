@@ -30,7 +30,7 @@ import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.core.config.BaseModule;
-import de.uniulm.omi.cloudiator.sword.core.logging.LoggingModule;
+import de.uniulm.omi.cloudiator.sword.core.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.core.logging.NullLoggingModule;
 import de.uniulm.omi.cloudiator.sword.remote.overthere.OverthereModule;
 import de.uniulm.omi.cloudiator.sword.service.providers.ProviderConfiguration;
@@ -49,7 +49,7 @@ public class ServiceBuilder {
 
     private final ServiceConfigurationBuilder serviceConfigurationBuilder;
     private Properties properties;
-    private LoggingModule loggingModule;
+    private AbstractLoggingModule loggingModule;
     private AbstractRemoteModule remoteModule;
 
     private ServiceBuilder(String provider) {
@@ -61,7 +61,7 @@ public class ServiceBuilder {
         return new ServiceBuilder(provider);
     }
 
-    public ServiceBuilder loggingModule(LoggingModule loggingModule) {
+    public ServiceBuilder loggingModule(AbstractLoggingModule loggingModule) {
         this.loggingModule = loggingModule;
         return this;
     }
@@ -116,7 +116,7 @@ public class ServiceBuilder {
         return modules;
     }
 
-    private LoggingModule buildLoggingModule() {
+    private AbstractLoggingModule buildLoggingModule() {
         if (loggingModule == null) {
             return new NullLoggingModule();
         }

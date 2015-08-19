@@ -24,10 +24,21 @@ import de.uniulm.omi.cloudiator.sword.api.domain.OSFamily;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 
 /**
- * Created by daniel on 29.07.15.
+ * A service for creating a {@link RemoteConnection} to an ip address.
+ * The remote connection allows the execution of commands on the remote
+ * machine.
  */
 public interface ConnectionService {
 
+    /**
+     * Creates a new remote connection to the given address.
+     *
+     * @param hostAndPort     the host and the port of the remote socket (mandatory).
+     * @param osFamily        the {@link OSFamily} of the remote operating system (mandatory).
+     * @param loginCredential the credentials for login (mandatory).
+     * @return a connection to the remote machine.
+     * @throws NullPointerException if any of the mandatory arguments is null.
+     */
     RemoteConnection getRemoteConnection(HostAndPort hostAndPort, OSFamily osFamily,
         LoginCredential loginCredential);
 

@@ -20,9 +20,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
 
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.core.domain.builders.LocationBuilder;
+import de.uniulm.omi.cloudiator.sword.core.domain.LocationBuilder;
 
 /**
  * Created by daniel on 03.12.14.

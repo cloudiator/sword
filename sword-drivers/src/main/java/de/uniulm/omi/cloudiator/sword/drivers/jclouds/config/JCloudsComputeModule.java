@@ -19,11 +19,11 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.config;
 
 import com.google.inject.TypeLiteral;
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.api.supplier.Supplier;
+import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.*;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
@@ -39,23 +39,26 @@ import org.jclouds.domain.LoginCredentials;
 import java.util.Set;
 
 /**
- * Created by daniel on 02.12.14.
+ * An abstract compute module for cloud providers that are supported using
+ * jclouds.
  */
 public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
-    @Override protected Class<? extends Supplier<Set<Image>>> imageSupplier() {
+    @Override protected Class<? extends ResourceSupplier<Set<Image>>> imageSupplier() {
         return ImageSupplier.class;
     }
 
-    @Override protected Class<? extends Supplier<Set<Location>>> locationSupplier() {
+    @Override protected Class<? extends ResourceSupplier<Set<Location>>> locationSupplier() {
         return LocationSupplier.class;
     }
 
-    @Override protected Class<? extends Supplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
+    @Override
+    protected Class<? extends ResourceSupplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
         return HardwareSupplier.class;
     }
 
-    @Override protected Class<? extends Supplier<Set<VirtualMachine>>> virtualMachineSupplier() {
+    @Override
+    protected Class<? extends ResourceSupplier<Set<VirtualMachine>>> virtualMachineSupplier() {
         return VirtualMachineSupplier.class;
     }
 

@@ -30,25 +30,28 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Created by daniel on 19.01.15.
+ * Basic implementation of a {@link PublicIpStrategy} for Openstack.
  */
 public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
 
     private final OpenstackFloatingIpClient openstackFloatingIpClient;
 
-    @Inject
-    public OpenstackFloatingIpStrategy(OpenstackFloatingIpClient openstackFloatingIpClient) {
+    /**
+     * @param openstackFloatingIpClient a reference to the openstack floating ip client.
+     */
+    @Inject public OpenstackFloatingIpStrategy(
+        OpenstackFloatingIpClient openstackFloatingIpClient) {
         checkNotNull(openstackFloatingIpClient);
         this.openstackFloatingIpClient = openstackFloatingIpClient;
     }
 
-    @Override
     /**
      * @todo check if floating ip client is available in the given region?
      * @todo handle pools (Property?)
      * @todo maybe throw some other exception
      * @todo maybe retry assignment because of race condition?
-     */ public String assignPublicIpToVirtualMachine(String virtualMachineId)
+     */
+    @Override public String assignPublicIpToVirtualMachine(String virtualMachineId)
         throws PublicIpException {
 
         checkNotNull(virtualMachineId);
@@ -89,12 +92,21 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
         return toAssign.getIp();
     }
 
-    @Override
+
     /**
      * @todo make configurable if floating ip should only be detached from machine or if it should be deallocated.
      * Current implementation only removes it from virtual machine
-     */ public void removePublicIpFromVirtualMachine(String virtualMachineId, String address)
+     */
+    @Override public void removePublicIpFromVirtualMachine(String virtualMachineId, String address)
         throws PublicIpException {
+
+        checkNotNull(virtualMachineId);
+        checkArgument(!virtualMachineId.isEmpty());
+
+        checkNotNull(address);
+        checkArgument(!address.isEmpty());
+
+
         IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
 
         if (!openstackFloatingIpClient.isAvailable(virtualMachineScopedId.getLocationId())) {

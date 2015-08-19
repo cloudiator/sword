@@ -93,7 +93,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
     }
 
-    public int writeFile(String pathAndFilename, String content, boolean setExecutable) {
+    @Override public int writeFile(String pathAndFilename, String content, boolean setExecutable) {
 
         checkNotNull(pathAndFilename);
         checkNotNull(content);
@@ -185,8 +185,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
     }
 
 
-
-    public void close() {
+    @Override public void close() {
 
         this.delegate.close();
 

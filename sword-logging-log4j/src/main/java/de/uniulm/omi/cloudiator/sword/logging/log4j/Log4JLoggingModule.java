@@ -19,12 +19,12 @@
 package de.uniulm.omi.cloudiator.sword.logging.log4j;
 
 import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
-import de.uniulm.omi.cloudiator.sword.core.logging.LoggingModule;
+import de.uniulm.omi.cloudiator.sword.core.logging.AbstractLoggingModule;
 
 /**
  * Created by daniel on 06.03.15.
  */
-public class Log4JLoggingModule extends LoggingModule {
+public class Log4JLoggingModule extends AbstractLoggingModule {
     @Override
     protected LoggerFactory getLoggerFactory() {
         return new Log4J2Logger.Log4JLoggingFactory();

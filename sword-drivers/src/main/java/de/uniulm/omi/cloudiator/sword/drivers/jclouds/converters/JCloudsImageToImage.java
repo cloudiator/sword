@@ -19,9 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
-import de.uniulm.omi.cloudiator.sword.api.converters.OneWayConverter;
+
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
-import de.uniulm.omi.cloudiator.sword.core.domain.builders.ImageBuilder;
+import de.uniulm.omi.cloudiator.sword.core.domain.ImageBuilder;
 
 /**
  * Created by daniel on 01.12.14.

@@ -22,8 +22,12 @@ import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
- * Created by daniel on 28.01.15.
+ * Basic implementation of the {@link IdScopedByLocation}
+ * interface.
  */
 public class IdScopedByLocationImpl implements IdScopedByLocation {
 

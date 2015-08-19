@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.api.domain;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Options for a {@link VirtualMachineTemplate}.
@@ -32,6 +33,14 @@ public interface TemplateOptions {
      * @return the name of the keypair or null.
      */
     @Nullable String keyPairName();
+
+    /**
+     * The ports to open for the virtual machine.
+     * The set is immutable {@link com.google.common.collect.ImmutableSet}
+     *
+     * @return a set of integers depicting the ports.
+     */
+    Set<Integer> inboundPorts();
 
     /**
      * A map of additional generic options in
