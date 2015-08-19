@@ -22,9 +22,4 @@ public interface RemoteConnection extends Closeable {
      * @return the exit value when the file is written
      */
     int writeFile(String pathAndFilename, String content, boolean setExecutable);
-
-    /**
-     * Closes the existing RemoteConnection
-     */
-    void close();
 }
