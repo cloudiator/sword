@@ -34,7 +34,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by Daniel Seybold on 04.05.2015.
  */
-public class OverthereConnection implements RemoteConnection {
+@Deprecated public class OverthereConnection implements RemoteConnection {
 
     private final com.xebialabs.overthere.OverthereConnection delegate;
 
