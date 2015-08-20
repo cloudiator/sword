@@ -22,6 +22,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.core.domain.LoginCredentialBuilder;
 import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineBuilder;
 
 /**
@@ -39,6 +40,11 @@ public class FlexiantServerToVirtualMachine implements OneWayConverter<Server, V
         }
         if (server.getPrivateIpAddress() != null) {
             virtualMachineBuilder.addPrivateIpAddress(server.getPrivateIpAddress());
+        }
+        if (server.getInitialPassword() != null && server.getInitialUser() != null) {
+            virtualMachineBuilder.loginCredential(
+                LoginCredentialBuilder.newBuilder().username(server.getInitialUser())
+                    .password(server.getInitialPassword()).build());
         }
         return virtualMachineBuilder.build();
     }
