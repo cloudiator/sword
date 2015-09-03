@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
-import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
+import de.uniulm.omi.cloudiator.sword.remote.internal.AbstractRemoteModule;
 
 /**
  * Created by Daniel Seybold on 06.05.2015.

@@ -1,4 +1,4 @@
-package de.uniulm.omi.cloudiator.sword.remote;
+package de.uniulm.omi.cloudiator.sword.remote.internal;
 
 import com.github.rholder.retry.*;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @todo: should be moved to a general package
  */
-public class RetryingConnectionFactory implements RemoteConnectionFactory {
+class RetryingConnectionFactory implements RemoteConnectionFactory {
 
     /**
      * How many retries should be done.
@@ -40,7 +40,7 @@ public class RetryingConnectionFactory implements RemoteConnectionFactory {
 
     private final RemoteConnectionFactory remoteConnectionFactory;
 
-    public RetryingConnectionFactory(RemoteConnectionFactory remoteConnectionFactory) {
+    RetryingConnectionFactory(RemoteConnectionFactory remoteConnectionFactory) {
         this.remoteConnectionFactory = remoteConnectionFactory;
     }
 

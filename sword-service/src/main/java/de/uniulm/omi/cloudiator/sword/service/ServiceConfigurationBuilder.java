@@ -24,7 +24,7 @@ import de.uniulm.omi.cloudiator.sword.core.domain.CredentialsBuilder;
 /**
  * Created by daniel on 02.12.14.
  */
-public class ServiceConfigurationBuilder {
+class ServiceConfigurationBuilder {
 
     private String endpoint;
     private String username;
@@ -32,32 +32,32 @@ public class ServiceConfigurationBuilder {
     private String provider;
     private String nodeGroup;
 
-    public ServiceConfigurationBuilder endpoint(String endpoint) {
+    ServiceConfigurationBuilder endpoint(String endpoint) {
         this.endpoint = endpoint;
         return this;
     }
 
-    public ServiceConfigurationBuilder username(String username) {
+    ServiceConfigurationBuilder username(String username) {
         this.username = username;
         return this;
     }
 
-    public ServiceConfigurationBuilder password(String password) {
+    ServiceConfigurationBuilder password(String password) {
         this.password = password;
         return this;
     }
 
-    public ServiceConfigurationBuilder provider(String provider) {
+    ServiceConfigurationBuilder provider(String provider) {
         this.provider = provider;
         return this;
     }
 
-    public ServiceConfigurationBuilder nodeGroup(String nodeGroup) {
+    ServiceConfigurationBuilder nodeGroup(String nodeGroup) {
         this.nodeGroup = nodeGroup;
         return this;
     }
 
-    public ServiceConfiguration build() {
+    ServiceConfiguration build() {
         return new ServiceConfigurationImpl(this.provider, this.endpoint,
             CredentialsBuilder.newBuilder().user(username).password(password).build(),
             this.nodeGroup);

@@ -1,4 +1,4 @@
-package de.uniulm.omi.cloudiator.sword.remote;
+package de.uniulm.omi.cloudiator.sword.remote.internal;
 
 import com.google.inject.AbstractModule;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
