@@ -76,6 +76,7 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
             }
         }
         if (toAssign == null) {
+            //todo: call allocate from pool
             // we found nothing to assign, next step is trying to allocate
             toAssign =
                 this.openstackFloatingIpClient.create(virtualMachineScopedId.getLocationId());

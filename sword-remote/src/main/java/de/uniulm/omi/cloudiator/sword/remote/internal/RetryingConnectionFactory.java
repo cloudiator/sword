@@ -29,7 +29,7 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
      *
      * @todo make configurable
      */
-    private static final int INCREASE_TIMEOUT_FACTOR = 2;
+    private static final int INCREASE_TIMEOUT_FACTOR = 1000;
 
     /**
      * The maximum timeout.
