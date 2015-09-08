@@ -26,7 +26,7 @@ public abstract class AbstractOverthereConnectionFactory implements RemoteConnec
                 "Login credentials do not provide password or private key.");
         }
 
-        return openConnection(connectionOptions);
+        return new AutoClosingRemoteConnection(openConnection(connectionOptions));
     }
 
     private ConnectionOptions buildConnectionOptions(String remoteAddress, String username,

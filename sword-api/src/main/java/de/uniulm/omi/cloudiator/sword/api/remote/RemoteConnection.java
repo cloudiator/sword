@@ -1,11 +1,9 @@
 package de.uniulm.omi.cloudiator.sword.api.remote;
 
-import java.io.Closeable;
-
 /**
  * Created by Daniel Seybold on 04.05.2015.
  */
-public interface RemoteConnection extends Closeable {
+public interface RemoteConnection {
 
     /**
      * @param command the command to be executed by the RemoteConnection
@@ -22,4 +20,6 @@ public interface RemoteConnection extends Closeable {
      * @return the exit value when the file is written
      */
     int writeFile(String pathAndFilename, String content, boolean setExecutable);
+
+    void close();
 }

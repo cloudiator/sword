@@ -42,6 +42,12 @@ public class OverthereWinRMConnectionFactory extends AbstractOverthereConnection
     }
 
     @Override protected RemoteConnection openConnection(ConnectionOptions connectionOptions) {
-        return new OverthereWinRMConnection(Overthere.getConnection("cifs", connectionOptions));
+        final OverthereWinRMConnection winRMConnection =
+            new OverthereWinRMConnection(Overthere.getConnection("cifs", connectionOptions));
+
+        // test the win rm connection
+        winRMConnection.executeCommand("echo windows connection established");
+
+        return winRMConnection;
     }
 }
