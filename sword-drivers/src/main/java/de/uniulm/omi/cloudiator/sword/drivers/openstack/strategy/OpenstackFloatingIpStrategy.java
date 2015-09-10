@@ -35,19 +35,23 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
 
     private final OpenstackFloatingIpClient openstackFloatingIpClient;
+    private final FloatingIpPoolSupplier floatingIpPoolSupplier;
 
     /**
      * @param openstackFloatingIpClient a reference to the openstack floating ip client.
+     * @param floatingIpPoolSupplier    a reference to the openstack floating ip supplier
      */
-    @Inject public OpenstackFloatingIpStrategy(
-        OpenstackFloatingIpClient openstackFloatingIpClient) {
+    @Inject public OpenstackFloatingIpStrategy(OpenstackFloatingIpClient openstackFloatingIpClient,
+        FloatingIpPoolSupplier floatingIpPoolSupplier) {
+        checkNotNull(floatingIpPoolSupplier);
+        this.floatingIpPoolSupplier = floatingIpPoolSupplier;
         checkNotNull(openstackFloatingIpClient);
         this.openstackFloatingIpClient = openstackFloatingIpClient;
     }
 
     /**
      * @todo check if floating ip client is available in the given region?
-     * @todo handle pools (Property?)
+     * @todo handle pools (Property?) auto resolve of name?
      * @todo maybe throw some other exception
      * @todo maybe retry assignment because of race condition?
      */
@@ -75,11 +79,11 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
                 break;
             }
         }
-        if (toAssign == null) {
-            //todo: call allocate from pool
+        if (toAssign == null && floatingIpPoolSupplier.get().isPresent()) {
             // we found nothing to assign, next step is trying to allocate
-            toAssign =
-                this.openstackFloatingIpClient.create(virtualMachineScopedId.getLocationId());
+            toAssign = this.openstackFloatingIpClient
+                .allocateFromPool(floatingIpPoolSupplier.get().get(),
+                    virtualMachineScopedId.getLocationId());
 
         }
         if (toAssign == null) {

@@ -29,21 +29,28 @@ import java.util.Map;
  */
 public class PropertiesBuilder {
 
-    private final Map<String, String> serviceProperties;
+    private Map<String, String> serviceProperties;
 
     private PropertiesBuilder() {
         serviceProperties = new HashMap<>();
     }
 
-    public static PropertiesBuilder create() {
+    public static PropertiesBuilder newBuilder() {
         return new PropertiesBuilder();
     }
 
-    public void setProperty(String key, String value) {
+    public PropertiesBuilder putProperty(String key, String value) {
         this.serviceProperties.put(key, value);
+        return this;
+    }
+
+    public PropertiesBuilder putProperties(Map<String, String> map) {
+        this.serviceProperties.putAll(map);
+        return this;
     }
 
     public Properties build() {
-        return new PropertiesImpl(ImmutableMap.<String, String>builder().putAll(this.serviceProperties).build());
+        return new PropertiesImpl(
+            ImmutableMap.<String, String>builder().putAll(this.serviceProperties).build());
     }
 }
