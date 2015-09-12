@@ -27,12 +27,7 @@ import com.google.common.base.Optional;
  * The private key is optional, and is normally only available
  * if the keypair was just created.
  */
-public interface KeyPair {
-
-    /**
-     * @return the name of the keypair.
-     */
-    String name();
+public interface KeyPair extends Resource {
 
     /**
      * @return the public key.

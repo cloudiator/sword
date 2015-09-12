@@ -29,13 +29,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Basic implementation of the {@link KeyPair} interface.
  */
-public class KeyPairImpl implements KeyPair {
+public class KeyPairImpl extends ResourceImpl implements KeyPair {
 
     private final String name;
     private final String publicKey;
     @Nullable private final String privateKey;
 
-    KeyPairImpl(String name, String publicKey, @Nullable String privateKey) {
+    KeyPairImpl(String id, String name, String publicKey, @Nullable String privateKey) {
+        super(id, name);
 
         checkNotNull(name);
         checkArgument(!name.isEmpty());
@@ -50,6 +51,10 @@ public class KeyPairImpl implements KeyPair {
         this.name = name;
         this.publicKey = publicKey;
         this.privateKey = privateKey;
+    }
+
+    @Override public String id() {
+        return id;
     }
 
     @Override public String name() {

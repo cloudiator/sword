@@ -25,9 +25,8 @@ import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
  * <p/>
  * Use {@link #newBuilder()} to create a new builder instance.
  */
-public class KeyPairBuilder {
+public class KeyPairBuilder extends ResourceBuilder {
 
-    private String name;
     private String publicKey;
     private String privateKey;
 
@@ -41,11 +40,12 @@ public class KeyPairBuilder {
         return new KeyPairBuilder();
     }
 
-    /**
-     * @param name the name of the keypair.
-     * @return fluid interface
-     */
-    public KeyPairBuilder name(String name) {
+    public KeyPairBuilder id(String id) {
+        this.id = id;
+        return this;
+    }
+
+    @Override public KeyPairBuilder name(String name) {
         this.name = name;
         return this;
     }
@@ -74,7 +74,7 @@ public class KeyPairBuilder {
      * @return the created keypair.
      */
     public KeyPair build() {
-        return new KeyPairImpl(name, publicKey, privateKey);
+        return new KeyPairImpl(id, name, publicKey, privateKey);
     }
 
 
