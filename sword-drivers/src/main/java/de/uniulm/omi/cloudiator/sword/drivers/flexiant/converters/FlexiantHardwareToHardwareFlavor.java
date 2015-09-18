@@ -29,10 +29,9 @@ import de.uniulm.omi.cloudiator.sword.core.domain.HardwareFlavorBuilder;
 public class FlexiantHardwareToHardwareFlavor implements OneWayConverter<Hardware, HardwareFlavor> {
 
     @Override public HardwareFlavor apply(Hardware hardware) {
-        //todo: implement disk space discovery
         String id = hardware.getLocationUUID() + "/" + hardware.getId();
 
         return HardwareFlavorBuilder.newBuilder().id(id).name(id).cores(hardware.getCores())
-            .mbRam(hardware.getRam()).build();
+            .mbRam(hardware.getRam()).gbDisk(hardware.getDiskSpace()).build();
     }
 }
