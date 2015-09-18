@@ -26,11 +26,11 @@ public interface Resource {
     /**
      * @return a unique identifier for the resource.
      */
-    public String id();
+    String id();
 
     /**
      * @return a human readable name for the resource.
      */
-    public String name();
+    String name();
 
 }

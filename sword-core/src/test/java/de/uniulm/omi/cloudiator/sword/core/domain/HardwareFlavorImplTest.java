@@ -18,13 +18,12 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import de.uniulm.omi.cloudiator.sword.core.domain.HardwareFlavorBuilder;
-import de.uniulm.omi.cloudiator.sword.core.domain.HardwareFlavorImpl;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Created by daniel on 03.12.14.
@@ -35,12 +34,13 @@ public class HardwareFlavorImplTest {
     private final String nameTest = "name";
     private final int coresTest = 1;
     private final long ramTest = 1024;
+    private final Float diskTest = 1.024F;
     private HardwareFlavorImpl hardwareFlavor;
 
     @Before public void before() {
         this.hardwareFlavor =
             HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(coresTest)
-                .mbRam(ramTest).build();
+                .mbRam(ramTest).gbDisk(diskTest).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void coresNotZeroTest() {
@@ -83,6 +83,18 @@ public class HardwareFlavorImplTest {
             .build();
     }
 
+    @Test public void diskNullTest() {
+        final HardwareFlavorImpl hardwareFlavor =
+            HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(coresTest)
+                .mbRam(ramTest).gbDisk(null).build();
+        assertThat(hardwareFlavor.gbDisk(), nullValue());
+    }
+
+    @Test(expected = IllegalArgumentException.class) public void diskNotGreaterZeroTest() {
+        HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(coresTest).mbRam(ramTest)
+            .gbDisk(0F).build();
+    }
+
     @Test public void getIdTest() {
         assertThat(hardwareFlavor.id(), equalTo(idTest));
     }
@@ -97,6 +109,10 @@ public class HardwareFlavorImplTest {
 
     @Test public void getNameTest() {
         assertThat(hardwareFlavor.name(), equalTo(nameTest));
+    }
+
+    @Test public void getDiskTest() {
+        assertThat(hardwareFlavor.gbDisk, equalTo(diskTest));
     }
 
 }

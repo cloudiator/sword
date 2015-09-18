@@ -33,7 +33,7 @@ public class NovaKeyPairToKeypair
 
     @Nullable @Override
     public de.uniulm.omi.cloudiator.sword.api.domain.KeyPair apply(KeyPair keyPair) {
-        return KeyPairBuilder.newBuilder().name(keyPair.getName()).privateKey(keyPair.getPrivateKey())
-            .publicKey(keyPair.getPublicKey()).build();
+        return KeyPairBuilder.newBuilder().id(keyPair.getName()).name(keyPair.getName())
+            .privateKey(keyPair.getPrivateKey()).publicKey(keyPair.getPublicKey()).build();
     }
 }

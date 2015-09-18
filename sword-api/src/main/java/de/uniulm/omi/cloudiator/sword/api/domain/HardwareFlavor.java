@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import javax.annotation.Nullable;
+
 /**
  * Represents an offered hardware flavor by the
  * provider.
@@ -37,4 +39,13 @@ public interface HardwareFlavor extends Resource {
      * @return the amount of ram.
      */
     long mbRam();
+
+    /**
+     * Returns the amount of disk space the offer (with respect to its boot volume) has. Unit is
+     * gigabyte.
+     * If the disk space is unknown, null is returned.
+     *
+     * @return the amount of disk space or null.
+     */
+    @Nullable Float gbDisk();
 }

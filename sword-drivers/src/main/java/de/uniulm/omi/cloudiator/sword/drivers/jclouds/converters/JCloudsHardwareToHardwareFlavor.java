@@ -24,6 +24,9 @@ import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.core.domain.HardwareFlavorBuilder;
 import org.jclouds.compute.domain.Hardware;
 import org.jclouds.compute.domain.Processor;
+import org.jclouds.compute.domain.Volume;
+
+import java.util.Optional;
 
 /**
  * Created by daniel on 03.12.14.
@@ -35,8 +38,16 @@ public class JCloudsHardwareToHardwareFlavor implements OneWayConverter<Hardware
         for (Processor processor : hardware.getProcessors()) {
             cores += processor.getCores();
         }
+
+        Float gbDisk = null;
+        final Optional<? extends Volume> bootVolume =
+            hardware.getVolumes().stream().filter(Volume::isBootDevice).findFirst();
+        if (bootVolume.isPresent()) {
+            gbDisk = bootVolume.get().getSize();
+        }
+
         return HardwareFlavorBuilder.newBuilder().id(hardware.getId())
-            .name(generateName(cores, hardware.getRam())).cores(cores).mbRam(hardware.getRam())
+            .name(generateName(cores, hardware.getRam())).cores(cores).mbRam(hardware.getRam()).gbDisk(gbDisk)
             .build();
     }
 
