@@ -4,12 +4,15 @@ import com.xebialabs.overthere.CmdLine;
 import com.xebialabs.overthere.OverthereConnection;
 import com.xebialabs.overthere.OverthereFile;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionResponse;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
 
 import java.io.PrintWriter;
 
 /**
  * Created by daniel on 19.08.15.
  */
+//todo remove duplicated code
 public class OverthereSSHConnection implements RemoteConnection {
 
     private final OverthereConnection delegate;
@@ -18,12 +21,21 @@ public class OverthereSSHConnection implements RemoteConnection {
         this.delegate = delegate;
     }
 
-    @Override public int executeCommand(String command) {
+    @Override public RemoteConnectionResponse executeCommand(String command)
+        throws RemoteException {
         //TODO: check why CmdLine.build(command) escapes characters in the wrong way
-        return this.delegate.execute(CmdLine.build().addRaw(command));
+        try {
+            OverthereRemoteConnectionResponse response = new OverthereRemoteConnectionResponse();
+            response.setExitStatus(delegate.execute(response.getStdOutExecutionOutputHandler(),
+                response.getStdErrExecutionOutputHandler(), CmdLine.build().addRaw(command)));
+            return response;
+        } catch (Exception e) {
+            throw new RemoteException(e);
+        }
     }
 
-    @Override public int writeFile(String pathAndFilename, String content, boolean setExecutable) {
+    @Override public int writeFile(String pathAndFilename, String content, boolean setExecutable)
+        throws RemoteException {
         OverthereFile overthereFile = this.delegate.getFile(pathAndFilename);
         if (setExecutable) {
             overthereFile.setExecutable(true);

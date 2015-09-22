@@ -3,10 +3,13 @@ package de.uniulm.omi.cloudiator.sword.remote.overthere;
 import com.xebialabs.overthere.CmdLine;
 import com.xebialabs.overthere.OverthereConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionResponse;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
 
 /**
  * Created by daniel on 19.08.15.
  */
+//todo remote duplicated code
 public class OverthereWinRMConnection implements RemoteConnection {
 
     private final OverthereConnection delegate;
@@ -15,14 +18,24 @@ public class OverthereWinRMConnection implements RemoteConnection {
         this.delegate = delegate;
     }
 
-    @Override public int executeCommand(String command) {
+    @Override public RemoteConnectionResponse executeCommand(String command)
+        throws RemoteException {
         //TODO: check why the Overthere encoding doesn't work for Windows and Linux!
         //split the command into separate commands otherwise Windows commands can't be recognized
-        String[] splittedCommands = command.split("\\s+");
-        return this.delegate.execute(CmdLine.build(splittedCommands));
+        try {
+            String[] splittedCommands = command.split("\\s+");
+
+            OverthereRemoteConnectionResponse response = new OverthereRemoteConnectionResponse();
+            response.setExitStatus(delegate.execute(response.getStdOutExecutionOutputHandler(),
+                response.getStdErrExecutionOutputHandler(), CmdLine.build(splittedCommands)));
+            return response;
+        } catch (Exception e) {
+            throw new RemoteException(e);
+        }
     }
 
-    @Override public int writeFile(String pathAndFilename, String content, boolean setExecutable) {
+    @Override public int writeFile(String pathAndFilename, String content, boolean setExecutable)
+        throws RemoteException {
 
         //todo: ignores setExecutable?
 

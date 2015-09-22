@@ -6,6 +6,7 @@ import com.xebialabs.overthere.Overthere;
 import com.xebialabs.overthere.cifs.CifsConnectionBuilder;
 import com.xebialabs.overthere.cifs.CifsConnectionType;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
 
 /**
  * Created by daniel on 19.08.15.
@@ -41,13 +42,17 @@ public class OverthereWinRMConnectionFactory extends AbstractOverthereConnection
         throw new UnsupportedOperationException("Key login is not supported by WinRM");
     }
 
-    @Override protected RemoteConnection openConnection(ConnectionOptions connectionOptions) {
-        final OverthereWinRMConnection winRMConnection =
-            new OverthereWinRMConnection(Overthere.getConnection("cifs", connectionOptions));
-
-        // test the win rm connection
-        winRMConnection.executeCommand("echo windows connection established");
-
-        return winRMConnection;
+    @Override protected RemoteConnection openConnection(ConnectionOptions connectionOptions)
+        throws RemoteException {
+        //todo find a better way
+        try {
+            final OverthereWinRMConnection winRMConnection =
+                new OverthereWinRMConnection(Overthere.getConnection("cifs", connectionOptions));
+            // test the win rm connection
+            winRMConnection.executeCommand("echo windows connection established");
+            return winRMConnection;
+        } catch (Exception e) {
+            throw new RemoteException(e);
+        }
     }
 }

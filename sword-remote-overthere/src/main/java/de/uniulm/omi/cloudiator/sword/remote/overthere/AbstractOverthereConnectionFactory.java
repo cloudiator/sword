@@ -5,6 +5,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.OSFamily;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
 
 /**
  * Created by daniel on 19.08.15.
@@ -13,7 +14,7 @@ public abstract class AbstractOverthereConnectionFactory implements RemoteConnec
 
     @Override
     public RemoteConnection createRemoteConnection(String remoteAddress, OSFamily osFamily,
-        LoginCredential loginCredential, int port) {
+        LoginCredential loginCredential, int port) throws RemoteException {
         ConnectionOptions connectionOptions =
             buildConnectionOptions(remoteAddress, loginCredential.username(), port);
 
@@ -26,7 +27,7 @@ public abstract class AbstractOverthereConnectionFactory implements RemoteConnec
                 "Login credentials do not provide password or private key.");
         }
 
-        return new AutoClosingRemoteConnection(openConnection(connectionOptions));
+        return openConnection(connectionOptions);
     }
 
     private ConnectionOptions buildConnectionOptions(String remoteAddress, String username,
@@ -49,6 +50,7 @@ public abstract class AbstractOverthereConnectionFactory implements RemoteConnec
 
     protected abstract ConnectionOptions setKey(ConnectionOptions connectionOptions, String key);
 
-    protected abstract RemoteConnection openConnection(ConnectionOptions connectionOptions);
+    protected abstract RemoteConnection openConnection(ConnectionOptions connectionOptions)
+        throws RemoteException;
 
 }

@@ -1,15 +1,18 @@
 package de.uniulm.omi.cloudiator.sword.api.remote;
 
+import java.io.Closeable;
+
 /**
- * Created by Daniel Seybold on 04.05.2015.
+ * Represents a connection to a remote node, e.g. via SSH.
  */
-public interface RemoteConnection {
+public interface RemoteConnection extends Closeable {
 
     /**
      * @param command the command to be executed by the RemoteConnection
-     * @return the exit value of the executed command
+     * @return the {@link RemoteConnectionResponse} of the command.
+     * @throws RemoteException if an error occurs during communication.
      */
-    int executeCommand(String command);
+    RemoteConnectionResponse executeCommand(String command) throws RemoteException;
 
     /**
      * Writes content to the specified file, creates the file if it doesn't exist
@@ -18,8 +21,11 @@ public interface RemoteConnection {
      * @param content         of the file to write
      * @param setExecutable   if the file is executable
      * @return the exit value when the file is written
+     * @throws RemoteException if an error occurs during communication.
      */
-    int writeFile(String pathAndFilename, String content, boolean setExecutable);
+    int writeFile(String pathAndFilename, String content, boolean setExecutable)
+        throws RemoteException;
 
+    @Override
     void close();
 }
