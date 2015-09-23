@@ -16,6 +16,7 @@ public class OverthereSSHConnectionFactory extends AbstractOverthereConnectionFa
     protected ConnectionOptions buildConnectionOptions(ConnectionOptions connectionOptions) {
         connectionOptions.set(ConnectionOptions.OPERATING_SYSTEM, OperatingSystemFamily.UNIX);
         connectionOptions.set(SshConnectionBuilder.CONNECTION_TYPE, SshConnectionType.SCP);
+        connectionOptions.set(SshConnectionBuilder.ALLOCATE_DEFAULT_PTY, true);
         return connectionOptions;
     }
 
