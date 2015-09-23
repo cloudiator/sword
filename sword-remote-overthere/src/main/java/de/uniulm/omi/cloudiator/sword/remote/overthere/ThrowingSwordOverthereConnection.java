@@ -32,10 +32,15 @@ public class ThrowingSwordOverthereConnection implements SwordOverthereConnectio
 
     private <T> T callAndRethrowAsRemoteException(Callable<T> callable) throws RemoteException {
         try {
+            // try the execution
             return callable.call();
         } catch (RuntimeIOException e) {
+            // if a runtime exception occurred this is normally a communication error
+            // we therefore give the possibility to react on this...
             throw new RemoteException(e);
         } catch (Exception e) {
+            // something else happened, we rethrow this as runtime exception
+            // as we currently have no clue what to do...
             throw new RuntimeException(e);
         }
     }
@@ -102,6 +107,6 @@ public class ThrowingSwordOverthereConnection implements SwordOverthereConnectio
     }
 
     @Override public ConnectionOptions getOptions() {
-        return null;
+        return overthereConnection.getOptions();
     }
 }
