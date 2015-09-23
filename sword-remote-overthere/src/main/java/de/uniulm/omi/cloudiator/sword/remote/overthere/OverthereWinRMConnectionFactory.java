@@ -2,7 +2,6 @@ package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 import com.xebialabs.overthere.ConnectionOptions;
 import com.xebialabs.overthere.OperatingSystemFamily;
-import com.xebialabs.overthere.Overthere;
 import com.xebialabs.overthere.cifs.CifsConnectionBuilder;
 import com.xebialabs.overthere.cifs.CifsConnectionType;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
@@ -45,14 +44,10 @@ public class OverthereWinRMConnectionFactory extends AbstractOverthereConnection
     @Override protected RemoteConnection openConnection(ConnectionOptions connectionOptions)
         throws RemoteException {
         //todo find a better way
-        try {
-            final OverthereWinRMConnection winRMConnection =
-                new OverthereWinRMConnection(Overthere.getConnection("cifs", connectionOptions));
-            // test the win rm connection
-            winRMConnection.executeCommand("echo windows connection established");
-            return winRMConnection;
-        } catch (Exception e) {
-            throw new RemoteException(e);
-        }
+        final OverthereWinRMConnection winRMConnection =
+            new OverthereWinRMConnection(SwordOverthere.getConnection("cifs", connectionOptions));
+        // test the win rm connection
+        winRMConnection.executeCommand("echo windows connection established");
+        return winRMConnection;
     }
 }
