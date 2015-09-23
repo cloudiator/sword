@@ -1,7 +1,6 @@
 package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 import com.xebialabs.overthere.CmdLine;
-import com.xebialabs.overthere.OverthereConnection;
 import com.xebialabs.overthere.OverthereFile;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionResponse;
@@ -15,23 +14,20 @@ import java.io.PrintWriter;
 //todo remove duplicated code
 public class OverthereSSHConnection implements RemoteConnection {
 
-    private final OverthereConnection delegate;
+    private final SwordOverthereConnection delegate;
 
-    public OverthereSSHConnection(OverthereConnection delegate) {
+    public OverthereSSHConnection(SwordOverthereConnection delegate) {
         this.delegate = delegate;
     }
 
     @Override public RemoteConnectionResponse executeCommand(String command)
         throws RemoteException {
         //TODO: check why CmdLine.build(command) escapes characters in the wrong way
-        try {
-            OverthereRemoteConnectionResponse response = new OverthereRemoteConnectionResponse();
-            response.setExitStatus(delegate.execute(response.getStdOutExecutionOutputHandler(),
-                response.getStdErrExecutionOutputHandler(), CmdLine.build().addRaw(command)));
-            return response;
-        } catch (Exception e) {
-            throw new RemoteException(e);
-        }
+        OverthereRemoteConnectionResponse response = new OverthereRemoteConnectionResponse();
+        response.setExitStatus(delegate.execute(response.getStdOutExecutionOutputHandler(),
+            response.getStdErrExecutionOutputHandler(), CmdLine.build().addRaw(command)));
+        return response;
+
     }
 
     @Override public int writeFile(String pathAndFilename, String content, boolean setExecutable)

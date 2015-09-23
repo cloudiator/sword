@@ -2,7 +2,6 @@ package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 import com.xebialabs.overthere.ConnectionOptions;
 import com.xebialabs.overthere.OperatingSystemFamily;
-import com.xebialabs.overthere.Overthere;
 import com.xebialabs.overthere.ssh.SshConnectionBuilder;
 import com.xebialabs.overthere.ssh.SshConnectionType;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
@@ -34,11 +33,6 @@ public class OverthereSSHConnectionFactory extends AbstractOverthereConnectionFa
     @Override protected RemoteConnection openConnection(ConnectionOptions connectionOptions)
         throws RemoteException {
         //todo find a better way
-        try {
-            return new OverthereSSHConnection(Overthere.getConnection("ssh", connectionOptions));
-        } catch (Exception e) {
-            throw new RemoteException(e);
-        }
-
+        return new OverthereSSHConnection(SwordOverthere.getConnection("ssh", connectionOptions));
     }
 }

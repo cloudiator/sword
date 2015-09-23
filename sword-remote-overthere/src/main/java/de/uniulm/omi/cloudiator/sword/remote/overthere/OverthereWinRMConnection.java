@@ -1,7 +1,6 @@
 package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 import com.xebialabs.overthere.CmdLine;
-import com.xebialabs.overthere.OverthereConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionResponse;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
@@ -12,9 +11,9 @@ import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
 //todo remote duplicated code
 public class OverthereWinRMConnection implements RemoteConnection {
 
-    private final OverthereConnection delegate;
+    private final SwordOverthereConnection delegate;
 
-    OverthereWinRMConnection(OverthereConnection delegate) {
+    OverthereWinRMConnection(SwordOverthereConnection delegate) {
         this.delegate = delegate;
     }
 
@@ -22,16 +21,14 @@ public class OverthereWinRMConnection implements RemoteConnection {
         throws RemoteException {
         //TODO: check why the Overthere encoding doesn't work for Windows and Linux!
         //split the command into separate commands otherwise Windows commands can't be recognized
-        try {
-            String[] splittedCommands = command.split("\\s+");
 
-            OverthereRemoteConnectionResponse response = new OverthereRemoteConnectionResponse();
-            response.setExitStatus(delegate.execute(response.getStdOutExecutionOutputHandler(),
-                response.getStdErrExecutionOutputHandler(), CmdLine.build(splittedCommands)));
-            return response;
-        } catch (Exception e) {
-            throw new RemoteException(e);
-        }
+        String[] splittedCommands = command.split("\\s+");
+
+        OverthereRemoteConnectionResponse response = new OverthereRemoteConnectionResponse();
+        response.setExitStatus(delegate.execute(response.getStdOutExecutionOutputHandler(),
+            response.getStdErrExecutionOutputHandler(), CmdLine.build(splittedCommands)));
+        return response;
+
     }
 
     @Override public int writeFile(String pathAndFilename, String content, boolean setExecutable)
