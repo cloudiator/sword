@@ -2,10 +2,10 @@ package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 import com.xebialabs.overthere.ConnectionOptions;
 import com.xebialabs.overthere.OperatingSystemFamily;
-import com.xebialabs.overthere.Overthere;
 import com.xebialabs.overthere.ssh.SshConnectionBuilder;
 import com.xebialabs.overthere.ssh.SshConnectionType;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
 
 /**
  * Created by daniel on 19.08.15.
@@ -15,7 +15,8 @@ public class OverthereSSHConnectionFactory extends AbstractOverthereConnectionFa
     @Override
     protected ConnectionOptions buildConnectionOptions(ConnectionOptions connectionOptions) {
         connectionOptions.set(ConnectionOptions.OPERATING_SYSTEM, OperatingSystemFamily.UNIX);
-        connectionOptions.set(SshConnectionBuilder.CONNECTION_TYPE, SshConnectionType.SFTP);
+        connectionOptions.set(SshConnectionBuilder.CONNECTION_TYPE, SshConnectionType.SCP);
+        connectionOptions.set(SshConnectionBuilder.ALLOCATE_DEFAULT_PTY, true);
         return connectionOptions;
     }
 
@@ -30,7 +31,9 @@ public class OverthereSSHConnectionFactory extends AbstractOverthereConnectionFa
         return connectionOptions;
     }
 
-    @Override protected RemoteConnection openConnection(ConnectionOptions connectionOptions) {
-        return new OverthereSSHConnection(Overthere.getConnection("ssh", connectionOptions));
+    @Override protected RemoteConnection openConnection(ConnectionOptions connectionOptions)
+        throws RemoteException {
+        //todo find a better way
+        return new OverthereSSHConnection(SwordOverthere.getConnection("ssh", connectionOptions));
     }
 }

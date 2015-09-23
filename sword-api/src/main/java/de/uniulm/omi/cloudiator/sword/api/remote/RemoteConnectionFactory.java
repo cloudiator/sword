@@ -16,7 +16,8 @@ public interface RemoteConnectionFactory {
      * @param loginCredential the login credentials for login.
      * @param port            the specific port for opening a RemoteConnection.
      * @return a connection to the remote machine.
+     * @throws RemoteException if it was not possible to establish the connection.
      */
     RemoteConnection createRemoteConnection(String remoteAddress, OSFamily osFamily,
-        LoginCredential loginCredential, int port);
+        LoginCredential loginCredential, int port) throws RemoteException;
 }

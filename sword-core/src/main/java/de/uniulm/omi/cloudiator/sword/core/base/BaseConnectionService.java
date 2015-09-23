@@ -24,6 +24,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.OSFamily;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
 import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
 
 /**
@@ -39,7 +40,7 @@ public class BaseConnectionService implements ConnectionService {
 
     @Override
     public RemoteConnection getRemoteConnection(HostAndPort hostAndPort, OSFamily osFamily,
-        LoginCredential loginCredential) {
+        LoginCredential loginCredential) throws RemoteException {
         return this.remoteConnectionFactory
             .createRemoteConnection(hostAndPort.getHostText(), osFamily, loginCredential,
                 hostAndPort.getPort());

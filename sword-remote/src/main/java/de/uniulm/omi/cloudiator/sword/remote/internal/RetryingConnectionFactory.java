@@ -5,6 +5,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.OSFamily;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -53,6 +54,7 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
 
         Retryer<RemoteConnection> remoteConnectionRetryer =
             RetryerBuilder.<RemoteConnection>newBuilder().retryIfRuntimeException()
+                .retryIfException(throwable -> throwable instanceof RemoteException)
                 .withStopStrategy(StopStrategies.stopAfterAttempt(CONNECTION_RETRIES))
                 .withWaitStrategy(WaitStrategies
                     .exponentialWait(INCREASE_TIMEOUT_FACTOR, MAXIMUM_TIMEOUT, TimeUnit.SECONDS))

@@ -22,6 +22,7 @@ import com.google.common.net.HostAndPort;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.OSFamily;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
+import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
 
 /**
  * A service for creating a {@link RemoteConnection} to an ip address.
@@ -38,8 +39,9 @@ public interface ConnectionService {
      * @param loginCredential the credentials for login (mandatory).
      * @return a connection to the remote machine.
      * @throws NullPointerException if any of the mandatory arguments is null.
+     * @throws RemoteException      if an error occurs while establishing the connection.
      */
     RemoteConnection getRemoteConnection(HostAndPort hostAndPort, OSFamily osFamily,
-        LoginCredential loginCredential);
+        LoginCredential loginCredential) throws RemoteException;
 
 }
