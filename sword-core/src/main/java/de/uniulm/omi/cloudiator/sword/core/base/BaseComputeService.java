@@ -27,13 +27,9 @@ import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
+import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
-
-import javax.annotation.Nullable;
-import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -44,104 +40,44 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class BaseComputeService
     implements ComputeService<HardwareFlavor, Image, Location, VirtualMachine> {
 
-    private final ResourceSupplier<Set<Image>> imageSupplier;
-    private final ResourceSupplier<Set<Location>> locationSupplier;
-    private final ResourceSupplier<Set<HardwareFlavor>> hardwareFlavorSupplier;
-    private final ResourceSupplier<Set<VirtualMachine>> virtualMachineSupplier;
+    private final DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine>
+        discoveryService;
     private final CreateVirtualMachineStrategy createVirtualMachineStrategy;
     private final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy;
     private final Optional<PublicIpService> publicIpService;
     private final Optional<KeyPairService> keyPairService;
-    private final GetStrategy<String, Image> imageGetStrategy;
-    private final GetStrategy<String, Location> locationGetStrategy;
-    private final GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy;
-    private final GetStrategy<String, VirtualMachine> virtualMachineGetStrategy;
     private final ConnectionService connectionService;
 
-    @Inject public BaseComputeService(ResourceSupplier<Set<Image>> imageSupplier,
-        ResourceSupplier<Set<Location>> locationSupplier,
-        ResourceSupplier<Set<HardwareFlavor>> hardwareFlavorSupplier,
-        ResourceSupplier<Set<VirtualMachine>> virtualMachineSupplier,
-        GetStrategy<String, Image> imageGetStrategy,
-        GetStrategy<String, Location> locationGetStrategy,
-        GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy,
-        GetStrategy<String, VirtualMachine> virtualMachineGetStrategy,
-        CreateVirtualMachineStrategy createVirtualMachineStrategy,
+
+    @Inject public BaseComputeService(CreateVirtualMachineStrategy createVirtualMachineStrategy,
         DeleteVirtualMachineStrategy deleteVirtualMachineStrategy,
         RemoteConnectionFactory remoteConnectionFactory, ServiceConfiguration serviceConfiguration,
+        DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine> discoveryService,
         Optional<PublicIpService> publicIpService, Optional<KeyPairService> keyPairService,
         ConnectionService connectionService) {
 
 
-        checkNotNull(imageSupplier);
-        checkNotNull(locationSupplier);
-        checkNotNull(hardwareFlavorSupplier);
-        checkNotNull(virtualMachineSupplier);
+
         checkNotNull(createVirtualMachineStrategy);
         checkNotNull(deleteVirtualMachineStrategy);
         checkNotNull(remoteConnectionFactory);
         checkNotNull(serviceConfiguration);
         checkNotNull(publicIpService);
         checkNotNull(keyPairService);
-        checkNotNull(imageGetStrategy);
-        checkNotNull(locationGetStrategy);
-        checkNotNull(hardwareFlavorGetStrategy);
-        checkNotNull(virtualMachineGetStrategy);
         checkNotNull(connectionService);
+        checkNotNull(discoveryService);
 
-        this.imageSupplier = imageSupplier;
-        this.locationSupplier = locationSupplier;
-        this.hardwareFlavorSupplier = hardwareFlavorSupplier;
-        this.virtualMachineSupplier = virtualMachineSupplier;
         this.createVirtualMachineStrategy = createVirtualMachineStrategy;
         this.deleteVirtualMachineStrategy = deleteVirtualMachineStrategy;
         this.publicIpService = publicIpService;
         this.keyPairService = keyPairService;
-        this.imageGetStrategy = imageGetStrategy;
-        this.locationGetStrategy = locationGetStrategy;
-        this.hardwareFlavorGetStrategy = hardwareFlavorGetStrategy;
-        this.virtualMachineGetStrategy = virtualMachineGetStrategy;
         this.connectionService = connectionService;
+        this.discoveryService = discoveryService;
     }
 
-    @Override @Nullable public Image getImage(String id) {
-        checkNotNull(id);
-        checkArgument(!id.isEmpty());
-        return this.imageGetStrategy.get(id);
-    }
-
-    @Override @Nullable public VirtualMachine getVirtualMachine(String id) {
-        checkNotNull(id);
-        checkArgument(!id.isEmpty());
-        return this.virtualMachineGetStrategy.get(id);
-    }
-
-    @Override @Nullable public Location getLocation(String id) {
-        checkNotNull(id);
-        checkArgument(!id.isEmpty());
-        return locationGetStrategy.get(id);
-    }
-
-    @Override @Nullable public HardwareFlavor getHardwareFlavor(String id) {
-        checkNotNull(id);
-        checkArgument(!id.isEmpty());
-        return hardwareFlavorGetStrategy.get(id);
-    }
-
-    @Override public Iterable<HardwareFlavor> listHardwareFlavors() {
-        return hardwareFlavorSupplier.get();
-    }
-
-    @Override public Iterable<Image> listImages() {
-        return imageSupplier.get();
-    }
-
-    @Override public Iterable<Location> listLocations() {
-        return locationSupplier.get();
-    }
-
-    @Override public Iterable<VirtualMachine> listVirtualMachines() {
-        return virtualMachineSupplier.get();
+    @Override
+    public DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine> discoveryService() {
+        return discoveryService;
     }
 
     @Override public void deleteVirtualMachine(String virtualMachineId) {
@@ -156,15 +92,15 @@ public class BaseComputeService
         return createVirtualMachineStrategy.apply(virtualMachineTemplate);
     }
 
-    @Override public ConnectionService getConnectionService() {
+    @Override public ConnectionService connectionService() {
         return connectionService;
     }
 
-    @Override public Optional<PublicIpService> getPublicIpService() {
+    @Override public Optional<PublicIpService> publicIpService() {
         return publicIpService;
     }
 
-    @Override public Optional<KeyPairService> getKeyPairService() {
+    @Override public Optional<KeyPairService> keyPairService() {
         return keyPairService;
     }
 }
