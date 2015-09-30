@@ -29,10 +29,12 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
+import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
+import de.uniulm.omi.cloudiator.sword.core.base.BaseDiscoveryService;
 import de.uniulm.omi.cloudiator.sword.core.strategy.DefaultGetStrategy;
 
 import java.util.Set;
@@ -46,6 +48,9 @@ public abstract class AbstractComputeModule extends AbstractModule {
      * Can be extended to load own implementation of classes.
      */
     @Override protected void configure() {
+
+        bind(new TypeLiteral<DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine>>() {
+        }).to(BaseDiscoveryService.class);
 
         bind(new TypeLiteral<ResourceSupplier<Set<Image>>>() {
         }).to(imageSupplier());
@@ -156,7 +161,7 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
     /**
      * Extension point for adding a {@link PublicIpService} extension.
-     * <p>
+     * <p/>
      * Defaults to {@link com.google.common.base.Absent}
      *
      * @param injector injector for instantiating new classes.
@@ -168,7 +173,7 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
     /**
      * Extension point for adding a {@link KeyPairService} extension.
-     * <p>
+     * <p/>
      * Defaults to {@link com.google.common.base.Absent}
      *
      * @param injector injector for instantiating new classes.

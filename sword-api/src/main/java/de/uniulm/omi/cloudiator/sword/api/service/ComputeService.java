@@ -32,8 +32,15 @@ import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
  * @param <L> the type of {@link Location}
  * @param <V> the type of {@link VirtualMachine}
  */
-public interface ComputeService<H extends HardwareFlavor, I extends Image, L extends Location, V extends VirtualMachine>
-    extends DiscoveryService<H, I, L, V> {
+public interface ComputeService<H extends HardwareFlavor, I extends Image, L extends Location, V extends VirtualMachine> {
+
+    /**
+     * Returns a discovery service offering the discovery of stored entities at the
+     * cloud provider
+     *
+     * @return the discovery service.
+     */
+    DiscoveryService<H, I, L, V> discoveryService();
 
     /**
      * Deletes a virtual machine.
@@ -59,19 +66,19 @@ public interface ComputeService<H extends HardwareFlavor, I extends Image, L ext
      *
      * @return a connection service.
      */
-    ConnectionService getConnectionService();
+    ConnectionService connectionService();
 
     /**
      * Returns an {@link Optional} {@link PublicIpService} for the cloud provider.
      *
      * @return an optional public ip service.
      */
-    Optional<PublicIpService> getPublicIpService();
+    Optional<PublicIpService> publicIpService();
 
     /**
      * Returns an {@link Optional} {@link KeyPairService} for the cloud provider.
      *
      * @return an optional key pair service.
      */
-    Optional<KeyPairService> getKeyPairService();
+    Optional<KeyPairService> keyPairService();
 }
