@@ -29,16 +29,6 @@
         <jsch.version>0.1.51</jsch.version>
     </properties>
 
-    <parent>
-        <groupId>io.github.cloudiator</groupId>
-        <artifactId>project</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-    <groupId>io.github.cloudiator.sword</groupId>
-    <artifactId>project</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
     <modules>
         <module>api</module>
         <module>core</module>
@@ -48,6 +38,16 @@
         <module>remote-overthere</module>
         <module>logging-log4j</module>
     </modules>
+
+    <parent>
+        <groupId>io.github.cloudiator</groupId>
+        <artifactId>project</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <groupId>io.github.cloudiator.sword</groupId>
+    <artifactId>project</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <name>sword</name>
     <description>A multi-cloud abstraction layer.</description>
@@ -63,17 +63,17 @@
         <dependencies>
             <dependency>
                 <groupId>io.github.cloudiator.sword</groupId>
-                <artifactId>drivers</artifactId>
-                <version>${my.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.cloudiator.sword</groupId>
                 <artifactId>api</artifactId>
                 <version>${my.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.cloudiator.sword</groupId>
                 <artifactId>core</artifactId>
+                <version>${my.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.cloudiator.sword</groupId>
+                <artifactId>drivers</artifactId>
                 <version>${my.version}</version>
             </dependency>
             <dependency>
@@ -140,10 +140,6 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
             <plugin>
@@ -170,6 +166,7 @@
                         -->
                         <execution>
                             <id>pre-unit-test</id>
+                            <phase>process-test-classes</phase>
                             <goals>
                                 <goal>prepare-agent</goal>
                             </goals>
