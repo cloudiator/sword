@@ -50,6 +50,14 @@
     </modules>
 
     <name>sword</name>
+    <description>A multi-cloud abstraction layer.</description>
+    <url>https://github.com/cloudiator</url>
+
+    <scm>
+        <connection>scm:git@github.com:cloudiator/sword.git</connection>
+        <developerConnection>scm:git@github.com:cloudiator/sword.git</developerConnection>
+        <url>git@github.com:cloudiator/sword.git</url>
+    </scm>
 
     <dependencyManagement>
         <dependencies>

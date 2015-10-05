@@ -47,5 +47,9 @@
             <groupId>io.github.cloudiator.flexiant</groupId>
             <artifactId>flexiant-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.github.cloudiator</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
     </dependencies>
 </project>
