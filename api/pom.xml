@@ -23,29 +23,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>de.uniulm.omi.cloudiator</groupId>
-        <artifactId>sword</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
+        <groupId>io.github.cloudiator.sword</groupId>
+        <artifactId>project</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>sword-service</artifactId>
+    <artifactId>api</artifactId>
     <packaging>jar</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>de.uniulm.omi.cloudiator</groupId>
-            <artifactId>sword-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.uniulm.omi.cloudiator</groupId>
-            <artifactId>sword-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.uniulm.omi.cloudiator</groupId>
-            <artifactId>sword-drivers</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.uniulm.omi.cloudiator</groupId>
-            <artifactId>sword-remote-overthere</artifactId>
-        </dependency>
-    </dependencies>
+
 </project>
