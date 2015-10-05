@@ -21,17 +21,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>sword</artifactId>
-        <groupId>de.uniulm.omi.cloudiator</groupId>
-        <version>1.2.0-SNAPSHOT</version>
+        <groupId>io.github.cloudiator.sword</groupId>
+        <artifactId>project</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sword-remote-overthere</artifactId>
+    <artifactId>remote-overthere</artifactId>
 
     <properties>
-        <my.version>1.2.0-SNAPSHOT</my.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <bouncycastle.version>1.51</bouncycastle.version>
         <overthere.version>4.0.0</overthere.version>
     </properties>
@@ -53,22 +51,21 @@
                 <artifactId>overthere</artifactId>
                 <version>${overthere.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
         <dependency>
-            <groupId>de.uniulm.omi.cloudiator</groupId>
-            <artifactId>sword-api</artifactId>
+            <groupId>io.github.cloudiator.sword</groupId>
+            <artifactId>api</artifactId>
         </dependency>
         <dependency>
-            <groupId>de.uniulm.omi.cloudiator</groupId>
-            <artifactId>sword-core</artifactId>
+            <groupId>io.github.cloudiator.sword</groupId>
+            <artifactId>core</artifactId>
         </dependency>
         <dependency>
-            <groupId>de.uniulm.omi.cloudiator</groupId>
-            <artifactId>sword-remote</artifactId>
+            <groupId>io.github.cloudiator.sword</groupId>
+            <artifactId>remote</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
