@@ -33,6 +33,7 @@ public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOption
         NovaTemplateOptions novaTemplateOptions = new NovaTemplateOptions();
         novaTemplateOptions.keyPairName(templateOptions.keyPairName());
         novaTemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
+        novaTemplateOptions.userMetadata(templateOptions.tags());
         return novaTemplateOptions;
     }
 

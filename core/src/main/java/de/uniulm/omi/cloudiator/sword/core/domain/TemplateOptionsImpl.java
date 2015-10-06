@@ -37,10 +37,11 @@ public class TemplateOptionsImpl implements TemplateOptions {
     @Nullable private final String keyPairName;
     private final Set<Integer> inboundPorts;
     private final Map<Object, Object> additionalOptions;
+    private final Map<String, String> tags;
 
 
     TemplateOptionsImpl(@Nullable String keyPairName, Map<Object, Object> additionalOptions,
-        Set<Integer> inboundPorts) {
+        Set<Integer> inboundPorts, Map<String, String> tags) {
 
 
         if (keyPairName != null) {
@@ -48,10 +49,12 @@ public class TemplateOptionsImpl implements TemplateOptions {
         }
         checkNotNull(additionalOptions);
         checkNotNull(inboundPorts);
+        checkNotNull(tags);
 
         this.keyPairName = keyPairName;
         this.inboundPorts = ImmutableSet.copyOf(inboundPorts);
         this.additionalOptions = ImmutableMap.copyOf(additionalOptions);
+        this.tags = ImmutableMap.copyOf(tags);
     }
 
     @Nullable @Override public String keyPairName() {
@@ -60,6 +63,10 @@ public class TemplateOptionsImpl implements TemplateOptions {
 
     @Override public Set<Integer> inboundPorts() {
         return inboundPorts;
+    }
+
+    @Override public Map<String, String> tags() {
+        return tags;
     }
 
     @Override public Map<Object, Object> additionalOptions() {

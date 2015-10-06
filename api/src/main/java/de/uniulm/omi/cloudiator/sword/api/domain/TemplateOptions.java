@@ -43,6 +43,14 @@ public interface TemplateOptions {
     Set<Integer> inboundPorts();
 
     /**
+     * Tags to assign to the virtual machine.
+     * The map is immutable {@link com.google.common.collect.ImmutableMap}
+     *
+     * @return a map of key=>value tags.
+     */
+    Map<String, String> tags();
+
+    /**
      * A map of additional generic options in
      * key->value form.
      * <p/>

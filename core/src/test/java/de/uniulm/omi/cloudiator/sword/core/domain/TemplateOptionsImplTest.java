@@ -18,11 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
-import de.uniulm.omi.cloudiator.sword.core.domain.TemplateOptionsBuilder;
-import de.uniulm.omi.cloudiator.sword.core.domain.TemplateOptionsImpl;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -32,7 +29,6 @@ import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
 
 /**
  * Created by daniel on 30.07.15.
@@ -41,12 +37,18 @@ public class TemplateOptionsImplTest {
 
     @Test(expected = NullPointerException.class)
     public void testConstructorDisallowsNullAdditionalOptions() {
-        new TemplateOptionsImpl("test", null, Collections.singleton(1));
+        new TemplateOptionsImpl("test", null, Collections.singleton(1),
+            Collections.singletonMap("test", "test"));
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorDisallowsNullInboundPorts() {
-        new TemplateOptionsImpl("test", new HashMap<>(), null);
+        new TemplateOptionsImpl("test", new HashMap<>(), null,
+            Collections.singletonMap("test", "test"));
+    }
+
+    @Test(expected = NullPointerException.class) public void testConstructorDisallowsNullTags() {
+        new TemplateOptionsImpl("test", new HashMap<>(), Collections.singleton(1), null);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -76,8 +78,10 @@ public class TemplateOptionsImplTest {
         assertThat(templateOptions.inboundPorts().contains(1), equalTo(true));
     }
 
-    @Test public void testAdditionalOptionsIsImmutable() throws Exception {
-        TemplateOptions templateOptions = TemplateOptionsBuilder.newBuilder().build();
-        assertThat(templateOptions.additionalOptions(), instanceOf(ImmutableMap.class));
+    @Test public void testTags() throws Exception {
+        Map<String, String> tags = Collections.singletonMap("key", "value");
+        TemplateOptions templateOptions = TemplateOptionsBuilder.newBuilder().tags(tags).build();
+        assertThat(templateOptions.tags().containsKey("key"), equalTo(true));
+        assertThat(templateOptions.tags().containsValue("value"), equalTo(true));
     }
 }
