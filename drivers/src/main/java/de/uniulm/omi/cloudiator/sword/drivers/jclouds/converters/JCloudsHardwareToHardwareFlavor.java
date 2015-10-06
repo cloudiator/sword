@@ -38,7 +38,6 @@ public class JCloudsHardwareToHardwareFlavor implements OneWayConverter<Hardware
         for (Processor processor : hardware.getProcessors()) {
             cores += processor.getCores();
         }
-
         Float gbDisk = null;
         final Optional<? extends Volume> bootVolume =
             hardware.getVolumes().stream().filter(Volume::isBootDevice).findFirst();
@@ -46,9 +45,8 @@ public class JCloudsHardwareToHardwareFlavor implements OneWayConverter<Hardware
             gbDisk = bootVolume.get().getSize();
         }
 
-        return HardwareFlavorBuilder.newBuilder().id(hardware.getId())
-            .name(generateName(cores, hardware.getRam())).cores(cores).mbRam(hardware.getRam()).gbDisk(gbDisk)
-            .build();
+        return HardwareFlavorBuilder.newBuilder().id(hardware.getId()).name(hardware.getName())
+            .cores(cores).mbRam(hardware.getRam()).gbDisk(gbDisk).build();
     }
 
     private String generateName(int cores, int ram) {

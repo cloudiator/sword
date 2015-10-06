@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import com.google.common.collect.Maps;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 
 import java.util.HashMap;
@@ -35,10 +36,12 @@ public class TemplateOptionsBuilder {
     private String keyPairName;
     private Map<Object, Object> additionalOptions;
     private Set<Integer> inboundPorts;
+    private Map<String, String> tags;
 
     private TemplateOptionsBuilder() {
         additionalOptions = new HashMap<>();
         inboundPorts = new HashSet<>();
+        tags = Maps.newHashMap();
     }
 
     /**
@@ -99,12 +102,25 @@ public class TemplateOptionsBuilder {
     }
 
     /**
+     * Adds tags to the template. A tag is a combination of key => value.
+     * <p/>
+     * If you call this method twice, existing tags may be overwritten.
+     *
+     * @param tags the tags to add.
+     * @return fluid interface
+     */
+    public TemplateOptionsBuilder tags(Map<String, String> tags) {
+        this.tags.putAll(tags);
+        return this;
+    }
+
+    /**
      * Builds the template options object.
      *
      * @return the template options.
      */
     public TemplateOptions build() {
-        return new TemplateOptionsImpl(keyPairName, additionalOptions, inboundPorts);
+        return new TemplateOptionsImpl(keyPairName, additionalOptions, inboundPorts, tags);
     }
 
 
