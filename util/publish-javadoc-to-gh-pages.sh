@@ -6,7 +6,7 @@ if [ "$TRAVIS_REPO_SLUG" == "cloudiator/sword" ] && [ "$TRAVIS_JDK_VERSION" == "
 
   echo -e "Publishing javadoc...\n"
 
-  cp -R site/apidocs $HOME/javadoc-latest
+  cp -R target/site/apidocs $HOME/javadoc-latest
 
   cd $HOME
   git config --global user.email "travis@travis-ci.org"
