@@ -30,6 +30,16 @@
     <artifactId>drivers</artifactId>
     <packaging>jar</packaging>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.cloudiator.flexiant</groupId>
+                <artifactId>flexiant-client</artifactId>
+                <version>${flexiant.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>io.github.cloudiator.sword</groupId>

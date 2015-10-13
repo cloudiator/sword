@@ -97,11 +97,6 @@
                 <version>${jclouds.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.cloudiator.flexiant</groupId>
-                <artifactId>flexiant-client</artifactId>
-                <version>${flexiant.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.jcraft</groupId>
                 <artifactId>jsch</artifactId>
                 <version>${jsch.version}</version>
