@@ -8,7 +8,7 @@ import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
 /**
  * Created by daniel on 19.08.15.
  */
-//todo remote duplicated code
+//todo remove duplicated code
 public class OverthereWinRMConnection implements RemoteConnection {
 
     private final SwordOverthereConnection delegate;
