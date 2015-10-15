@@ -28,8 +28,8 @@ public class OverthereRemoteConnectionResponse implements RemoteConnectionRespon
 
     private final OverthereExecutionOutputHandler stdOutHandler;
     private final OverthereExecutionOutputHandler stdErrHandler;
-    private String stdOut;
-    private String stdErr;
+    private String stdOut = "";
+    private String stdErr = "";
     private int exitStatus;
 
     OverthereRemoteConnectionResponse() {
