@@ -28,8 +28,8 @@ import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.NovaKeyPairToKeypair;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.TemplateOptionsToNovaTemplateOptions;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack.extendsions.OpenstackKeyPairService;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack.extendsions.OpenstackPublicIpService;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackKeyPairService;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackPublicIpService;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 
