@@ -1,4 +1,4 @@
-package de.uniulm.omi.cloudiator.sword.drivers.openstack.extendsions;
+package de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions;
 
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;

@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.openstack.extendsions;
+package de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
