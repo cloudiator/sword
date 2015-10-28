@@ -31,7 +31,7 @@ de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers
 de.uniulm.omi.cloudiator.sword.drivers.openstack
 de.uniulm.omi.cloudiator.sword.drivers.openstack.config
 de.uniulm.omi.cloudiator.sword.drivers.openstack.converters
-de.uniulm.omi.cloudiator.sword.drivers.openstack.extendsions
+de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions
 de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy
 de.uniulm.omi.cloudiator.sword.logging.log4j
 de.uniulm.omi.cloudiator.sword.remote.internal
