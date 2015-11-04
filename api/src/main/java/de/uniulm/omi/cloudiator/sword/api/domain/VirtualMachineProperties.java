@@ -18,29 +18,35 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
+import java.util.Set;
 
 /**
- * Represents a public/private keypair for accessing
- * servers with SSH.
- * <p/>
- * The private key is optional, and is normally only available
- * if the keypair was just created.
+ * Created by daniel on 02.11.15.
  */
-public interface KeyPair extends Identifiable, Named {
+public interface VirtualMachineProperties {
 
     /**
-     * The public key of the keypair.
+     * The public ip addresses under which this virtual machine is reachable.
      *
-     * @return the public key.
+     * @return an immutable set of ip addresses.
      */
-    String publicKey();
+    Set<String> publicAddresses();
 
     /**
-     * The private key. Is only present if the keypair was just created.
+     * The private up addresses assigned to the virtual machine.
      *
-     * @return an {@link Optional} private key.
+     * @return an immutable set of up addresses.
      */
-    Optional<String> privateKey();
+    Set<String> privateAddresses();
 
+    /**
+     * {@link Optional} login credentials.
+     * <p/>
+     * The login credentials are normally only available
+     * if the machine was just created.
+     *
+     * @return optional login credentials.
+     */
+    Optional<LoginCredential> loginCredential();
 }

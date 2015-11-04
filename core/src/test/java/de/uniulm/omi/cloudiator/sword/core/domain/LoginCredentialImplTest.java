@@ -18,7 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import de.uniulm.omi.cloudiator.sword.core.domain.LoginCredentialBuilder;
+import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,54 +30,45 @@ import static org.hamcrest.core.IsEqual.equalTo;
  */
 public class LoginCredentialImplTest {
 
+    private String testUser = "user";
+    private String testPassword = "password";
+    private String testPrivateKey =
+        "shglehsjkghejkshgjkehskgjehjkghesjkhgejkshgjkehsgjkhesjkghejkshgjkeshkgheks";
+    private LoginCredential validLoginCredential;
 
-    @Test(expected = IllegalArgumentException.class) public void testConstructorEmptyPassword() {
-        LoginCredentialBuilder.newBuilder().username("user").password("").build();
+    @Before public void before() {
+        validLoginCredential =
+            LoginCredentialBuilder.newBuilder().username(testUser).password(testPassword)
+                .privateKey(testPrivateKey).build();
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testConstructorMissesPasswordAndPrivateKey() {
-        LoginCredentialBuilder.newBuilder().username("user").build();
+    public void testConstructorForbidsEmptyPassword() {
+        LoginCredentialBuilder.newBuilder().username(testUser).password("")
+            .privateKey(testPrivateKey).build();
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testConstructorHasPasswordAndPrivateKey() {
-        LoginCredentialBuilder.newBuilder().username("user").password("password")
-            .privateKey("privateKey").build();
+    public void testConstructorForbidsEmptyUsername() {
+        LoginCredentialBuilder.newBuilder().username("").password(testPassword)
+            .privateKey(testPrivateKey).build();
     }
 
-    @Test(expected = NullPointerException.class) public void testConstructorHasNullUsername() {
-        LoginCredentialBuilder.newBuilder().username(null).password("password").build();
-    }
-
-    @Test(expected = IllegalArgumentException.class) public void testConstructorHasEmptyUsername() {
-        LoginCredentialBuilder.newBuilder().username("").password("password").build();
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructorForbidsEmptyPrivateKey() {
+        LoginCredentialBuilder.newBuilder().username(testUser).password(testPassword).privateKey("")
+            .build();
     }
 
     @Test public void testUsername() throws Exception {
-        assertThat(LoginCredentialBuilder.newBuilder().username("user").password("password").build()
-            .username(), equalTo("user"));
+        assertThat(validLoginCredential.username().get(), equalTo(testUser));
     }
 
     @Test public void testPassword() throws Exception {
-        assertThat(LoginCredentialBuilder.newBuilder().username("user").password("password").build()
-            .password().get(), equalTo("password"));
+        assertThat(validLoginCredential.password().get(), equalTo(testPassword));
     }
 
     @Test public void testPrivateKey() throws Exception {
-        assertThat(
-            LoginCredentialBuilder.newBuilder().username("user").privateKey("privateKey").build()
-                .privateKey().get(), equalTo("privateKey"));
-    }
-
-    @Test public void testIsPasswordCredential() throws Exception {
-        assertThat(LoginCredentialBuilder.newBuilder().username("user").password("password").build()
-            .isPasswordCredential(), equalTo(true));
-    }
-
-    @Test public void testIsPrivateKeyCredential() throws Exception {
-        assertThat(
-            LoginCredentialBuilder.newBuilder().username("user").privateKey("privateKey").build()
-                .isPrivateKeyCredential(), equalTo(true));
+        assertThat(validLoginCredential.privateKey().get(), equalTo(testPrivateKey));
     }
 }

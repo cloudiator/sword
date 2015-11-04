@@ -18,10 +18,16 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+
 /**
  * Created by daniel on 01.12.14.
  */
-public class ImageBuilder extends ResourceBuilder {
+public class ImageBuilder {
+
+    private String id;
+    private String name;
+    private Location location;
 
     private ImageBuilder() {
 
@@ -31,20 +37,22 @@ public class ImageBuilder extends ResourceBuilder {
         return new ImageBuilder();
     }
 
-    @Override
     public ImageBuilder id(String id) {
-        super.id(id);
+        this.id = id;
         return this;
     }
 
-    @Override
-    public ImageBuilder name(final String name) {
+    public ImageBuilder name(String name) {
         this.name = name;
         return this;
     }
 
-    @Override
+    public ImageBuilder location(Location location) {
+        this.location = location;
+        return this;
+    }
+
     public ImageImpl build() {
-        return new ImageImpl(this.id, this.name);
+        return new ImageImpl(id, name, location);
     }
 }

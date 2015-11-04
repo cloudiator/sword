@@ -18,21 +18,20 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
-import com.google.common.base.Optional;
+
+
+import java.util.Optional;
 
 /**
  * Represents a credential for login on a remote
  * machine.
- * <p>
- * The login credential always has a username, but either
- * a password or a private key.
  */
 public interface LoginCredential {
 
     /**
-     * @return the username used for login.
+     * @return an {@link Optional} username used for login.
      */
-    String username();
+    Optional<String> username();
 
     /**
      * @return an {@link Optional} password used for login.
@@ -43,18 +42,4 @@ public interface LoginCredential {
      * @return an {@link Optional} private key used for login.
      */
     Optional<String> privateKey();
-
-    /**
-     * Check if the password is set.
-     *
-     * @return returns true if the password is set otherwise false.
-     */
-    boolean isPasswordCredential();
-
-    /**
-     * Check if the private key is set.
-     *
-     * @return returns true of the private key is set otherwise false.
-     */
-    boolean isPrivateKeyCredential();
 }

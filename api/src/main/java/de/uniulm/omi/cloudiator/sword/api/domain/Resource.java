@@ -21,16 +21,5 @@ package de.uniulm.omi.cloudiator.sword.api.domain;
 /**
  * A basic resource located at the cloud provider.
  */
-public interface Resource {
-
-    /**
-     * @return a unique identifier for the resource.
-     */
-    String id();
-
-    /**
-     * @return a human readable name for the resource.
-     */
-    String name();
-
+public interface Resource extends Identifiable, Named, LocationScoped {
 }

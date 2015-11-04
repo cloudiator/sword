@@ -28,7 +28,6 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters.FlexiantHardwareToHardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters.FlexiantImageToImage;
@@ -42,25 +41,26 @@ import de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers.LocationSupplie
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers.VirtualMachineSupplier;
 
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * Created by daniel on 02.12.14.
  */
 public class FlexiantComputeModule extends AbstractComputeModule {
 
-    @Override protected Class<? extends ResourceSupplier<Set<Image>>> imageSupplier() {
+    @Override protected Class<? extends Supplier<Set<Image>>> imageSupplier() {
         return ImageSupplier.class;
     }
 
-    @Override protected Class<? extends ResourceSupplier<Set<Location>>> locationSupplier() {
+    @Override protected Class<? extends Supplier<Set<Location>>> locationSupplier() {
         return LocationSupplier.class;
     }
 
-    @Override protected Class<? extends ResourceSupplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
+    @Override protected Class<? extends Supplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
         return HardwareSupplier.class;
     }
 
-    @Override protected Class<? extends ResourceSupplier<Set<VirtualMachine>>> virtualMachineSupplier() {
+    @Override protected Class<? extends Supplier<Set<VirtualMachine>>> virtualMachineSupplier() {
         return VirtualMachineSupplier.class;
     }
 

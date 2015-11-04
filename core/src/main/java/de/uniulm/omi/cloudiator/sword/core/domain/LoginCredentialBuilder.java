@@ -18,7 +18,6 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import com.google.common.base.Optional;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 
 import javax.annotation.Nullable;
@@ -30,7 +29,7 @@ import javax.annotation.Nullable;
  */
 public class LoginCredentialBuilder {
 
-    private String username;
+    @Nullable private String username;
     @Nullable private String privateKey;
     @Nullable private String password;
 
@@ -53,8 +52,7 @@ public class LoginCredentialBuilder {
      * @return the created login credential.
      */
     public LoginCredential build() {
-        return new LoginCredentialImpl(this.username, Optional.fromNullable(this.password),
-            Optional.fromNullable(this.privateKey));
+        return new LoginCredentialImpl(username, password, privateKey);
     }
 
     /**
@@ -63,7 +61,7 @@ public class LoginCredentialBuilder {
      * @param username the username for the user.
      * @return fluid interface
      */
-    public LoginCredentialBuilder username(String username) {
+    public LoginCredentialBuilder username(@Nullable String username) {
         this.username = username;
         return this;
     }
@@ -74,7 +72,7 @@ public class LoginCredentialBuilder {
      * @param privateKey the private key used for login.
      * @return fluid interface
      */
-    public LoginCredentialBuilder privateKey(String privateKey) {
+    public LoginCredentialBuilder privateKey(@Nullable String privateKey) {
         this.privateKey = privateKey;
         return this;
     }
@@ -85,7 +83,7 @@ public class LoginCredentialBuilder {
      * @param password the password for the login.
      * @return fluid interface
      */
-    public LoginCredentialBuilder password(String password) {
+    public LoginCredentialBuilder password(@Nullable String password) {
         this.password = password;
         return this;
     }

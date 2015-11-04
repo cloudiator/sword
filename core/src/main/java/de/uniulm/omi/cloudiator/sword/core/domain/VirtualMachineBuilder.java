@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import com.google.common.base.Optional;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 
@@ -29,12 +29,14 @@ import java.util.Set;
 /**
  * Created by daniel on 09.12.14.
  */
-public class VirtualMachineBuilder extends ResourceBuilder {
+public class VirtualMachineBuilder {
 
     private final Set<String> publicIpAddresses;
     private final Set<String> privateIpAddresses;
-    @Nullable
-    private LoginCredential loginCredential;
+    @Nullable private String id;
+    @Nullable private String name;
+    @Nullable private Location location;
+    @Nullable private LoginCredential loginCredential;
 
     private VirtualMachineBuilder() {
         publicIpAddresses = new HashSet<>();
@@ -45,15 +47,18 @@ public class VirtualMachineBuilder extends ResourceBuilder {
         return new VirtualMachineBuilder();
     }
 
-    @Override
-    public VirtualMachineBuilder id(final String id) {
+    public VirtualMachineBuilder id(String id) {
         this.id = id;
         return this;
     }
 
-    @Override
-    public VirtualMachineBuilder name(final String name) {
+    public VirtualMachineBuilder name(String name) {
         this.name = name;
+        return this;
+    }
+
+    public VirtualMachineBuilder location(Location location) {
+        this.location = location;
         return this;
     }
 
@@ -72,8 +77,8 @@ public class VirtualMachineBuilder extends ResourceBuilder {
         return this;
     }
 
-    @Override
     public VirtualMachine build() {
-        return new VirtualMachineImpl(this.id, this.name, publicIpAddresses, privateIpAddresses, Optional.fromNullable(loginCredential));
+        return new VirtualMachineImpl(id, name, location, publicIpAddresses, privateIpAddresses,
+            loginCredential);
     }
 }

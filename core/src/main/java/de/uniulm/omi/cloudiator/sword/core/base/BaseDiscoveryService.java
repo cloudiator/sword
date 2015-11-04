@@ -25,10 +25,10 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 
 import javax.annotation.Nullable;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -39,19 +39,19 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class BaseDiscoveryService
     implements DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine> {
 
-    private final ResourceSupplier<Set<Image>> imageSupplier;
-    private final ResourceSupplier<Set<Location>> locationSupplier;
-    private final ResourceSupplier<Set<HardwareFlavor>> hardwareFlavorSupplier;
-    private final ResourceSupplier<Set<VirtualMachine>> virtualMachineSupplier;
+    private final Supplier<Set<Image>> imageSupplier;
+    private final Supplier<Set<Location>> locationSupplier;
+    private final Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier;
+    private final Supplier<Set<VirtualMachine>> virtualMachineSupplier;
     private final GetStrategy<String, Image> imageGetStrategy;
     private final GetStrategy<String, Location> locationGetStrategy;
     private final GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy;
     private final GetStrategy<String, VirtualMachine> virtualMachineGetStrategy;
 
-    @Inject public BaseDiscoveryService(ResourceSupplier<Set<Image>> imageSupplier,
-        ResourceSupplier<Set<Location>> locationSupplier,
-        ResourceSupplier<Set<HardwareFlavor>> hardwareFlavorSupplier,
-        ResourceSupplier<Set<VirtualMachine>> virtualMachineSupplier,
+    @Inject public BaseDiscoveryService(Supplier<Set<Image>> imageSupplier,
+        Supplier<Set<Location>> locationSupplier,
+        Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier,
+        Supplier<Set<VirtualMachine>> virtualMachineSupplier,
         GetStrategy<String, Image> imageGetStrategy,
         GetStrategy<String, Location> locationGetStrategy,
         GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy,

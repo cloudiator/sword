@@ -20,8 +20,11 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 
 
 
+import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.ImageBuilder;
 
 /**
@@ -30,8 +33,15 @@ import de.uniulm.omi.cloudiator.sword.core.domain.ImageBuilder;
 public class FlexiantImageToImage
     implements OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image> {
 
+    private final GetStrategy<String, Location> locationGetStrategy;
+
+    @Inject public FlexiantImageToImage(GetStrategy<String, Location> locationGetStrategy) {
+        this.locationGetStrategy = locationGetStrategy;
+    }
+
     @Override public Image apply(de.uniulm.omi.cloudiator.flexiant.client.domain.Image image) {
         return ImageBuilder.newBuilder().id(image.getLocationUUID() + "/" + image.getId())
-            .name(image.getName()).build();
+            .name(image.getName()).location(locationGetStrategy.get(image.getLocationUUID()))
+            .build();
     }
 }

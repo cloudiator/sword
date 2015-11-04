@@ -26,6 +26,8 @@ import de.uniulm.omi.cloudiator.sword.api.exceptions.DriverException;
 
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 
 /**
  * Created by daniel on 05.12.14.
@@ -37,9 +39,14 @@ public class FlexiantComputeClientImpl implements FlexiantComputeClient {
     private final ServiceConfiguration serviceConfiguration;
 
     @Inject public FlexiantComputeClientImpl(ServiceConfiguration serviceConfiguration) {
+
+        checkArgument(serviceConfiguration.getEndpoint().isPresent(),
+            "No endpoint configured for FCO.");
+
         flexiantComputeClient =
             new de.uniulm.omi.cloudiator.flexiant.client.compute.FlexiantComputeClient(
-                serviceConfiguration.getEndpoint(), serviceConfiguration.getCredentials().user(),
+                serviceConfiguration.getEndpoint().get(),
+                serviceConfiguration.getCredentials().user(),
                 serviceConfiguration.getCredentials().password());
         this.serviceConfiguration = serviceConfiguration;
     }

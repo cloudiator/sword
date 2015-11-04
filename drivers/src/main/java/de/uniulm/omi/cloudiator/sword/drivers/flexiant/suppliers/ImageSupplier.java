@@ -18,20 +18,19 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
-import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
 
 import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * Created by daniel on 05.12.14.
  */
-public class ImageSupplier implements ResourceSupplier<Set<Image>> {
+public class ImageSupplier implements Supplier<Set<Image>> {
 
     private final FlexiantComputeClient flexiantComputeClient;
     private final OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image>
@@ -44,7 +43,7 @@ public class ImageSupplier implements ResourceSupplier<Set<Image>> {
     }
 
     @Override public Set<Image> get() {
-        return Sets.newHashSet(
-            Iterables.transform(flexiantComputeClient.listImages(), this.imageConverter));
+        return flexiantComputeClient.listImages().stream().map(imageConverter::apply)
+            .collect(Collectors.toSet());
     }
 }

@@ -18,36 +18,45 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+
 import javax.annotation.Nullable;
 
 /**
  * Created by daniel on 03.12.14.
  */
-public class HardwareFlavorBuilder extends ResourceBuilder {
+public class HardwareFlavorBuilder {
 
+    private String id;
+    private String name;
     private int cores;
     private long mbRam;
     @Nullable private Float gbDisk;
+    @Nullable private Location location;
 
     private HardwareFlavorBuilder() {
-
     }
 
     public static HardwareFlavorBuilder newBuilder() {
         return new HardwareFlavorBuilder();
     }
 
-    @Override public HardwareFlavorImpl build() {
-        return new HardwareFlavorImpl(this.id, this.name, this.cores, this.mbRam, this.gbDisk);
+    public HardwareFlavorImpl build() {
+        return new HardwareFlavorImpl(id, name, location, cores, mbRam, gbDisk);
     }
 
-    @Override public HardwareFlavorBuilder id(String id) {
-        super.id(id);
+    public HardwareFlavorBuilder id(String id) {
+        this.id = id;
         return this;
     }
 
-    @Override public HardwareFlavorBuilder name(final String name) {
+    public HardwareFlavorBuilder name(String name) {
         this.name = name;
+        return this;
+    }
+
+    public HardwareFlavorBuilder location(Location location) {
+        this.location = location;
         return this;
     }
 

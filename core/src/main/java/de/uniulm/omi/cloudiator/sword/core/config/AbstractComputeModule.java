@@ -33,11 +33,11 @@ import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.core.base.BaseDiscoveryService;
 import de.uniulm.omi.cloudiator.sword.core.strategy.DefaultGetStrategy;
 
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * An abstract skeleton for compute modules.
@@ -52,16 +52,16 @@ public abstract class AbstractComputeModule extends AbstractModule {
         bind(new TypeLiteral<DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine>>() {
         }).to(BaseDiscoveryService.class);
 
-        bind(new TypeLiteral<ResourceSupplier<Set<Image>>>() {
+        bind(new TypeLiteral<Supplier<Set<Image>>>() {
         }).to(imageSupplier());
 
-        bind(new TypeLiteral<ResourceSupplier<Set<Location>>>() {
+        bind(new TypeLiteral<Supplier<Set<Location>>>() {
         }).to(locationSupplier());
 
-        bind(new TypeLiteral<ResourceSupplier<Set<HardwareFlavor>>>() {
+        bind(new TypeLiteral<Supplier<Set<HardwareFlavor>>>() {
         }).to(hardwareFlavorSupplier());
 
-        bind(new TypeLiteral<ResourceSupplier<Set<VirtualMachine>>>() {
+        bind(new TypeLiteral<Supplier<Set<VirtualMachine>>>() {
         }).to(virtualMachineSupplier());
 
         bind(CreateVirtualMachineStrategy.class).to(createVirtualMachineStrategy());
@@ -90,24 +90,24 @@ public abstract class AbstractComputeModule extends AbstractModule {
     }
 
     /**
-     * @return the {@link Image} {@link ResourceSupplier} to use.
+     * @return the {@link Image} {@link Supplier} to use.
      */
-    protected abstract Class<? extends ResourceSupplier<Set<Image>>> imageSupplier();
+    protected abstract Class<? extends Supplier<Set<Image>>> imageSupplier();
 
     /**
-     * @return the {@link Location} {@link ResourceSupplier} to use.
+     * @return the {@link Location} {@link Supplier} to use.
      */
-    protected abstract Class<? extends ResourceSupplier<Set<Location>>> locationSupplier();
+    protected abstract Class<? extends Supplier<Set<Location>>> locationSupplier();
 
     /**
-     * @return the {@link HardwareFlavor} {@link ResourceSupplier} to use.
+     * @return the {@link HardwareFlavor} {@link Supplier} to use.
      */
-    protected abstract Class<? extends ResourceSupplier<Set<HardwareFlavor>>> hardwareFlavorSupplier();
+    protected abstract Class<? extends Supplier<Set<HardwareFlavor>>> hardwareFlavorSupplier();
 
     /**
-     * @return the {@link VirtualMachine} {@link ResourceSupplier} to use
+     * @return the {@link VirtualMachine} {@link Supplier} to use
      */
-    protected abstract Class<? extends ResourceSupplier<Set<VirtualMachine>>> virtualMachineSupplier();
+    protected abstract Class<? extends Supplier<Set<VirtualMachine>>> virtualMachineSupplier();
 
     /**
      * @return the {@link CreateVirtualMachineStrategy} used for creating {@link VirtualMachine}s

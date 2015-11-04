@@ -18,21 +18,20 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
 
 import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * Created by daniel on 10.12.14.
  */
-public class VirtualMachineSupplier implements ResourceSupplier<Set<VirtualMachine>> {
+public class VirtualMachineSupplier implements Supplier<Set<VirtualMachine>> {
 
     private final FlexiantComputeClient flexiantComputeClient;
     private final OneWayConverter<Server, VirtualMachine> virtualMachineConverter;
@@ -44,7 +43,7 @@ public class VirtualMachineSupplier implements ResourceSupplier<Set<VirtualMachi
     }
 
     @Override public Set<VirtualMachine> get() {
-        return Sets.newHashSet(
-            Iterables.transform(flexiantComputeClient.listServers(), this.virtualMachineConverter));
+        return flexiantComputeClient.listServers().stream().map(virtualMachineConverter::apply)
+            .collect(Collectors.toSet());
     }
 }

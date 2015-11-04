@@ -7,6 +7,8 @@ import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * Created by daniel on 19.08.15.
  */
@@ -15,16 +17,22 @@ public abstract class AbstractOverthereConnectionFactory implements RemoteConnec
     @Override
     public RemoteConnection createRemoteConnection(String remoteAddress, OSFamily osFamily,
         LoginCredential loginCredential, int port) throws RemoteException {
-        ConnectionOptions connectionOptions =
-            buildConnectionOptions(remoteAddress, loginCredential.username(), port);
 
-        if (loginCredential.isPasswordCredential()) {
+        checkArgument(loginCredential.username().isPresent(),
+            "LoginCredential does not contain user name.");
+        checkArgument(
+            loginCredential.password().isPresent() ^ loginCredential.privateKey().isPresent(),
+            "LoginCredential must either have private key or password.");
+
+        ConnectionOptions connectionOptions =
+            buildConnectionOptions(remoteAddress, loginCredential.username().get(), port);
+
+        if (loginCredential.password().isPresent()) {
             this.setPassword(connectionOptions, loginCredential.password().get());
-        } else if (loginCredential.isPrivateKeyCredential()) {
+        } else if (loginCredential.privateKey().isPresent()) {
             this.setKey(connectionOptions, loginCredential.privateKey().get());
         } else {
-            throw new IllegalStateException(
-                "Login credentials do not provide password or private key.");
+            throw new AssertionError("Illegal state of login credential.");
         }
 
         return openConnection(connectionOptions);

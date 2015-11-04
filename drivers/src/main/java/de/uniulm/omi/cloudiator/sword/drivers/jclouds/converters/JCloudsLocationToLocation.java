@@ -31,7 +31,12 @@ public class JCloudsLocationToLocation
     implements OneWayConverter<org.jclouds.domain.Location, Location> {
 
     @Override public Location apply(org.jclouds.domain.Location location) {
-        return LocationBuilder.newBuilder().id(location.getId()).assignable(true)
-            .name(location.getDescription()).build();
+        final LocationBuilder builder =
+            LocationBuilder.newBuilder().id(location.getId()).assignable(true)
+                .name(location.getDescription());
+        if (location.getParent() != null) {
+            builder.parent(apply(location.getParent()));
+        }
+        return builder.build();
     }
 }

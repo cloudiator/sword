@@ -35,7 +35,12 @@ public class FlexiantLocationToLocation
 
         final boolean assignable = location.getLocationScope().equals(LocationScope.VDC);
 
-        return LocationBuilder.newBuilder().id(location.getId()).assignable(assignable)
-            .name(location.getName()).build();
+        final LocationBuilder builder =
+            LocationBuilder.newBuilder().id(location.getId()).assignable(assignable)
+                .name(location.getName());
+        if (location.getParent() != null) {
+            builder.parent(apply(location));
+        }
+        return builder.build();
     }
 }

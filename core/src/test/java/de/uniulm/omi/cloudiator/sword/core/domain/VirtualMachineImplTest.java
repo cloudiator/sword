@@ -18,18 +18,12 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.core.domain.LoginCredentialBuilder;
-import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineBuilder;
-import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineImpl;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Collections;
-import java.util.HashSet;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -40,10 +34,12 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
  */
 public class VirtualMachineImplTest {
 
-    String virtualMachineId = "1";
-    String virtualMachineName = "name";
-    String publicIpAddress = "93.184.216.34";
-    String privateIpAddress = "192.168.0.2";
+    String testId = "1";
+    String testName = "name";
+    String testPublicIpAddress = "93.184.216.34";
+    String testPrivateIpAddress = "192.168.0.2";
+    private final Location testLocation =
+        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true).build();
     LoginCredential loginCredential =
         LoginCredentialBuilder.newBuilder().password("password").username("username").build();
 
@@ -52,41 +48,27 @@ public class VirtualMachineImplTest {
 
     @Before public void before() {
         validVirtualMachineBuilder =
-            VirtualMachineBuilder.newBuilder().id(virtualMachineId).name(virtualMachineName)
-                .addPrivateIpAddress(privateIpAddress).addPublicIpAddress(publicIpAddress)
+            VirtualMachineBuilder.newBuilder().id(testId).name(testName).location(testLocation)
+                .addPrivateIpAddress(testPrivateIpAddress).addPublicIpAddress(testPublicIpAddress)
                 .loginCredential(loginCredential);
         validVirtualMachine = validVirtualMachineBuilder.build();
     }
 
     @Test(expected = NullPointerException.class) public void testConstructorDisallowsNullId() {
-        validVirtualMachineBuilder.id(null).build();
+        validVirtualMachineBuilder.id(null).name(testName).location(testLocation).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void testConstructorDisallowsEmptyId() {
-        validVirtualMachineBuilder.id("").build();
+        validVirtualMachineBuilder.id("").name(testName).location(testLocation).build();
     }
 
     @Test(expected = NullPointerException.class) public void testConstructorDisallowsNullName() {
-        validVirtualMachineBuilder.name(null).build();
+        validVirtualMachineBuilder.id(testId).name(null).location(testLocation).build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorDisallowsEmptyName() {
-        validVirtualMachineBuilder.name("").build();
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testConstructorDisallowsNullPublicAddresses() {
-        new VirtualMachineImpl(virtualMachineId, virtualMachineName, null,
-            new HashSet<>(Collections.singletonList(privateIpAddress)),
-            Optional.fromNullable(loginCredential));
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testConstructorDisallowsNullPrivateAddresses() {
-        new VirtualMachineImpl(virtualMachineId, virtualMachineName,
-            new HashSet<>(Collections.singletonList(publicIpAddress)), null,
-            Optional.fromNullable(loginCredential));
+        validVirtualMachineBuilder.id(testId).name("").location(testLocation).build();
     }
 
     //todo: implement
@@ -94,12 +76,25 @@ public class VirtualMachineImplTest {
 
     }
 
+    @Test public void testId() {
+        assertThat(validVirtualMachine.id(), equalTo(testId));
+    }
+
+    @Test public void testName() {
+        assertThat(validVirtualMachine.name(), equalTo(testName));
+    }
+
+    @Test public void testLocation() {
+        assertThat(validVirtualMachine.location().get(), equalTo(testLocation));
+    }
+
     @Test public void testPublicAddresses() throws Exception {
-        assertThat(validVirtualMachine.publicAddresses().contains(publicIpAddress), equalTo(true));
+        assertThat(validVirtualMachine.publicAddresses().contains(testPublicIpAddress),
+            equalTo(true));
     }
 
     @Test public void testPrivateAddresses() throws Exception {
-        assertThat(validVirtualMachine.privateAddresses().contains(privateIpAddress),
+        assertThat(validVirtualMachine.privateAddresses().contains(testPrivateIpAddress),
             equalTo(true));
     }
 

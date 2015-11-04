@@ -18,21 +18,20 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 
 import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 
 /**
  * Created by daniel on 03.12.14.
  */
-public class LocationSupplier implements ResourceSupplier<Set<Location>> {
+public class LocationSupplier implements Supplier<Set<Location>> {
 
     private final JCloudsComputeClient jCloudsComputeClient;
     private final OneWayConverter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation;
@@ -44,7 +43,7 @@ public class LocationSupplier implements ResourceSupplier<Set<Location>> {
     }
 
     @Override public Set<Location> get() {
-        return Sets.newHashSet(Iterables.transform(jCloudsComputeClient.listAssignableLocations(),
-            this.jCloudsLocationToLocation));
+        return jCloudsComputeClient.listAssignableLocations().stream()
+            .map(jCloudsLocationToLocation::apply).collect(Collectors.toSet());
     }
 }

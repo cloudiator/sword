@@ -18,18 +18,22 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by daniel on 01.12.14.
  */
 public class ImageImpl extends ResourceImpl implements Image {
 
-    ImageImpl(String id, String name) {
-        super(id, name);
+    ImageImpl(String id, String name, @Nullable Location location) {
+        super(id, name, location);
     }
 
     @Override public String toString() {
-        return String.format("Image(id: %s, name: %s)", id, name);
+        return MoreObjects.toStringHelper(this).add("id", id()).add("name", name()).toString();
     }
 }

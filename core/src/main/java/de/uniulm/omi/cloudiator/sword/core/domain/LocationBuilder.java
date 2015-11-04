@@ -18,11 +18,18 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+
+import javax.annotation.Nullable;
+
 /**
  * Created by daniel on 03.12.14.
  */
-public class LocationBuilder extends ResourceBuilder {
+public class LocationBuilder {
 
+    private String id;
+    private String name;
+    @Nullable private Location parent;
     private boolean isAssignable;
 
     private LocationBuilder() {
@@ -33,18 +40,15 @@ public class LocationBuilder extends ResourceBuilder {
         return new LocationBuilder();
     }
 
-    @Override
     public LocationImpl build() {
-        return new LocationImpl(this.id, this.name, this.isAssignable);
+        return new LocationImpl(id, name, parent, isAssignable);
     }
 
-    @Override
     public LocationBuilder id(String id) {
-        super.id(id);
+        this.id = id;
         return this;
     }
 
-    @Override
     public LocationBuilder name(final String name) {
         this.name = name;
         return this;
@@ -52,6 +56,11 @@ public class LocationBuilder extends ResourceBuilder {
 
     public LocationBuilder assignable(boolean isAssignable) {
         this.isAssignable = isAssignable;
+        return this;
+    }
+
+    public LocationBuilder parent(Location parent) {
+        this.parent = parent;
         return this;
     }
 }

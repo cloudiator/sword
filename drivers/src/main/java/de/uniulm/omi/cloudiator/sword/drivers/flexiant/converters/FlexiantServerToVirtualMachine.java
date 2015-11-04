@@ -19,9 +19,12 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 
 
+import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.LoginCredentialBuilder;
 import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineBuilder;
 
@@ -29,6 +32,13 @@ import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineBuilder;
  * Created by daniel on 10.12.14.
  */
 public class FlexiantServerToVirtualMachine implements OneWayConverter<Server, VirtualMachine> {
+
+    private final GetStrategy<String, Location> locationGetStrategy;
+
+    @Inject
+    public FlexiantServerToVirtualMachine(GetStrategy<String, Location> locationGetStrategy) {
+        this.locationGetStrategy = locationGetStrategy;
+    }
 
     @Override public VirtualMachine apply(final Server server) {
 
@@ -46,6 +56,7 @@ public class FlexiantServerToVirtualMachine implements OneWayConverter<Server, V
                 LoginCredentialBuilder.newBuilder().username(server.getInitialUser())
                     .password(server.getInitialPassword()).build());
         }
+        virtualMachineBuilder.location(locationGetStrategy.get(server.getLocationUUID()));
         return virtualMachineBuilder.build();
     }
 }

@@ -18,8 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import de.uniulm.omi.cloudiator.sword.core.domain.ImageBuilder;
-import de.uniulm.omi.cloudiator.sword.core.domain.ImageImpl;
+import de.uniulm.omi.cloudiator.sword.api.domain.Image;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,34 +31,44 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class ImageImplTest {
 
-    private final String idTest = "123456";
-    private final String nameTest = "name";
+    private final String testId = "123456";
+    private final String testName = "name";
+    private final Location testLocation =
+        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true).build();
+    private Image validImage;
+
+    @Before public void before() {
+        validImage =
+            ImageBuilder.newBuilder().id(testId).name(testName).location(testLocation).build();
+    }
 
     @Test(expected = NullPointerException.class) public void idNotNullableTest() {
-        ImageBuilder.newBuilder().id(null).name(nameTest).build();
+        ImageBuilder.newBuilder().id(null).name(testName).location(testLocation).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void idNotEmptyTest() {
-        ImageBuilder.newBuilder().id("").name(nameTest).build();
+        ImageBuilder.newBuilder().id("").name(testName).location(testLocation).build();
     }
 
     @Test(expected = NullPointerException.class) public void nameNotNullableTest() {
-        ImageBuilder.newBuilder().id(idTest).name(null).build();
+        ImageBuilder.newBuilder().id(testId).name(null).location(testLocation).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void nameNotEmptyTest() {
-        ImageBuilder.newBuilder().id(idTest).name("").build();
+        ImageBuilder.newBuilder().id(testId).name("").location(testLocation).build();
     }
 
 
     @Test public void getIdTest() {
-        final ImageImpl image = ImageBuilder.newBuilder().id(idTest).name(nameTest).build();
-        assertThat(image.id(), equalTo(idTest));
+        assertThat(validImage.id(), equalTo(testId));
     }
 
     @Test public void getNameTest() {
-        final ImageImpl image = ImageBuilder.newBuilder().id(idTest).name(nameTest).build();
-        assertThat(image.name(), equalTo(nameTest));
+        assertThat(validImage.name(), equalTo(testName));
+    }
+
+    @Test public void getLocationTest() {
+        assertThat(validImage.location().get(), equalTo(testLocation));
     }
 
 }

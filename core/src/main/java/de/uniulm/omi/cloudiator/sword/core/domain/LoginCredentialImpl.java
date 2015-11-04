@@ -18,12 +18,13 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import com.google.common.base.Optional;
+
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.core.domain.LoginCredentialBuilder;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Basic implementation of the {@link LoginCredential} interface.
@@ -33,53 +34,39 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class LoginCredentialImpl implements LoginCredential {
 
-    private final String username;
-    private final Optional<String> password;
-    private final Optional<String> privateKey;
+    @Nullable private final String username;
+    @Nullable private final String password;
+    @Nullable private final String privateKey;
 
-    LoginCredentialImpl(String username, Optional<String> password,
-        Optional<String> privateKey) {
+    LoginCredentialImpl(@Nullable String username, @Nullable String password,
+        @Nullable String privateKey) {
 
-        checkNotNull(username, "Username is mandatory.");
-        checkArgument(!username.isEmpty(), "Username must not be empty.");
-
-        if (password.isPresent()) {
-            checkArgument(!password.get().isEmpty(),
-                "If a password is supplied, it must not be empty.");
-        }
-        if (privateKey.isPresent()) {
-            checkArgument(!privateKey.get().isEmpty(),
-                "If a private key is supplied, it must not be empty.");
+        if (username != null) {
+            checkArgument(!username.isEmpty(), "Username must not be empty.");
         }
 
-        checkNotNull(password, "Null is not allowed for password, use Optional.");
-        checkNotNull(privateKey, "Null is not allowed for private key, use Optional");
+        if (password != null) {
+            checkArgument(!password.isEmpty(), "Password must not be empty.");
+        }
 
-        checkArgument(password.isPresent() ^ privateKey.isPresent(),
-            "Password (exclusive)or private key must be present.");
+        if (privateKey != null) {
+            checkArgument(!privateKey.isEmpty(), "Private key must not be empty.");
+        }
 
         this.username = username;
         this.password = password;
         this.privateKey = privateKey;
     }
 
-    @Override public String username() {
-        return this.username;
+    @Override public Optional<String> username() {
+        return Optional.ofNullable(username);
     }
 
     @Override public Optional<String> password() {
-        return this.password;
+        return Optional.ofNullable(password);
     }
 
     @Override public Optional<String> privateKey() {
-        return this.privateKey;
-    }
-
-    @Override public boolean isPasswordCredential() {
-        return this.password.isPresent();
-    }
-
-    @Override public boolean isPrivateKeyCredential() {
-        return this.privateKey.isPresent();
+        return Optional.ofNullable(privateKey);
     }
 }

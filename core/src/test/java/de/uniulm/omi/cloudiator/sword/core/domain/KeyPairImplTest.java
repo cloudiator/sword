@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,81 +30,77 @@ import static org.hamcrest.core.IsEqual.equalTo;
  */
 public class KeyPairImplTest {
 
+    private final String testId = "id";
+    private final String testName = "name";
+    private final String testPrivateKey = "privateKey";
+    private final String testPublicKey = "publicKey";
+    private KeyPair validKeyPair;
+
+    @Before public void before() {
+        this.validKeyPair =
+            KeyPairBuilder.newBuilder().id(testId).name(testName).privateKey(testPrivateKey)
+                .publicKey(testPublicKey).build();
+    }
+
+    @Test(expected = NullPointerException.class) public void testConstructorNotAllowsNullId() {
+        KeyPairBuilder.newBuilder().id(null).name(testName).privateKey(testPrivateKey)
+            .publicKey(testPublicKey).build();
+    }
+
+    @Test(expected = IllegalArgumentException.class) public void testConstructorDisallowsEmptyId() {
+        KeyPairBuilder.newBuilder().id("").name(testName).privateKey(testPrivateKey)
+            .publicKey(testPublicKey).build();
+    }
+
     @Test(expected = NullPointerException.class) public void testConstructorNotAllowsNullName() {
-        KeyPairBuilder.newBuilder().id("id").name(null).privateKey("privateKey")
-            .publicKey("publicKey").build();
+        KeyPairBuilder.newBuilder().id(testId).name(null).privateKey(testPrivateKey)
+            .publicKey(testPublicKey).build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorDisallowsEmptyName() {
-        KeyPairBuilder.newBuilder().id("id").name("").privateKey("privateKey")
-            .publicKey("publicKey").build();
-    }
-
-    @Test(expected = NullPointerException.class) public void testConstructorNotAllowsNullId() {
-        KeyPairBuilder.newBuilder().id(null).name("name").privateKey("privateKey")
-            .publicKey("publicKey").build();
-    }
-
-    @Test(expected = IllegalArgumentException.class) public void testConstructorDisallowsEmptyId() {
-        KeyPairBuilder.newBuilder().id("").name("name").privateKey("privateKey")
-            .publicKey("publicKey").build();
+        KeyPairBuilder.newBuilder().id(testId).name("").privateKey(testPrivateKey)
+            .publicKey(testPublicKey).build();
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorDisallowsNullPublicKey() {
-        KeyPairBuilder.newBuilder().id("id").name("name").privateKey("privateKey").publicKey(null)
-            .build();
+        KeyPairBuilder.newBuilder().id(testId).name(testName).privateKey(testPrivateKey)
+            .publicKey(null).build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorDisallowsEmptyPublicKey() {
-        KeyPairBuilder.newBuilder().id("id").name("name").privateKey("privateKey").publicKey("")
-            .build();
+        KeyPairBuilder.newBuilder().id(testId).name(testName).privateKey(testPrivateKey)
+            .publicKey("").build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorDisallowsEmptyPrivateKey() {
-        KeyPairBuilder.newBuilder().id("id").name("name").privateKey("").publicKey("publicKey")
-            .build();
+        KeyPairBuilder.newBuilder().id(testId).name(testName).privateKey("")
+            .publicKey(testPublicKey).build();
     }
 
     @Test public void testConstructorAllowsNullPrivateKey() {
-        KeyPairBuilder.newBuilder().id("id").name("name").privateKey(null).publicKey("publicKey")
-            .build();
+        KeyPairBuilder.newBuilder().id(testId).name(testName).privateKey(null)
+            .publicKey(testPublicKey).build();
     }
 
     @Test public void testId() throws Exception {
-        final KeyPair keyPair =
-            KeyPairBuilder.newBuilder().id("id").name("name").privateKey("privateKey")
-                .publicKey("publicKey").build();
-        assertThat(keyPair.id(), equalTo("id"));
+
+        assertThat(validKeyPair.id(), equalTo(testId));
     }
 
     @Test public void testName() throws Exception {
-        final KeyPair keyPair =
-            KeyPairBuilder.newBuilder().id("id").name("name").privateKey("privateKey")
-                .publicKey("publicKey").build();
-        assertThat(keyPair.name(), equalTo("name"));
+        assertThat(validKeyPair.name(), equalTo(testName));
     }
 
     @Test public void testPublicKey() throws Exception {
-        final KeyPair keyPair =
-            KeyPairBuilder.newBuilder().id("id").name("name").privateKey("privateKey")
-                .publicKey("publicKey").build();
-        assertThat(keyPair.publicKey(), equalTo("publicKey"));
+        assertThat(validKeyPair.publicKey(), equalTo(testPublicKey));
     }
 
     @Test public void testPrivateKey() throws Exception {
-        final KeyPair keyPairNull =
-            KeyPairBuilder.newBuilder().id("id").name("name").privateKey(null)
-                .publicKey("publicKey").build();
-        assertThat(keyPairNull.privateKey().isPresent(), equalTo(false));
-
-        final KeyPair keyPairNotNull =
-            KeyPairBuilder.newBuilder().id("id").name("name").privateKey("privateKey")
-                .publicKey("publicKey").build();
-        assertThat(keyPairNotNull.privateKey().get(), equalTo("privateKey"));
+        assertThat(validKeyPair.privateKey().get(), equalTo(testPrivateKey));
 
     }
 }

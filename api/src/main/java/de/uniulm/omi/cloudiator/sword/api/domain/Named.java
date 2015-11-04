@@ -6,7 +6,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -16,34 +16,16 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.api;
-
-import de.uniulm.omi.cloudiator.sword.api.domain.Credentials;
-
-import java.util.Optional;
+package de.uniulm.omi.cloudiator.sword.api.domain;
 
 /**
- * Provides the configuration of the service.
+ * Created by daniel on 30.10.15.
  */
-public interface ServiceConfiguration {
+public interface Named {
 
     /**
-     * @return the {@link Optional} address of the api endpoint of the service provider if present.
+     * @return a human readable name for the resource.
      */
-    Optional<String> getEndpoint();
+    String name();
 
-    /**
-     * @return the name of the provider.
-     */
-    String getProvider();
-
-    /**
-     * @return the credentials for the api endpoint.
-     */
-    Credentials getCredentials();
-
-    /**
-     * @return the node group.
-     */
-    String getNodeGroup();
 }

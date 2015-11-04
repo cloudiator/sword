@@ -18,11 +18,14 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import com.google.common.base.Optional;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 
+import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -35,11 +38,12 @@ public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
     private final Set<String> publicIpAddresses;
     private final Set<String> privateIpAddresses;
 
-    private final Optional<LoginCredential> loginCredential;
+    @Nullable private final LoginCredential loginCredential;
 
-    VirtualMachineImpl(String id, String name, Set<String> publicIpAddresses,
-        Set<String> privateIpAddresses, Optional<LoginCredential> loginCredential) {
-        super(id, name);
+    VirtualMachineImpl(String id, String name, @Nullable Location location,
+        Set<String> publicIpAddresses, Set<String> privateIpAddresses,
+        @Nullable LoginCredential loginCredential) {
+        super(id, name, location);
 
         checkNotNull(publicIpAddresses);
         checkNotNull(privateIpAddresses);
@@ -51,18 +55,18 @@ public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
     }
 
     @Override public String toString() {
-        return String.format("VirtualMachine(id: %s, description: %s)", this.id, this.name);
+        return MoreObjects.toStringHelper(this).add("id", id()).add("name", name()).toString();
     }
 
     @Override public Set<String> publicAddresses() {
-        return this.publicIpAddresses;
+        return publicIpAddresses;
     }
 
     @Override public Set<String> privateAddresses() {
-        return this.privateIpAddresses;
+        return privateIpAddresses;
     }
 
     @Override public Optional<LoginCredential> loginCredential() {
-        return this.loginCredential;
+        return Optional.ofNullable(loginCredential);
     }
 }

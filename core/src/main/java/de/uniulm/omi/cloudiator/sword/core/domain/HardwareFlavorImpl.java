@@ -18,7 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 
 import javax.annotation.Nullable;
 
@@ -33,15 +35,14 @@ public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
     protected long ram;
     protected Float gbDisk;
 
-    HardwareFlavorImpl(String id, String name, int cores, long ram, @Nullable Float gbDisk) {
-        super(id, name);
+    HardwareFlavorImpl(String id, String name, @Nullable Location location, int cores, long ram,
+        @Nullable Float gbDisk) {
+        super(id, name, location);
         checkArgument(cores > 0, "Cores must be > 0");
         checkArgument(ram > 0, "RAM must be > 0");
-
         if (gbDisk != null) {
             checkArgument(gbDisk > 0, "Disk must be > 0");
         }
-
         this.cores = cores;
         this.ram = ram;
         this.gbDisk = gbDisk;
@@ -60,8 +61,7 @@ public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
     }
 
     @Override public String toString() {
-        return String
-            .format("Hardware(id: %s, name: %s, cores: %s, ram: %s, disk: %s)", id, name, cores,
-                ram, gbDisk);
+        return MoreObjects.toStringHelper(this).add("id", id()).add("name", id())
+            .add("cores", cores).add("ram", ram).add("disk", gbDisk).toString();
     }
 }

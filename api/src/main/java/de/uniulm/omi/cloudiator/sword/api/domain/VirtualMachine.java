@@ -18,37 +18,13 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
-import com.google.common.base.Optional;
 
-import java.util.Set;
 
 /**
  * Represents a virtual machine.
  */
-public interface VirtualMachine extends Resource {
+public interface VirtualMachine extends Resource, VirtualMachineProperties {
 
-    /**
-     * The public ip addresses under which this virtual machine is reachable.
-     *
-     * @return an immutable set of ip addresses.
-     */
-    Set<String> publicAddresses();
 
-    /**
-     * The private up addresses assigned to the virtual machine.
-     *
-     * @return an immutable set of up addresses.
-     */
-    Set<String> privateAddresses();
-
-    /**
-     * {@link Optional} login credentials.
-     * <p/>
-     * The login credentials are normally only available
-     * if the machine was just created.
-     *
-     * @return optional login credentials.
-     */
-    Optional<LoginCredential> loginCredential();
 
 }

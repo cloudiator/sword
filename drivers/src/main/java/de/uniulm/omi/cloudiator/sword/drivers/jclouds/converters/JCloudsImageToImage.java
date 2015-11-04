@@ -20,8 +20,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
 
+import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.core.domain.ImageBuilder;
 
 /**
@@ -30,7 +32,11 @@ import de.uniulm.omi.cloudiator.sword.core.domain.ImageBuilder;
 public class JCloudsImageToImage
     implements OneWayConverter<org.jclouds.compute.domain.Image, Image> {
 
-    @Override public Image apply(org.jclouds.compute.domain.Image image) {
+    @Inject OneWayConverter<org.jclouds.domain.Location, Location> locationConverter;
+
+    @Override
+
+    public Image apply(org.jclouds.compute.domain.Image image) {
         return ImageBuilder.newBuilder().id(image.getId()).name(image.getDescription()).build();
     }
 }
