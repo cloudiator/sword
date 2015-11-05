@@ -39,7 +39,7 @@ public class FlexiantLocationToLocation
             LocationBuilder.newBuilder().id(location.getId()).assignable(assignable)
                 .name(location.getName());
         if (location.getParent() != null) {
-            builder.parent(apply(location));
+            builder.parent(apply(location.getParent()));
         }
         return builder.build();
     }
