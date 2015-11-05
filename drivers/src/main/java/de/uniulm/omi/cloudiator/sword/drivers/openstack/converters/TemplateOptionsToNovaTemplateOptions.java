@@ -31,7 +31,10 @@ public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOption
     @Override protected TemplateOptions convert(
         de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions templateOptions) {
         NovaTemplateOptions novaTemplateOptions = new NovaTemplateOptions();
-        novaTemplateOptions.keyPairName(templateOptions.keyPairName());
+        final String keyPairName = templateOptions.keyPairName();
+        if (keyPairName != null) {
+            novaTemplateOptions.keyPairName(keyPairName);
+        }
         novaTemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
         novaTemplateOptions.userMetadata(templateOptions.tags());
         return novaTemplateOptions;

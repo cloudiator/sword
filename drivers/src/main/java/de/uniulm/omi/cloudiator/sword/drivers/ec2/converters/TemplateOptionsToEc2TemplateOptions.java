@@ -31,7 +31,10 @@ public class TemplateOptionsToEc2TemplateOptions extends AbstractTemplateOptions
     @Override protected TemplateOptions convert(
         de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions templateOptions) {
         EC2TemplateOptions ec2TemplateOptions = new EC2TemplateOptions();
-        ec2TemplateOptions.authorizePublicKey(templateOptions.keyPairName());
+        final String keyPairName = templateOptions.keyPairName();
+        if (keyPairName != null) {
+            ec2TemplateOptions.authorizePublicKey(keyPairName);
+        }
         ec2TemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
         return ec2TemplateOptions;
     }
