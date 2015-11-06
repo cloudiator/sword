@@ -19,10 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.core.config;
 
 import com.google.common.base.Optional;
-import com.google.inject.AbstractModule;
-import com.google.inject.Injector;
-import com.google.inject.Provides;
-import com.google.inject.TypeLiteral;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import com.google.inject.*;
+import de.uniulm.omi.cloudiator.sword.api.annotations.Memoized;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
@@ -37,7 +37,8 @@ import de.uniulm.omi.cloudiator.sword.core.base.BaseDiscoveryService;
 import de.uniulm.omi.cloudiator.sword.core.strategy.DefaultGetStrategy;
 
 import java.util.Set;
-import java.util.function.Supplier;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * An abstract skeleton for compute modules.
@@ -87,6 +88,22 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
     @Provides final Optional<KeyPairService> provideKeyPairService(Injector injector) {
         return keyPairService(injector);
+    }
+
+    @Provides @Memoized @Singleton
+    Supplier<Set<HardwareFlavor>> provideMemoizedHardwareFlavorSupplier(
+        Supplier<Set<HardwareFlavor>> originalSupplier) {
+        return Suppliers.memoizeWithExpiration(originalSupplier, 1L, TimeUnit.MINUTES);
+    }
+
+    @Provides @Memoized @Singleton Supplier<Set<Location>> provideMemoizedLocationSupplier(
+        Supplier<Set<Location>> originalSupplier) {
+        return Suppliers.memoizeWithExpiration(originalSupplier, 1L, TimeUnit.MINUTES);
+    }
+
+    @Provides @Memoized @Singleton Supplier<Set<Image>> provideMemoizedImageSupplier(
+        Supplier<Set<Image>> originalSupplier) {
+        return Suppliers.memoizeWithExpiration(originalSupplier, 1L, TimeUnit.MINUTES);
     }
 
     /**

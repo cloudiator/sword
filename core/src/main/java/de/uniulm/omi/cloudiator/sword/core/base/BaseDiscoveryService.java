@@ -18,7 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.core.base;
 
+import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.api.annotations.Memoized;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
@@ -28,7 +30,6 @@ import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 
 import javax.annotation.Nullable;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -48,9 +49,9 @@ public class BaseDiscoveryService
     private final GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy;
     private final GetStrategy<String, VirtualMachine> virtualMachineGetStrategy;
 
-    @Inject public BaseDiscoveryService(Supplier<Set<Image>> imageSupplier,
-        Supplier<Set<Location>> locationSupplier,
-        Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier,
+    @Inject public BaseDiscoveryService(@Memoized Supplier<Set<Image>> imageSupplier,
+        @Memoized Supplier<Set<Location>> locationSupplier,
+        @Memoized Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier,
         Supplier<Set<VirtualMachine>> virtualMachineSupplier,
         GetStrategy<String, Image> imageGetStrategy,
         GetStrategy<String, Location> locationGetStrategy,

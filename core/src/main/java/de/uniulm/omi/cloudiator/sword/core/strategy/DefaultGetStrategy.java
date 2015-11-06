@@ -18,13 +18,14 @@
 
 package de.uniulm.omi.cloudiator.sword.core.strategy;
 
+import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.api.annotations.Memoized;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 
 import javax.annotation.Nullable;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -87,7 +88,7 @@ public class DefaultGetStrategy<T extends Identifiable> implements GetStrategy<S
      * * @todo necessary?
      */
     public static class DefaultImageGetStrategy extends DefaultGetStrategy<Image> {
-        @Inject public DefaultImageGetStrategy(Supplier<Set<Image>> supplier) {
+        @Inject public DefaultImageGetStrategy(@Memoized Supplier<Set<Image>> supplier) {
             super(supplier);
         }
     }
@@ -98,7 +99,7 @@ public class DefaultGetStrategy<T extends Identifiable> implements GetStrategy<S
      * * @todo necessary?
      */
     public static class DefaultLocationGetStrategy extends DefaultGetStrategy<Location> {
-        @Inject public DefaultLocationGetStrategy(Supplier<Set<Location>> supplier) {
+        @Inject public DefaultLocationGetStrategy(@Memoized Supplier<Set<Location>> supplier) {
             super(supplier);
         }
     }
@@ -110,7 +111,8 @@ public class DefaultGetStrategy<T extends Identifiable> implements GetStrategy<S
      */
     public static class DefaultHardwareFlavorGetStrategy
         extends DefaultGetStrategy<HardwareFlavor> {
-        @Inject public DefaultHardwareFlavorGetStrategy(Supplier<Set<HardwareFlavor>> supplier) {
+        @Inject
+        public DefaultHardwareFlavorGetStrategy(@Memoized Supplier<Set<HardwareFlavor>> supplier) {
             super(supplier);
         }
     }

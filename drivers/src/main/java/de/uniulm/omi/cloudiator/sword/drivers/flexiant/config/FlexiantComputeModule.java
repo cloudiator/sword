@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.config;
 
+import com.google.common.base.Supplier;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Hardware;
@@ -41,7 +42,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers.LocationSupplie
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers.VirtualMachineSupplier;
 
 import java.util.Set;
-import java.util.function.Supplier;
+
 
 /**
  * Created by daniel on 02.12.14.

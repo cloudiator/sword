@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.config;
 
+import com.google.common.base.Supplier;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
@@ -38,7 +39,7 @@ import org.jclouds.compute.domain.Hardware;
 import org.jclouds.domain.LoginCredentials;
 
 import java.util.Set;
-import java.util.function.Supplier;
+
 
 /**
  * An abstract compute module for cloud providers that are supported using

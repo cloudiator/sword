@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.core.strategy;
 
 
+import com.google.common.base.Supplier;
 import de.uniulm.omi.cloudiator.sword.api.domain.Identifiable;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import org.junit.Before;
@@ -26,7 +27,6 @@ import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
