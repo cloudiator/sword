@@ -22,6 +22,8 @@ import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 
 /**
  * Builder for a LoginCredential object.
@@ -44,6 +46,20 @@ public class LoginCredentialBuilder {
      */
     public static LoginCredentialBuilder newBuilder() {
         return new LoginCredentialBuilder();
+    }
+
+    /**
+     * Returns a builder that is initialized with the values
+     * of the given credential.
+     *
+     * @param loginCredential the login credential used for initialization.
+     * @return a builder
+     */
+    public static LoginCredentialBuilder of(LoginCredential loginCredential) {
+        checkNotNull(loginCredential);
+        return newBuilder().username(loginCredential.username().orElse(null))
+            .privateKey(loginCredential.privateKey().orElse(null))
+            .password(loginCredential.password().orElse(null));
     }
 
     /**

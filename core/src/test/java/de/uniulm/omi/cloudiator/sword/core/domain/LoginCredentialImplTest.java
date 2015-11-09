@@ -71,4 +71,12 @@ public class LoginCredentialImplTest {
     @Test public void testPrivateKey() throws Exception {
         assertThat(validLoginCredential.privateKey().get(), equalTo(testPrivateKey));
     }
+
+    @Test public void testBuilderOf() {
+        LoginCredentialBuilder builder = LoginCredentialBuilder.of(validLoginCredential);
+        LoginCredential toTest = builder.build();
+        assertThat(toTest.password().get(), equalTo(validLoginCredential.password().get()));
+        assertThat(toTest.privateKey().get(), equalTo(validLoginCredential.privateKey().get()));
+        assertThat(toTest.username().get(), equalTo(validLoginCredential.username().get()));
+    }
 }
