@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 
@@ -71,11 +72,6 @@ public class VirtualMachineImplTest {
         validVirtualMachineBuilder.id(testId).name("").location(testLocation).build();
     }
 
-    //todo: implement
-    @Test public void testToString() throws Exception {
-
-    }
-
     @Test public void testId() {
         assertThat(validVirtualMachine.id(), equalTo(testId));
     }
@@ -100,6 +96,8 @@ public class VirtualMachineImplTest {
 
     @Test public void testLoginCredential() throws Exception {
         assertThat(validVirtualMachine.loginCredential().get(), equalTo(loginCredential));
+        assertThat(validVirtualMachineBuilder.loginCredential(null).build().loginCredential().get(),
+            nullValue());
     }
 
     @Test public void testIpAddressesAreImmutable() throws Exception {

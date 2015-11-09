@@ -77,6 +77,15 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         return JCloudsDeleteVirtualMachineStrategy.class;
     }
 
+    /**
+     * Extension point for the virtual machine converter.
+     *
+     * @return a converter for converting the jclouds compute metadata to virtual machines.
+     */
+    protected Class<? extends OneWayConverter<ComputeMetadata, VirtualMachine>> virtualMachineConverter() {
+        return JCloudsComputeMetadataToVirtualMachine.class;
+    }
+
     protected abstract Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter();
 
     @Override protected void configure() {
@@ -99,7 +108,7 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
         //bind the virtual machine converter
         bind(new TypeLiteral<OneWayConverter<ComputeMetadata, VirtualMachine>>() {
-        }).to(JCloudsComputeMetadataToVirtualMachine.class);
+        }).to(virtualMachineConverter());
 
         //bind the login credential converter
         bind(new TypeLiteral<OneWayConverter<LoginCredentials, LoginCredential>>() {
