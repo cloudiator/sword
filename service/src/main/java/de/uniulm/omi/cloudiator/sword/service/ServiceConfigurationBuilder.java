@@ -21,18 +21,20 @@ package de.uniulm.omi.cloudiator.sword.service;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.core.domain.CredentialsBuilder;
 
+import javax.annotation.Nullable;
+
 /**
  * Created by daniel on 02.12.14.
  */
 class ServiceConfigurationBuilder {
 
-    private String endpoint;
+    @Nullable private String endpoint;
     private String username;
     private String password;
     private String provider;
     private String nodeGroup;
 
-    ServiceConfigurationBuilder endpoint(String endpoint) {
+    ServiceConfigurationBuilder endpoint(@Nullable String endpoint) {
         this.endpoint = endpoint;
         return this;
     }

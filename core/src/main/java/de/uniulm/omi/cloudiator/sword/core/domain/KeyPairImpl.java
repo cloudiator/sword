@@ -29,25 +29,29 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Basic implementation of the {@link KeyPair} interface.
  */
-public class KeyPairImpl extends ResourceImpl implements KeyPair {
+public class KeyPairImpl implements KeyPair {
 
+    private final String id;
     private final String name;
     private final String publicKey;
     @Nullable private final String privateKey;
 
     KeyPairImpl(String id, String name, String publicKey, @Nullable String privateKey) {
-        super(id, name);
 
-        checkNotNull(name);
-        checkArgument(!name.isEmpty());
+        checkNotNull(id, "ID must not be null.");
+        checkArgument(!id.isEmpty(), "ID must not be empty.");
 
-        checkNotNull(publicKey);
-        checkArgument(!publicKey.isEmpty());
+        checkNotNull(name, "Name must not be null.");
+        checkArgument(!name.isEmpty(), "Name must not be empty.");
+
+        checkNotNull(publicKey, "Public Key must not be null.");
+        checkArgument(!publicKey.isEmpty(), "Public key must not be empty.");
 
         if (privateKey != null) {
-            checkArgument(!privateKey.isEmpty());
+            checkArgument(!privateKey.isEmpty(), "Private key must not be empty.");
         }
 
+        this.id = id;
         this.name = name;
         this.publicKey = publicKey;
         this.privateKey = privateKey;

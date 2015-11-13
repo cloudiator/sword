@@ -26,11 +26,14 @@ import de.uniulm.omi.cloudiator.sword.api.exceptions.DriverException;
 import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging.JCloudsLoggingModule;
 import org.jclouds.ContextBuilder;
+import org.jclouds.aws.ec2.reference.AWSEC2Constants;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.RunNodesException;
 import org.jclouds.compute.domain.*;
 import org.jclouds.domain.Location;
+import org.jclouds.ec2.reference.EC2Constants;
 
+import java.util.Properties;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.*;
@@ -51,13 +54,26 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
 
         this.serviceConfiguration = serviceConfiguration;
 
-        this.computeServiceContext = ContextBuilder.newBuilder(serviceConfiguration.getProvider())
-            .endpoint(serviceConfiguration.getEndpoint())
-            .credentials(serviceConfiguration.getCredentials().user(),
-                serviceConfiguration.getCredentials().password())
-            .modules(ImmutableSet.of(new JCloudsLoggingModule(loggerFactory)))
-            .buildView(ComputeServiceContext.class);
+        //todo ugly hack
+        final Properties properties = new Properties();
+        properties.setProperty(AWSEC2Constants.PROPERTY_EC2_AMI_QUERY, "owner-id=amazon,self;state=available;image-type=machine");
 
+        //todo duplicates code from NovaApiProvider
+        ContextBuilder contextBuilder =
+            ContextBuilder.newBuilder(serviceConfiguration.getProvider());
+        contextBuilder.credentials(serviceConfiguration.getCredentials().user(),
+            serviceConfiguration.getCredentials().password())
+            .modules(ImmutableSet.of(new JCloudsLoggingModule(loggerFactory)))
+            .overrides(properties);
+
+
+        // setting optional endpoint, check for present first
+        // as builder does not allow null values...
+        if (serviceConfiguration.getEndpoint().isPresent()) {
+            contextBuilder.endpoint(serviceConfiguration.getEndpoint().get());
+        }
+
+        this.computeServiceContext = contextBuilder.buildView(ComputeServiceContext.class);
     }
 
     @Override public Set<? extends Image> listImages() {
@@ -65,6 +81,9 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
     }
 
     @Override public Set<? extends Hardware> listHardwareProfiles() {
+
+
+
         return this.computeServiceContext.getComputeService().listHardwareProfiles();
     }
 

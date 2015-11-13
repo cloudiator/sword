@@ -6,7 +6,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -16,27 +16,15 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.core.domain;
-
-import de.uniulm.omi.cloudiator.sword.api.domain.Resource;
+package de.uniulm.omi.cloudiator.sword.api.domain;
 
 /**
- * Created by daniel on 01.12.14.
+ * Created by daniel on 30.10.15.
  */
-public abstract class ResourceBuilder {
+public interface Identifiable {
 
-    protected String id;
-    protected String name;
-
-    public ResourceBuilder id(final String id) {
-        this.id = id;
-        return this;
-    }
-
-    public ResourceBuilder name(final String name) {
-        this.name = name;
-        return this;
-    }
-
-    public abstract Resource build();
+    /**
+     * @return a unique identifier for the resource.
+     */
+    String id();
 }

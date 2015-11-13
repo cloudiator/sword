@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.service.providers;
 import com.google.inject.AbstractModule;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.ProviderNotFoundException;
 import de.uniulm.omi.cloudiator.sword.core.base.BaseComputeService;
+import de.uniulm.omi.cloudiator.sword.drivers.ec2.config.Ec2ComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.config.FlexiantComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.config.OpenstackComputeModule;
 
@@ -57,6 +58,11 @@ public class Providers {
         flexiantModules.add(new FlexiantComputeModule());
         registerProvider(
             new ProviderConfiguration("flexiant", flexiantModules, BaseComputeService.class));
+        //EC2
+        final Set<AbstractModule> ec2Modules = new HashSet<>();
+        ec2Modules.add(new Ec2ComputeModule());
+        registerProvider(
+            new ProviderConfiguration("aws-ec2", ec2Modules, BaseComputeService.class));
     }
 
     public static void registerProvider(ProviderConfiguration providerConfiguration) {

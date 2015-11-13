@@ -24,6 +24,8 @@ import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import org.jclouds.ContextBuilder;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * Created by daniel on 19.05.15.
  */
@@ -36,9 +38,19 @@ public class NovaApiProvider implements Provider<NovaApi> {
     }
 
     @Override public NovaApi get() {
-        return ContextBuilder.newBuilder(serviceConfiguration.getProvider())
-            .endpoint(serviceConfiguration.getEndpoint())
-            .credentials(serviceConfiguration.getCredentials().user(),
-                serviceConfiguration.getCredentials().password()).buildApi(NovaApi.class);
+
+        checkArgument(serviceConfiguration.getEndpoint().isPresent(),
+            "Nova requires a configured endpoint.");
+
+        //todo duplicates code from JCloudsComputeClientImpl
+        final ContextBuilder contextBuilder =
+            ContextBuilder.newBuilder(serviceConfiguration.getProvider())
+                .credentials(serviceConfiguration.getCredentials().user(),
+                    serviceConfiguration.getCredentials().password());
+
+        if(serviceConfiguration.getEndpoint().isPresent()) {
+            contextBuilder.endpoint(serviceConfiguration.getEndpoint().get());
+        }
+        return contextBuilder.buildApi(NovaApi.class);
     }
 }

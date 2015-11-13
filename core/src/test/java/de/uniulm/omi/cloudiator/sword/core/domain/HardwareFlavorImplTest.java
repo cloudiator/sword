@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,89 +31,104 @@ import static org.hamcrest.Matchers.nullValue;
  */
 public class HardwareFlavorImplTest {
 
-    private final String idTest = "123456";
-    private final String nameTest = "name";
-    private final int coresTest = 1;
-    private final long ramTest = 1024;
-    private final Float diskTest = 1.024F;
-    private HardwareFlavorImpl hardwareFlavor;
+    private final String testId = "123456";
+    private final String testName = "name";
+    private final int testCores = 1;
+    private final long testRam = 1024;
+    private final Float testDisk = 1.024F;
+    private final Location testLocation =
+        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true).build();
+    private HardwareFlavorImpl validHardwareFlavor;
 
     @Before public void before() {
-        this.hardwareFlavor =
-            HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(coresTest)
-                .mbRam(ramTest).gbDisk(diskTest).build();
+        this.validHardwareFlavor =
+            HardwareFlavorBuilder.newBuilder().id(testId).name(testName).location(testLocation)
+                .cores(testCores).mbRam(testRam).gbDisk(testDisk).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void coresNotZeroTest() {
-        HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(0).mbRam(ramTest)
-            .build();
+        HardwareFlavorBuilder.newBuilder().id(testId).name(testName).location(testLocation).cores(0)
+            .mbRam(testRam).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void coresNotNegativeTest() {
-        HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(-1).mbRam(ramTest)
-            .build();
+        HardwareFlavorBuilder.newBuilder().id(testId).name(testName).location(testLocation)
+            .cores(-1).mbRam(testRam).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void ramNotZeroTest() {
-        HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(coresTest).mbRam(0)
-            .build();
+        HardwareFlavorBuilder.newBuilder().id(testId).name(testName).location(testLocation)
+            .cores(testCores).mbRam(0).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void ramNotNegativeTest() {
-        HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(coresTest).mbRam(-1)
-            .build();
+        HardwareFlavorBuilder.newBuilder().id(testId).name(testName).location(testLocation)
+            .cores(testCores).mbRam(-1).build();
     }
 
     @Test(expected = NullPointerException.class) public void idNotNullTest() {
-        HardwareFlavorBuilder.newBuilder().id(null).name(nameTest).cores(coresTest).mbRam(ramTest)
-            .build();
+        HardwareFlavorBuilder.newBuilder().id(null).name(testName).location(testLocation)
+            .cores(testCores).mbRam(testRam).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void idNotEmptyTest() {
-        HardwareFlavorBuilder.newBuilder().id("").name(nameTest).cores(coresTest).mbRam(ramTest)
-            .build();
+        HardwareFlavorBuilder.newBuilder().id("").name(testName).location(testLocation)
+            .cores(testCores).mbRam(testRam).build();
     }
 
     @Test(expected = NullPointerException.class) public void nameNotNullTest() {
-        HardwareFlavorBuilder.newBuilder().id(idTest).name(null).cores(coresTest).mbRam(ramTest)
-            .build();
+        HardwareFlavorBuilder.newBuilder().id(testId).name(null).location(testLocation)
+            .cores(testCores).mbRam(testRam).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void nameNotEmptyTest() {
-        HardwareFlavorBuilder.newBuilder().id(idTest).name("").cores(coresTest).mbRam(ramTest)
-            .build();
+        HardwareFlavorBuilder.newBuilder().id(testId).name("").location(testLocation)
+            .cores(testCores).mbRam(testRam).build();
     }
 
     @Test public void diskNullTest() {
         final HardwareFlavorImpl hardwareFlavor =
-            HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(coresTest)
-                .mbRam(ramTest).gbDisk(null).build();
+            HardwareFlavorBuilder.newBuilder().id(testId).name(testName).location(testLocation)
+                .cores(testCores).mbRam(testRam).gbDisk(null).build();
         assertThat(hardwareFlavor.gbDisk(), nullValue());
     }
 
     @Test(expected = IllegalArgumentException.class) public void diskNotGreaterZeroTest() {
-        HardwareFlavorBuilder.newBuilder().id(idTest).name(nameTest).cores(coresTest).mbRam(ramTest)
-            .gbDisk(0F).build();
+        HardwareFlavorBuilder.newBuilder().id(testId).name(testName).location(testLocation)
+            .cores(testCores).mbRam(testRam).gbDisk(0F).build();
     }
 
     @Test public void getIdTest() {
-        assertThat(hardwareFlavor.id(), equalTo(idTest));
+        assertThat(validHardwareFlavor.id(), equalTo(testId));
     }
 
     @Test public void getCoresTest() {
-        assertThat(hardwareFlavor.numberOfCores(), equalTo(coresTest));
+        assertThat(validHardwareFlavor.numberOfCores(), equalTo(testCores));
     }
 
     @Test public void getRamTest() {
-        assertThat(hardwareFlavor.mbRam(), equalTo(ramTest));
+        assertThat(validHardwareFlavor.mbRam(), equalTo(testRam));
     }
 
     @Test public void getNameTest() {
-        assertThat(hardwareFlavor.name(), equalTo(nameTest));
+        assertThat(validHardwareFlavor.name(), equalTo(testName));
     }
 
     @Test public void getDiskTest() {
-        assertThat(hardwareFlavor.gbDisk, equalTo(diskTest));
+        assertThat(validHardwareFlavor.gbDisk, equalTo(testDisk));
+    }
+
+    @Test public void getLocationTest() {
+        assertThat(validHardwareFlavor.location().get(), equalTo(testLocation));
+    }
+
+    @Test public void toStringTest() {
+        String string = validHardwareFlavor.toString();
+        assertThat(string.contains(testId), equalTo(true));
+        assertThat(string.contains(testName), equalTo(true));
+        assertThat(string.contains(String.valueOf(testCores)), equalTo(true));
+        assertThat(string.contains(String.valueOf(testRam)), equalTo(true));
+        assertThat(string.contains(String.valueOf(testDisk)), equalTo(true));
     }
 
 }

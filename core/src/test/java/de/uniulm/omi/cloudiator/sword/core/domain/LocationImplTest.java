@@ -18,8 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import de.uniulm.omi.cloudiator.sword.core.domain.LocationBuilder;
-import de.uniulm.omi.cloudiator.sword.core.domain.LocationImpl;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,53 +30,63 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class LocationImplTest {
 
-    private final String idTest = "123456";
-    private final String nameTest = "This is a very fine location";
-    private final boolean assignableTest = true;
-    private LocationImpl location;
+    private final String testId = "123456";
+    private final String testName = "This is a very fine location";
+    private final boolean testAssignable = true;
+    private final Location testParent =
+        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true).build();
+    private Location validLocation;
 
     @Before public void before() {
-        this.location =
-            LocationBuilder.newBuilder().id(idTest).name(nameTest).assignable(assignableTest)
-                .build();
+        this.validLocation =
+            LocationBuilder.newBuilder().id(testId).name(testName).assignable(testAssignable)
+                .parent(testParent).build();
     }
 
     @Test(expected = NullPointerException.class) public void idNotNullableTest() {
 
-        LocationBuilder.newBuilder().id(null).name(nameTest).assignable(assignableTest).build();
+        LocationBuilder.newBuilder().id(null).name(testName).assignable(testAssignable)
+            .parent(testParent).build();
     }
 
     @Test(expected = NullPointerException.class) public void nameNotNullableTest() {
 
-        LocationBuilder.newBuilder().id(idTest).name(null).assignable(assignableTest).build();
+        LocationBuilder.newBuilder().id(testId).name(null).assignable(testAssignable)
+            .parent(testParent).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void idNotEmptyTest() {
 
-        LocationBuilder.newBuilder().id("").name(nameTest).assignable(assignableTest).build();
+        LocationBuilder.newBuilder().id("").name(testName).assignable(testAssignable)
+            .parent(testParent).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void nameNotEmptyTest() {
 
-        LocationBuilder.newBuilder().id(idTest).name("").assignable(assignableTest).build();
+        LocationBuilder.newBuilder().id(testId).name("").assignable(testAssignable)
+            .parent(testParent).build();
     }
 
     @Test public void getIdTest() {
-        assertThat(this.location.id(), equalTo(this.idTest));
+        assertThat(validLocation.id(), equalTo(testId));
     }
 
     @Test public void getAssignableTest() {
-        assertThat(this.location.isAssignable(), equalTo(this.assignableTest));
+        assertThat(validLocation.isAssignable(), equalTo(testAssignable));
     }
 
     @Test public void getNameTest() {
-        assertThat(this.location.name(), equalTo(this.nameTest));
+        assertThat(validLocation.name(), equalTo(testName));
+    }
+
+    @Test public void getParentTest() {
+        assertThat(validLocation.parent().get(), equalTo(testParent));
     }
 
     @Test public void toStringTest() {
-        assertThat(this.location.toString().contains(this.idTest), equalTo(true));
-        assertThat(this.location.toString().contains(this.nameTest), equalTo(true));
-        assertThat(this.location.toString().contains(String.valueOf(this.assignableTest)),
+        assertThat(this.validLocation.toString().contains(testId), equalTo(true));
+        assertThat(this.validLocation.toString().contains(testName), equalTo(true));
+        assertThat(this.validLocation.toString().contains(String.valueOf(testAssignable)),
             equalTo(true));
     }
 

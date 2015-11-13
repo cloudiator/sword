@@ -19,9 +19,9 @@
 package de.uniulm.omi.cloudiator.sword.core.strategy;
 
 
-import de.uniulm.omi.cloudiator.sword.api.domain.Resource;
+import com.google.common.base.Supplier;
+import de.uniulm.omi.cloudiator.sword.api.domain.Identifiable;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,14 +37,14 @@ import static org.hamcrest.Matchers.nullValue;
  */
 public class DefaultGetStrategyTest {
 
-    private GetStrategy<String, Resource> getStrategy;
-    private final Resource resourceToRetrieve = new TestResource("1", "eins");
+    private GetStrategy<String, Identifiable> getStrategy;
+    private final Identifiable resourceToRetrieve = new TestResource("1");
 
     @Before public void setUp() throws Exception {
-        ResourceSupplier<Set<Resource>> resourceSupplier = () -> {
-            Set<Resource> resourceSet = new HashSet<>(2);
+        Supplier<Set<Identifiable>> resourceSupplier = () -> {
+            Set<Identifiable> resourceSet = new HashSet<>(2);
             resourceSet.add(resourceToRetrieve);
-            resourceSet.add(new TestResource("2", "zwei"));
+            resourceSet.add(new TestResource("2"));
             return resourceSet;
         };
         this.getStrategy = new DefaultGetStrategy<>(resourceSupplier);
@@ -68,22 +68,16 @@ public class DefaultGetStrategyTest {
         getStrategy.get("");
     }
 
-    private final static class TestResource implements Resource {
+    private final static class TestResource implements Identifiable {
 
         private final String id;
-        private final String name;
 
-        public TestResource(String id, String name) {
+        public TestResource(String id) {
             this.id = id;
-            this.name = name;
         }
 
         @Override public String id() {
             return id;
-        }
-
-        @Override public String name() {
-            return name;
         }
     }
 }

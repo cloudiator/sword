@@ -18,10 +18,11 @@
 
 package de.uniulm.omi.cloudiator.sword.core.strategy;
 
+import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.api.annotations.Memoized;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -34,19 +35,19 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * A generic get strategy, that uses the supplier and searches for the correct
  * id within the supplier.
  *
- * @param <T> the resource to search for.
+ * @param <T> the type of the identifiable to search for.
  * @author Daniel Baur <daniel.baur@uni-ulm.de>
  */
-public class DefaultGetStrategy<T extends Resource> implements GetStrategy<String, T> {
+public class DefaultGetStrategy<T extends Identifiable> implements GetStrategy<String, T> {
 
-    private final ResourceSupplier<Set<T>> supplier;
+    private final Supplier<Set<T>> supplier;
 
     /**
      * Creates a default get strategy.
      *
      * @param supplier the supplier in which to search for the id.
      */
-    @Inject public DefaultGetStrategy(ResourceSupplier<Set<T>> supplier) {
+    @Inject public DefaultGetStrategy(Supplier<Set<T>> supplier) {
         this.supplier = supplier;
     }
 
@@ -76,8 +77,7 @@ public class DefaultGetStrategy<T extends Resource> implements GetStrategy<Strin
      */
     public static class DefaultVirtualMachineGetStrategy
         extends DefaultGetStrategy<VirtualMachine> {
-        @Inject
-        public DefaultVirtualMachineGetStrategy(ResourceSupplier<Set<VirtualMachine>> supplier) {
+        @Inject public DefaultVirtualMachineGetStrategy(Supplier<Set<VirtualMachine>> supplier) {
             super(supplier);
         }
     }
@@ -88,7 +88,7 @@ public class DefaultGetStrategy<T extends Resource> implements GetStrategy<Strin
      * * @todo necessary?
      */
     public static class DefaultImageGetStrategy extends DefaultGetStrategy<Image> {
-        @Inject public DefaultImageGetStrategy(ResourceSupplier<Set<Image>> supplier) {
+        @Inject public DefaultImageGetStrategy(@Memoized Supplier<Set<Image>> supplier) {
             super(supplier);
         }
     }
@@ -99,7 +99,7 @@ public class DefaultGetStrategy<T extends Resource> implements GetStrategy<Strin
      * * @todo necessary?
      */
     public static class DefaultLocationGetStrategy extends DefaultGetStrategy<Location> {
-        @Inject public DefaultLocationGetStrategy(ResourceSupplier<Set<Location>> supplier) {
+        @Inject public DefaultLocationGetStrategy(@Memoized Supplier<Set<Location>> supplier) {
             super(supplier);
         }
     }
@@ -112,7 +112,7 @@ public class DefaultGetStrategy<T extends Resource> implements GetStrategy<Strin
     public static class DefaultHardwareFlavorGetStrategy
         extends DefaultGetStrategy<HardwareFlavor> {
         @Inject
-        public DefaultHardwareFlavorGetStrategy(ResourceSupplier<Set<HardwareFlavor>> supplier) {
+        public DefaultHardwareFlavorGetStrategy(@Memoized Supplier<Set<HardwareFlavor>> supplier) {
             super(supplier);
         }
     }

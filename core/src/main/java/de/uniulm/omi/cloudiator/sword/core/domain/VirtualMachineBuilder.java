@@ -18,23 +18,26 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import com.google.common.base.Optional;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by daniel on 09.12.14.
  */
-public class VirtualMachineBuilder extends ResourceBuilder {
+public class VirtualMachineBuilder {
 
     private final Set<String> publicIpAddresses;
     private final Set<String> privateIpAddresses;
-    @Nullable
-    private LoginCredential loginCredential;
+    @Nullable private String id;
+    @Nullable private String name;
+    @Nullable private Location location;
+    @Nullable private LoginCredential loginCredential;
 
     private VirtualMachineBuilder() {
         publicIpAddresses = new HashSet<>();
@@ -45,15 +48,26 @@ public class VirtualMachineBuilder extends ResourceBuilder {
         return new VirtualMachineBuilder();
     }
 
-    @Override
-    public VirtualMachineBuilder id(final String id) {
+    public static VirtualMachineBuilder of(VirtualMachine virtualMachine) {
+        return newBuilder().id(virtualMachine.id()).name(virtualMachine.name())
+            .location(virtualMachine.location().orElse(null))
+            .addPublicIpAddresses(virtualMachine.publicAddresses())
+            .addPrivateIpAddresses(virtualMachine.privateAddresses())
+            .loginCredential(virtualMachine.loginCredential().orElse(null));
+    }
+
+    public VirtualMachineBuilder id(String id) {
         this.id = id;
         return this;
     }
 
-    @Override
-    public VirtualMachineBuilder name(final String name) {
+    public VirtualMachineBuilder name(String name) {
         this.name = name;
+        return this;
+    }
+
+    public VirtualMachineBuilder location(Location location) {
+        this.location = location;
         return this;
     }
 
@@ -62,8 +76,18 @@ public class VirtualMachineBuilder extends ResourceBuilder {
         return this;
     }
 
+    public VirtualMachineBuilder addPublicIpAddresses(Collection<String> publicIpAddresses) {
+        this.publicIpAddresses.addAll(publicIpAddresses);
+        return this;
+    }
+
     public VirtualMachineBuilder addPrivateIpAddress(String privateIpAddress) {
         this.privateIpAddresses.add(privateIpAddress);
+        return this;
+    }
+
+    public VirtualMachineBuilder addPrivateIpAddresses(Collection<String> privateIpAddresses) {
+        this.privateIpAddresses.addAll(privateIpAddresses);
         return this;
     }
 
@@ -72,8 +96,8 @@ public class VirtualMachineBuilder extends ResourceBuilder {
         return this;
     }
 
-    @Override
     public VirtualMachine build() {
-        return new VirtualMachineImpl(this.id, this.name, publicIpAddresses, privateIpAddresses, Optional.fromNullable(loginCredential));
+        return new VirtualMachineImpl(id, name, location, publicIpAddresses, privateIpAddresses,
+            loginCredential);
     }
 }

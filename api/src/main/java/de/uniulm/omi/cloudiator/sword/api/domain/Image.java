@@ -21,6 +21,8 @@ package de.uniulm.omi.cloudiator.sword.api.domain;
 /**
  * An image offered by the provider.
  */
-public interface Image extends Resource {
-    // intentionally left empty.
+public interface Image extends Resource, ImageProperties {
+
+
+
 }

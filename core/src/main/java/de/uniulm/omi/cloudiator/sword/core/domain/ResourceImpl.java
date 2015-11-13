@@ -18,7 +18,12 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import com.google.common.base.MoreObjects;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.Resource;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -28,16 +33,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public abstract class ResourceImpl implements Resource {
 
-    protected final String id;
-    protected final String name;
+    private final String id;
+    private final String name;
+    @Nullable private final Location location;
 
-    ResourceImpl(final String id, final String name) {
-        checkNotNull(id, "ID is required.");
-        checkArgument(!id.isEmpty(), "ID must not be empty.");
+    ResourceImpl(String id, String name, @Nullable Location location) {
+        checkNotNull(id, "Resource ID is required.");
+        checkArgument(!id.isEmpty(), "Resource ID must not be empty.");
         this.id = id;
-        checkNotNull(name, "Name is required.");
-        checkArgument(!name.isEmpty(), "Name must not be empty.");
+        checkNotNull(name, "Resource Name is required.");
+        checkArgument(!name.isEmpty(), "Resource Name must not be empty.");
         this.name = name;
+        this.location = location;
     }
 
     @Override public String id() {
@@ -48,7 +55,11 @@ public abstract class ResourceImpl implements Resource {
         return name;
     }
 
+    @Override public Optional<Location> location() {
+        return Optional.ofNullable(location);
+    }
+
     @Override public String toString() {
-        return name;
+        return MoreObjects.toStringHelper(this).add("id", id).add("name", name).toString();
     }
 }

@@ -21,6 +21,9 @@ package de.uniulm.omi.cloudiator.sword.service;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.Credentials;
 
+import javax.annotation.Nullable;
+import java.util.Optional;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -30,16 +33,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ServiceConfigurationImpl implements ServiceConfiguration {
 
     private final String provider;
-    private final String endpoint;
+    @Nullable private final String endpoint;
     private final Credentials credentials;
     private final String nodeGroup;
 
-    ServiceConfigurationImpl(String provider, String endpoint, Credentials credentials,
+    ServiceConfigurationImpl(String provider, @Nullable String endpoint, Credentials credentials,
         String nodeGroup) {
         checkNotNull(provider);
         checkArgument(!provider.isEmpty());
-        checkNotNull(endpoint);
-        checkArgument(!endpoint.isEmpty());
+        if (endpoint != null) {
+            checkArgument(!endpoint.isEmpty());
+        }
         checkNotNull(credentials);
         checkNotNull(nodeGroup);
         checkArgument(!nodeGroup.isEmpty());
@@ -50,8 +54,8 @@ public class ServiceConfigurationImpl implements ServiceConfiguration {
         this.nodeGroup = nodeGroup;
     }
 
-    @Override public String getEndpoint() {
-        return endpoint;
+    @Override public Optional<String> getEndpoint() {
+        return Optional.ofNullable(endpoint);
     }
 
     @Override public String getProvider() {

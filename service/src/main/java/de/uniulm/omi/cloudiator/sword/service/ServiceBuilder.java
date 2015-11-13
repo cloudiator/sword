@@ -36,6 +36,7 @@ import de.uniulm.omi.cloudiator.sword.remote.overthere.OverthereModule;
 import de.uniulm.omi.cloudiator.sword.service.providers.ProviderConfiguration;
 import de.uniulm.omi.cloudiator.sword.service.providers.Providers;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -71,7 +72,7 @@ public class ServiceBuilder {
         return this;
     }
 
-    public ServiceBuilder endpoint(String endpoint) {
+    public ServiceBuilder endpoint(@Nullable String endpoint) {
         this.serviceConfigurationBuilder.endpoint(endpoint);
         return this;
     }

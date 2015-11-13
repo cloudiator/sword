@@ -18,13 +18,15 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.config;
 
+import com.google.common.base.Supplier;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.api.supplier.ResourceSupplier;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClientImpl;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.*;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsDeleteVirtualMachineStrategy;
@@ -38,27 +40,30 @@ import org.jclouds.domain.LoginCredentials;
 
 import java.util.Set;
 
+
 /**
  * An abstract compute module for cloud providers that are supported using
  * jclouds.
  */
 public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
-    @Override protected Class<? extends ResourceSupplier<Set<Image>>> imageSupplier() {
+    protected Class<? extends JCloudsComputeClient> jCloudsComputeClient() {
+        return JCloudsComputeClientImpl.class;
+    }
+
+    @Override protected Class<? extends Supplier<Set<Image>>> imageSupplier() {
         return ImageSupplier.class;
     }
 
-    @Override protected Class<? extends ResourceSupplier<Set<Location>>> locationSupplier() {
+    @Override protected Class<? extends Supplier<Set<Location>>> locationSupplier() {
         return LocationSupplier.class;
     }
 
-    @Override
-    protected Class<? extends ResourceSupplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
+    @Override protected Class<? extends Supplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
         return HardwareSupplier.class;
     }
 
-    @Override
-    protected Class<? extends ResourceSupplier<Set<VirtualMachine>>> virtualMachineSupplier() {
+    @Override protected Class<? extends Supplier<Set<VirtualMachine>>> virtualMachineSupplier() {
         return VirtualMachineSupplier.class;
     }
 
@@ -72,10 +77,22 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         return JCloudsDeleteVirtualMachineStrategy.class;
     }
 
+    /**
+     * Extension point for the virtual machine converter.
+     *
+     * @return a converter for converting the jclouds compute metadata to virtual machines.
+     */
+    protected Class<? extends OneWayConverter<ComputeMetadata, VirtualMachine>> virtualMachineConverter() {
+        return JCloudsComputeMetadataToVirtualMachine.class;
+    }
+
     protected abstract Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter();
 
     @Override protected void configure() {
         super.configure();
+
+        //bind the compute client
+        bind(JCloudsComputeClient.class).to(jCloudsComputeClient());
 
         //bind the image converter
         bind(new TypeLiteral<OneWayConverter<org.jclouds.compute.domain.Image, Image>>() {
@@ -91,7 +108,7 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
         //bind the virtual machine converter
         bind(new TypeLiteral<OneWayConverter<ComputeMetadata, VirtualMachine>>() {
-        }).to(JCloudsComputeMetadataToVirtualMachine.class);
+        }).to(virtualMachineConverter());
 
         //bind the login credential converter
         bind(new TypeLiteral<OneWayConverter<LoginCredentials, LoginCredential>>() {

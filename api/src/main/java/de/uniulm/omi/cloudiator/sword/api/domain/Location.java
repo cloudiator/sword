@@ -18,11 +18,13 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import java.util.Optional;
+
 /**
- * Represents a virtual location offered by
+ * Represents a location offered by
  * the provider.
  */
-public interface Location extends Resource {
+public interface Location extends Identifiable, Named {
 
     /**
      * A location is assignable, if it can be used
@@ -31,5 +33,13 @@ public interface Location extends Resource {
      * @return true if assignable, no if not.
      */
     boolean isAssignable();
+
+    /**
+     * The {@link Optional} parent location, e.g. availability zone - region.
+     * Is absent of top level.
+     *
+     * @return the parent location, absent of top level.
+     */
+    Optional<Location> parent();
 
 }

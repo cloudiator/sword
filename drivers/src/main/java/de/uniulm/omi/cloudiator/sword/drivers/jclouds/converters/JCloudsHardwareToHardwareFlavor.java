@@ -45,11 +45,14 @@ public class JCloudsHardwareToHardwareFlavor implements OneWayConverter<Hardware
             gbDisk = bootVolume.get().getSize();
         }
 
-        return HardwareFlavorBuilder.newBuilder().id(hardware.getId()).name(hardware.getName())
+        return HardwareFlavorBuilder.newBuilder().id(hardware.getId()).name(forceName(hardware))
             .cores(cores).mbRam(hardware.getRam()).gbDisk(gbDisk).build();
     }
 
-    private String generateName(int cores, int ram) {
-        return String.valueOf(cores) + ram;
+    private String forceName(Hardware hardware) {
+        if (hardware.getName() == null) {
+            return hardware.getId();
+        }
+        return hardware.getName();
     }
 }

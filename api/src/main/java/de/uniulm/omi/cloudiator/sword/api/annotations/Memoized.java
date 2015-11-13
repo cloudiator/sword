@@ -6,7 +6,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -16,34 +16,19 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.api;
+package de.uniulm.omi.cloudiator.sword.api.annotations;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.Credentials;
+import com.google.inject.BindingAnnotation;
 
-import java.util.Optional;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Provides the configuration of the service.
+ * Created by daniel on 06.11.15.
  */
-public interface ServiceConfiguration {
-
-    /**
-     * @return the {@link Optional} address of the api endpoint of the service provider if present.
-     */
-    Optional<String> getEndpoint();
-
-    /**
-     * @return the name of the provider.
-     */
-    String getProvider();
-
-    /**
-     * @return the credentials for the api endpoint.
-     */
-    Credentials getCredentials();
-
-    /**
-     * @return the node group.
-     */
-    String getNodeGroup();
+@BindingAnnotation @Target({FIELD, PARAMETER, METHOD}) @Retention(RUNTIME)
+public @interface Memoized {
 }

@@ -6,7 +6,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -16,29 +16,20 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
+package de.uniulm.omi.cloudiator.sword.drivers.ec2.config;
 
-import org.jclouds.compute.domain.*;
-import org.jclouds.domain.Location;
-
-import java.util.Set;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
+import de.uniulm.omi.cloudiator.sword.drivers.ec2.converters.TemplateOptionsToEc2TemplateOptions;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
 
 /**
  * Created by daniel on 02.12.14.
  */
-public interface JCloudsComputeClient {
+public class Ec2ComputeModule extends JCloudsComputeModule {
 
-    Set<? extends Image> listImages();
-
-    Set<? extends Hardware> listHardwareProfiles();
-
-    Set<? extends Location> listAssignableLocations();
-
-    Set<? extends ComputeMetadata> listNodes();
-
-    NodeMetadata createNode(Template template);
-
-    void deleteNode(String id);
-
-    TemplateBuilder templateBuilder();
+    @Override
+    protected Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter() {
+        return TemplateOptionsToEc2TemplateOptions.class;
+    }
 }

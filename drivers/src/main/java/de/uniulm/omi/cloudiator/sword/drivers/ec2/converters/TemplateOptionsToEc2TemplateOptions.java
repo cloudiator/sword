@@ -16,29 +16,26 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.openstack.converters;
+package de.uniulm.omi.cloudiator.sword.drivers.ec2.converters;
 
 import com.google.common.primitives.Ints;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
 import org.jclouds.compute.options.TemplateOptions;
-import org.jclouds.openstack.nova.v2_0.compute.options.NovaTemplateOptions;
+import org.jclouds.ec2.compute.options.EC2TemplateOptions;
 
 /**
- * Created by daniel on 10.07.15.
+ * Created by daniel on 28.10.15.
  */
-public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOptionsToTemplateOptions {
+public class TemplateOptionsToEc2TemplateOptions extends AbstractTemplateOptionsToTemplateOptions {
 
     @Override protected TemplateOptions convert(
         de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions templateOptions) {
-        NovaTemplateOptions novaTemplateOptions = new NovaTemplateOptions();
+        EC2TemplateOptions ec2TemplateOptions = new EC2TemplateOptions();
         final String keyPairName = templateOptions.keyPairName();
         if (keyPairName != null) {
-            novaTemplateOptions.keyPairName(keyPairName);
+            ec2TemplateOptions.authorizePublicKey(keyPairName);
         }
-        novaTemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
-        novaTemplateOptions.userMetadata(templateOptions.tags());
-        return novaTemplateOptions;
+        ec2TemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
+        return ec2TemplateOptions;
     }
-
-
 }
