@@ -47,7 +47,6 @@ public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
 
         checkNotNull(publicIpAddresses);
         checkNotNull(privateIpAddresses);
-        checkNotNull(loginCredential);
 
         this.publicIpAddresses = ImmutableSet.copyOf(publicIpAddresses);
         this.privateIpAddresses = ImmutableSet.copyOf(privateIpAddresses);

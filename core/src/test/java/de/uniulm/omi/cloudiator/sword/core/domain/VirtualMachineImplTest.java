@@ -71,11 +71,6 @@ public class VirtualMachineImplTest {
         validVirtualMachineBuilder.id(testId).name("").location(testLocation).build();
     }
 
-    //todo: implement
-    @Test public void testToString() throws Exception {
-
-    }
-
     @Test public void testId() {
         assertThat(validVirtualMachine.id(), equalTo(testId));
     }
@@ -100,6 +95,9 @@ public class VirtualMachineImplTest {
 
     @Test public void testLoginCredential() throws Exception {
         assertThat(validVirtualMachine.loginCredential().get(), equalTo(loginCredential));
+        assertThat(
+            validVirtualMachineBuilder.loginCredential(null).build().loginCredential().isPresent(),
+            equalTo(false));
     }
 
     @Test public void testIpAddressesAreImmutable() throws Exception {

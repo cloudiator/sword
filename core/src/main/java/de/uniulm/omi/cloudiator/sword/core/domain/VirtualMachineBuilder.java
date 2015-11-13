@@ -23,6 +23,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,6 +48,14 @@ public class VirtualMachineBuilder {
         return new VirtualMachineBuilder();
     }
 
+    public static VirtualMachineBuilder of(VirtualMachine virtualMachine) {
+        return newBuilder().id(virtualMachine.id()).name(virtualMachine.name())
+            .location(virtualMachine.location().orElse(null))
+            .addPublicIpAddresses(virtualMachine.publicAddresses())
+            .addPrivateIpAddresses(virtualMachine.privateAddresses())
+            .loginCredential(virtualMachine.loginCredential().orElse(null));
+    }
+
     public VirtualMachineBuilder id(String id) {
         this.id = id;
         return this;
@@ -67,8 +76,18 @@ public class VirtualMachineBuilder {
         return this;
     }
 
+    public VirtualMachineBuilder addPublicIpAddresses(Collection<String> publicIpAddresses) {
+        this.publicIpAddresses.addAll(publicIpAddresses);
+        return this;
+    }
+
     public VirtualMachineBuilder addPrivateIpAddress(String privateIpAddress) {
         this.privateIpAddresses.add(privateIpAddress);
+        return this;
+    }
+
+    public VirtualMachineBuilder addPrivateIpAddresses(Collection<String> privateIpAddresses) {
+        this.privateIpAddresses.addAll(privateIpAddresses);
         return this;
     }
 
