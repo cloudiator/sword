@@ -31,12 +31,17 @@ public class JCloudsLocationToLocation
     implements OneWayConverter<org.jclouds.domain.Location, Location> {
 
     @Override public Location apply(org.jclouds.domain.Location location) {
+
+        if (location == null) {
+            return null;
+        }
+
         final LocationBuilder builder =
             LocationBuilder.newBuilder().id(location.getId()).name(location.getDescription());
 
         builder.assignable(isAssignable(location));
 
-        if ((location.getParent() != null)) {
+        if (location.getParent() != null) {
             final Location parent = apply(location.getParent());
             // we only set assignable locations as parent
             // as otherwise the parents are not included in the
