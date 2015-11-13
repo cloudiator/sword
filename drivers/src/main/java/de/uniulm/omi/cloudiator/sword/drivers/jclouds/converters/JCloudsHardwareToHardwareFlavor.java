@@ -19,8 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
+import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.core.domain.HardwareFlavorBuilder;
 import org.jclouds.compute.domain.Hardware;
 import org.jclouds.compute.domain.Processor;
@@ -32,6 +34,13 @@ import java.util.Optional;
  * Created by daniel on 03.12.14.
  */
 public class JCloudsHardwareToHardwareFlavor implements OneWayConverter<Hardware, HardwareFlavor> {
+
+    private final OneWayConverter<org.jclouds.domain.Location, Location> locationConverter;
+
+    @Inject public JCloudsHardwareToHardwareFlavor(
+        OneWayConverter<org.jclouds.domain.Location, Location> locationConverter) {
+        this.locationConverter = locationConverter;
+    }
 
     @Override public HardwareFlavor apply(Hardware hardware) {
         int cores = 0;
@@ -46,7 +55,8 @@ public class JCloudsHardwareToHardwareFlavor implements OneWayConverter<Hardware
         }
 
         return HardwareFlavorBuilder.newBuilder().id(hardware.getId()).name(forceName(hardware))
-            .cores(cores).mbRam(hardware.getRam()).gbDisk(gbDisk).build();
+            .cores(cores).mbRam(hardware.getRam()).gbDisk(gbDisk)
+            .location(locationConverter.apply(hardware.getLocation())).build();
     }
 
     private String forceName(Hardware hardware) {
