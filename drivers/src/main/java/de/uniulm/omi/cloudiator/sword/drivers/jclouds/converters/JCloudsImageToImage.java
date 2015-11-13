@@ -32,11 +32,15 @@ import de.uniulm.omi.cloudiator.sword.core.domain.ImageBuilder;
 public class JCloudsImageToImage
     implements OneWayConverter<org.jclouds.compute.domain.Image, Image> {
 
-    @Inject OneWayConverter<org.jclouds.domain.Location, Location> locationConverter;
+    private final OneWayConverter<org.jclouds.domain.Location, Location> locationConverter;
 
-    @Override
+    @Inject public JCloudsImageToImage(
+        OneWayConverter<org.jclouds.domain.Location, Location> locationConverter) {
+        this.locationConverter = locationConverter;
+    }
 
-    public Image apply(org.jclouds.compute.domain.Image image) {
-        return ImageBuilder.newBuilder().id(image.getId()).name(image.getDescription()).build();
+    @Override public Image apply(org.jclouds.compute.domain.Image image) {
+        return ImageBuilder.newBuilder().id(image.getId()).name(image.getDescription())
+            .location(locationConverter.apply(image.getLocation())).build();
     }
 }
