@@ -1,4 +1,5 @@
 de.uniulm.omi.cloudiator.sword.api
+de.uniulm.omi.cloudiator.sword.api.annotations
 de.uniulm.omi.cloudiator.sword.api.domain
 de.uniulm.omi.cloudiator.sword.api.exceptions
 de.uniulm.omi.cloudiator.sword.api.extensions
@@ -7,7 +8,6 @@ de.uniulm.omi.cloudiator.sword.api.properties
 de.uniulm.omi.cloudiator.sword.api.remote
 de.uniulm.omi.cloudiator.sword.api.service
 de.uniulm.omi.cloudiator.sword.api.strategy
-de.uniulm.omi.cloudiator.sword.api.supplier
 de.uniulm.omi.cloudiator.sword.api.util
 de.uniulm.omi.cloudiator.sword.core.base
 de.uniulm.omi.cloudiator.sword.core.config
@@ -16,6 +16,8 @@ de.uniulm.omi.cloudiator.sword.core.logging
 de.uniulm.omi.cloudiator.sword.core.properties
 de.uniulm.omi.cloudiator.sword.core.strategy
 de.uniulm.omi.cloudiator.sword.core.util
+de.uniulm.omi.cloudiator.sword.drivers.ec2.config
+de.uniulm.omi.cloudiator.sword.drivers.ec2.converters
 de.uniulm.omi.cloudiator.sword.drivers.flexiant
 de.uniulm.omi.cloudiator.sword.drivers.flexiant.config
 de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters
