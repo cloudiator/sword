@@ -51,6 +51,7 @@
         <module>remote</module>
         <module>remote-overthere</module>
         <module>logging-log4j</module>
+        <module>examples</module>
     </modules>
 
     <parent>
@@ -98,6 +99,11 @@
             <dependency>
                 <groupId>io.github.cloudiator.sword</groupId>
                 <artifactId>remote-overthere</artifactId>
+                <version>${my.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.cloudiator.sword</groupId>
+                <artifactId>service</artifactId>
                 <version>${my.version}</version>
             </dependency>
             <dependency>
