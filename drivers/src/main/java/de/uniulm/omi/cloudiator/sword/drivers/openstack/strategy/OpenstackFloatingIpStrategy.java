@@ -55,46 +55,50 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
      * @todo maybe throw some other exception
      * @todo maybe retry assignment because of race condition?
      */
-    @Override public synchronized String assignPublicIpToVirtualMachine(String virtualMachineId)
+    @Override public String assignPublicIpToVirtualMachine(String virtualMachineId)
         throws PublicIpException {
 
-        checkNotNull(virtualMachineId);
-        checkArgument(!virtualMachineId.isEmpty());
+        synchronized (OpenstackFloatingIpStrategy.class) {
 
-        FloatingIP toAssign = null;
-        IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
+            checkNotNull(virtualMachineId);
+            checkArgument(!virtualMachineId.isEmpty());
 
-        //check if the floating ip service is available in the region of the virtual machine
-        if (!openstackFloatingIpClient.isAvailable(virtualMachineScopedId.getLocationId())) {
-            throw new PublicIpException(
-                "Openstack floating IP extension is not available in region "
-                    + virtualMachineScopedId.getLocationId() + ".");
-        }
+            FloatingIP toAssign = null;
+            IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
 
-        //loop all available floating ips, and check if we have an unassigned.
-        for (FloatingIP floatingIP : this.openstackFloatingIpClient
-            .list(virtualMachineScopedId.getLocationId())) {
-            if (floatingIP.getInstanceId() == null) {
-                toAssign = floatingIP;
-                break;
+            //check if the floating ip service is available in the region of the virtual machine
+            if (!openstackFloatingIpClient.isAvailable(virtualMachineScopedId.getLocationId())) {
+                throw new PublicIpException(
+                    "Openstack floating IP extension is not available in region "
+                        + virtualMachineScopedId.getLocationId() + ".");
             }
-        }
-        if (toAssign == null && floatingIpPoolSupplier.get().isPresent()) {
-            // we found nothing to assign, next step is trying to allocate
-            toAssign = this.openstackFloatingIpClient
-                .allocateFromPool(floatingIpPoolSupplier.get().get(),
-                    virtualMachineScopedId.getLocationId());
 
+            //loop all available floating ips, and check if we have an unassigned.
+            for (FloatingIP floatingIP : this.openstackFloatingIpClient
+                .list(virtualMachineScopedId.getLocationId())) {
+                if (floatingIP.getInstanceId() == null) {
+                    toAssign = floatingIP;
+                    break;
+                }
+            }
+            if (toAssign == null && floatingIpPoolSupplier.get().isPresent()) {
+                // we found nothing to assign, next step is trying to allocate
+                toAssign = this.openstackFloatingIpClient
+                    .allocateFromPool(floatingIpPoolSupplier.get().get(),
+                        virtualMachineScopedId.getLocationId());
+
+            }
+            if (toAssign == null) {
+                // no other idea -> throw exception
+                throw new PublicIpException(
+                    "Neither possible to assign empty nor allocate new ip.");
+            }
+            // finally assign the found ip
+            this.openstackFloatingIpClient
+                .addToServer(virtualMachineScopedId.getLocationId(), toAssign.getIp(),
+                    virtualMachineScopedId.getId());
+            return toAssign.getIp();
         }
-        if (toAssign == null) {
-            // no other idea -> throw exception
-            throw new PublicIpException("Neither possible to assign empty nor allocate new ip.");
-        }
-        // finally assign the found ip
-        this.openstackFloatingIpClient
-            .addToServer(virtualMachineScopedId.getLocationId(), toAssign.getIp(),
-                virtualMachineScopedId.getId());
-        return toAssign.getIp();
     }
 
 
