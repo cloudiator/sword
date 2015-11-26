@@ -32,7 +32,10 @@ public class NovaKeyPairToKeypair
     implements OneWayConverter<KeyPair, de.uniulm.omi.cloudiator.sword.api.domain.KeyPair> {
 
     @Nullable @Override
-    public de.uniulm.omi.cloudiator.sword.api.domain.KeyPair apply(KeyPair keyPair) {
+    public de.uniulm.omi.cloudiator.sword.api.domain.KeyPair apply(@Nullable KeyPair keyPair) {
+        if (keyPair == null) {
+            return null;
+        }
         return KeyPairBuilder.newBuilder().id(keyPair.getName()).name(keyPair.getName())
             .privateKey(keyPair.getPrivateKey()).publicKey(keyPair.getPublicKey()).build();
     }
