@@ -55,7 +55,7 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
      * @todo maybe throw some other exception
      * @todo maybe retry assignment because of race condition?
      */
-    @Override public String assignPublicIpToVirtualMachine(String virtualMachineId)
+    @Override public synchronized String assignPublicIpToVirtualMachine(String virtualMachineId)
         throws PublicIpException {
 
         checkNotNull(virtualMachineId);
