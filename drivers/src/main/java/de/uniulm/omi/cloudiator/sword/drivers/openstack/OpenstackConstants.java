@@ -24,6 +24,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack;
 public class OpenstackConstants {
 
     public static final String FLOATING_IP_POOL_PROPERTY = "sword.openstack.floatingIpPool";
+    /**
+     * todo: workaround for discovering the availability zones via getLocations API.
+     */
+    public static final String AVAILABILITY_ZONE_PROPERTY = "sword.openstack.availabilityZone";
 
     private OpenstackConstants() {
 

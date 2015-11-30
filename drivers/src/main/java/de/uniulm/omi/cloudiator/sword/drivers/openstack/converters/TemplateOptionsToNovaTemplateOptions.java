@@ -19,7 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.converters;
 
 import com.google.common.primitives.Ints;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackConstants;
 import org.jclouds.compute.options.TemplateOptions;
 import org.jclouds.openstack.nova.v2_0.compute.options.NovaTemplateOptions;
 
@@ -28,12 +31,21 @@ import org.jclouds.openstack.nova.v2_0.compute.options.NovaTemplateOptions;
  */
 public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOptionsToTemplateOptions {
 
+    private @Inject(optional = true) @Named(OpenstackConstants.AVAILABILITY_ZONE_PROPERTY) String
+        availabilityZone = null;
+
     @Override protected TemplateOptions convert(
         de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions templateOptions) {
         NovaTemplateOptions novaTemplateOptions = new NovaTemplateOptions();
         final String keyPairName = templateOptions.keyPairName();
         if (keyPairName != null) {
             novaTemplateOptions.keyPairName(keyPairName);
+        }
+        /**
+         * todo: workaround for discovering the availability zones via getLocations API.
+         */
+        if (availabilityZone != null) {
+            novaTemplateOptions.availabilityZone(availabilityZone);
         }
         novaTemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
         novaTemplateOptions.userMetadata(templateOptions.tags());
