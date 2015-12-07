@@ -36,7 +36,6 @@
     </repositories>
 
     <properties>
-        <my.version>0.1.0-SNAPSHOT</my.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jclouds.version>1.9.0</jclouds.version>
         <flexiant.version>0.1.0-SNAPSHOT</flexiant.version>
@@ -79,32 +78,32 @@
             <dependency>
                 <groupId>io.github.cloudiator.sword</groupId>
                 <artifactId>api</artifactId>
-                <version>${my.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.cloudiator.sword</groupId>
                 <artifactId>core</artifactId>
-                <version>${my.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.cloudiator.sword</groupId>
                 <artifactId>drivers</artifactId>
-                <version>${my.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.cloudiator.sword</groupId>
                 <artifactId>remote</artifactId>
-                <version>${my.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.cloudiator.sword</groupId>
                 <artifactId>remote-overthere</artifactId>
-                <version>${my.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.cloudiator.sword</groupId>
                 <artifactId>service</artifactId>
-                <version>${my.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.jclouds</groupId>
