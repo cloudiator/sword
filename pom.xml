@@ -38,7 +38,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jclouds.version>1.9.0</jclouds.version>
-        <flexiant.version>0.1.0-SNAPSHOT</flexiant.version>
         <jsch.version>0.1.51</jsch.version>
     </properties>
 

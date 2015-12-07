@@ -35,7 +35,7 @@
             <dependency>
                 <groupId>io.github.cloudiator.flexiant</groupId>
                 <artifactId>flexiant-client</artifactId>
-                <version>${flexiant.version}</version>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
