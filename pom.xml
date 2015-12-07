@@ -68,9 +68,9 @@
     <url>https://github.com/cloudiator</url>
 
     <scm>
-        <connection>scm:git@github.com:cloudiator/sword.git</connection>
-        <developerConnection>scm:git@github.com:cloudiator/sword.git</developerConnection>
-        <url>git@github.com:cloudiator/sword.git</url>
+        <connection>scm:git:https://github.com/cloudiator/sword.git</connection>
+        <developerConnection>scm:git:git@github.com:cloudiator/sword.git</developerConnection>
+        <url>https://github.com/cloudiator/sword/</url>
     </scm>
 
     <dependencyManagement>
