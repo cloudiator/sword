@@ -20,15 +20,26 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
 
+import com.google.common.collect.ImmutableMap;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.core.domain.LocationBuilder;
+
+import java.util.Map;
 
 /**
  * Created by daniel on 03.12.14.
  */
 public class JCloudsLocationToLocation
     implements OneWayConverter<org.jclouds.domain.Location, Location> {
+
+    private final OneWayConverter<org.jclouds.domain.LocationScope, LocationScope>
+        locationScopeConverter;
+
+    public JCloudsLocationToLocation() {
+        locationScopeConverter = new JCloudsLocationScopeToLocationScope();
+    }
 
     @Override public Location apply(org.jclouds.domain.Location location) {
 
@@ -51,6 +62,9 @@ public class JCloudsLocationToLocation
                 builder.parent(parent);
             }
         }
+
+        builder.scope(locationScopeConverter.apply(location.getScope()));
+
         return builder.build();
     }
 
@@ -65,6 +79,29 @@ public class JCloudsLocationToLocation
             default:
                 throw new AssertionError(
                     "Openstack jclouds driver is suspected to only return locations with scope provider, region or zone");
+        }
+    }
+
+    private static class JCloudsLocationScopeToLocationScope
+        implements OneWayConverter<org.jclouds.domain.LocationScope, LocationScope> {
+
+        private static final Map<org.jclouds.domain.LocationScope, LocationScope> CONVERSION_MAP;
+
+        static {
+            final ImmutableMap.Builder<org.jclouds.domain.LocationScope, LocationScope> builder =
+                ImmutableMap.builder();
+            builder.put(org.jclouds.domain.LocationScope.REGION, LocationScope.REGION);
+            builder.put(org.jclouds.domain.LocationScope.ZONE, LocationScope.ZONE);
+            builder.put(org.jclouds.domain.LocationScope.HOST, LocationScope.HOST);
+            CONVERSION_MAP = builder.build();
+        }
+
+        @Override public LocationScope apply(org.jclouds.domain.LocationScope locationScope) {
+            if (CONVERSION_MAP.containsKey(locationScope)) {
+                return CONVERSION_MAP.get(locationScope);
+            }
+            throw new AssertionError(
+                "Encountered unsupported jclouds location scope " + locationScope);
         }
     }
 
