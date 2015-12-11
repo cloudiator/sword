@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,45 +27,52 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
- * Created by daniel on 03.12.14.
+ * Unit test for {@link LocationImpl} resp. {@link LocationBuilder}.
  */
 public class LocationImplTest {
 
     private final String testId = "123456";
     private final String testName = "This is a very fine location";
     private final boolean testAssignable = true;
+    private final LocationScope testScope = LocationScope.REGION;
     private final Location testParent =
-        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true).build();
+        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
+            .scope(LocationScope.REGION).build();
     private Location validLocation;
 
     @Before public void before() {
         this.validLocation =
             LocationBuilder.newBuilder().id(testId).name(testName).assignable(testAssignable)
-                .parent(testParent).build();
+                .parent(testParent).scope(testScope).build();
     }
 
     @Test(expected = NullPointerException.class) public void idNotNullableTest() {
 
         LocationBuilder.newBuilder().id(null).name(testName).assignable(testAssignable)
-            .parent(testParent).build();
+            .parent(testParent).scope(testScope).build();
     }
 
     @Test(expected = NullPointerException.class) public void nameNotNullableTest() {
 
         LocationBuilder.newBuilder().id(testId).name(null).assignable(testAssignable)
-            .parent(testParent).build();
+            .parent(testParent).scope(testScope).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void idNotEmptyTest() {
 
         LocationBuilder.newBuilder().id("").name(testName).assignable(testAssignable)
-            .parent(testParent).build();
+            .parent(testParent).scope(testScope).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void nameNotEmptyTest() {
 
         LocationBuilder.newBuilder().id(testId).name("").assignable(testAssignable)
-            .parent(testParent).build();
+            .parent(testParent).scope(testScope).build();
+    }
+
+    @Test(expected = NullPointerException.class) public void locationScopeNotNullTest() {
+        LocationBuilder.newBuilder().id(testId).name(testName).assignable(testAssignable)
+            .parent(testParent).scope(null).build();
     }
 
     @Test public void getIdTest() {
@@ -83,11 +91,16 @@ public class LocationImplTest {
         assertThat(validLocation.parent().get(), equalTo(testParent));
     }
 
+    @Test public void getLocationScopeTest() {
+        assertThat(validLocation.locationScope(), equalTo(testScope));
+    }
+
     @Test public void toStringTest() {
         assertThat(this.validLocation.toString().contains(testId), equalTo(true));
         assertThat(this.validLocation.toString().contains(testName), equalTo(true));
         assertThat(this.validLocation.toString().contains(String.valueOf(testAssignable)),
             equalTo(true));
+        assertThat(this.validLocation.toString().contains(testScope.name()), equalTo(true));
     }
 
 }

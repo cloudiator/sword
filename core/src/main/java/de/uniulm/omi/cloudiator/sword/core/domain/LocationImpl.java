@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -34,11 +35,23 @@ public class LocationImpl implements Location {
 
     private final String id;
     private final String name;
+    private final LocationScope locationScope;
     @Nullable private final Location parent;
     private final boolean isAssignable;
 
-
-    LocationImpl(String id, String name, @Nullable Location parent, boolean isAssignable) {
+    /**
+     * Constructor. For building new objects use {@link LocationBuilder}.
+     *
+     * @param id            the id of the location (mandatory)
+     * @param name          the name of the location (mandatory)
+     * @param parent        the parent location (optional)
+     * @param isAssignable  if the location is assignable (mandatory)
+     * @param locationScope the scope of the location (mandatory)
+     * @throws NullPointerException     if a mandatory parameter is null.
+     * @throws IllegalArgumentException if a mandatory string attribute is empty.
+     */
+    LocationImpl(String id, String name, @Nullable Location parent, boolean isAssignable,
+        LocationScope locationScope) {
         checkNotNull(id, "Location must have an ID");
         checkArgument(!id.isEmpty(), "Location ID must not be empty.");
         this.id = id;
@@ -47,6 +60,8 @@ public class LocationImpl implements Location {
         this.name = name;
         this.parent = parent;
         this.isAssignable = isAssignable;
+        checkNotNull(locationScope);
+        this.locationScope = locationScope;
     }
 
     @Override public String id() {
@@ -61,12 +76,16 @@ public class LocationImpl implements Location {
         return Optional.ofNullable(parent);
     }
 
+    @Override public LocationScope locationScope() {
+        return locationScope;
+    }
+
     @Override public boolean isAssignable() {
         return this.isAssignable;
     }
 
     @Override public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id).add("name", name)
-            .add("isAssignable", isAssignable).toString();
+            .add("isAssignable", isAssignable).add("locationScope", locationScope).toString();
     }
 }

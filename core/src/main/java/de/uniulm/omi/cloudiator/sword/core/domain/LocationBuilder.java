@@ -19,11 +19,12 @@
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 
 import javax.annotation.Nullable;
 
 /**
- * Created by daniel on 03.12.14.
+ * A builder for immutable {@link Location} objects.
  */
 public class LocationBuilder {
 
@@ -31,36 +32,73 @@ public class LocationBuilder {
     private String name;
     @Nullable private Location parent;
     private boolean isAssignable;
+    private LocationScope locationScope;
 
+    /**
+     * Use LocationBuilder::newBuilder to create builder objects.
+     */
     private LocationBuilder() {
-
+        //intentionally empty
     }
 
+    /**
+     * @return creates a new builder object.
+     */
     public static LocationBuilder newBuilder() {
         return new LocationBuilder();
     }
 
-    public LocationImpl build() {
-        return new LocationImpl(id, name, parent, isAssignable);
+    /**
+     * Builds the location.
+     *
+     * @return the location.
+     */
+    public Location build() {
+        return new LocationImpl(id, name, parent, isAssignable, locationScope);
     }
 
+    /**
+     * @param id unique id of the location.
+     * @return fluent interface.
+     */
     public LocationBuilder id(String id) {
         this.id = id;
         return this;
     }
 
+    /**
+     * @param name the (human-readable) name of the location.
+     * @return fluent interface.
+     */
     public LocationBuilder name(final String name) {
         this.name = name;
         return this;
     }
 
+    /**
+     * @param isAssignable if the location is assignable to a virtual machine.
+     * @return fluent interface.
+     */
     public LocationBuilder assignable(boolean isAssignable) {
         this.isAssignable = isAssignable;
         return this;
     }
 
+    /**
+     * @param parent the parent location of the location.
+     * @return fluent interface.
+     */
     public LocationBuilder parent(Location parent) {
         this.parent = parent;
+        return this;
+    }
+
+    /**
+     * @param locationScope the {@link LocationScope} of the location.
+     * @return fluent interface.
+     */
+    public LocationBuilder scope(LocationScope locationScope) {
+        this.locationScope = locationScope;
         return this;
     }
 }

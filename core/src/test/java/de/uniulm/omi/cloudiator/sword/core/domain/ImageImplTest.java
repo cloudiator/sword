@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +35,8 @@ public class ImageImplTest {
     private final String testId = "123456";
     private final String testName = "name";
     private final Location testLocation =
-        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true).build();
+        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
+            .scope(LocationScope.REGION).build();
     private Image validImage;
 
     @Before public void before() {

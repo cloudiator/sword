@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import com.google.common.collect.ImmutableSet;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import org.junit.Before;
@@ -39,7 +40,8 @@ public class VirtualMachineImplTest {
     String testPublicIpAddress = "93.184.216.34";
     String testPrivateIpAddress = "192.168.0.2";
     private final Location testLocation =
-        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true).build();
+        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
+            .scope(LocationScope.REGION).build();
     LoginCredential loginCredential =
         LoginCredentialBuilder.newBuilder().password("password").username("username").build();
 
