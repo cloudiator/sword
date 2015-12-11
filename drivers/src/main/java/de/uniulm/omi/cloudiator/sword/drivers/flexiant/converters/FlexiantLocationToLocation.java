@@ -19,16 +19,26 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 
 
+import com.google.common.collect.ImmutableMap;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.core.domain.LocationBuilder;
+
+import java.util.Map;
 
 /**
  * Created by daniel on 05.12.14.
  */
 public class FlexiantLocationToLocation
     implements OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location> {
+
+    private final OneWayConverter<LocationScope, de.uniulm.omi.cloudiator.sword.api.domain.LocationScope>
+        locationScopeConverter;
+
+    public FlexiantLocationToLocation() {
+        locationScopeConverter = new FlexiantLocationScopeToLocationScope();
+    }
 
     @Override
     public Location apply(de.uniulm.omi.cloudiator.flexiant.client.domain.Location location) {
@@ -41,6 +51,35 @@ public class FlexiantLocationToLocation
         if (location.getParent() != null) {
             builder.parent(apply(location.getParent()));
         }
+        builder.scope(locationScopeConverter.apply(location.getLocationScope()));
         return builder.build();
     }
+
+    private static class FlexiantLocationScopeToLocationScope implements
+        OneWayConverter<LocationScope, de.uniulm.omi.cloudiator.sword.api.domain.LocationScope> {
+
+        private static final Map<LocationScope, de.uniulm.omi.cloudiator.sword.api.domain.LocationScope>
+            CONVERSION_MAP;
+
+        static {
+            final ImmutableMap.Builder<LocationScope, de.uniulm.omi.cloudiator.sword.api.domain.LocationScope>
+                builder = ImmutableMap.builder();
+            builder.put(LocationScope.CLUSTER,
+                de.uniulm.omi.cloudiator.sword.api.domain.LocationScope.REGION);
+            builder.put(LocationScope.VDC,
+                de.uniulm.omi.cloudiator.sword.api.domain.LocationScope.ZONE);
+            CONVERSION_MAP = builder.build();
+        }
+
+        @Override public de.uniulm.omi.cloudiator.sword.api.domain.LocationScope apply(
+            LocationScope locationScope) {
+
+            if (CONVERSION_MAP.containsKey(locationScope)) {
+                return CONVERSION_MAP.get(locationScope);
+            }
+            throw new AssertionError(
+                String.format("Location scope %s is currently not supported", locationScope));
+        }
+    }
+
 }
