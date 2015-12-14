@@ -23,6 +23,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
+import org.jclouds.domain.LocationScope;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -44,6 +45,7 @@ public class LocationSupplier implements Supplier<Set<Location>> {
 
     @Override public Set<Location> get() {
         return jCloudsComputeClient.listAssignableLocations().stream()
+            .filter(location -> location.getScope() != LocationScope.PROVIDER)
             .map(jCloudsLocationToLocation::apply).collect(Collectors.toSet());
     }
 }

@@ -26,11 +26,15 @@ import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackFloatingIpClient;
 import org.jclouds.openstack.nova.v2_0.domain.FloatingIP;
 
+import java.io.IOException;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Basic implementation of a {@link PublicIpStrategy} for Openstack.
+ * <p/>
+ * todo: check of public ip service and strategy are necessary....
  */
 public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
 

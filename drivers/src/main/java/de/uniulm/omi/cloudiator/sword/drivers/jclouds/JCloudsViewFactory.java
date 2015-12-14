@@ -16,25 +16,18 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.openstack.config;
+package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
-import org.jclouds.openstack.nova.v2_0.NovaApi;
+import org.jclouds.View;
+
+import java.io.Closeable;
 
 /**
- * Created by daniel on 19.05.15.
+ * Created by daniel on 14.12.15.
  */
-public class NovaApiProvider implements Provider<NovaApi> {
+public interface JCloudsViewFactory {
 
-    private final JCloudsViewFactory jCloudsViewFactory;
+    <V extends View> V buildJCloudsView(Class<V> viewType);
 
-    @Inject public NovaApiProvider(JCloudsViewFactory jCloudsViewFactory) {
-        this.jCloudsViewFactory = jCloudsViewFactory;
-    }
-
-    @Override public NovaApi get() {
-        return jCloudsViewFactory.buildJCloudsApi(NovaApi.class);
-    }
+    <A extends Closeable> A buildJCloudsApi(Class<A> api);
 }

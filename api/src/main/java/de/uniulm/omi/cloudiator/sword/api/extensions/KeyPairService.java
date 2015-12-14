@@ -22,6 +22,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.KeyPairException;
 
 import javax.annotation.Nullable;
+import java.io.Closeable;
 
 /**
  * A service for the creation of key pairs at the given

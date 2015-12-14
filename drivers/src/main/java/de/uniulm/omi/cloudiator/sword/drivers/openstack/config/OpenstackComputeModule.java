@@ -26,7 +26,9 @@ import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackComputeClientImpl;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.ComputeMetadataConverterOverwrite;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.NovaKeyPairToKeypair;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.TemplateOptionsToNovaTemplateOptions;
@@ -65,5 +67,9 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
 
     @Override protected Optional<KeyPairService> keyPairService(Injector injector) {
         return Optional.fromNullable(injector.getInstance(OpenstackKeyPairService.class));
+    }
+
+    @Override protected Class<? extends JCloudsComputeClient> jCloudsComputeClient() {
+        return OpenstackComputeClientImpl.class;
     }
 }

@@ -26,8 +26,10 @@ import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClientImpl;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.*;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsDeleteVirtualMachineStrategy;
@@ -155,5 +157,8 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         bind(
             new TypeLiteral<OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>>() {
             }).to(templateOptionsConverter());
+
+        //bind the view factory
+        bind(JCloudsViewFactory.class).to(BaseJCloudsViewFactory.class);
     }
 }
