@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.config;
 
 import com.google.common.base.Supplier;
+import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Hardware;
@@ -49,20 +50,20 @@ import java.util.Set;
  */
 public class FlexiantComputeModule extends AbstractComputeModule {
 
-    @Override protected Class<? extends Supplier<Set<Image>>> imageSupplier() {
-        return ImageSupplier.class;
+    @Override protected Supplier<Set<Image>> imageSupplier(Injector injector) {
+        return injector.getInstance(ImageSupplier.class);
     }
 
-    @Override protected Class<? extends Supplier<Set<Location>>> locationSupplier() {
-        return LocationSupplier.class;
+    @Override protected Supplier<Set<Location>> locationSupplier(Injector injector) {
+        return injector.getInstance(LocationSupplier.class);
     }
 
-    @Override protected Class<? extends Supplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
-        return HardwareSupplier.class;
+    @Override protected Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier(Injector injector) {
+        return injector.getInstance(HardwareSupplier.class);
     }
 
-    @Override protected Class<? extends Supplier<Set<VirtualMachine>>> virtualMachineSupplier() {
-        return VirtualMachineSupplier.class;
+    @Override protected Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
+        return injector.getInstance(VirtualMachineSupplier.class);
     }
 
     @Override
