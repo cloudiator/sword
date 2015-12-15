@@ -94,22 +94,32 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
     @Override
     protected final Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
-        return overridevirtualMachineSupplier(injector,
+        return overrideVirtualMachineSupplier(injector,
             injector.getInstance(VirtualMachineSupplier.class));
     }
 
     /**
      * Allows jclouds submodules to override the VirtualMachine supplier
      */
-    protected Supplier<Set<VirtualMachine>> overridevirtualMachineSupplier(Injector injector,
+    protected Supplier<Set<VirtualMachine>> overrideVirtualMachineSupplier(Injector injector,
         Supplier<Set<VirtualMachine>> originalSupplier) {
         return originalSupplier;
     }
 
     @Override
-    protected Class<? extends CreateVirtualMachineStrategy> createVirtualMachineStrategy() {
-        return JCloudsCreateVirtualMachineStrategy.class;
+    protected final CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector) {
+        return overrideCreateVirtualMachineStrategy(injector,
+            injector.getInstance(JCloudsCreateVirtualMachineStrategy.class));
     }
+
+    /**
+     * Allow jclouds submodules to ovveride the create virtual machine strategy
+     */
+    protected CreateVirtualMachineStrategy overrideCreateVirtualMachineStrategy(Injector injector,
+        CreateVirtualMachineStrategy original) {
+        return original;
+    }
+
 
     @Override
     protected Class<? extends DeleteVirtualMachineStrategy> deleteVirtualMachineStrategy() {

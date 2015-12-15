@@ -20,12 +20,16 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.config;
 
 import com.google.common.base.Optional;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
+import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackComputeClientImpl;
@@ -34,6 +38,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.NovaKeyPairTo
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.TemplateOptionsToNovaTemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackKeyPairService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackPublicIpService;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.OpenstackCreateVirtualMachineStrategy;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
@@ -71,5 +76,13 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
 
     @Override protected Class<? extends JCloudsComputeClient> jCloudsComputeClient() {
         return OpenstackComputeClientImpl.class;
+    }
+
+    @Override
+    protected CreateVirtualMachineStrategy overrideCreateVirtualMachineStrategy(Injector injector,
+        CreateVirtualMachineStrategy original) {
+        return new OpenstackCreateVirtualMachineStrategy(original,
+            injector.getInstance(Key.get(new TypeLiteral<GetStrategy<String, Location>>() {
+            })));
     }
 }

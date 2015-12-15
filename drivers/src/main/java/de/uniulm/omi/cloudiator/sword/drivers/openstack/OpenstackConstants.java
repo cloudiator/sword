@@ -27,7 +27,8 @@ public class OpenstackConstants {
     /**
      * todo: workaround for discovering the availability zones via getLocations API.
      */
-    public static final String AVAILABILITY_ZONE_PROPERTY = "sword.openstack.availabilityZone";
+    public static final String DEFAULT_AVAILABILITY_ZONE_PROPERTY =
+        "sword.openstack.defaultAvailabilityZone";
 
     private OpenstackConstants() {
 

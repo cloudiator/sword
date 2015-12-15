@@ -31,7 +31,7 @@ import org.jclouds.openstack.nova.v2_0.compute.options.NovaTemplateOptions;
  */
 public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOptionsToTemplateOptions {
 
-    private @Inject(optional = true) @Named(OpenstackConstants.AVAILABILITY_ZONE_PROPERTY) String
+    private @Inject(optional = true) @Named(OpenstackConstants.DEFAULT_AVAILABILITY_ZONE_PROPERTY) String
         availabilityZone = null;
 
     @Override protected TemplateOptions convert(
@@ -42,7 +42,7 @@ public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOption
             novaTemplateOptions.keyPairName(keyPairName);
         }
         /**
-         * todo: workaround for discovering the availability zones via getLocations API.
+         * set the default availability zone
          */
         if (availabilityZone != null) {
             novaTemplateOptions.availabilityZone(availabilityZone);

@@ -67,8 +67,8 @@ public class FlexiantComputeModule extends AbstractComputeModule {
     }
 
     @Override
-    protected Class<? extends CreateVirtualMachineStrategy> createVirtualMachineStrategy() {
-        return FlexiantCreateVirtualMachineStrategy.class;
+    protected CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector) {
+        return injector.getInstance(FlexiantCreateVirtualMachineStrategy.class);
     }
 
     @Override
