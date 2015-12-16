@@ -18,36 +18,47 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
-import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
+import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineTemplateBuilder;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
+import org.jclouds.compute.domain.ComputeMetadata;
+import org.jclouds.openstack.nova.v2_0.compute.options.NovaTemplateOptions;
+import org.jclouds.openstack.nova.v2_0.domain.regionscoped.RegionAndId;
 
-import javax.annotation.Nullable;
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Create virtual machine strategy for Openstack.
- *
- *
+ * <p/>
+ * Uses the extension points of {@link JCloudsCreateVirtualMachineStrategy} to
+ * support availability zones.
+ * <p/>
+ * For this purpose it modifies the virtual machine template by setting the region of the availability zone
+ * so that jclouds validation does not fail.
+ * <p/>
+ * Afterwards it modifies the template options object and manually sets the availability zone there.
  */
-public class OpenstackCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
+public class OpenstackCreateVirtualMachineStrategy extends JCloudsCreateVirtualMachineStrategy {
 
-    private final CreateVirtualMachineStrategy delegate;
     private final GetStrategy<String, Location> locationGetStrategy;
 
-    public OpenstackCreateVirtualMachineStrategy(CreateVirtualMachineStrategy delegate,
+    @Inject public OpenstackCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient,
+        OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter,
+        OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions> templateOptionsConverter,
         GetStrategy<String, Location> locationGetStrategy) {
-        this.delegate = delegate;
+        super(jCloudsComputeClient, computeMetadataVirtualMachineConverter,
+            templateOptionsConverter);
         this.locationGetStrategy = locationGetStrategy;
     }
 
-    @Nullable @Override
-    public VirtualMachine apply(VirtualMachineTemplate originalVirtualMachineTemplate) {
-        Location location = locationGetStrategy.get(originalVirtualMachineTemplate.locationId());
-        VirtualMachineTemplate replacedTemplate = originalVirtualMachineTemplate;
+    @Override protected VirtualMachineTemplate modifyVirtualMachineTemplate(
+        VirtualMachineTemplate originalMachineTemplate) {
+        Location location = locationGetStrategy.get(originalMachineTemplate.locationId());
+        VirtualMachineTemplate replacedTemplate = originalMachineTemplate;
 
         //our location is an availability zone
         if (location != null && location.locationScope().equals(LocationScope.ZONE) && location
@@ -55,10 +66,28 @@ public class OpenstackCreateVirtualMachineStrategy implements CreateVirtualMachi
             .equals(LocationScope.REGION)) {
 
             //replace it with the region...
-            replacedTemplate = VirtualMachineTemplateBuilder.of(originalVirtualMachineTemplate)
+            replacedTemplate = VirtualMachineTemplateBuilder.of(originalMachineTemplate)
                 .location(location.parent().get().id()).build();
         }
+        return replacedTemplate;
+    }
 
-        return delegate.apply(replacedTemplate);
+    @Override protected org.jclouds.compute.options.TemplateOptions modifyTemplateOptions(
+        final VirtualMachineTemplate originalVirtualMachineTemplate,
+        final org.jclouds.compute.options.TemplateOptions originalTemplateOptions) {
+
+        final org.jclouds.compute.options.TemplateOptions templateOptionsToModify =
+            super.modifyTemplateOptions(originalVirtualMachineTemplate, originalTemplateOptions);
+
+        checkArgument(templateOptionsToModify instanceof NovaTemplateOptions);
+
+        Location location = locationGetStrategy.get(originalVirtualMachineTemplate.locationId());
+
+        if (location != null && location.locationScope().equals(LocationScope.ZONE)) {
+            ((NovaTemplateOptions) templateOptionsToModify)
+                .availabilityZone(RegionAndId.fromSlashEncoded(location.id()).getId());
+        }
+
+        return templateOptionsToModify;
     }
 }

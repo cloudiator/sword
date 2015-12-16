@@ -40,7 +40,9 @@ import java.util.stream.StreamSupport;
 import static com.google.common.base.Preconditions.checkArgument;
 
 /**
- * todo: delegation?
+ * A custom implementation of the jclouds compute client for Openstack.
+ * <p/>
+ * Adds the availability zones of Openstack to the list assignable locations method.
  */
 public class OpenstackComputeClientImpl extends JCloudsComputeClientImpl {
 
@@ -90,7 +92,7 @@ public class OpenstackComputeClientImpl extends JCloudsComputeClientImpl {
             implements OneWayConverter<AvailabilityZone, Location> {
 
             @Override public Location apply(AvailabilityZone availabilityZone) {
-                //todo: probably we need to check the zone state?
+                //todo: do we need to check the zone state?
                 return new LocationBuilder().scope(LocationScope.ZONE)
                     .id(RegionAndId.fromRegionAndId(parent.getId(), availabilityZone.getName())
                         .slashEncode()).parent(parent).description(availabilityZone.getName())

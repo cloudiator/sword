@@ -49,22 +49,54 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
         this.templateOptionsConverter = templateOptionsConverter;
     }
 
-    @Override public VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
+    @Override
+    public final VirtualMachine apply(final VirtualMachineTemplate virtualMachineTemplate) {
+
+        final VirtualMachineTemplate virtualMachineTemplateToUse =
+            modifyVirtualMachineTemplate(virtualMachineTemplate);
 
         final TemplateBuilder templateBuilder = jCloudsComputeClient.templateBuilder();
 
-        templateBuilder.hardwareId(virtualMachineTemplate.hardwareFlavorId())
-            .imageId(virtualMachineTemplate.imageId())
-            .locationId(virtualMachineTemplate.locationId());
+        templateBuilder.hardwareId(virtualMachineTemplateToUse.hardwareFlavorId())
+            .imageId(virtualMachineTemplateToUse.imageId())
+            .locationId(virtualMachineTemplateToUse.locationId());
 
         if (virtualMachineTemplate.templateOptions().isPresent()) {
-            templateBuilder.options(
-                templateOptionsConverter.apply(virtualMachineTemplate.templateOptions().get()));
+            templateBuilder.options(modifyTemplateOptions(virtualMachineTemplate,
+                templateOptionsConverter
+                    .apply(virtualMachineTemplateToUse.templateOptions().get())));
         }
 
         final Template template = templateBuilder.build();
 
         return this.computeMetadataVirtualMachineConverter
             .apply(this.jCloudsComputeClient.createNode(template));
+    }
+
+    /**
+     * Extension point for the virtual machine template. Allows the subclass to replace
+     * the virtual machine template before it is passed to the jclouds template builder.
+     *
+     * @param originalMachineTemplate the virtual machine template to modify
+     * @return the replaced template
+     */
+    protected VirtualMachineTemplate modifyVirtualMachineTemplate(
+        VirtualMachineTemplate originalMachineTemplate) {
+        return originalMachineTemplate;
+    }
+
+    /**
+     * Extension point for the template options. Allows the subclass to replace the
+     * jclouds template options object with a new one before it is passed to the template
+     * builder.
+     *
+     * @param originalVirtualMachineTemplate the original virtual machine template
+     * @param originalTemplateOptions        the original template options
+     * @return the replaced template options.
+     */
+    protected org.jclouds.compute.options.TemplateOptions modifyTemplateOptions(
+        VirtualMachineTemplate originalVirtualMachineTemplate,
+        org.jclouds.compute.options.TemplateOptions originalTemplateOptions) {
+        return originalTemplateOptions;
     }
 }
