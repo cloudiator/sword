@@ -30,6 +30,7 @@ import org.jclouds.openstack.nova.v2_0.compute.options.NovaTemplateOptions;
 import org.jclouds.openstack.nova.v2_0.domain.regionscoped.RegionAndId;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Create virtual machine strategy for Openstack.
@@ -61,14 +62,30 @@ public class OpenstackCreateVirtualMachineStrategy extends JCloudsCreateVirtualM
         VirtualMachineTemplate replacedTemplate = originalMachineTemplate;
 
         //our location is an availability zone
-        if (location != null && location.locationScope().equals(LocationScope.ZONE) && location
-            .parent().isPresent() && location.parent().get().locationScope()
-            .equals(LocationScope.REGION)) {
+        if (location != null && location.locationScope().equals(LocationScope.ZONE)) {
+
+            checkState(location.parent().isPresent());
+            checkState(location.parent().get().locationScope().equals(LocationScope.REGION));
 
             //replace it with the region...
             replacedTemplate = VirtualMachineTemplateBuilder.of(originalMachineTemplate)
                 .location(location.parent().get().id()).build();
         }
+
+        //our location is a host
+        if (location != null && location.locationScope().equals(LocationScope.HOST)) {
+
+            checkState(location.parent().isPresent());
+            checkState(location.parent().get().locationScope().equals(LocationScope.ZONE));
+            checkState(location.parent().get().parent().isPresent());
+            checkState(location.parent().get().parent().get().locationScope()
+                .equals(LocationScope.REGION));
+
+            //replace it with the region
+            replacedTemplate = VirtualMachineTemplateBuilder.of(originalMachineTemplate)
+                .location(location.parent().get().parent().get().id()).build();
+        }
+
         return replacedTemplate;
     }
 
@@ -86,6 +103,14 @@ public class OpenstackCreateVirtualMachineStrategy extends JCloudsCreateVirtualM
         if (location != null && location.locationScope().equals(LocationScope.ZONE)) {
             ((NovaTemplateOptions) templateOptionsToModify)
                 .availabilityZone(RegionAndId.fromSlashEncoded(location.id()).getId());
+        } else if (location != null && location.locationScope().equals(LocationScope.HOST)) {
+            //concat availability zone and host
+            String host = RegionAndId.fromSlashEncoded(location.id()).getId();
+            String availabilityZone =
+                RegionAndId.fromSlashEncoded(location.parent().get().id()).getId();
+
+            ((NovaTemplateOptions) templateOptionsToModify)
+                .availabilityZone(availabilityZone + ":" + host);
         }
 
         return templateOptionsToModify;
