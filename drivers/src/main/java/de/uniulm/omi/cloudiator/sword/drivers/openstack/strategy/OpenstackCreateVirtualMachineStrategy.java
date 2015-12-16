@@ -36,9 +36,9 @@ import static com.google.common.base.Preconditions.checkState;
  * Create virtual machine strategy for Openstack.
  * <p/>
  * Uses the extension points of {@link JCloudsCreateVirtualMachineStrategy} to
- * support availability zones.
+ * support availability zones and hosts.
  * <p/>
- * For this purpose it modifies the virtual machine template by setting the region of the availability zone
+ * For this purpose it modifies the virtual machine template by setting the region of the availability zone/host
  * so that jclouds validation does not fail.
  * <p/>
  * Afterwards it modifies the template options object and manually sets the availability zone there.
