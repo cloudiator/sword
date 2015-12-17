@@ -16,22 +16,25 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.openstack;
+package de.uniulm.omi.cloudiator.sword.drivers.jclouds.config;
+
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
+import org.jclouds.compute.ComputeServiceContext;
 
 /**
- * Created by daniel on 08.09.15.
+ * Created by daniel on 14.12.15.
  */
-public class OpenstackConstants {
+public class ComputeServiceContextProvider implements Provider<ComputeServiceContext> {
 
-    public static final String FLOATING_IP_POOL_PROPERTY = "sword.openstack.floatingIpPool";
-    /**
-     * todo: workaround for discovering the availability zones via getLocations API.
-     */
-    public static final String DEFAULT_AVAILABILITY_ZONE_PROPERTY =
-        "sword.openstack.defaultAvailabilityZone";
+    private final JCloudsViewFactory jCloudsViewFactory;
 
-    private OpenstackConstants() {
-
+    @Inject public ComputeServiceContextProvider(JCloudsViewFactory jCloudsViewFactory) {
+        this.jCloudsViewFactory = jCloudsViewFactory;
     }
 
+    @Override public ComputeServiceContext get() {
+        return jCloudsViewFactory.buildJCloudsView(ComputeServiceContext.class);
+    }
 }

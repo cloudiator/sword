@@ -53,20 +53,6 @@ public abstract class AbstractComputeModule extends AbstractModule {
         bind(new TypeLiteral<DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine>>() {
         }).to(BaseDiscoveryService.class);
 
-        bind(new TypeLiteral<Supplier<Set<Image>>>() {
-        }).to(imageSupplier());
-
-        bind(new TypeLiteral<Supplier<Set<Location>>>() {
-        }).to(locationSupplier());
-
-        bind(new TypeLiteral<Supplier<Set<HardwareFlavor>>>() {
-        }).to(hardwareFlavorSupplier());
-
-        bind(new TypeLiteral<Supplier<Set<VirtualMachine>>>() {
-        }).to(virtualMachineSupplier());
-
-        bind(CreateVirtualMachineStrategy.class).to(createVirtualMachineStrategy());
-
         bind(DeleteVirtualMachineStrategy.class).to(deleteVirtualMachineStrategy());
 
         bind(new TypeLiteral<GetStrategy<String, VirtualMachine>>() {
@@ -82,6 +68,11 @@ public abstract class AbstractComputeModule extends AbstractModule {
         }).to(getHardwareFlavorStrategy());
     }
 
+    @Provides
+    final CreateVirtualMachineStrategy provideCreateVirtualMachineStrategy(Injector injector) {
+        return createVirtualMachineStrategy(injector);
+    }
+
     @Provides final Optional<PublicIpService> provideFloatingIpService(Injector injector) {
         return publicIpService(injector);
     }
@@ -90,46 +81,77 @@ public abstract class AbstractComputeModule extends AbstractModule {
         return keyPairService(injector);
     }
 
+    @Provides @Singleton final Supplier<Set<Image>> provideImageSupplier(Injector injector) {
+        return imageSupplier(injector);
+    }
+
+    @Provides @Singleton final Supplier<Set<Location>> provideLocationSupplier(Injector injector) {
+        return locationSupplier(injector);
+    }
+
+    @Provides @Singleton
+    final Supplier<Set<HardwareFlavor>> provideHardwareFlavorSupplier(Injector injector) {
+        return hardwareFlavorSupplier(injector);
+    }
+
+    @Provides @Singleton
+    final Supplier<Set<VirtualMachine>> provideVirtualMachineSupplier(Injector injector) {
+        return virtualMachineSupplier(injector);
+    }
+
+    /*
+     *   Providers for memoized suppliers
+     *   These provides wrap the base injection
+     *   with a memoized implementation.
+     *   todo: make expiration configurable
+     */
+
     @Provides @Memoized @Singleton
-    Supplier<Set<HardwareFlavor>> provideMemoizedHardwareFlavorSupplier(
+    final Supplier<Set<HardwareFlavor>> provideMemoizedHardwareFlavorSupplier(
         Supplier<Set<HardwareFlavor>> originalSupplier) {
         return Suppliers.memoizeWithExpiration(originalSupplier, 1L, TimeUnit.MINUTES);
     }
 
-    @Provides @Memoized @Singleton Supplier<Set<Location>> provideMemoizedLocationSupplier(
+    @Provides @Memoized @Singleton final Supplier<Set<Location>> provideMemoizedLocationSupplier(
         Supplier<Set<Location>> originalSupplier) {
         return Suppliers.memoizeWithExpiration(originalSupplier, 1L, TimeUnit.MINUTES);
     }
 
-    @Provides @Memoized @Singleton Supplier<Set<Image>> provideMemoizedImageSupplier(
-        Supplier<Set<Image>> originalSupplier) {
+    @Provides @Memoized @Singleton
+    final Supplier<Set<Image>> provideMemoizedImageSupplier(Supplier<Set<Image>> originalSupplier) {
+        return Suppliers.memoizeWithExpiration(originalSupplier, 1L, TimeUnit.MINUTES);
+    }
+
+    @Provides @Memoized @Singleton
+    final Supplier<Set<VirtualMachine>> provideMemoizedVirtualMachineSupplier(
+        Supplier<Set<VirtualMachine>> originalSupplier) {
         return Suppliers.memoizeWithExpiration(originalSupplier, 1L, TimeUnit.MINUTES);
     }
 
     /**
      * @return the {@link Image} {@link Supplier} to use.
      */
-    protected abstract Class<? extends Supplier<Set<Image>>> imageSupplier();
+    protected abstract Supplier<Set<Image>> imageSupplier(Injector injector);
 
     /**
      * @return the {@link Location} {@link Supplier} to use.
      */
-    protected abstract Class<? extends Supplier<Set<Location>>> locationSupplier();
+    protected abstract Supplier<Set<Location>> locationSupplier(Injector injector);
 
     /**
      * @return the {@link HardwareFlavor} {@link Supplier} to use.
      */
-    protected abstract Class<? extends Supplier<Set<HardwareFlavor>>> hardwareFlavorSupplier();
+    protected abstract Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier(Injector injector);
 
     /**
      * @return the {@link VirtualMachine} {@link Supplier} to use
      */
-    protected abstract Class<? extends Supplier<Set<VirtualMachine>>> virtualMachineSupplier();
+    protected abstract Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector);
 
     /**
      * @return the {@link CreateVirtualMachineStrategy} used for creating {@link VirtualMachine}s
      */
-    protected abstract Class<? extends CreateVirtualMachineStrategy> createVirtualMachineStrategy();
+    protected abstract CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector);
 
     /**
      * @return the {@link DeleteVirtualMachineStrategy} used for deleting {@link VirtualMachine}s

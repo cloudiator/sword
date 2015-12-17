@@ -38,6 +38,13 @@ public class VirtualMachineTemplateBuilder {
         return new VirtualMachineTemplateBuilder();
     }
 
+    public static VirtualMachineTemplateBuilder of(VirtualMachineTemplate virtualMachineTemplate) {
+        return newBuilder().image(virtualMachineTemplate.imageId())
+            .hardwareFlavor(virtualMachineTemplate.hardwareFlavorId())
+            .location(virtualMachineTemplate.locationId())
+            .templateOptions(virtualMachineTemplate.templateOptions().orNull());
+    }
+
     public VirtualMachineTemplateBuilder image(final String imageId) {
         this.imageId = imageId;
         return this;

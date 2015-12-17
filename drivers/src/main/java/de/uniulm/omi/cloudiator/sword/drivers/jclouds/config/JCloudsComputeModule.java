@@ -19,14 +19,17 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.config;
 
 import com.google.common.base.Supplier;
+import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClientImpl;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.*;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsDeleteVirtualMachineStrategy;
@@ -51,26 +54,72 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         return JCloudsComputeClientImpl.class;
     }
 
-    @Override protected Class<? extends Supplier<Set<Image>>> imageSupplier() {
-        return ImageSupplier.class;
+    @Override protected final Supplier<Set<Image>> imageSupplier(Injector injector) {
+        return overrideImageSupplier(injector, injector.getInstance(ImageSupplier.class));
     }
 
-    @Override protected Class<? extends Supplier<Set<Location>>> locationSupplier() {
-        return LocationSupplier.class;
+    /**
+     * Allows jclouds submodules to override the image supplier
+     */
+    protected Supplier<Set<Image>> overrideImageSupplier(Injector injector,
+        Supplier<Set<Image>> originalSupplier) {
+        return originalSupplier;
     }
 
-    @Override protected Class<? extends Supplier<Set<HardwareFlavor>>> hardwareFlavorSupplier() {
-        return HardwareSupplier.class;
+    @Override protected final Supplier<Set<Location>> locationSupplier(Injector injector) {
+        return overrideLocationSupplier(injector, injector.getInstance(LocationSupplier.class));
     }
 
-    @Override protected Class<? extends Supplier<Set<VirtualMachine>>> virtualMachineSupplier() {
-        return VirtualMachineSupplier.class;
+    /**
+     * Allows jclouds submodules to override the location supplier
+     */
+    protected Supplier<Set<Location>> overrideLocationSupplier(Injector injector,
+        Supplier<Set<Location>> originalSupplier) {
+        return originalSupplier;
     }
 
     @Override
-    protected Class<? extends CreateVirtualMachineStrategy> createVirtualMachineStrategy() {
-        return JCloudsCreateVirtualMachineStrategy.class;
+    protected final Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier(Injector injector) {
+        return overrideHardwareFlavorSupplier(injector,
+            injector.getInstance(HardwareSupplier.class));
     }
+
+    /**
+     * Allows jclouds submodules to override the hardware supplier
+     */
+    protected Supplier<Set<HardwareFlavor>> overrideHardwareFlavorSupplier(Injector injector,
+        Supplier<Set<HardwareFlavor>> originalSupplier) {
+        return originalSupplier;
+    }
+
+    @Override
+    protected final Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
+        return overrideVirtualMachineSupplier(injector,
+            injector.getInstance(VirtualMachineSupplier.class));
+    }
+
+    /**
+     * Allows jclouds submodules to override the VirtualMachine supplier
+     */
+    protected Supplier<Set<VirtualMachine>> overrideVirtualMachineSupplier(Injector injector,
+        Supplier<Set<VirtualMachine>> originalSupplier) {
+        return originalSupplier;
+    }
+
+    @Override
+    protected final CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector) {
+        return overrideCreateVirtualMachineStrategy(injector,
+            injector.getInstance(JCloudsCreateVirtualMachineStrategy.class));
+    }
+
+    /**
+     * Allow jclouds submodules to ovveride the create virtual machine strategy
+     */
+    protected CreateVirtualMachineStrategy overrideCreateVirtualMachineStrategy(Injector injector,
+        CreateVirtualMachineStrategy original) {
+        return original;
+    }
+
 
     @Override
     protected Class<? extends DeleteVirtualMachineStrategy> deleteVirtualMachineStrategy() {
@@ -118,5 +167,8 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         bind(
             new TypeLiteral<OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>>() {
             }).to(templateOptionsConverter());
+
+        //bind the view factory
+        bind(JCloudsViewFactory.class).to(BaseJCloudsViewFactory.class);
     }
 }

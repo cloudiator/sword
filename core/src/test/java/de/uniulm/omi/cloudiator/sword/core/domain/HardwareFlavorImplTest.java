@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,7 +38,8 @@ public class HardwareFlavorImplTest {
     private final long testRam = 1024;
     private final Float testDisk = 1.024F;
     private final Location testLocation =
-        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true).build();
+        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
+            .scope(LocationScope.REGION).build();
     private HardwareFlavorImpl validHardwareFlavor;
 
     @Before public void before() {

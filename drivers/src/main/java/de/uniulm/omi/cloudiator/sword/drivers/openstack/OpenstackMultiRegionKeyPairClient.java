@@ -30,9 +30,8 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkArgument;
 
 /**
- * Created by daniel on 19.05.15.
+ * todo: implement with better composite pattern...
  */
-
 public class OpenstackMultiRegionKeyPairClient implements OpenstackKeyPairClient {
 
     private OpenstackKeyPairSingleRegionClient openstackKeyPairSingleRegionClient;

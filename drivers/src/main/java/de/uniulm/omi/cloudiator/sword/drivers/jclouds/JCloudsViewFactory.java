@@ -16,22 +16,18 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.openstack;
+package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
+
+import org.jclouds.View;
+
+import java.io.Closeable;
 
 /**
- * Created by daniel on 08.09.15.
+ * Created by daniel on 14.12.15.
  */
-public class OpenstackConstants {
+public interface JCloudsViewFactory {
 
-    public static final String FLOATING_IP_POOL_PROPERTY = "sword.openstack.floatingIpPool";
-    /**
-     * todo: workaround for discovering the availability zones via getLocations API.
-     */
-    public static final String DEFAULT_AVAILABILITY_ZONE_PROPERTY =
-        "sword.openstack.defaultAvailabilityZone";
+    <V extends View> V buildJCloudsView(Class<V> viewType);
 
-    private OpenstackConstants() {
-
-    }
-
+    <A extends Closeable> A buildJCloudsApi(Class<A> api);
 }
