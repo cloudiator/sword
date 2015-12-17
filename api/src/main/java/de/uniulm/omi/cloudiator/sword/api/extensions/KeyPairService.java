@@ -22,7 +22,6 @@ import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.KeyPairException;
 
 import javax.annotation.Nullable;
-import java.io.Closeable;
 
 /**
  * A service for the creation of key pairs at the given
@@ -40,7 +39,7 @@ public interface KeyPairService {
      * @throws NullPointerException     if the name is null.
      * @throws IllegalArgumentException if the name is empty.
      */
-    KeyPair create(String name) throws KeyPairException;
+    KeyPair create(String name);
 
     /**
      * Registers the public key at the cloud provider.
@@ -52,7 +51,7 @@ public interface KeyPairService {
      * @throws NullPointerException     if any of the arguments is null.
      * @throws IllegalArgumentException if any of the supplied strings are empty.
      */
-    KeyPair create(String name, String publicKey) throws KeyPairException;
+    KeyPair create(String name, String publicKey);
 
     /**
      * Deletes the key pair from the cloud provider.
@@ -63,7 +62,7 @@ public interface KeyPairService {
      * @throws NullPointerException     if the name is null
      * @throws IllegalArgumentException if the name is empty.
      */
-    boolean delete(String name) throws KeyPairException;
+    boolean delete(String name);
 
     /**
      * Retrieves information about the key pair.
@@ -74,7 +73,7 @@ public interface KeyPairService {
      * @throws NullPointerException     if the name is null.
      * @throws IllegalArgumentException if the name is empty.
      */
-    @Nullable KeyPair get(String name) throws KeyPairException;
+    @Nullable KeyPair get(String name);
 
 
 }

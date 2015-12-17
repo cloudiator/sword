@@ -21,7 +21,6 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
-import de.uniulm.omi.cloudiator.sword.api.exceptions.KeyPairException;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackKeyPairClient;
 
@@ -57,13 +56,13 @@ public class OpenstackKeyPairService implements KeyPairService {
         this.openstackKeyPairClient = openstackKeyPairClient;
     }
 
-    @Override public KeyPair create(String name) throws KeyPairException {
+    @Override public KeyPair create(String name) {
         checkNotNull(name);
         checkArgument(!name.isEmpty());
         return keyPairConverter.apply(openstackKeyPairClient.create(name));
     }
 
-    @Override public KeyPair create(String name, String publicKey) throws KeyPairException {
+    @Override public KeyPair create(String name, String publicKey) {
         checkNotNull(name);
         checkArgument(!name.isEmpty());
         checkNotNull(publicKey);
@@ -71,13 +70,13 @@ public class OpenstackKeyPairService implements KeyPairService {
         return keyPairConverter.apply(openstackKeyPairClient.createWithPublicKey(name, publicKey));
     }
 
-    @Override public boolean delete(String name) throws KeyPairException {
+    @Override public boolean delete(String name) {
         checkNotNull(name);
         checkArgument(!name.isEmpty());
         return openstackKeyPairClient.delete(name);
     }
 
-    @Override public KeyPair get(String name) throws KeyPairException {
+    @Override public KeyPair get(String name) {
         checkNotNull(name);
         checkArgument(!name.isEmpty());
         return keyPairConverter.apply(openstackKeyPairClient.get(name));
