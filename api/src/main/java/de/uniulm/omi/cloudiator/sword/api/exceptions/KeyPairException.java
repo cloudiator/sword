@@ -22,7 +22,7 @@ package de.uniulm.omi.cloudiator.sword.api.exceptions;
  * An exception that is thrown while acquiring a keypair
  * at the cloud provider.
  */
-public class KeyPairException extends Exception {
+public class KeyPairException extends RuntimeException {
     public KeyPairException() {
     }
 
