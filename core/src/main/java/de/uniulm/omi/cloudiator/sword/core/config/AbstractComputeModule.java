@@ -28,12 +28,15 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.MigrationService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.api.strategy.VirtualMachineMigrationStrategy;
 import de.uniulm.omi.cloudiator.sword.core.base.BaseDiscoveryService;
+import de.uniulm.omi.cloudiator.sword.core.base.BaseMigrationService;
 import de.uniulm.omi.cloudiator.sword.core.strategy.DefaultGetStrategy;
 
 import java.util.Set;
@@ -79,6 +82,14 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
     @Provides final Optional<KeyPairService> provideKeyPairService(Injector injector) {
         return keyPairService(injector);
+    }
+
+    @Provides final Optional<MigrationService> provideMigrationService(Injector injector,
+        Set<VirtualMachineMigrationStrategy> virtualMachineMigrationStrategies) {
+        if (virtualMachineMigrationStrategies.isEmpty()) {
+            return Optional.absent();
+        }
+        return Optional.of(injector.getInstance(BaseMigrationService.class));
     }
 
     @Provides @Singleton final Supplier<Set<Image>> provideImageSupplier(Injector injector) {
@@ -200,7 +211,7 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
     /**
      * Extension point for adding a {@link PublicIpService} extension.
-     * <p/>
+     * <p>
      * Defaults to {@link com.google.common.base.Absent}
      *
      * @param injector injector for instantiating new classes.
@@ -212,7 +223,7 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
     /**
      * Extension point for adding a {@link KeyPairService} extension.
-     * <p/>
+     * <p>
      * Defaults to {@link com.google.common.base.Absent}
      *
      * @param injector injector for instantiating new classes.

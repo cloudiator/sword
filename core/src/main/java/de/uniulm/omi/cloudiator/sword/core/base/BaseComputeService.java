@@ -23,6 +23,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.MigrationService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
@@ -47,6 +48,7 @@ public class BaseComputeService
     private final Optional<PublicIpService> publicIpService;
     private final Optional<KeyPairService> keyPairService;
     private final ConnectionService connectionService;
+    private final Optional<MigrationService> migrationService;
 
 
     @Inject public BaseComputeService(CreateVirtualMachineStrategy createVirtualMachineStrategy,
@@ -54,9 +56,7 @@ public class BaseComputeService
         RemoteConnectionFactory remoteConnectionFactory, ServiceConfiguration serviceConfiguration,
         DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine> discoveryService,
         Optional<PublicIpService> publicIpService, Optional<KeyPairService> keyPairService,
-        ConnectionService connectionService) {
-
-
+        ConnectionService connectionService, Optional<MigrationService> migrationService) {
 
         checkNotNull(createVirtualMachineStrategy);
         checkNotNull(deleteVirtualMachineStrategy);
@@ -66,6 +66,7 @@ public class BaseComputeService
         checkNotNull(keyPairService);
         checkNotNull(connectionService);
         checkNotNull(discoveryService);
+        checkNotNull(migrationService);
 
         this.createVirtualMachineStrategy = createVirtualMachineStrategy;
         this.deleteVirtualMachineStrategy = deleteVirtualMachineStrategy;
@@ -73,6 +74,7 @@ public class BaseComputeService
         this.keyPairService = keyPairService;
         this.connectionService = connectionService;
         this.discoveryService = discoveryService;
+        this.migrationService = migrationService;
     }
 
     @Override
@@ -102,5 +104,9 @@ public class BaseComputeService
 
     @Override public Optional<KeyPairService> keyPairService() {
         return keyPairService;
+    }
+
+    @Override public Optional<MigrationService> migrationService() {
+        return migrationService;
     }
 }

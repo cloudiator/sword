@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.api.service;
 import com.google.common.base.Optional;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.MigrationService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 
 /**
@@ -81,4 +82,6 @@ public interface ComputeService<H extends HardwareFlavor, I extends Image, L ext
      * @return an optional key pair service.
      */
     Optional<KeyPairService> keyPairService();
+
+    Optional<MigrationService> migrationService();
 }
