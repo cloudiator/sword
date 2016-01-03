@@ -73,6 +73,7 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
         Multibinder<VirtualMachineMigrationStrategy> virtualMachineMigrationStrategyBinder =
             Multibinder.newSetBinder(binder(), VirtualMachineMigrationStrategy.class);
+        this.registerVirtualMachineMigrationStrategy(virtualMachineMigrationStrategyBinder);
 
     }
 

@@ -83,5 +83,10 @@ public interface ComputeService<H extends HardwareFlavor, I extends Image, L ext
      */
     Optional<KeyPairService> keyPairService();
 
+    /**
+     * Returns an {@link Optional} {@link MigrationService} for the cloud provider.
+     *
+     * @return an optional migration service.
+     */
     Optional<MigrationService> migrationService();
 }
