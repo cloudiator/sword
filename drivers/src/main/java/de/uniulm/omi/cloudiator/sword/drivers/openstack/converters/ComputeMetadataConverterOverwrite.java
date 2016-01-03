@@ -25,17 +25,18 @@ import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.JCloudsComputeMetadataToVirtualMachine;
 import org.jclouds.compute.domain.ComputeMetadata;
+import org.jclouds.domain.Location;
 import org.jclouds.domain.LoginCredentials;
 
 /**
  * Overwrites functionality of the standard jclouds converter {@link de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.JCloudsComputeMetadataToVirtualMachine}
- * <p/>
+ * <p>
  * The jclouds implementation for Openstack seems to guess the username for the
  * login credentials. This obviously causes problems when using the for logins.
- * <p/>
+ * <p>
  * For this purpose, this custom converter removes the login credentials from
  * the object until we find a better solution for this issue.
- * <p/>
+ * <p>
  * In addition this should not impose a huge problem, as we support keypairs for
  * openstack.
  */
@@ -45,10 +46,11 @@ public class ComputeMetadataConverterOverwrite
     private final OneWayConverter<ComputeMetadata, VirtualMachine> baseJcloudsConverter;
 
     @Inject public ComputeMetadataConverterOverwrite(
-        OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter) {
+        OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter,
+        OneWayConverter<Location, de.uniulm.omi.cloudiator.sword.api.domain.Location> locationConverter) {
         //todo directly inject dependency?
         this.baseJcloudsConverter =
-            new JCloudsComputeMetadataToVirtualMachine(loginCredentialConverter);
+            new JCloudsComputeMetadataToVirtualMachine(loginCredentialConverter, locationConverter);
     }
 
     @Override public VirtualMachine apply(ComputeMetadata computeMetadata) {

@@ -25,6 +25,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineBuilder;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.NodeMetadata;
+import org.jclouds.domain.Location;
 import org.jclouds.domain.LoginCredentials;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -33,7 +34,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Converts a jclouds {@link ComputeMetadata} object into
  * a {@link VirtualMachine} object.
- * <p/>
+ * <p>
  * Requires the compute metadata object to be of type
  * {@link NodeMetadata}, as otherwise not all required
  * information is available.
@@ -42,17 +43,23 @@ public class JCloudsComputeMetadataToVirtualMachine
     implements OneWayConverter<ComputeMetadata, VirtualMachine> {
 
     private final OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter;
+    private final OneWayConverter<Location, de.uniulm.omi.cloudiator.sword.api.domain.Location>
+        locationConverter;
 
     /**
      * Constructor.
      *
-     * @param loginCredentialConverter a converter for the login credentials (non null)
+     * @param loginCredentialConverter a converter for the login credentials (mandatory)
+     * @param locationConverter        a converter for the location (mandatory)
      */
     @Inject public JCloudsComputeMetadataToVirtualMachine(
-        OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter) {
+        OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter,
+        OneWayConverter<Location, de.uniulm.omi.cloudiator.sword.api.domain.Location> locationConverter) {
 
+        checkNotNull(locationConverter);
         checkNotNull(loginCredentialConverter);
 
+        this.locationConverter = locationConverter;
         this.loginCredentialConverter = loginCredentialConverter;
     }
 
@@ -71,7 +78,7 @@ public class JCloudsComputeMetadataToVirtualMachine
             virtualMachineBuilder.loginCredential(this.loginCredentialConverter
                 .apply(((NodeMetadata) computeMetadata).getCredentials()));
         }
-
+        virtualMachineBuilder.location(locationConverter.apply(computeMetadata.getLocation()));
         return virtualMachineBuilder.build();
     }
 
