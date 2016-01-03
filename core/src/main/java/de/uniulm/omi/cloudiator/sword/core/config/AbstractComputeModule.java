@@ -22,6 +22,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.inject.*;
+import com.google.inject.multibindings.Multibinder;
 import de.uniulm.omi.cloudiator.sword.api.annotations.Memoized;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
@@ -69,6 +70,10 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
         bind(new TypeLiteral<GetStrategy<String, HardwareFlavor>>() {
         }).to(getHardwareFlavorStrategy());
+
+        Multibinder<VirtualMachineMigrationStrategy> virtualMachineMigrationStrategyBinder =
+            Multibinder.newSetBinder(binder(), VirtualMachineMigrationStrategy.class);
+
     }
 
     @Provides
@@ -231,6 +236,16 @@ public abstract class AbstractComputeModule extends AbstractModule {
      */
     protected Optional<KeyPairService> keyPairService(Injector injector) {
         return Optional.absent();
+    }
+
+    /**
+     * Extension point for registering new {@link VirtualMachineMigrationStrategy}.
+     *
+     * @param virtualMachineMigrationStrategyBinder the binder for registering new strategies.
+     */
+    protected void registerVirtualMachineMigrationStrategy(
+        final Multibinder<VirtualMachineMigrationStrategy> virtualMachineMigrationStrategyBinder) {
+        //intentionally left empty
     }
 
 
