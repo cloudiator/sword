@@ -84,6 +84,22 @@ public class LocationImpl implements Location {
         return this.isAssignable;
     }
 
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof LocationImpl))
+            return false;
+
+        LocationImpl location = (LocationImpl) o;
+
+        return id.equals(location.id);
+
+    }
+
+    @Override public int hashCode() {
+        return id.hashCode();
+    }
+
     @Override public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id).add("name", name)
             .add("isAssignable", isAssignable).add("locationScope", locationScope).toString();

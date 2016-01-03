@@ -7,6 +7,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.MigrationException;
 import de.uniulm.omi.cloudiator.sword.api.strategy.VirtualMachineMigrationStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.LocationHierachy;
+import org.jclouds.http.HttpResponseException;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.regionscoped.RegionAndId;
 import org.jclouds.openstack.nova.v2_0.extensions.ServerAdminApi;
@@ -89,7 +90,11 @@ public class NovaLiveMigrationStrategy implements VirtualMachineMigrationStrateg
         }
 
         //todo: find a way to derive if we need to use block-migrate, currently defaulting to true
-        serverAdminApi.liveMigrate(RegionAndId.fromSlashEncoded(virtualMachine.id()).getId(),
-            RegionAndId.fromSlashEncoded(to.id()).getId(), true, true);
+        try {
+            serverAdminApi.liveMigrate(RegionAndId.fromSlashEncoded(virtualMachine.id()).getId(),
+                RegionAndId.fromSlashEncoded(to.id()).getId(), true, true);
+        } catch (HttpResponseException e) {
+            throw new MigrationException("Migration failed.", e);
+        }
     }
 }

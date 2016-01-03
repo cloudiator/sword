@@ -59,6 +59,22 @@ public abstract class ResourceImpl implements Resource {
         return Optional.ofNullable(location);
     }
 
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof ResourceImpl))
+            return false;
+
+        ResourceImpl resource = (ResourceImpl) o;
+
+        return id.equals(resource.id);
+
+    }
+
+    @Override public int hashCode() {
+        return id.hashCode();
+    }
+
     @Override public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id).add("name", name).toString();
     }
