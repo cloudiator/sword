@@ -36,6 +36,8 @@ public class NovaLiveMigrationStrategy implements VirtualMachineMigrationStrateg
     @Override public void apply(VirtualMachine virtualMachine, Location to)
         throws MigrationException {
 
+        checkNotNull(virtualMachine, "VirtualMachine must not be null.");
+        checkNotNull(to, "To must not be null.");
 
         //no lambda, see https://bugs.openjdk.java.net/browse/JDK-8066974
         Location from = virtualMachine.location().orElseThrow(new Supplier<RuntimeException>() {
