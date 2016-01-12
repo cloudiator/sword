@@ -26,6 +26,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging.JCloudsLoggingModu
 import org.jclouds.ContextBuilder;
 import org.jclouds.View;
 import org.jclouds.aws.ec2.reference.AWSEC2Constants;
+import org.jclouds.googlecloud.config.GoogleCloudProperties;
 
 import java.io.Closeable;
 import java.util.Properties;
@@ -44,6 +45,14 @@ public class BaseJCloudsViewFactory implements JCloudsViewFactory {
         final Properties properties = new Properties();
         properties.setProperty(AWSEC2Constants.PROPERTY_EC2_AMI_QUERY,
             "owner-id=amazon,self;state=available;image-type=machine");
+
+        //todo more ugly hack to workaround wrong parsing in jclouds
+        if (serviceConfiguration.getProvider().equals("google-compute-engine")) {
+            String userName = serviceConfiguration.getCredentials().user();
+            String projectName =
+                userName.substring(userName.indexOf("@") + 1, userName.indexOf(".iam"));
+            properties.setProperty(GoogleCloudProperties.PROJECT_NAME, projectName);
+        }
 
         //todo duplicates code from NovaApiProvider
         this.contextBuilder = ContextBuilder.newBuilder(serviceConfiguration.getProvider());
