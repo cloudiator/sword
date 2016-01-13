@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2016 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -16,16 +16,20 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.api.domain;
+package de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain;
+
+import org.jclouds.domain.Location;
 
 /**
- * Created by daniel on 11.12.15.
+ * An extension to the basic {@link Location}.
+ * <p/>
+ * Also states if the location is assignable.
  */
-public enum LocationScope {
+public interface AssignableLocation extends Location {
 
-    PROVIDER,
-    REGION,
-    ZONE,
-    HOST
+    /**
+     * @return the location is assignable.
+     */
+    boolean isAssignable();
 
 }

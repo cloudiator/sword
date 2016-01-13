@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.config;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Injector;
+import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
@@ -50,8 +51,14 @@ import java.util.Set;
  */
 public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
-    protected Class<? extends JCloudsComputeClient> jCloudsComputeClient() {
-        return JCloudsComputeClientImpl.class;
+    @Provides private JCloudsComputeClient provideJCloudsComputeClient(Injector injector) {
+        return overrideComputeClient(injector,
+            injector.getInstance(JCloudsComputeClientImpl.class));
+    }
+
+    protected JCloudsComputeClient overrideComputeClient(Injector injector,
+        JCloudsComputeClient originalComputeClient) {
+        return originalComputeClient;
     }
 
     @Override protected final Supplier<Set<Image>> imageSupplier(Injector injector) {
@@ -139,9 +146,6 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
     @Override protected void configure() {
         super.configure();
-
-        //bind the compute client
-        bind(JCloudsComputeClient.class).to(jCloudsComputeClient());
 
         //bind the image converter
         bind(new TypeLiteral<OneWayConverter<org.jclouds.compute.domain.Image, Image>>() {
