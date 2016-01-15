@@ -65,5 +65,9 @@
             <groupId>io.github.cloudiator</groupId>
             <artifactId>common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.jclouds.driver</groupId>
+            <artifactId>jclouds-jsch</artifactId>
+        </dependency>
     </dependencies>
 </project>
