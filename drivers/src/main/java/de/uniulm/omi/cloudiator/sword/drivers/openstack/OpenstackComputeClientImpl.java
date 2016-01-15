@@ -20,9 +20,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClientImpl;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocation;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocationImpl;
+import org.jclouds.compute.domain.*;
 import org.jclouds.domain.Location;
 import org.jclouds.domain.LocationBuilder;
 import org.jclouds.domain.LocationScope;
@@ -45,23 +46,23 @@ import static com.google.common.base.Preconditions.checkArgument;
  * <p/>
  * Adds the availability zones of Openstack to the list assignable locations method.
  */
-public class OpenstackComputeClientImpl extends JCloudsComputeClientImpl {
+public class OpenstackComputeClientImpl implements JCloudsComputeClient {
 
     private final NovaApi novaApi;
+    private final JCloudsComputeClient delegate;
 
-    @Inject public OpenstackComputeClientImpl(JCloudsViewFactory jCloudsViewFactory,
-        ServiceConfiguration serviceConfiguration, NovaApi novaApi) {
-        super(jCloudsViewFactory, serviceConfiguration);
+    @Inject public OpenstackComputeClientImpl(JCloudsComputeClient delegate, NovaApi novaApi) {
+        this.delegate = delegate;
         this.novaApi = novaApi;
     }
 
-    @Override public Set<? extends Location> listAssignableLocations() {
-        Set<Location> locations = new HashSet<>();
+    @Override public Set<? extends AssignableLocation> listLocations() {
+        Set<AssignableLocation> locations = new HashSet<>();
 
-        for (Location location : super.listAssignableLocations()) {
+        for (AssignableLocation location : delegate.listLocations()) {
             locations.add(location);
             if (location.getScope().equals(LocationScope.REGION)) {
-                final Set<Location> availabilityZones =
+                final Set<AssignableLocation> availabilityZones =
                     new AvailabilityZoneSupplierForRegion(location).get();
                 locations.addAll(availabilityZones);
                 for (Location availabilityZone : availabilityZones) {
@@ -72,7 +73,31 @@ public class OpenstackComputeClientImpl extends JCloudsComputeClientImpl {
         return locations;
     }
 
-    private class AvailabilityZoneSupplierForRegion implements Supplier<Set<Location>> {
+    @Override public Set<? extends Image> listImages() {
+        return delegate.listImages();
+    }
+
+    @Override public Set<? extends Hardware> listHardwareProfiles() {
+        return delegate.listHardwareProfiles();
+    }
+
+    @Override public Set<? extends ComputeMetadata> listNodes() {
+        return delegate.listNodes();
+    }
+
+    @Override public NodeMetadata createNode(Template template) {
+        return delegate.createNode(template);
+    }
+
+    @Override public void deleteNode(String id) {
+        delegate.deleteNode(id);
+    }
+
+    @Override public TemplateBuilder templateBuilder() {
+        return delegate.templateBuilder();
+    }
+
+    private class AvailabilityZoneSupplierForRegion implements Supplier<Set<AssignableLocation>> {
 
         private final Location region;
 
@@ -81,7 +106,7 @@ public class OpenstackComputeClientImpl extends JCloudsComputeClientImpl {
             this.region = region;
         }
 
-        @Override public Set<Location> get() {
+        @Override public Set<AssignableLocation> get() {
 
             Set<AvailabilityZone> availabilityZones = new HashSet<>();
             if (novaApi.getAvailabilityZoneApi(region.getId()).isPresent()) {
@@ -94,20 +119,20 @@ public class OpenstackComputeClientImpl extends JCloudsComputeClientImpl {
         }
 
         private class AvailabilityZoneToJCloudsLocationConverter
-            implements OneWayConverter<AvailabilityZone, Location> {
+            implements OneWayConverter<AvailabilityZone, AssignableLocation> {
 
-            @Override public Location apply(AvailabilityZone availabilityZone) {
+            @Override public AssignableLocation apply(AvailabilityZone availabilityZone) {
                 //todo: do we need to check the zone state?
-                return new LocationBuilder().scope(LocationScope.ZONE)
+                return new AssignableLocationImpl(new LocationBuilder().scope(LocationScope.ZONE)
                     .id(RegionAndId.fromRegionAndId(region.getId(), availabilityZone.getName())
                         .slashEncode()).parent(region).description(availabilityZone.getName())
-                    .build();
+                    .build(), true);
             }
         }
     }
 
 
-    private class HostSupplierForAvailabilityZone implements Supplier<Set<Location>> {
+    private class HostSupplierForAvailabilityZone implements Supplier<Set<AssignableLocation>> {
 
         private final Location availabilityZone;
 
@@ -115,7 +140,7 @@ public class OpenstackComputeClientImpl extends JCloudsComputeClientImpl {
             this.availabilityZone = availabilityZone;
         }
 
-        @Override public Set<Location> get() {
+        @Override public Set<AssignableLocation> get() {
             Set<Host> hosts = new HashSet<>();
             try {
                 if (novaApi.getHostAdministrationApi(availabilityZone.getParent().getId())
@@ -135,12 +160,15 @@ public class OpenstackComputeClientImpl extends JCloudsComputeClientImpl {
                 .collect(Collectors.toSet());
         }
 
-        private class HostToJCloudsLocationConverter implements OneWayConverter<Host, Location> {
+        private class HostToJCloudsLocationConverter
+            implements OneWayConverter<Host, AssignableLocation> {
 
-            @Override public Location apply(Host host) {
-                return new LocationBuilder().scope(LocationScope.HOST).id(RegionAndId
-                    .fromRegionAndId(availabilityZone.getParent().getId(), host.getName())
-                    .slashEncode()).description(host.getName()).parent(availabilityZone).build();
+            @Override public AssignableLocation apply(Host host) {
+                return new AssignableLocationImpl(new LocationBuilder().scope(LocationScope.HOST)
+                    .id(RegionAndId
+                        .fromRegionAndId(availabilityZone.getParent().getId(), host.getName())
+                        .slashEncode()).description(host.getName()).parent(availabilityZone)
+                    .build(), true);
             }
         }
 

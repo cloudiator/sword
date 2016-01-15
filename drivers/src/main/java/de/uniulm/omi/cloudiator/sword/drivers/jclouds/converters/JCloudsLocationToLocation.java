@@ -25,6 +25,7 @@ import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.core.domain.LocationBuilder;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocation;
 
 import java.util.Map;
 
@@ -48,14 +49,15 @@ public class JCloudsLocationToLocation
         }
 
         final LocationBuilder builder =
-            LocationBuilder.newBuilder().id(location.getId()).name(location.getDescription());
+            LocationBuilder.newBuilder().id(location.getId()).name(location.getId());
 
-        builder.assignable(true);
+        if (location instanceof AssignableLocation) {
+            builder.assignable(((AssignableLocation) location).isAssignable());
+        } else {
+            builder.assignable(true);
+        }
 
-        // we ignore the provider scope, as it is not returned by the list action.
-        // todo: check if this intended...
-        if (location.getParent() != null
-            && location.getParent().getScope() != org.jclouds.domain.LocationScope.PROVIDER) {
+        if (location.getParent() != null) {
             final Location parent = apply(location.getParent());
             builder.parent(parent);
         }
@@ -73,6 +75,7 @@ public class JCloudsLocationToLocation
         static {
             final ImmutableMap.Builder<org.jclouds.domain.LocationScope, LocationScope> builder =
                 ImmutableMap.builder();
+            builder.put(org.jclouds.domain.LocationScope.PROVIDER, LocationScope.PROVIDER);
             builder.put(org.jclouds.domain.LocationScope.REGION, LocationScope.REGION);
             builder.put(org.jclouds.domain.LocationScope.ZONE, LocationScope.ZONE);
             builder.put(org.jclouds.domain.LocationScope.HOST, LocationScope.HOST);
