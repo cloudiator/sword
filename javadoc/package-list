@@ -25,9 +25,12 @@ de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters
 de.uniulm.omi.cloudiator.sword.drivers.flexiant.strategy
 de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers
 de.uniulm.omi.cloudiator.sword.drivers.flexiant.util
+de.uniulm.omi.cloudiator.sword.drivers.google.config
+de.uniulm.omi.cloudiator.sword.drivers.google.converters
 de.uniulm.omi.cloudiator.sword.drivers.jclouds
 de.uniulm.omi.cloudiator.sword.drivers.jclouds.config
 de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters
+de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain
 de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging
 de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy
 de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers
