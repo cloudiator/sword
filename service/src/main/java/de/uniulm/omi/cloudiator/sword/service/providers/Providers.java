@@ -23,6 +23,7 @@ import de.uniulm.omi.cloudiator.sword.api.exceptions.ProviderNotFoundException;
 import de.uniulm.omi.cloudiator.sword.core.base.BaseComputeService;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.config.Ec2ComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.config.FlexiantComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.google.config.GoogleCloudComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.config.OpenstackComputeModule;
 
 import java.util.HashMap;
@@ -63,6 +64,11 @@ public class Providers {
         ec2Modules.add(new Ec2ComputeModule());
         registerProvider(
             new ProviderConfiguration("aws-ec2", ec2Modules, BaseComputeService.class));
+        //Google
+        final Set<AbstractModule> googleModules = new HashSet<>();
+        googleModules.add(new GoogleCloudComputeModule());
+        registerProvider(new ProviderConfiguration("google-compute-engine", googleModules,
+            BaseComputeService.class));
     }
 
     public static void registerProvider(ProviderConfiguration providerConfiguration) {

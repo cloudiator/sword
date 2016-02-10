@@ -19,15 +19,21 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
 
 
+import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.DriverException;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocation;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocationImpl;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.RunNodesException;
 import org.jclouds.compute.domain.*;
 import org.jclouds.domain.Location;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.*;
 
@@ -56,14 +62,32 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
     }
 
     @Override public Set<? extends Hardware> listHardwareProfiles() {
-
-
-
         return this.computeServiceContext.getComputeService().listHardwareProfiles();
     }
 
-    @Override public Set<? extends Location> listAssignableLocations() {
-        return this.computeServiceContext.getComputeService().listAssignableLocations();
+    @Override public Set<? extends AssignableLocation> listLocations() {
+
+        Set<AssignableLocation> jCloudLocations = new HashSet<>(
+            computeServiceContext.getComputeService().listAssignableLocations().size());
+        jCloudLocations.addAll(
+            computeServiceContext.getComputeService().listAssignableLocations().stream()
+                .map(new Function<Location, AssignableLocation>() {
+                    @Override public AssignableLocation apply(Location location) {
+                        return new AssignableLocationImpl(location, true);
+                    }
+                }).collect(Collectors.toList()));
+
+        //todo code is rather clumsy. realizes on hashset not adding the new data, and the equals
+        //method not picking up the isAssignable...
+        Set<AssignableLocation> parentLocations = new HashSet<>();
+        for (Location location : jCloudLocations) {
+            for (Location parent = location.getParent();
+                 parent != null; parent = parent.getParent()) {
+                parentLocations.add(new AssignableLocationImpl(parent, false));
+            }
+        }
+        jCloudLocations.addAll(parentLocations);
+        return ImmutableSet.copyOf(jCloudLocations);
     }
 
     @Override public Set<? extends ComputeMetadata> listNodes() {

@@ -74,8 +74,10 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
         return Optional.fromNullable(injector.getInstance(OpenstackKeyPairService.class));
     }
 
-    @Override protected Class<? extends JCloudsComputeClient> jCloudsComputeClient() {
-        return OpenstackComputeClientImpl.class;
+    @Override protected JCloudsComputeClient overrideComputeClient(Injector injector,
+        JCloudsComputeClient originalComputeClient) {
+        return new OpenstackComputeClientImpl(originalComputeClient,
+            injector.getInstance(NovaApi.class));
     }
 
     @Override

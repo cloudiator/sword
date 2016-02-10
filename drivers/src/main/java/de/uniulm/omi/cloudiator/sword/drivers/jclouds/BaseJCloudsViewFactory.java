@@ -26,8 +26,11 @@ import de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging.JCloudsLoggingModu
 import org.jclouds.ContextBuilder;
 import org.jclouds.View;
 import org.jclouds.aws.ec2.reference.AWSEC2Constants;
+import org.jclouds.googlecloud.config.GoogleCloudProperties;
+import org.jclouds.ssh.jsch.config.JschSshClientModule;
 
 import java.io.Closeable;
+import java.util.Collections;
 import java.util.Properties;
 
 /**
@@ -45,12 +48,22 @@ public class BaseJCloudsViewFactory implements JCloudsViewFactory {
         properties.setProperty(AWSEC2Constants.PROPERTY_EC2_AMI_QUERY,
             "owner-id=amazon,self;state=available;image-type=machine");
 
+        //todo more ugly hack to workaround wrong parsing in jclouds
+        if (serviceConfiguration.getProvider().equals("google-compute-engine")) {
+            String userName = serviceConfiguration.getCredentials().user();
+            String projectName =
+                userName.substring(userName.indexOf("@") + 1, userName.indexOf(".iam"));
+            properties.setProperty(GoogleCloudProperties.PROJECT_NAME, projectName);
+        }
+
         //todo duplicates code from NovaApiProvider
+        // loading ssh module of jclouds as it seems to be required for google,
+        // we are using the jschsshclient as the sshj conflicts with the overthere bouncy castle impl.
         this.contextBuilder = ContextBuilder.newBuilder(serviceConfiguration.getProvider());
         contextBuilder.credentials(serviceConfiguration.getCredentials().user(),
             serviceConfiguration.getCredentials().password())
             .modules(ImmutableSet.of(new JCloudsLoggingModule(loggerFactory)))
-            .overrides(properties);
+            .modules(Collections.singletonList(new JschSshClientModule())).overrides(properties);
 
 
         // setting optional endpoint, check for present first
