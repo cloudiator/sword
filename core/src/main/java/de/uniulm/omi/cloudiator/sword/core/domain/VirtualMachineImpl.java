@@ -25,6 +25,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 
@@ -54,7 +55,10 @@ public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
     }
 
     @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id()).add("name", name()).toString();
+        return MoreObjects.toStringHelper(this).add("id", id()).add("name", name())
+            .add("location", location())
+            .add("publicIpAddresses", Arrays.toString(publicAddresses().toArray()))
+            .add("privateIpAddresses", Arrays.toString(privateAddresses().toArray())).toString();
     }
 
     @Override public Set<String> publicAddresses() {
