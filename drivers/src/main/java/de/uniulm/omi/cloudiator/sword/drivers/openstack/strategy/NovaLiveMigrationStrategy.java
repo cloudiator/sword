@@ -12,8 +12,6 @@ import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.regionscoped.RegionAndId;
 import org.jclouds.openstack.nova.v2_0.extensions.ServerAdminApi;
 
-import java.util.function.Supplier;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -41,12 +39,8 @@ public class NovaLiveMigrationStrategy implements VirtualMachineMigrationStrateg
         checkNotNull(to, "To must not be null.");
 
         //no lambda, see https://bugs.openjdk.java.net/browse/JDK-8066974
-        Location from = virtualMachine.location().orElseThrow(new Supplier<RuntimeException>() {
-            @Override public RuntimeException get() {
-                throw new IllegalStateException(
-                    String.format("Expected location to be available for %s", virtualMachine));
-            }
-        });
+        Location from = virtualMachine.location().orElseThrow(() -> new IllegalStateException(
+            String.format("Expected location to be available for %s", virtualMachine)));
 
         if (!(from.locationScope().equals(LocationScope.HOST) && to.locationScope()
             .equals(LocationScope.HOST))) {
@@ -56,24 +50,15 @@ public class NovaLiveMigrationStrategy implements VirtualMachineMigrationStrateg
         }
 
         //check for the same region
-        //no lambda, see https://bugs.openjdk.java.net/browse/JDK-8066974
         Location fromRegion = LocationHierachy.of(from).findParentOfScope(LocationScope.REGION)
-            .orElseThrow(new Supplier<RuntimeException>() {
-                @Override public RuntimeException get() {
-                    throw new IllegalStateException(String.format(
-                        "Expected from %s to have a parent of scope region, but none was found.",
-                        from));
-                }
-            });
-        //no lambda, see https://bugs.openjdk.java.net/browse/JDK-8066974
+            .orElseThrow(() -> new IllegalStateException(String
+                .format("Expected from %s to have a parent of scope region, but none was found.",
+                    from)));
+        
         Location toRegion = LocationHierachy.of(to).findParentOfScope(LocationScope.REGION)
-            .orElseThrow(new Supplier<RuntimeException>() {
-                @Override public RuntimeException get() {
-                    throw new IllegalStateException(String.format(
-                        "Expected to %s to have a parent of scope region, but none was found.",
-                        to));
-                }
-            });
+            .orElseThrow(() -> new IllegalStateException(String
+                .format("Expected to %s to have a parent of scope region, but none was found.",
+                    to)));
 
         if (!fromRegion.equals(toRegion)) {
             throw new MigrationException(String.format(
