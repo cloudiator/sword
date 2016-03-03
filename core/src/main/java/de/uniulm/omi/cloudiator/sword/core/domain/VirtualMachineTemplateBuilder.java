@@ -21,15 +21,18 @@ package de.uniulm.omi.cloudiator.sword.core.domain;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 
+import javax.annotation.Nullable;
+
 /**
  * Created by daniel on 09.01.15.
  */
 public class VirtualMachineTemplateBuilder {
 
+    @Nullable private String name;
     private String imageId;
     private String hardwareFlavorId;
     private String locationId;
-    private TemplateOptions templateOptions;
+    @Nullable private TemplateOptions templateOptions;
 
     private VirtualMachineTemplateBuilder() {
     }
@@ -43,6 +46,11 @@ public class VirtualMachineTemplateBuilder {
             .hardwareFlavor(virtualMachineTemplate.hardwareFlavorId())
             .location(virtualMachineTemplate.locationId())
             .templateOptions(virtualMachineTemplate.templateOptions().orNull());
+    }
+
+    public VirtualMachineTemplateBuilder name(@Nullable final String name) {
+        this.name = name;
+        return this;
     }
 
     public VirtualMachineTemplateBuilder image(final String imageId) {
@@ -66,7 +74,7 @@ public class VirtualMachineTemplateBuilder {
     }
 
     public VirtualMachineTemplate build() {
-        return new VirtualMachineTemplateImpl(imageId, hardwareFlavorId, locationId,
+        return new VirtualMachineTemplateImpl(name, imageId, hardwareFlavorId, locationId,
             templateOptions);
     }
 

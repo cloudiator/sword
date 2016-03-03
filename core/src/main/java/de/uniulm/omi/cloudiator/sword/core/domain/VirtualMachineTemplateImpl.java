@@ -32,14 +32,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class VirtualMachineTemplateImpl implements VirtualMachineTemplate {
 
+    @Nullable private final String name;
     private final String imageId;
     private final String hardwareFlavorId;
     private final String locationId;
-    private final Optional<TemplateOptions> templateOptions;
+    @Nullable private final TemplateOptions templateOptions;
 
 
-    VirtualMachineTemplateImpl(String imageId, String hardwareFlavorId, String locationId,
-        @Nullable TemplateOptions templateOptions) {
+    VirtualMachineTemplateImpl(@Nullable String name, String imageId, String hardwareFlavorId,
+        String locationId, @Nullable TemplateOptions templateOptions) {
 
         checkNotNull(imageId);
         checkArgument(!imageId.isEmpty());
@@ -53,7 +54,12 @@ public class VirtualMachineTemplateImpl implements VirtualMachineTemplate {
         this.imageId = imageId;
         this.hardwareFlavorId = hardwareFlavorId;
         this.locationId = locationId;
-        this.templateOptions = Optional.fromNullable(templateOptions);
+        this.templateOptions = templateOptions;
+        this.name = name;
+    }
+
+    @Override public Optional<String> name() {
+        return Optional.fromNullable(name);
     }
 
     @Override public String imageId() {
@@ -69,6 +75,6 @@ public class VirtualMachineTemplateImpl implements VirtualMachineTemplate {
     }
 
     @Override public Optional<TemplateOptions> templateOptions() {
-        return templateOptions;
+        return Optional.fromNullable(templateOptions);
     }
 }

@@ -34,6 +34,7 @@ public class VirtualMachineTemplateImplTest {
     String imageId = "imageId";
     String locationId = "locationId";
     String hardwareId = "hardwareId";
+    String testName = "name";
     TemplateOptions templateOptions =
         TemplateOptionsBuilder.newBuilder().keyPairName("keyPairName").addOption("key", "value")
             .build();
@@ -44,14 +45,20 @@ public class VirtualMachineTemplateImplTest {
 
     @Before public void setUp() throws Exception {
         validVirtualMachineTemplateBuilder =
-            VirtualMachineTemplateBuilder.newBuilder().hardwareFlavor(hardwareId).image(imageId)
-                .location(locationId).templateOptions(templateOptions);
+            VirtualMachineTemplateBuilder.newBuilder().name(testName).hardwareFlavor(hardwareId)
+                .image(imageId).location(locationId).templateOptions(templateOptions);
         validVirtualMachineTemplate = validVirtualMachineTemplateBuilder.build();
     }
 
     @Test(expected = NullPointerException.class) public void testConstructorDisallowsNullImageId()
         throws Exception {
         validVirtualMachineTemplateBuilder.image(null).build();
+    }
+
+    @Test public void testConstructorAllowsNullName() throws Exception {
+        VirtualMachineTemplate nullNameTemplate =
+            validVirtualMachineTemplateBuilder.name(null).build();
+        assertThat(nullNameTemplate.name().isPresent(), equalTo(false));
     }
 
     @Test(expected = NullPointerException.class)
@@ -77,6 +84,10 @@ public class VirtualMachineTemplateImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorDisallowsEmptyHardwareId() throws Exception {
         validVirtualMachineTemplateBuilder.hardwareFlavor("").build();
+    }
+
+    @Test public void testName() throws Exception {
+        assertThat(validVirtualMachineTemplate.name().get(), equalTo(testName));
     }
 
     @Test public void testImageId() throws Exception {
