@@ -26,9 +26,9 @@ import com.google.common.base.Optional;
 public interface VirtualMachineTemplate {
 
     /**
-     * @return an {@link Optional} name used for the virtual machine.
+     * @return the name used for the virtual machine.
      */
-    Optional<String> name();
+    String name();
 
     /**
      * @return the id of the image to use.

@@ -29,6 +29,8 @@ import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Template;
 import org.jclouds.compute.domain.TemplateBuilder;
 
+import java.util.Collections;
+
 /**
  * Created by daniel on 12.01.15.
  */
@@ -61,11 +63,26 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
             .imageId(virtualMachineTemplateToUse.imageId())
             .locationId(virtualMachineTemplateToUse.locationId());
 
+        final org.jclouds.compute.options.TemplateOptions jcloudsTemplateOptions;
+
         if (virtualMachineTemplate.templateOptions().isPresent()) {
-            templateBuilder.options(modifyTemplateOptions(virtualMachineTemplate,
-                templateOptionsConverter
-                    .apply(virtualMachineTemplateToUse.templateOptions().get())));
+
+            //convert the template options
+            jcloudsTemplateOptions =
+                templateOptionsConverter.apply(virtualMachineTemplateToUse.templateOptions().get());
+
+            //set the name
+            jcloudsTemplateOptions.nodeNames(Collections.singleton(virtualMachineTemplate.name()));
+        } else {
+            //create a template options object for setting the name
+            jcloudsTemplateOptions = new org.jclouds.compute.options.TemplateOptions();
+            jcloudsTemplateOptions.nodeNames(Collections.singleton(virtualMachineTemplate.name()));
+            templateBuilder.options(jcloudsTemplateOptions);
         }
+
+        //call extension point
+        templateBuilder
+            .options(modifyTemplateOptions(virtualMachineTemplate, jcloudsTemplateOptions));
 
         final Template template = templateBuilder.build();
 
