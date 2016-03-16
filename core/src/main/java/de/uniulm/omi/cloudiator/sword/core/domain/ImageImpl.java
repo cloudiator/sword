@@ -19,21 +19,32 @@
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import com.google.common.base.MoreObjects;
+import de.uniulm.omi.cloudiator.common.os.OperatingSystem;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * Created by daniel on 01.12.14.
  */
 public class ImageImpl extends ResourceImpl implements Image {
 
-    ImageImpl(String id, String name, @Nullable Location location) {
+    @Nullable private final OperatingSystem operatingSystem;
+
+    ImageImpl(String id, String name, @Nullable Location location,
+        @Nullable OperatingSystem operatingSystem) {
         super(id, name, location);
+        this.operatingSystem = operatingSystem;
     }
 
     @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id()).add("name", name()).toString();
+        return MoreObjects.toStringHelper(this).add("id", id()).add("name", name())
+            .add("os", operatingSystem).toString();
+    }
+
+    @Override public Optional<OperatingSystem> operatingSystem() {
+        return Optional.ofNullable(operatingSystem);
     }
 }

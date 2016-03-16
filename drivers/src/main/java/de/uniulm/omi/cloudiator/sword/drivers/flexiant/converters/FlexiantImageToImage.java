@@ -28,7 +28,11 @@ import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.ImageBuilder;
 
 /**
- * Created by daniel on 05.12.14.
+ * A {@link OneWayConverter} converting images retrieved by the
+ * flexiant client ({@link de.uniulm.omi.cloudiator.flexiant.client.domain.Image})
+ * to a sword image ({@link Image})
+ *
+ * @todo does not support operating system detection
  */
 public class FlexiantImageToImage
     implements OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image> {
@@ -42,6 +46,6 @@ public class FlexiantImageToImage
     @Override public Image apply(de.uniulm.omi.cloudiator.flexiant.client.domain.Image image) {
         return ImageBuilder.newBuilder().id(image.getLocationUUID() + "/" + image.getId())
             .name(image.getName()).location(locationGetStrategy.get(image.getLocationUUID()))
-            .build();
+            .os(null).build();
     }
 }

@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import de.uniulm.omi.cloudiator.common.os.*;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
@@ -37,27 +38,42 @@ public class ImageImplTest {
     private final Location testLocation =
         LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
             .scope(LocationScope.REGION).build();
+    private final OperatingSystem testOs =
+        OperatingSystemBuilder.newBuilder().architecture(OperatingSystemArchitecture.AMD64)
+            .family(OperatingSystemFamily.UBUNTU).version(OperatingSystemVersion.of("14.04"))
+            .build();
     private Image validImage;
+    private ImageBuilder validImageBuilder;
 
     @Before public void before() {
-        validImage =
-            ImageBuilder.newBuilder().id(testId).name(testName).location(testLocation).build();
+
+        validImageBuilder =
+            ImageBuilder.newBuilder().id(testId).name(testName).location(testLocation).os(testOs);
+        validImage = validImageBuilder.build();
     }
 
     @Test(expected = NullPointerException.class) public void idNotNullableTest() {
-        ImageBuilder.newBuilder().id(null).name(testName).location(testLocation).build();
+        validImageBuilder.id(null).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void idNotEmptyTest() {
-        ImageBuilder.newBuilder().id("").name(testName).location(testLocation).build();
+        validImageBuilder.id("").build();
     }
 
     @Test(expected = NullPointerException.class) public void nameNotNullableTest() {
-        ImageBuilder.newBuilder().id(testId).name(null).location(testLocation).build();
+        validImageBuilder.name(null).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void nameNotEmptyTest() {
-        ImageBuilder.newBuilder().id(testId).name("").location(testLocation).build();
+        validImageBuilder.name("").build();
+    }
+
+    @Test public void getOperatingSystemTest() {
+        Image underTest = validImage;
+        assertThat(underTest.operatingSystem().isPresent(), equalTo(true));
+        assertThat(underTest.operatingSystem().get(), equalTo(testOs));
+        underTest = validImageBuilder.os(null).build();
+        assertThat(underTest.operatingSystem().isPresent(), equalTo(false));
     }
 
 

@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import de.uniulm.omi.cloudiator.common.os.OperatingSystem;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 
 /**
@@ -28,6 +29,7 @@ public class ImageBuilder {
     private String id;
     private String name;
     private Location location;
+    private OperatingSystem os;
 
     private ImageBuilder() {
 
@@ -52,7 +54,12 @@ public class ImageBuilder {
         return this;
     }
 
+    public ImageBuilder os(OperatingSystem os) {
+        this.os = os;
+        return this;
+    }
+
     public ImageImpl build() {
-        return new ImageImpl(id, name, location);
+        return new ImageImpl(id, name, location, os);
     }
 }
