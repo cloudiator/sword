@@ -33,7 +33,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Converts a jclouds {@link ComputeMetadata} object into
  * a {@link VirtualMachine} object.
- * <p/>
+ * <p>
  * Requires the compute metadata object to be of type
  * {@link NodeMetadata}, as otherwise not all required
  * information is available.
@@ -61,7 +61,8 @@ public class JCloudsComputeMetadataToVirtualMachine
         checkArgument(computeMetadata instanceof NodeMetadata);
 
         VirtualMachineBuilder virtualMachineBuilder = VirtualMachineBuilder.newBuilder();
-        virtualMachineBuilder.id(computeMetadata.getId()).name(computeMetadata.getName());
+        virtualMachineBuilder.id(computeMetadata.getId())
+            .providerId(computeMetadata.getProviderId()).name(computeMetadata.getName());
 
         ((NodeMetadata) computeMetadata).getPrivateAddresses()
             .forEach(virtualMachineBuilder::addPrivateIpAddress);

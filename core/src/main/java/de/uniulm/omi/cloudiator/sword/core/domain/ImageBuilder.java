@@ -26,6 +26,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 public class ImageBuilder {
 
     private String id;
+    private String providerId;
     private String name;
     private Location location;
 
@@ -42,6 +43,11 @@ public class ImageBuilder {
         return this;
     }
 
+    public ImageBuilder providerId(String providerId) {
+        this.providerId = providerId;
+        return this;
+    }
+
     public ImageBuilder name(String name) {
         this.name = name;
         return this;
@@ -53,6 +59,6 @@ public class ImageBuilder {
     }
 
     public ImageImpl build() {
-        return new ImageImpl(id, name, location);
+        return new ImageImpl(id, providerId, name, location);
     }
 }

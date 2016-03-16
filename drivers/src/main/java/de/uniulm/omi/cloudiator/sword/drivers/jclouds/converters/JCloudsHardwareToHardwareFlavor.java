@@ -57,8 +57,9 @@ public class JCloudsHardwareToHardwareFlavor implements OneWayConverter<Hardware
             }
         }
 
-        return HardwareFlavorBuilder.newBuilder().id(hardware.getId()).name(forceName(hardware))
-            .cores(cores).mbRam(hardware.getRam()).gbDisk(gbDisk)
+        return HardwareFlavorBuilder.newBuilder().id(hardware.getId())
+            .providerId(hardware.getProviderId()).name(forceName(hardware)).cores(cores)
+            .mbRam(hardware.getRam()).gbDisk(gbDisk)
             .location(locationConverter.apply(hardware.getLocation())).build();
     }
 

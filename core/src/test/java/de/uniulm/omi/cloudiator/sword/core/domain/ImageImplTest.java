@@ -33,36 +33,51 @@ import static org.hamcrest.Matchers.equalTo;
 public class ImageImplTest {
 
     private final String testId = "123456";
+    private final String testProviderId = "providerId";
     private final String testName = "name";
     private final Location testLocation =
         LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
             .scope(LocationScope.REGION).build();
     private Image validImage;
+    private ImageBuilder validImageBuilder;
 
     @Before public void before() {
-        validImage =
-            ImageBuilder.newBuilder().id(testId).name(testName).location(testLocation).build();
+        validImageBuilder =
+            ImageBuilder.newBuilder().id(testId).providerId(testProviderId).name(testName)
+                .location(testLocation);
+        validImage = validImageBuilder.build();
     }
 
     @Test(expected = NullPointerException.class) public void idNotNullableTest() {
-        ImageBuilder.newBuilder().id(null).name(testName).location(testLocation).build();
+        validImageBuilder.id(null).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void idNotEmptyTest() {
-        ImageBuilder.newBuilder().id("").name(testName).location(testLocation).build();
+        validImageBuilder.id("").build();
+    }
+
+    @Test(expected = NullPointerException.class) public void providerIdNotNullableTest() {
+        validImageBuilder.providerId(null).build();
+    }
+
+    @Test(expected = IllegalArgumentException.class) public void providerIdNotEmptyTest() {
+        validImageBuilder.providerId("").build();
     }
 
     @Test(expected = NullPointerException.class) public void nameNotNullableTest() {
-        ImageBuilder.newBuilder().id(testId).name(null).location(testLocation).build();
+        validImageBuilder.name(null).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void nameNotEmptyTest() {
-        ImageBuilder.newBuilder().id(testId).name("").location(testLocation).build();
+        validImageBuilder.name("").build();
     }
-
 
     @Test public void getIdTest() {
         assertThat(validImage.id(), equalTo(testId));
+    }
+
+    @Test public void getProviderIdTest() {
+        assertThat(validImage.providerId(), equalTo(testProviderId));
     }
 
     @Test public void getNameTest() {

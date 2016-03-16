@@ -40,8 +40,8 @@ public class JCloudsImageToImage
     }
 
     @Override public Image apply(org.jclouds.compute.domain.Image image) {
-        return ImageBuilder.newBuilder().id(image.getId()).name(forceName(image))
-            .location(locationConverter.apply(image.getLocation())).build();
+        return ImageBuilder.newBuilder().id(image.getId()).providerId(image.getProviderId())
+            .name(forceName(image)).location(locationConverter.apply(image.getLocation())).build();
     }
 
     private String forceName(org.jclouds.compute.domain.Image image) {
