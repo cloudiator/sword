@@ -35,9 +35,9 @@ public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
     protected long ram;
     protected Float gbDisk;
 
-    HardwareFlavorImpl(String id, String name, @Nullable Location location, int cores, long ram,
-        @Nullable Float gbDisk) {
-        super(id, name, location);
+    HardwareFlavorImpl(String id, String providerId, String name, @Nullable Location location,
+        int cores, long ram, @Nullable Float gbDisk) {
+        super(id, providerId, name, location);
         checkArgument(cores > 0, "Cores must be > 0");
         checkArgument(ram > 0, "RAM must be > 0");
         if (gbDisk != null) {
@@ -61,7 +61,7 @@ public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
     }
 
     @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id()).add("name", id())
-            .add("cores", cores).add("ram", ram).add("disk", gbDisk).toString();
+        return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
+            .add("name", id()).add("cores", cores).add("ram", ram).add("disk", gbDisk).toString();
     }
 }

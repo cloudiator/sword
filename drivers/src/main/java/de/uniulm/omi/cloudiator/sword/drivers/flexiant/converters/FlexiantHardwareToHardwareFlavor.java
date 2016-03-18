@@ -41,7 +41,7 @@ public class FlexiantHardwareToHardwareFlavor implements OneWayConverter<Hardwar
     @Override public HardwareFlavor apply(Hardware hardware) {
         String id = hardware.getLocationUUID() + "/" + hardware.getId();
 
-        return HardwareFlavorBuilder.newBuilder().id(id).name(id)
+        return HardwareFlavorBuilder.newBuilder().id(id).providerId(id).name(id)
             .location(locationGetStrategy.get(hardware.getLocationUUID()))
             .cores(hardware.getCores()).mbRam(hardware.getRam()).gbDisk(hardware.getDiskSpace())
             .build();

@@ -20,8 +20,6 @@ package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
-import de.uniulm.omi.cloudiator.sword.core.domain.TemplateOptionsBuilder;
-import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineTemplateBuilder;
 import org.junit.Before;
 import org.junit.Test;
 

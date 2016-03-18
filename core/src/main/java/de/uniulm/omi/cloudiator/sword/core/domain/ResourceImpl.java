@@ -34,21 +34,29 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public abstract class ResourceImpl implements Resource {
 
     private final String id;
+    private final String providerId;
     private final String name;
     @Nullable private final Location location;
 
-    ResourceImpl(String id, String name, @Nullable Location location) {
-        checkNotNull(id, "Resource ID is required.");
-        checkArgument(!id.isEmpty(), "Resource ID must not be empty.");
+    ResourceImpl(String id, String providerId, String name, @Nullable Location location) {
+        checkNotNull(id, "id is required.");
+        checkArgument(!id.isEmpty(), "id must not be empty.");
         this.id = id;
-        checkNotNull(name, "Resource Name is required.");
-        checkArgument(!name.isEmpty(), "Resource Name must not be empty.");
+        checkNotNull(name, "name is required.");
+        checkArgument(!name.isEmpty(), "name must not be empty.");
         this.name = name;
+        checkNotNull(providerId, "providerId is required");
+        checkArgument(!providerId.isEmpty(), "providerId must not be empty.");
+        this.providerId = providerId;
         this.location = location;
     }
 
     @Override public String id() {
         return id;
+    }
+
+    @Override public String providerId() {
+        return providerId;
     }
 
     @Override public String name() {

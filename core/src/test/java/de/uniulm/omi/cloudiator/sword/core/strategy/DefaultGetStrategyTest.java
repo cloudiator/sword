@@ -79,5 +79,9 @@ public class DefaultGetStrategyTest {
         @Override public String id() {
             return id;
         }
+
+        @Override public String providerId() {
+            return id;
+        }
     }
 }

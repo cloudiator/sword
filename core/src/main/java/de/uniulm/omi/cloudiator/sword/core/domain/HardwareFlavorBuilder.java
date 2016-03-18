@@ -28,6 +28,7 @@ import javax.annotation.Nullable;
 public class HardwareFlavorBuilder {
 
     private String id;
+    private String providerId;
     private String name;
     private int cores;
     private long mbRam;
@@ -42,11 +43,16 @@ public class HardwareFlavorBuilder {
     }
 
     public HardwareFlavorImpl build() {
-        return new HardwareFlavorImpl(id, name, location, cores, mbRam, gbDisk);
+        return new HardwareFlavorImpl(id, providerId, name, location, cores, mbRam, gbDisk);
     }
 
     public HardwareFlavorBuilder id(String id) {
         this.id = id;
+        return this;
+    }
+
+    public HardwareFlavorBuilder providerId(String providerId) {
+        this.providerId = providerId;
         return this;
     }
 

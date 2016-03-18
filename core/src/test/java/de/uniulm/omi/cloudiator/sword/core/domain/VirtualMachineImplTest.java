@@ -36,6 +36,7 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
 public class VirtualMachineImplTest {
 
     String testId = "1";
+    String providerId = "providerId";
     String testName = "name";
     String testPublicIpAddress = "93.184.216.34";
     String testPrivateIpAddress = "192.168.0.2";
@@ -50,31 +51,35 @@ public class VirtualMachineImplTest {
 
     @Before public void before() {
         validVirtualMachineBuilder =
-            VirtualMachineBuilder.newBuilder().id(testId).name(testName).location(testLocation)
-                .addPrivateIpAddress(testPrivateIpAddress).addPublicIpAddress(testPublicIpAddress)
-                .loginCredential(loginCredential);
+            VirtualMachineBuilder.newBuilder().id(testId).providerId(providerId).name(testName)
+                .location(testLocation).addPrivateIpAddress(testPrivateIpAddress)
+                .addPublicIpAddress(testPublicIpAddress).loginCredential(loginCredential);
         validVirtualMachine = validVirtualMachineBuilder.build();
     }
 
     @Test(expected = NullPointerException.class) public void testConstructorDisallowsNullId() {
-        validVirtualMachineBuilder.id(null).name(testName).location(testLocation).build();
+        validVirtualMachineBuilder.id(null).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void testConstructorDisallowsEmptyId() {
-        validVirtualMachineBuilder.id("").name(testName).location(testLocation).build();
+        validVirtualMachineBuilder.id("").build();
     }
 
     @Test(expected = NullPointerException.class) public void testConstructorDisallowsNullName() {
-        validVirtualMachineBuilder.id(testId).name(null).location(testLocation).build();
+        validVirtualMachineBuilder.name(null).build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorDisallowsEmptyName() {
-        validVirtualMachineBuilder.id(testId).name("").location(testLocation).build();
+        validVirtualMachineBuilder.name("").build();
     }
 
     @Test public void testId() {
         assertThat(validVirtualMachine.id(), equalTo(testId));
+    }
+
+    @Test public void testProviderId() {
+        assertThat(validVirtualMachine.providerId(), equalTo(providerId));
     }
 
     @Test public void testName() {

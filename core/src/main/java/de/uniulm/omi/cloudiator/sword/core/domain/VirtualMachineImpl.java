@@ -40,10 +40,10 @@ public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
 
     @Nullable private final LoginCredential loginCredential;
 
-    VirtualMachineImpl(String id, String name, @Nullable Location location,
+    VirtualMachineImpl(String id, String providerId, String name, @Nullable Location location,
         Set<String> publicIpAddresses, Set<String> privateIpAddresses,
         @Nullable LoginCredential loginCredential) {
-        super(id, name, location);
+        super(id, providerId, name, location);
 
         checkNotNull(publicIpAddresses);
         checkNotNull(privateIpAddresses);
@@ -54,7 +54,8 @@ public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
     }
 
     @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id()).add("name", name()).toString();
+        return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
+            .add("name", name()).toString();
     }
 
     @Override public Set<String> publicAddresses() {

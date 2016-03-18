@@ -29,11 +29,12 @@ import javax.annotation.Nullable;
  */
 public class ImageImpl extends ResourceImpl implements Image {
 
-    ImageImpl(String id, String name, @Nullable Location location) {
-        super(id, name, location);
+    ImageImpl(String id, String providerId, String name, @Nullable Location location) {
+        super(id, providerId, name, location);
     }
 
     @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id()).add("name", name()).toString();
+        return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
+            .add("name", name()).toString();
     }
 }
