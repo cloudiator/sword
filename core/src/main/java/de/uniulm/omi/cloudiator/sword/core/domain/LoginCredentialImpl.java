@@ -19,7 +19,9 @@
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
 
+import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
+import org.jclouds.ssh.SshKeys;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -68,5 +70,17 @@ public class LoginCredentialImpl implements LoginCredential {
 
     @Override public Optional<String> privateKey() {
         return Optional.ofNullable(privateKey);
+    }
+
+    public Optional<String> privateKeyFingerprint() {
+        if (privateKey == null) {
+            return Optional.empty();
+        }
+        return Optional.of(SshKeys.fingerprintPrivateKey(privateKey));
+    }
+
+    @Override public String toString() {
+        return MoreObjects.toStringHelper(this).add("username", username())
+            .add("password", password()).add("privateKey", privateKeyFingerprint()).toString();
     }
 }
