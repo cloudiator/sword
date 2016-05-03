@@ -21,7 +21,6 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Singleton;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging.JCloudsLoggingModule;
@@ -39,7 +38,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by daniel on 14.12.15.
  */
-@Singleton public class BaseJCloudsViewFactory implements JCloudsViewFactory {
+public class BaseJCloudsViewFactory implements JCloudsViewFactory {
 
     private final ServiceConfiguration serviceConfiguration;
     private final LoggerFactory loggerFactory;

@@ -19,11 +19,9 @@
 package de.uniulm.omi.cloudiator.sword.drivers.ec2;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
-import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
 import org.jclouds.aws.ec2.reference.AWSEC2Constants;
 
@@ -32,10 +30,14 @@ import java.util.Properties;
 /**
  * Created by daniel on 26.04.16.
  */
-@Singleton public class EC2JCloudsViewFactory extends BaseJCloudsViewFactory {
+public class EC2JCloudsViewFactory extends BaseJCloudsViewFactory {
 
-    @Inject(optional = true) @Named(Constants.AWSConstants.PROPERTY_EC2_AMI_QUERY) private String
-        amiQuery = "owner-id=amazon,self;state=available;image-type=machine";
+    @Inject(optional = true) @Named(EC2Constants.PROPERTY_EC2_AMI_QUERY) private String amiQuery =
+        null;
+
+    @Inject(optional = true) @Named(EC2Constants.PROPERTY_EC2_CC_AMI_QUERY) private String
+        amiCcQuery = null;
+
 
     @Inject public EC2JCloudsViewFactory(ServiceConfiguration serviceConfiguration,
         LoggerFactory loggerFactory) {
@@ -43,7 +45,12 @@ import java.util.Properties;
     }
 
     @Override protected Properties overrideProperties(Properties properties) {
-        properties.setProperty(AWSEC2Constants.PROPERTY_EC2_AMI_QUERY, amiQuery);
+        if (amiQuery != null) {
+            properties.setProperty(AWSEC2Constants.PROPERTY_EC2_AMI_QUERY, amiQuery);
+        }
+        if (amiCcQuery != null) {
+            properties.setProperty(AWSEC2Constants.PROPERTY_EC2_CC_AMI_QUERY, amiCcQuery);
+        }
         return properties;
     }
 }

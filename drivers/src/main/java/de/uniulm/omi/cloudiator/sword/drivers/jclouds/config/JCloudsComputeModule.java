@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.config;
 import com.google.common.base.Supplier;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
@@ -61,7 +62,7 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         return originalComputeClient;
     }
 
-    @Provides JCloudsViewFactory provideJCloudsViewFactory(Injector injector) {
+    @Provides @Singleton JCloudsViewFactory provideJCloudsViewFactory(Injector injector) {
         return overrideJCloudsViewFactory(injector,
             injector.getInstance(BaseJCloudsViewFactory.class));
     }
