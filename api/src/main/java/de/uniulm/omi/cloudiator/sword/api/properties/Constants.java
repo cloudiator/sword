@@ -22,6 +22,20 @@ package de.uniulm.omi.cloudiator.sword.api.properties;
  * Created by daniel on 27.02.15.
  */
 public class Constants {
+
     private Constants() {
+        throw new AssertionError("constants class");
     }
+
+    public final static class AWSConstants {
+
+        private AWSConstants() {
+            throw new AssertionError("constants class");
+        }
+
+        public final static String PROPERTY_EC2_AMI_QUERY = "sword.ec2.ami.query";
+
+    }
+
+
 }

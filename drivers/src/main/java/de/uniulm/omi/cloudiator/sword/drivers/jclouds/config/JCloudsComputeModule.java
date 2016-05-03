@@ -61,6 +61,16 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         return originalComputeClient;
     }
 
+    @Provides JCloudsViewFactory provideJCloudsViewFactory(Injector injector) {
+        return overrideJCloudsViewFactory(injector,
+            injector.getInstance(BaseJCloudsViewFactory.class));
+    }
+
+    protected JCloudsViewFactory overrideJCloudsViewFactory(Injector injector,
+        JCloudsViewFactory originalFactory) {
+        return originalFactory;
+    }
+
     @Override protected final Supplier<Set<Image>> imageSupplier(Injector injector) {
         return overrideImageSupplier(injector, injector.getInstance(ImageSupplier.class));
     }
@@ -171,8 +181,5 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         bind(
             new TypeLiteral<OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>>() {
             }).to(templateOptionsConverter());
-
-        //bind the view factory
-        bind(JCloudsViewFactory.class).to(BaseJCloudsViewFactory.class);
     }
 }

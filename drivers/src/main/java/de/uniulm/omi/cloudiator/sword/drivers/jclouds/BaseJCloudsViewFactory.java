@@ -20,12 +20,13 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging.JCloudsLoggingModule;
 import org.jclouds.ContextBuilder;
 import org.jclouds.View;
-import org.jclouds.aws.ec2.reference.AWSEC2Constants;
 import org.jclouds.googlecloud.config.GoogleCloudProperties;
 import org.jclouds.ssh.jsch.config.JschSshClientModule;
 
@@ -33,20 +34,66 @@ import java.io.Closeable;
 import java.util.Collections;
 import java.util.Properties;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by daniel on 14.12.15.
  */
-public class BaseJCloudsViewFactory implements JCloudsViewFactory {
+@Singleton public class BaseJCloudsViewFactory implements JCloudsViewFactory {
 
-    private final ContextBuilder contextBuilder;
+    private final ServiceConfiguration serviceConfiguration;
+    private final LoggerFactory loggerFactory;
 
     @Inject public BaseJCloudsViewFactory(ServiceConfiguration serviceConfiguration,
         LoggerFactory loggerFactory) {
 
+        checkNotNull(serviceConfiguration);
+        checkNotNull(loggerFactory);
+
+        this.serviceConfiguration = serviceConfiguration;
+        this.loggerFactory = loggerFactory;
+    }
+
+    /**
+     * Extension point to override the username.
+     *
+     * @param username the original username.
+     * @return the changed username.
+     */
+    protected String overrideUsername(String username) {
+        return username;
+    }
+
+    /**
+     * Extension point for loading additional jclouds modules
+     *
+     * @return additional modules to load during the creation of the jclouds client
+     */
+    protected Iterable<? extends Module> overrideModules() {
+        return Collections.emptyList();
+    }
+
+    /**
+     * Extension point for setting additional properties.
+     *
+     * @param properties the properties object for setting additional properties.
+     * @return fluent interface
+     */
+    protected Properties overrideProperties(Properties properties) {
+        return properties;
+    }
+
+    @Override public final <V extends View> V buildJCloudsView(Class<V> viewType) {
+        return buildContext().buildView(viewType);
+    }
+
+    @Override public final <A extends Closeable> A buildJCloudsApi(Class<A> api) {
+        return buildContext().buildApi(api);
+    }
+
+    private ContextBuilder buildContext() {
         //todo ugly hack
         final Properties properties = new Properties();
-        properties.setProperty(AWSEC2Constants.PROPERTY_EC2_AMI_QUERY,
-            "owner-id=amazon,self;state=available;image-type=machine");
 
         //todo more ugly hack to workaround wrong parsing in jclouds
         if (serviceConfiguration.getProvider().equals("google-compute-engine")) {
@@ -59,11 +106,13 @@ public class BaseJCloudsViewFactory implements JCloudsViewFactory {
         //todo duplicates code from NovaApiProvider
         // loading ssh module of jclouds as it seems to be required for google,
         // we are using the jschsshclient as the sshj conflicts with the overthere bouncy castle impl.
-        this.contextBuilder = ContextBuilder.newBuilder(serviceConfiguration.getProvider());
+        ContextBuilder contextBuilder =
+            ContextBuilder.newBuilder(serviceConfiguration.getProvider());
         contextBuilder.credentials(serviceConfiguration.getCredentials().user(),
             serviceConfiguration.getCredentials().password())
             .modules(ImmutableSet.of(new JCloudsLoggingModule(loggerFactory)))
-            .modules(Collections.singletonList(new JschSshClientModule())).overrides(properties);
+            .modules(Collections.singletonList(new JschSshClientModule()))
+            .overrides(overrideProperties(properties));
 
 
         // setting optional endpoint, check for present first
@@ -71,13 +120,7 @@ public class BaseJCloudsViewFactory implements JCloudsViewFactory {
         if (serviceConfiguration.getEndpoint().isPresent()) {
             contextBuilder.endpoint(serviceConfiguration.getEndpoint().get());
         }
-    }
 
-    @Override public <V extends View> V buildJCloudsView(Class<V> viewType) {
-        return contextBuilder.buildView(viewType);
-    }
-
-    @Override public <A extends Closeable> A buildJCloudsApi(Class<A> api) {
-        return contextBuilder.buildApi(api);
+        return contextBuilder;
     }
 }
