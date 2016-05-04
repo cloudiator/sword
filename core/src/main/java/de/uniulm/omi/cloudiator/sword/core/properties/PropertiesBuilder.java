@@ -39,13 +39,13 @@ public class PropertiesBuilder {
         return new PropertiesBuilder();
     }
 
-    public PropertiesBuilder putProperty(String key, String value) {
-        this.serviceProperties.put(key, value);
+    public PropertiesBuilder putProperty(String key, Object value) {
+        this.serviceProperties.put(key, String.valueOf(value));
         return this;
     }
 
-    public PropertiesBuilder putProperties(Map<String, String> map) {
-        this.serviceProperties.putAll(map);
+    public PropertiesBuilder putProperties(Map<String, Object> map) {
+        map.forEach(this::putProperty);
         return this;
     }
 

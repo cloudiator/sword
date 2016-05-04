@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.config;
 import com.google.common.base.Supplier;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
@@ -59,6 +60,16 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
     protected JCloudsComputeClient overrideComputeClient(Injector injector,
         JCloudsComputeClient originalComputeClient) {
         return originalComputeClient;
+    }
+
+    @Provides @Singleton JCloudsViewFactory provideJCloudsViewFactory(Injector injector) {
+        return overrideJCloudsViewFactory(injector,
+            injector.getInstance(BaseJCloudsViewFactory.class));
+    }
+
+    protected JCloudsViewFactory overrideJCloudsViewFactory(Injector injector,
+        JCloudsViewFactory originalFactory) {
+        return originalFactory;
     }
 
     @Override protected final Supplier<Set<Image>> imageSupplier(Injector injector) {
@@ -171,8 +182,5 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         bind(
             new TypeLiteral<OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>>() {
             }).to(templateOptionsConverter());
-
-        //bind the view factory
-        bind(JCloudsViewFactory.class).to(BaseJCloudsViewFactory.class);
     }
 }
