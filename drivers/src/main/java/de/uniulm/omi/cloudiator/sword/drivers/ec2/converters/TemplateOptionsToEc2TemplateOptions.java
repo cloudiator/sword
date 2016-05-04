@@ -19,23 +19,32 @@
 package de.uniulm.omi.cloudiator.sword.drivers.ec2.converters;
 
 import com.google.common.primitives.Ints;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import de.uniulm.omi.cloudiator.sword.drivers.ec2.EC2Constants;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
+import org.jclouds.aws.ec2.compute.AWSEC2TemplateOptions;
 import org.jclouds.compute.options.TemplateOptions;
-import org.jclouds.ec2.compute.options.EC2TemplateOptions;
 
 /**
  * Created by daniel on 28.10.15.
  */
 public class TemplateOptionsToEc2TemplateOptions extends AbstractTemplateOptionsToTemplateOptions {
 
+    @Inject(optional = true) @Named(EC2Constants.PROPERTY_EC2_DEFAULT_VPC) private String
+        defaultVpc = null;
+
     @Override protected TemplateOptions convert(
         de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions templateOptions) {
-        EC2TemplateOptions ec2TemplateOptions = new EC2TemplateOptions();
+        AWSEC2TemplateOptions ec2TemplateOptions = new AWSEC2TemplateOptions();
         final String keyPairName = templateOptions.keyPairName();
         if (keyPairName != null) {
             ec2TemplateOptions.authorizePublicKey(keyPairName);
         }
         ec2TemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
+        if (defaultVpc != null) {
+            ec2TemplateOptions.subnetId(defaultVpc);
+        }
         return ec2TemplateOptions;
     }
 }
