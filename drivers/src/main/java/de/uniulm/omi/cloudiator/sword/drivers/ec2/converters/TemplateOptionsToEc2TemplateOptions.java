@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.ec2.converters;
 
 import com.google.common.primitives.Ints;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
+import org.jclouds.aws.ec2.compute.AWSEC2TemplateOptions;
 import org.jclouds.compute.options.TemplateOptions;
 import org.jclouds.ec2.compute.options.EC2TemplateOptions;
 
@@ -28,9 +29,11 @@ import org.jclouds.ec2.compute.options.EC2TemplateOptions;
  */
 public class TemplateOptionsToEc2TemplateOptions extends AbstractTemplateOptionsToTemplateOptions {
 
+
+
     @Override protected TemplateOptions convert(
         de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions templateOptions) {
-        EC2TemplateOptions ec2TemplateOptions = new EC2TemplateOptions();
+        AWSEC2TemplateOptions ec2TemplateOptions = new AWSEC2TemplateOptions();
         final String keyPairName = templateOptions.keyPairName();
         if (keyPairName != null) {
             ec2TemplateOptions.authorizePublicKey(keyPairName);
