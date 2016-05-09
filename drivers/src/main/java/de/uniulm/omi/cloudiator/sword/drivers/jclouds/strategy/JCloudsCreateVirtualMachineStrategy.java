@@ -66,19 +66,18 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
         final org.jclouds.compute.options.TemplateOptions jcloudsTemplateOptions;
 
         if (virtualMachineTemplate.templateOptions().isPresent()) {
-
             //convert the template options
             jcloudsTemplateOptions =
                 templateOptionsConverter.apply(virtualMachineTemplateToUse.templateOptions().get());
 
-            //set the name
-            jcloudsTemplateOptions.nodeNames(Collections.singleton(virtualMachineTemplate.name()));
         } else {
             //create a template options object for setting the name
             jcloudsTemplateOptions = new org.jclouds.compute.options.TemplateOptions();
-            jcloudsTemplateOptions.nodeNames(Collections.singleton(virtualMachineTemplate.name()));
             templateBuilder.options(jcloudsTemplateOptions);
         }
+
+        //set the name
+        jcloudsTemplateOptions.nodeNames(Collections.singleton(virtualMachineTemplate.name()));
 
         //call extension point
         templateBuilder

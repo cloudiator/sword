@@ -2,6 +2,7 @@ package de.uniulm.omi.cloudiator.sword.core.util;
 
 import javax.annotation.Nullable;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by daniel on 03.03.16.
@@ -32,7 +33,7 @@ public class Name {
     }
 
     private static String generateUniqueName(@Nullable String name) {
-        String uniquePrefix = String.valueOf(Name.random.nextInt(999));
+        String uniquePrefix = UUID.randomUUID().toString();
         if (name != null) {
             return uniquePrefix + "-" + name;
         }

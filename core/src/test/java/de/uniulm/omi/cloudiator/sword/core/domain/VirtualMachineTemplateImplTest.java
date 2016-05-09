@@ -24,8 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
@@ -89,8 +88,12 @@ public class VirtualMachineTemplateImplTest {
     }
 
     @Test public void testName() throws Exception {
+        //todo test that this works with a null name
+        //todo test that this is really unique
         assertThat(validVirtualMachineTemplate.name(), is(notNullValue()));
+        assertThat(validVirtualMachineTemplate.name(), containsString(testName));
     }
+
 
     @Test public void testImageId() throws Exception {
         assertThat(validVirtualMachineTemplate.imageId(), equalTo(imageId));
