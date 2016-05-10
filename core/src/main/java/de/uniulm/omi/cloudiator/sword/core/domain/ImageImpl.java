@@ -33,18 +33,17 @@ public class ImageImpl extends ResourceImpl implements Image {
 
     @Nullable private final OperatingSystem operatingSystem;
 
-    ImageImpl(String id, String name, @Nullable Location location,
-        @Nullable OperatingSystem operatingSystem) {
-        super(id, name, location);
-        this.operatingSystem = operatingSystem;
+    @Override public Optional<OperatingSystem> operatingSystem() {
+        return Optional.ofNullable(operatingSystem);
+    }
+
+    ImageImpl(String id, String providerId, String name, @Nullable Location location, @Nullable OperatingSystem operatingSystem) {
+        super(id, providerId, name, location);
+            this.operatingSystem = operatingSystem;
     }
 
     @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id()).add("name", name())
-            .add("os", operatingSystem).toString();
-    }
-
-    @Override public Optional<OperatingSystem> operatingSystem() {
-        return Optional.ofNullable(operatingSystem);
+        return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
+            .add("name", name()).add("os", operatingSystem).toString();
     }
 }

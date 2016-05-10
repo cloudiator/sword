@@ -27,4 +27,12 @@ public interface Identifiable {
      * @return a unique identifier for the resource.
      */
     String id();
+
+    /**
+     * The original identifier as issued by the cloud provider.
+     * May not be unique. May be equal to id().
+     *
+     * @return the original identifier of the resource.
+     */
+    String providerId();
 }

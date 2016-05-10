@@ -35,6 +35,7 @@ public class VirtualMachineBuilder {
     private final Set<String> publicIpAddresses;
     private final Set<String> privateIpAddresses;
     @Nullable private String id;
+    private String providerId;
     @Nullable private String name;
     @Nullable private Location location;
     @Nullable private LoginCredential loginCredential;
@@ -49,8 +50,8 @@ public class VirtualMachineBuilder {
     }
 
     public static VirtualMachineBuilder of(VirtualMachine virtualMachine) {
-        return newBuilder().id(virtualMachine.id()).name(virtualMachine.name())
-            .location(virtualMachine.location().orElse(null))
+        return newBuilder().id(virtualMachine.id()).providerId(virtualMachine.providerId())
+            .name(virtualMachine.name()).location(virtualMachine.location().orElse(null))
             .addPublicIpAddresses(virtualMachine.publicAddresses())
             .addPrivateIpAddresses(virtualMachine.privateAddresses())
             .loginCredential(virtualMachine.loginCredential().orElse(null));
@@ -58,6 +59,11 @@ public class VirtualMachineBuilder {
 
     public VirtualMachineBuilder id(String id) {
         this.id = id;
+        return this;
+    }
+
+    public VirtualMachineBuilder providerId(String providerId) {
+        this.providerId = providerId;
         return this;
     }
 
@@ -97,7 +103,7 @@ public class VirtualMachineBuilder {
     }
 
     public VirtualMachine build() {
-        return new VirtualMachineImpl(id, name, location, publicIpAddresses, privateIpAddresses,
-            loginCredential);
+        return new VirtualMachineImpl(id, providerId, name, location, publicIpAddresses,
+            privateIpAddresses, loginCredential);
     }
 }

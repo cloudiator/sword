@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2016 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -16,27 +16,19 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.core.util;
-
-import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
-import de.uniulm.omi.cloudiator.sword.core.domain.KeyPairBuilder;
-import org.jclouds.ssh.SshKeys;
-
-import java.util.Map;
+package de.uniulm.omi.cloudiator.sword.drivers.ec2;
 
 /**
- * Created by daniel on 18.05.15.
+ * Created by daniel on 08.09.15.
  */
-public class KeyPairs {
+public class EC2Constants {
 
-    private KeyPairs() {
+    public final static String PROPERTY_EC2_AMI_QUERY = "sword.ec2.ami.query";
+    public final static String PROPERTY_EC2_CC_AMI_QUERY = "sword.ec2.ami.cc.query";
+    public final static String PROPERTY_EC2_DEFAULT_VPC = "sword.ec2.default.vpc";
 
+    private EC2Constants() {
+        throw new AssertionError("intentionally left empty");
     }
 
-    public static KeyPair generate(String name) {
-        final Map.Entry<String, String> sshKeyPair =
-            SshKeys.generate().entrySet().iterator().next();
-        return KeyPairBuilder.newBuilder().name(name).publicKey(sshKeyPair.getKey())
-            .privateKey(sshKeyPair.getValue()).build();
-    }
 }

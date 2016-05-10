@@ -45,7 +45,7 @@ public class FlexiantImageToImage
 
     @Override public Image apply(de.uniulm.omi.cloudiator.flexiant.client.domain.Image image) {
         return ImageBuilder.newBuilder().id(image.getLocationUUID() + "/" + image.getId())
-            .name(image.getName()).location(locationGetStrategy.get(image.getLocationUUID()))
-            .os(null).build();
+            .providerId(image.getId()).name(image.getName())
+            .location(locationGetStrategy.get(image.getLocationUUID())).os(null).build();
     }
 }

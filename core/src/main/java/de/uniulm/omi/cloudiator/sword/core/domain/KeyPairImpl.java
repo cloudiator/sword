@@ -61,6 +61,10 @@ public class KeyPairImpl implements KeyPair {
         return id;
     }
 
+    @Override public String providerId() {
+        return id();
+    }
+
     @Override public String name() {
         return name;
     }

@@ -57,8 +57,9 @@ public class JCloudsImageToImage
             os = operatingSystemConverter.apply(image.getOperatingSystem());
         }
 
-        return ImageBuilder.newBuilder().id(image.getId()).name(forceName(image))
-            .location(locationConverter.apply(image.getLocation())).os(os).build();
+        return ImageBuilder.newBuilder().id(image.getId()).providerId(image.getProviderId())
+            .name(forceName(image)).location(locationConverter.apply(image.getLocation())).os(os)
+            .build();
     }
 
     private String forceName(org.jclouds.compute.domain.Image image) {

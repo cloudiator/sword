@@ -33,9 +33,12 @@ public class JCloudsComputeMetadataToVirtualMachineTest {
     @Test public void testApply() throws Exception {
 
         when(nodeMetadata.getId()).thenReturn("id");
+        when(nodeMetadata.getProviderId()).thenReturn("providerId");
         when(nodeMetadata.getName()).thenReturn("name");
-        when(nodeMetadata.getPublicAddresses()).thenReturn(new HashSet<>(Collections.singletonList("93.184.216.34")));
-        when(nodeMetadata.getPrivateAddresses()).thenReturn(new HashSet<>(Collections.singletonList("192.168.0.1")));
+        when(nodeMetadata.getPublicAddresses())
+            .thenReturn(new HashSet<>(Collections.singletonList("93.184.216.34")));
+        when(nodeMetadata.getPrivateAddresses())
+            .thenReturn(new HashSet<>(Collections.singletonList("192.168.0.1")));
         when(nodeMetadata.getCredentials()).thenReturn(loginCredentials);
         when(loginCredentialsConverter.apply(loginCredentials)).thenReturn(loginCredential);
 
@@ -45,6 +48,7 @@ public class JCloudsComputeMetadataToVirtualMachineTest {
         verify(nodeMetadata).getPrivateAddresses();
         verify(nodeMetadata).getPublicAddresses();
         verify(nodeMetadata).getId();
+        verify(nodeMetadata).getProviderId();
         verify(nodeMetadata).getName();
         verify(loginCredentialsConverter).apply(any());
 

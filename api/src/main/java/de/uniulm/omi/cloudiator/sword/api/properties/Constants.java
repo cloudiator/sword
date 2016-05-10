@@ -23,5 +23,6 @@ package de.uniulm.omi.cloudiator.sword.api.properties;
  */
 public class Constants {
     private Constants() {
+        throw new AssertionError("constants class");
     }
 }

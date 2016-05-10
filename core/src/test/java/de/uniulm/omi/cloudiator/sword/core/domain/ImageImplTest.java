@@ -34,6 +34,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class ImageImplTest {
 
     private final String testId = "123456";
+    private final String testProviderId = "providerId";
     private final String testName = "name";
     private final Location testLocation =
         LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
@@ -48,7 +49,8 @@ public class ImageImplTest {
     @Before public void before() {
 
         validImageBuilder =
-            ImageBuilder.newBuilder().id(testId).name(testName).location(testLocation).os(testOs);
+            ImageBuilder.newBuilder().id(testId).providerId(testProviderId).name(testName)
+                .location(testLocation).os(testOs);
         validImage = validImageBuilder.build();
     }
 
@@ -58,6 +60,14 @@ public class ImageImplTest {
 
     @Test(expected = IllegalArgumentException.class) public void idNotEmptyTest() {
         validImageBuilder.id("").build();
+    }
+
+    @Test(expected = NullPointerException.class) public void providerIdNotNullableTest() {
+        validImageBuilder.providerId(null).build();
+    }
+
+    @Test(expected = IllegalArgumentException.class) public void providerIdNotEmptyTest() {
+        validImageBuilder.providerId("").build();
     }
 
     @Test(expected = NullPointerException.class) public void nameNotNullableTest() {
@@ -76,9 +86,12 @@ public class ImageImplTest {
         assertThat(underTest.operatingSystem().isPresent(), equalTo(false));
     }
 
-
     @Test public void getIdTest() {
         assertThat(validImage.id(), equalTo(testId));
+    }
+
+    @Test public void getProviderIdTest() {
+        assertThat(validImage.providerId(), equalTo(testProviderId));
     }
 
     @Test public void getNameTest() {
