@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2016 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.openstack.converters;
+package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
@@ -30,21 +30,18 @@ import org.jclouds.domain.LoginCredentials;
 /**
  * Overwrites functionality of the standard jclouds converter {@link de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.JCloudsComputeMetadataToVirtualMachine}
  * <p/>
- * The jclouds implementation for Openstack seems to guess the username for the
+ * The jclouds implementation for some providers seems to guess the username for the
  * login credentials. This obviously causes problems when using the for logins.
  * <p/>
  * For this purpose, this custom converter removes the login credentials from
  * the object until we find a better solution for this issue.
- * <p/>
- * In addition this should not impose a huge problem, as we support keypairs for
- * openstack.
  */
-public class ComputeMetadataConverterOverwrite
+public class ComputeMetadataConverterOverwriteRemovingLoginCredentials
     implements OneWayConverter<ComputeMetadata, VirtualMachine> {
 
     private final OneWayConverter<ComputeMetadata, VirtualMachine> baseJcloudsConverter;
 
-    @Inject public ComputeMetadataConverterOverwrite(
+    @Inject public ComputeMetadataConverterOverwriteRemovingLoginCredentials(
         OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter) {
         //todo directly inject dependency?
         this.baseJcloudsConverter =
