@@ -20,8 +20,11 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.core.domain.LoginCredentialBuilder;
 import org.jclouds.domain.LoginCredentials;
 
@@ -33,16 +36,22 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class JCloudsLoginCredentialsToLoginCredential
     implements OneWayConverter<LoginCredentials, LoginCredential> {
 
+    @Inject(optional = true) @Named(Constants.IGNORE_LOGIN_KEYPAIR) private boolean ignoreKeyPair = false;
+    @Inject(optional = true) @Named(Constants.IGNORE_LOGIN_PASSWORD) private boolean ignorePassword = false;
+    @Inject(optional = true) @Named(Constants.IGNORE_LOGIN_USERNAME) private boolean ignoreUser = false;
+
     @Override public LoginCredential apply(LoginCredentials loginCredentials) {
 
         checkNotNull(loginCredentials);
 
         final LoginCredentialBuilder loginCredentialBuilder = LoginCredentialBuilder.newBuilder();
-        loginCredentialBuilder.username(loginCredentials.getUser());
-        if (loginCredentials.getOptionalPassword().isPresent()) {
+        if (!ignoreUser) {
+            loginCredentialBuilder.username(loginCredentials.getUser());
+        }
+        if (loginCredentials.getOptionalPassword().isPresent() && !ignorePassword) {
             loginCredentialBuilder.password(loginCredentials.getOptionalPassword().get());
         }
-        if (loginCredentials.getOptionalPrivateKey().isPresent()) {
+        if (loginCredentials.getOptionalPrivateKey().isPresent() && !ignoreKeyPair) {
             loginCredentialBuilder.privateKey(loginCredentials.getOptionalPrivateKey().get());
         }
 

@@ -23,20 +23,17 @@ import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackComputeClientImpl;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.ComputeMetadataConverterOverwriteRemovingLoginCredentials;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.NovaKeyPairToKeypair;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.TemplateOptionsToNovaTemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackKeyPairService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackPublicIpService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.OpenstackCreateVirtualMachineStrategy;
-import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 
@@ -48,11 +45,6 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
     @Override
     protected Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter() {
         return TemplateOptionsToNovaTemplateOptions.class;
-    }
-
-    @Override
-    protected Class<? extends OneWayConverter<ComputeMetadata, VirtualMachine>> virtualMachineConverter() {
-        return ComputeMetadataConverterOverwriteRemovingLoginCredentials.class;
     }
 
     @Override protected void configure() {

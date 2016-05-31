@@ -44,7 +44,7 @@ public class PropertiesBuilder {
         return this;
     }
 
-    public PropertiesBuilder putProperties(Map<String, Object> map) {
+    public PropertiesBuilder putProperties(Map<String, ?> map) {
         map.forEach(this::putProperty);
         return this;
     }
