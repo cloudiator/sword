@@ -26,7 +26,6 @@ import de.uniulm.omi.cloudiator.sword.drivers.ec2.EC2JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.converters.TemplateOptionsToEc2TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.ComputeMetadataConverterOverwriteRemovingLoginCredentials;
 import org.jclouds.compute.domain.ComputeMetadata;
 
 /**
@@ -37,11 +36,6 @@ public class Ec2ComputeModule extends JCloudsComputeModule {
     @Override protected JCloudsViewFactory overrideJCloudsViewFactory(Injector injector,
         JCloudsViewFactory originalFactory) {
         return injector.getInstance(EC2JCloudsViewFactory.class);
-    }
-
-    @Override
-    protected Class<? extends OneWayConverter<ComputeMetadata, VirtualMachine>> virtualMachineConverter() {
-        return ComputeMetadataConverterOverwriteRemovingLoginCredentials.class;
     }
 
     @Override

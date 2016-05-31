@@ -23,6 +23,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 
 import java.util.Set;
@@ -38,15 +39,19 @@ public class ProviderConfiguration {
     private final Set<? extends Module> modules;
     private final Class<? extends ComputeService<HardwareFlavor, Image, Location, VirtualMachine>>
         computeService;
+    private final Properties defaultProperties;
 
     public ProviderConfiguration(String name, Set<? extends Module> modules,
-        Class<? extends ComputeService<HardwareFlavor, Image, Location, VirtualMachine>> computeService) {
+        Class<? extends ComputeService<HardwareFlavor, Image, Location, VirtualMachine>> computeService,
+        Properties defaultProperties) {
         checkNotNull(name);
         checkNotNull(modules);
         checkNotNull(computeService);
+        checkNotNull(defaultProperties);
         this.name = name;
         this.modules = modules;
         this.computeService = computeService;
+        this.defaultProperties = defaultProperties;
     }
 
     public String getName() {
@@ -59,5 +64,9 @@ public class ProviderConfiguration {
 
     public Class<? extends ComputeService<HardwareFlavor, Image, Location, VirtualMachine>> getComputeService() {
         return computeService;
+    }
+
+    public Properties getDefaultProperties() {
+        return defaultProperties;
     }
 }

@@ -30,7 +30,6 @@ import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackComputeClientImpl;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.ComputeMetadataConverterOverwriteRemovingLoginCredentials;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.NovaKeyPairToKeypair;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.TemplateOptionsToNovaTemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackKeyPairService;
@@ -48,11 +47,6 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
     @Override
     protected Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter() {
         return TemplateOptionsToNovaTemplateOptions.class;
-    }
-
-    @Override
-    protected Class<? extends OneWayConverter<ComputeMetadata, VirtualMachine>> virtualMachineConverter() {
-        return ComputeMetadataConverterOverwriteRemovingLoginCredentials.class;
     }
 
     @Override protected void configure() {

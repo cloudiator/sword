@@ -25,4 +25,10 @@ public class Constants {
     private Constants() {
         throw new AssertionError("constants class");
     }
+
+    public static final String IGNORE_LOGIN_PASSWORD = "sword.login.password.ignore";
+    public static final String IGNORE_LOGIN_USERNAME = "sword.login.username.ignore";
+    public static final String IGNORE_LOGIN_KEYPAIR = "sword.login.keypair.ignore";
+
+
 }

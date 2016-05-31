@@ -20,7 +20,9 @@ package de.uniulm.omi.cloudiator.sword.service.providers;
 
 import com.google.inject.AbstractModule;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.ProviderNotFoundException;
+import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.core.base.BaseComputeService;
+import de.uniulm.omi.cloudiator.sword.core.properties.PropertiesBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.config.Ec2ComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.config.FlexiantComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.google.config.GoogleCloudComputeModule;
@@ -52,23 +54,28 @@ public class Providers {
         //Openstack
         final Set<AbstractModule> openstackModules = new HashSet<>();
         openstackModules.add(new OpenstackComputeModule());
-        registerProvider(new ProviderConfiguration("openstack-nova", openstackModules,
-            BaseComputeService.class));
+        registerProvider(
+            new ProviderConfiguration("openstack-nova", openstackModules, BaseComputeService.class,
+                PropertiesBuilder.newBuilder().putProperty(Constants.IGNORE_LOGIN_KEYPAIR, true)
+                    .putProperty(Constants.IGNORE_LOGIN_PASSWORD, true)
+                    .putProperty(Constants.IGNORE_LOGIN_USERNAME, true).build()));
         //Flexiant
         final Set<AbstractModule> flexiantModules = new HashSet<>();
         flexiantModules.add(new FlexiantComputeModule());
         registerProvider(
-            new ProviderConfiguration("flexiant", flexiantModules, BaseComputeService.class));
+            new ProviderConfiguration("flexiant", flexiantModules, BaseComputeService.class,
+                PropertiesBuilder.newBuilder().build()));
         //EC2
         final Set<AbstractModule> ec2Modules = new HashSet<>();
         ec2Modules.add(new Ec2ComputeModule());
-        registerProvider(
-            new ProviderConfiguration("aws-ec2", ec2Modules, BaseComputeService.class));
+        registerProvider(new ProviderConfiguration("aws-ec2", ec2Modules, BaseComputeService.class,
+            PropertiesBuilder.newBuilder().putProperty(Constants.IGNORE_LOGIN_USERNAME, true)
+                .build()));
         //Google
         final Set<AbstractModule> googleModules = new HashSet<>();
         googleModules.add(new GoogleCloudComputeModule());
         registerProvider(new ProviderConfiguration("google-compute-engine", googleModules,
-            BaseComputeService.class));
+            BaseComputeService.class, PropertiesBuilder.newBuilder().build()));
     }
 
     public static void registerProvider(ProviderConfiguration providerConfiguration) {

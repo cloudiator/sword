@@ -27,11 +27,12 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
-import de.uniulm.omi.cloudiator.sword.remote.internal.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.core.config.BaseModule;
 import de.uniulm.omi.cloudiator.sword.core.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.core.logging.NullLoggingModule;
+import de.uniulm.omi.cloudiator.sword.core.properties.PropertiesBuilder;
+import de.uniulm.omi.cloudiator.sword.remote.internal.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.remote.overthere.OverthereModule;
 import de.uniulm.omi.cloudiator.sword.service.providers.ProviderConfiguration;
 import de.uniulm.omi.cloudiator.sword.service.providers.Providers;
@@ -98,24 +99,28 @@ public class ServiceBuilder {
         ProviderConfiguration providerConfiguration =
             Providers.getConfigurationByName(serviceConfiguration.getProvider());
         checkNotNull(providerConfiguration);
-        return this.buildInjector(providerConfiguration.getModules(), serviceConfiguration)
-            .getInstance(providerConfiguration.getComputeService());
+        return this.buildInjector(providerConfiguration.getModules(), serviceConfiguration,
+            providerConfiguration).getInstance(providerConfiguration.getComputeService());
     }
 
 
 
     protected Injector buildInjector(Collection<? extends Module> modules,
-        ServiceConfiguration serviceConfiguration) {
-        Collection<Module> basicModules = this.getBasicModules(serviceConfiguration);
+        ServiceConfiguration serviceConfiguration, ProviderConfiguration providerConfiguration) {
+        Collection<Module> basicModules =
+            this.getBasicModules(serviceConfiguration, providerConfiguration);
         basicModules.addAll(modules);
         basicModules.add(buildLoggingModule());
         basicModules.add(buildRemoteModule());
         return Guice.createInjector(basicModules);
     }
 
-    protected Set<Module> getBasicModules(ServiceConfiguration serviceConfiguration) {
+    protected Set<Module> getBasicModules(ServiceConfiguration serviceConfiguration,
+        ProviderConfiguration providerConfiguration) {
         Set<Module> modules = new HashSet<>();
-        modules.add(new BaseModule(serviceConfiguration, this.properties));
+        modules.add(new BaseModule(serviceConfiguration, PropertiesBuilder.newBuilder()
+            .putProperties(providerConfiguration.getDefaultProperties().getProperties())
+            .putProperties(this.properties.getProperties()).build()));
         return modules;
     }
 
