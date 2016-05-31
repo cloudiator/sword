@@ -21,12 +21,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.ec2.config;
 import com.google.inject.Injector;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.EC2JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.converters.TemplateOptionsToEc2TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
-import org.jclouds.compute.domain.ComputeMetadata;
 
 /**
  * Created by daniel on 02.12.14.
