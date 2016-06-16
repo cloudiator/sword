@@ -118,9 +118,12 @@ public class ServiceBuilder {
     protected Set<Module> getBasicModules(ServiceConfiguration serviceConfiguration,
         ProviderConfiguration providerConfiguration) {
         Set<Module> modules = new HashSet<>();
-        modules.add(new BaseModule(serviceConfiguration, PropertiesBuilder.newBuilder()
-            .putProperties(providerConfiguration.getDefaultProperties().getProperties())
-            .putProperties(this.properties.getProperties()).build()));
+        PropertiesBuilder propertiesBuilder = PropertiesBuilder.newBuilder()
+            .putProperties(providerConfiguration.getDefaultProperties().getProperties());
+        if (this.properties != null) {
+            propertiesBuilder.putProperties(this.properties.getProperties());
+        }
+        modules.add(new BaseModule(serviceConfiguration, propertiesBuilder.build()));
         return modules;
     }
 

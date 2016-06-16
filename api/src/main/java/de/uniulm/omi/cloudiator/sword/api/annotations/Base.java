@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2016 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -16,18 +16,18 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.remote.overthere;
+package de.uniulm.omi.cloudiator.sword.api.annotations;
 
-import com.google.inject.Injector;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
-import de.uniulm.omi.cloudiator.sword.remote.internal.AbstractRemoteModule;
+import com.google.inject.BindingAnnotation;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Created by Daniel Seybold on 06.05.2015.
+ * Created by daniel on 06.11.15.
  */
-public class OverthereModule extends AbstractRemoteModule {
-
-    @Override protected RemoteConnectionFactory getRemoteConnectionFactory(Injector injector) {
-        return injector.getInstance(OverthereDecidingConnectionFactory.class);
-    }
+@BindingAnnotation @Target({FIELD, PARAMETER, METHOD}) @Retention(RUNTIME) public @interface Base {
 }
