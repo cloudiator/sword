@@ -70,7 +70,9 @@ public class RemoteBuilder {
         return Guice.createInjector(loggingModule, remoteModule, new AbstractModule() {
             @Override protected void configure() {
                 bind(ConnectionService.class).to(BaseConnectionService.class);
-                Names.bindProperties(binder(), properties.getProperties());
+                if (properties != null) {
+                    Names.bindProperties(binder(), properties.getProperties());
+                }
             }
         }).getInstance(ConnectionService.class);
     }
