@@ -11,6 +11,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+<<<<<<<HEAD
+    =======
+    >>>>>>>master
+
 /**
  * Created by daniel on 19.08.15.
  */
