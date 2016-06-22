@@ -5,6 +5,8 @@ import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionResponse;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
 
+import java.io.File;
+
 /**
  * Created by daniel on 19.08.15.
  */
@@ -29,6 +31,10 @@ public class OverthereWinRMConnection implements RemoteConnection {
             response.getStdErrExecutionOutputHandler(), CmdLine.build(splittedCommands)));
         return response;
 
+    }
+
+    @Override public File downloadFile(String path) throws RemoteException {
+        throw new UnsupportedOperationException("Download File method not implemented for windows");
     }
 
     @Override public int writeFile(String pathAndFilename, String content, boolean setExecutable)

@@ -1,6 +1,9 @@
 package de.uniulm.omi.cloudiator.sword.remote.internal;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Injector;
+import com.google.inject.Provides;
+import de.uniulm.omi.cloudiator.sword.api.annotations.Base;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 
 /**
@@ -9,8 +12,14 @@ import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 public abstract class AbstractRemoteModule extends AbstractModule {
 
     @Override protected void configure() {
-        bind(RemoteConnectionFactory.class)
-            .toInstance(new RetryingConnectionFactory(getRemoteConnectionFactory()));
+    }
+
+    @Provides @Base final RemoteConnectionFactory provideBaseConnectionFactory(Injector injector) {
+        return getRemoteConnectionFactory(injector);
+    }
+
+    @Provides final RemoteConnectionFactory provideConnectionFactory(Injector injector) {
+        return injector.getInstance(RetryingConnectionFactory.class);
     }
 
     /**
@@ -19,5 +28,5 @@ public abstract class AbstractRemoteModule extends AbstractModule {
      *
      * @return a class implementing a RemoteConnectionFactory.
      */
-    protected abstract RemoteConnectionFactory getRemoteConnectionFactory();
+    protected abstract RemoteConnectionFactory getRemoteConnectionFactory(Injector injector);
 }
