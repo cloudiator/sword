@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineTemplateBuilder;
@@ -50,9 +51,10 @@ public class OpenstackCreateVirtualMachineStrategy extends JCloudsCreateVirtualM
     @Inject public OpenstackCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient,
         OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter,
         OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions> templateOptionsConverter,
-        GetStrategy<String, Location> locationGetStrategy) {
+        GetStrategy<String, Location> locationGetStrategy,
+        ServiceConfiguration serviceConfiguration) {
         super(jCloudsComputeClient, computeMetadataVirtualMachineConverter,
-            templateOptionsConverter);
+            templateOptionsConverter, serviceConfiguration);
         this.locationGetStrategy = locationGetStrategy;
     }
 
@@ -114,5 +116,9 @@ public class OpenstackCreateVirtualMachineStrategy extends JCloudsCreateVirtualM
         }
 
         return templateOptionsToModify;
+    }
+
+    @Override protected org.jclouds.compute.options.TemplateOptions newTemplateOptions() {
+        return new NovaTemplateOptions();
     }
 }
