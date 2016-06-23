@@ -1,9 +1,15 @@
 package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
+import com.google.common.io.ByteStreams;
 import com.xebialabs.overthere.CmdLine;
+import com.xebialabs.overthere.OverthereFile;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionResponse;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by daniel on 19.08.15.
@@ -29,6 +35,19 @@ public class OverthereWinRMConnection implements RemoteConnection {
             response.getStdErrExecutionOutputHandler(), CmdLine.build(splittedCommands)));
         return response;
 
+    }
+
+    @Override public File downloadFile(String path) throws RemoteException {
+        OverthereFile overthereFile = this.delegate.getFile(path);
+        //todo refactor, is duplicate of unix logic.
+        try {
+            File tempFile = File.createTempFile("sword.overthere", "tmp");
+            tempFile.deleteOnExit();
+            ByteStreams.copy(overthereFile.getInputStream(), new FileOutputStream(tempFile));
+            return tempFile;
+        } catch (IOException e) {
+            throw new RemoteException(e);
+        }
     }
 
     @Override public int writeFile(String pathAndFilename, String content, boolean setExecutable)

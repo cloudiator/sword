@@ -1,8 +1,12 @@
 package de.uniulm.omi.cloudiator.sword.remote.internal;
 
 import com.github.rholder.retry.*;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import de.uniulm.omi.cloudiator.sword.api.annotations.Base;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.OSFamily;
+import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
@@ -13,35 +17,18 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by daniel on 19.08.15.
- *
- * @todo: should be moved to a general package
  */
 class RetryingConnectionFactory implements RemoteConnectionFactory {
 
-    /**
-     * How many retries should be done.
-     *
-     * @todo make configurable
-     */
-    private static final int CONNECTION_RETRIES = 10;
-
-    /**
-     * The factor of increasing the timeout value.
-     *
-     * @todo make configurable
-     */
-    private static final int INCREASE_TIMEOUT_FACTOR = 1000;
-
-    /**
-     * The maximum timeout.
-     *
-     * @todo make configurable
-     */
-    private static final int MAXIMUM_TIMEOUT = 30;
+    @Inject(optional = true) @Named(Constants.SSH_MAX_RETRIES) private int connectionRetries = 10;
+    @Inject(optional = true) @Named(Constants.SSH_EXPONENTIAL_MULTIPLIER) private long
+        exponentialMultiplier = 1000;
+    @Inject(optional = true) @Named(Constants.SSH_EXPONENTIAL_MAX_TIME) private long
+        exponentialMaxTime = 30;
 
     private final RemoteConnectionFactory remoteConnectionFactory;
 
-    RetryingConnectionFactory(RemoteConnectionFactory remoteConnectionFactory) {
+    @Inject RetryingConnectionFactory(@Base RemoteConnectionFactory remoteConnectionFactory) {
         this.remoteConnectionFactory = remoteConnectionFactory;
     }
 
@@ -55,9 +42,9 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
         Retryer<RemoteConnection> remoteConnectionRetryer =
             RetryerBuilder.<RemoteConnection>newBuilder().retryIfRuntimeException()
                 .retryIfException(throwable -> throwable instanceof RemoteException)
-                .withStopStrategy(StopStrategies.stopAfterAttempt(CONNECTION_RETRIES))
+                .withStopStrategy(StopStrategies.stopAfterAttempt(connectionRetries))
                 .withWaitStrategy(WaitStrategies
-                    .exponentialWait(INCREASE_TIMEOUT_FACTOR, MAXIMUM_TIMEOUT, TimeUnit.SECONDS))
+                    .exponentialWait(exponentialMultiplier, exponentialMaxTime, TimeUnit.SECONDS))
                 .build();
 
         try {

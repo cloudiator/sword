@@ -25,4 +25,14 @@ public class Constants {
     private Constants() {
         throw new AssertionError("constants class");
     }
+
+    public static final String IGNORE_LOGIN_PASSWORD = "sword.login.password.ignore";
+    public static final String IGNORE_LOGIN_USERNAME = "sword.login.username.ignore";
+    public static final String IGNORE_LOGIN_KEYPAIR = "sword.login.keypair.ignore";
+
+    public static final String SSH_EXPONENTIAL_MULTIPLIER = "sword.ssh.exponential.multiplier";
+    public static final String SSH_EXPONENTIAL_MAX_TIME = "sword.ssh.exponential.max.time";
+    public static final String SSH_MAX_RETRIES = "sword.ssh.max.retries";
+
+
 }
