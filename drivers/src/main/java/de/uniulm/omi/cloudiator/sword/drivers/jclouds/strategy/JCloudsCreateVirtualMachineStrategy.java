@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
@@ -28,6 +29,8 @@ import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Template;
 import org.jclouds.compute.domain.TemplateBuilder;
+
+import java.util.Collections;
 
 /**
  * Created by daniel on 12.01.15.
@@ -39,14 +42,17 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
         computeMetadataVirtualMachineConverter;
     private final OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>
         templateOptionsConverter;
+    private final ServiceConfiguration serviceConfiguration;
 
 
     @Inject public JCloudsCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient,
         OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter,
-        OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions> templateOptionsConverter) {
+        OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions> templateOptionsConverter,
+        ServiceConfiguration serviceConfiguration) {
         this.jCloudsComputeClient = jCloudsComputeClient;
         this.computeMetadataVirtualMachineConverter = computeMetadataVirtualMachineConverter;
         this.templateOptionsConverter = templateOptionsConverter;
+        this.serviceConfiguration = serviceConfiguration;
     }
 
     @Override
@@ -61,11 +67,26 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
             .imageId(virtualMachineTemplateToUse.imageId())
             .locationId(virtualMachineTemplateToUse.locationId());
 
+        final org.jclouds.compute.options.TemplateOptions jcloudsTemplateOptions;
+
         if (virtualMachineTemplate.templateOptions().isPresent()) {
-            templateBuilder.options(modifyTemplateOptions(virtualMachineTemplate,
-                templateOptionsConverter
-                    .apply(virtualMachineTemplateToUse.templateOptions().get())));
+            //convert the template options
+            jcloudsTemplateOptions =
+                templateOptionsConverter.apply(virtualMachineTemplateToUse.templateOptions().get());
+
+        } else {
+            //create a template options object for setting the name
+            jcloudsTemplateOptions = this.newTemplateOptions();
+            templateBuilder.options(jcloudsTemplateOptions);
         }
+
+        //set the name
+        jcloudsTemplateOptions.nodeNames(Collections
+            .singleton(serviceConfiguration.getNodeGroup() + "-" + virtualMachineTemplate.name()));
+
+        //call extension point
+        templateBuilder
+            .options(modifyTemplateOptions(virtualMachineTemplate, jcloudsTemplateOptions));
 
         final Template template = templateBuilder.build();
 
@@ -98,5 +119,9 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
         VirtualMachineTemplate originalVirtualMachineTemplate,
         org.jclouds.compute.options.TemplateOptions originalTemplateOptions) {
         return originalTemplateOptions;
+    }
+
+    protected org.jclouds.compute.options.TemplateOptions newTemplateOptions() {
+        return new org.jclouds.compute.options.TemplateOptions();
     }
 }

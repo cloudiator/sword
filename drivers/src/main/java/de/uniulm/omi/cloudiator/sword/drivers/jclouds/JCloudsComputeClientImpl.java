@@ -109,6 +109,7 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
     }
 
     @Override public void deleteNode(String id) {
+        //todo check if node belongs to correct node group, otherwise do not delete it.
         this.computeServiceContext.getComputeService().destroyNode(id);
     }
 
