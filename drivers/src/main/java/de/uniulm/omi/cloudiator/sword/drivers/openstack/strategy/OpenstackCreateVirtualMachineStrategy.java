@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
@@ -26,6 +27,7 @@ import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineTemplateBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackConstants;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.openstack.nova.v2_0.compute.options.NovaTemplateOptions;
 import org.jclouds.openstack.nova.v2_0.domain.regionscoped.RegionAndId;
@@ -47,6 +49,8 @@ import static com.google.common.base.Preconditions.checkState;
 public class OpenstackCreateVirtualMachineStrategy extends JCloudsCreateVirtualMachineStrategy {
 
     private final GetStrategy<String, Location> locationGetStrategy;
+    @Inject(optional = true) @Named(OpenstackConstants.FLOATING_IP_POOL_PROPERTY) private String
+        floatingIpPool = null;
 
     @Inject public OpenstackCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient,
         OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter,
@@ -113,6 +117,12 @@ public class OpenstackCreateVirtualMachineStrategy extends JCloudsCreateVirtualM
 
             ((NovaTemplateOptions) templateOptionsToModify)
                 .availabilityZone(availabilityZone + ":" + host);
+        }
+
+        //set floating ip to always true
+        ((NovaTemplateOptions) templateOptionsToModify).autoAssignFloatingIp(true);
+        if (floatingIpPool != null) {
+            ((NovaTemplateOptions) templateOptionsToModify).floatingIpPoolNames(floatingIpPool);
         }
 
         return templateOptionsToModify;
