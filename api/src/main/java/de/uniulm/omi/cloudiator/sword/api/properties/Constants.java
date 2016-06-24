@@ -34,5 +34,7 @@ public class Constants {
     public static final String SSH_EXPONENTIAL_MAX_TIME = "sword.ssh.exponential.max.time";
     public static final String SSH_MAX_RETRIES = "sword.ssh.max.retries";
 
+    public static final String SWORD_REGIONS = "sword.regions";
+
 
 }

@@ -19,17 +19,15 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.strategy;
 
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.ServerTemplate;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
-import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.util.FlexiantUtil;
-
-import java.util.Random;
 
 /**
  * Created by daniel on 12.01.15.
@@ -37,7 +35,6 @@ import java.util.Random;
 public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
     private final FlexiantComputeClient flexiantComputeClient;
-    private static final Random random = new Random();
     private final ServiceConfiguration serviceConfiguration;
     private final OneWayConverter<Server, VirtualMachine> serverVirtualMachineConverter;
 
@@ -56,15 +53,14 @@ public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachin
         final ServerTemplate serverTemplate = flexiantServerTemplateBuilder
             .hardwareId(FlexiantUtil.stripLocation(virtualMachineTemplate.hardwareFlavorId()))
             .image(FlexiantUtil.stripLocation(virtualMachineTemplate.imageId()))
-            .vdc(virtualMachineTemplate.locationId()).serverName(generateRandomNameWithNodeGroup())
-            .build();
+            .vdc(virtualMachineTemplate.locationId())
+            .serverName(nameWithNodeGroup(virtualMachineTemplate.name())).build();
 
         return this.serverVirtualMachineConverter
             .apply(this.flexiantComputeClient.createServer(serverTemplate));
     }
 
-    protected String generateRandomNameWithNodeGroup() {
-        String name = String.valueOf(FlexiantCreateVirtualMachineStrategy.random.nextInt(999));
+    protected String nameWithNodeGroup(String name) {
         return serviceConfiguration.getNodeGroup() + "-" + name;
     }
 

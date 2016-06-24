@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.core.domain;
 import com.google.common.base.Optional;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
+import de.uniulm.omi.cloudiator.sword.core.util.Name;
 
 import javax.annotation.Nullable;
 
@@ -32,14 +33,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class VirtualMachineTemplateImpl implements VirtualMachineTemplate {
 
+    @Nullable private final String name;
     private final String imageId;
     private final String hardwareFlavorId;
     private final String locationId;
-    private final Optional<TemplateOptions> templateOptions;
+    @Nullable private final TemplateOptions templateOptions;
 
 
-    VirtualMachineTemplateImpl(String imageId, String hardwareFlavorId, String locationId,
-        @Nullable TemplateOptions templateOptions) {
+    VirtualMachineTemplateImpl(@Nullable String name, String imageId, String hardwareFlavorId,
+        String locationId, @Nullable TemplateOptions templateOptions) {
 
         checkNotNull(imageId);
         checkArgument(!imageId.isEmpty());
@@ -53,7 +55,12 @@ public class VirtualMachineTemplateImpl implements VirtualMachineTemplate {
         this.imageId = imageId;
         this.hardwareFlavorId = hardwareFlavorId;
         this.locationId = locationId;
-        this.templateOptions = Optional.fromNullable(templateOptions);
+        this.templateOptions = templateOptions;
+        this.name = name;
+    }
+
+    @Override public String name() {
+        return Name.of(name).uniqueName();
     }
 
     @Override public String imageId() {
@@ -69,6 +76,6 @@ public class VirtualMachineTemplateImpl implements VirtualMachineTemplate {
     }
 
     @Override public Optional<TemplateOptions> templateOptions() {
-        return templateOptions;
+        return Optional.fromNullable(templateOptions);
     }
 }
