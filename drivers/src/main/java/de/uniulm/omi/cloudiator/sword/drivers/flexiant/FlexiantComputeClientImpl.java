@@ -18,25 +18,40 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import de.uniulm.omi.cloudiator.flexiant.client.api.FlexiantException;
+import de.uniulm.omi.cloudiator.flexiant.client.api.ResourceInLocation;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.*;
+import de.uniulm.omi.cloudiator.flexiant.client.domain.generic.ResourceImpl;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.DriverException;
+import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 
+import javax.inject.Named;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 
 /**
  * Created by daniel on 05.12.14.
  */
-public class FlexiantComputeClientImpl implements FlexiantComputeClient {
+@Singleton public class FlexiantComputeClientImpl implements FlexiantComputeClient {
 
     private final de.uniulm.omi.cloudiator.flexiant.client.compute.FlexiantComputeClient
         flexiantComputeClient;
     private final ServiceConfiguration serviceConfiguration;
+    @Inject(optional = true) @Named(Constants.SWORD_REGIONS) String clusterFilter;
+    private final Supplier<Set<String>> validClusterIdSupplier;
 
     @Inject public FlexiantComputeClientImpl(ServiceConfiguration serviceConfiguration) {
 
@@ -49,11 +64,51 @@ public class FlexiantComputeClientImpl implements FlexiantComputeClient {
                 serviceConfiguration.getCredentials().user(),
                 serviceConfiguration.getCredentials().password());
         this.serviceConfiguration = serviceConfiguration;
+        this.validClusterIdSupplier =
+            Suppliers.memoizeWithExpiration(new ValidClusterSupplier(), 10, TimeUnit.MINUTES);
+    }
+
+    /**
+     * todo: find a better way to cache those ids.
+     */
+    private Set<String> validClusterIds() {
+        return validClusterIdSupplier.get();
+    }
+
+    private Predicate<? super ResourceInLocation> resourceFilter() {
+        return resourceInLocation -> validClusterIds()
+            .contains(resourceInLocation.getLocationUUID());
+    }
+
+    private Predicate<Location> locationFilter() {
+        return location -> {
+            if (clusterFilter == null) {
+                return true;
+            }
+            switch (location.getLocationScope()) {
+                case CLUSTER:
+                    return validClusterIds().contains(location.getId());
+                case VDC:
+                    checkState(location.getParent() != null);
+                    return validClusterIds().contains(location.getParent().getId());
+                default:
+                    throw new AssertionError(String.format(
+                        "Could not filter flexiant locations, only expecting %s and %s as location scope",
+                        LocationScope.CLUSTER, LocationScope.VDC));
+            }
+        };
+    }
+
+    private Set<Location> listClusters() throws FlexiantException {
+        return this.flexiantComputeClient.getLocations().stream()
+            .filter(location -> location.getLocationScope().equals(LocationScope.CLUSTER))
+            .collect(Collectors.toSet());
     }
 
     @Override public Set<Image> listImages() {
         try {
-            return this.flexiantComputeClient.getImages(null);
+            return this.flexiantComputeClient.getImages(null).stream().filter(resourceFilter())
+                .collect(Collectors.toSet());
         } catch (FlexiantException e) {
             throw new DriverException("Could not retrieve images", e);
         }
@@ -61,7 +116,8 @@ public class FlexiantComputeClientImpl implements FlexiantComputeClient {
 
     @Override public Set<Hardware> listHardware() {
         try {
-            return this.flexiantComputeClient.getHardwareFlavors(null);
+            return this.flexiantComputeClient.getHardwareFlavors(null).stream()
+                .filter(resourceFilter()).collect(Collectors.toSet());
         } catch (FlexiantException e) {
             throw new DriverException("Could not retrieve hardware", e);
         }
@@ -69,7 +125,8 @@ public class FlexiantComputeClientImpl implements FlexiantComputeClient {
 
     @Override public Set<Location> listLocations() {
         try {
-            return this.flexiantComputeClient.getLocations();
+            return this.flexiantComputeClient.getLocations().stream().filter(locationFilter())
+                .collect(Collectors.toSet());
         } catch (FlexiantException e) {
             throw new DriverException("Could not retrieve images", e);
         }
@@ -77,7 +134,8 @@ public class FlexiantComputeClientImpl implements FlexiantComputeClient {
 
     @Override public Set<Server> listServers() {
         try {
-            return this.flexiantComputeClient.getServers(serviceConfiguration.getNodeGroup(), null);
+            return this.flexiantComputeClient.getServers(serviceConfiguration.getNodeGroup(), null)
+                .stream().filter(resourceFilter()).collect(Collectors.toSet());
         } catch (FlexiantException e) {
             throw new DriverException("Could not retrieve servers.", e);
         }
@@ -96,6 +154,31 @@ public class FlexiantComputeClientImpl implements FlexiantComputeClient {
             this.flexiantComputeClient.deleteServer(serverUUID);
         } catch (FlexiantException e) {
             throw new DriverException(e);
+        }
+    }
+
+    private class ValidClusterSupplier implements Supplier<Set<String>> {
+        @Override public Set<String> get() {
+            try {
+                Set<String> allClusterIds =
+                    listClusters().stream().map(ResourceImpl::getId).collect(Collectors.toSet());
+                Set<String> clustersToUse = Sets.newHashSetWithExpectedSize(allClusterIds.size());
+                if (clusterFilter == null) {
+                    return allClusterIds;
+                }
+                Sets.newHashSet(Arrays.asList(clusterFilter.split(","))).forEach(clusterUUID -> {
+                    if (!allClusterIds.contains(clusterUUID)) {
+                        throw new IllegalArgumentException(String.format(
+                            "Configuration option %s wants to whitelist cluster %s, but this cluster does not exist",
+                            Constants.SWORD_REGIONS, clusterUUID));
+                    }
+                    clustersToUse.add(clusterUUID);
+                });
+                return clustersToUse;
+
+            } catch (FlexiantException e) {
+                throw new IllegalStateException(e);
+            }
         }
     }
 

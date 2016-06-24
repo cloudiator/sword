@@ -21,8 +21,11 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
+import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging.JCloudsLoggingModule;
 import org.jclouds.ContextBuilder;
 import org.jclouds.View;
@@ -38,10 +41,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by daniel on 14.12.15.
  */
-public class BaseJCloudsViewFactory implements JCloudsViewFactory {
+@Singleton public class BaseJCloudsViewFactory implements JCloudsViewFactory {
 
     private final ServiceConfiguration serviceConfiguration;
     private final LoggerFactory loggerFactory;
+    @Inject(optional = true) @Named(Constants.SWORD_REGIONS) private String regions = null;
 
     @Inject public BaseJCloudsViewFactory(ServiceConfiguration serviceConfiguration,
         LoggerFactory loggerFactory) {
@@ -93,6 +97,9 @@ public class BaseJCloudsViewFactory implements JCloudsViewFactory {
     private ContextBuilder buildContext() {
         //todo ugly hack
         final Properties properties = new Properties();
+        if (regions != null) {
+            properties.setProperty("jclouds.regions", regions);
+        }
 
         //todo more ugly hack to workaround wrong parsing in jclouds
         if (serviceConfiguration.getProvider().equals("google-compute-engine")) {
