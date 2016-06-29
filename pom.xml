@@ -33,11 +33,18 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>jclouds-snapshots</id>
+            <url>https://repository.apache.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jclouds.version>1.9.2</jclouds.version>
+        <jclouds.version>2.0.0-SNAPSHOT</jclouds.version>
         <jsch.version>0.1.51</jsch.version>
     </properties>
 

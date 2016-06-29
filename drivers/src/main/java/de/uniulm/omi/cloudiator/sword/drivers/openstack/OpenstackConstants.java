@@ -30,6 +30,9 @@ public class OpenstackConstants {
     public static final String DEFAULT_AVAILABILITY_ZONE_PROPERTY =
         "sword.openstack.defaultAvailabilityZone";
 
+    public static final String DEFAULT_NETWORK =
+        "sword.openstack.defaultNetwork";
+
     private OpenstackConstants() {
 
     }
