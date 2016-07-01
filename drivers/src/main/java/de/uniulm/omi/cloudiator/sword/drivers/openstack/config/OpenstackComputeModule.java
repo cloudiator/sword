@@ -19,7 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.config;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Sets;
 import com.google.inject.Injector;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
@@ -33,9 +36,11 @@ import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.NovaKeyPairTo
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.TemplateOptionsToNovaTemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackKeyPairService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackPublicIpService;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.OpenstackCreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.*;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
+
+import java.util.Set;
 
 /**
  * Compute module for the openstack nova compute api.
@@ -73,5 +78,12 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
     protected CreateVirtualMachineStrategy overrideCreateVirtualMachineStrategy(Injector injector,
         CreateVirtualMachineStrategy original) {
         return injector.getInstance(OpenstackCreateVirtualMachineStrategy.class);
+    }
+
+    @Provides @Singleton FloatingIpPoolStrategy provideFloatingIpPoolStrategy(Injector injector) {
+        Set<FloatingIpPoolStrategy> availableStrategies = Sets.newLinkedHashSetWithExpectedSize(2);
+        availableStrategies.add(injector.getInstance(ConfigurationFloatingIpPoolStrategy.class));
+        availableStrategies.add(injector.getInstance(OneFloatingIpPoolStrategy.class));
+        return new CompositeFloatingIpPoolStrategy(availableStrategies);
     }
 }

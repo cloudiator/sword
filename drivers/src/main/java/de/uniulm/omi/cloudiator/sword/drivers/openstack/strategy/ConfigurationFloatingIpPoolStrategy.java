@@ -19,14 +19,23 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
 import com.google.common.base.Optional;
-import com.google.inject.ImplementedBy;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackConstants;
 
-import java.util.function.Supplier;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 
 /**
- * Supplies the name of the floating ip pool to use
- * when trying to allocate new floating ip addresses.
+ * Retrieves the floating ip pool by reading the configuration.
  */
-@ImplementedBy(ConfigurationFloatingIpPoolSupplier.class) public interface FloatingIpPoolSupplier
-    extends Supplier<Optional<String>> {
+public class ConfigurationFloatingIpPoolStrategy implements FloatingIpPoolStrategy {
+
+    private @Inject(optional = true) @Named(OpenstackConstants.FLOATING_IP_POOL_PROPERTY) String
+        floatingIpPoolName = null;
+
+    @Override public Optional<String> apply(String virtualMachine) {
+        checkNotNull(virtualMachine);
+        return Optional.fromNullable(floatingIpPoolName);
+    }
 }
