@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.config;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Supplier;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
@@ -25,13 +26,11 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClientImpl;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.*;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.*;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsDeleteVirtualMachineStrategy;
@@ -151,6 +150,11 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
      */
     protected Class<? extends OneWayConverter<ComputeMetadata, VirtualMachine>> virtualMachineConverter() {
         return JCloudsComputeMetadataToVirtualMachine.class;
+    }
+
+    @Override protected Optional<SecurityGroupService> securityGroupService(Injector injector) {
+        //todo should be dependent on jclouds security group extension being present.
+        return Optional.of(injector.getInstance(JCloudsSecurityGroupService.class));
     }
 
     protected abstract Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter();
