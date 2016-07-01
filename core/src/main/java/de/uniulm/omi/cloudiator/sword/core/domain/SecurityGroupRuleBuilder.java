@@ -35,12 +35,38 @@ public class SecurityGroupRuleBuilder {
 
     }
 
+    public SecurityGroupRuleBuilder ipProtocol(IpProtocol ipProtocol) {
+        this.ipProtocol = ipProtocol;
+        return this;
+    }
+
+    public SecurityGroupRuleBuilder fromPort(int fromPort) {
+        this.fromPort = fromPort;
+        return this;
+    }
+
+    public SecurityGroupRuleBuilder toPort(int toPort) {
+        this.toPort = toPort;
+        return this;
+    }
+
+    public SecurityGroupRuleBuilder allPorts() {
+        this.fromPort = SecurityGroupRule.MIN_PORT;
+        this.toPort = SecurityGroupRule.MAX_PORT;
+        return this;
+    }
+
+    public SecurityGroupRuleBuilder cidr(String cidr) {
+        this.cidr = cidr;
+        return this;
+    }
+
     public static SecurityGroupRuleBuilder newBuilder() {
         return new SecurityGroupRuleBuilder();
     }
 
     public SecurityGroupRule build() {
-        return new SecurityGroupRuleImpl(ipProtocol,fromPort,toPort,cidr);
+        return new SecurityGroupRuleImpl(ipProtocol, fromPort, toPort, cidr);
     }
 
 }

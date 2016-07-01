@@ -18,8 +18,17 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
+import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
+import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.sword.core.domain.SecurityGroupBuilder;
+import org.jclouds.net.domain.IpPermission;
+
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 01.07.16.
@@ -27,7 +36,26 @@ import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
 public class JCloudsSecurityGroupToSecurityGroup
     implements OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup> {
 
+    private final OneWayConverter<org.jclouds.domain.Location, Location> locationConverter;
+    private final OneWayConverter<IpPermission, SecurityGroupRule> securityGroupRuleConverter;
+
+    @Inject public JCloudsSecurityGroupToSecurityGroup(
+        OneWayConverter<org.jclouds.domain.Location, Location> locationConverter,
+        OneWayConverter<IpPermission, SecurityGroupRule> securityGroupRuleConverter) {
+        checkNotNull(securityGroupRuleConverter);
+        this.securityGroupRuleConverter = securityGroupRuleConverter;
+        checkNotNull(locationConverter);
+        this.locationConverter = locationConverter;
+    }
+
     @Override public SecurityGroup apply(org.jclouds.compute.domain.SecurityGroup securityGroup) {
-        return null;
+
+        final SecurityGroupBuilder securityGroupBuilder =
+            SecurityGroupBuilder.newBuilder().id(securityGroup.getId())
+                .location(locationConverter.apply(securityGroup.getLocation()))
+                .name(securityGroup.getName()).addSecurityGroupRules(
+                securityGroup.getIpPermissions().stream().map(securityGroupRuleConverter::apply)
+                    .collect(Collectors.toSet()));
+        return securityGroupBuilder.build();
     }
 }

@@ -23,6 +23,9 @@ package de.uniulm.omi.cloudiator.sword.api.domain;
  */
 public interface SecurityGroupRule {
 
+    int MAX_PORT = 65535;
+    int MIN_PORT = 0;
+
     IpProtocol ipProtocol();
 
     int fromPort();

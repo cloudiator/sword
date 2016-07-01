@@ -30,9 +30,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class SecurityGroupRuleImpl implements SecurityGroupRule {
 
-    public static final int MAX_PORT = 65535;
-    public static final int MIN_PORT = 0;
-
     private static final String portRangeErrorMessage =
         String.format("port needs to be in range %s to %s.", MIN_PORT, MAX_PORT);
 

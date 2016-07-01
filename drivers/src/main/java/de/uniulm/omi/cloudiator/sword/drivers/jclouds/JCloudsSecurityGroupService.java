@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
@@ -27,6 +28,7 @@ import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.extensions.SecurityGroupExtension;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -38,9 +40,16 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
 
     private final ComputeServiceContext computeServiceContext;
     private final ServiceConfiguration serviceConfiguration;
+    private final OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup>
+        securityGroupConverter;
 
     @Inject public JCloudsSecurityGroupService(JCloudsViewFactory jCloudsViewFactory,
-        ServiceConfiguration serviceConfiguration) {
+        ServiceConfiguration serviceConfiguration,
+        OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup> securityGroupConverter) {
+
+
+        checkNotNull(securityGroupConverter);
+        this.securityGroupConverter = securityGroupConverter;
 
         checkNotNull(jCloudsViewFactory);
         checkNotNull(serviceConfiguration);
@@ -54,9 +63,10 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
     @Override public Set<SecurityGroup> listSecurityGroups() {
         final Optional<SecurityGroupExtension> optional =
             this.computeServiceContext.getComputeService().getSecurityGroupExtension();
-        checkState(optional.isPresent(),"security group extension not present.");
+        checkState(optional.isPresent(), "security group extension not present.");
+        return optional.get().listSecurityGroups().stream().map(securityGroupConverter)
+            .collect(Collectors.toSet());
 
-        return null;
     }
 
     @Override public SecurityGroup createSecurityGroup(String name, String location) {

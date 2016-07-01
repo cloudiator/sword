@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.IpProtocol;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.sword.core.domain.SecurityGroupRuleBuilder;
 import org.jclouds.net.domain.IpPermission;
 
 /**
@@ -37,9 +38,12 @@ public class JCloudsIpPermissionToSecurityGroupRule
     }
 
     @Override public SecurityGroupRule apply(IpPermission ipPermission) {
-        return null;
-    }
 
+        return SecurityGroupRuleBuilder.newBuilder()
+            //Todo check cidr!
+            .ipProtocol(ipProtocolConverter.apply(ipPermission.getIpProtocol()))
+            .fromPort(ipPermission.getFromPort()).toPort(ipPermission.getToPort()).build();
+    }
 
     private static class JCloudsIpProtocolToIpProtocol
         implements OneWayConverter<org.jclouds.net.domain.IpProtocol, IpProtocol> {
