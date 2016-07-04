@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import de.uniulm.omi.cloudiator.sword.api.domain.Cidr;
 import de.uniulm.omi.cloudiator.sword.api.domain.IpProtocol;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
 
@@ -29,7 +30,7 @@ public class SecurityGroupRuleBuilder {
     private IpProtocol ipProtocol;
     private int fromPort;
     private int toPort;
-    private String cidr;
+    private Cidr cidr;
 
     private SecurityGroupRuleBuilder() {
 
@@ -56,7 +57,7 @@ public class SecurityGroupRuleBuilder {
         return this;
     }
 
-    public SecurityGroupRuleBuilder cidr(String cidr) {
+    public SecurityGroupRuleBuilder cidr(Cidr cidr) {
         this.cidr = cidr;
         return this;
     }

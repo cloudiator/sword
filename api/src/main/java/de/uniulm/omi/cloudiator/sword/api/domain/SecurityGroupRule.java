@@ -32,5 +32,5 @@ public interface SecurityGroupRule {
 
     int toPort();
 
-    String cidr();
+    Cidr cidr();
 }

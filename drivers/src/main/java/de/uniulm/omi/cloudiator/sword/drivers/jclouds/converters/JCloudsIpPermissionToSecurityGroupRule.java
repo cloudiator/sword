@@ -21,8 +21,11 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.IpProtocol;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.sword.core.domain.CidrImpl;
 import de.uniulm.omi.cloudiator.sword.core.domain.SecurityGroupRuleBuilder;
 import org.jclouds.net.domain.IpPermission;
+
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by daniel on 01.07.16.
@@ -39,10 +42,16 @@ public class JCloudsIpPermissionToSecurityGroupRule
 
     @Override public SecurityGroupRule apply(IpPermission ipPermission) {
 
-        return SecurityGroupRuleBuilder.newBuilder()
-            //Todo check cidr!
+        SecurityGroupRuleBuilder securityGroupRuleBuilder = SecurityGroupRuleBuilder.newBuilder()
             .ipProtocol(ipProtocolConverter.apply(ipPermission.getIpProtocol()))
-            .fromPort(ipPermission.getFromPort()).toPort(ipPermission.getToPort()).build();
+            .fromPort(ipPermission.getFromPort()).toPort(ipPermission.getToPort());
+
+        //todo: we only want to support cidr, can we ensure this?
+        checkState(ipPermission.getCidrBlocks().size() == 1);
+        securityGroupRuleBuilder.cidr(CidrImpl.of(ipPermission.getCidrBlocks().iterator().next()));
+        checkState(ipPermission.getExclusionCidrBlocks().size() == 0);
+
+        return securityGroupRuleBuilder.build();
     }
 
     private static class JCloudsIpProtocolToIpProtocol

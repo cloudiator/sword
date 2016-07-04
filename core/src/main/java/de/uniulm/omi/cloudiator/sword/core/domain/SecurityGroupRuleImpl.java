@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import com.google.common.base.MoreObjects;
+import de.uniulm.omi.cloudiator.sword.api.domain.Cidr;
 import de.uniulm.omi.cloudiator.sword.api.domain.IpProtocol;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
 
@@ -36,9 +37,9 @@ public class SecurityGroupRuleImpl implements SecurityGroupRule {
     private final IpProtocol ipProtocol;
     private final int fromPort;
     private final int toPort;
-    private final String cidr;
+    private final Cidr cidr;
 
-    public SecurityGroupRuleImpl(IpProtocol ipProtocol, int fromPort, int toPort, String cidr) {
+    public SecurityGroupRuleImpl(IpProtocol ipProtocol, int fromPort, int toPort, Cidr cidr) {
         checkNotNull(ipProtocol);
         this.ipProtocol = ipProtocol;
 
@@ -48,8 +49,6 @@ public class SecurityGroupRuleImpl implements SecurityGroupRule {
         checkArgument(!(toPort < fromPort), "toPort must not be smaller than fromPort");
         this.toPort = toPort;
         checkNotNull(cidr);
-        checkArgument(!cidr.isEmpty());
-        //todo validate cidr or replace with class?
         this.cidr = cidr;
     }
 
@@ -69,7 +68,7 @@ public class SecurityGroupRuleImpl implements SecurityGroupRule {
         return toPort;
     }
 
-    @Override public String cidr() {
+    @Override public Cidr cidr() {
         return cidr;
     }
 

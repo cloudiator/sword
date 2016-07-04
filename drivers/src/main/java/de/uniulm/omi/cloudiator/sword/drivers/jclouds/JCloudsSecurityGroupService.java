@@ -22,23 +22,24 @@ import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.extensions.SecurityGroupExtension;
+import org.jclouds.domain.LocationBuilder;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.*;
 
 /**
  * Created by daniel on 01.07.16.
  */
 public class JCloudsSecurityGroupService implements SecurityGroupService {
 
-    private final ComputeServiceContext computeServiceContext;
+    private final SecurityGroupExtension securityGroupExtension;
     private final ServiceConfiguration serviceConfiguration;
     private final OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup>
         securityGroupConverter;
@@ -54,22 +55,30 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
         checkNotNull(jCloudsViewFactory);
         checkNotNull(serviceConfiguration);
 
-        this.computeServiceContext =
+        final ComputeServiceContext computeServiceContext =
             jCloudsViewFactory.buildJCloudsView(ComputeServiceContext.class);
+        final Optional<SecurityGroupExtension> optional =
+            computeServiceContext.getComputeService().getSecurityGroupExtension();
+        checkState(optional.isPresent(), "security group extension not present.");
+
+        this.securityGroupExtension = optional.get();
         this.serviceConfiguration = serviceConfiguration;
 
     }
 
     @Override public Set<SecurityGroup> listSecurityGroups() {
-        final Optional<SecurityGroupExtension> optional =
-            this.computeServiceContext.getComputeService().getSecurityGroupExtension();
-        checkState(optional.isPresent(), "security group extension not present.");
-        return optional.get().listSecurityGroups().stream().map(securityGroupConverter)
+        return securityGroupExtension.listSecurityGroups().stream().map(securityGroupConverter)
             .collect(Collectors.toSet());
 
     }
 
-    @Override public SecurityGroup createSecurityGroup(String name, String location) {
-        return null;
+    @Override public SecurityGroup createSecurityGroup(String name, Location location) {
+        checkNotNull(name);
+        checkArgument(!name.isEmpty());
+        checkNotNull(location);
+        org.jclouds.domain.Location jcloudsLocation =
+            new LocationBuilder().id(location.id()).description(location.name()).build();
+        return securityGroupConverter
+            .apply(this.securityGroupExtension.createSecurityGroup(name, jcloudsLocation));
     }
 }

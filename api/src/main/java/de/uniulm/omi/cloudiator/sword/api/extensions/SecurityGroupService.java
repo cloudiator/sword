@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.api.extensions;
 
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
 
 import java.util.Set;
@@ -29,6 +30,6 @@ public interface SecurityGroupService {
 
     Set<SecurityGroup> listSecurityGroups();
 
-    SecurityGroup createSecurityGroup(String name, String location);
+    SecurityGroup createSecurityGroup(String name, Location location);
 
 }
