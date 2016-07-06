@@ -28,6 +28,7 @@ import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.extensions.SecurityGroupExtension;
 import org.jclouds.domain.LocationBuilder;
+import org.jclouds.domain.LocationScope;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -77,7 +78,8 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
         checkArgument(!name.isEmpty());
         checkNotNull(location);
         org.jclouds.domain.Location jcloudsLocation =
-            new LocationBuilder().id(location.id()).description(location.name()).build();
+            new LocationBuilder().id(location.id()).description(location.name())
+                .scope(LocationScope.REGION).build();
         return securityGroupConverter
             .apply(this.securityGroupExtension.createSecurityGroup(name, jcloudsLocation));
     }

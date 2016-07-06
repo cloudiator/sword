@@ -52,6 +52,7 @@ public class JCloudsSecurityGroupToSecurityGroup
 
         final SecurityGroupBuilder securityGroupBuilder =
             SecurityGroupBuilder.newBuilder().id(securityGroup.getId())
+                .providerId(securityGroup.getProviderId())
                 .location(locationConverter.apply(securityGroup.getLocation()))
                 .name(securityGroup.getName()).addSecurityGroupRules(
                 securityGroup.getIpPermissions().stream().map(securityGroupRuleConverter::apply)

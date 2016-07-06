@@ -18,12 +18,14 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -46,5 +48,9 @@ public class SecurityGroupImpl extends ResourceImpl implements SecurityGroup {
         return ImmutableSet.copyOf(securityGroupRules);
     }
 
-
+    @Override public String toString() {
+        return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
+            .add("name", name()).add("location", location())
+            .add("securityGroupRules", Arrays.toString(securityGroupRules.toArray())).toString();
+    }
 }

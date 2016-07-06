@@ -41,6 +41,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers.VirtualMachineSu
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Hardware;
 import org.jclouds.domain.LoginCredentials;
+import org.jclouds.net.domain.IpPermission;
 
 import java.util.Set;
 
@@ -181,6 +182,15 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         //bind the login credential converter
         bind(new TypeLiteral<OneWayConverter<LoginCredentials, LoginCredential>>() {
         }).to(JCloudsLoginCredentialsToLoginCredential.class);
+
+        //bind the security group converter
+        bind(
+            new TypeLiteral<OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup>>() {
+            }).to(JCloudsSecurityGroupToSecurityGroup.class);
+
+        //bind the security group rule converter
+        bind(new TypeLiteral<OneWayConverter<IpPermission, SecurityGroupRule>>() {
+        }).to(JCloudsIpPermissionToSecurityGroupRule.class);
 
         //bind the template options converter
         bind(
