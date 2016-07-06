@@ -31,8 +31,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class SecurityGroupRuleImpl implements SecurityGroupRule {
 
-    private static final String portRangeErrorMessage =
-        String.format("port needs to be in range %s to %s.", MIN_PORT, MAX_PORT);
+    private static final String PORT_ERROR_MESSAGE =
+        "%s needs to be in range of the port range of the protocol, the protocol has the range %s-%s, but the port you supplied is %s";
 
     private final IpProtocol ipProtocol;
     private final int fromPort;
@@ -43,17 +43,22 @@ public class SecurityGroupRuleImpl implements SecurityGroupRule {
         checkNotNull(ipProtocol);
         this.ipProtocol = ipProtocol;
 
-        checkArgument(portInRange(fromPort), portRangeErrorMessage);
+        checkArgument(portInRange(ipProtocol, fromPort), String
+            .format(PORT_ERROR_MESSAGE, "formPort", ipProtocol.minPort(), ipProtocol.maxPort(),
+                fromPort));
         this.fromPort = fromPort;
-        checkArgument(portInRange(toPort), portRangeErrorMessage);
-        checkArgument(!(toPort < fromPort), "toPort must not be smaller than fromPort");
+        checkArgument(portInRange(ipProtocol, fromPort), String
+            .format(PORT_ERROR_MESSAGE, "toPort", ipProtocol.minPort(), ipProtocol.maxPort(),
+                fromPort));
+        checkArgument(!(toPort < fromPort),
+            String.format("toPort (%s) must not be smaller than fromPort (%s)", toPort, fromPort));
         this.toPort = toPort;
         checkNotNull(cidr);
         this.cidr = cidr;
     }
 
-    private static boolean portInRange(int port) {
-        return (port >= MIN_PORT) && (port <= MAX_PORT);
+    private static boolean portInRange(IpProtocol ipProtocol, int port) {
+        return (port >= ipProtocol.minPort()) && (port <= ipProtocol.maxPort());
     }
 
     @Override public IpProtocol ipProtocol() {

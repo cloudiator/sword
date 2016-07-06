@@ -68,8 +68,9 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
     }
 
     @Override public Set<SecurityGroup> listSecurityGroups() {
-        return securityGroupExtension.listSecurityGroups().stream().map(securityGroupConverter)
-            .collect(Collectors.toSet());
+        return securityGroupExtension.listSecurityGroups().stream()
+            .filter(securityGroup -> securityGroup.getName().startsWith("jclouds-"))
+            .map(securityGroupConverter).collect(Collectors.toSet());
 
     }
 

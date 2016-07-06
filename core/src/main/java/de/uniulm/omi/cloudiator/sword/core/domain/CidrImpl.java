@@ -48,17 +48,17 @@ public class CidrImpl implements Cidr {
         checkNotNull(address);
         checkArgument(!address.isEmpty());
 
-        String[] split = address.split(".");
-        checkArgument(split.length == 3, String
-            .format("Expected address to be of format 0.0.0.0, but %s has only %s parts", address,
-                split.length));
+        String[] split = address.split("\\.");
+        checkArgument(split.length == 4, String
+            .format("Expected address to consist of four octets, but %s has only %s octet(s)",
+                address, split.length));
         for (String part : split) {
             try {
                 Integer integer = Integer.valueOf(part);
                 checkArgument(integer >= 0 && integer <= 255,
-                    String.format("Parts need to be between 0 and 255, one part was %s.", integer));
+                    String.format("Octet needs to be between 0 and 255, one octet was %s.", integer));
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Address contains illegal sequence " + part, e);
+                throw new IllegalArgumentException("Address contains illegal octet " + part, e);
             }
         }
     }

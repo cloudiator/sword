@@ -19,15 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
 /**
- * Created by daniel on 01.07.16.
+ * Created by daniel on 06.07.16.
  */
-public interface SecurityGroupRule {
+public interface PortRange {
+    int maxPort();
 
-    IpProtocol ipProtocol();
-
-    int fromPort();
-
-    int toPort();
-
-    Cidr cidr();
+    int minPort();
 }

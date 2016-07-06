@@ -51,12 +51,6 @@ public class SecurityGroupRuleBuilder {
         return this;
     }
 
-    public SecurityGroupRuleBuilder allPorts() {
-        this.fromPort = SecurityGroupRule.MIN_PORT;
-        this.toPort = SecurityGroupRule.MAX_PORT;
-        return this;
-    }
-
     public SecurityGroupRuleBuilder cidr(Cidr cidr) {
         this.cidr = cidr;
         return this;
