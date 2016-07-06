@@ -16,23 +16,22 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.api.extensions;
+package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
+import de.uniulm.omi.cloudiator.sword.api.domain.IpProtocol;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
 
-import java.util.Set;
-
 /**
- * Created by daniel on 01.07.16.
+ * Created by daniel on 06.07.16.
  */
-public interface SecurityGroupService {
+public class SecurityGroupRules {
 
-    Set<SecurityGroup> listSecurityGroups();
+    public static SecurityGroupRule ALL =
+        SecurityGroupRuleBuilder.newBuilder().ipProtocol(IpProtocol.ALL).fromPort(-1).toPort(-1)
+            .cidr(CidrImpl.ALL).build();
 
-    SecurityGroup createSecurityGroup(String name, Location location);
-
-    SecurityGroup addRule(SecurityGroupRule rule, SecurityGroup securityGroup);
+    private SecurityGroupRules() {
+        throw new AssertionError("static class");
+    }
 
 }

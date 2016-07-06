@@ -24,12 +24,15 @@ import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
+import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 import org.jclouds.compute.ComputeServiceContext;
+import org.jclouds.compute.domain.SecurityGroupBuilder;
 import org.jclouds.compute.extensions.SecurityGroupExtension;
 import org.jclouds.domain.LocationBuilder;
 import org.jclouds.domain.LocationScope;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -84,4 +87,36 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
         return securityGroupConverter
             .apply(this.securityGroupExtension.createSecurityGroup(name, jcloudsLocation));
     }
+
+    @Override public SecurityGroup addRule(SecurityGroupRule rule, SecurityGroup securityGroup) {
+        checkNotNull(rule);
+        checkNotNull(securityGroup);
+
+        org.jclouds.net.domain.IpProtocol ipProtocol;
+        switch (rule.ipProtocol()) {
+            case ALL:
+                ipProtocol = org.jclouds.net.domain.IpProtocol.ALL;
+                break;
+            case ICMP:
+                ipProtocol = org.jclouds.net.domain.IpProtocol.ICMP;
+                break;
+            case TCP:
+                ipProtocol = org.jclouds.net.domain.IpProtocol.TCP;
+                break;
+            case UDP:
+                ipProtocol = org.jclouds.net.domain.IpProtocol.UDP;
+                break;
+            default:
+                throw new AssertionError("unknown ipprotocol" + rule.ipProtocol());
+        }
+        org.jclouds.compute.domain.SecurityGroup jcloudsSecurityGroup = new SecurityGroupBuilder().
+
+
+        return securityGroupConverter.apply(securityGroupExtension.addIpPermission(ipProtocol,rule.fromPort(),rule.toPort(),null,
+            Collections.singleton(rule.cidr().toString()),null,securityGroup));
+
+        return null;
+    }
+
+
 }
