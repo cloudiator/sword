@@ -28,8 +28,8 @@ import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.extensions.SecurityGroupExtension;
+import org.jclouds.net.domain.IpPermission;
 
-import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -112,9 +112,12 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
         org.jclouds.compute.domain.SecurityGroup jcloudsSecurityGroup =
             securityGroupExtension.getSecurityGroupById(securityGroup.id());
 
-        return securityGroupConverter.apply(securityGroupExtension
-            .addIpPermission(ipProtocol, rule.fromPort(), rule.toPort(), null,
-                Collections.singleton(rule.cidr().toString()), null, jcloudsSecurityGroup));
+        IpPermission ipPermission =
+            new IpPermission.Builder().cidrBlock(rule.cidr().toString()).fromPort(rule.fromPort())
+                .toPort(rule.toPort()).ipProtocol(ipProtocol).build();
+
+        return securityGroupConverter
+            .apply(securityGroupExtension.addIpPermission(ipPermission, jcloudsSecurityGroup));
     }
 
 
