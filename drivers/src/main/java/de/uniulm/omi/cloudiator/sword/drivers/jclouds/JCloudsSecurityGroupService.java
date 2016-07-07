@@ -27,10 +27,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 import org.jclouds.compute.ComputeServiceContext;
-import org.jclouds.compute.domain.SecurityGroupBuilder;
 import org.jclouds.compute.extensions.SecurityGroupExtension;
-import org.jclouds.domain.LocationBuilder;
-import org.jclouds.domain.LocationScope;
 
 import java.util.Collections;
 import java.util.Set;
@@ -47,11 +44,15 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
     private final ServiceConfiguration serviceConfiguration;
     private final OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup>
         securityGroupConverter;
+    private final OneWayConverter<Location, org.jclouds.domain.Location> locationConverter;
 
     @Inject public JCloudsSecurityGroupService(JCloudsViewFactory jCloudsViewFactory,
         ServiceConfiguration serviceConfiguration,
-        OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup> securityGroupConverter) {
+        OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup> securityGroupConverter,
+        OneWayConverter<Location, org.jclouds.domain.Location> locationConverter) {
 
+        checkNotNull(locationConverter);
+        this.locationConverter = locationConverter;
 
         checkNotNull(securityGroupConverter);
         this.securityGroupConverter = securityGroupConverter;
@@ -81,9 +82,8 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
         checkNotNull(name);
         checkArgument(!name.isEmpty());
         checkNotNull(location);
-        org.jclouds.domain.Location jcloudsLocation =
-            new LocationBuilder().id(location.id()).description(location.name())
-                .scope(LocationScope.REGION).build();
+
+        org.jclouds.domain.Location jcloudsLocation = locationConverter.apply(location);
         return securityGroupConverter
             .apply(this.securityGroupExtension.createSecurityGroup(name, jcloudsLocation));
     }
@@ -107,15 +107,14 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
                 ipProtocol = org.jclouds.net.domain.IpProtocol.UDP;
                 break;
             default:
-                throw new AssertionError("unknown ipprotocol" + rule.ipProtocol());
+                throw new AssertionError("unknown ipProtocol" + rule.ipProtocol());
         }
-        org.jclouds.compute.domain.SecurityGroup jcloudsSecurityGroup = new SecurityGroupBuilder().
+        org.jclouds.compute.domain.SecurityGroup jcloudsSecurityGroup =
+            securityGroupExtension.getSecurityGroupById(securityGroup.id());
 
-
-        return securityGroupConverter.apply(securityGroupExtension.addIpPermission(ipProtocol,rule.fromPort(),rule.toPort(),null,
-            Collections.singleton(rule.cidr().toString()),null,securityGroup));
-
-        return null;
+        return securityGroupConverter.apply(securityGroupExtension
+            .addIpPermission(ipProtocol, rule.fromPort(), rule.toPort(), null,
+                Collections.singleton(rule.cidr().toString()), null, jcloudsSecurityGroup));
     }
 
 

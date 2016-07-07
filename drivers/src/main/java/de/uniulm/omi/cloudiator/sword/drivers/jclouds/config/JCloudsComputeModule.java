@@ -171,6 +171,10 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         bind(new TypeLiteral<OneWayConverter<org.jclouds.domain.Location, Location>>() {
         }).to(JCloudsLocationToLocation.class);
 
+        //bind the reverse location converter
+        bind(new TypeLiteral<OneWayConverter<Location, org.jclouds.domain.Location>>() {
+        }).to(LocationToJCloudsLocation.class);
+
         //bind the hardware converter
         bind(new TypeLiteral<OneWayConverter<Hardware, HardwareFlavor>>() {
         }).to(JCloudsHardwareToHardwareFlavor.class);
