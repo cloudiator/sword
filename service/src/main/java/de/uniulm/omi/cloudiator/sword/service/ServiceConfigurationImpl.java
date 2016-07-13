@@ -39,14 +39,14 @@ public class ServiceConfigurationImpl implements ServiceConfiguration {
 
     ServiceConfigurationImpl(String provider, @Nullable String endpoint, Credentials credentials,
         String nodeGroup) {
-        checkNotNull(provider);
-        checkArgument(!provider.isEmpty());
+        checkNotNull(provider, "provider is null");
+        checkArgument(!provider.isEmpty(), "provider is empty");
         if (endpoint != null) {
-            checkArgument(!endpoint.isEmpty());
+            checkArgument(!endpoint.isEmpty(), "endpoint is empty");
         }
-        checkNotNull(credentials);
-        checkNotNull(nodeGroup);
-        checkArgument(!nodeGroup.isEmpty());
+        checkNotNull(credentials, "credentials are null");
+        checkNotNull(nodeGroup, "nodegroup is null");
+        checkArgument(!nodeGroup.isEmpty(), "nodegroup is empty");
 
         this.provider = provider;
         this.endpoint = endpoint;
