@@ -49,8 +49,8 @@ import static com.google.common.base.Preconditions.checkState;
 public class OpenstackCreateVirtualMachineStrategy extends JCloudsCreateVirtualMachineStrategy {
 
     private final GetStrategy<String, Location> locationGetStrategy;
-    @Inject(optional = true) @Named(OpenstackConstants.FLOATING_IP_POOL_PROPERTY) private String
-        floatingIpPool = null;
+    @Inject(optional = true) @Named(OpenstackConstants.DEFAULT_NETWORK) private String
+        defaultNetwork = null;
 
     @Inject public OpenstackCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient,
         OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter,
@@ -119,10 +119,9 @@ public class OpenstackCreateVirtualMachineStrategy extends JCloudsCreateVirtualM
                 .availabilityZone(availabilityZone + ":" + host);
         }
 
-        //set floating ip to always true
-        ((NovaTemplateOptions) templateOptionsToModify).autoAssignFloatingIp(true);
-        if (floatingIpPool != null) {
-            ((NovaTemplateOptions) templateOptionsToModify).floatingIpPoolNames(floatingIpPool);
+        // configure network
+        if (defaultNetwork != null) {
+            templateOptionsToModify.networks(defaultNetwork);
         }
 
         return templateOptionsToModify;

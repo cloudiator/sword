@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2016 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -19,20 +19,27 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
 import com.google.common.base.Optional;
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackConstants;
 
+import java.util.Set;
 
 /**
- * Created by daniel on 08.09.15.
+ * Composite pattern for floating ip pool strategies.
  */
-public class ConfigurationFloatingIpPoolSupplier implements FloatingIpPoolSupplier {
+public class CompositeFloatingIpPoolStrategy implements FloatingIpPoolStrategy {
 
-    private @Inject(optional = true) @Named(OpenstackConstants.FLOATING_IP_POOL_PROPERTY) String
-        floatingIpPoolName = null;
+    private final Set<FloatingIpPoolStrategy> strategies;
 
-    @Override public Optional<String> get() {
-        return Optional.fromNullable(floatingIpPoolName);
+    public CompositeFloatingIpPoolStrategy(Set<FloatingIpPoolStrategy> strategies) {
+        this.strategies = strategies;
+    }
+
+    @Override public Optional<String> apply(String virtualMachine) {
+        for (FloatingIpPoolStrategy strategy : strategies) {
+            final Optional<String> optionalPool = strategy.apply(virtualMachine);
+            if (optionalPool.isPresent()) {
+                return optionalPool;
+            }
+        }
+        return Optional.absent();
     }
 }

@@ -16,25 +16,21 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.openstack;
+package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
+
+import com.google.common.base.Optional;
 
 /**
- * Created by daniel on 08.09.15.
+ * Supplies the name of the floating ip pool to use
+ * when trying to allocate new floating ip addresses for the given virtual machine
  */
-public class OpenstackConstants {
+public interface FloatingIpPoolStrategy {
 
-    public static final String FLOATING_IP_POOL_PROPERTY = "sword.openstack.floatingIpPool";
     /**
-     * todo: workaround for discovering the availability zones via getLocations API.
+     * Supplies an floating ip pool for the given vm id.
+     *
+     * @param virtualMachine the id of the virtual machine.
+     * @return an {@link Optional} identifier for the floating ip pool.
      */
-    public static final String DEFAULT_AVAILABILITY_ZONE_PROPERTY =
-        "sword.openstack.defaultAvailabilityZone";
-
-    public static final String DEFAULT_NETWORK =
-        "sword.openstack.defaultNetwork";
-
-    private OpenstackConstants() {
-
-    }
-
+    Optional<String> apply(String virtualMachine);
 }

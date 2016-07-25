@@ -26,8 +26,6 @@ import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackFloatingIpClient;
 import org.jclouds.openstack.nova.v2_0.domain.FloatingIP;
 
-import java.io.IOException;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -39,16 +37,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
 
     private final OpenstackFloatingIpClient openstackFloatingIpClient;
-    private final FloatingIpPoolSupplier floatingIpPoolSupplier;
+    private final FloatingIpPoolStrategy floatingIpPoolStrategy;
 
     /**
      * @param openstackFloatingIpClient a reference to the openstack floating ip client.
-     * @param floatingIpPoolSupplier    a reference to the openstack floating ip supplier
+     * @param floatingIpPoolStrategy    a reference to the openstack floating ip supplier
      */
     @Inject public OpenstackFloatingIpStrategy(OpenstackFloatingIpClient openstackFloatingIpClient,
-        FloatingIpPoolSupplier floatingIpPoolSupplier) {
-        checkNotNull(floatingIpPoolSupplier);
-        this.floatingIpPoolSupplier = floatingIpPoolSupplier;
+        FloatingIpPoolStrategy floatingIpPoolStrategy) {
+        checkNotNull(floatingIpPoolStrategy);
+        this.floatingIpPoolStrategy = floatingIpPoolStrategy;
         checkNotNull(openstackFloatingIpClient);
         this.openstackFloatingIpClient = openstackFloatingIpClient;
     }
@@ -85,10 +83,10 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
                     break;
                 }
             }
-            if (toAssign == null && floatingIpPoolSupplier.get().isPresent()) {
+            if (toAssign == null && floatingIpPoolStrategy.apply(virtualMachineId).isPresent()) {
                 // we found nothing to assign, next step is trying to allocate
                 toAssign = this.openstackFloatingIpClient
-                    .allocateFromPool(floatingIpPoolSupplier.get().get(),
+                    .allocateFromPool(floatingIpPoolStrategy.apply(virtualMachineId).get(),
                         virtualMachineScopedId.getLocationId());
 
             }
