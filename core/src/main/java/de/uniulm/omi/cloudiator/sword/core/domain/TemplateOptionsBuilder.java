@@ -53,6 +53,12 @@ public class TemplateOptionsBuilder {
         return new TemplateOptionsBuilder();
     }
 
+    public static TemplateOptionsBuilder of(TemplateOptions templateOptions) {
+        return newBuilder().keyPairName(templateOptions.keyPairName())
+            .addOptions(templateOptions.additionalOptions())
+            .inboundPorts(templateOptions.inboundPorts()).tags(templateOptions.tags());
+    }
+
     /**
      * Sets the keypair.
      *
