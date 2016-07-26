@@ -34,7 +34,7 @@
             </snapshots>
         </repository>
         <repository>
-            <id>jclouds-snapshots</id>
+            <id>apache.snapshots</id>
             <url>https://repository.apache.org/content/repositories/snapshots</url>
             <snapshots>
                 <enabled>true</enabled>

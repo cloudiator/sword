@@ -3,9 +3,9 @@ package de.uniulm.omi.cloudiator.sword.remote.internal;
 import com.github.rholder.retry.*;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import de.uniulm.omi.cloudiator.common.os.RemoteType;
 import de.uniulm.omi.cloudiator.sword.api.annotations.Base;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.api.domain.OSFamily;
 import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
@@ -33,11 +33,11 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
     }
 
     @Override
-    public RemoteConnection createRemoteConnection(String remoteAddress, OSFamily osFamily,
+    public RemoteConnection createRemoteConnection(String remoteAddress, RemoteType remoteType,
         LoginCredential loginCredential, int port) {
 
         Callable<RemoteConnection> callable = () -> remoteConnectionFactory
-            .createRemoteConnection(remoteAddress, osFamily, loginCredential, port);
+            .createRemoteConnection(remoteAddress, remoteType, loginCredential, port);
 
         Retryer<RemoteConnection> remoteConnectionRetryer =
             RetryerBuilder.<RemoteConnection>newBuilder().retryIfRuntimeException()

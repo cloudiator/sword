@@ -31,9 +31,15 @@ public class JCloudsOperatingSystemConverter implements
         OperatingSystemFamily operatingSystemFamily =
             operatingSystemFamilyConverter.apply(operatingSystem.getFamily());
 
-        return OperatingSystemBuilder.newBuilder()
-            .version(OperatingSystemVersion.of(operatingSystem.getVersion()))
-            .architecture(OperatingSystemArchitecture.UNKNOWN).family(operatingSystemFamily)
-            .build();
+        OperatingSystemVersion operatingSystemVersion;
+        try {
+            operatingSystemVersion = operatingSystemFamily.operatingSystemVersionFormat()
+                .parse(operatingSystem.getVersion());
+        } catch (IllegalArgumentException e) {
+            operatingSystemVersion = OperatingSystemVersion.unknown();
+        }
+
+        return OperatingSystemBuilder.newBuilder().version(operatingSystemVersion).
+            architecture(OperatingSystemArchitecture.UNKNOWN).family(operatingSystemFamily).build();
     }
 }

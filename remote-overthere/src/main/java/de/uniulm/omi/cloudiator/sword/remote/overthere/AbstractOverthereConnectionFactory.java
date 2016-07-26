@@ -1,8 +1,8 @@
 package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 import com.xebialabs.overthere.ConnectionOptions;
+import de.uniulm.omi.cloudiator.common.os.RemoteType;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.api.domain.OSFamily;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
@@ -15,7 +15,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 public abstract class AbstractOverthereConnectionFactory implements RemoteConnectionFactory {
 
     @Override
-    public RemoteConnection createRemoteConnection(String remoteAddress, OSFamily osFamily,
+    public RemoteConnection createRemoteConnection(String remoteAddress, RemoteType remoteType,
         LoginCredential loginCredential, int port) throws RemoteException {
 
         checkArgument(loginCredential.username().isPresent(),

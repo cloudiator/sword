@@ -41,7 +41,7 @@ public class ImageImplTest {
             .scope(LocationScope.REGION).build();
     private final OperatingSystem testOs =
         OperatingSystemBuilder.newBuilder().architecture(OperatingSystemArchitecture.AMD64)
-            .family(OperatingSystemFamily.UBUNTU).version(OperatingSystemVersion.of("14.04"))
+            .family(OperatingSystemFamily.UBUNTU).version(OperatingSystemVersion.of(1404, "14.04"))
             .build();
     private Image validImage;
     private ImageBuilder validImageBuilder;
