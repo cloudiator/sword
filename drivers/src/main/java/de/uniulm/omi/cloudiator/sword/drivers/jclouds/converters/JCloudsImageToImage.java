@@ -22,6 +22,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.common.os.OperatingSystems;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.core.domain.ImageBuilder;
@@ -52,7 +53,7 @@ public class JCloudsImageToImage
 
     @Override public Image apply(org.jclouds.compute.domain.Image image) {
 
-        de.uniulm.omi.cloudiator.common.os.OperatingSystem os = null;
+        de.uniulm.omi.cloudiator.common.os.OperatingSystem os = OperatingSystems.unknown();
         if (image.getOperatingSystem() != null) {
             os = operatingSystemConverter.apply(image.getOperatingSystem());
         }

@@ -80,10 +80,11 @@ public class ImageImplTest {
 
     @Test public void getOperatingSystemTest() {
         Image underTest = validImage;
-        assertThat(underTest.operatingSystem().isPresent(), equalTo(true));
-        assertThat(underTest.operatingSystem().get(), equalTo(testOs));
-        underTest = validImageBuilder.os(null).build();
-        assertThat(underTest.operatingSystem().isPresent(), equalTo(false));
+        assertThat(underTest.operatingSystem(), equalTo(testOs));
+    }
+
+    @Test(expected = NullPointerException.class) public void getOperatingSystemNullTEst() {
+        validImageBuilder.os(null).build();
     }
 
     @Test public void getIdTest() {

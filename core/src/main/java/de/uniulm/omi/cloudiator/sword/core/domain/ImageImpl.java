@@ -24,23 +24,28 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 01.12.14.
  */
 public class ImageImpl extends ResourceImpl implements Image {
 
-    @Nullable private final OperatingSystem operatingSystem;
+    private final OperatingSystem operatingSystem;
 
-    @Override public Optional<OperatingSystem> operatingSystem() {
-        return Optional.ofNullable(operatingSystem);
+    @Override public OperatingSystem operatingSystem() {
+        return operatingSystem;
     }
 
-    ImageImpl(String id, String providerId, String name, @Nullable Location location, @Nullable OperatingSystem operatingSystem) {
+    ImageImpl(String id, String providerId, String name, @Nullable Location location,
+        OperatingSystem operatingSystem) {
         super(id, providerId, name, location);
-            this.operatingSystem = operatingSystem;
+        checkNotNull(operatingSystem, "operating system is null");
+        this.operatingSystem = operatingSystem;
     }
+
+
 
     @Override public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())

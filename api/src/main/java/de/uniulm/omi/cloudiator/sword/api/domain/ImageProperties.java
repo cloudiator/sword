@@ -27,6 +27,6 @@ import java.util.Optional;
  */
 public interface ImageProperties {
 
-    Optional<OperatingSystem> operatingSystem();
+    OperatingSystem operatingSystem();
 
 }
