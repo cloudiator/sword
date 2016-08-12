@@ -34,7 +34,7 @@ import de.uniulm.omi.cloudiator.sword.core.logging.NullLoggingModule;
 import de.uniulm.omi.cloudiator.sword.core.properties.PropertiesBuilder;
 import de.uniulm.omi.cloudiator.sword.remote.internal.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.remote.overthere.OverthereModule;
-import de.uniulm.omi.cloudiator.sword.service.providers.ProviderConfiguration;
+import de.uniulm.omi.cloudiator.sword.api.ProviderConfiguration;
 import de.uniulm.omi.cloudiator.sword.service.providers.Providers;
 
 import javax.annotation.Nullable;
