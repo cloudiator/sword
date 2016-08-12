@@ -19,6 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.api.service;
 
 import com.google.common.net.HostAndPort;
+import de.uniulm.omi.cloudiator.common.os.OperatingSystemFamily;
+import de.uniulm.omi.cloudiator.common.os.RemoteType;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.OSFamily;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
@@ -35,13 +37,13 @@ public interface ConnectionService {
      * Creates a new remote connection to the given address.
      *
      * @param hostAndPort     the host and the port of the remote socket (mandatory).
-     * @param osFamily        the {@link OSFamily} of the remote operating system (mandatory).
+     * @param remoteType        the {@link RemoteType} of the remote operating system (mandatory).
      * @param loginCredential the credentials for login (mandatory).
      * @return a connection to the remote machine.
      * @throws NullPointerException if any of the mandatory arguments is null.
      * @throws RemoteException      if an error occurs while establishing the connection.
      */
-    RemoteConnection getRemoteConnection(HostAndPort hostAndPort, OSFamily osFamily,
+    RemoteConnection getRemoteConnection(HostAndPort hostAndPort, RemoteType remoteType,
         LoginCredential loginCredential) throws RemoteException;
 
 }

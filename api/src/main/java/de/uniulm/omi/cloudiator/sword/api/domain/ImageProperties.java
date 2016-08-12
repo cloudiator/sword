@@ -18,8 +18,15 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import de.uniulm.omi.cloudiator.common.os.OperatingSystem;
+
+import java.util.Optional;
+
 /**
  * Created by daniel on 02.11.15.
  */
 public interface ImageProperties {
+
+    OperatingSystem operatingSystem();
+
 }

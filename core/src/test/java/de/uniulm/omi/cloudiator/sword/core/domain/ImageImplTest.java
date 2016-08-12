@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import de.uniulm.omi.cloudiator.common.os.*;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
@@ -38,13 +39,18 @@ public class ImageImplTest {
     private final Location testLocation =
         LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
             .scope(LocationScope.REGION).build();
+    private final OperatingSystem testOs =
+        OperatingSystemBuilder.newBuilder().architecture(OperatingSystemArchitecture.AMD64)
+            .family(OperatingSystemFamily.UBUNTU).version(OperatingSystemVersion.of(1404, "14.04"))
+            .build();
     private Image validImage;
     private ImageBuilder validImageBuilder;
 
     @Before public void before() {
+
         validImageBuilder =
             ImageBuilder.newBuilder().id(testId).providerId(testProviderId).name(testName)
-                .location(testLocation);
+                .location(testLocation).os(testOs);
         validImage = validImageBuilder.build();
     }
 
@@ -70,6 +76,15 @@ public class ImageImplTest {
 
     @Test(expected = IllegalArgumentException.class) public void nameNotEmptyTest() {
         validImageBuilder.name("").build();
+    }
+
+    @Test public void getOperatingSystemTest() {
+        Image underTest = validImage;
+        assertThat(underTest.operatingSystem(), equalTo(testOs));
+    }
+
+    @Test(expected = NullPointerException.class) public void getOperatingSystemNullTEst() {
+        validImageBuilder.os(null).build();
     }
 
     @Test public void getIdTest() {

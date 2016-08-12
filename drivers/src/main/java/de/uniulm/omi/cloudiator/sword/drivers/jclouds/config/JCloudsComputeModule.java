@@ -24,6 +24,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.common.os.OperatingSystemFamily;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
@@ -41,6 +42,8 @@ import de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers.LocationSupplier
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers.VirtualMachineSupplier;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Hardware;
+import org.jclouds.compute.domain.OperatingSystem;
+import org.jclouds.compute.domain.OsFamily;
 import org.jclouds.domain.LoginCredentials;
 
 import java.util.Set;
@@ -161,6 +164,15 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         //bind the image converter
         bind(new TypeLiteral<OneWayConverter<org.jclouds.compute.domain.Image, Image>>() {
         }).to(JCloudsImageToImage.class);
+
+        //bind the operating system converter
+        bind(
+            new TypeLiteral<OneWayConverter<OperatingSystem, de.uniulm.omi.cloudiator.common.os.OperatingSystem>>() {
+            }).to(JCloudsOperatingSystemConverter.class);
+
+        //bind the operating system family converter
+        bind(new TypeLiteral<OneWayConverter<OsFamily, OperatingSystemFamily>>() {
+        }).to(JCloudsOperatingSystemFamilyConverter.class);
 
         //bind the location converter
         bind(new TypeLiteral<OneWayConverter<org.jclouds.domain.Location, Location>>() {

@@ -20,8 +20,8 @@ package de.uniulm.omi.cloudiator.sword.core.base;
 
 import com.google.common.net.HostAndPort;
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.common.os.RemoteType;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.api.domain.OSFamily;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
@@ -39,10 +39,10 @@ public class BaseConnectionService implements ConnectionService {
     }
 
     @Override
-    public RemoteConnection getRemoteConnection(HostAndPort hostAndPort, OSFamily osFamily,
+    public RemoteConnection getRemoteConnection(HostAndPort hostAndPort, RemoteType remoteType,
         LoginCredential loginCredential) throws RemoteException {
         return this.remoteConnectionFactory
-            .createRemoteConnection(hostAndPort.getHostText(), osFamily, loginCredential,
+            .createRemoteConnection(hostAndPort.getHostText(), remoteType, loginCredential,
                 hostAndPort.getPort());
     }
 }

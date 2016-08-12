@@ -4,13 +4,12 @@ package de.uniulm.omi.cloudiator.sword.api.domain;
  * Enumeration for the operating system family
  * the OS belongs to.
  */
-public enum OSFamily {
+@Deprecated public enum OSFamily {
 
     /**
      * A windows operating system.
      */
-    WINDOWS,
-    /**
+    WINDOWS, /**
      * A unix operating system.
      */
     UNIX

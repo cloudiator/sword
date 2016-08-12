@@ -25,6 +25,13 @@
         <artifactId>project</artifactId>
         <version>0.2.0-SNAPSHOT</version>
     </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.cloudiator</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
+    </dependencies>
     <artifactId>api</artifactId>
     <packaging>jar</packaging>
 </project>
