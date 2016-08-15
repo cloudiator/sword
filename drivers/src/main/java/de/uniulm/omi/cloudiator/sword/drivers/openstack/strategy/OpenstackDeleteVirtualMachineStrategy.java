@@ -18,8 +18,6 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
-import de.uniulm.omi.cloudiator.sword.api.logging.InjectLogger;
-import de.uniulm.omi.cloudiator.sword.api.logging.Logger;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import org.jclouds.http.HttpResponse;
 
@@ -29,8 +27,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by daniel on 15.08.16.
  */
 public class OpenstackDeleteVirtualMachineStrategy implements DeleteVirtualMachineStrategy {
-
-    @InjectLogger private Logger logger;
 
     private final DeleteVirtualMachineStrategy jcloudsDeleteVirtualMachineStrategy;
 
@@ -47,14 +43,14 @@ public class OpenstackDeleteVirtualMachineStrategy implements DeleteVirtualMachi
             jcloudsDeleteVirtualMachineStrategy.apply(virtualMachineId);
         } catch (org.jclouds.http.HttpResponseException e) {
             final HttpResponse response = e.getResponse();
-            if (response.getStatusCode() != 400) {
-                if (!(response.getMessage().contains("Security Group") && response.getMessage()
-                    .contains("in use"))) {
-                    throw e;
+            if (response.getStatusCode() == 400) {
+                if (response.getMessage().contains("Security Group") && response.getMessage()
+                    .contains("in use")) {
+                    //silently error error
+                    return;
                 }
             }
-            //silently error error
-            logger.warn("Ignoring Security Group already in use exception", e);
+            throw e;
         }
     }
 }
