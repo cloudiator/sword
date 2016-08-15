@@ -53,8 +53,6 @@ public abstract class AbstractComputeModule extends AbstractModule {
         bind(new TypeLiteral<DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine>>() {
         }).to(BaseDiscoveryService.class);
 
-        bind(DeleteVirtualMachineStrategy.class).to(deleteVirtualMachineStrategy());
-
         bind(new TypeLiteral<GetStrategy<String, VirtualMachine>>() {
         }).to(getVirtualMachineStrategy());
 
@@ -71,6 +69,11 @@ public abstract class AbstractComputeModule extends AbstractModule {
     @Provides
     final CreateVirtualMachineStrategy provideCreateVirtualMachineStrategy(Injector injector) {
         return createVirtualMachineStrategy(injector);
+    }
+
+    @Provides
+    final DeleteVirtualMachineStrategy provideDeleteVirtualMachineStrategy(Injector injector) {
+        return deleteVirtualMachineStrategy(injector);
     }
 
     @Provides final Optional<PublicIpService> provideFloatingIpService(Injector injector) {
@@ -156,7 +159,7 @@ public abstract class AbstractComputeModule extends AbstractModule {
     /**
      * @return the {@link DeleteVirtualMachineStrategy} used for deleting {@link VirtualMachine}s
      */
-    protected abstract Class<? extends DeleteVirtualMachineStrategy> deleteVirtualMachineStrategy();
+    protected abstract DeleteVirtualMachineStrategy deleteVirtualMachineStrategy(Injector injector);
 
     /**
      * Extension point for the {@link GetStrategy} for {@link VirtualMachine}s

@@ -29,6 +29,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackComputeClientImpl;
@@ -78,6 +79,12 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
     protected CreateVirtualMachineStrategy overrideCreateVirtualMachineStrategy(Injector injector,
         CreateVirtualMachineStrategy original) {
         return injector.getInstance(OpenstackCreateVirtualMachineStrategy.class);
+    }
+
+    @Override
+    protected DeleteVirtualMachineStrategy overrideDeleteVirtualMachineStrategy(Injector injector,
+        DeleteVirtualMachineStrategy original) {
+        return new OpenstackDeleteVirtualMachineStrategy(original);
     }
 
     @Provides @Singleton FloatingIpPoolStrategy provideFloatingIpPoolStrategy(Injector injector) {

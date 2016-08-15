@@ -143,8 +143,14 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
 
     @Override
-    protected Class<? extends DeleteVirtualMachineStrategy> deleteVirtualMachineStrategy() {
-        return JCloudsDeleteVirtualMachineStrategy.class;
+    protected final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy(Injector injector) {
+        return overrideDeleteVirtualMachineStrategy(injector,
+            injector.getInstance(JCloudsDeleteVirtualMachineStrategy.class));
+    }
+
+    protected DeleteVirtualMachineStrategy overrideDeleteVirtualMachineStrategy(Injector injector,
+        DeleteVirtualMachineStrategy original) {
+        return original;
     }
 
     /**

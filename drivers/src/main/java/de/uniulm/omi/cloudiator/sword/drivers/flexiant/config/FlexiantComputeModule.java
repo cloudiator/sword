@@ -72,8 +72,8 @@ public class FlexiantComputeModule extends AbstractComputeModule {
     }
 
     @Override
-    protected Class<? extends DeleteVirtualMachineStrategy> deleteVirtualMachineStrategy() {
-        return FlexiantDeleteVirtualMachineStrategy.class;
+    protected DeleteVirtualMachineStrategy deleteVirtualMachineStrategy(Injector injector) {
+        return injector.getInstance(FlexiantDeleteVirtualMachineStrategy.class);
     }
 
     @Override protected void configure() {
