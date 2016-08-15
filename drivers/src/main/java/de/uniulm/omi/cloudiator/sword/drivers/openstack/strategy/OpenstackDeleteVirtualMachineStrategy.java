@@ -44,7 +44,7 @@ public class OpenstackDeleteVirtualMachineStrategy implements DeleteVirtualMachi
         } catch (org.jclouds.http.HttpResponseException e) {
             final HttpResponse response = e.getResponse();
             if (response.getStatusCode() == 400) {
-                if (response.getMessage().contains("Security Group") && response.getMessage()
+                if (e.getContent().contains("Security Group") && e.getContent()
                     .contains("in use")) {
                     //silently error error
                     return;
