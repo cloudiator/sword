@@ -36,10 +36,9 @@ public interface KeyPairService {
      * @param name the name for the keypair (non null)
      * @return the created keypair, will hold private key.
      * @throws KeyPairException         if an error occurs during creation.
-     * @throws NullPointerException     if the name is null.
      * @throws IllegalArgumentException if the name is empty.
      */
-    KeyPair create(String name);
+    KeyPair create(@Nullable String name);
 
     /**
      * Registers the public key at the cloud provider.
@@ -48,10 +47,10 @@ public interface KeyPairService {
      * @param publicKey the public key (non null)
      * @return the registered keypair
      * @throws KeyPairException         if an error occurs during creation.
-     * @throws NullPointerException     if any of the arguments is null.
+     * @throws NullPointerException     if the public key is null.
      * @throws IllegalArgumentException if any of the supplied strings are empty.
      */
-    KeyPair create(String name, String publicKey);
+    KeyPair create(@Nullable String name, String publicKey);
 
     /**
      * Deletes the key pair from the cloud provider.

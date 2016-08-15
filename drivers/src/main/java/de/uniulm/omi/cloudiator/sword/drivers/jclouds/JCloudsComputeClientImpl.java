@@ -70,12 +70,9 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
         Set<AssignableLocation> jCloudLocations = new HashSet<>(
             computeServiceContext.getComputeService().listAssignableLocations().size());
         jCloudLocations.addAll(
-            computeServiceContext.getComputeService().listAssignableLocations().stream()
-                .map(new Function<Location, AssignableLocation>() {
-                    @Override public AssignableLocation apply(Location location) {
-                        return new AssignableLocationImpl(location, true);
-                    }
-                }).collect(Collectors.toList()));
+            computeServiceContext.getComputeService().listAssignableLocations().stream().map(
+                (Function<Location, AssignableLocation>) location -> new AssignableLocationImpl(
+                    location, true)).collect(Collectors.toList()));
 
         //todo code is rather clumsy. realizes on hashset not adding the new data, and the equals
         //method not picking up the isAssignable...

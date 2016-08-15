@@ -20,17 +20,19 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Template;
 import org.jclouds.compute.domain.TemplateBuilder;
 
 import java.util.Collections;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 12.01.15.
@@ -42,17 +44,23 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
         computeMetadataVirtualMachineConverter;
     private final OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>
         templateOptionsConverter;
-    private final ServiceConfiguration serviceConfiguration;
+    private final NamingStrategy namingStrategy;
 
 
     @Inject public JCloudsCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient,
         OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter,
         OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions> templateOptionsConverter,
-        ServiceConfiguration serviceConfiguration) {
+        NamingStrategy namingStrategy) {
+
+        checkNotNull(jCloudsComputeClient);
+        checkNotNull(computeMetadataVirtualMachineConverter);
+        checkNotNull(templateOptionsConverter);
+        checkNotNull(namingStrategy);
+
         this.jCloudsComputeClient = jCloudsComputeClient;
         this.computeMetadataVirtualMachineConverter = computeMetadataVirtualMachineConverter;
         this.templateOptionsConverter = templateOptionsConverter;
-        this.serviceConfiguration = serviceConfiguration;
+        this.namingStrategy = namingStrategy;
     }
 
     @Override
@@ -82,7 +90,7 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
 
         //set the name
         jcloudsTemplateOptions.nodeNames(Collections
-            .singleton(serviceConfiguration.getNodeGroup() + "-" + virtualMachineTemplate.name()));
+            .singleton(namingStrategy.generateUniqueName(virtualMachineTemplate.name())));
 
         //call extension point
         templateBuilder

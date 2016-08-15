@@ -22,12 +22,14 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.ServerTemplate;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.util.FlexiantUtil;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 12.01.15.
@@ -35,15 +37,20 @@ import de.uniulm.omi.cloudiator.sword.drivers.flexiant.util.FlexiantUtil;
 public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
     private final FlexiantComputeClient flexiantComputeClient;
-    private final ServiceConfiguration serviceConfiguration;
     private final OneWayConverter<Server, VirtualMachine> serverVirtualMachineConverter;
+    private final NamingStrategy namingStrategy;
 
     @Inject public FlexiantCreateVirtualMachineStrategy(FlexiantComputeClient flexiantComputeClient,
-        ServiceConfiguration serviceConfiguration,
-        OneWayConverter<Server, VirtualMachine> serverVirtualMachineConverter) {
+        OneWayConverter<Server, VirtualMachine> serverVirtualMachineConverter,
+        NamingStrategy namingStrategy) {
+
+        checkNotNull(flexiantComputeClient);
+        checkNotNull(serverVirtualMachineConverter);
+        checkNotNull(namingStrategy);
+
         this.flexiantComputeClient = flexiantComputeClient;
-        this.serviceConfiguration = serviceConfiguration;
         this.serverVirtualMachineConverter = serverVirtualMachineConverter;
+        this.namingStrategy = namingStrategy;
     }
 
     @Override public VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
@@ -60,8 +67,8 @@ public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachin
             .apply(this.flexiantComputeClient.createServer(serverTemplate));
     }
 
-    protected String nameWithNodeGroup(String name) {
-        return serviceConfiguration.getNodeGroup() + "-" + name;
+    private String nameWithNodeGroup(String name) {
+        return namingStrategy.generateUniqueName(name);
     }
 
 

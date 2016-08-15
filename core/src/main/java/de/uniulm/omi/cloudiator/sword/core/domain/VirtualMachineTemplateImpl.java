@@ -21,7 +21,6 @@ package de.uniulm.omi.cloudiator.sword.core.domain;
 import com.google.common.base.Optional;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
-import de.uniulm.omi.cloudiator.sword.core.util.Name;
 
 import javax.annotation.Nullable;
 
@@ -60,7 +59,7 @@ public class VirtualMachineTemplateImpl implements VirtualMachineTemplate {
     }
 
     @Override public String name() {
-        return Name.of(name).uniqueName();
+        return name;
     }
 
     @Override public String imageId() {

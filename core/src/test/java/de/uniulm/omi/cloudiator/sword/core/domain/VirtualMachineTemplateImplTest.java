@@ -59,7 +59,6 @@ public class VirtualMachineTemplateImplTest {
     @Test public void testConstructorAllowsNullName() throws Exception {
         VirtualMachineTemplate nullNameTemplate =
             validVirtualMachineTemplateBuilder.name(null).build();
-        assertThat(nullNameTemplate.name(), is(notNullValue()));
     }
 
     @Test(expected = NullPointerException.class)

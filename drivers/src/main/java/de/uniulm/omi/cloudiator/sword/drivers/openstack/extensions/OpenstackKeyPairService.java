@@ -22,7 +22,10 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
+import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackKeyPairClient;
+
+import javax.annotation.Nullable;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -36,6 +39,7 @@ public class OpenstackKeyPairService implements KeyPairService {
     private final OneWayConverter<org.jclouds.openstack.nova.v2_0.domain.KeyPair, KeyPair>
         keyPairConverter;
     private final OpenstackKeyPairClient openstackKeyPairClient;
+    private final NamingStrategy namingStrategy;
 
     /**
      * Constructor.
@@ -43,31 +47,38 @@ public class OpenstackKeyPairService implements KeyPairService {
      * @param keyPairConverter       a converter for converting {@link org.jclouds.openstack.nova.v2_0.domain.KeyPair}
      *                               objects to {@link KeyPair} objects (non null).
      * @param openstackKeyPairClient an openstack client for key pairs (non null).
+     * @param namingStrategy         the naming strategy used for creating the key pair names.
      * @throws NullPointerException if any of the supplied arguments is null.
      */
     @Inject public OpenstackKeyPairService(
         OneWayConverter<org.jclouds.openstack.nova.v2_0.domain.KeyPair, KeyPair> keyPairConverter,
-        OpenstackKeyPairClient openstackKeyPairClient) {
+        OpenstackKeyPairClient openstackKeyPairClient, NamingStrategy namingStrategy) {
 
+        checkNotNull(namingStrategy);
         checkNotNull(keyPairConverter);
         checkNotNull(openstackKeyPairClient);
 
         this.keyPairConverter = keyPairConverter;
         this.openstackKeyPairClient = openstackKeyPairClient;
+        this.namingStrategy = namingStrategy;
     }
 
-    @Override public KeyPair create(String name) {
-        checkNotNull(name);
-        checkArgument(!name.isEmpty());
-        return keyPairConverter.apply(openstackKeyPairClient.create(name));
+    @Override public KeyPair create(@Nullable String name) {
+        if (name != null) {
+            checkArgument(!name.isEmpty());
+        }
+        return keyPairConverter
+            .apply(openstackKeyPairClient.create(namingStrategy.generateUniqueName(name)));
     }
 
-    @Override public KeyPair create(String name, String publicKey) {
-        checkNotNull(name);
-        checkArgument(!name.isEmpty());
+    @Override public KeyPair create(@Nullable String name, String publicKey) {
+        if (name != null) {
+            checkArgument(!name.isEmpty());
+        }
         checkNotNull(publicKey);
         checkArgument(!publicKey.isEmpty());
-        return keyPairConverter.apply(openstackKeyPairClient.createWithPublicKey(name, publicKey));
+        return keyPairConverter.apply(openstackKeyPairClient
+            .createWithPublicKey(namingStrategy.generateUniqueName(name), publicKey));
     }
 
     @Override public boolean delete(String name) {

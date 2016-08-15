@@ -21,9 +21,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineTemplateBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
@@ -55,10 +55,9 @@ public class OpenstackCreateVirtualMachineStrategy extends JCloudsCreateVirtualM
     @Inject public OpenstackCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient,
         OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter,
         OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions> templateOptionsConverter,
-        GetStrategy<String, Location> locationGetStrategy,
-        ServiceConfiguration serviceConfiguration) {
+        GetStrategy<String, Location> locationGetStrategy, NamingStrategy namingStrategy) {
         super(jCloudsComputeClient, computeMetadataVirtualMachineConverter,
-            templateOptionsConverter, serviceConfiguration);
+            templateOptionsConverter, namingStrategy);
         this.locationGetStrategy = locationGetStrategy;
     }
 
