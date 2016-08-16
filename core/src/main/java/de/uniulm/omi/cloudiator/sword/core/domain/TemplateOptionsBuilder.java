@@ -37,6 +37,7 @@ public class TemplateOptionsBuilder {
     private Map<Object, Object> additionalOptions;
     private Set<Integer> inboundPorts;
     private Map<String, String> tags;
+    private String userData;
 
     private TemplateOptionsBuilder() {
         additionalOptions = new HashMap<>();
@@ -56,7 +57,8 @@ public class TemplateOptionsBuilder {
     public static TemplateOptionsBuilder of(TemplateOptions templateOptions) {
         return newBuilder().keyPairName(templateOptions.keyPairName())
             .addOptions(templateOptions.additionalOptions())
-            .inboundPorts(templateOptions.inboundPorts()).tags(templateOptions.tags());
+            .inboundPorts(templateOptions.inboundPorts()).tags(templateOptions.tags())
+            .userData(templateOptions.userData());
     }
 
     /**
@@ -121,12 +123,24 @@ public class TemplateOptionsBuilder {
     }
 
     /**
+     * Adds user data to the template.
+     *
+     * @param userData the userdata to add.
+     * @return fluid interface
+     */
+    public TemplateOptionsBuilder userData(String userData) {
+        this.userData = userData;
+        return this;
+    }
+
+    /**
      * Builds the template options object.
      *
      * @return the template options.
      */
     public TemplateOptions build() {
-        return new TemplateOptionsImpl(keyPairName, additionalOptions, inboundPorts, tags);
+        return new TemplateOptionsImpl(keyPairName, additionalOptions, inboundPorts, tags,
+            userData);
     }
 
 

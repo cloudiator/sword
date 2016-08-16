@@ -51,6 +51,13 @@ public interface TemplateOptions {
     Map<String, String> tags();
 
     /**
+     * UserData to pass to the virtual machine.
+     *
+     * @return a string describing user data.
+     */
+    String userData();
+
+    /**
      * A map of additional generic options in
      * key->value form.
      * <p/>
