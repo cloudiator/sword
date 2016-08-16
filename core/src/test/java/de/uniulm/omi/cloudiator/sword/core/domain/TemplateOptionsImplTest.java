@@ -38,17 +38,17 @@ public class TemplateOptionsImplTest {
     @Test(expected = NullPointerException.class)
     public void testConstructorDisallowsNullAdditionalOptions() {
         new TemplateOptionsImpl("test", null, Collections.singleton(1),
-            Collections.singletonMap("test", "test"));
+            Collections.singletonMap("test", "test"), "test");
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorDisallowsNullInboundPorts() {
         new TemplateOptionsImpl("test", new HashMap<>(), null,
-            Collections.singletonMap("test", "test"));
+            Collections.singletonMap("test", "test"), "test");
     }
 
     @Test(expected = NullPointerException.class) public void testConstructorDisallowsNullTags() {
-        new TemplateOptionsImpl("test", new HashMap<>(), Collections.singleton(1), null);
+        new TemplateOptionsImpl("test", new HashMap<>(), Collections.singleton(1), null, "test");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -60,6 +60,12 @@ public class TemplateOptionsImplTest {
         TemplateOptions templateOptions =
             TemplateOptionsBuilder.newBuilder().keyPairName("keyPairName").build();
         assertThat(templateOptions.keyPairName(), equalTo("keyPairName"));
+    }
+
+    @Test public void testUserData() throws Exception {
+        TemplateOptions templateOptions =
+            TemplateOptionsBuilder.newBuilder().userData("userDataTest").build();
+        assertThat(templateOptions.userData(), equalTo("userDataTest"));
     }
 
     @Test public void testAdditionalOptions() throws Exception {

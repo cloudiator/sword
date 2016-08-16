@@ -26,6 +26,8 @@ import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplat
 import org.jclouds.aws.ec2.compute.AWSEC2TemplateOptions;
 import org.jclouds.compute.options.TemplateOptions;
 
+import java.nio.charset.Charset;
+
 /**
  * Created by daniel on 28.10.15.
  */
@@ -44,6 +46,10 @@ public class TemplateOptionsToEc2TemplateOptions extends AbstractTemplateOptions
         ec2TemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
         if (defaultVpc != null) {
             ec2TemplateOptions.subnetId(defaultVpc);
+        }
+        if (templateOptions.userData() != null) {
+            ec2TemplateOptions
+                .userData(templateOptions.userData().getBytes(Charset.forName("UTF-8")));
         }
         return ec2TemplateOptions;
     }
