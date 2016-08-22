@@ -1,3 +1,0 @@
-Documentation
-===============
-[Providers](providers.md)
