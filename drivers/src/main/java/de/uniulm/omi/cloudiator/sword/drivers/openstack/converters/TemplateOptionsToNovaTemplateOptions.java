@@ -26,13 +26,15 @@ import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackConstants;
 import org.jclouds.compute.options.TemplateOptions;
 import org.jclouds.openstack.nova.v2_0.compute.options.NovaTemplateOptions;
 
+import java.nio.charset.Charset;
+
 /**
  * Created by daniel on 10.07.15.
  */
 public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOptionsToTemplateOptions {
 
-    private @Inject(optional = true) @Named(OpenstackConstants.DEFAULT_AVAILABILITY_ZONE_PROPERTY) String
-        availabilityZone = null;
+    private @Inject(optional = true) @Named(OpenstackConstants.DEFAULT_AVAILABILITY_ZONE_PROPERTY)
+    String availabilityZone = null;
 
     @Override protected TemplateOptions convert(
         de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions templateOptions) {
@@ -41,14 +43,15 @@ public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOption
         if (keyPairName != null) {
             novaTemplateOptions.keyPairName(keyPairName);
         }
-        /**
-         * set the default availability zone
-         */
         if (availabilityZone != null) {
             novaTemplateOptions.availabilityZone(availabilityZone);
         }
         novaTemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
         novaTemplateOptions.userMetadata(templateOptions.tags());
+        if (templateOptions.userData() != null) {
+            novaTemplateOptions
+                .userData(templateOptions.userData().getBytes(Charset.forName("UTF-8")));
+        }
         return novaTemplateOptions;
     }
 
