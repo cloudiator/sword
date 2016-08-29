@@ -33,7 +33,6 @@ public class OpenstackKeyPairServiceTest {
         when(openstackKeyPairClient.createWithPublicKey(any(), any())).thenReturn(keyPair);
         when(openstackKeyPairClient.get(any())).thenReturn(keyPair);
         when(namingStrategy.generateUniqueName(any())).thenReturn("MockName");
-        when(namingStrategy.generateUniqueName()).thenReturn("MockName");
     }
 
     @Test public void testCreate() throws Exception {
