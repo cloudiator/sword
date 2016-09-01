@@ -40,6 +40,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers.HardwareSupplier
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers.ImageSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers.LocationSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers.VirtualMachineSupplier;
+import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Hardware;
 import org.jclouds.compute.domain.OperatingSystem;
@@ -166,6 +167,10 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
     @Override protected void configure() {
         super.configure();
+
+        //bind the compute context provider
+        bind(ComputeServiceContext.class).toProvider(ComputeServiceContextProvider.class)
+            .in(Singleton.class);
 
         //bind the image converter
         bind(new TypeLiteral<OneWayConverter<org.jclouds.compute.domain.Image, Image>>() {

@@ -45,14 +45,13 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
     private final ComputeServiceContext computeServiceContext;
     private final ServiceConfiguration serviceConfiguration;
 
-    @Inject public JCloudsComputeClientImpl(JCloudsViewFactory jCloudsViewFactory,
+    @Inject public JCloudsComputeClientImpl(ComputeServiceContext computeServiceContext,
         ServiceConfiguration serviceConfiguration) {
 
-        checkNotNull(jCloudsViewFactory);
+        checkNotNull(computeServiceContext);
         checkNotNull(serviceConfiguration);
 
-        this.computeServiceContext =
-            jCloudsViewFactory.buildJCloudsView(ComputeServiceContext.class);
+        this.computeServiceContext = computeServiceContext;
         this.serviceConfiguration = serviceConfiguration;
 
     }

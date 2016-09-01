@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.config;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
+import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 
 /**
@@ -28,13 +28,13 @@ import org.jclouds.openstack.nova.v2_0.NovaApi;
  */
 public class NovaApiProvider implements Provider<NovaApi> {
 
-    private final JCloudsViewFactory jCloudsViewFactory;
+    private final ComputeServiceContext computeServiceContext;
 
-    @Inject public NovaApiProvider(JCloudsViewFactory jCloudsViewFactory) {
-        this.jCloudsViewFactory = jCloudsViewFactory;
+    @Inject public NovaApiProvider(ComputeServiceContext computeServiceContext) {
+        this.computeServiceContext = computeServiceContext;
     }
 
     @Override public NovaApi get() {
-        return jCloudsViewFactory.buildJCloudsApi(NovaApi.class);
+        return computeServiceContext.unwrapApi(NovaApi.class);
     }
 }
