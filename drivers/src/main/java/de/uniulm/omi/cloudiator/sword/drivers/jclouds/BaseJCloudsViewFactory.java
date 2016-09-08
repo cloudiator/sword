@@ -46,6 +46,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
     private final ServiceConfiguration serviceConfiguration;
     private final LoggerFactory loggerFactory;
     @Inject(optional = true) @Named(Constants.SWORD_REGIONS) private String regions = null;
+    @Inject(optional = true) @Named(Constants.REQUEST_TIMEOUT) private String requestTimeout = null;
 
     @Inject public BaseJCloudsViewFactory(ServiceConfiguration serviceConfiguration,
         LoggerFactory loggerFactory) {
@@ -99,6 +100,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
         final Properties properties = new Properties();
         if (regions != null) {
             properties.setProperty("jclouds.regions", regions);
+        }
+        if (requestTimeout != null) {
+            properties.setProperty(org.jclouds.Constants.PROPERTY_REQUEST_TIMEOUT, requestTimeout);
         }
 
         //todo more ugly hack to workaround wrong parsing in jclouds
