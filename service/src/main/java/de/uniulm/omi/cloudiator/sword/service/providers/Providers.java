@@ -27,6 +27,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.ec2.config.Ec2ComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.config.FlexiantComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.google.config.GoogleCloudComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.config.OpenstackComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.config.Openstack4jComputeModule;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -59,6 +60,12 @@ public class Providers {
                 PropertiesBuilder.newBuilder().putProperty(Constants.IGNORE_LOGIN_KEYPAIR, true)
                     .putProperty(Constants.IGNORE_LOGIN_PASSWORD, true)
                     .putProperty(Constants.IGNORE_LOGIN_USERNAME, true).build()));
+        //Openstack4j
+        final Set<AbstractModule> openstack4jModules = new HashSet<>();
+        openstack4jModules.add(new Openstack4jComputeModule());
+        registerProvider(
+            new ProviderConfiguration("openstack4j", openstack4jModules, BaseComputeService.class,
+                PropertiesBuilder.newBuilder().build()));
         //Flexiant
         final Set<AbstractModule> flexiantModules = new HashSet<>();
         flexiantModules.add(new FlexiantComputeModule());
