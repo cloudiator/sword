@@ -41,42 +41,15 @@ public class OsClientFactoryProvider implements Provider<OsClientFactory> {
         if (keystoneVersion == null) {
             checkState(serviceConfiguration.getEndpoint().isPresent(), "Endpoint is mandatory.");
             keystoneVersion =
-                KEYSTONE_VERSION.fromEndpoint(serviceConfiguration.getEndpoint().get());
+                KeyStoneVersion.fromEndpoint(serviceConfiguration.getEndpoint().get());
         }
         checkState(keystoneVersion != null, String.format(
             "Unable to resolve keystone version to use. Please configure %s to one of the following possible values: %s",
-            Openstack4JConstants.KEYSTONE_VERSION, Arrays.toString(KEYSTONE_VERSION.values())));
+            Openstack4JConstants.KEYSTONE_VERSION, Arrays.toString(KeyStoneVersion.values())));
         return injector.getInstance(keystoneVersion.clientFactoryClass());
     }
-
-    private enum KEYSTONE_VERSION {
-        V2("v2", OsClientV2Factory.class), V3("v3", OsClientV3Factory.class);
-
-        private final String keyWord;
-        private final Class<? extends OsClientFactory> clientFactoryClass;
-
-        KEYSTONE_VERSION(String keyWord, Class<? extends OsClientFactory> clientFactoryClass) {
-            this.keyWord = keyWord;
-            this.clientFactoryClass = clientFactoryClass;
-        }
-
-        public static KEYSTONE_VERSION fromEndpoint(String endpoint) {
-            checkNotNull(endpoint, "endpoint is null.");
-            for (KEYSTONE_VERSION keystoneVersion : values()) {
-                if (endpoint.contains(keystoneVersion.keyWord)) {
-                    return keystoneVersion;
-                }
-            }
-            return null;
-        }
-
-        public Class<? extends OsClientFactory> clientFactoryClass() {
-            return clientFactoryClass;
-        }
-    }
-
-
-    @Inject(optional = true) @Named(Openstack4JConstants.KEYSTONE_VERSION) private KEYSTONE_VERSION
+    
+    @Inject(optional = true) @Named(Openstack4JConstants.KEYSTONE_VERSION) private KeyStoneVersion
         keystoneVersion;
 
     @Inject
