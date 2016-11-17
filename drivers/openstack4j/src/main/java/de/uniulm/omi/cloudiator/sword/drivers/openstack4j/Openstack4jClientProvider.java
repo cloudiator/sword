@@ -20,7 +20,6 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import org.openstack4j.api.OSClient;
 
@@ -42,7 +41,7 @@ public class Openstack4jClientProvider implements Provider<OSClient> {
         this.osClientFactory = osClientFactory;
     }
 
-    @Singleton @Override public OSClient get() {
+    @Override public OSClient get() {
         return osClientFactory.create(serviceConfiguration);
     }
 }
