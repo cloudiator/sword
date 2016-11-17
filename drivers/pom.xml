@@ -27,8 +27,19 @@
         <artifactId>project</artifactId>
         <version>0.2.0-SNAPSHOT</version>
     </parent>
-    <artifactId>drivers</artifactId>
-    <packaging>jar</packaging>
+    <groupId>io.github.cloudiator.sword.drivers</groupId>
+    <artifactId>sword-drivers-project</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>all</module>
+        <module>ec2</module>
+        <module>flexiant</module>
+        <module>google</module>
+        <module>jclouds</module>
+        <module>openstack</module>
+        <module>openstack4j</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
