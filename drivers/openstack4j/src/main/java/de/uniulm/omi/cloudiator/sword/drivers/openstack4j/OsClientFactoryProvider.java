@@ -21,42 +21,27 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
-import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
-
-import java.util.Arrays;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by daniel on 17.11.16.
  */
 public class OsClientFactoryProvider implements Provider<OsClientFactory> {
 
-    private final ServiceConfiguration serviceConfiguration;
     private final Injector injector;
-
-    @Override public OsClientFactory get() {
-        if (keystoneVersion == null) {
-            checkState(serviceConfiguration.getEndpoint().isPresent(), "Endpoint is mandatory.");
-            keystoneVersion =
-                KeyStoneVersion.fromEndpoint(serviceConfiguration.getEndpoint().get());
-        }
-        checkState(keystoneVersion != null, String.format(
-            "Unable to resolve keystone version to use. Please configure %s to one of the following possible values: %s",
-            Openstack4JConstants.KEYSTONE_VERSION, Arrays.toString(KeyStoneVersion.values())));
-        return injector.getInstance(keystoneVersion.clientFactoryClass());
-    }
-    
-    @Inject(optional = true) @Named(Openstack4JConstants.KEYSTONE_VERSION) private KeyStoneVersion
-        keystoneVersion;
+    private final KeyStoneVersion keyStoneVersion;
 
     @Inject
-    public OsClientFactoryProvider(Injector injector, ServiceConfiguration serviceConfiguration) {
-        checkNotNull(serviceConfiguration, "serviceConfiguration is null");
+    public OsClientFactoryProvider(Injector injector, KeyStoneVersion keyStoneVersion) {
         checkNotNull(injector, "injector is null");
-        this.serviceConfiguration = serviceConfiguration;
+        checkNotNull(keyStoneVersion, "keyStoneVersion is null");
         this.injector = injector;
+        this.keyStoneVersion = keyStoneVersion;
+    }
+
+    @Override
+    public OsClientFactory get() {
+        return injector.getInstance(keyStoneVersion.clientFactoryClass());
     }
 }
