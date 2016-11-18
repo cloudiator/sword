@@ -22,11 +22,16 @@ import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.RegionSupplier;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
 import org.openstack4j.api.OSClient;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 14.11.16.
@@ -34,17 +39,29 @@ import java.util.stream.Collectors;
 public class ImageSupplier implements Supplier<Set<Image>> {
 
     private final OSClient osClient;
-    private final OneWayConverter<org.openstack4j.model.compute.Image, Image> converter;
+    private final OneWayConverter<ImageInRegion, Image> converter;
+    private final RegionSupplier regionSupplier;
 
-    @Inject public ImageSupplier(OSClient osClient,
-        OneWayConverter<org.openstack4j.model.compute.Image, Image> converter) {
+    @Inject public ImageSupplier(OSClient osClient, OneWayConverter<ImageInRegion, Image> converter,
+        RegionSupplier regionSupplier) {
+
+        checkNotNull(osClient, "osClient is null");
+        checkNotNull(converter, "converter is null");
+        checkNotNull(regionSupplier, "regionSupplier is null");
+
         this.osClient = osClient;
         this.converter = converter;
+        this.regionSupplier = regionSupplier;
     }
 
     @Override public Set<Image> get() {
-        return osClient.compute().images().list().stream()
-            .map((Function<org.openstack4j.model.compute.Image, Image>) converter::apply)
-            .collect(Collectors.toSet());
+
+        Set<Image> set = new HashSet<>();
+        for (String region : regionSupplier.get()) {
+            set.addAll(osClient.compute().images().list().stream().map(
+                (Function<org.openstack4j.model.compute.Image, ImageInRegion>) image -> new ImageInRegion(
+                    image, region)).map(converter).collect(Collectors.toSet()));
+        }
+        return set;
     }
 }

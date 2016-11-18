@@ -37,6 +37,7 @@ import de.uniulm.omi.cloudiator.sword.core.suppliers.EmptyVirtualMachineSupplier
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.*;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.Openstack4jFlavorToHardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.Openstack4jImageToImage;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.HardwareFlavorSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.ImageSupplier;
 import org.openstack4j.api.OSClient;
@@ -50,23 +51,19 @@ import java.util.Set;
  */
 public class Openstack4jComputeModule extends AbstractComputeModule {
 
-    @Override
-    protected Supplier<Set<Image>> imageSupplier(Injector injector) {
+    @Override protected Supplier<Set<Image>> imageSupplier(Injector injector) {
         return injector.getInstance(ImageSupplier.class);
     }
 
-    @Override
-    protected Supplier<Set<Location>> locationSupplier(Injector injector) {
+    @Override protected Supplier<Set<Location>> locationSupplier(Injector injector) {
         return injector.getInstance(EmptyLocationSupplier.class);
     }
 
-    @Override
-    protected Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier(Injector injector) {
+    @Override protected Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier(Injector injector) {
         return injector.getInstance(HardwareFlavorSupplier.class);
     }
 
-    @Override
-    protected Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
+    @Override protected Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
         return injector.getInstance(EmptyVirtualMachineSupplier.class);
     }
 
@@ -80,8 +77,7 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
         return injector.getInstance(FakeDeleteVirtualMachineStrategy.class);
     }
 
-    @Override
-    protected void configure() {
+    @Override protected void configure() {
         super.configure();
         bind(OSClient.class).toProvider(Openstack4jClientProvider.class);
         bind(KeyStoneVersion.class).toProvider(KeyStoneVersionProvider.class).in(Singleton.class);
@@ -89,7 +85,7 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
         bind(RegionSupplier.class).toProvider(RegionSupplierProvider.class).in(Singleton.class);
         bind(new TypeLiteral<OneWayConverter<Flavor, HardwareFlavor>>() {
         }).to(Openstack4jFlavorToHardwareFlavor.class);
-        bind(new TypeLiteral<OneWayConverter<org.openstack4j.model.compute.Image, Image>>() {
+        bind(new TypeLiteral<OneWayConverter<ImageInRegion, Image>>() {
         }).to(Openstack4jImageToImage.class);
     }
 }
