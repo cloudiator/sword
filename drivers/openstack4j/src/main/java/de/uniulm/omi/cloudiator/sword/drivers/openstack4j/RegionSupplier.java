@@ -24,9 +24,5 @@ import java.util.function.Supplier;
 /**
  * Created by daniel on 17.11.16.
  */
-public class RegionSupplier implements Supplier<Set<String>> {
-
-    @Override public Set<String> get() {
-        return null;
-    }
+public interface RegionSupplier extends Supplier<Set<String>> {
 }

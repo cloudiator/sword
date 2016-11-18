@@ -86,6 +86,7 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
         bind(OSClient.class).toProvider(Openstack4jClientProvider.class);
         bind(KeyStoneVersion.class).toProvider(KeyStoneVersionProvider.class).in(Singleton.class);
         bind(OsClientFactory.class).toProvider(OsClientFactoryProvider.class).in(Singleton.class);
+        bind(RegionSupplier.class).toProvider(RegionSupplierProvider.class).in(Singleton.class);
         bind(new TypeLiteral<OneWayConverter<Flavor, HardwareFlavor>>() {
         }).to(Openstack4jFlavorToHardwareFlavor.class);
         bind(new TypeLiteral<OneWayConverter<org.openstack4j.model.compute.Image, Image>>() {
