@@ -19,20 +19,21 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.core.domain.HardwareFlavorBuilder;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.FlavorInRegion;
+import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineBuilder;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
 
 /**
- * Created by daniel on 14.11.16.
+ * Created by daniel on 18.11.16.
  */
-public class FlavorInRegionToHardwareFlavor
-    implements OneWayConverter<FlavorInRegion, HardwareFlavor> {
+public class ServerInRegionToVirtualMachine
+    implements OneWayConverter<ServerInRegion, VirtualMachine> {
 
-    @Override public HardwareFlavor apply(FlavorInRegion flavorInRegion) {
-        return HardwareFlavorBuilder.newBuilder().id(flavorInRegion.getId())
-            .location(flavorInRegion.region()).providerId(flavorInRegion.providerId())
-            .name(flavorInRegion.getName()).cores(flavorInRegion.getVcpus())
-            .gbDisk((float) flavorInRegion.getDisk()).mbRam(flavorInRegion.getRam()).build();
+    @Override public VirtualMachine apply(ServerInRegion serverInRegion) {
+        //todo check which region to return. Always region or av or host?
+        //todo add login credential and ip addresses
+        return VirtualMachineBuilder.newBuilder().name(serverInRegion.getName())
+            .id(serverInRegion.getId()).providerId(serverInRegion.providerId())
+            .location(serverInRegion.region()).build();
     }
 }

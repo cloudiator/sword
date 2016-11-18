@@ -30,17 +30,15 @@ import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
-import de.uniulm.omi.cloudiator.sword.core.strategy.FakeCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.strategy.FakeDeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.suppliers.EmptyVirtualMachineSupplier;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.AvailabilityZoneInRegionToLocation;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.FlavorInRegionToHardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.ImageInRegionToImage;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.RegionToLocation;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.*;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.AvailabilityZoneInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.FlavorInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.*;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.Openstack4jCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.HardwareFlavorSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.ImageSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.LocationSupplier;
@@ -72,7 +70,7 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
 
     @Override
     protected CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector) {
-        return injector.getInstance(FakeCreateVirtualMachineStrategy.class);
+        return injector.getInstance(Openstack4jCreateVirtualMachineStrategy.class);
     }
 
     @Override
@@ -94,5 +92,7 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
         }).to(AvailabilityZoneInRegionToLocation.class).in(Singleton.class);
         bind(new TypeLiteral<OneWayConverter<String, Location>>() {
         }).to(RegionToLocation.class).in(Singleton.class);
+        bind(new TypeLiteral<OneWayConverter<ServerInRegion, VirtualMachine>>() {
+        }).to(ServerInRegionToVirtualMachine.class).in(Singleton.class);
     }
 }
