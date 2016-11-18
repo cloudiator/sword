@@ -34,17 +34,17 @@ import de.uniulm.omi.cloudiator.sword.core.strategy.FakeCreateVirtualMachineStra
 import de.uniulm.omi.cloudiator.sword.core.strategy.FakeDeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.suppliers.EmptyVirtualMachineSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.AvailabilityZoneInRegionToLocation;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.FlavorInRegionToHardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.ImageInRegionToImage;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.Openstack4jFlavorToHardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.RegionToLocation;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.AvailabilityZoneInRegion;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.FlavorInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.*;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.HardwareFlavorSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.ImageSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.LocationSupplier;
 import org.openstack4j.api.OSClient;
-import org.openstack4j.model.compute.Flavor;
 
 import java.util.Set;
 
@@ -86,13 +86,13 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
         bind(KeyStoneVersion.class).toProvider(KeyStoneVersionProvider.class).in(Singleton.class);
         bind(OsClientFactory.class).toProvider(OsClientFactoryProvider.class).in(Singleton.class);
         bind(RegionSupplier.class).toProvider(RegionSupplierProvider.class).in(Singleton.class);
-        bind(new TypeLiteral<OneWayConverter<Flavor, HardwareFlavor>>() {
-        }).to(Openstack4jFlavorToHardwareFlavor.class);
+        bind(new TypeLiteral<OneWayConverter<FlavorInRegion, HardwareFlavor>>() {
+        }).to(FlavorInRegionToHardwareFlavor.class).in(Singleton.class);
         bind(new TypeLiteral<OneWayConverter<ImageInRegion, Image>>() {
-        }).to(ImageInRegionToImage.class);
+        }).to(ImageInRegionToImage.class).in(Singleton.class);
         bind(new TypeLiteral<OneWayConverter<AvailabilityZoneInRegion, Location>>() {
-        }).to(AvailabilityZoneInRegionToLocation.class);
+        }).to(AvailabilityZoneInRegionToLocation.class).in(Singleton.class);
         bind(new TypeLiteral<OneWayConverter<String, Location>>() {
-        }).to(RegionToLocation.class);
+        }).to(RegionToLocation.class).in(Singleton.class);
     }
 }

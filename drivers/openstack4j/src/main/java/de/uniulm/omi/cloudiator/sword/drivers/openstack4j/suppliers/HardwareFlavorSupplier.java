@@ -22,12 +22,18 @@ import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.FlavorInRegion;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.Flavor;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 14.11.16.
@@ -35,16 +41,32 @@ import java.util.stream.Collectors;
 public class HardwareFlavorSupplier implements Supplier<Set<HardwareFlavor>> {
 
     private final OSClient osClient;
-    private final OneWayConverter<Flavor, HardwareFlavor> converter;
+    private final OneWayConverter<FlavorInRegion, HardwareFlavor> converter;
+    private final RegionSupplier regionSupplier;
 
     @Inject public HardwareFlavorSupplier(OSClient osClient,
-        OneWayConverter<Flavor, HardwareFlavor> converter) {
+        OneWayConverter<FlavorInRegion, HardwareFlavor> converter, RegionSupplier regionSupplier) {
+
+        checkNotNull(osClient, "osClient is null");
+        checkNotNull(converter, "converter is null");
+        checkNotNull(regionSupplier, "regionSupplier is null");
+
         this.osClient = osClient;
         this.converter = converter;
+        this.regionSupplier = regionSupplier;
     }
 
     @Override public Set<HardwareFlavor> get() {
-        return osClient.compute().flavors().list().stream()
-            .map((Function<Flavor, HardwareFlavor>) converter::apply).collect(Collectors.toSet());
+
+        Set<HardwareFlavor> hardwareFlavors = new HashSet<>();
+
+        for (Location region : regionSupplier.get()) {
+            hardwareFlavors.addAll(
+                osClient.useRegion(region.id()).compute().flavors().list().stream().map(
+                    (Function<Flavor, FlavorInRegion>) flavor -> new FlavorInRegion(flavor, region))
+                    .map(converter).collect(Collectors.toSet()));
+        }
+
+        return hardwareFlavors;
     }
 }

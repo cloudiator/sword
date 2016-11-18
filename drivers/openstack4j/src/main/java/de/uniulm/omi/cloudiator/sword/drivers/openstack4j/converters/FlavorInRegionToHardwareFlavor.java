@@ -21,19 +21,18 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.core.domain.HardwareFlavorBuilder;
-import org.openstack4j.model.compute.Flavor;
-
-import javax.annotation.Nullable;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.FlavorInRegion;
 
 /**
  * Created by daniel on 14.11.16.
  */
-public class Openstack4jFlavorToHardwareFlavor implements OneWayConverter<Flavor, HardwareFlavor> {
+public class FlavorInRegionToHardwareFlavor
+    implements OneWayConverter<FlavorInRegion, HardwareFlavor> {
 
-    @Nullable @Override public HardwareFlavor apply(Flavor flavor) {
-
-        return HardwareFlavorBuilder.newBuilder().id(flavor.getId()).providerId(flavor.getId())
-            .name(flavor.getName()).cores(flavor.getVcpus()).gbDisk((float) flavor.getDisk())
-            .mbRam(flavor.getRam()).build();
+    @Override public HardwareFlavor apply(FlavorInRegion flavorInRegion) {
+        return HardwareFlavorBuilder.newBuilder().id(flavorInRegion.getId())
+            .location(flavorInRegion.region()).providerId(flavorInRegion.getId())
+            .name(flavorInRegion.getName()).cores(flavorInRegion.getVcpus())
+            .gbDisk((float) flavorInRegion.getDisk()).mbRam(flavorInRegion.getRam()).build();
     }
 }
