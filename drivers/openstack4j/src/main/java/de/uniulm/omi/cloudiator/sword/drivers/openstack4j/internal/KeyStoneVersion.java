@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.openstack4j;
+package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

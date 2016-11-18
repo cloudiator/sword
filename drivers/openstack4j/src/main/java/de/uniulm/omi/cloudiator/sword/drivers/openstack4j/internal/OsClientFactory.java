@@ -16,15 +16,16 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.openstack4j;
+package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-
-import java.util.Set;
-import java.util.function.Supplier;
+import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
+import org.openstack4j.api.OSClient;
 
 /**
  * Created by daniel on 17.11.16.
  */
-public interface RegionSupplier extends Supplier<Set<Location>> {
+public interface OsClientFactory {
+
+    OSClient create(ServiceConfiguration serviceConfiguration);
+
 }

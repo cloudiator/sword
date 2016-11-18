@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.openstack4j;
+package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
 /**
  * Created by daniel on 08.09.15.

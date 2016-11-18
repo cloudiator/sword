@@ -23,7 +23,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.RegionSupplier;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
 import org.openstack4j.api.OSClient;
 

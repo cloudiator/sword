@@ -16,32 +16,32 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.openstack4j;
+package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
+import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
+import org.openstack4j.api.OSClient;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Created by daniel on 17.11.16.
+ * Created by daniel on 14.11.16.
  */
-public class OsClientFactoryProvider implements Provider<OsClientFactory> {
+public class Openstack4jClientProvider implements Provider<OSClient> {
 
-    private final Injector injector;
-    private final KeyStoneVersion keyStoneVersion;
+    private final ServiceConfiguration serviceConfiguration;
+    private final OsClientFactory osClientFactory;
 
-    @Inject
-    public OsClientFactoryProvider(Injector injector, KeyStoneVersion keyStoneVersion) {
-        checkNotNull(injector, "injector is null");
-        checkNotNull(keyStoneVersion, "keyStoneVersion is null");
-        this.injector = injector;
-        this.keyStoneVersion = keyStoneVersion;
+    @Inject public Openstack4jClientProvider(ServiceConfiguration serviceConfiguration,
+        OsClientFactory osClientFactory) {
+        checkNotNull(serviceConfiguration, "serviceConfiguration is null.");
+        checkNotNull(osClientFactory, "osClientFactory is null");
+        this.serviceConfiguration = serviceConfiguration;
+        this.osClientFactory = osClientFactory;
     }
 
-    @Override
-    public OsClientFactory get() {
-        return injector.getInstance(keyStoneVersion.clientFactoryClass());
+    @Override public OSClient get() {
+        return osClientFactory.create(serviceConfiguration);
     }
 }
