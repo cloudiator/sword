@@ -19,21 +19,17 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.common.os.OperatingSystems;
-import de.uniulm.omi.cloudiator.sword.core.domain.ImageBuilder;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
-
-import javax.annotation.Nullable;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
+import de.uniulm.omi.cloudiator.sword.core.domain.LocationBuilder;
 
 /**
- * Created by daniel on 16.11.16.
+ * Created by daniel on 18.11.16.
  */
-public class Openstack4jImageToImage
-    implements OneWayConverter<ImageInRegion, de.uniulm.omi.cloudiator.sword.api.domain.Image> {
+public class RegionToLocation implements OneWayConverter<String, Location> {
 
-    @Nullable @Override
-    public de.uniulm.omi.cloudiator.sword.api.domain.Image apply(ImageInRegion imageInRegion) {
-        return ImageBuilder.newBuilder().id(imageInRegion.getId()).name(imageInRegion.getName())
-            .providerId(imageInRegion.providerId()).os(OperatingSystems.unknown()).build();
+    @Override public Location apply(String region) {
+        return LocationBuilder.newBuilder().scope(LocationScope.REGION).name(region)
+            .assignable(false).id(region).build();
     }
 }

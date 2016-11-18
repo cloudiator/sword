@@ -1,6 +1,8 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j;
 
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.api.types.ServiceType;
 import org.openstack4j.model.identity.v2.Access;
@@ -21,8 +23,12 @@ import static com.google.common.base.Preconditions.checkState;
 public class OsClientV2RegionSupplier implements RegionSupplier {
 
     private final OSClient.OSClientV2 osClientV2;
+    private final OneWayConverter<String, Location> regionConverter;
 
-    @Inject public OsClientV2RegionSupplier(OSClient osClient) {
+    @Inject public OsClientV2RegionSupplier(OSClient osClient,
+        OneWayConverter<String, Location> regionConverter) {
+        checkNotNull(regionConverter, "regionConverter is null");
+        this.regionConverter = regionConverter;
         checkNotNull(osClient, "osClient is null");
         checkState(osClient instanceof OSClient.OSClientV2,
             "Illegal version of OSClient supplied.");
@@ -42,7 +48,8 @@ public class OsClientV2RegionSupplier implements RegionSupplier {
         }
     }
 
-    @Override public Set<String> get() {
-        return new AccessToRegionSet().apply(osClientV2.getAccess());
+    @Override public Set<Location> get() {
+        return new AccessToRegionSet().apply(osClientV2.getAccess()).stream().map(regionConverter)
+            .collect(Collectors.toSet());
     }
 }

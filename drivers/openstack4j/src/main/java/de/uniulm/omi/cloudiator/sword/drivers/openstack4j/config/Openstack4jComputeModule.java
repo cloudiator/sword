@@ -32,14 +32,17 @@ import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
 import de.uniulm.omi.cloudiator.sword.core.strategy.FakeCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.strategy.FakeDeleteVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.core.suppliers.EmptyLocationSupplier;
 import de.uniulm.omi.cloudiator.sword.core.suppliers.EmptyVirtualMachineSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.*;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.AvailabilityZoneInRegionToLocation;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.ImageInRegionToImage;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.Openstack4jFlavorToHardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.Openstack4jImageToImage;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.RegionToLocation;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.AvailabilityZoneInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.HardwareFlavorSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.ImageSupplier;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.LocationSupplier;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.Flavor;
 
@@ -56,7 +59,7 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
     }
 
     @Override protected Supplier<Set<Location>> locationSupplier(Injector injector) {
-        return injector.getInstance(EmptyLocationSupplier.class);
+        return injector.getInstance(LocationSupplier.class);
     }
 
     @Override protected Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier(Injector injector) {
@@ -86,6 +89,10 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
         bind(new TypeLiteral<OneWayConverter<Flavor, HardwareFlavor>>() {
         }).to(Openstack4jFlavorToHardwareFlavor.class);
         bind(new TypeLiteral<OneWayConverter<ImageInRegion, Image>>() {
-        }).to(Openstack4jImageToImage.class);
+        }).to(ImageInRegionToImage.class);
+        bind(new TypeLiteral<OneWayConverter<AvailabilityZoneInRegion, Location>>() {
+        }).to(AvailabilityZoneInRegionToLocation.class);
+        bind(new TypeLiteral<OneWayConverter<String, Location>>() {
+        }).to(RegionToLocation.class);
     }
 }

@@ -21,11 +21,11 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.RegionSupplier;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.AvailabilityZoneInRegion;
 import org.openstack4j.api.OSClient;
+import org.openstack4j.model.compute.ext.AvailabilityZone;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,34 +35,35 @@ import java.util.stream.Collectors;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Created by daniel on 14.11.16.
+ * Created by daniel on 18.11.16.
  */
-public class ImageSupplier implements Supplier<Set<Image>> {
+public class LocationSupplier implements Supplier<Set<Location>> {
 
     private final OSClient osClient;
-    private final OneWayConverter<ImageInRegion, Image> converter;
     private final RegionSupplier regionSupplier;
+    private final OneWayConverter<AvailabilityZoneInRegion, Location> avConverter;
 
-    @Inject public ImageSupplier(OSClient osClient, OneWayConverter<ImageInRegion, Image> converter,
-        RegionSupplier regionSupplier) {
-
-        checkNotNull(osClient, "osClient is null");
-        checkNotNull(converter, "converter is null");
-        checkNotNull(regionSupplier, "regionSupplier is null");
-
-        this.osClient = osClient;
-        this.converter = converter;
+    @Inject public LocationSupplier(OSClient osClient, RegionSupplier regionSupplier,
+        OneWayConverter<AvailabilityZoneInRegion, Location> avConverter) {
+        checkNotNull(avConverter);
+        this.avConverter = avConverter;
+        checkNotNull(regionSupplier);
         this.regionSupplier = regionSupplier;
+        checkNotNull(osClient);
+        this.osClient = osClient;
     }
 
-    @Override public Set<Image> get() {
+    @Override public Set<Location> get() {
 
-        Set<Image> set = new HashSet<>();
+        Set<Location> locations = new HashSet<>();
+        //add regions
+        locations.addAll(regionSupplier.get());
+        //add availabilityZones
         for (Location region : regionSupplier.get()) {
-            set.addAll(osClient.useRegion(region.id()).compute().images().list().stream().map(
-                (Function<org.openstack4j.model.compute.Image, ImageInRegion>) image -> new ImageInRegion(
-                    image, region)).map(converter).collect(Collectors.toSet()));
+            locations.addAll(osClient.useRegion(region.id()).compute().zones().list().stream().map(
+                (Function<AvailabilityZone, AvailabilityZoneInRegion>) availabilityZone -> new AvailabilityZoneInRegion(
+                    availabilityZone, region)).map(avConverter).collect(Collectors.toSet()));
         }
-        return set;
+        return locations;
     }
 }

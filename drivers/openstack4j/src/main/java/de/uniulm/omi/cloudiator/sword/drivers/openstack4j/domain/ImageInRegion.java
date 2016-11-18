@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain;
 
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
 import org.openstack4j.model.common.Link;
 import org.openstack4j.model.compute.Image;
@@ -26,7 +27,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -35,16 +35,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ImageInRegion implements Image, InRegion, ProviderIdentified {
 
     private final Image delegate;
-    private final String region;
+    private final Location region;
     private final String regionScopedId;
 
-    public ImageInRegion(Image original, String region) {
+    public ImageInRegion(Image original, Location region) {
         checkNotNull(original, "original is null.");
         checkNotNull(region, "region is null");
-        checkArgument(!region.isEmpty(), "original is empty.");
         delegate = original;
         this.region = region;
-        this.regionScopedId = IdScopeByLocations.from(region, delegate.getId()).getIdWithLocation();
+        this.regionScopedId =
+            IdScopeByLocations.from(region.id(), delegate.getId()).getIdWithLocation();
     }
 
     @Override public String getId() {
@@ -95,11 +95,11 @@ public class ImageInRegion implements Image, InRegion, ProviderIdentified {
         return delegate.isSnapshot();
     }
 
-    @Override public String region() {
-        return region;
-    }
-
     @Override public String providerId() {
         return delegate.getId();
+    }
+
+    @Override public Location region() {
+        return region;
     }
 }
