@@ -18,27 +18,30 @@ import static org.mockito.Mockito.*;
  */
 public class JCloudsComputeMetadataToVirtualMachineTest {
 
-    @SuppressWarnings("unchecked") private OneWayConverter<LoginCredentials, LoginCredential>
-        loginCredentialsConverter = mock(OneWayConverter.class);
+    @SuppressWarnings("unchecked")
+    private OneWayConverter<LoginCredentials, LoginCredential>
+            loginCredentialsConverter = mock(OneWayConverter.class);
     private JCloudsComputeMetadataToVirtualMachine jCloudsComputeMetadataToVirtualMachine;
     private NodeMetadata nodeMetadata = mock(NodeMetadata.class);
     private LoginCredential loginCredential = mock(LoginCredential.class);
     private LoginCredentials loginCredentials = mock(LoginCredentials.class);
 
-    @Before public void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         jCloudsComputeMetadataToVirtualMachine =
-            new JCloudsComputeMetadataToVirtualMachine(loginCredentialsConverter);
+                new JCloudsComputeMetadataToVirtualMachine(loginCredentialsConverter);
     }
 
-    @Test public void testApply() throws Exception {
+    @Test
+    public void testApply() throws Exception {
 
         when(nodeMetadata.getId()).thenReturn("id");
         when(nodeMetadata.getProviderId()).thenReturn("providerId");
         when(nodeMetadata.getName()).thenReturn("name");
         when(nodeMetadata.getPublicAddresses())
-            .thenReturn(new HashSet<>(Collections.singletonList("93.184.216.34")));
+                .thenReturn(new HashSet<>(Collections.singletonList("93.184.216.34")));
         when(nodeMetadata.getPrivateAddresses())
-            .thenReturn(new HashSet<>(Collections.singletonList("192.168.0.1")));
+                .thenReturn(new HashSet<>(Collections.singletonList("192.168.0.1")));
         when(nodeMetadata.getCredentials()).thenReturn(loginCredentials);
         when(loginCredentialsConverter.apply(loginCredentials)).thenReturn(loginCredential);
 
@@ -49,7 +52,7 @@ public class JCloudsComputeMetadataToVirtualMachineTest {
         verify(nodeMetadata).getPublicAddresses();
         verify(nodeMetadata).getId();
         verify(nodeMetadata).getProviderId();
-        verify(nodeMetadata).getName();
+        verify(nodeMetadata, atLeast(1)).getName();
         verify(loginCredentialsConverter).apply(any());
 
 

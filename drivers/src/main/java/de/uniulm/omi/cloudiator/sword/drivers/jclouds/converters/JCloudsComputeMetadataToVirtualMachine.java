@@ -39,7 +39,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * information is available.
  */
 public class JCloudsComputeMetadataToVirtualMachine
-    implements OneWayConverter<ComputeMetadata, VirtualMachine> {
+        implements OneWayConverter<ComputeMetadata, VirtualMachine> {
 
     private final OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter;
 
@@ -48,32 +48,41 @@ public class JCloudsComputeMetadataToVirtualMachine
      *
      * @param loginCredentialConverter a converter for the login credentials (non null)
      */
-    @Inject public JCloudsComputeMetadataToVirtualMachine(
-        OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter) {
+    @Inject
+    public JCloudsComputeMetadataToVirtualMachine(
+            OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter) {
 
         checkNotNull(loginCredentialConverter);
 
         this.loginCredentialConverter = loginCredentialConverter;
     }
 
-    @Override public VirtualMachine apply(final ComputeMetadata computeMetadata) {
+    @Override
+    public VirtualMachine apply(final ComputeMetadata computeMetadata) {
 
         checkArgument(computeMetadata instanceof NodeMetadata);
 
         VirtualMachineBuilder virtualMachineBuilder = VirtualMachineBuilder.newBuilder();
         virtualMachineBuilder.id(computeMetadata.getId())
-            .providerId(computeMetadata.getProviderId()).name(computeMetadata.getName());
+                .providerId(computeMetadata.getProviderId()).name(forceName(computeMetadata));
 
         ((NodeMetadata) computeMetadata).getPrivateAddresses()
-            .forEach(virtualMachineBuilder::addPrivateIpAddress);
+                .forEach(virtualMachineBuilder::addPrivateIpAddress);
         ((NodeMetadata) computeMetadata).getPublicAddresses()
-            .forEach(virtualMachineBuilder::addPublicIpAddress);
+                .forEach(virtualMachineBuilder::addPublicIpAddress);
         if (((NodeMetadata) computeMetadata).getCredentials() != null) {
             virtualMachineBuilder.loginCredential(this.loginCredentialConverter
-                .apply(((NodeMetadata) computeMetadata).getCredentials()));
+                    .apply(((NodeMetadata) computeMetadata).getCredentials()));
         }
 
         return virtualMachineBuilder.build();
+    }
+
+    private String forceName(ComputeMetadata computeMetadata) {
+        if (computeMetadata.getName() == null) {
+            return computeMetadata.getId();
+        }
+        return computeMetadata.getName();
     }
 
 
