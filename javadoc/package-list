@@ -20,6 +20,7 @@ de.uniulm.omi.cloudiator.sword.core.util
 de.uniulm.omi.cloudiator.sword.drivers.ec2
 de.uniulm.omi.cloudiator.sword.drivers.ec2.config
 de.uniulm.omi.cloudiator.sword.drivers.ec2.converters
+de.uniulm.omi.cloudiator.sword.drivers.ec2.strategy
 de.uniulm.omi.cloudiator.sword.drivers.flexiant
 de.uniulm.omi.cloudiator.sword.drivers.flexiant.config
 de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters
