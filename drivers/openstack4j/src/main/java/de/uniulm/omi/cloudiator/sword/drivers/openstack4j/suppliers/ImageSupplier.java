@@ -23,13 +23,12 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
 import org.openstack4j.api.OSClient;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -43,8 +42,9 @@ public class ImageSupplier implements Supplier<Set<Image>> {
     private final OneWayConverter<ImageInRegion, Image> converter;
     private final RegionSupplier regionSupplier;
 
-    @Inject public ImageSupplier(OSClient osClient, OneWayConverter<ImageInRegion, Image> converter,
-        RegionSupplier regionSupplier) {
+    @Inject
+    public ImageSupplier(OSClient osClient, OneWayConverter<ImageInRegion, Image> converter,
+                         RegionSupplier regionSupplier) {
 
         checkNotNull(osClient, "osClient is null");
         checkNotNull(converter, "converter is null");
@@ -55,13 +55,14 @@ public class ImageSupplier implements Supplier<Set<Image>> {
         this.regionSupplier = regionSupplier;
     }
 
-    @Override public Set<Image> get() {
+    @Override
+    public Set<Image> get() {
 
         Set<Image> set = new HashSet<>();
         for (Location region : regionSupplier.get()) {
             set.addAll(osClient.useRegion(region.id()).compute().images().list().stream().map(
-                (Function<org.openstack4j.model.compute.Image, ImageInRegion>) image -> new ImageInRegion(
-                    image, region)).map(converter).collect(Collectors.toSet()));
+                    image -> new ImageInRegion(
+                            image, region)).map(converter).collect(Collectors.toSet()));
         }
         return set;
     }

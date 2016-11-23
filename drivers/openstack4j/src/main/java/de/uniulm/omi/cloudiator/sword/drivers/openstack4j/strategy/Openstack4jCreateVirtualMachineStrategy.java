@@ -33,6 +33,9 @@ import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.Server;
 import org.openstack4j.model.compute.ServerCreate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
@@ -44,10 +47,14 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
     private final OSClient osClient;
     private final OneWayConverter<ServerInRegion, VirtualMachine> virtualMachineConverter;
     private final GetStrategy<String, Location> locationGetStrategy;
+    private final OpenstackNetworkStrategy networkStrategy;
 
-    @Inject public Openstack4jCreateVirtualMachineStrategy(OSClient osClient,
-        OneWayConverter<ServerInRegion, VirtualMachine> virtualMachineConverter,
-        GetStrategy<String, Location> locationGetStrategy) {
+    @Inject
+    public Openstack4jCreateVirtualMachineStrategy(OSClient osClient,
+                                                   OneWayConverter<ServerInRegion, VirtualMachine> virtualMachineConverter,
+                                                   GetStrategy<String, Location> locationGetStrategy, OpenstackNetworkStrategy networkStrategy) {
+        checkNotNull(networkStrategy, "networkStrategy is null");
+        this.networkStrategy = networkStrategy;
         checkNotNull(locationGetStrategy, "locationGetStrategy is null");
         this.locationGetStrategy = locationGetStrategy;
         checkNotNull(virtualMachineConverter, "virtualMachineConverter is null");
@@ -56,7 +63,8 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
         this.osClient = osClient;
     }
 
-    @Override public VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
+    @Override
+    public VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
 
         //todo we currently simply assume that this is a zone (hosts may follow)
         Location zone = locationGetStrategy.get(virtualMachineTemplate.locationId());
@@ -65,14 +73,20 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
         checkState(zone.parent().isPresent(), "zone has no parent region");
         Location region = zone.parent().get();
 
+        List<String> networks = new ArrayList<>(1);
+        if (networkStrategy.get() != null) {
+            networks.add(networkStrategy.get());
+        }
+
         //todo this code also assumes that location is always the availability zone
         final ServerCreate serverCreate = Builders.server().name(virtualMachineTemplate.name())
-            .flavor(IdScopeByLocations.from(virtualMachineTemplate.hardwareFlavorId()).getId())
-            .image(IdScopeByLocations.from(virtualMachineTemplate.imageId()).getId())
-            .availabilityZone(IdScopeByLocations.from(virtualMachineTemplate.locationId()).getId())
-            .build();
+                .flavor(IdScopeByLocations.from(virtualMachineTemplate.hardwareFlavorId()).getId())
+                .image(IdScopeByLocations.from(virtualMachineTemplate.imageId()).getId())
+                .availabilityZone(IdScopeByLocations.from(virtualMachineTemplate.locationId()).getId())
+                .networks(networks)
+                .build();
         final Server server =
-            osClient.useRegion(region.id()).compute().servers().boot(serverCreate);
+                osClient.useRegion(region.id()).compute().servers().boot(serverCreate);
         return virtualMachineConverter.apply(new ServerInRegion(server, region));
     }
 }

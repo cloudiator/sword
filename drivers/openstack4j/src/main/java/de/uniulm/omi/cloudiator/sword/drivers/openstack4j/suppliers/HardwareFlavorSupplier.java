@@ -26,11 +26,9 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.FlavorInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
 import org.openstack4j.api.OSClient;
-import org.openstack4j.model.compute.Flavor;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -44,8 +42,9 @@ public class HardwareFlavorSupplier implements Supplier<Set<HardwareFlavor>> {
     private final OneWayConverter<FlavorInRegion, HardwareFlavor> converter;
     private final RegionSupplier regionSupplier;
 
-    @Inject public HardwareFlavorSupplier(OSClient osClient,
-        OneWayConverter<FlavorInRegion, HardwareFlavor> converter, RegionSupplier regionSupplier) {
+    @Inject
+    public HardwareFlavorSupplier(OSClient osClient,
+                                  OneWayConverter<FlavorInRegion, HardwareFlavor> converter, RegionSupplier regionSupplier) {
 
         checkNotNull(osClient, "osClient is null");
         checkNotNull(converter, "converter is null");
@@ -56,15 +55,16 @@ public class HardwareFlavorSupplier implements Supplier<Set<HardwareFlavor>> {
         this.regionSupplier = regionSupplier;
     }
 
-    @Override public Set<HardwareFlavor> get() {
+    @Override
+    public Set<HardwareFlavor> get() {
 
         Set<HardwareFlavor> hardwareFlavors = new HashSet<>();
 
         for (Location region : regionSupplier.get()) {
             hardwareFlavors.addAll(
-                osClient.useRegion(region.id()).compute().flavors().list().stream().map(
-                    (Function<Flavor, FlavorInRegion>) flavor -> new FlavorInRegion(flavor, region))
-                    .map(converter).collect(Collectors.toSet()));
+                    osClient.useRegion(region.id()).compute().flavors().list().stream().map(
+                            flavor -> new FlavorInRegion(flavor, region))
+                            .map(converter).collect(Collectors.toSet()));
         }
 
         return hardwareFlavors;

@@ -22,14 +22,12 @@ import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.AvailabilityZoneInRegion;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
 import org.openstack4j.api.OSClient;
-import org.openstack4j.model.compute.ext.AvailabilityZone;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -43,8 +41,9 @@ public class LocationSupplier implements Supplier<Set<Location>> {
     private final RegionSupplier regionSupplier;
     private final OneWayConverter<AvailabilityZoneInRegion, Location> avConverter;
 
-    @Inject public LocationSupplier(OSClient osClient, RegionSupplier regionSupplier,
-        OneWayConverter<AvailabilityZoneInRegion, Location> avConverter) {
+    @Inject
+    public LocationSupplier(OSClient osClient, RegionSupplier regionSupplier,
+                            OneWayConverter<AvailabilityZoneInRegion, Location> avConverter) {
         checkNotNull(avConverter);
         this.avConverter = avConverter;
         checkNotNull(regionSupplier);
@@ -53,7 +52,8 @@ public class LocationSupplier implements Supplier<Set<Location>> {
         this.osClient = osClient;
     }
 
-    @Override public Set<Location> get() {
+    @Override
+    public Set<Location> get() {
 
         Set<Location> locations = new HashSet<>();
         //add regions
@@ -61,8 +61,8 @@ public class LocationSupplier implements Supplier<Set<Location>> {
         //add availabilityZones
         for (Location region : regionSupplier.get()) {
             locations.addAll(osClient.useRegion(region.id()).compute().zones().list().stream().map(
-                (Function<AvailabilityZone, AvailabilityZoneInRegion>) availabilityZone -> new AvailabilityZoneInRegion(
-                    availabilityZone, region)).map(avConverter).collect(Collectors.toSet()));
+                    availabilityZone -> new AvailabilityZoneInRegion(
+                            availabilityZone, region)).map(avConverter).collect(Collectors.toSet()));
         }
         return locations;
     }
