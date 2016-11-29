@@ -18,8 +18,11 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.config;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Supplier;
+import com.google.common.collect.Sets;
 import com.google.inject.Injector;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
@@ -27,6 +30,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
@@ -37,10 +41,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.FlavorInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.*;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.Openstack4jCreateVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.Openstack4jDeleteVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.OpenstackConfiguredNetworkStrategy;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.OpenstackNetworkStrategy;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.*;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.HardwareFlavorSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.ImageSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.LocationSupplier;
@@ -81,6 +82,10 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
         return injector.getInstance(Openstack4jDeleteVirtualMachineStrategy.class);
     }
 
+    @Override protected Optional<PublicIpService> publicIpService(Injector injector) {
+        return Optional.of(injector.getInstance(Openstack4JFloatingIpStrategy.class));
+    }
+
     @Override protected void configure() {
         super.configure();
         OSFactory.enableHttpLoggingFilter(true);
@@ -100,5 +105,12 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
         }).to(RegionToLocation.class).in(Singleton.class);
         bind(new TypeLiteral<OneWayConverter<ServerInRegion, VirtualMachine>>() {
         }).to(ServerInRegionToVirtualMachine.class).in(Singleton.class);
+    }
+
+    @Provides @Singleton FloatingIpPoolStrategy provideFloatingIpPoolStrategy(Injector injector) {
+        Set<FloatingIpPoolStrategy> availableStrategies = Sets.newLinkedHashSetWithExpectedSize(2);
+        availableStrategies.add(injector.getInstance(ConfigurationFloatingIpPoolStrategy.class));
+        availableStrategies.add(injector.getInstance(OneFloatingIpPoolStrategy.class));
+        return new CompositeFloatingIpPoolStrategy(availableStrategies);
     }
 }
