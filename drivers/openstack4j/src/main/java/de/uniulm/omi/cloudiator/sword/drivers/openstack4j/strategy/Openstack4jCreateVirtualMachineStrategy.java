@@ -49,10 +49,10 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
     private final GetStrategy<String, Location> locationGetStrategy;
     private final OpenstackNetworkStrategy networkStrategy;
 
-    @Inject
-    public Openstack4jCreateVirtualMachineStrategy(OSClient osClient,
-                                                   OneWayConverter<ServerInRegion, VirtualMachine> virtualMachineConverter,
-                                                   GetStrategy<String, Location> locationGetStrategy, OpenstackNetworkStrategy networkStrategy) {
+    @Inject public Openstack4jCreateVirtualMachineStrategy(OSClient osClient,
+        OneWayConverter<ServerInRegion, VirtualMachine> virtualMachineConverter,
+        GetStrategy<String, Location> locationGetStrategy,
+        OpenstackNetworkStrategy networkStrategy) {
         checkNotNull(networkStrategy, "networkStrategy is null");
         this.networkStrategy = networkStrategy;
         checkNotNull(locationGetStrategy, "locationGetStrategy is null");
@@ -63,8 +63,7 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
         this.osClient = osClient;
     }
 
-    @Override
-    public VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
+    @Override public VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
 
         //todo we currently simply assume that this is a zone (hosts may follow)
         Location zone = locationGetStrategy.get(virtualMachineTemplate.locationId());
@@ -80,13 +79,19 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
 
         //todo this code also assumes that location is always the availability zone
         final ServerCreate serverCreate = Builders.server().name(virtualMachineTemplate.name())
-                .flavor(IdScopeByLocations.from(virtualMachineTemplate.hardwareFlavorId()).getId())
-                .image(IdScopeByLocations.from(virtualMachineTemplate.imageId()).getId())
-                .availabilityZone(IdScopeByLocations.from(virtualMachineTemplate.locationId()).getId())
-                .networks(networks)
-                .build();
-        final Server server =
-                osClient.useRegion(region.id()).compute().servers().boot(serverCreate);
-        return virtualMachineConverter.apply(new ServerInRegion(server, region));
+            .flavor(IdScopeByLocations.from(virtualMachineTemplate.hardwareFlavorId()).getId())
+            .image(IdScopeByLocations.from(virtualMachineTemplate.imageId()).getId())
+            .availabilityZone(IdScopeByLocations.from(virtualMachineTemplate.locationId()).getId())
+            .networks(networks).build();
+        //todo make timeout configurable
+        final Server createdServer = osClient.useRegion(region.id()).compute().servers()
+            .bootAndWaitActive(serverCreate, 120000);
+        // we retrieve the newly created server to get additional details the creation request does
+        // not contain
+        final Server retrievedServer = osClient.compute().servers().get(createdServer.getId());
+        checkState(retrievedServer != null,
+            "Could not retrieve newly created server with id " + createdServer.getId());
+        return virtualMachineConverter
+            .apply(new ServerInRegion(createdServer, retrievedServer, region));
     }
 }

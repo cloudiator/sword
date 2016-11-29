@@ -34,16 +34,20 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class ServerInRegion implements Server, InRegion, ProviderIdentified {
 
-    private final Server delegate;
+    private final Server createdServer;
+    private final Server retrievedServer;
     private final Location region;
     private final String regionScopedId;
 
-    public ServerInRegion(Server delegate, Location region) {
-        checkNotNull(delegate, "delegate is null.");
+    public ServerInRegion(Server createdServer, Server retrievedServer, Location region) {
+        checkNotNull(retrievedServer);
+        checkNotNull(createdServer, "createdServer is null.");
         checkNotNull(region, "region is null.");
-        this.delegate = delegate;
+        this.createdServer = createdServer;
+        this.retrievedServer = retrievedServer;
         this.region = region;
-        regionScopedId = IdScopeByLocations.from(region.id(), delegate.getId()).getIdWithLocation();
+        regionScopedId =
+            IdScopeByLocations.from(region.id(), createdServer.getId()).getIdWithLocation();
     }
 
     @Override public String getId() {
@@ -51,143 +55,146 @@ public class ServerInRegion implements Server, InRegion, ProviderIdentified {
     }
 
     @Override public String getName() {
-        return delegate.getName();
+        if (createdServer.getName() == null) {
+            return retrievedServer.getName();
+        }
+        return createdServer.getName();
     }
 
     @Override public Addresses getAddresses() {
-        return delegate.getAddresses();
+        return createdServer.getAddresses();
     }
 
     @Override public List<? extends Link> getLinks() {
-        return delegate.getLinks();
+        return createdServer.getLinks();
     }
 
     @Override public String getImageId() {
-        return delegate.getImageId();
+        return createdServer.getImageId();
     }
 
     @Override public Image getImage() {
-        return delegate.getImage();
+        return createdServer.getImage();
     }
 
     @Override public String getFlavorId() {
-        return delegate.getFlavorId();
+        return createdServer.getFlavorId();
     }
 
     @Override public Flavor getFlavor() {
-        return delegate.getFlavor();
+        return createdServer.getFlavor();
     }
 
     @Override public String getAccessIPv4() {
-        return delegate.getAccessIPv4();
+        return createdServer.getAccessIPv4();
     }
 
     @Override public String getAccessIPv6() {
-        return delegate.getAccessIPv6();
+        return createdServer.getAccessIPv6();
     }
 
     @Override public String getConfigDrive() {
-        return delegate.getConfigDrive();
+        return createdServer.getConfigDrive();
     }
 
     @Override public Status getStatus() {
-        return delegate.getStatus();
+        return createdServer.getStatus();
     }
 
     @Override public int getProgress() {
-        return delegate.getProgress();
+        return createdServer.getProgress();
     }
 
     @Override public Fault getFault() {
-        return delegate.getFault();
+        return createdServer.getFault();
     }
 
     @Override public String getTenantId() {
-        return delegate.getTenantId();
+        return createdServer.getTenantId();
     }
 
     @Override public String getUserId() {
-        return delegate.getUserId();
+        return createdServer.getUserId();
     }
 
     @Override public String getKeyName() {
-        return delegate.getKeyName();
+        return createdServer.getKeyName();
     }
 
     @Override public String getHostId() {
-        return delegate.getHostId();
+        return createdServer.getHostId();
     }
 
     @Override public Date getUpdated() {
-        return delegate.getUpdated();
+        return createdServer.getUpdated();
     }
 
     @Override public Date getCreated() {
-        return delegate.getCreated();
+        return createdServer.getCreated();
     }
 
     @Override public Map<String, String> getMetadata() {
-        return delegate.getMetadata();
+        return createdServer.getMetadata();
     }
 
     @Override public String getTaskState() {
-        return delegate.getTaskState();
+        return createdServer.getTaskState();
     }
 
     @Override public String getPowerState() {
-        return delegate.getPowerState();
+        return createdServer.getPowerState();
     }
 
     @Override public String getVmState() {
-        return delegate.getVmState();
+        return createdServer.getVmState();
     }
 
     @Override public String getHost() {
-        return delegate.getHost();
+        return createdServer.getHost();
     }
 
     @Override public String getInstanceName() {
-        return delegate.getInstanceName();
+        return createdServer.getInstanceName();
     }
 
     @Override public String getHypervisorHostname() {
-        return delegate.getHypervisorHostname();
+        return createdServer.getHypervisorHostname();
     }
 
     @Override public DiskConfig getDiskConfig() {
-        return delegate.getDiskConfig();
+        return createdServer.getDiskConfig();
     }
 
     @Override public String getAvailabilityZone() {
-        return delegate.getAvailabilityZone();
+        return createdServer.getAvailabilityZone();
     }
 
     @Override public Date getLaunchedAt() {
-        return delegate.getLaunchedAt();
+        return createdServer.getLaunchedAt();
     }
 
     @Override public Date getTerminatedAt() {
-        return delegate.getTerminatedAt();
+        return createdServer.getTerminatedAt();
     }
 
     @Override public List<String> getOsExtendedVolumesAttached() {
-        return delegate.getOsExtendedVolumesAttached();
+        return createdServer.getOsExtendedVolumesAttached();
     }
 
     @Override public String getUuid() {
-        return delegate.getUuid();
+        return createdServer.getUuid();
     }
 
     @Override public String getAdminPass() {
-        return delegate.getAdminPass();
+        return createdServer.getAdminPass();
     }
 
     @Override public List<? extends SecurityGroup> getSecurityGroups() {
-        return delegate.getSecurityGroups();
+        return createdServer.getSecurityGroups();
     }
 
     @Override public String providerId() {
-        return delegate.getId();
+        return createdServer.getId();
     }
 
     @Override public Location region() {
