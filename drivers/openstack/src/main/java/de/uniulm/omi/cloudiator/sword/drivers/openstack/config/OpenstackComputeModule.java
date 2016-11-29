@@ -62,10 +62,12 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
     }
 
     @Override protected Optional<PublicIpService> publicIpService(Injector injector) {
+        //todo should be dependent on openstack floating ip extension being available.
         return Optional.fromNullable(injector.getInstance(OpenstackPublicIpService.class));
     }
 
     @Override protected Optional<KeyPairService> keyPairService(Injector injector) {
+        //todo should be dependent on openstack key pair extension being available.
         return Optional.fromNullable(injector.getInstance(OpenstackKeyPairService.class));
     }
 
@@ -93,4 +95,6 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
         availableStrategies.add(injector.getInstance(OneFloatingIpPoolStrategy.class));
         return new CompositeFloatingIpPoolStrategy(availableStrategies);
     }
+
+
 }

@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.config;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Supplier;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
@@ -26,13 +27,11 @@ import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.common.os.OperatingSystemFamily;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClientImpl;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.*;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.*;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsDeleteVirtualMachineStrategy;
@@ -46,6 +45,7 @@ import org.jclouds.compute.domain.Hardware;
 import org.jclouds.compute.domain.OperatingSystem;
 import org.jclouds.compute.domain.OsFamily;
 import org.jclouds.domain.LoginCredentials;
+import org.jclouds.net.domain.IpPermission;
 
 import java.util.Set;
 
@@ -163,6 +163,11 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         return JCloudsComputeMetadataToVirtualMachine.class;
     }
 
+    @Override protected Optional<SecurityGroupService> securityGroupService(Injector injector) {
+        //todo should be dependent on jclouds security group extension being present.
+        return Optional.of(injector.getInstance(JCloudsSecurityGroupService.class));
+    }
+
     protected abstract Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter();
 
     @Override protected void configure() {
@@ -189,6 +194,10 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         bind(new TypeLiteral<OneWayConverter<org.jclouds.domain.Location, Location>>() {
         }).to(JCloudsLocationToLocation.class);
 
+        //bind the reverse location converter
+        bind(new TypeLiteral<OneWayConverter<Location, org.jclouds.domain.Location>>() {
+        }).to(LocationToJCloudsLocation.class);
+
         //bind the hardware converter
         bind(new TypeLiteral<OneWayConverter<Hardware, HardwareFlavor>>() {
         }).to(JCloudsHardwareToHardwareFlavor.class);
@@ -200,6 +209,15 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         //bind the login credential converter
         bind(new TypeLiteral<OneWayConverter<LoginCredentials, LoginCredential>>() {
         }).to(JCloudsLoginCredentialsToLoginCredential.class);
+
+        //bind the security group converter
+        bind(
+            new TypeLiteral<OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup>>() {
+            }).to(JCloudsSecurityGroupToSecurityGroup.class);
+
+        //bind the security group rule converter
+        bind(new TypeLiteral<OneWayConverter<IpPermission, SecurityGroupRule>>() {
+        }).to(JCloudsIpPermissionToSecurityGroupRule.class);
 
         //bind the template options converter
         bind(

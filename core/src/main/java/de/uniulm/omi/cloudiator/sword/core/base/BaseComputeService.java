@@ -24,6 +24,7 @@ import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
@@ -46,6 +47,7 @@ public class BaseComputeService
     private final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy;
     private final Optional<PublicIpService> publicIpService;
     private final Optional<KeyPairService> keyPairService;
+    private final Optional<SecurityGroupService> securityGroupService;
     private final ConnectionService connectionService;
 
 
@@ -54,7 +56,7 @@ public class BaseComputeService
         RemoteConnectionFactory remoteConnectionFactory, ServiceConfiguration serviceConfiguration,
         DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine> discoveryService,
         Optional<PublicIpService> publicIpService, Optional<KeyPairService> keyPairService,
-        ConnectionService connectionService) {
+        Optional<SecurityGroupService> securityGroupService, ConnectionService connectionService) {
 
 
 
@@ -64,6 +66,7 @@ public class BaseComputeService
         checkNotNull(serviceConfiguration);
         checkNotNull(publicIpService);
         checkNotNull(keyPairService);
+        checkNotNull(securityGroupService);
         checkNotNull(connectionService);
         checkNotNull(discoveryService);
 
@@ -71,6 +74,7 @@ public class BaseComputeService
         this.deleteVirtualMachineStrategy = deleteVirtualMachineStrategy;
         this.publicIpService = publicIpService;
         this.keyPairService = keyPairService;
+        this.securityGroupService = securityGroupService;
         this.connectionService = connectionService;
         this.discoveryService = discoveryService;
     }
@@ -102,5 +106,9 @@ public class BaseComputeService
 
     @Override public Optional<KeyPairService> keyPairService() {
         return keyPairService;
+    }
+
+    @Override public Optional<SecurityGroupService> securityGroupService() {
+        return securityGroupService;
     }
 }
