@@ -44,7 +44,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jclouds.version>2.0.0-SNAPSHOT</jclouds.version>
+        <jclouds.version>2.0.0</jclouds.version>
         <jsch.version>0.1.51</jsch.version>
     </properties>
 
@@ -120,11 +120,6 @@
             <dependency>
                 <groupId>org.apache.jclouds</groupId>
                 <artifactId>jclouds-compute</artifactId>
-                <version>${jclouds.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.jclouds.labs</groupId>
-                <artifactId>google-compute-engine</artifactId>
                 <version>${jclouds.version}</version>
             </dependency>
             <dependency>
