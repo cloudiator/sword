@@ -102,7 +102,7 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
 
         //todo this code also assumes that location is always the availability zone
         final ServerCreateBuilder serverCreateBuilder = Builders.server()
-            .name(namingStrategy.generateUniqueNameInGroup(virtualMachineTemplate.name()))
+            .name(namingStrategy.generateUniqueNameBasedOnName(virtualMachineTemplate.name()))
             .flavor(IdScopeByLocations.from(virtualMachineTemplate.hardwareFlavorId()).getId())
             .image(IdScopeByLocations.from(virtualMachineTemplate.imageId()).getId())
             .availabilityZone(IdScopeByLocations.from(virtualMachineTemplate.locationId()).getId())

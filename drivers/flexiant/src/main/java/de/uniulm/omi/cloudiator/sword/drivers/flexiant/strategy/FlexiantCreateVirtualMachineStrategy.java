@@ -68,7 +68,7 @@ public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachin
     }
 
     private String nameWithNodeGroup(String name) {
-        return namingStrategy.generateUniqueNameInGroup(name);
+        return namingStrategy.generateUniqueNameBasedOnName(name);
     }
 
 

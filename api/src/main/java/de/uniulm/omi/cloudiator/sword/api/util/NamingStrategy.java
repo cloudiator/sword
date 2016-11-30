@@ -26,10 +26,28 @@ import java.util.function.Predicate;
  */
 public interface NamingStrategy {
 
-    String generateUniqueNameInGroup(@Nullable String name);
+    /**
+     * Generates a unique name based on the name input.
+     *
+     * @param name the name to use within the unique name.
+     * @return a unique named.
+     */
+    String generateUniqueNameBasedOnName(@Nullable String name);
 
-    String generateNameInGroup(String name);
+    /**
+     * Generates a name based on the given name.
+     *
+     * @param name the name
+     * @return a name based on the given string.
+     */
+    String generateNameBasedOnName(String name);
 
-    Predicate<String> belongsToGroup();
+    /**
+     * Returns a {@link Predicate} to check if the name belongs to
+     * the naming group.
+     *
+     * @return the predicate
+     */
+    Predicate<String> belongsToNamingGroup();
 
 }

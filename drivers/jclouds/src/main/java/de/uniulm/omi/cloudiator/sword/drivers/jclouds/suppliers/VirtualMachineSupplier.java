@@ -58,7 +58,7 @@ public class VirtualMachineSupplier implements Supplier<Set<VirtualMachine>> {
     @Override public Set<VirtualMachine> get() {
         return jCloudsComputeClient.listNodes().stream()
             .map(jCloudsComputeMetadataToVirtualMachine::apply)
-            .filter(virtualMachine -> namingStrategy.belongsToGroup().test(virtualMachine.name()))
+            .filter(virtualMachine -> namingStrategy.belongsToNamingGroup().test(virtualMachine.name()))
             .collect(Collectors.toSet());
     }
 }

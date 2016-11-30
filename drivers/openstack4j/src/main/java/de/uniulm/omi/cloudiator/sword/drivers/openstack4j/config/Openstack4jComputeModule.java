@@ -32,17 +32,13 @@ import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
-import de.uniulm.omi.cloudiator.sword.core.suppliers.EmptyVirtualMachineSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.*;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.*;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JPublicIpService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JSecurityGroupService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.*;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.*;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.HardwareFlavorSupplier;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.ImageSupplier;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.LocationSupplier;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.SecurityGroupSupplier;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.*;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.SecGroupExtension;
 
@@ -67,7 +63,7 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
     }
 
     @Override protected Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
-        return injector.getInstance(EmptyVirtualMachineSupplier.class);
+        return injector.getInstance(VirtualMachineSupplier.class);
     }
 
     @Override

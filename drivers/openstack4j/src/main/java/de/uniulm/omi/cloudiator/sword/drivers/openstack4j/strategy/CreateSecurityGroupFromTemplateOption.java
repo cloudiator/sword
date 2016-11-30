@@ -73,7 +73,7 @@ public class CreateSecurityGroupFromTemplateOption {
 
         final Set<SecurityGroup> collect = securityGroupService.listSecurityGroups().stream()
             .filter(securityGroup -> securityGroup.name()
-                .equals(namingStrategy.generateNameInGroup(DEFAULT_SEC_GROUP_NAME)))
+                .equals(namingStrategy.generateNameBasedOnName(DEFAULT_SEC_GROUP_NAME)))
             .filter(securityGroup -> {
                 checkState(securityGroup.location().isPresent(),
                     String.format("SecurityGroup %s has no location.", securityGroup));
@@ -82,7 +82,7 @@ public class CreateSecurityGroupFromTemplateOption {
         if (collect.size() > 1) {
             throw new IllegalStateException(String.format(
                 "Found %s security groups matching the name %s. Not sure what to use. Please delete unneeded ones.",
-                collect.size(), namingStrategy.generateNameInGroup(DEFAULT_SEC_GROUP_NAME)));
+                collect.size(), namingStrategy.generateNameBasedOnName(DEFAULT_SEC_GROUP_NAME)));
         } else if (collect.size() == 1) {
             return collect.iterator().next().name();
         }

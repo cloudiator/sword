@@ -64,7 +64,7 @@ public class CreateSecurityGroupStrategy {
             "Could not find region parent of location" + location);
         final SecGroupExtension secGroupExtension =
             osClient.useRegion(location.id()).compute().securityGroups()
-                .create(namingStrategy.generateNameInGroup(name), name);
+                .create(namingStrategy.generateNameBasedOnName(name), name);
         return securityGroupConverter
             .apply(new SecurityGroupInRegion(secGroupExtension, location, Collections.emptySet()));
     }
