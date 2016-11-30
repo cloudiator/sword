@@ -35,11 +35,11 @@ import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModul
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackComputeClientImpl;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.NovaKeyPairToKeypair;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.TemplateOptionsToNovaTemplateOptions;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.domain.KeyPairInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackKeyPairService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackPublicIpService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.*;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
-import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 
 import java.util.Set;
 
@@ -57,7 +57,7 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
         super.configure();
         bind(NovaApi.class).toProvider(NovaApiProvider.class);
         bind(
-            new TypeLiteral<OneWayConverter<KeyPair, de.uniulm.omi.cloudiator.sword.api.domain.KeyPair>>() {
+            new TypeLiteral<OneWayConverter<KeyPairInRegion, de.uniulm.omi.cloudiator.sword.api.domain.KeyPair>>() {
             }).to(NovaKeyPairToKeypair.class);
     }
 

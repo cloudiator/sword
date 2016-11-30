@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 
 /**
  * Builder for a {@link KeyPair}.
@@ -28,6 +29,8 @@ import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
 public class KeyPairBuilder {
 
     private String id;
+    private String providerId;
+    private Location location;
     private String name;
     private String publicKey;
     private String privateKey;
@@ -52,11 +55,25 @@ public class KeyPairBuilder {
     }
 
     /**
+     * @param providerId of the keypair
+     * @return fluid interface
+     */
+    public KeyPairBuilder providerId(String providerId) {
+        this.providerId = providerId;
+        return this;
+    }
+
+    /**
      * @param name of the keypair
      * @return fluid interface
      */
     public KeyPairBuilder name(String name) {
         this.name = name;
+        return this;
+    }
+
+    public KeyPairBuilder location(Location location) {
+        this.location = location;
         return this;
     }
 
@@ -84,7 +101,7 @@ public class KeyPairBuilder {
      * @return the created keypair.
      */
     public KeyPair build() {
-        return new KeyPairImpl(id, name, publicKey, privateKey);
+        return new KeyPairImpl(id, providerId, name, location, publicKey, privateKey);
     }
 
 

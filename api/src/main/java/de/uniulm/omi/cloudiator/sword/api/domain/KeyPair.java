@@ -18,7 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
-import com.google.common.base.Optional;
+
+
+import java.util.Optional;
 
 /**
  * Represents a public/private keypair for accessing
@@ -27,7 +29,7 @@ import com.google.common.base.Optional;
  * The private key is optional, and is normally only available
  * if the keypair was just created.
  */
-public interface KeyPair extends Identifiable, Named {
+public interface KeyPair extends Resource {
 
     /**
      * The public key of the keypair.

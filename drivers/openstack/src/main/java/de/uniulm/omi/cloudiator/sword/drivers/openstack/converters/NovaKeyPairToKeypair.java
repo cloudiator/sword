@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.converters;
 
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.core.domain.KeyPairBuilder;
-import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.domain.KeyPairInRegion;
 
 import javax.annotation.Nullable;
 
@@ -29,14 +29,15 @@ import javax.annotation.Nullable;
  * Created by daniel on 19.05.15.
  */
 public class NovaKeyPairToKeypair
-    implements OneWayConverter<KeyPair, de.uniulm.omi.cloudiator.sword.api.domain.KeyPair> {
+    implements OneWayConverter<KeyPairInRegion, de.uniulm.omi.cloudiator.sword.api.domain.KeyPair> {
 
-    @Nullable @Override
-    public de.uniulm.omi.cloudiator.sword.api.domain.KeyPair apply(@Nullable KeyPair keyPair) {
+    @Nullable @Override public de.uniulm.omi.cloudiator.sword.api.domain.KeyPair apply(
+        @Nullable KeyPairInRegion keyPair) {
         if (keyPair == null) {
             return null;
         }
-        return KeyPairBuilder.newBuilder().id(keyPair.getName()).name(keyPair.getName())
+        return KeyPairBuilder.newBuilder().location(keyPair.location().orElse(null))
+            .id(keyPair.getName()).providerId(keyPair.getName()).name(keyPair.getName())
             .privateKey(keyPair.getPrivateKey()).publicKey(keyPair.getPublicKey()).build();
     }
 }
