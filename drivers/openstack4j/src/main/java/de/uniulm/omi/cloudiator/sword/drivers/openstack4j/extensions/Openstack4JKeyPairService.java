@@ -25,7 +25,6 @@ import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.KeyPairBuilder;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.Keypair;
 
@@ -39,15 +38,12 @@ import static com.google.common.base.Preconditions.*;
 public class Openstack4JKeyPairService implements KeyPairService {
 
     private final OSClient osClient;
-    private final RegionSupplier regionSupplier;
     private final NamingStrategy namingStrategy;
 
-    @Inject public Openstack4JKeyPairService(OSClient osClient, RegionSupplier regionSupplier,
-        NamingStrategy namingStrategy) {
+    @Inject public Openstack4JKeyPairService(OSClient osClient, NamingStrategy namingStrategy) {
         checkNotNull(namingStrategy, "namingStrategy is null");
         this.namingStrategy = namingStrategy;
-        checkNotNull(regionSupplier, "regionSupplier is null");
-        this.regionSupplier = regionSupplier;
+
         checkNotNull(osClient, "osClient is null");
         this.osClient = osClient;
     }

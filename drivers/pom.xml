@@ -61,10 +61,6 @@
             <artifactId>core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.jclouds</groupId>
-            <artifactId>jclouds-allcompute</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.github.cloudiator.flexiant</groupId>
             <artifactId>flexiant-client</artifactId>
         </dependency>
@@ -73,13 +69,9 @@
             <artifactId>common</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.jclouds.driver</groupId>
-            <artifactId>jclouds-jsch</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.pacesys</groupId>
-            <artifactId>openstack4j</artifactId>
-            <version>3.0.2</version>
+            <groupId>com.github.rholder</groupId>
+            <artifactId>guava-retrying</artifactId>
+            <version>2.0.0</version>
         </dependency>
     </dependencies>
 </project>

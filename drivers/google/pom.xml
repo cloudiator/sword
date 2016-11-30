@@ -34,9 +34,14 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.github.cloudiator.flexiant</groupId>
-                <artifactId>flexiant-client</artifactId>
-                <version>0.2.0-SNAPSHOT</version>
+                <groupId>org.apache.jclouds.provider</groupId>
+                <artifactId>google-compute-engine</artifactId>
+                <version>${jclouds.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.jclouds.driver</groupId>
+                <artifactId>jclouds-jsch</artifactId>
+                <version>${jclouds.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -57,7 +62,7 @@
         <dependency>
             <groupId>io.github.cloudiator.sword.drivers</groupId>
             <artifactId>jclouds</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.jclouds.provider</groupId>

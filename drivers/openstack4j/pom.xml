@@ -31,6 +31,16 @@
     <artifactId>openstack4j</artifactId>
     <packaging>jar</packaging>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.pacesys</groupId>
+                <artifactId>openstack4j</artifactId>
+                <version>3.0.2</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>io.github.cloudiator.sword</groupId>
@@ -47,7 +57,6 @@
         <dependency>
             <groupId>org.pacesys</groupId>
             <artifactId>openstack4j</artifactId>
-            <version>3.0.2</version>
         </dependency>
     </dependencies>
 </project>

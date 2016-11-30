@@ -31,6 +31,16 @@
     <artifactId>openstack</artifactId>
     <packaging>jar</packaging>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.jclouds.api</groupId>
+                <artifactId>openstack-nova</artifactId>
+                <version>${jclouds.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>io.github.cloudiator.sword</groupId>
@@ -47,12 +57,11 @@
         <dependency>
             <groupId>io.github.cloudiator.sword.drivers</groupId>
             <artifactId>jclouds</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.jclouds.api</groupId>
             <artifactId>openstack-nova</artifactId>
-            <version>2.0.0</version>
         </dependency>
     </dependencies>
 </project>
