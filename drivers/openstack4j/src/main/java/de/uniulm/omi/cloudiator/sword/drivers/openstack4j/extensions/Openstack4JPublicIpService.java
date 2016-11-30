@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
+package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
@@ -25,6 +25,7 @@ import de.uniulm.omi.cloudiator.sword.api.strategy.PublicIpStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
 import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.Openstack4JConstants;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.FloatingIpPoolStrategy;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.api.compute.ComputeFloatingIPService;
 import org.openstack4j.api.compute.ComputeService;
@@ -43,13 +44,13 @@ import static com.google.common.base.Preconditions.*;
  * <p/>
  * todo: check of public ip service and strategy are necessary....
  */
-public class Openstack4JFloatingIpStrategy implements PublicIpService {
+public class Openstack4JPublicIpService implements PublicIpService {
 
     private final OSClient osClient;
     private final FloatingIpPoolStrategy floatingIpPoolStrategy;
 
 
-    @Inject public Openstack4JFloatingIpStrategy(OSClient osClient,
+    @Inject public Openstack4JPublicIpService(OSClient osClient,
         FloatingIpPoolStrategy floatingIpPoolStrategy) {
 
 

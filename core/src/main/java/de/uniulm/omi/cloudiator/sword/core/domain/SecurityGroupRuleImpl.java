@@ -40,7 +40,7 @@ public class SecurityGroupRuleImpl implements SecurityGroupRule {
     private final Cidr cidr;
 
     public SecurityGroupRuleImpl(IpProtocol ipProtocol, int fromPort, int toPort, Cidr cidr) {
-        checkNotNull(ipProtocol);
+        checkNotNull(ipProtocol, "ipProtocol is null");
         this.ipProtocol = ipProtocol;
 
         checkArgument(portInRange(ipProtocol, fromPort), String
@@ -53,7 +53,7 @@ public class SecurityGroupRuleImpl implements SecurityGroupRule {
         checkArgument(!(toPort < fromPort),
             String.format("toPort (%s) must not be smaller than fromPort (%s)", toPort, fromPort));
         this.toPort = toPort;
-        checkNotNull(cidr);
+        checkNotNull(cidr, "cidr is null");
         this.cidr = cidr;
     }
 

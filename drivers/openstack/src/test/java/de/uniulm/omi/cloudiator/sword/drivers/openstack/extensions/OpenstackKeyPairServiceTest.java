@@ -32,19 +32,19 @@ public class OpenstackKeyPairServiceTest {
         when(openstackKeyPairClient.create(any())).thenReturn(keyPair);
         when(openstackKeyPairClient.createWithPublicKey(any(), any())).thenReturn(keyPair);
         when(openstackKeyPairClient.get(any())).thenReturn(keyPair);
-        when(namingStrategy.generateUniqueName(any())).thenReturn("MockName");
+        when(namingStrategy.generateUniqueNameInGroup(any())).thenReturn("MockName");
     }
 
     @Test public void testCreate() throws Exception {
         openstackKeyPairService.create("name");
-        verify(openstackKeyPairClient).create(namingStrategy.generateUniqueName("name"));
+        verify(openstackKeyPairClient).create(namingStrategy.generateUniqueNameInGroup("name"));
         verify(keyPairConverter).apply(keyPair);
     }
 
     @Test public void testCreatePublicKey() throws Exception {
         openstackKeyPairService.create("name", "publicKey");
         verify(openstackKeyPairClient)
-            .createWithPublicKey(namingStrategy.generateUniqueName("name"), "publicKey");
+            .createWithPublicKey(namingStrategy.generateUniqueNameInGroup("name"), "publicKey");
         verify(keyPairConverter).apply(keyPair);
     }
 

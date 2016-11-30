@@ -26,12 +26,14 @@ import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
 import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.Server;
 import org.openstack4j.model.compute.ServerCreate;
+import org.openstack4j.model.compute.builder.ServerCreateBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +50,19 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
     private final OneWayConverter<ServerInRegion, VirtualMachine> virtualMachineConverter;
     private final GetStrategy<String, Location> locationGetStrategy;
     private final OpenstackNetworkStrategy networkStrategy;
+    private final NamingStrategy namingStrategy;
+    private final CreateSecurityGroupFromTemplateOption createSecurityGroupFromTemplateOption;
 
     @Inject public Openstack4jCreateVirtualMachineStrategy(OSClient osClient,
         OneWayConverter<ServerInRegion, VirtualMachine> virtualMachineConverter,
-        GetStrategy<String, Location> locationGetStrategy,
-        OpenstackNetworkStrategy networkStrategy) {
+        GetStrategy<String, Location> locationGetStrategy, OpenstackNetworkStrategy networkStrategy,
+        NamingStrategy namingStrategy,
+        CreateSecurityGroupFromTemplateOption createSecurityGroupFromTemplateOption) {
+        checkNotNull(createSecurityGroupFromTemplateOption,
+            "createSecurityGroupFromTemplateOption is null");
+        this.createSecurityGroupFromTemplateOption = createSecurityGroupFromTemplateOption;
+        checkNotNull(namingStrategy, "namingStrategy is null");
+        this.namingStrategy = namingStrategy;
         checkNotNull(networkStrategy, "networkStrategy is null");
         this.networkStrategy = networkStrategy;
         checkNotNull(locationGetStrategy, "locationGetStrategy is null");
@@ -77,12 +87,30 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
             networks.add(networkStrategy.get());
         }
 
+        //keypair
+        String keyPair = null;
+        if (virtualMachineTemplate.templateOptions().isPresent()) {
+            keyPair = virtualMachineTemplate.templateOptions().get().keyPairName();
+        }
+
+        List<String> secGroups = new ArrayList<>(1);
+        if (virtualMachineTemplate.templateOptions().isPresent()) {
+            secGroups.add(createSecurityGroupFromTemplateOption
+                .create(virtualMachineTemplate.templateOptions().get(),
+                    virtualMachineTemplate.locationId()));
+        }
+
         //todo this code also assumes that location is always the availability zone
-        final ServerCreate serverCreate = Builders.server().name(virtualMachineTemplate.name())
+        final ServerCreateBuilder serverCreateBuilder = Builders.server()
+            .name(namingStrategy.generateUniqueNameInGroup(virtualMachineTemplate.name()))
             .flavor(IdScopeByLocations.from(virtualMachineTemplate.hardwareFlavorId()).getId())
             .image(IdScopeByLocations.from(virtualMachineTemplate.imageId()).getId())
             .availabilityZone(IdScopeByLocations.from(virtualMachineTemplate.locationId()).getId())
-            .networks(networks).build();
+            .networks(networks).keypairName(keyPair);
+        for (String secGroup : secGroups) {
+            serverCreateBuilder.addSecurityGroup(secGroup);
+        }
+        final ServerCreate serverCreate = serverCreateBuilder.build();
         //todo make timeout configurable
         final Server createdServer = osClient.useRegion(region.id()).compute().servers()
             .bootAndWaitActive(serverCreate, 120000);

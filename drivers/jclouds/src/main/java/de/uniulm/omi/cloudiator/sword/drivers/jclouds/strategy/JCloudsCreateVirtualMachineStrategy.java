@@ -90,7 +90,7 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
 
         //set the name
         jcloudsTemplateOptions.nodeNames(Collections
-            .singleton(namingStrategy.generateUniqueName(virtualMachineTemplate.name())));
+            .singleton(namingStrategy.generateUniqueNameInGroup(virtualMachineTemplate.name())));
 
         //call extension point
         templateBuilder

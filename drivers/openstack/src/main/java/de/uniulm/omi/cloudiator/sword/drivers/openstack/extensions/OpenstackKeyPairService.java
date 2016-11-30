@@ -68,7 +68,7 @@ public class OpenstackKeyPairService implements KeyPairService {
             checkArgument(!name.isEmpty());
         }
         return keyPairConverter
-            .apply(openstackKeyPairClient.create(namingStrategy.generateUniqueName(name)));
+            .apply(openstackKeyPairClient.create(namingStrategy.generateUniqueNameInGroup(name)));
     }
 
     @Override public KeyPair create(@Nullable String name, String publicKey) {
@@ -78,7 +78,7 @@ public class OpenstackKeyPairService implements KeyPairService {
         checkNotNull(publicKey);
         checkArgument(!publicKey.isEmpty());
         return keyPairConverter.apply(openstackKeyPairClient
-            .createWithPublicKey(namingStrategy.generateUniqueName(name), publicKey));
+            .createWithPublicKey(namingStrategy.generateUniqueNameInGroup(name), publicKey));
     }
 
     @Override public boolean delete(String name) {

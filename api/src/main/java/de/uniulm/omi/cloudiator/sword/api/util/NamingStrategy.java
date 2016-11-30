@@ -26,7 +26,9 @@ import java.util.function.Predicate;
  */
 public interface NamingStrategy {
 
-    String generateUniqueName(@Nullable String name);
+    String generateUniqueNameInGroup(@Nullable String name);
+
+    String generateNameInGroup(String name);
 
     Predicate<String> belongsToGroup();
 

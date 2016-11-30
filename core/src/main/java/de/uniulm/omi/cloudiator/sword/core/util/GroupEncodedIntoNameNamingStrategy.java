@@ -103,7 +103,7 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
         this.prefixGenerator = new RandomPrefixGenerator();
     }
 
-    @Override public String generateUniqueName(@Nullable String name) {
+    @Override public String generateUniqueNameInGroup(@Nullable String name) {
 
         final String uniquePrefix = generateUniquePrefix();
         final String uniqueName;
@@ -123,6 +123,12 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
                     + " problems with virtual machines. Actual length is " + uniqueName.length());
         }
         return uniqueName;
+    }
+
+    @Override public String generateNameInGroup(String name) {
+        checkNotNull(name, "name is null");
+        checkArgument(!name.isEmpty(), "name is empty");
+        return nodeGroup + DELIMITER + name;
     }
 
     @Override public Predicate<String> belongsToGroup() {

@@ -26,27 +26,25 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.api.domain.Image;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
 import de.uniulm.omi.cloudiator.sword.core.suppliers.EmptyVirtualMachineSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.*;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.AvailabilityZoneInRegion;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.FlavorInRegion;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.*;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JPublicIpService;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JSecurityGroupService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.*;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.*;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.HardwareFlavorSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.ImageSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.LocationSupplier;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.SecurityGroupSupplier;
 import org.openstack4j.api.OSClient;
-import org.openstack4j.openstack.OSFactory;
+import org.openstack4j.model.compute.SecGroupExtension;
 
 import java.util.Set;
 
@@ -83,12 +81,15 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
     }
 
     @Override protected Optional<PublicIpService> publicIpService(Injector injector) {
-        return Optional.of(injector.getInstance(Openstack4JFloatingIpStrategy.class));
+        return Optional.of(injector.getInstance(Openstack4JPublicIpService.class));
+    }
+
+    @Override protected Optional<SecurityGroupService> securityGroupService(Injector injector) {
+        return Optional.of(injector.getInstance(Openstack4JSecurityGroupService.class));
     }
 
     @Override protected void configure() {
         super.configure();
-        OSFactory.enableHttpLoggingFilter(true);
         bind(OSClient.class).toProvider(Openstack4jClientProvider.class).in(Singleton.class);
         bind(KeyStoneVersion.class).toProvider(KeyStoneVersionProvider.class).in(Singleton.class);
         bind(OsClientFactory.class).toProvider(OsClientFactoryProvider.class).in(Singleton.class);
@@ -105,6 +106,15 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
         }).to(RegionToLocation.class).in(Singleton.class);
         bind(new TypeLiteral<OneWayConverter<ServerInRegion, VirtualMachine>>() {
         }).to(ServerInRegionToVirtualMachine.class).in(Singleton.class);
+        bind(new TypeLiteral<OneWayConverter<SecGroupExtension.Rule, SecurityGroupRule>>() {
+        }).to(RuleToSecurityGroupRuleConverter.class).in(Singleton.class);
+        bind(new TypeLiteral<OneWayConverter<SecurityGroupInRegion, SecurityGroup>>() {
+        }).to(SecurityGroupInRegionToSecurityGroup.class).in(Singleton.class);
+        bind(new TypeLiteral<Supplier<Set<SecurityGroup>>>() {
+        }).to(SecurityGroupSupplier.class).in(Singleton.class);
+        bind(CreateSecurityGroupStrategy.class).in(Singleton.class);
+        bind(AssignSecurityGroupRuleToSecurityGroupStrategy.class).in(Singleton.class);
+        bind(CreateSecurityGroupFromTemplateOption.class).in(Singleton.class);
     }
 
     @Provides @Singleton FloatingIpPoolStrategy provideFloatingIpPoolStrategy(Injector injector) {
