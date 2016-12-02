@@ -18,10 +18,10 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
+import com.google.common.base.Supplier;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 
 import java.util.Set;
-import java.util.function.Supplier;
 
 /**
  * Created by daniel on 17.11.16.
