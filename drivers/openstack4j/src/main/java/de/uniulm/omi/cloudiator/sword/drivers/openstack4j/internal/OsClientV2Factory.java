@@ -18,10 +18,13 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
+import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import org.openstack4j.api.OSClient;
+import org.openstack4j.model.identity.v2.Access;
 import org.openstack4j.openstack.OSFactory;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 /**
@@ -29,7 +32,15 @@ import static com.google.common.base.Preconditions.checkState;
  */
 public class OsClientV2Factory implements OsClientFactory {
 
-    @Override public OSClient create(ServiceConfiguration serviceConfiguration) {
+    private final ServiceConfiguration serviceConfiguration;
+    private Access access = null;
+
+    @Inject public OsClientV2Factory(ServiceConfiguration serviceConfiguration) {
+        checkNotNull(serviceConfiguration, "serviceConfiguration is null");
+        this.serviceConfiguration = serviceConfiguration;
+    }
+
+    @Override public synchronized OSClient create() {
 
         checkState(serviceConfiguration.getEndpoint().isPresent(),
             String.format("%s requires endpoint to be present", this));
@@ -39,8 +50,14 @@ public class OsClientV2Factory implements OsClientFactory {
         final String tenantName = split[0];
         final String userName = split[1];
 
-        return OSFactory.builderV2().endpoint(serviceConfiguration.getEndpoint().get())
-            .credentials(userName, serviceConfiguration.getCredentials().password())
-            .tenantName(tenantName).authenticate();
+        if (access == null) {
+            final OSClient.OSClientV2 authenticate =
+                OSFactory.builderV2().endpoint(serviceConfiguration.getEndpoint().get())
+                    .credentials(userName, serviceConfiguration.getCredentials().password())
+                    .tenantName(tenantName).authenticate();
+            this.access = authenticate.getAccess();
+            return authenticate;
+        }
+        return OSFactory.clientFromAccess(access);
     }
 }

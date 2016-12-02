@@ -18,22 +18,30 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
+import org.openstack4j.api.OSClient;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 17.11.16.
  */
 public enum KeyStoneVersion {
-    V2("v2", OsClientV2Factory.class, OsClientV2RegionSupplier.class), V3("v3", OsClientV3Factory.class, OsClientV3RegionSupplier.class);
+    V2("v2", OsClientV2Factory.class, OsClientV2RegionSupplier.class,
+        OSClient.OSClientV2.class), V3("v3", OsClientV3Factory.class,
+        OsClientV3RegionSupplier.class, OSClient.OSClientV3.class);
 
     private final String keyWord;
     private final Class<? extends OsClientFactory> clientFactoryClass;
     private final Class<? extends RegionSupplier> regionSupplierClass;
+    private final Class<? extends OSClient> osClientClass;
 
-    KeyStoneVersion(String keyWord, Class<? extends OsClientFactory> clientFactoryClass, Class<? extends RegionSupplier> regionSupplierClass) {
+    KeyStoneVersion(String keyWord, Class<? extends OsClientFactory> clientFactoryClass,
+        Class<? extends RegionSupplier> regionSupplierClass,
+        Class<? extends OSClient> osClientClass) {
         this.keyWord = keyWord;
         this.clientFactoryClass = clientFactoryClass;
         this.regionSupplierClass = regionSupplierClass;
+        this.osClientClass = osClientClass;
     }
 
     public static KeyStoneVersion fromEndpoint(String endpoint) {
@@ -52,5 +60,9 @@ public enum KeyStoneVersion {
 
     public Class<? extends RegionSupplier> regionSupplierClass() {
         return regionSupplierClass;
+    }
+
+    public Class<? extends OSClient> osClientClass() {
+        return osClientClass;
     }
 }

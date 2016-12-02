@@ -25,6 +25,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
+import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.domain.KeyPairInRegion;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
@@ -44,19 +45,25 @@ public class OpenstackKeyPairService implements KeyPairService {
         keyPairConverter;
     private final NamingStrategy namingStrategy;
     private final NovaApi novaApi;
+    private final GetStrategy<String, Location> locationGetStrategy;
+
 
     /**
      * Constructor.
      *
-     * @param keyPairConverter a converter for converting {@link org.jclouds.openstack.nova.v2_0.domain.KeyPair}
-     *                         objects to {@link KeyPair} objects (non null).
-     * @param namingStrategy   the naming strategy used for creating the key pair names.
+     * @param keyPairConverter    a converter for converting {@link org.jclouds.openstack.nova.v2_0.domain.KeyPair}
+     *                            objects to {@link KeyPair} objects (non null).
+     * @param namingStrategy      the naming strategy used for creating the key pair names.
      * @param novaApi
+     * @param locationGetStrategy
      * @throws NullPointerException if any of the supplied arguments is null.
      */
     @Inject public OpenstackKeyPairService(
-        OneWayConverter<KeyPairInRegion, de.uniulm.omi.cloudiator.sword.api.domain.KeyPair> keyPairConverter,
-        NamingStrategy namingStrategy, NovaApi novaApi) {
+        OneWayConverter<KeyPairInRegion, KeyPair> keyPairConverter, NamingStrategy namingStrategy,
+        NovaApi novaApi, GetStrategy<String, Location> locationGetStrategy) {
+
+        checkNotNull(locationGetStrategy, "locationGetStrategy is null");
+        this.locationGetStrategy = locationGetStrategy;
 
         checkNotNull(novaApi, "novaApi is null");
         this.novaApi = novaApi;
@@ -68,26 +75,28 @@ public class OpenstackKeyPairService implements KeyPairService {
         this.namingStrategy = namingStrategy;
     }
 
-    private KeyPairApi getKeyPairApi(Location location) {
-        while (location.parent().isPresent()) {
+    private KeyPairApi getKeyPairApi(String locationId) {
+        Location location = locationGetStrategy.get(locationId);
+        checkState(location != null, "Did not find location with id" + locationId);
+        while (location.parent().isPresent() && !location.locationScope()
+            .equals(LocationScope.REGION)) {
             location = location.parent().get();
         }
-        checkState(location.locationScope().equals(LocationScope.REGION));
         final Optional<KeyPairApi> keyPairApi = novaApi.getKeyPairApi(location.id());
         checkState(keyPairApi.isPresent());
         return keyPairApi.get();
     }
 
-    @Override public KeyPair create(@Nullable String name, Location location) {
+    @Override public KeyPair create(@Nullable String name, String location) {
         if (name != null) {
             checkArgument(!name.isEmpty());
         }
         return keyPairConverter.apply(new KeyPairInRegion(
             getKeyPairApi(location).create(namingStrategy.generateUniqueNameBasedOnName(name)),
-            location));
+            locationGetStrategy.get(location)));
     }
 
-    @Override public KeyPair create(@Nullable String name, String publicKey, Location location) {
+    @Override public KeyPair create(@Nullable String name, String publicKey, String location) {
         if (name != null) {
             checkArgument(!name.isEmpty());
         }
@@ -95,19 +104,19 @@ public class OpenstackKeyPairService implements KeyPairService {
         checkArgument(!publicKey.isEmpty());
         return keyPairConverter.apply(new KeyPairInRegion(getKeyPairApi(location)
             .createWithPublicKey(namingStrategy.generateUniqueNameBasedOnName(name), publicKey),
-            location));
+            locationGetStrategy.get(location)));
     }
 
-    @Override public boolean delete(String name, Location location) {
+    @Override public boolean delete(String name, String location) {
         checkNotNull(name);
         checkArgument(!name.isEmpty());
         return getKeyPairApi(location).delete(name);
     }
 
-    @Override public KeyPair get(String name, Location location) {
+    @Override public KeyPair get(String name, String location) {
         checkNotNull(name);
         checkArgument(!name.isEmpty());
-        return keyPairConverter
-            .apply(new KeyPairInRegion(getKeyPairApi(location).get(name), location));
+        return keyPairConverter.apply(new KeyPairInRegion(getKeyPairApi(location).get(name),
+            locationGetStrategy.get(location)));
     }
 }

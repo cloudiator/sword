@@ -23,6 +23,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
+import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.KeyPairBuilder;
 import org.openstack4j.api.OSClient;
@@ -39,8 +40,12 @@ public class Openstack4JKeyPairService implements KeyPairService {
 
     private final OSClient osClient;
     private final NamingStrategy namingStrategy;
+    private final GetStrategy<String, Location> locationGetStrategy;
 
-    @Inject public Openstack4JKeyPairService(OSClient osClient, NamingStrategy namingStrategy) {
+    @Inject public Openstack4JKeyPairService(OSClient osClient, NamingStrategy namingStrategy,
+        GetStrategy<String, Location> locationGetStrategy) {
+        checkNotNull(locationGetStrategy, "locationGetStrategy is null");
+        this.locationGetStrategy = locationGetStrategy;
         checkNotNull(namingStrategy, "namingStrategy is null");
         this.namingStrategy = namingStrategy;
 
@@ -48,7 +53,9 @@ public class Openstack4JKeyPairService implements KeyPairService {
         this.osClient = osClient;
     }
 
-    private Location getRegion(Location location) {
+    private Location getRegion(String locationId) {
+        Location location = locationGetStrategy.get(locationId);
+        checkState(location != null, "Did not find location " + locationId);
         while (location.parent().isPresent()) {
             location = location.parent().get();
         }
@@ -56,12 +63,12 @@ public class Openstack4JKeyPairService implements KeyPairService {
         return location;
     }
 
-    @Override public KeyPair create(@Nullable String name, Location location) {
+    @Override public KeyPair create(@Nullable String name, String location) {
         return this.create(name, null, location);
     }
 
     @Override
-    public KeyPair create(@Nullable String name, @Nullable String publicKey, Location location) {
+    public KeyPair create(@Nullable String name, @Nullable String publicKey, String location) {
 
         checkNotNull(location, "location is null");
         if (name != null) {
@@ -83,14 +90,14 @@ public class Openstack4JKeyPairService implements KeyPairService {
             .privateKey(osKeyPair.getPrivateKey()).name(osKeyPair.getName()).build();
     }
 
-    @Override public boolean delete(String name, Location location) {
+    @Override public boolean delete(String name, String location) {
         checkNotNull(name, "name is null");
         checkNotNull(location, "location is null");
         return osClient.useRegion(getRegion(location).id()).compute().keypairs().delete(name)
             .isSuccess();
     }
 
-    @Nullable @Override public KeyPair get(String name, Location location) {
+    @Nullable @Override public KeyPair get(String name, String location) {
         final Keypair retrieved =
             osClient.useRegion(getRegion(location).id()).compute().keypairs().get(name);
         return KeyPairBuilder.newBuilder().location(getRegion(location)).id(retrieved.getName())

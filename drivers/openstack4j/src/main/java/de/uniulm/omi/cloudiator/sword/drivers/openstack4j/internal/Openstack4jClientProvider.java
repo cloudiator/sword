@@ -18,9 +18,10 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
+import com.google.common.reflect.Reflection;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Provider;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import org.openstack4j.api.OSClient;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -30,18 +31,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class Openstack4jClientProvider implements Provider<OSClient> {
 
-    private final ServiceConfiguration serviceConfiguration;
-    private final OsClientFactory osClientFactory;
+    private final Injector injector;
+    private final KeyStoneVersion keyStoneVersion;
 
-    @Inject public Openstack4jClientProvider(ServiceConfiguration serviceConfiguration,
-        OsClientFactory osClientFactory) {
-        checkNotNull(serviceConfiguration, "serviceConfiguration is null.");
-        checkNotNull(osClientFactory, "osClientFactory is null");
-        this.serviceConfiguration = serviceConfiguration;
-        this.osClientFactory = osClientFactory;
+    @Inject public Openstack4jClientProvider(Injector injector, KeyStoneVersion keyStoneVersion) {
+        checkNotNull(keyStoneVersion, "keyStoneVersion is null");
+        this.keyStoneVersion = keyStoneVersion;
+        checkNotNull(injector, "injector is null");
+        this.injector = injector;
     }
 
     @Override public OSClient get() {
-        return osClientFactory.create(serviceConfiguration);
+        return Reflection.newProxy(keyStoneVersion.osClientClass(),
+            injector.getInstance(LazyAuthenticationOSClient.class));
     }
 }

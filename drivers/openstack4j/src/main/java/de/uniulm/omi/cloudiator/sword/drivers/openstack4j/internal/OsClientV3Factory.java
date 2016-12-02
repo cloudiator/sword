@@ -18,18 +18,28 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
+import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.common.Identifier;
 import org.openstack4j.openstack.OSFactory;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by daniel on 17.11.16.
  */
 public class OsClientV3Factory implements OsClientFactory {
-    @Override public OSClient create(ServiceConfiguration serviceConfiguration) {
+
+    private final ServiceConfiguration serviceConfiguration;
+
+    @Inject public OsClientV3Factory(ServiceConfiguration serviceConfiguration) {
+        checkNotNull(serviceConfiguration, "serviceConfiguration is null");
+        this.serviceConfiguration = serviceConfiguration;
+    }
+
+    @Override public OSClient create() {
 
         final String[] split = serviceConfiguration.getCredentials().user().split(":");
         checkState(split.length == 2, "Illegal username, expected tenant:user");
