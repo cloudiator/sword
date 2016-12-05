@@ -33,9 +33,7 @@ import org.openstack4j.model.compute.FloatingIP;
 import org.openstack4j.model.compute.Server;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.*;
 
@@ -75,19 +73,17 @@ public class Openstack4JPublicIpService implements PublicIpService {
     private String findPublicIp(ComputeFloatingIPService computeFloatingIPService,
         String virtualMachineId) throws PublicIpException {
 
-        final Set<? extends FloatingIP> unassignedFloatingIps =
-            computeFloatingIPService.list().stream().filter(new Predicate<FloatingIP>() {
-                @Override public boolean test(FloatingIP floatingIP) {
-                    return floatingIP.getInstanceId() == null;
-                }
-            }).collect(Collectors.toSet());
 
-        if (unassignedFloatingIps.isEmpty()) {
+        final Optional<? extends FloatingIP> any = computeFloatingIPService.list().stream()
+            .filter((Predicate<FloatingIP>) floatingIP -> floatingIP.getInstanceId() == null)
+            .findAny();
+
+        if (!any.isPresent()) {
             //no floating ip is present, allocate one from the pool.
             return allocateFromPool(computeFloatingIPService, virtualMachineId)
                 .getFloatingIpAddress();
         }
-        return unassignedFloatingIps.stream().findAny().get().getFloatingIpAddress();
+        return any.get().getFloatingIpAddress();
     }
 
     private Server server(String virtualMachineId, ComputeService compute) {
