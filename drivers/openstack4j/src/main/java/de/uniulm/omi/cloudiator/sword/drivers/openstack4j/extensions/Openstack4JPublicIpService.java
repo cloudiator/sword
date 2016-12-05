@@ -74,10 +74,9 @@ public class Openstack4JPublicIpService implements PublicIpService {
 
     private String findPublicIp(ComputeFloatingIPService computeFloatingIPService,
         String virtualMachineId) throws PublicIpException {
-        final Set<? extends FloatingIP> unassignedFloatingIps =
-            computeFloatingIPService.list().stream()
-                .filter((Predicate<FloatingIP>) floatingIP -> floatingIP.getInstanceId() == null)
-                .collect(Collectors.toSet());
+        final Set<FloatingIP> unassignedFloatingIps = computeFloatingIPService.list().stream()
+            .filter((Predicate<FloatingIP>) floatingIP -> floatingIP.getInstanceId() == null)
+            .collect(Collectors.toSet());
 
         if (unassignedFloatingIps.isEmpty()) {
             //no floating ip is present, allocate one from the pool.
