@@ -59,12 +59,12 @@ public class CreateSecurityGroupStrategy {
         checkNotNull(location, "location is empty");
 
         Location region =
-            LocationHierarchy.of(location).firstLocationWithScope(LocationScope.REGION).orElseThrow(
-                () -> new IllegalStateException(
+            LocationHierarchy.of(location).firstParentLocationWithScope(LocationScope.REGION)
+                .orElseThrow(() -> new IllegalStateException(
                     String.format("Could not find parent region of location %s", location)));
 
         final SecGroupExtension secGroupExtension =
-            osClient.useRegion(location.id()).compute().securityGroups()
+            osClient.useRegion(region.id()).compute().securityGroups()
                 .create(namingStrategy.generateNameBasedOnName(name), name);
         return securityGroupConverter
             .apply(new SecurityGroupInRegion(secGroupExtension, location, Collections.emptySet()));

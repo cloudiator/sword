@@ -20,9 +20,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.domain.IpProtocol;
-import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
-import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.api.domain.*;
+import de.uniulm.omi.cloudiator.sword.core.util.LocationHierarchy;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.SecurityGroupInRegion;
 import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.IPProtocol;
@@ -41,9 +42,13 @@ public class AssignSecurityGroupRuleToSecurityGroupStrategy {
 
     private final OSClient osClient;
     private final Supplier<Set<SecurityGroup>> securityGroupSupplier;
+    private final OneWayConverter<SecurityGroupInRegion, SecurityGroup> securityGroupConverter;
 
     @Inject public AssignSecurityGroupRuleToSecurityGroupStrategy(OSClient osClient,
-        Supplier<Set<SecurityGroup>> securityGroupSupplier) {
+        Supplier<Set<SecurityGroup>> securityGroupSupplier,
+        OneWayConverter<SecurityGroupInRegion, SecurityGroup> securityGroupConverter) {
+        checkNotNull(securityGroupConverter, "securityGroupConverter is null");
+        this.securityGroupConverter = securityGroupConverter;
         checkNotNull(securityGroupSupplier, "securityGroupSupplier");
         this.securityGroupSupplier = securityGroupSupplier;
         checkNotNull(osClient, "osClient is null");
@@ -56,32 +61,41 @@ public class AssignSecurityGroupRuleToSecurityGroupStrategy {
         checkState(securityGroup.location().isPresent(),
             String.format("securityGroup %s has no location", securityGroup));
 
+        SecGroupExtension.Rule createdRule;
         if (securityGroupRule.ipProtocol().equals(IpProtocol.ALL)) {
-            createRule(securityGroupRule.cidr().toString(), IpProtocol.TCP.toString(),
+            createdRule = createRule(securityGroupRule.cidr().toString(), IpProtocol.TCP.toString(),
                 securityGroupRule.fromPort(), securityGroupRule.toPort(), securityGroup);
-            createRule(securityGroupRule.cidr().toString(), IpProtocol.UDP.toString(),
+            createdRule = createRule(securityGroupRule.cidr().toString(), IpProtocol.UDP.toString(),
                 securityGroupRule.fromPort(), securityGroupRule.toPort(), securityGroup);
         } else {
-            createRule(securityGroupRule.cidr().toString(),
+            createdRule = createRule(securityGroupRule.cidr().toString(),
                 securityGroupRule.ipProtocol().toString(), securityGroupRule.fromPort(),
                 securityGroupRule.toPort(), securityGroup);
         }
 
-        final Optional<SecurityGroup> any = securityGroupSupplier.get().stream()
-            .filter(securityGroupRemote -> securityGroupRemote.id().equals(securityGroup.id()))
-            .findAny();
+        SecGroupExtension.Rule finalCreatedRule = createdRule;
+        final Optional<SecurityGroup> any = securityGroupSupplier.get().stream().filter(
+            securityGroupRemote -> securityGroupRemote.providerId()
+                .equals(finalCreatedRule.getParentGroupId())).findAny();
         checkState(any.isPresent(),
             String.format("Could not find security group %s.", securityGroup));
         return any.get();
     }
 
-    private void createRule(String cidr, String ipProtocol, int from, int to,
+    private SecGroupExtension.Rule createRule(String cidr, String ipProtocol, int from, int to,
         SecurityGroup securityGroup) {
+
+        Location region = LocationHierarchy.of(securityGroup.location().get())
+            .firstParentLocationWithScope(LocationScope.REGION).orElseThrow(
+                () -> new IllegalStateException(String
+                    .format("Could not find parent region of location %s",
+                        securityGroup.location().get())));
+
         SecGroupExtension.Rule rule =
             Builders.secGroupRule().cidr(cidr).protocol(IPProtocol.valueOf(ipProtocol))
                 .range(from, to).parentGroupId(securityGroup.providerId()).build();
 
-        osClient.useRegion(securityGroup.location().get().id()).compute().securityGroups()
-            .createRule(rule);
+        return osClient.useRegion(region.providerId()).compute().securityGroups().createRule(rule);
+
     }
 }

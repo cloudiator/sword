@@ -49,14 +49,20 @@ public class LocationHierarchy {
         return locationForIteration;
     }
 
-    public Optional<Location> firstLocationWithScope(LocationScope locationScope) {
+    public Optional<Location> firstParentLocationWithScope(LocationScope locationScope) {
         checkNotNull(locationScope, "locationScope is null");
+
+        //return fast if location is already in searched scope
+        if (locationScope.equals(location.locationScope())) {
+            return Optional.of(location);
+        }
+
         Location locationForIteration = location;
         while (locationForIteration.parent().isPresent()) {
+            locationForIteration = location.parent().get();
             if (locationScope.equals(locationForIteration.locationScope())) {
                 return Optional.of(locationForIteration);
             }
-            locationForIteration = location.parent().get();
         }
         return Optional.empty();
     }

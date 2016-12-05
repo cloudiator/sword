@@ -63,7 +63,7 @@ public class CreateSecurityGroupFromTemplateOption {
         checkState(location != null, "Could not retrieve location with id " + locationId);
 
         Location region =
-            LocationHierarchy.of(location).firstLocationWithScope(LocationScope.REGION).orElseThrow(
+            LocationHierarchy.of(location).firstParentLocationWithScope(LocationScope.REGION).orElseThrow(
                 () -> new IllegalStateException(
                     String.format("Could not find parent region of location %s", location)));
 

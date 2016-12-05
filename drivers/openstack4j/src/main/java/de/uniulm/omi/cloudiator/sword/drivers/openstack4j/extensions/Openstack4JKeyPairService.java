@@ -58,7 +58,7 @@ public class Openstack4JKeyPairService implements KeyPairService {
         Location location = locationGetStrategy.get(locationId);
         checkState(location != null, "Did not find location " + locationId);
 
-        return LocationHierarchy.of(location).firstLocationWithScope(LocationScope.REGION)
+        return LocationHierarchy.of(location).firstParentLocationWithScope(LocationScope.REGION)
             .orElseThrow(() -> new IllegalStateException(
                 String.format("Could not find parent region in location %s", location)));
     }
