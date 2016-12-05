@@ -29,6 +29,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
@@ -82,6 +83,10 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
     @Provides final Optional<KeyPairService> provideKeyPairService(Injector injector) {
         return keyPairService(injector);
+    }
+
+    @Provides final Optional<SecurityGroupService> provideSecurityGroupService(Injector injector) {
+        return securityGroupService(injector);
     }
 
     @Provides @Singleton final Supplier<Set<Image>> provideImageSupplier(Injector injector) {
@@ -222,6 +227,18 @@ public abstract class AbstractComputeModule extends AbstractModule {
      * @return an optional key pair service.
      */
     protected Optional<KeyPairService> keyPairService(Injector injector) {
+        return Optional.absent();
+    }
+
+    /**
+     * Extension point for adding a {@link SecurityGroupService} extension.
+     * <p/>
+     * Defaults to {@link com.google.common.base.Absent}
+     *
+     * @param injector injector for instantiating new classes.
+     * @return an optional security group service
+     */
+    protected Optional<SecurityGroupService> securityGroupService(Injector injector) {
         return Optional.absent();
     }
 

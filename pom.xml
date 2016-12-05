@@ -113,21 +113,6 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.jclouds</groupId>
-                <artifactId>jclouds-allcompute</artifactId>
-                <version>${jclouds.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.jclouds</groupId>
-                <artifactId>jclouds-compute</artifactId>
-                <version>${jclouds.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.jclouds.driver</groupId>
-                <artifactId>jclouds-jsch</artifactId>
-                <version>${jclouds.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.jcraft</groupId>
                 <artifactId>jsch</artifactId>
                 <version>${jsch.version}</version>

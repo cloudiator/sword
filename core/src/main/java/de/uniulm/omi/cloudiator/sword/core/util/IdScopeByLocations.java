@@ -62,8 +62,8 @@ public class IdScopeByLocations {
      * @throws IllegalArgumentException if the scoped id is invalid
      */
     public static IdScopedByLocation from(String id) {
-        checkNotNull(id);
-        checkArgument(!id.isEmpty());
+        checkNotNull(id, "id is null");
+        checkArgument(!id.isEmpty(), "id is empty");
 
         String[] parts = id.split(IdScopedByLocationImpl.DELIMITER);
 
@@ -73,7 +73,7 @@ public class IdScopeByLocations {
             case 2:
                 return new IdScopedByLocationImpl(parts[0], parts[1]);
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Could not calculate scoped id from " + id);
         }
     }
 

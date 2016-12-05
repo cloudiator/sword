@@ -18,10 +18,11 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import com.google.common.base.Optional;
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -29,20 +30,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Basic implementation of the {@link KeyPair} interface.
  */
-public class KeyPairImpl implements KeyPair {
+public class KeyPairImpl extends ResourceImpl implements KeyPair {
 
     private final String id;
     private final String name;
     private final String publicKey;
     @Nullable private final String privateKey;
 
-    KeyPairImpl(String id, String name, String publicKey, @Nullable String privateKey) {
-
-        checkNotNull(id, "ID must not be null.");
-        checkArgument(!id.isEmpty(), "ID must not be empty.");
-
-        checkNotNull(name, "Name must not be null.");
-        checkArgument(!name.isEmpty(), "Name must not be empty.");
+    KeyPairImpl(String id, String providerId, String name, @Nullable Location location,
+        String publicKey, @Nullable String privateKey) {
+        super(id, providerId, name, location);
 
         checkNotNull(publicKey, "Public Key must not be null.");
         checkArgument(!publicKey.isEmpty(), "Public key must not be empty.");
@@ -74,7 +71,6 @@ public class KeyPairImpl implements KeyPair {
     }
 
     @Override public Optional<String> privateKey() {
-        return Optional.fromNullable(privateKey);
+        return Optional.ofNullable(privateKey);
     }
-
 }

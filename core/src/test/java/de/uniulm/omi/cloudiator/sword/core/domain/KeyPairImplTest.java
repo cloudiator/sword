@@ -19,6 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
+import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,16 +33,20 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class KeyPairImplTest {
 
     private final String testId = "id";
+    private final String testProviderId = "id";
     private final String testName = "name";
     private final String testPrivateKey = "privateKey";
     private final String testPublicKey = "publicKey";
+    private final Location testLocation =
+        LocationBuilder.newBuilder().assignable(true).id("id").name("name")
+            .scope(LocationScope.REGION).build();
     private KeyPair validKeyPair;
     private KeyPairBuilder validKeyPairBuilder;
 
     @Before public void before() {
         this.validKeyPairBuilder =
-            KeyPairBuilder.newBuilder().id(testId).name(testName).privateKey(testPrivateKey)
-                .publicKey(testPublicKey);
+            KeyPairBuilder.newBuilder().id(testId).providerId(testProviderId).location(testLocation)
+                .name(testName).privateKey(testPrivateKey).publicKey(testPublicKey);
         this.validKeyPair = validKeyPairBuilder.build();
     }
 

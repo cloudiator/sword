@@ -22,6 +22,7 @@ import com.google.common.base.Optional;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 
 /**
  * Compute service interface. Offers method for interaction with the compute API of the cloud
@@ -81,4 +82,11 @@ public interface ComputeService<H extends HardwareFlavor, I extends Image, L ext
      * @return an optional key pair service.
      */
     Optional<KeyPairService> keyPairService();
+
+    /**
+     * Returns an {@link Optional} {@link SecurityGroupService} for the cloud provider.
+     *
+     * @return an optional security group service.
+     */
+    Optional<SecurityGroupService> securityGroupService();
 }
