@@ -26,6 +26,7 @@ import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.KeyPairBuilder;
+import de.uniulm.omi.cloudiator.sword.core.util.LocationHierarchy;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.Keypair;
 
@@ -56,11 +57,10 @@ public class Openstack4JKeyPairService implements KeyPairService {
     private Location getRegion(String locationId) {
         Location location = locationGetStrategy.get(locationId);
         checkState(location != null, "Did not find location " + locationId);
-        while (location.parent().isPresent()) {
-            location = location.parent().get();
-        }
-        checkState(location.locationScope().equals(LocationScope.REGION));
-        return location;
+
+        return LocationHierarchy.of(location).firstLocationWithScope(LocationScope.REGION)
+            .orElseThrow(() -> new IllegalStateException(
+                String.format("Could not find parent region in location %s", location)));
     }
 
     @Override public KeyPair create(@Nullable String name, String location) {

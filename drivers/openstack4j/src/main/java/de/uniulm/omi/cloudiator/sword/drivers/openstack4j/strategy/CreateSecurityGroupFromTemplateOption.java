@@ -26,6 +26,7 @@ import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.CidrImpl;
 import de.uniulm.omi.cloudiator.sword.core.domain.SecurityGroupRuleBuilder;
+import de.uniulm.omi.cloudiator.sword.core.util.LocationHierarchy;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -58,19 +59,15 @@ public class CreateSecurityGroupFromTemplateOption {
     public String create(TemplateOptions templateOptions, String locationId) {
         checkNotNull(templateOptions, "templateOptions is null");
         checkNotNull(locationId, "locationId is null");
-        Location location = locationGetStrategy.get(locationId);
+        final Location location = locationGetStrategy.get(locationId);
         checkState(location != null, "Could not retrieve location with id " + locationId);
 
-        //todo refactor this code
-        while (location.parent().isPresent()) {
-            location = location.parent().get();
-        }
-        checkState(location.locationScope().equals(LocationScope.REGION),
-            "Could not find region parent of location" + location);
-        final Location region = location;
+        Location region =
+            LocationHierarchy.of(location).firstLocationWithScope(LocationScope.REGION).orElseThrow(
+                () -> new IllegalStateException(
+                    String.format("Could not find parent region of location %s", location)));
 
         //check if already exists
-
         final Set<SecurityGroup> collect = securityGroupService.listSecurityGroups().stream()
             .filter(securityGroup -> securityGroup.name()
                 .equals(namingStrategy.generateNameBasedOnName(DEFAULT_SEC_GROUP_NAME)))
@@ -81,7 +78,7 @@ public class CreateSecurityGroupFromTemplateOption {
             }).collect(Collectors.toSet());
         if (collect.size() > 1) {
             throw new IllegalStateException(String.format(
-                "Found %s security groups matching the name %s. Not sure what to use. Please delete unneeded ones.",
+                "Found multiple (%s) security groups matching the name %s. Not sure what to use. Please delete unneeded ones.",
                 collect.size(), namingStrategy.generateNameBasedOnName(DEFAULT_SEC_GROUP_NAME)));
         } else if (collect.size() == 1) {
             return collect.iterator().next().name();

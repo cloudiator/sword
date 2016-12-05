@@ -33,6 +33,7 @@ import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.*;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.*;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.extensions.JCloudsSecurityGroupService;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsDeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers.HardwareSupplier;

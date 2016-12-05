@@ -27,6 +27,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
+import de.uniulm.omi.cloudiator.sword.core.util.LocationHierarchy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.domain.KeyPairInRegion;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.extensions.KeyPairApi;
@@ -75,15 +76,18 @@ public class OpenstackKeyPairService implements KeyPairService {
         this.namingStrategy = namingStrategy;
     }
 
-    private KeyPairApi getKeyPairApi(String locationId) {
-        Location location = locationGetStrategy.get(locationId);
+    private KeyPairApi getKeyPairApi(final String locationId) {
+        final Location location = locationGetStrategy.get(locationId);
         checkState(location != null, "Did not find location with id" + locationId);
-        while (location.parent().isPresent() && !location.locationScope()
-            .equals(LocationScope.REGION)) {
-            location = location.parent().get();
-        }
-        final Optional<KeyPairApi> keyPairApi = novaApi.getKeyPairApi(location.id());
-        checkState(keyPairApi.isPresent());
+
+        Location region =
+            LocationHierarchy.of(location).firstLocationWithScope(LocationScope.REGION).orElseThrow(
+                () -> new IllegalStateException(
+                    String.format("Could not find parent region of location %s", location)));
+
+        final Optional<KeyPairApi> keyPairApi = novaApi.getKeyPairApi(region.providerId());
+        checkState(keyPairApi.isPresent(),
+            String.format("KeyPairApi not present in region %s", region));
         return keyPairApi.get();
     }
 

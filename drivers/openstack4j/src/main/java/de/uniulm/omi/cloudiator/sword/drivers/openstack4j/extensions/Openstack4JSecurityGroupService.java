@@ -26,7 +26,6 @@ import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.AssignSecurityGroupRuleToSecurityGroupStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.CreateSecurityGroupStrategy;
-import org.openstack4j.api.OSClient;
 
 import java.util.Set;
 
@@ -40,21 +39,18 @@ public class Openstack4JSecurityGroupService implements SecurityGroupService {
     private final Supplier<Set<SecurityGroup>> securityGroupSupplier;
     private final AssignSecurityGroupRuleToSecurityGroupStrategy
         assignSecurityGroupRuleToSecurityGroupStrategy;
-    private final OSClient osClient;
     private final CreateSecurityGroupStrategy createSecurityGroupStrategy;
 
     @Inject
     public Openstack4JSecurityGroupService(Supplier<Set<SecurityGroup>> securityGroupSupplier,
         AssignSecurityGroupRuleToSecurityGroupStrategy assignSecurityGroupRuleToSecurityGroupStrategy,
-        OSClient osClient, CreateSecurityGroupStrategy createSecurityGroupStrategy) {
+        CreateSecurityGroupStrategy createSecurityGroupStrategy) {
         checkNotNull(assignSecurityGroupRuleToSecurityGroupStrategy,
             "assignSecurityGroupRuleToSecurityGroupStrategy is null");
         this.assignSecurityGroupRuleToSecurityGroupStrategy =
             assignSecurityGroupRuleToSecurityGroupStrategy;
         checkNotNull(createSecurityGroupStrategy, "createSecurityGroupStrategy is null");
         this.createSecurityGroupStrategy = createSecurityGroupStrategy;
-        checkNotNull(osClient, "osClient is null");
-        this.osClient = osClient;
         checkNotNull(securityGroupSupplier, "securityGroupSupplier is null");
         this.securityGroupSupplier = securityGroupSupplier;
     }

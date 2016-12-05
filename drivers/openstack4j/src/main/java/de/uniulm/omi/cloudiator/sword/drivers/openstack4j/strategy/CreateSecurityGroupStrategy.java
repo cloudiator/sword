@@ -24,13 +24,15 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
+import de.uniulm.omi.cloudiator.sword.core.util.LocationHierarchy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.SecurityGroupInRegion;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.SecGroupExtension;
 
 import java.util.Collections;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 30.11.16.
@@ -51,17 +53,16 @@ public class CreateSecurityGroupStrategy {
         this.osClient = osClient;
     }
 
-    public SecurityGroup create(String name, Location location) {
+    public SecurityGroup create(final String name, final Location location) {
         checkNotNull(name, "name is null");
         checkArgument(!name.isEmpty(), "name is empty");
         checkNotNull(location, "location is empty");
 
-        while (location.parent().isPresent()) {
-            location = location.parent().get();
-        }
+        Location region =
+            LocationHierarchy.of(location).firstLocationWithScope(LocationScope.REGION).orElseThrow(
+                () -> new IllegalStateException(
+                    String.format("Could not find parent region of location %s", location)));
 
-        checkState(location.locationScope().equals(LocationScope.REGION),
-            "Could not find region parent of location" + location);
         final SecGroupExtension secGroupExtension =
             osClient.useRegion(location.id()).compute().securityGroups()
                 .create(namingStrategy.generateNameBasedOnName(name), name);

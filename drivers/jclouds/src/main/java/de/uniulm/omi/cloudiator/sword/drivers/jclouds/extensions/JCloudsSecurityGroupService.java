@@ -16,16 +16,16 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
+package de.uniulm.omi.cloudiator.sword.drivers.jclouds.extensions;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.extensions.SecurityGroupExtension;
 import org.jclouds.net.domain.IpPermission;
@@ -41,13 +41,11 @@ import static com.google.common.base.Preconditions.*;
 public class JCloudsSecurityGroupService implements SecurityGroupService {
 
     private final SecurityGroupExtension securityGroupExtension;
-    private final ServiceConfiguration serviceConfiguration;
     private final OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup>
         securityGroupConverter;
     private final OneWayConverter<Location, org.jclouds.domain.Location> locationConverter;
 
     @Inject public JCloudsSecurityGroupService(JCloudsViewFactory jCloudsViewFactory,
-        ServiceConfiguration serviceConfiguration,
         OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup> securityGroupConverter,
         OneWayConverter<Location, org.jclouds.domain.Location> locationConverter) {
 
@@ -58,7 +56,6 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
         this.securityGroupConverter = securityGroupConverter;
 
         checkNotNull(jCloudsViewFactory);
-        checkNotNull(serviceConfiguration);
 
         final ComputeServiceContext computeServiceContext =
             jCloudsViewFactory.buildJCloudsView(ComputeServiceContext.class);
@@ -67,7 +64,6 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
         checkState(optional.isPresent(), "security group extension not present.");
 
         this.securityGroupExtension = optional.get();
-        this.serviceConfiguration = serviceConfiguration;
 
     }
 
@@ -78,10 +74,10 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
 
     }
 
-    @Override public SecurityGroup createSecurityGroup(String name, Location location) {
-        checkNotNull(name);
-        checkArgument(!name.isEmpty());
-        checkNotNull(location);
+    @Override public SecurityGroup createSecurityGroup(final String name, final Location location) {
+        checkNotNull(name, "name is null");
+        checkArgument(!name.isEmpty(), "name is empty");
+        checkNotNull(location, "location is null");
 
         org.jclouds.domain.Location jcloudsLocation = locationConverter.apply(location);
         return securityGroupConverter
