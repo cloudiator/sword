@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.common.Identifier;
+import org.openstack4j.model.identity.v3.Token;
 import org.openstack4j.openstack.OSFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -33,6 +34,8 @@ import static com.google.common.base.Preconditions.checkState;
 public class OsClientV3Factory implements OsClientFactory {
 
     private final ServiceConfiguration serviceConfiguration;
+    private static Token token = null;
+
 
     @Inject public OsClientV3Factory(ServiceConfiguration serviceConfiguration) {
         checkNotNull(serviceConfiguration, "serviceConfiguration is null");
@@ -41,19 +44,43 @@ public class OsClientV3Factory implements OsClientFactory {
 
     @Override public OSClient create() {
 
-        final String[] split = serviceConfiguration.getCredentials().user().split(":");
-        checkState(split.length == 2, "Illegal username, expected tenant:user");
+        OSClient osClient;
 
-        //todo do we need the tenant?
-        final String tenantName = split[0];
-        final String userName = split[1];
+        if (token == null) {
+            osClient = authFromServiceConfiguration();
+            token = ((OSClient.OSClientV3) osClient).getToken();
+        } else {
+            osClient = authFromToken();
+        }
+        return osClient;
+    }
+
+    private OSClient authFromToken() {
+        return OSFactory.clientFromToken(token);
+    }
+
+    private OSClient authFromServiceConfiguration() {
+
+        final String[] split = serviceConfiguration.getCredentials().user().split(":");
+        checkState(split.length == 3, String
+            .format("Illegal username, expected user to be of format domain:tenant:user, got %s",
+                serviceConfiguration.getCredentials().user()));
+
+        final String domainId = split[0];
+        final String tenantId = split[1];
+        final String userId = split[2];
+
 
         //todo resolve identifier from credentials
-        Identifier domainIdentifier = Identifier.byId("default");
+        Identifier domainIdentifier = Identifier.byId(domainId);
+        Identifier tenantIdentifier = Identifier.byId(tenantId);
+
+        checkState(serviceConfiguration.getEndpoint().isPresent(),
+            "Endpoint is required for Openstack4J Driver.");
 
         return OSFactory.builderV3().endpoint(serviceConfiguration.getEndpoint().get())
-            .credentials(userName, serviceConfiguration.getCredentials().password(),
-                domainIdentifier).authenticate();
-
+            .credentials(userId, serviceConfiguration.getCredentials().password(), domainIdentifier)
+            .scopeToProject(tenantIdentifier).authenticate();
     }
+
 }
