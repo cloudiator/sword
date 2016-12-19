@@ -29,7 +29,7 @@
 
     <properties>
         <bouncycastle.version>1.51</bouncycastle.version>
-        <overthere.version>4.0.0</overthere.version>
+        <overthere.version>4.4.2</overthere.version>
     </properties>
 
     <dependencyManagement>
