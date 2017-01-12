@@ -47,6 +47,10 @@ public class CidrImplTest {
         CidrImpl.of("0.0.0.0/-1");
     }
 
+    @Test(expected = IllegalArgumentException.class) public void emptySlashIsRejected() {
+        CidrImpl.of("0.0.0.0/");
+    }
+
     @Test(expected = IllegalArgumentException.class) public void addressWithMissingOctetRejected() {
         CidrImpl.of("0.0.0/24");
     }
@@ -62,6 +66,10 @@ public class CidrImplTest {
 
     @Test(expected = IllegalArgumentException.class) public void addressWithToHighOctetRejected() {
         CidrImpl.of("0.256.0.0/24");
+    }
+
+    @Test(expected = IllegalArgumentException.class) public void emptyAddressRejected() {
+        CidrImpl.of("/24");
     }
 
     @Test(expected = IllegalArgumentException.class)
