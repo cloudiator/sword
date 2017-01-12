@@ -26,6 +26,8 @@ import de.uniulm.omi.cloudiator.sword.core.domain.SecurityGroupRuleBuilder;
 import org.openstack4j.model.compute.IPProtocol;
 import org.openstack4j.model.compute.SecGroupExtension;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by daniel on 30.11.16.
  */
@@ -45,6 +47,7 @@ public class RuleToSecurityGroupRuleConverter
         implements OneWayConverter<IPProtocol, IpProtocol> {
 
         @Override public IpProtocol apply(IPProtocol ipProtocol) {
+            checkNotNull(ipProtocol, "ipProtocol is null.");
             switch (ipProtocol) {
                 case ICMP:
                     return IpProtocol.ICMP;
