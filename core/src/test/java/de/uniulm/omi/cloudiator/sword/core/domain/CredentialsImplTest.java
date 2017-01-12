@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import de.uniulm.omi.cloudiator.sword.api.domain.Credentials;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,26 +32,27 @@ public class CredentialsImplTest {
 
     private String userTest = "user";
     private String passwordTest = "secret123?password";
-    private CredentialsImpl credentials;
+    private Credentials credentials;
 
     @Before public void before() {
-        this.credentials = new CredentialsImpl(this.userTest, this.passwordTest);
+        this.credentials =
+            CredentialsBuilder.newBuilder().user(userTest).password(passwordTest).build();
     }
 
     @Test(expected = NullPointerException.class) public void userNotNullTest() {
-        new CredentialsImpl(null, this.passwordTest);
+        CredentialsBuilder.newBuilder().user(null).password(this.passwordTest).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void userNotEmptyTest() {
-        new CredentialsImpl("", this.passwordTest);
+        CredentialsBuilder.newBuilder().user("").password(passwordTest).build();
     }
 
     @Test(expected = NullPointerException.class) public void passwordNotNullTest() {
-        new CredentialsImpl(this.userTest, null);
+        CredentialsBuilder.newBuilder().user(userTest).password(null).build();
     }
 
     @Test(expected = IllegalArgumentException.class) public void passwordNotEmptyTest() {
-        new CredentialsImpl(this.userTest, "");
+        CredentialsBuilder.newBuilder().user(userTest).password("").build();
     }
 
     @Test public void getUserTest() {
