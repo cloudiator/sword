@@ -22,6 +22,7 @@ public class PropertiesImplTest {
         assertThat(properties.getProperty("a"), is(equalTo("b")));
         assertThat(properties.getProperty("c"), is(equalTo("d")));
         assertThat(properties.getProperty("f", "g"), is(equalTo("g")));
+        assertThat(properties.getProperty("a", "f"), equalTo("b"));
     }
 
     @Test public void getPropertiesTest() {
@@ -33,8 +34,9 @@ public class PropertiesImplTest {
             }}).putProperties(new HashMap<String, String>() {{
                 put("c", "d");
             }}).build();
-        assertThat(properties.getProperty("a"), is(equalTo("b")));
-        assertThat(properties.getProperty("c"), is(equalTo("d")));
+
+        assertThat(properties.getProperties().get("a"), is(equalTo("b")));
+        assertThat(properties.getProperties().get("c"), is(equalTo("d")));
     }
 
     @Test public void rejectsNullKey() {
