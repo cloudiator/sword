@@ -37,13 +37,12 @@ public class PropertiesImpl implements Properties {
         this.propertiesHolder = propertiesHolder;
     }
 
-    @Override
-    public String getProperty(String key) {
+    @Override public String getProperty(String key) {
+        checkNotNull(key, "key is null");
         return this.propertiesHolder.get(key);
     }
 
-    @Override
-    public String getProperty(String key, String defaultValue) {
+    @Override public String getProperty(String key, String defaultValue) {
         String value = this.getProperty(key);
         if (value == null) {
             return defaultValue;
@@ -51,8 +50,7 @@ public class PropertiesImpl implements Properties {
         return value;
     }
 
-    @Override
-    public Map<String, String> getProperties() {
+    @Override public Map<String, String> getProperties() {
         return this.propertiesHolder;
     }
 }

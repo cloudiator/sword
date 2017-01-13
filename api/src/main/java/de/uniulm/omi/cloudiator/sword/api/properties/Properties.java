@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.api.properties;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 
 /**
@@ -25,9 +26,26 @@ import java.util.Map;
  */
 public interface Properties {
 
-    String getProperty(String key);
+    /**
+     * Returns the property identified by the key. If the property does not exist
+     * null is returned.
+     *
+     * @param key the identifier
+     * @return the value stored at the key or null
+     * @throws NullPointerException if key is null.
+     */
+    @Nullable String getProperty(String key);
 
-    String getProperty(String key, String defaultValue);
+    /**
+     * Returns the property identified by the key. If the property does not exisit
+     * the value given as default value is returned.
+     *
+     * @param key          the identifier
+     * @param defaultValue default value to return
+     * @return value stored or defaultValue
+     * @throws NullPointerException if key is null.
+     */
+    @Nullable String getProperty(String key, String defaultValue);
 
     Map<String, String> getProperties();
 
