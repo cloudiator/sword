@@ -23,6 +23,7 @@ import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
 import de.uniulm.omi.cloudiator.sword.api.logging.InjectLogger;
 import de.uniulm.omi.cloudiator.sword.api.logging.Logger;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
+import de.uniulm.omi.cloudiator.sword.core.logging.NullLogger;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -37,7 +38,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
 
-    private @InjectLogger Logger LOGGER;
+    private @InjectLogger Logger LOGGER = new NullLogger();
 
 
     private interface PrefixGenerator {
@@ -132,7 +133,7 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
     }
 
     @Override public Predicate<String> belongsToNamingGroup() {
-        return s -> s != null && s.contains(nodeGroup);
+        return s -> s != null && s.startsWith(nodeGroup);
     }
 
     private String generateUniquePrefix() {
