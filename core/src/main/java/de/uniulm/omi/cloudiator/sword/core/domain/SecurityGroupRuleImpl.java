@@ -78,13 +78,28 @@ public class SecurityGroupRuleImpl implements SecurityGroupRule {
     }
 
     @Override public boolean equals(Object o) {
-        //todo override equals
-        return super.equals(o);
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        SecurityGroupRuleImpl that = (SecurityGroupRuleImpl) o;
+
+        if (fromPort != that.fromPort)
+            return false;
+        if (toPort != that.toPort)
+            return false;
+        if (ipProtocol != that.ipProtocol)
+            return false;
+        return cidr.equals(that.cidr);
     }
 
     @Override public int hashCode() {
-        //todo override equals
-        return super.hashCode();
+        int result = ipProtocol.hashCode();
+        result = 31 * result + fromPort;
+        result = 31 * result + toPort;
+        result = 31 * result + cidr.hashCode();
+        return result;
     }
 
     @Override public String toString() {

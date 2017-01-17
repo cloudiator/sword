@@ -3,9 +3,13 @@ package de.uniulm.omi.cloudiator.sword.core.domain;
 import de.uniulm.omi.cloudiator.sword.api.domain.Cidr;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by daniel on 12.01.17.
@@ -91,5 +95,12 @@ public class CidrImplTest {
         final Cidr cidr = CidrImpl.of(highAddress);
         assertThat(cidr.address(), is(equalTo("255.255.255.255")));
         assertThat(cidr.slash(), is(equalTo(32)));
+    }
+
+    @Test public void testEquals() {
+        assertTrue(CidrImpl.of("0.0.0.0", 32).equals(CidrImpl.of("0.0.0.0", 32)));
+        assertFalse(CidrImpl.of("0.0.0.0", 24).equals(CidrImpl.of("0.0.0.0", 32)));
+        assertFalse(CidrImpl.of("0.0.0.0", 32).equals(CidrImpl.of("192.168.1.0", 32)));
+        assertFalse(CidrImpl.of("0.0.0.0", 32).equals(new ArrayList<>()));
     }
 }

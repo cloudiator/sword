@@ -55,8 +55,8 @@ public class CidrImpl implements Cidr {
         for (String part : split) {
             try {
                 Integer integer = Integer.valueOf(part);
-                checkArgument(integer >= 0 && integer <= 255,
-                    String.format("Octet needs to be between 0 and 255, one octet was %s.", integer));
+                checkArgument(integer >= 0 && integer <= 255, String
+                    .format("Octet needs to be between 0 and 255, one octet was %s.", integer));
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("Address contains illegal octet " + part, e);
             }
@@ -74,5 +74,24 @@ public class CidrImpl implements Cidr {
 
     @Override public String toString() {
         return address + "/" + slash;
+    }
+
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        CidrImpl cidr = (CidrImpl) o;
+
+        if (slash != cidr.slash)
+            return false;
+        return address.equals(cidr.address);
+    }
+
+    @Override public int hashCode() {
+        int result = address.hashCode();
+        result = 31 * result + slash;
+        return result;
     }
 }
