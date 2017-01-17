@@ -16,7 +16,6 @@ de.uniulm.omi.cloudiator.sword.core.domain
 de.uniulm.omi.cloudiator.sword.core.logging
 de.uniulm.omi.cloudiator.sword.core.properties
 de.uniulm.omi.cloudiator.sword.core.strategy
-de.uniulm.omi.cloudiator.sword.core.suppliers
 de.uniulm.omi.cloudiator.sword.core.util
 de.uniulm.omi.cloudiator.sword.drivers.ec2
 de.uniulm.omi.cloudiator.sword.drivers.ec2.config
