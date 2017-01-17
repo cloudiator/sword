@@ -34,7 +34,7 @@ public class LocationImplTest {
     private final String testId = "123456";
     private final String testName = "This is a very fine location";
     private final boolean testAssignable = true;
-    private final LocationScope testScope = LocationScope.REGION;
+    private final LocationScope testScope = LocationScope.HOST;
     private final Location testParent =
         LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
             .scope(LocationScope.REGION).build();
@@ -93,6 +93,15 @@ public class LocationImplTest {
 
     @Test public void getLocationScopeTest() {
         assertThat(validLocation.locationScope(), equalTo(testScope));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testLocationScopeOfParentIsLarger() {
+        Location parent =
+            LocationBuilder.newBuilder().id("43824302").scope(LocationScope.ZONE).name("parent")
+                .build();
+        Location child = LocationBuilder.newBuilder().id("3724387492").scope(LocationScope.PROVIDER)
+            .name("child").parent(parent).build();
     }
 
     @Test public void toStringTest() {

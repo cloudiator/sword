@@ -62,6 +62,13 @@ public class LocationImpl implements Location {
         this.isAssignable = isAssignable;
         checkNotNull(locationScope);
         this.locationScope = locationScope;
+
+        if (parent != null) {
+            checkArgument(locationScope.hasParent(parent.locationScope()), String.format(
+                "LocationScope of parent location (%s) needs to be larger than the location scope of this location (%s).",
+                parent.locationScope(), locationScope));
+        }
+
     }
 
     @Override public String id() {
