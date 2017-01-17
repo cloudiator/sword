@@ -18,17 +18,24 @@
 
 package de.uniulm.omi.cloudiator.sword.core.util;
 
+import com.google.common.collect.Iterables;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 
+import javax.annotation.Nullable;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Created by daniel on 05.12.16.
+ * The LocationHierarchy class.
+ * <p>
+ * Helper class for iterating over Locations and finding special locations
+ * of interest.
  */
-public class LocationHierarchy {
+public class LocationHierarchy implements Iterable<Location> {
 
     private final Location location;
 
@@ -37,34 +44,74 @@ public class LocationHierarchy {
         this.location = location;
     }
 
+    /**
+     * Creates a LocationHierarchy using the given location as bottom.
+     *
+     * @param location the bottom location.
+     * @return a LocationHierarchy.
+     */
     public static LocationHierarchy of(Location location) {
         return new LocationHierarchy(location);
     }
 
+    /**
+     * Returns the topmost location of the hierarchy.
+     *
+     * @return the topmost location of the hierarchy
+     */
     public Location topmostLocation() {
-        Location locationForIteration = location;
-        while (locationForIteration.parent().isPresent()) {
-            locationForIteration = locationForIteration.parent().get();
-        }
-        return locationForIteration;
+        return Iterables.getLast(this);
     }
 
+    /**
+     * Returns an {@link Optional} first parent location that has the given scope.
+     * <p>
+     * Will iterate upwards through the location hierarchy and return the first
+     * location that matches the given scope.
+     *
+     * @param locationScope the scope to check for
+     * @return an {@link Optional} first parent location or {@link Optional::empty}
+     * @throws NullPointerException if the given locationScope is null.
+     */
     public Optional<Location> firstParentLocationWithScope(LocationScope locationScope) {
         checkNotNull(locationScope, "locationScope is null");
 
-        //return fast if location is already in searched scope
-        if (locationScope.equals(location.locationScope())) {
+        if (location.locationScope().equals(locationScope)) {
             return Optional.of(location);
         }
 
-        Location locationForIteration = location;
-        while (locationForIteration.parent().isPresent()) {
-            locationForIteration = location.parent().get();
-            if (locationScope.equals(locationForIteration.locationScope())) {
-                return Optional.of(locationForIteration);
+        for (Location iteration : this) {
+            if (iteration.locationScope().equals(locationScope)) {
+                return Optional.of(iteration);
             }
         }
         return Optional.empty();
     }
 
+    private static class LocationIterator implements Iterator<Location> {
+
+        @Nullable private Location cursor;
+
+        private LocationIterator(Location start) {
+            checkNotNull(start, "start is null.");
+            cursor = start;
+        }
+
+        @Override public boolean hasNext() {
+            return cursor != null;
+        }
+
+        @Override public Location next() {
+            if (cursor == null) {
+                throw new NoSuchElementException();
+            }
+            Location current = cursor;
+            cursor = current.parent().orElse(null);
+            return current;
+        }
+    }
+
+    @Override public Iterator<Location> iterator() {
+        return new LocationIterator(location);
+    }
 }
