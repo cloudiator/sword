@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2017 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,38 +18,26 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.Credentials;
+import de.uniulm.omi.cloudiator.sword.api.domain.Api;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Created by daniel on 01.12.14.
+ * Created by daniel on 18.01.17.
  */
-public class CredentialsImpl implements Credentials {
+public class ApiImpl implements Api {
 
-    private final String user;
-    private final String password;
+    private final String providerName;
 
-    CredentialsImpl(String user, String password) {
-
-        checkNotNull(user);
-        checkNotNull(password);
-        checkArgument(!user.isEmpty());
-        checkArgument(!password.isEmpty());
-
-        this.user = user;
-        this.password = password;
+    public ApiImpl(String providerName) {
+        checkNotNull(providerName, "providerName is null");
+        checkArgument(!providerName.isEmpty(), "providerName is empty");
+        this.providerName = providerName;
     }
 
-    @Override
-    public String user() {
-        return this.user;
-    }
-
-    @Override
-    public String password() {
-        return this.password;
+    @Override public String providerName() {
+        return providerName;
     }
 
     @Override public boolean equals(Object o) {
@@ -58,16 +46,12 @@ public class CredentialsImpl implements Credentials {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        CredentialsImpl that = (CredentialsImpl) o;
+        ApiImpl api = (ApiImpl) o;
 
-        if (!user.equals(that.user))
-            return false;
-        return password.equals(that.password);
+        return providerName.equals(api.providerName);
     }
 
     @Override public int hashCode() {
-        int result = user.hashCode();
-        result = 31 * result + password.hashCode();
-        return result;
+        return providerName.hashCode();
     }
 }

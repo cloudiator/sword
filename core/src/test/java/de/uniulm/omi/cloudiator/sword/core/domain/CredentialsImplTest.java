@@ -22,8 +22,12 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Credentials;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashSet;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by daniel on 04.12.14.
@@ -61,5 +65,18 @@ public class CredentialsImplTest {
 
     @Test public void getPasswordTest() {
         assertThat(this.credentials.password(), equalTo(this.passwordTest));
+    }
+
+    @Test public void testEquals() {
+        assertTrue(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()
+            .equals(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()));
+        assertFalse(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()
+            .equals(
+                CredentialsBuilder.newBuilder().password("wrongPassword").user(userTest).build()));
+        assertFalse(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()
+            .equals(
+                CredentialsBuilder.newBuilder().password(passwordTest).user("wrongUser").build()));
+        assertFalse(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()
+            .equals(new HashSet<>()));
     }
 }
