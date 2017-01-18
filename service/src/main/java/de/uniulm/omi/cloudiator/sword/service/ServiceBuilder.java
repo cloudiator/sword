@@ -22,10 +22,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
-import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.api.domain.Image;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.core.config.BaseModule;
@@ -70,6 +67,14 @@ public class ServiceBuilder {
 
     public ServiceBuilder remoteModule(AbstractRemoteModule abstractRemoteModule) {
         this.remoteModule = abstractRemoteModule;
+        return this;
+    }
+
+    public ServiceBuilder cloud(Cloud cloud) {
+        this.serviceConfigurationBuilder.provider(cloud.api().providerName());
+        this.serviceConfigurationBuilder.username(cloud.credentials().user());
+        this.serviceConfigurationBuilder.password(cloud.credentials().password());
+        this.serviceConfigurationBuilder.endpoint(cloud.endpoint().orElse(null));
         return this;
     }
 
