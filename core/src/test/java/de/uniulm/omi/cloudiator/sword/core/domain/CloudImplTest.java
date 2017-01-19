@@ -27,6 +27,7 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -69,6 +70,24 @@ public class CloudImplTest {
         final Cloud cloud =
             CloudBuilder.newBuilder().api(testApi).credentials(testCredentials).endpoint("")
                 .build();
+    }
+
+    @Test public void testId() {
+        Cloud cloud =
+            CloudBuilder.newBuilder().api(testApi).credentials(testCredentials).endpoint(null)
+                .build();
+        Cloud sameCloud =
+            CloudBuilder.newBuilder().api(testApi).credentials(testCredentials).endpoint(null)
+                .build();
+        Cloud differentEndpoint = CloudBuilder.newBuilder().api(testApi).credentials(testCredentials)
+            .endpoint(testEndpoint).build();
+        Cloud differentApi =
+            CloudBuilder.newBuilder().api(ApiBuilder.newBuilder().providerName("different").build())
+                .credentials(testCredentials).endpoint(testEndpoint).build();
+
+        assertThat(cloud.id(), not(equalTo(differentApi.id())));
+        assertThat(cloud.id(), not(equalTo(differentEndpoint.id())));
+        assertThat(cloud.id(), is(equalTo(sameCloud.id())));
     }
 
 

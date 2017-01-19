@@ -18,6 +18,10 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.Funnel;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 import de.uniulm.omi.cloudiator.sword.api.domain.Api;
 import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.api.domain.Credentials;
@@ -50,6 +54,10 @@ public class CloudImpl implements Cloud {
         this.credentials = credentials;
     }
 
+    @Override public String id() {
+        return HashingCloudIdGenerator.generateId(this);
+    }
+
     @Override public Api api() {
         return api;
     }
@@ -60,5 +68,43 @@ public class CloudImpl implements Cloud {
 
     @Override public Credentials credentials() {
         return credentials;
+    }
+
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        CloudImpl cloud = (CloudImpl) o;
+
+        if (!api.equals(cloud.api))
+            return false;
+        if (endpoint != null ? !endpoint.equals(cloud.endpoint) : cloud.endpoint != null)
+            return false;
+        return credentials.equals(cloud.credentials);
+    }
+
+    @Override public int hashCode() {
+        int result = api.hashCode();
+        result = 31 * result + (endpoint != null ? endpoint.hashCode() : 0);
+        result = 31 * result + credentials.hashCode();
+        return result;
+    }
+
+    private static class HashingCloudIdGenerator {
+        private static final Funnel<Cloud> CLOUD_FUNNEL = (Funnel<Cloud>) (from, into) -> {
+            into.putString(from.api().providerName(), Charsets.UTF_8)
+                .putString(from.credentials().user(), Charsets.UTF_8);
+            if (from.endpoint().isPresent()) {
+                into.putString(from.endpoint().get(), Charsets.UTF_8);
+            }
+        };
+        private final static HashFunction HASH_FUNCTION = Hashing.md5();
+
+        static String generateId(Cloud cloud) {
+            return HASH_FUNCTION.hashObject(cloud, CLOUD_FUNNEL).toString();
+        }
+
     }
 }

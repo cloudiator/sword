@@ -29,15 +29,35 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Basic implementation of the {@link IdScopedByLocation}
  * interface.
  */
-public class IdScopedByLocationImpl implements IdScopedByLocation {
+public class SlashEncodedIdScopedByLocation implements IdScopedByLocation {
 
     @Nullable private final String locationId;
     private final String id;
     static final String DELIMITER = "/";
 
-    IdScopedByLocationImpl(@Nullable String locationId, String id) {
+    SlashEncodedIdScopedByLocation(@Nullable String locationId, String id) {
         this.locationId = locationId;
         this.id = id;
+    }
+
+    SlashEncodedIdScopedByLocation(String id) {
+        checkNotNull(id, "id is null");
+        checkArgument(!id.isEmpty(), "id is empty");
+
+        String[] parts = id.split(SlashEncodedIdScopedByLocation.DELIMITER);
+
+        switch (parts.length) {
+            case 1:
+                this.locationId = null;
+                this.id = parts[0];
+                break;
+            case 2:
+                this.locationId = parts[0];
+                this.id = parts[1];
+                break;
+            default:
+                throw new IllegalArgumentException("Could not calculate scoped id from " + id);
+        }
     }
 
     @Override public String getId() {
