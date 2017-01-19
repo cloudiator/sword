@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.core.config;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
+import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
 import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
@@ -36,19 +36,19 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class BaseModule extends AbstractModule {
 
-    private final ServiceConfiguration serviceConfiguration;
+    private final ServiceContext serviceContext;
     private final Properties properties;
 
-    public BaseModule(ServiceConfiguration serviceConfiguration, @Nullable Properties properties) {
+    public BaseModule(ServiceContext serviceContext, @Nullable Properties properties) {
 
-        checkNotNull(serviceConfiguration);
+        checkNotNull(serviceContext);
 
-        this.serviceConfiguration = serviceConfiguration;
+        this.serviceContext = serviceContext;
         this.properties = properties;
     }
 
     @Override protected void configure() {
-        bind(ServiceConfiguration.class).toInstance(this.serviceConfiguration);
+        bind(ServiceContext.class).toInstance(this.serviceContext);
         bind(ConnectionService.class).to(BaseConnectionService.class);
         if (this.properties != null) {
             Names.bindProperties(binder(), this.properties.getProperties());

@@ -20,8 +20,9 @@ package de.uniulm.omi.cloudiator.sword.core.base;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
-import de.uniulm.omi.cloudiator.sword.api.domain.*;
+import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
@@ -38,11 +39,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by daniel on 02.12.14.
  */
-public class BaseComputeService
-    implements ComputeService<HardwareFlavor, Image, Location, VirtualMachine> {
+public class BaseComputeService implements ComputeService {
 
-    private final DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine>
-        discoveryService;
+    private final DiscoveryService discoveryService;
     private final CreateVirtualMachineStrategy createVirtualMachineStrategy;
     private final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy;
     private final Optional<PublicIpService> publicIpService;
@@ -53,9 +52,9 @@ public class BaseComputeService
 
     @Inject public BaseComputeService(CreateVirtualMachineStrategy createVirtualMachineStrategy,
         DeleteVirtualMachineStrategy deleteVirtualMachineStrategy,
-        RemoteConnectionFactory remoteConnectionFactory, ServiceConfiguration serviceConfiguration,
-        DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine> discoveryService,
-        Optional<PublicIpService> publicIpService, Optional<KeyPairService> keyPairService,
+        RemoteConnectionFactory remoteConnectionFactory, ServiceContext serviceContext,
+        DiscoveryService discoveryService, Optional<PublicIpService> publicIpService,
+        Optional<KeyPairService> keyPairService,
         Optional<SecurityGroupService> securityGroupService, ConnectionService connectionService) {
 
 
@@ -63,7 +62,7 @@ public class BaseComputeService
         checkNotNull(createVirtualMachineStrategy);
         checkNotNull(deleteVirtualMachineStrategy);
         checkNotNull(remoteConnectionFactory);
-        checkNotNull(serviceConfiguration);
+        checkNotNull(serviceContext);
         checkNotNull(publicIpService);
         checkNotNull(keyPairService);
         checkNotNull(securityGroupService);
@@ -79,8 +78,7 @@ public class BaseComputeService
         this.discoveryService = discoveryService;
     }
 
-    @Override
-    public DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine> discoveryService() {
+    @Override public DiscoveryService discoveryService() {
         return discoveryService;
     }
 

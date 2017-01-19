@@ -19,16 +19,12 @@
 package de.uniulm.omi.cloudiator.sword.drivers.ec2;
 
 import com.google.inject.Inject;
-import com.google.inject.Module;
 import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
+import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
 import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
 import org.jclouds.aws.ec2.reference.AWSEC2Constants;
-import org.jclouds.ssh.jsch.config.JschSshClientModule;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Properties;
 
 /**
@@ -43,9 +39,9 @@ public class EC2JCloudsViewFactory extends BaseJCloudsViewFactory {
         amiCcQuery = null;
 
 
-    @Inject public EC2JCloudsViewFactory(ServiceConfiguration serviceConfiguration,
+    @Inject public EC2JCloudsViewFactory(ServiceContext serviceContext,
         LoggerFactory loggerFactory) {
-        super(serviceConfiguration, loggerFactory);
+        super(serviceContext, loggerFactory);
     }
 
     @Override protected Properties overrideProperties(Properties properties) {

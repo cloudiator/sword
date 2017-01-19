@@ -51,8 +51,7 @@ public abstract class AbstractComputeModule extends AbstractModule {
      */
     @Override protected void configure() {
 
-        bind(new TypeLiteral<DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine>>() {
-        }).to(BaseDiscoveryService.class);
+        bind(DiscoveryService.class).to(BaseDiscoveryService.class);
 
         bind(new TypeLiteral<GetStrategy<String, VirtualMachine>>() {
         }).to(getVirtualMachineStrategy());

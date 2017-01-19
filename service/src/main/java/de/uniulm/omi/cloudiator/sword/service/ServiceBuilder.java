@@ -21,9 +21,8 @@ package de.uniulm.omi.cloudiator.sword.service;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
+import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
-import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.core.config.BaseModule;
 import de.uniulm.omi.cloudiator.sword.core.logging.AbstractLoggingModule;
@@ -34,7 +33,6 @@ import de.uniulm.omi.cloudiator.sword.remote.overthere.OverthereModule;
 import de.uniulm.omi.cloudiator.sword.service.providers.ProviderConfiguration;
 import de.uniulm.omi.cloudiator.sword.service.providers.Providers;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -46,18 +44,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class ServiceBuilder {
 
-    private final ServiceConfigurationBuilder serviceConfigurationBuilder;
-    private Properties properties;
+
+    private Cloud cloud;
+    private Configuration configuration;
     private AbstractLoggingModule loggingModule;
     private AbstractRemoteModule remoteModule;
 
-    private ServiceBuilder(String provider) {
-        this.serviceConfigurationBuilder = new ServiceConfigurationBuilder();
-        this.serviceConfigurationBuilder.provider(provider);
+    public static ServiceBuilder newServiceBuilder() {
+        return new ServiceBuilder();
     }
 
-    public static ServiceBuilder newServiceBuilder(String provider) {
-        return new ServiceBuilder(provider);
+    private ServiceBuilder() {
+
     }
 
     public ServiceBuilder loggingModule(AbstractLoggingModule loggingModule) {
@@ -70,65 +68,47 @@ public class ServiceBuilder {
         return this;
     }
 
+    public ServiceBuilder serviceContext(ServiceContext serviceContext) {
+        this.cloud = serviceContext.cloud();
+        this.configuration = serviceContext.configuration();
+        return this;
+    }
+
     public ServiceBuilder cloud(Cloud cloud) {
-        this.serviceConfigurationBuilder.provider(cloud.api().providerName());
-        this.serviceConfigurationBuilder.username(cloud.credentials().user());
-        this.serviceConfigurationBuilder.password(cloud.credentials().password());
-        this.serviceConfigurationBuilder.endpoint(cloud.endpoint().orElse(null));
+        this.cloud = cloud;
         return this;
     }
 
-    public ServiceBuilder endpoint(@Nullable String endpoint) {
-        this.serviceConfigurationBuilder.endpoint(endpoint);
+    public ServiceBuilder configuration(Configuration configuration) {
+        this.configuration = configuration;
         return this;
     }
 
-    public ServiceBuilder credentials(String username, String password) {
-        this.serviceConfigurationBuilder.username(username);
-        this.serviceConfigurationBuilder.password(password);
-        return this;
-    }
-
-    public ServiceBuilder nodeGroup(String nodeGroup) {
-        this.serviceConfigurationBuilder.nodeGroup(nodeGroup);
-        return this;
-    }
-
-    public ServiceBuilder properties(Properties properties) {
-        this.properties = properties;
-        return this;
-    }
-
-    public ComputeService<HardwareFlavor, Image, Location, VirtualMachine> build() {
-        ServiceConfiguration serviceConfiguration = this.serviceConfigurationBuilder.build();
+    public ComputeService build() {
+        ServiceContext serviceContext = new ServiceContextImpl(cloud, configuration);
         ProviderConfiguration providerConfiguration =
-            Providers.getConfigurationByName(serviceConfiguration.getProvider());
+            Providers.getConfigurationByName(serviceContext.cloud().api().providerName());
         checkNotNull(providerConfiguration);
-        return this.buildInjector(providerConfiguration.getModules(), serviceConfiguration,
+        return this.buildInjector(providerConfiguration.getModules(), serviceContext,
             providerConfiguration).getInstance(providerConfiguration.getComputeService());
     }
 
-
-
     protected Injector buildInjector(Collection<? extends Module> modules,
-        ServiceConfiguration serviceConfiguration, ProviderConfiguration providerConfiguration) {
+        ServiceContext serviceContext, ProviderConfiguration providerConfiguration) {
         Collection<Module> basicModules =
-            this.getBasicModules(serviceConfiguration, providerConfiguration);
+            this.getBasicModules(serviceContext, providerConfiguration);
         basicModules.addAll(modules);
         basicModules.add(buildLoggingModule());
         basicModules.add(buildRemoteModule());
         return Guice.createInjector(basicModules);
     }
 
-    protected Set<Module> getBasicModules(ServiceConfiguration serviceConfiguration,
+    protected Set<Module> getBasicModules(ServiceContext serviceContext,
         ProviderConfiguration providerConfiguration) {
         Set<Module> modules = new HashSet<>();
         PropertiesBuilder propertiesBuilder = PropertiesBuilder.newBuilder()
             .putProperties(providerConfiguration.getDefaultProperties().getProperties());
-        if (this.properties != null) {
-            propertiesBuilder.putProperties(this.properties.getProperties());
-        }
-        modules.add(new BaseModule(serviceConfiguration, propertiesBuilder.build()));
+        modules.add(new BaseModule(serviceContext, propertiesBuilder.build()));
         return modules;
     }
 

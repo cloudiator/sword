@@ -18,7 +18,6 @@
 
 package de.uniulm.omi.cloudiator.sword.core.properties;
 
-import com.google.common.collect.ImmutableMap;
 import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 
 import java.util.HashMap;
@@ -50,7 +49,6 @@ public class PropertiesBuilder {
     }
 
     public Properties build() {
-        return new PropertiesImpl(
-            ImmutableMap.<String, String>builder().putAll(this.serviceProperties).build());
+        return new PropertiesImpl(serviceProperties);
     }
 }

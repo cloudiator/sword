@@ -38,7 +38,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by daniel on 25.09.15.
  */
 public class BaseDiscoveryService
-    implements DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine> {
+    implements DiscoveryService {
 
     private final Supplier<Set<Image>> imageSupplier;
     private final Supplier<Set<Location>> locationSupplier;

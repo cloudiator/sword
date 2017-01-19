@@ -3,6 +3,10 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.core.domain.ApiBuilder;
+import de.uniulm.omi.cloudiator.sword.core.domain.CloudBuilder;
+import de.uniulm.omi.cloudiator.sword.core.domain.ConfigurationBuilder;
+import de.uniulm.omi.cloudiator.sword.core.domain.CredentialsBuilder;
 import de.uniulm.omi.cloudiator.sword.service.ServiceBuilder;
 
 /**
@@ -46,9 +50,13 @@ public class FlexiantExample {
         /**
          * Builds the compute service
          */
-        ComputeService<HardwareFlavor, Image, Location, VirtualMachine> flexiant =
-            ServiceBuilder.newServiceBuilder("flexiant").credentials(apiUsername, password)
-                .endpoint(endpoint).nodeGroup(nodeGroup).build();
+        ComputeService flexiant =
+            ServiceBuilder.newServiceBuilder().cloud(CloudBuilder.newBuilder().endpoint(endpoint)
+                .credentials(
+                    CredentialsBuilder.newBuilder().user(apiUsername).password(password).build())
+                .api(ApiBuilder.newBuilder().providerName("flexiant").build()).build())
+                .configuration(ConfigurationBuilder.newBuilder().nodeGroup(nodeGroup).build())
+                .build();
     }
 
 }

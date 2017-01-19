@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.core.util;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
+import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
 import de.uniulm.omi.cloudiator.sword.api.logging.InjectLogger;
 import de.uniulm.omi.cloudiator.sword.api.logging.Logger;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
@@ -98,9 +98,9 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
     private final static String DELIMITER = "-";
     private final PrefixGenerator prefixGenerator;
 
-    @Inject GroupEncodedIntoNameNamingStrategy(ServiceConfiguration serviceConfiguration) {
-        checkNotNull(serviceConfiguration);
-        this.nodeGroup = serviceConfiguration.getNodeGroup();
+    @Inject GroupEncodedIntoNameNamingStrategy(ServiceContext serviceContext) {
+        checkNotNull(serviceContext);
+        this.nodeGroup = serviceContext.configuration().nodeGroup();
         this.prefixGenerator = new RandomPrefixGenerator();
     }
 

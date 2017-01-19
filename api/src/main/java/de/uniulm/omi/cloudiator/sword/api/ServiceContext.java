@@ -18,32 +18,15 @@
 
 package de.uniulm.omi.cloudiator.sword.api;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.Credentials;
-
-import java.util.Optional;
+import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
+import de.uniulm.omi.cloudiator.sword.api.domain.Configuration;
 
 /**
  * Provides the configuration of the service.
  */
-public interface ServiceConfiguration {
+public interface ServiceContext {
 
-    /**
-     * @return the {@link Optional} address of the api endpoint of the service provider if present.
-     */
-    Optional<String> getEndpoint();
+    Cloud cloud();
 
-    /**
-     * @return the name of the provider.
-     */
-    String getProvider();
-
-    /**
-     * @return the credentials for the api endpoint.
-     */
-    Credentials getCredentials();
-
-    /**
-     * @return the node group.
-     */
-    String getNodeGroup();
+    Configuration configuration();
 }

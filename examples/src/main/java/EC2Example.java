@@ -3,6 +3,10 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.core.domain.ApiBuilder;
+import de.uniulm.omi.cloudiator.sword.core.domain.CloudBuilder;
+import de.uniulm.omi.cloudiator.sword.core.domain.ConfigurationBuilder;
+import de.uniulm.omi.cloudiator.sword.core.domain.CredentialsBuilder;
 import de.uniulm.omi.cloudiator.sword.service.ServiceBuilder;
 
 /**
@@ -28,8 +32,11 @@ public class EC2Example {
     /**
      * Builds the compute service.
      */
-    ComputeService<HardwareFlavor, Image, Location, VirtualMachine> nova =
-        ServiceBuilder.newServiceBuilder("aws-ec2").credentials(accessKeyId, secretAccessKey)
-            .nodeGroup(nodeGroup).build();
+    ComputeService ec2 =
+        ServiceBuilder.newServiceBuilder().cloud(CloudBuilder.newBuilder().endpoint(null)
+            .credentials(
+                CredentialsBuilder.newBuilder().user(accessKeyId).password(secretAccessKey).build())
+            .api(ApiBuilder.newBuilder().providerName("aws-ec2").build()).build())
+            .configuration(ConfigurationBuilder.newBuilder().nodeGroup(nodeGroup).build()).build();
 
 }

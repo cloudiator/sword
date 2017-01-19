@@ -27,7 +27,7 @@ import de.uniulm.omi.cloudiator.flexiant.client.api.FlexiantException;
 import de.uniulm.omi.cloudiator.flexiant.client.api.ResourceInLocation;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.*;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.generic.ResourceImpl;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
+import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.DriverException;
 import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 
@@ -49,21 +49,21 @@ import static com.google.common.base.Preconditions.checkState;
 
     private final de.uniulm.omi.cloudiator.flexiant.client.compute.FlexiantComputeClient
         flexiantComputeClient;
-    private final ServiceConfiguration serviceConfiguration;
+    private final ServiceContext serviceContext;
     @Inject(optional = true) @Named(Constants.SWORD_REGIONS) String clusterFilter;
     private final Supplier<Set<String>> validClusterIdSupplier;
 
-    @Inject public FlexiantComputeClientImpl(ServiceConfiguration serviceConfiguration) {
+    @Inject public FlexiantComputeClientImpl(ServiceContext serviceContext) {
 
-        checkArgument(serviceConfiguration.getEndpoint().isPresent(),
+        checkArgument(serviceContext.cloud().endpoint().isPresent(),
             "No endpoint configured for FCO.");
 
         flexiantComputeClient =
             new de.uniulm.omi.cloudiator.flexiant.client.compute.FlexiantComputeClient(
-                serviceConfiguration.getEndpoint().get(),
-                serviceConfiguration.getCredentials().user(),
-                serviceConfiguration.getCredentials().password());
-        this.serviceConfiguration = serviceConfiguration;
+                serviceContext.cloud().endpoint().get(),
+                serviceContext.cloud().credentials().user(),
+                serviceContext.cloud().credentials().password());
+        this.serviceContext = serviceContext;
         this.validClusterIdSupplier =
             Suppliers.memoizeWithExpiration(new ValidClusterSupplier(), 10, TimeUnit.MINUTES);
     }
@@ -134,8 +134,9 @@ import static com.google.common.base.Preconditions.checkState;
 
     @Override public Set<Server> listServers() {
         try {
-            return this.flexiantComputeClient.getServers(serviceConfiguration.getNodeGroup(), null)
-                .stream().filter(resourceFilter()).collect(Collectors.toSet());
+            return this.flexiantComputeClient
+                .getServers(serviceContext.configuration().nodeGroup(), null).stream()
+                .filter(resourceFilter()).collect(Collectors.toSet());
         } catch (FlexiantException e) {
             throw new DriverException("Could not retrieve servers.", e);
         }

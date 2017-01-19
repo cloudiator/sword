@@ -1,6 +1,7 @@
 package de.uniulm.omi.cloudiator.sword.core.util;
 
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
+import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.api.domain.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -22,10 +23,12 @@ public class GroupEncodedIntoNameNamingStrategyTest {
     private GroupEncodedIntoNameNamingStrategy groupEncodedIntoNameNamingStrategy;
 
     @Before public void before() {
-        ServiceConfiguration serviceConfigurationMock = Mockito.mock(ServiceConfiguration.class);
-        when(serviceConfigurationMock.getNodeGroup()).thenReturn("helloWorld");
+        ServiceContext serviceContextMock = Mockito.mock(ServiceContext.class);
+        Configuration configuration = Mockito.mock(Configuration.class);
+        when(serviceContextMock.configuration()).thenReturn(configuration);
+        when(configuration.nodeGroup()).thenReturn("helloWorld");
         groupEncodedIntoNameNamingStrategy =
-            new GroupEncodedIntoNameNamingStrategy(serviceConfigurationMock);
+            new GroupEncodedIntoNameNamingStrategy(serviceContextMock);
     }
 
     @Test public void testUnique() {

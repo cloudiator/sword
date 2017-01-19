@@ -19,10 +19,9 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
 
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.ServiceConfiguration;
+import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
 import de.uniulm.omi.cloudiator.sword.api.exceptions.DriverException;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocation;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocationImpl;
@@ -44,39 +43,35 @@ import static com.google.common.base.Preconditions.*;
 public class JCloudsComputeClientImpl implements JCloudsComputeClient {
 
     private final ComputeServiceContext computeServiceContext;
-    private final ServiceConfiguration serviceConfiguration;
+    private final ServiceContext serviceContext;
 
-    @Inject
-    public JCloudsComputeClientImpl(ComputeServiceContext computeServiceContext,
-                                    ServiceConfiguration serviceConfiguration) {
+    @Inject public JCloudsComputeClientImpl(ComputeServiceContext computeServiceContext,
+        ServiceContext serviceContext) {
 
         checkNotNull(computeServiceContext);
-        checkNotNull(serviceConfiguration);
+        checkNotNull(serviceContext);
 
         this.computeServiceContext = computeServiceContext;
-        this.serviceConfiguration = serviceConfiguration;
+        this.serviceContext = serviceContext;
 
     }
 
-    @Override
-    public Set<? extends Image> listImages() {
+    @Override public Set<? extends Image> listImages() {
         return this.computeServiceContext.getComputeService().listImages();
     }
 
-    @Override
-    public Set<? extends Hardware> listHardwareProfiles() {
+    @Override public Set<? extends Hardware> listHardwareProfiles() {
         return this.computeServiceContext.getComputeService().listHardwareProfiles();
     }
 
-    @Override
-    public Set<? extends AssignableLocation> listLocations() {
+    @Override public Set<? extends AssignableLocation> listLocations() {
 
         Set<AssignableLocation> jCloudLocations = new HashSet<>(
-                computeServiceContext.getComputeService().listAssignableLocations().size());
+            computeServiceContext.getComputeService().listAssignableLocations().size());
         jCloudLocations.addAll(
-                computeServiceContext.getComputeService().listAssignableLocations().stream().map(
-                        (Function<Location, AssignableLocation>) location -> new AssignableLocationImpl(
-                                location, true)).collect(Collectors.toList()));
+            computeServiceContext.getComputeService().listAssignableLocations().stream().map(
+                (Function<Location, AssignableLocation>) location -> new AssignableLocationImpl(
+                    location, true)).collect(Collectors.toList()));
 
         //todo code is rather clumsy. realizes on hashset not adding the new data, and the equals
         //method not picking up the isAssignable...
@@ -91,17 +86,17 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
         return ImmutableSet.copyOf(jCloudLocations);
     }
 
-    @Override
-    public Set<? extends ComputeMetadata> listNodes() {
-        return this.computeServiceContext.getComputeService().listNodesDetailsMatching((Predicate<NodeMetadata>) input -> true);
+    @Override public Set<? extends ComputeMetadata> listNodes() {
+        return this.computeServiceContext.getComputeService()
+            .listNodesDetailsMatching(input -> true);
     }
 
-    @Override
-    public NodeMetadata createNode(Template template) {
+    @Override public NodeMetadata createNode(Template template) {
         try {
             Set<? extends NodeMetadata> nodesInGroup =
-                    this.computeServiceContext.getComputeService()
-                            .createNodesInGroup(this.serviceConfiguration.getNodeGroup(), 1, template);
+                this.computeServiceContext.getComputeService()
+                    .createNodesInGroup(this.serviceContext.configuration().nodeGroup(), 1,
+                        template);
             checkElementIndex(0, nodesInGroup.size());
             checkState(nodesInGroup.size() == 1);
             return nodesInGroup.iterator().next();
@@ -110,14 +105,12 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
         }
     }
 
-    @Override
-    public void deleteNode(String id) {
+    @Override public void deleteNode(String id) {
         //todo check if node belongs to correct node group, otherwise do not delete it.
         this.computeServiceContext.getComputeService().destroyNode(id);
     }
 
-    @Override
-    public TemplateBuilder templateBuilder() {
+    @Override public TemplateBuilder templateBuilder() {
         return this.computeServiceContext.getComputeService().templateBuilder();
     }
 

@@ -18,16 +18,15 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
-import java.util.Optional;
+import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 
 /**
  * Created by daniel on 18.01.17.
  */
-public interface Cloud {
+public interface Configuration {
 
-    Api api();
+    String nodeGroup();
 
-    Optional<String> endpoint();
+    Properties properties();
 
-    Credentials credentials();
 }

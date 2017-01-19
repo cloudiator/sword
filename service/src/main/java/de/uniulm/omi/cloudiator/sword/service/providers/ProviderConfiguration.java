@@ -19,10 +19,6 @@
 package de.uniulm.omi.cloudiator.sword.service.providers;
 
 import com.google.inject.Module;
-import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.api.domain.Image;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 
@@ -37,13 +33,11 @@ public class ProviderConfiguration {
 
     private final String name;
     private final Set<? extends Module> modules;
-    private final Class<? extends ComputeService<HardwareFlavor, Image, Location, VirtualMachine>>
-        computeService;
+    private final Class<? extends ComputeService> computeService;
     private final Properties defaultProperties;
 
     public ProviderConfiguration(String name, Set<? extends Module> modules,
-        Class<? extends ComputeService<HardwareFlavor, Image, Location, VirtualMachine>> computeService,
-        Properties defaultProperties) {
+        Class<? extends ComputeService> computeService, Properties defaultProperties) {
         checkNotNull(name);
         checkNotNull(modules);
         checkNotNull(computeService);
@@ -62,7 +56,7 @@ public class ProviderConfiguration {
         return modules;
     }
 
-    public Class<? extends ComputeService<HardwareFlavor, Image, Location, VirtualMachine>> getComputeService() {
+    public Class<? extends ComputeService> getComputeService() {
         return computeService;
     }
 

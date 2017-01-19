@@ -19,7 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.api.service;
 
 import com.google.common.base.Optional;
-import de.uniulm.omi.cloudiator.sword.api.domain.*;
+import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
@@ -27,13 +28,8 @@ import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
 /**
  * Compute service interface. Offers method for interaction with the compute API of the cloud
  * providers.
- *
- * @param <H> the type of {@link HardwareFlavor}
- * @param <I> the type of {@link Image}
- * @param <L> the type of {@link Location}
- * @param <V> the type of {@link VirtualMachine}
  */
-public interface ComputeService<H extends HardwareFlavor, I extends Image, L extends Location, V extends VirtualMachine> {
+public interface ComputeService {
 
     /**
      * Returns a discovery service offering the discovery of stored entities at the
@@ -41,7 +37,7 @@ public interface ComputeService<H extends HardwareFlavor, I extends Image, L ext
      *
      * @return the discovery service.
      */
-    DiscoveryService<H, I, L, V> discoveryService();
+    DiscoveryService discoveryService();
 
     /**
      * Deletes a virtual machine.
@@ -59,7 +55,7 @@ public interface ComputeService<H extends HardwareFlavor, I extends Image, L ext
      * @return the created virtual machine.
      * @throws NullPointerException if the virtual machine template is null.
      */
-    V createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
+    VirtualMachine createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
 
     /**
      * Returns a {@link ConnectionService} that is used for connecting to

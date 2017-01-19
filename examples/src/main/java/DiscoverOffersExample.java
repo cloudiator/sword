@@ -10,15 +10,15 @@ import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
  */
 public class DiscoverOffersExample {
 
-    private final ComputeService<HardwareFlavor, Image, Location, VirtualMachine> computeService;
+    private final ComputeService computeService;
 
     public DiscoverOffersExample(
-        ComputeService<HardwareFlavor, Image, Location, VirtualMachine> computeService) {
+        ComputeService computeService) {
         this.computeService = computeService;
     }
 
     public void discover() {
-        DiscoveryService<HardwareFlavor, Image, Location, VirtualMachine> discoveryService =
+        DiscoveryService discoveryService =
             computeService.discoveryService();
 
         //print hardware offers

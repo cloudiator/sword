@@ -12,10 +12,10 @@ import java.util.function.Supplier;
  */
 public class CreateVirtualMachineExample implements Supplier<VirtualMachine> {
 
-    private final ComputeService<HardwareFlavor, Image, Location, VirtualMachine> computeService;
+    private final ComputeService computeService;
 
     public CreateVirtualMachineExample(
-        ComputeService<HardwareFlavor, Image, Location, VirtualMachine> computeService) {
+        ComputeService computeService) {
         this.computeService = computeService;
     }
 

@@ -18,9 +18,11 @@
 
 package de.uniulm.omi.cloudiator.sword.core.properties;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 
+import java.util.Collections;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -30,9 +32,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class PropertiesImpl implements Properties {
 
+    public static final Properties EMPTY = new PropertiesImpl(Collections.emptyMap());
+
     private final Map<String, String> propertiesHolder;
 
-    public PropertiesImpl(ImmutableMap<String, String> propertiesHolder) {
+    public PropertiesImpl(Map<String, String> propertiesHolder) {
         checkNotNull(propertiesHolder);
         this.propertiesHolder = propertiesHolder;
     }
@@ -51,6 +55,25 @@ public class PropertiesImpl implements Properties {
     }
 
     @Override public Map<String, String> getProperties() {
-        return this.propertiesHolder;
+        return ImmutableMap.copyOf(propertiesHolder);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        PropertiesImpl that = (PropertiesImpl) o;
+
+        return propertiesHolder.equals(that.propertiesHolder);
+    }
+
+    @Override public int hashCode() {
+        return propertiesHolder.hashCode();
+    }
+
+    @Override public String toString() {
+        return MoreObjects.toStringHelper(this).add("properties", propertiesHolder).toString();
     }
 }
