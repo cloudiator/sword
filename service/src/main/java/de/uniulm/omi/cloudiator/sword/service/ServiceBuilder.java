@@ -22,7 +22,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
-import de.uniulm.omi.cloudiator.sword.api.domain.*;
+import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
+import de.uniulm.omi.cloudiator.sword.api.domain.Configuration;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.core.config.BaseModule;
 import de.uniulm.omi.cloudiator.sword.core.logging.AbstractLoggingModule;
@@ -85,7 +86,8 @@ public class ServiceBuilder {
     }
 
     public ComputeService build() {
-        ServiceContext serviceContext = new ServiceContextImpl(cloud, configuration);
+        ServiceContext serviceContext =
+            ServiceContextBuilder.newBuilder().cloud(cloud).configuration(configuration).build();
         ProviderConfiguration providerConfiguration =
             Providers.getConfigurationByName(serviceContext.cloud().api().providerName());
         checkNotNull(providerConfiguration);

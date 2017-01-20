@@ -57,6 +57,7 @@
         <module>remote-overthere</module>
         <module>logging-log4j</module>
         <module>examples</module>
+        <module>multicloud</module>
     </modules>
 
     <parent>
