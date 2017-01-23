@@ -33,25 +33,20 @@ import javax.annotation.Nullable;
  */
 public class BaseComputeServiceFactory implements ComputeServiceFactory {
 
-    @Nullable private final AbstractRemoteModule abstractRemoteModule;
-    @Nullable private final AbstractLoggingModule abstractLoggingModule;
+    @Nullable @Inject(optional = true) private AbstractRemoteModule abstractRemoteModule;
+    @Nullable @Inject(optional = true) private AbstractLoggingModule abstractLoggingModule;
 
-    @Inject(optional = true)
-    public BaseComputeServiceFactory(@Nullable AbstractRemoteModule abstractRemoteModule,
-        @Nullable AbstractLoggingModule abstractLoggingModule) {
-
-        this.abstractRemoteModule = abstractRemoteModule;
-        this.abstractLoggingModule = abstractLoggingModule;
+    public BaseComputeServiceFactory() {
     }
 
     @Override public ComputeService computeService(Cloud cloud, Configuration configuration) {
 
         final ServiceBuilder serviceBuilder =
             ServiceBuilder.newServiceBuilder().cloud(cloud).configuration(configuration);
-        if(abstractLoggingModule != null) {
+        if (abstractLoggingModule != null) {
             serviceBuilder.loggingModule(abstractLoggingModule);
         }
-        if(abstractRemoteModule != null) {
+        if (abstractRemoteModule != null) {
             serviceBuilder.remoteModule(abstractRemoteModule);
         }
         return serviceBuilder.build();

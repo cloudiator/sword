@@ -36,7 +36,7 @@ public class MultiCloudBuilder {
 
     }
 
-    public MultiCloudBuilder newBuilder() {
+    public static MultiCloudBuilder newBuilder() {
         return new MultiCloudBuilder();
     }
 

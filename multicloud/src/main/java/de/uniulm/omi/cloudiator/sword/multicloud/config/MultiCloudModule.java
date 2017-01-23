@@ -22,6 +22,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.util.Providers;
 import de.uniulm.omi.cloudiator.sword.api.annotations.Base;
 import de.uniulm.omi.cloudiator.sword.api.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
@@ -47,8 +48,8 @@ public class MultiCloudModule extends AbstractModule {
     }
 
     @Override protected void configure() {
-        bind(AbstractLoggingModule.class).toInstance(loggingModule);
-        bind(AbstractRemoteModule.class).toInstance(remoteModule);
+        bind(AbstractLoggingModule.class).toProvider(Providers.of(loggingModule));
+        bind(AbstractRemoteModule.class).toProvider(Providers.of(remoteModule));
         bind(MultiCloudService.class).to(MultiCloudServiceImpl.class).in(Singleton.class);
         bind(ComputeService.class).to(MultiCloudComputeService.class).in(Singleton.class);
         bind(ComputeServiceProvider.class).to(CloudRegistryComputeServiceProvider.class)

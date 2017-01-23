@@ -33,26 +33,26 @@ public interface CloudRegistry {
      * @param cloud         the cloud to register.
      * @param configuration the configuration for that cloud.
      */
-    void register(Cloud cloud, Configuration configuration);
+    CloudRegistry register(Cloud cloud, Configuration configuration);
 
     /**
      * Registers a new {@link ServiceContext} at the registry.
      *
      * @param serviceContext the service context to register.
      */
-    void register(ServiceContext serviceContext);
+    CloudRegistry register(ServiceContext serviceContext);
 
     /**
      * Unregisters an existing {@link Cloud} at the registry if its present.
      *
      * @param cloud the {@link Cloud} to remove.
      */
-    void unregister(Cloud cloud);
+    CloudRegistry unregister(Cloud cloud);
 
     /**
      * Unregisters the cloud identified by the id if present.
      *
      * @param cloudId the id of the cloud to remove.
      */
-    void unregister(String cloudId);
+    CloudRegistry unregister(String cloudId);
 }

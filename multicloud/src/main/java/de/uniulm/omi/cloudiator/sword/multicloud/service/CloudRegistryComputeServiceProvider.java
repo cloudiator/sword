@@ -49,23 +49,27 @@ public class CloudRegistryComputeServiceProvider implements CloudRegistry, Compu
         this.computeServiceFactory = computeServiceFactory;
     }
 
-    @Override public void register(Cloud cloud, Configuration configuration) {
+    @Override public CloudRegistry register(Cloud cloud, Configuration configuration) {
         checkNotNull(cloud, "cloud is null");
         checkNotNull(configuration, "configuration is null");
         SERVICE_CONTEXT_HOLDER.add(cloud, configuration);
+        return this;
     }
 
-    @Override public void register(ServiceContext serviceContext) {
+    @Override public CloudRegistry register(ServiceContext serviceContext) {
         checkNotNull(serviceContext, "serviceContext is null");
         register(serviceContext.cloud(), serviceContext.configuration());
+        return this;
     }
 
-    @Override public void unregister(Cloud cloud) {
+    @Override public CloudRegistry unregister(Cloud cloud) {
         SERVICE_CONTEXT_HOLDER.remove(cloud);
+        return this;
     }
 
-    @Override public void unregister(String cloudId) {
+    @Override public CloudRegistry unregister(String cloudId) {
         SERVICE_CONTEXT_HOLDER.remove(cloudId);
+        return this;
     }
 
     @Override public ComputeService forId(String cloudId) {
