@@ -109,7 +109,8 @@ public class ServiceBuilder {
         ProviderConfiguration providerConfiguration) {
         Set<Module> modules = new HashSet<>();
         PropertiesBuilder propertiesBuilder = PropertiesBuilder.newBuilder()
-            .putProperties(providerConfiguration.getDefaultProperties().getProperties());
+            .putProperties(providerConfiguration.getDefaultProperties().getProperties())
+            .putProperties(serviceContext.configuration().properties().getProperties());
         modules.add(new BaseModule(serviceContext, propertiesBuilder.build()));
         return modules;
     }
