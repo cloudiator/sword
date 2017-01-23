@@ -16,9 +16,10 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.multicloud;
+package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import com.google.common.base.Optional;
+import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
@@ -28,6 +29,7 @@ import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
 import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineTemplateBuilder;
+import de.uniulm.omi.cloudiator.sword.multicloud.domain.VirtualMachineMultiCloudImpl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -36,20 +38,16 @@ import static com.google.common.base.Preconditions.checkState;
  * Created by daniel on 20.01.17.
  */
 public class MultiCloudComputeService implements ComputeService {
-
-    private final DiscoveryService discoveryService;
+    
     private final ComputeServiceProvider computeServiceProvider;
 
-    public MultiCloudComputeService(DiscoveryService discoveryService,
-        ComputeServiceProvider computeServiceProvider) {
-        checkNotNull(discoveryService, "discoveryService is null");
+    @Inject public MultiCloudComputeService(ComputeServiceProvider computeServiceProvider) {
         checkNotNull(computeServiceProvider, "computeServiceProvider is null");
-        this.discoveryService = discoveryService;
         this.computeServiceProvider = computeServiceProvider;
     }
 
     @Override public DiscoveryService discoveryService() {
-        return discoveryService;
+        return new MultiCloudDiscoveryService(computeServiceProvider);
     }
 
     @Override public void deleteVirtualMachine(String virtualMachineId) {
@@ -78,8 +76,15 @@ public class MultiCloudComputeService implements ComputeService {
             VirtualMachineTemplateBuilder.of(virtualMachineTemplate).image(scopedImageId.id())
                 .location(scopedLocationId.id()).hardwareFlavor(scopedHardwareId.id()).build();
 
-        return null;
+        //we chose the cloudId of the image, but we asserted above that it is the same for hardware
+        //and location;
+        String cloudId = scopedImageId.cloudId();
 
+        final VirtualMachine virtualMachine =
+            this.computeServiceProvider.forId(scopedLocationId.cloudId())
+                .createVirtualMachine(singleCloudTemplate);
+
+        return new VirtualMachineMultiCloudImpl(virtualMachine, cloudId);
     }
 
     @Override public ConnectionService connectionService() {

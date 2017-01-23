@@ -16,12 +16,16 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.multicloud.domain;
-
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 /**
- * Created by daniel on 19.01.17.
+ * Created by daniel on 18.01.17.
  */
-public interface VirtualMachineMultiCloud extends VirtualMachine, CloudScoped {
+public interface IdScopedByCloud {
+
+    String id();
+
+    String cloudId();
+
+    String scopedId();
 }

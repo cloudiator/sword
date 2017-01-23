@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.multicloud;
+package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;

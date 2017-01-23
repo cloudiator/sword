@@ -91,36 +91,36 @@ public class OpenstackKeyPairService implements KeyPairService {
         return keyPairApi.get();
     }
 
-    @Override public KeyPair create(@Nullable String name, String location) {
+    @Override public KeyPair create(@Nullable String name, String locationId) {
         if (name != null) {
             checkArgument(!name.isEmpty());
         }
         return keyPairConverter.apply(new KeyPairInRegion(
-            getKeyPairApi(location).create(namingStrategy.generateUniqueNameBasedOnName(name)),
-            locationGetStrategy.get(location)));
+            getKeyPairApi(locationId).create(namingStrategy.generateUniqueNameBasedOnName(name)),
+            locationGetStrategy.get(locationId)));
     }
 
-    @Override public KeyPair create(@Nullable String name, String publicKey, String location) {
+    @Override public KeyPair create(@Nullable String name, String publicKey, String locationId) {
         if (name != null) {
             checkArgument(!name.isEmpty());
         }
         checkNotNull(publicKey);
         checkArgument(!publicKey.isEmpty());
-        return keyPairConverter.apply(new KeyPairInRegion(getKeyPairApi(location)
+        return keyPairConverter.apply(new KeyPairInRegion(getKeyPairApi(locationId)
             .createWithPublicKey(namingStrategy.generateUniqueNameBasedOnName(name), publicKey),
-            locationGetStrategy.get(location)));
+            locationGetStrategy.get(locationId)));
     }
 
-    @Override public boolean delete(String name, String location) {
+    @Override public boolean delete(String name, String locationId) {
         checkNotNull(name);
         checkArgument(!name.isEmpty());
-        return getKeyPairApi(location).delete(name);
+        return getKeyPairApi(locationId).delete(name);
     }
 
-    @Override public KeyPair get(String name, String location) {
+    @Override public KeyPair get(String name, String locationId) {
         checkNotNull(name);
         checkArgument(!name.isEmpty());
-        return keyPairConverter.apply(new KeyPairInRegion(getKeyPairApi(location).get(name),
-            locationGetStrategy.get(location)));
+        return keyPairConverter.apply(new KeyPairInRegion(getKeyPairApi(locationId).get(name),
+            locationGetStrategy.get(locationId)));
     }
 }

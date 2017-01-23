@@ -22,6 +22,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.name.Names;
 import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
+import de.uniulm.omi.cloudiator.sword.api.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
 import de.uniulm.omi.cloudiator.sword.core.base.BaseConnectionService;
 import de.uniulm.omi.cloudiator.sword.core.logging.AbstractLoggingModule;

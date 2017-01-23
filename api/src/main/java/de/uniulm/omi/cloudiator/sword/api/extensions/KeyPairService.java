@@ -33,48 +33,50 @@ public interface KeyPairService {
      * Automatically creates a private/public key pair, and
      * registers it with the provider.
      *
-     * @param name     the name for the keypair (nullable)
-     * @param location the location to create the keyPair in
+     * @param name       the name for the keypair (nullable)
+     * @param locationId the locationId to create the keyPair in
      * @return the created keypair, will hold private key.
      * @throws KeyPairException         if an error occurs during creation.
      * @throws IllegalArgumentException if the name is empty.
      */
-    KeyPair create(@Nullable String name, String location);
+    KeyPair create(@Nullable String name, String locationId);
 
     /**
      * Registers the public key at the cloud provider.
      *
-     * @param name      the name for the key (nullable)
-     * @param publicKey the public key (non null)
-     * @param location  the location to create the keyPair in
+     * @param name       the name for the key (nullable)
+     * @param publicKey  the public key (non null)
+     * @param locationId the locationId to create the keyPair in
      * @return the registered keypair
      * @throws KeyPairException         if an error occurs during creation.
      * @throws NullPointerException     if the public key is null.
      * @throws IllegalArgumentException if any of the supplied strings are empty.
      */
-    KeyPair create(@Nullable String name, String publicKey, String location);
+    KeyPair create(@Nullable String name, String publicKey, String locationId);
 
     /**
      * Deletes the key pair from the cloud provider.
      *
-     * @param name the name of the keypair to delete (non null)
+     * @param name       the name of the keypair to delete (non null)
+     * @param locationId the location id
      * @return true if it was deleted successful, false of not.
      * @throws KeyPairException         if an error occurs during creation.
      * @throws NullPointerException     if the name is null
      * @throws IllegalArgumentException if the name is empty.
      */
-    boolean delete(String name, String location);
+    boolean delete(String name, String locationId);
 
     /**
      * Retrieves information about the key pair.
      *
-     * @param name the name of the keypair (non null).
+     * @param name       the name of the keypair (non null).
+     * @param locationId the locationId
      * @return the keypair, or null if not found.
      * @throws KeyPairException         if an error occurs during creation.
      * @throws NullPointerException     if the name is null.
      * @throws IllegalArgumentException if the name is empty.
      */
-    @Nullable KeyPair get(String name, String location);
+    @Nullable KeyPair get(String name, String locationId);
 
 
 }

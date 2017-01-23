@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.multicloud;
+package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
@@ -24,7 +24,10 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
-import de.uniulm.omi.cloudiator.sword.multicloud.domain.*;
+import de.uniulm.omi.cloudiator.sword.multicloud.domain.HardwareFlavorMultiCloudImpl;
+import de.uniulm.omi.cloudiator.sword.multicloud.domain.ImageMultiCloudImpl;
+import de.uniulm.omi.cloudiator.sword.multicloud.domain.LocationMultiCloudImpl;
+import de.uniulm.omi.cloudiator.sword.multicloud.domain.VirtualMachineMultiCloudImpl;
 
 import javax.annotation.Nullable;
 import java.util.function.Function;
@@ -50,8 +53,9 @@ public class MultiCloudDiscoveryService implements DiscoveryService {
         checkNotNull(id, "id is null");
         checkArgument(!id.isEmpty(), "id is empty");
         final IdScopedByCloud idScopedByCloud = IdScopedByClouds.from(id);
-        return computeServiceProvider.forId(idScopedByCloud.cloudId()).discoveryService()
-            .getImage(idScopedByCloud.id());
+        return new ImageMultiCloudImpl(
+            computeServiceProvider.forId(idScopedByCloud.cloudId()).discoveryService()
+                .getImage(idScopedByCloud.id()), idScopedByCloud.cloudId());
     }
 
     @Nullable @Override public VirtualMachine getVirtualMachine(String id) {
@@ -67,8 +71,8 @@ public class MultiCloudDiscoveryService implements DiscoveryService {
             cloudComputeServiceEntry -> StreamSupport.stream(
                 cloudComputeServiceEntry.getValue().discoveryService().listHardwareFlavors()
                     .spliterator(), false).map(
-                (Function<HardwareFlavor, HardwareFlavorMultiCloud>) hardwareFlavor -> new HardwareFlavorMultiCloudImpl(
-                    hardwareFlavor, cloudComputeServiceEntry.getKey())))
+                (Function<HardwareFlavor, HardwareFlavor>) hardwareFlavor -> new HardwareFlavorMultiCloudImpl(
+                    hardwareFlavor, cloudComputeServiceEntry.getKey().id())))
             .collect(Collectors.toSet());
     }
 
@@ -76,9 +80,8 @@ public class MultiCloudDiscoveryService implements DiscoveryService {
         return this.computeServiceProvider.all().entrySet().stream().flatMap(
             cloudComputeServiceEntry -> StreamSupport.stream(
                 cloudComputeServiceEntry.getValue().discoveryService().listImages().spliterator(),
-                false).map(
-                (Function<Image, ImageMultiCloud>) image -> new ImageMultiCloudImpl(image,
-                    cloudComputeServiceEntry.getKey()))).collect(Collectors.toSet());
+                false).map((Function<Image, Image>) image -> new ImageMultiCloudImpl(image,
+                cloudComputeServiceEntry.getKey().id()))).collect(Collectors.toSet());
     }
 
     @Override public Iterable<Location> listLocations() {
@@ -86,8 +89,8 @@ public class MultiCloudDiscoveryService implements DiscoveryService {
             cloudComputeServiceEntry -> StreamSupport.stream(
                 cloudComputeServiceEntry.getValue().discoveryService().listLocations()
                     .spliterator(), false).map(
-                (Function<Location, LocationMultiCloud>) location -> new LocationMultiCloudImpl(
-                    location, cloudComputeServiceEntry.getKey()))).collect(Collectors.toSet());
+                (Function<Location, Location>) location -> new LocationMultiCloudImpl(location,
+                    cloudComputeServiceEntry.getKey().id()))).collect(Collectors.toSet());
     }
 
     @Override public Iterable<VirtualMachine> listVirtualMachines() {
@@ -95,24 +98,26 @@ public class MultiCloudDiscoveryService implements DiscoveryService {
             cloudComputeServiceEntry -> StreamSupport.stream(
                 cloudComputeServiceEntry.getValue().discoveryService().listVirtualMachines()
                     .spliterator(), false).map(
-                (Function<VirtualMachine, VirtualMachineMultiCloud>) location -> new VirtualMachineMultiCloudImpl(
-                    location, cloudComputeServiceEntry.getKey()))).collect(Collectors.toSet());
+                (Function<VirtualMachine, VirtualMachine>) location -> new VirtualMachineMultiCloudImpl(
+                    location, cloudComputeServiceEntry.getKey().id()))).collect(Collectors.toSet());
     }
 
     @Nullable @Override public Location getLocation(String id) {
         checkNotNull(id, "id is null");
         checkArgument(!id.isEmpty(), "id is empty");
         final IdScopedByCloud idScopedByCloud = IdScopedByClouds.from(id);
-        return computeServiceProvider.forId(idScopedByCloud.cloudId()).discoveryService()
-            .getLocation(idScopedByCloud.id());
+        return new LocationMultiCloudImpl(
+            computeServiceProvider.forId(idScopedByCloud.cloudId()).discoveryService()
+                .getLocation(idScopedByCloud.id()), idScopedByCloud.cloudId());
     }
 
     @Nullable @Override public HardwareFlavor getHardwareFlavor(String id) {
         checkNotNull(id, "id is null");
         checkArgument(!id.isEmpty(), "id is empty");
         final IdScopedByCloud idScopedByCloud = IdScopedByClouds.from(id);
-        return computeServiceProvider.forId(idScopedByCloud.cloudId()).discoveryService()
-            .getHardwareFlavor(idScopedByCloud.id());
+        return new HardwareFlavorMultiCloudImpl(
+            computeServiceProvider.forId(idScopedByCloud.cloudId()).discoveryService()
+                .getHardwareFlavor(idScopedByCloud.id()), idScopedByCloud.cloudId());
     }
 
 }

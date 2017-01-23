@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.multicloud;
+package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
@@ -53,6 +53,11 @@ public class CloudRegistryComputeServiceProvider implements CloudRegistry, Compu
         checkNotNull(cloud, "cloud is null");
         checkNotNull(configuration, "configuration is null");
         SERVICE_CONTEXT_HOLDER.add(cloud, configuration);
+    }
+
+    @Override public void register(ServiceContext serviceContext) {
+        checkNotNull(serviceContext, "serviceContext is null");
+        register(serviceContext.cloud(), serviceContext.configuration());
     }
 
     @Override public void unregister(Cloud cloud) {

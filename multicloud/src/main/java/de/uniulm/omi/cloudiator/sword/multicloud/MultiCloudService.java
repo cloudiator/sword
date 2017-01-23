@@ -18,14 +18,16 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud;
 
+import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.CloudRegistry;
+
 /**
- * Created by daniel on 18.01.17.
+ * Created by daniel on 23.01.17.
  */
-public interface IdScopedByCloud {
+public interface MultiCloudService {
 
-    String id();
+    CloudRegistry cloudRegistry();
 
-    String cloudId();
+    ComputeService computeService();
 
-    String scopedId();
 }

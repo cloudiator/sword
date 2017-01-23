@@ -20,10 +20,9 @@ package de.uniulm.omi.cloudiator.sword.multicloud.domain;
 
 import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.common.os.OperatingSystem;
-import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.multicloud.IdScopedByClouds;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
 
 import java.util.Optional;
 
@@ -32,20 +31,20 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by daniel on 19.01.17.
  */
-public class ImageMultiCloudImpl implements ImageMultiCloud {
+public class ImageMultiCloudImpl implements Image {
 
     private final Image delegate;
-    private final Cloud cloud;
+    private final String cloudId;
 
-    public ImageMultiCloudImpl(Image delegate, Cloud cloud) {
+    public ImageMultiCloudImpl(Image delegate, String cloudId) {
         checkNotNull(delegate, "delegate is null");
         this.delegate = delegate;
-        checkNotNull(cloud, "cloud is null");
-        this.cloud = cloud;
+        checkNotNull(cloudId, "cloudId is null");
+        this.cloudId = cloudId;
     }
 
     @Override public String id() {
-        return IdScopedByClouds.from(delegate.id(), cloud.id()).scopedId();
+        return IdScopedByClouds.from(delegate.id(), cloudId).scopedId();
     }
 
     @Override public String providerId() {
@@ -60,19 +59,19 @@ public class ImageMultiCloudImpl implements ImageMultiCloud {
         if (!delegate.location().isPresent()) {
             return delegate.location();
         }
-        return Optional.of(new LocationMultiCloudImpl(delegate.location().get(), cloud));
+        return Optional.of(new LocationMultiCloudImpl(delegate.location().get(), cloudId));
     }
 
     @Override public String name() {
         return delegate.name();
     }
 
-    @Override public Cloud cloud() {
-        return cloud;
+    public String cloud() {
+        return cloudId;
     }
 
     @Override public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id()).add("delegate", delegate)
-            .add("cloud", cloud).toString();
+            .add("cloud", cloudId).toString();
     }
 }

@@ -16,8 +16,9 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.multicloud;
+package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
+import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
 import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.api.domain.Configuration;
 
@@ -33,6 +34,13 @@ public interface CloudRegistry {
      * @param configuration the configuration for that cloud.
      */
     void register(Cloud cloud, Configuration configuration);
+
+    /**
+     * Registers a new {@link ServiceContext} at the registry.
+     *
+     * @param serviceContext the service context to register.
+     */
+    void register(ServiceContext serviceContext);
 
     /**
      * Unregisters an existing {@link Cloud} at the registry if its present.

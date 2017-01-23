@@ -16,10 +16,12 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.multicloud;
+package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.api.annotations.Base;
 import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.api.domain.Configuration;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
@@ -35,7 +37,7 @@ public class CachingComputeServiceFactory implements ComputeServiceFactory {
 
     private final ComputeServiceCache computeServiceCache;
 
-    public CachingComputeServiceFactory(ComputeServiceFactory delegate) {
+    @Inject public CachingComputeServiceFactory(@Base ComputeServiceFactory delegate) {
         checkNotNull(delegate, "delegate is null");
         this.computeServiceCache = new ComputeServiceCache(delegate);
     }

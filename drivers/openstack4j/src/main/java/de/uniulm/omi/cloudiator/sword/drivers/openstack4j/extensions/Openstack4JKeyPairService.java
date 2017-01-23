@@ -63,14 +63,14 @@ public class Openstack4JKeyPairService implements KeyPairService {
                 String.format("Could not find parent region in location %s", location)));
     }
 
-    @Override public KeyPair create(@Nullable String name, String location) {
-        return this.create(name, null, location);
+    @Override public KeyPair create(@Nullable String name, String locationId) {
+        return this.create(name, null, locationId);
     }
 
     @Override
-    public KeyPair create(@Nullable String name, @Nullable String publicKey, String location) {
+    public KeyPair create(@Nullable String name, @Nullable String publicKey, String locationId) {
 
-        checkNotNull(location, "location is null");
+        checkNotNull(locationId, "location is null");
         if (name != null) {
             checkArgument(!name.isEmpty(), "name is empty");
         }
@@ -78,7 +78,7 @@ public class Openstack4JKeyPairService implements KeyPairService {
             checkArgument(!publicKey.isEmpty(), "publicKey is empty");
         }
 
-        final Location region = getRegion(location);
+        final Location region = getRegion(locationId);
         Keypair osKeyPair = osClient.useRegion(region.id()).compute().keypairs()
             .create(namingStrategy.generateUniqueNameBasedOnName(name), publicKey);
 
@@ -90,17 +90,17 @@ public class Openstack4JKeyPairService implements KeyPairService {
             .privateKey(osKeyPair.getPrivateKey()).name(osKeyPair.getName()).build();
     }
 
-    @Override public boolean delete(String name, String location) {
+    @Override public boolean delete(String name, String locationId) {
         checkNotNull(name, "name is null");
-        checkNotNull(location, "location is null");
-        return osClient.useRegion(getRegion(location).id()).compute().keypairs().delete(name)
+        checkNotNull(locationId, "location is null");
+        return osClient.useRegion(getRegion(locationId).id()).compute().keypairs().delete(name)
             .isSuccess();
     }
 
-    @Nullable @Override public KeyPair get(String name, String location) {
+    @Nullable @Override public KeyPair get(String name, String locationId) {
         final Keypair retrieved =
-            osClient.useRegion(getRegion(location).id()).compute().keypairs().get(name);
-        return KeyPairBuilder.newBuilder().location(getRegion(location)).id(retrieved.getName())
+            osClient.useRegion(getRegion(locationId).id()).compute().keypairs().get(name);
+        return KeyPairBuilder.newBuilder().location(getRegion(locationId)).id(retrieved.getName())
             .providerId(retrieved.getName()).name(retrieved.getName()).build();
     }
 }

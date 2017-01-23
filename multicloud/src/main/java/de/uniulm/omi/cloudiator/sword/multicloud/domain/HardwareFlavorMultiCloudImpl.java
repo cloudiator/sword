@@ -19,10 +19,9 @@
 package de.uniulm.omi.cloudiator.sword.multicloud.domain;
 
 import com.google.common.base.MoreObjects;
-import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.multicloud.IdScopedByClouds;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -32,16 +31,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by daniel on 19.01.17.
  */
-public class HardwareFlavorMultiCloudImpl implements HardwareFlavorMultiCloud {
+public class HardwareFlavorMultiCloudImpl implements HardwareFlavor {
 
     private final HardwareFlavor delegate;
-    private final Cloud cloud;
+    private final String cloudId;
 
-    public HardwareFlavorMultiCloudImpl(HardwareFlavor delegate, Cloud cloud) {
+    public HardwareFlavorMultiCloudImpl(HardwareFlavor delegate, String cloudId) {
         checkNotNull(delegate, "delegate is null");
         this.delegate = delegate;
-        checkNotNull(cloud, "cloud is null");
-        this.cloud = cloud;
+        checkNotNull(cloudId, "cloudId is null");
+        this.cloudId = cloudId;
     }
 
     @Override public int numberOfCores() {
@@ -57,7 +56,7 @@ public class HardwareFlavorMultiCloudImpl implements HardwareFlavorMultiCloud {
     }
 
     @Override public String id() {
-        return IdScopedByClouds.from(delegate.id(), cloud.id()).scopedId();
+        return IdScopedByClouds.from(delegate.id(), cloudId).scopedId();
     }
 
     @Override public String providerId() {
@@ -68,19 +67,19 @@ public class HardwareFlavorMultiCloudImpl implements HardwareFlavorMultiCloud {
         if (!delegate.location().isPresent()) {
             return delegate.location();
         }
-        return Optional.of(new LocationMultiCloudImpl(delegate.location().get(), cloud));
+        return Optional.of(new LocationMultiCloudImpl(delegate.location().get(), cloudId));
     }
 
     @Override public String name() {
         return delegate.name();
     }
 
-    @Override public Cloud cloud() {
-        return cloud;
+    public String cloudId() {
+        return cloudId;
     }
 
     @Override public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id()).add("delegate", delegate)
-            .add("cloud", cloud).toString();
+            .add("cloudId", cloudId).toString();
     }
 }

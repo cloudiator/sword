@@ -16,20 +16,44 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.multicloud;
+package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
+import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.api.domain.Configuration;
+import de.uniulm.omi.cloudiator.sword.api.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.core.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.service.ServiceBuilder;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by daniel on 18.01.17.
  */
 public class BaseComputeServiceFactory implements ComputeServiceFactory {
 
+    @Nullable private final AbstractRemoteModule abstractRemoteModule;
+    @Nullable private final AbstractLoggingModule abstractLoggingModule;
+
+    @Inject(optional = true)
+    public BaseComputeServiceFactory(@Nullable AbstractRemoteModule abstractRemoteModule,
+        @Nullable AbstractLoggingModule abstractLoggingModule) {
+
+        this.abstractRemoteModule = abstractRemoteModule;
+        this.abstractLoggingModule = abstractLoggingModule;
+    }
+
     @Override public ComputeService computeService(Cloud cloud, Configuration configuration) {
 
-        return ServiceBuilder.newServiceBuilder().cloud(cloud).configuration(configuration).build();
+        final ServiceBuilder serviceBuilder =
+            ServiceBuilder.newServiceBuilder().cloud(cloud).configuration(configuration);
+        if(abstractLoggingModule != null) {
+            serviceBuilder.loggingModule(abstractLoggingModule);
+        }
+        if(abstractRemoteModule != null) {
+            serviceBuilder.remoteModule(abstractRemoteModule);
+        }
+        return serviceBuilder.build();
     }
 }

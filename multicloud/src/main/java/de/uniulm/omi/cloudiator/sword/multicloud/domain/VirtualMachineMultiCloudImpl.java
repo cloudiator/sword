@@ -19,11 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.multicloud.domain;
 
 import com.google.common.base.MoreObjects;
-import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.multicloud.IdScopedByClouds;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
 
 import java.util.Optional;
 import java.util.Set;
@@ -33,20 +32,20 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by daniel on 19.01.17.
  */
-public class VirtualMachineMultiCloudImpl implements VirtualMachineMultiCloud {
+public class VirtualMachineMultiCloudImpl implements VirtualMachine {
 
     private final VirtualMachine delegate;
-    private final Cloud cloud;
+    private final String cloudId;
 
-    public VirtualMachineMultiCloudImpl(VirtualMachine delegate, Cloud cloud) {
+    public VirtualMachineMultiCloudImpl(VirtualMachine delegate, String cloudId) {
         checkNotNull(delegate, "delegate is null");
         this.delegate = delegate;
-        checkNotNull(cloud, "cloud is null");
-        this.cloud = cloud;
+        checkNotNull(cloudId, "cloudId is null");
+        this.cloudId = cloudId;
     }
 
     @Override public String id() {
-        return IdScopedByClouds.from(delegate.id(), cloud.id()).scopedId();
+        return IdScopedByClouds.from(delegate.id(), cloudId).scopedId();
     }
 
     @Override public String providerId() {
@@ -57,7 +56,7 @@ public class VirtualMachineMultiCloudImpl implements VirtualMachineMultiCloud {
         if (!delegate.location().isPresent()) {
             return delegate.location();
         }
-        return Optional.of(new LocationMultiCloudImpl(delegate.location().get(), cloud));
+        return Optional.of(new LocationMultiCloudImpl(delegate.location().get(), cloudId));
     }
 
     @Override public String name() {
@@ -76,12 +75,12 @@ public class VirtualMachineMultiCloudImpl implements VirtualMachineMultiCloud {
         return delegate.loginCredential();
     }
 
-    @Override public Cloud cloud() {
-        return cloud;
+    public String cloudId() {
+        return cloudId;
     }
 
     @Override public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id()).add("delegate", delegate)
-            .add("cloud", cloud).toString();
+            .add("cloudId", cloudId).toString();
     }
 }

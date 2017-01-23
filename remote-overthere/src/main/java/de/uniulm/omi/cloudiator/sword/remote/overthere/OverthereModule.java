@@ -18,16 +18,15 @@
 
 package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
-import com.google.inject.Injector;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
-import de.uniulm.omi.cloudiator.sword.remote.internal.AbstractRemoteModule;
+import de.uniulm.omi.cloudiator.sword.remote.internal.ExtendedRemoteModule;
 
 /**
  * Created by Daniel Seybold on 06.05.2015.
  */
-public class OverthereModule extends AbstractRemoteModule {
+public class OverthereModule extends ExtendedRemoteModule {
 
-    @Override protected RemoteConnectionFactory getRemoteConnectionFactory(Injector injector) {
-        return injector.getInstance(OverthereDecidingConnectionFactory.class);
+    @Override protected Class<? extends RemoteConnectionFactory> getRemoteConnectionFactory() {
+        return OverthereDecidingConnectionFactory.class;
     }
 }
