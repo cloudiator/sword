@@ -45,14 +45,13 @@ public class OpenstackPublicIpService implements PublicIpService {
         this.openstackFloatingIpStrategy = openstackFloatingIpStrategy;
     }
 
-    @Override public String addPublicIp(String virtualMachineId) throws PublicIpException {
+    @Override public String addPublicIp(String virtualMachineId)  {
         checkNotNull(virtualMachineId);
         checkArgument(!virtualMachineId.isEmpty());
         return this.openstackFloatingIpStrategy.assignPublicIpToVirtualMachine(virtualMachineId);
     }
 
-    @Override public void removePublicIp(String virtualMachineId, String address)
-        throws PublicIpException {
+    @Override public void removePublicIp(String virtualMachineId, String address) {
 
         checkNotNull(virtualMachineId);
         checkArgument(!virtualMachineId.isEmpty());

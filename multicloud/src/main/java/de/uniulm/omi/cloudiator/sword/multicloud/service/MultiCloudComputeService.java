@@ -38,7 +38,7 @@ import static com.google.common.base.Preconditions.checkState;
  * Created by daniel on 20.01.17.
  */
 public class MultiCloudComputeService implements ComputeService {
-    
+
     private final ComputeServiceProvider computeServiceProvider;
 
     @Inject public MultiCloudComputeService(ComputeServiceProvider computeServiceProvider) {
@@ -88,11 +88,11 @@ public class MultiCloudComputeService implements ComputeService {
     }
 
     @Override public ConnectionService connectionService() {
-        return null;
+        return new MultiCloudConnectionService(computeServiceProvider);
     }
 
     @Override public Optional<PublicIpService> publicIpService() {
-        return null;
+        return Optional.of(new MultiCloudPublicIpService(computeServiceProvider));
     }
 
     @Override public Optional<KeyPairService> keyPairService() {

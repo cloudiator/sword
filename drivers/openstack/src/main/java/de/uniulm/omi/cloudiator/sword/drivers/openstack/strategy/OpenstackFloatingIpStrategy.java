@@ -19,7 +19,6 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
 import de.uniulm.omi.cloudiator.sword.api.strategy.PublicIpStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
 import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
@@ -57,8 +56,7 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
      * @todo maybe throw some other exception
      * @todo maybe retry assignment because of race condition?
      */
-    @Override public String assignPublicIpToVirtualMachine(String virtualMachineId)
-        throws PublicIpException {
+    @Override public String assignPublicIpToVirtualMachine(String virtualMachineId) {
 
         synchronized (OpenstackFloatingIpStrategy.class) {
 
@@ -70,7 +68,7 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
 
             //check if the floating ip service is available in the region of the virtual machine
             if (!openstackFloatingIpClient.isAvailable(virtualMachineScopedId.getLocationId())) {
-                throw new PublicIpException(
+                throw new IllegalStateException(
                     "Openstack floating IP extension is not available in region "
                         + virtualMachineScopedId.getLocationId() + ".");
             }
@@ -92,7 +90,7 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
             }
             if (toAssign == null) {
                 // no other idea -> throw exception
-                throw new PublicIpException(
+                throw new IllegalStateException(
                     "Neither possible to assign empty nor allocate new ip.");
             }
             // finally assign the found ip
@@ -108,8 +106,8 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
      * @todo make configurable if floating ip should only be detached from machine or if it should be deallocated.
      * Current implementation only removes it from virtual machine
      */
-    @Override public void removePublicIpFromVirtualMachine(String virtualMachineId, String address)
-        throws PublicIpException {
+    @Override public void removePublicIpFromVirtualMachine(String virtualMachineId,
+        String address) {
 
         checkNotNull(virtualMachineId);
         checkArgument(!virtualMachineId.isEmpty());
@@ -121,7 +119,7 @@ public class OpenstackFloatingIpStrategy implements PublicIpStrategy {
         IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
 
         if (!openstackFloatingIpClient.isAvailable(virtualMachineScopedId.getLocationId())) {
-            throw new PublicIpException(
+            throw new IllegalStateException(
                 "Openstack floating IP extension is not available in region "
                     + virtualMachineScopedId.getLocationId() + ".");
         }

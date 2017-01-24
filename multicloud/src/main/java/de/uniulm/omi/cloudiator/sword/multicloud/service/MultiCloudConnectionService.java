@@ -18,27 +18,31 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
+import com.google.common.collect.Lists;
 import com.google.common.net.HostAndPort;
 import de.uniulm.omi.cloudiator.common.os.RemoteType;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
+import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by daniel on 23.01.17.
  */
 public class MultiCloudConnectionService implements ConnectionService {
 
-    private final Collection<ConnectionService> connectionServices;
+    private final ComputeServiceProvider computeServiceProvider;
 
-    public MultiCloudConnectionService(Collection<ConnectionService> connectionServices) {
-        checkNotNull(connectionServices, "connectionServices is null");
-        this.connectionServices = connectionServices;
+    public MultiCloudConnectionService(ComputeServiceProvider computeServiceProvider) {
+        checkNotNull(computeServiceProvider, "computeServiceProvider is null");
+        this.computeServiceProvider = computeServiceProvider;
     }
 
     @Override
@@ -46,8 +50,13 @@ public class MultiCloudConnectionService implements ConnectionService {
         LoginCredential loginCredential) throws RemoteException {
 
         //for the time being we simple choose a random connection service from the list.
+        checkState(!computeServiceProvider.all().isEmpty(),
+            "Connection service requires at least one registered compute service");
 
-
-        return null;
+        final ArrayList<ComputeService> computeServices =
+            Lists.newArrayList(computeServiceProvider.all().values());
+        Collections.shuffle(computeServices);
+        return computeServices.get(0).connectionService()
+            .getRemoteConnection(hostAndPort, remoteType, loginCredential);
     }
 }

@@ -31,22 +31,20 @@ public interface PublicIpService {
      *
      * @param virtualMachineId the unique identifier for the virtual machine.
      * @return the assigned ip address as string (mandatory).
-     * @throws PublicIpException        if an error occurs during the assignment of the ip.
      * @throws NullPointerException     if the virtualMachineId is null
      * @throws IllegalArgumentException if the virtualMachineId is empty.
      * @todo define format of the address.
      */
-    String addPublicIp(String virtualMachineId) throws PublicIpException;
+    String addPublicIp(String virtualMachineId);
 
     /**
      * Removes the public ip from the virtual machine.
      *
      * @param virtualMachineId the unique identifier for the virtual machine (mandatory).
      * @param address          the ip address which shall be removed (mandatory).
-     * @throws PublicIpException        if an error occurs during the de-assignment of the ip.
      * @throws NullPointerException     if one of the argument is null.
      * @throws IllegalArgumentException if one of the arguments is empty.
      * @todo define format of the address.
      */
-    void removePublicIp(String virtualMachineId, String address) throws PublicIpException;
+    void removePublicIp(String virtualMachineId, String address);
 }

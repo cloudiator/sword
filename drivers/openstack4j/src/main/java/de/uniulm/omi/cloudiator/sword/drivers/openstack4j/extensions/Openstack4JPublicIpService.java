@@ -19,7 +19,6 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.PublicIpStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
@@ -60,18 +59,18 @@ public class Openstack4JPublicIpService implements PublicIpService {
     }
 
     private FloatingIP allocateFromPool(ComputeFloatingIPService computeFloatingIPService,
-        String virtualMachineId) throws PublicIpException {
+        String virtualMachineId) {
         final Optional<String> floatingIpPool = floatingIpPoolStrategy.apply(virtualMachineId);
         if (floatingIpPool.isPresent()) {
             return computeFloatingIPService.allocateIP(floatingIpPool.get());
         }
-        throw new PublicIpException(String.format(
+        throw new IllegalStateException(String.format(
             "Need to allocate floatingIp but pool could not be resolved. Try to configure %s.",
             Openstack4JConstants.FLOATING_IP_POOL_PROPERTY));
     }
 
     private String findPublicIp(ComputeFloatingIPService computeFloatingIPService,
-        String virtualMachineId) throws PublicIpException {
+        String virtualMachineId) {
 
 
         final Optional<? extends FloatingIP> any = computeFloatingIPService.list().stream()
@@ -94,7 +93,7 @@ public class Openstack4JPublicIpService implements PublicIpService {
         return server;
     }
 
-    @Override public String addPublicIp(String virtualMachineId) throws PublicIpException {
+    @Override public String addPublicIp(String virtualMachineId) {
         checkNotNull(virtualMachineId, "virtualMachineId is null");
         checkArgument(!virtualMachineId.isEmpty(), "virtualMachineId is empty");
 
@@ -112,8 +111,7 @@ public class Openstack4JPublicIpService implements PublicIpService {
 
     }
 
-    @Override public void removePublicIp(String virtualMachineId, String address)
-        throws PublicIpException {
+    @Override public void removePublicIp(String virtualMachineId, String address) {
         checkNotNull(virtualMachineId, "virtualMachineId is null");
         checkArgument(!virtualMachineId.isEmpty(), "virtualMachineId is empty");
 

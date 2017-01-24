@@ -40,8 +40,9 @@ public class ColonDelimitedIdScopedByCloudImpl implements IdScopedByCloud {
                 scopedId, DELIMITER, parts.length));
 
         }
-        this.id = parts[0];
-        this.cloudId = parts[1];
+        this.cloudId = parts[0];
+        this.id = parts[1];
+
     }
 
     ColonDelimitedIdScopedByCloudImpl(String id, String cloudId) {
