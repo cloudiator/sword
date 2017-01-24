@@ -87,8 +87,9 @@ public class Openstack4JKeyPairService implements KeyPairService {
         checkNotNull(osKeyPair, "keyPair was not generated.");
         checkState(osKeyPair.getPrivateKey() != null && publicKey == null,
             "privateKeyPair not present in generated keyPair (when no public key is supplied)");
-        return KeyPairBuilder.newBuilder().id(osKeyPair.getName()).providerId(osKeyPair.getName())
-            .location(region).publicKey(osKeyPair.getPublicKey())
+        return KeyPairBuilder.newBuilder()
+            .id(IdScopeByLocations.from(region.id(), osKeyPair.getName()).getIdWithLocation())
+            .providerId(osKeyPair.getName()).location(region).publicKey(osKeyPair.getPublicKey())
             .privateKey(osKeyPair.getPrivateKey()).name(osKeyPair.getName()).build();
     }
 

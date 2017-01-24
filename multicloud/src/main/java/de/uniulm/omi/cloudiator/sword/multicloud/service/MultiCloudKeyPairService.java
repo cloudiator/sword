@@ -40,12 +40,12 @@ public class MultiCloudKeyPairService implements KeyPairService {
         this.computeServiceProvider = computeServiceProvider;
     }
 
-    private KeyPairService keyPairService(String locationId) {
-        final IdScopedByCloud locationScopedId = IdScopedByClouds.from(locationId);
+    private KeyPairService keyPairService(String scopedId) {
+        final IdScopedByCloud ScopedIdByCloud = IdScopedByClouds.from(scopedId);
         final Optional<KeyPairService> keyPairServiceOptional =
-            computeServiceProvider.forId(locationScopedId.cloudId()).keyPairService();
+            computeServiceProvider.forId(ScopedIdByCloud.cloudId()).keyPairService();
         checkState(keyPairServiceOptional.isPresent(), String
-            .format("KeyPairService is not present for cloud %s.", locationScopedId.cloudId()));
+            .format("KeyPairService is not present for cloud %s.", ScopedIdByCloud.cloudId()));
         return keyPairServiceOptional.get();
     }
 
@@ -72,15 +72,21 @@ public class MultiCloudKeyPairService implements KeyPairService {
             IdScopedByClouds.from(locationId).cloudId());
     }
 
-    @Override public boolean delete(String name, String locationId) {
-        checkNotNull(name, "name is null");
-        checkArgument(!name.isEmpty(), "name is empty");
+    @Override public boolean delete(String id) {
+        checkNotNull(id, "id is null");
+        checkArgument(!id.isEmpty(), "id is empty");
 
-
-        return false;
+        IdScopedByCloud scopedKeyPairId = IdScopedByClouds.from(id);
+        return keyPairService(id).delete(scopedKeyPairId.id());
     }
 
-    @Nullable @Override public KeyPair get(String name, String locationId) {
-        return null;
+    @Nullable @Override public KeyPair get(String id) {
+        checkNotNull(id, "id is null");
+        checkArgument(!id.isEmpty(), "id is empty");
+
+        IdScopedByCloud idScopedByCloud = IdScopedByClouds.from(id);
+
+        return new KeyPairMultiCloudImpl(keyPairService(id).get(idScopedByCloud.id()),
+            idScopedByCloud.cloudId());
     }
 }

@@ -21,9 +21,12 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.converters;
 
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.core.domain.KeyPairBuilder;
+import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.domain.KeyPairInRegion;
 
 import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by daniel on 19.05.15.
@@ -36,8 +39,12 @@ public class NovaKeyPairToKeypair
         if (keyPair == null) {
             return null;
         }
+        checkState(keyPair.location().isPresent(), String
+            .format("Expected keyPair %s to have a location, but location is not present.",
+                keyPair));
         return KeyPairBuilder.newBuilder().location(keyPair.location().orElse(null))
-            .id(keyPair.getName()).providerId(keyPair.getName()).name(keyPair.getName())
+            .id(IdScopeByLocations.from(keyPair.location().get().id(), keyPair.getName())
+                .getIdWithLocation()).providerId(keyPair.getName()).name(keyPair.getName())
             .privateKey(keyPair.getPrivateKey()).publicKey(keyPair.getPublicKey()).build();
     }
 }

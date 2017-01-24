@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud.domain;
 
+import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
@@ -68,5 +69,10 @@ public class KeyPairMultiCloudImpl implements KeyPair {
 
     @Override public Optional<String> privateKey() {
         return delegate.privateKey();
+    }
+
+    @Override public String toString() {
+        return MoreObjects.toStringHelper(this).add("id", id()).add("delegate", delegate)
+            .add("cloudId", cloudId).toString();
     }
 }

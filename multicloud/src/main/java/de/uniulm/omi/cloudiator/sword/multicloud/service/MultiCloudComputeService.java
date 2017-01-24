@@ -96,7 +96,7 @@ public class MultiCloudComputeService implements ComputeService {
     }
 
     @Override public Optional<KeyPairService> keyPairService() {
-        return null;
+        return Optional.of(new MultiCloudKeyPairService(computeServiceProvider));
     }
 
     @Override public Optional<SecurityGroupService> securityGroupService() {
