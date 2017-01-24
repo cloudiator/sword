@@ -24,8 +24,10 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.KeyPairBuilder;
+import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.core.util.LocationHierarchy;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.Keypair;
@@ -90,17 +92,23 @@ public class Openstack4JKeyPairService implements KeyPairService {
             .privateKey(osKeyPair.getPrivateKey()).name(osKeyPair.getName()).build();
     }
 
-    @Override public boolean delete(String name, String locationId) {
-        checkNotNull(name, "name is null");
-        checkNotNull(locationId, "location is null");
-        return osClient.useRegion(getRegion(locationId).id()).compute().keypairs().delete(name)
-            .isSuccess();
+    @Override public boolean delete(String id) {
+        checkNotNull(id, "id is null");
+        checkArgument(!id.isEmpty(), "id is empty");
+        final IdScopedByLocation scopedId = IdScopeByLocations.from(id);
+        return osClient.useRegion(getRegion(scopedId.getLocationId()).id()).compute().keypairs()
+            .delete(scopedId.getId()).isSuccess();
     }
 
-    @Nullable @Override public KeyPair get(String name, String locationId) {
+    @Nullable @Override public KeyPair get(String id) {
+        checkNotNull(id);
+        checkArgument(!id.isEmpty());
+        final IdScopedByLocation scopedId = IdScopeByLocations.from(id);
         final Keypair retrieved =
-            osClient.useRegion(getRegion(locationId).id()).compute().keypairs().get(name);
-        return KeyPairBuilder.newBuilder().location(getRegion(locationId)).id(retrieved.getName())
-            .providerId(retrieved.getName()).name(retrieved.getName()).build();
+            osClient.useRegion(getRegion(scopedId.getLocationId()).id()).compute().keypairs()
+                .get(scopedId.getId());
+        return KeyPairBuilder.newBuilder().location(getRegion(scopedId.getLocationId()))
+            .id(scopedId.getIdWithLocation()).providerId(retrieved.getName())
+            .name(retrieved.getName()).build();
     }
 }

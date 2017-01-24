@@ -22,7 +22,6 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
-import de.uniulm.omi.cloudiator.sword.api.exceptions.DriverException;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocation;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocationImpl;
 import org.jclouds.compute.ComputeServiceContext;
@@ -101,7 +100,7 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
             checkState(nodesInGroup.size() == 1);
             return nodesInGroup.iterator().next();
         } catch (RunNodesException e) {
-            throw new DriverException(e);
+            throw new RuntimeException(e);
         }
     }
 

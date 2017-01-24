@@ -28,7 +28,6 @@ import de.uniulm.omi.cloudiator.flexiant.client.api.ResourceInLocation;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.*;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.generic.ResourceImpl;
 import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
-import de.uniulm.omi.cloudiator.sword.api.exceptions.DriverException;
 import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 
 import javax.inject.Named;
@@ -110,7 +109,7 @@ import static com.google.common.base.Preconditions.checkState;
             return this.flexiantComputeClient.getImages(null).stream().filter(resourceFilter())
                 .collect(Collectors.toSet());
         } catch (FlexiantException e) {
-            throw new DriverException("Could not retrieve images", e);
+            throw new RuntimeException("Could not retrieve images", e);
         }
     }
 
@@ -119,7 +118,7 @@ import static com.google.common.base.Preconditions.checkState;
             return this.flexiantComputeClient.getHardwareFlavors(null).stream()
                 .filter(resourceFilter()).collect(Collectors.toSet());
         } catch (FlexiantException e) {
-            throw new DriverException("Could not retrieve hardware", e);
+            throw new RuntimeException("Could not retrieve hardware", e);
         }
     }
 
@@ -128,7 +127,7 @@ import static com.google.common.base.Preconditions.checkState;
             return this.flexiantComputeClient.getLocations().stream().filter(locationFilter())
                 .collect(Collectors.toSet());
         } catch (FlexiantException e) {
-            throw new DriverException("Could not retrieve images", e);
+            throw new RuntimeException("Could not retrieve images", e);
         }
     }
 
@@ -138,7 +137,7 @@ import static com.google.common.base.Preconditions.checkState;
                 .getServers(serviceContext.configuration().nodeGroup(), null).stream()
                 .filter(resourceFilter()).collect(Collectors.toSet());
         } catch (FlexiantException e) {
-            throw new DriverException("Could not retrieve servers.", e);
+            throw new RuntimeException("Could not retrieve servers.", e);
         }
     }
 
@@ -146,7 +145,7 @@ import static com.google.common.base.Preconditions.checkState;
         try {
             return this.flexiantComputeClient.createServer(serverTemplate);
         } catch (FlexiantException e) {
-            throw new DriverException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -154,7 +153,7 @@ import static com.google.common.base.Preconditions.checkState;
         try {
             this.flexiantComputeClient.deleteServer(serverUUID);
         } catch (FlexiantException e) {
-            throw new DriverException(e);
+            throw new RuntimeException(e);
         }
     }
 

@@ -18,8 +18,6 @@
 
 package de.uniulm.omi.cloudiator.sword.api.strategy;
 
-import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
-
 /**
  * The strategy interface for the (de-)assignment of public ip.
  */
@@ -30,22 +28,19 @@ public interface PublicIpStrategy {
      *
      * @param virtualMachineId the unique identifier for the virtual machine.
      * @return the assigned public ip.
-     * @throws PublicIpException        if an error occurs during the assignment.
      * @throws NullPointerException     if the id is null
      * @throws IllegalArgumentException if the id is empty.
      */
-    String assignPublicIpToVirtualMachine(String virtualMachineId) throws PublicIpException;
+    String assignPublicIpToVirtualMachine(String virtualMachineId);
 
     /**
      * Removes a public ip from a virtual machine.
      *
      * @param virtualMachineId the unique identifier for the virtual machine.
      * @param address          the address to remove.
-     * @throws PublicIpException        if an error occurs during the de-assignment.
      * @throws NullPointerException     if any of the argument is null.
      * @throws IllegalArgumentException if any of the string arguments is empty.
      */
-    void removePublicIpFromVirtualMachine(String virtualMachineId, String address)
-        throws PublicIpException;
+    void removePublicIpFromVirtualMachine(String virtualMachineId, String address);
 
 }

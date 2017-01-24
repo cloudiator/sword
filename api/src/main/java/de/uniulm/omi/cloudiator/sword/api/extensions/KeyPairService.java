@@ -19,7 +19,6 @@
 package de.uniulm.omi.cloudiator.sword.api.extensions;
 
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
-import de.uniulm.omi.cloudiator.sword.api.exceptions.KeyPairException;
 
 import javax.annotation.Nullable;
 
@@ -36,7 +35,6 @@ public interface KeyPairService {
      * @param name       the name for the keypair (nullable)
      * @param locationId the locationId to create the keyPair in
      * @return the created keypair, will hold private key.
-     * @throws KeyPairException         if an error occurs during creation.
      * @throws IllegalArgumentException if the name is empty.
      */
     KeyPair create(@Nullable String name, String locationId);
@@ -48,7 +46,6 @@ public interface KeyPairService {
      * @param publicKey  the public key (non null)
      * @param locationId the locationId to create the keyPair in
      * @return the registered keypair
-     * @throws KeyPairException         if an error occurs during creation.
      * @throws NullPointerException     if the public key is null.
      * @throws IllegalArgumentException if any of the supplied strings are empty.
      */
@@ -57,26 +54,22 @@ public interface KeyPairService {
     /**
      * Deletes the key pair from the cloud provider.
      *
-     * @param name       the name of the keypair to delete (non null)
-     * @param locationId the location id
+     * @param id id of the keypair
      * @return true if it was deleted successful, false of not.
-     * @throws KeyPairException         if an error occurs during creation.
-     * @throws NullPointerException     if the name is null
-     * @throws IllegalArgumentException if the name is empty.
+     * @throws NullPointerException     if the id is null.
+     * @throws IllegalArgumentException if the id is empty.
      */
-    boolean delete(String name, String locationId);
+    boolean delete(String id);
 
     /**
      * Retrieves information about the key pair.
      *
-     * @param name       the name of the keypair (non null).
-     * @param locationId the locationId
+     * @param id of the keypair
      * @return the keypair, or null if not found.
-     * @throws KeyPairException         if an error occurs during creation.
-     * @throws NullPointerException     if the name is null.
-     * @throws IllegalArgumentException if the name is empty.
+     * @throws NullPointerException     if the id is null.
+     * @throws IllegalArgumentException if the id is empty.
      */
-    @Nullable KeyPair get(String name, String locationId);
+    @Nullable KeyPair get(String id);
 
 
 }

@@ -26,7 +26,9 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
+import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.core.util.LocationHierarchy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.domain.KeyPairInRegion;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
@@ -81,8 +83,8 @@ public class OpenstackKeyPairService implements KeyPairService {
         checkState(location != null, "Did not find location with id" + locationId);
 
         Location region =
-            LocationHierarchy.of(location).firstParentLocationWithScope(LocationScope.REGION).orElseThrow(
-                () -> new IllegalStateException(
+            LocationHierarchy.of(location).firstParentLocationWithScope(LocationScope.REGION)
+                .orElseThrow(() -> new IllegalStateException(
                     String.format("Could not find parent region of location %s", location)));
 
         final Optional<KeyPairApi> keyPairApi = novaApi.getKeyPairApi(region.providerId());
@@ -111,16 +113,19 @@ public class OpenstackKeyPairService implements KeyPairService {
             locationGetStrategy.get(locationId)));
     }
 
-    @Override public boolean delete(String name, String locationId) {
-        checkNotNull(name);
-        checkArgument(!name.isEmpty());
-        return getKeyPairApi(locationId).delete(name);
+    @Override public boolean delete(String id) {
+        checkNotNull(id);
+        checkArgument(!id.isEmpty());
+        return getKeyPairApi(IdScopeByLocations.from(id).getLocationId())
+            .delete(IdScopeByLocations.from(id).getId());
     }
 
-    @Override public KeyPair get(String name, String locationId) {
-        checkNotNull(name);
-        checkArgument(!name.isEmpty());
-        return keyPairConverter.apply(new KeyPairInRegion(getKeyPairApi(locationId).get(name),
-            locationGetStrategy.get(locationId)));
+    @Override public KeyPair get(String id) {
+        checkNotNull(id);
+        checkArgument(!id.isEmpty());
+        final IdScopedByLocation scopedId = IdScopeByLocations.from(id);
+        return keyPairConverter.apply(
+            new KeyPairInRegion(getKeyPairApi(scopedId.getLocationId()).get(scopedId.getId()),
+                locationGetStrategy.get(scopedId.getLocationId())));
     }
 }

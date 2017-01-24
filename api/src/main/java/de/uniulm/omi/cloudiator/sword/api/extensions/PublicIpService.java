@@ -18,8 +18,6 @@
 
 package de.uniulm.omi.cloudiator.sword.api.extensions;
 
-import de.uniulm.omi.cloudiator.sword.api.exceptions.PublicIpException;
-
 /**
  * An interface that handles the assignment of public ips to
  * virtual machines.
