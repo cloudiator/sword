@@ -100,6 +100,6 @@ public class MultiCloudComputeService implements ComputeService {
     }
 
     @Override public Optional<SecurityGroupExtension> securityGroupExtension() {
-        return null;
+        return Optional.of(new MultiCloudSecurityGroupExtension(computeServiceProvider));
     }
 }
