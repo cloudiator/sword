@@ -63,7 +63,7 @@ public class Openstack4JSecurityGroupExtension implements SecurityGroupExtension
         return createSecurityGroupStrategy.create(name, locationId);
     }
 
-    @Override public SecurityGroup addRule(SecurityGroupRule rule, SecurityGroup securityGroup) {
-        return assignSecurityGroupRuleToSecurityGroupStrategy.assign(rule, securityGroup);
+    @Override public SecurityGroup addRule(SecurityGroupRule rule, String securityGroupId) {
+        return assignSecurityGroupRuleToSecurityGroupStrategy.assign(rule, securityGroupId);
     }
 }

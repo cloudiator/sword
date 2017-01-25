@@ -94,9 +94,10 @@ public class JCloudsSecurityGroupExtension implements SecurityGroupExtension {
             .apply(this.securityGroupExtension.createSecurityGroup(name, jcloudsLocation));
     }
 
-    @Override public SecurityGroup addRule(SecurityGroupRule rule, SecurityGroup securityGroup) {
-        checkNotNull(rule);
-        checkNotNull(securityGroup);
+    @Override public SecurityGroup addRule(SecurityGroupRule rule, String securityGroupId) {
+        checkNotNull(rule, "rule is null");
+        checkNotNull(securityGroupId, "securityGroupId is null");
+        checkArgument(!securityGroupId.isEmpty(), "securityGroupId is empty");
 
         org.jclouds.net.domain.IpProtocol ipProtocol;
         switch (rule.ipProtocol()) {
@@ -116,7 +117,7 @@ public class JCloudsSecurityGroupExtension implements SecurityGroupExtension {
                 throw new AssertionError("unknown ipProtocol" + rule.ipProtocol());
         }
         org.jclouds.compute.domain.SecurityGroup jcloudsSecurityGroup =
-            securityGroupExtension.getSecurityGroupById(securityGroup.id());
+            securityGroupExtension.getSecurityGroupById(securityGroupId);
 
         IpPermission ipPermission =
             new IpPermission.Builder().cidrBlock(rule.cidr().toString()).fromPort(rule.fromPort())

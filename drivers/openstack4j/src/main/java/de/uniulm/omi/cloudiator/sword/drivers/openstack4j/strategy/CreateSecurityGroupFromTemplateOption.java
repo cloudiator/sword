@@ -93,7 +93,7 @@ public class CreateSecurityGroupFromTemplateOption {
         templateOptions.inboundPorts().forEach(integer -> {
             securityGroupExtension.addRule(
                 SecurityGroupRuleBuilder.newBuilder().ipProtocol(IpProtocol.ALL).fromPort(integer)
-                    .toPort(integer).cidr(CidrImpl.ALL).build(), securityGroup);
+                    .toPort(integer).cidr(CidrImpl.ALL).build(), securityGroup.id());
         });
         return securityGroup.name();
     }

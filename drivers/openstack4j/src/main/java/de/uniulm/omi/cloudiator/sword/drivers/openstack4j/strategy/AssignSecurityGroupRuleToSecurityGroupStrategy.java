@@ -22,6 +22,8 @@ import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
+import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
+import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.core.util.LocationHierarchy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.SecurityGroupInRegion;
 import org.openstack4j.api.Builders;
@@ -32,8 +34,7 @@ import org.openstack4j.model.compute.SecGroupExtension;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.*;
 
 /**
  * Created by daniel on 30.11.16.
@@ -55,22 +56,21 @@ public class AssignSecurityGroupRuleToSecurityGroupStrategy {
         this.osClient = osClient;
     }
 
-    public SecurityGroup assign(SecurityGroupRule securityGroupRule, SecurityGroup securityGroup) {
+    public SecurityGroup assign(SecurityGroupRule securityGroupRule, String securityGroupId) {
         checkNotNull(securityGroupRule, "securityGroupRule is null");
-        checkNotNull(securityGroup, "securityGroup is null");
-        checkState(securityGroup.location().isPresent(),
-            String.format("securityGroup %s has no location", securityGroup));
+        checkNotNull(securityGroupId, "securityGroupId is null");
+        checkArgument(!securityGroupId.isEmpty(), "securityGroupId is empty");
 
         SecGroupExtension.Rule createdRule;
         if (securityGroupRule.ipProtocol().equals(IpProtocol.ALL)) {
             createdRule = createRule(securityGroupRule.cidr().toString(), IpProtocol.TCP.toString(),
-                securityGroupRule.fromPort(), securityGroupRule.toPort(), securityGroup);
+                securityGroupRule.fromPort(), securityGroupRule.toPort(), securityGroupId);
             createdRule = createRule(securityGroupRule.cidr().toString(), IpProtocol.UDP.toString(),
-                securityGroupRule.fromPort(), securityGroupRule.toPort(), securityGroup);
+                securityGroupRule.fromPort(), securityGroupRule.toPort(), securityGroupId);
         } else {
             createdRule = createRule(securityGroupRule.cidr().toString(),
                 securityGroupRule.ipProtocol().toString(), securityGroupRule.fromPort(),
-                securityGroupRule.toPort(), securityGroup);
+                securityGroupRule.toPort(), securityGroupId);
         }
 
         SecGroupExtension.Rule finalCreatedRule = createdRule;
@@ -78,12 +78,19 @@ public class AssignSecurityGroupRuleToSecurityGroupStrategy {
             securityGroupRemote -> securityGroupRemote.providerId()
                 .equals(finalCreatedRule.getParentGroupId())).findAny();
         checkState(any.isPresent(),
-            String.format("Could not find security group %s.", securityGroup));
+            String.format("Could not find security group %s.", securityGroupId));
         return any.get();
     }
 
     private SecGroupExtension.Rule createRule(String cidr, String ipProtocol, int from, int to,
-        SecurityGroup securityGroup) {
+        String securityGroupId) {
+
+        final IdScopedByLocation scopedByLocation = IdScopeByLocations.from(securityGroupId);
+
+        SecurityGroup securityGroup = securityGroupSupplier.get().stream().filter(
+            securityGroupCandidate -> securityGroupCandidate.id().equals(scopedByLocation.getId()))
+            .findAny().orElseThrow(() -> new IllegalStateException(
+                String.format("Could not find security group with id %s.", securityGroupId)));
 
         Location region = LocationHierarchy.of(securityGroup.location().get())
             .firstParentLocationWithScope(LocationScope.REGION).orElseThrow(

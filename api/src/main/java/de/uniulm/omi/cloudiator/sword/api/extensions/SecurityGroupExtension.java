@@ -32,6 +32,6 @@ public interface SecurityGroupExtension {
 
     SecurityGroup createSecurityGroup(String name, String locationId);
 
-    SecurityGroup addRule(SecurityGroupRule rule, SecurityGroup securityGroup);
+    SecurityGroup addRule(SecurityGroupRule rule, String securityGroupId);
 
 }
