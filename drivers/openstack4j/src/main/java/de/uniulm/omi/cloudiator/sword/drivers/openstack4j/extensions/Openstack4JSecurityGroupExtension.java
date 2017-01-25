@@ -23,7 +23,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
-import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.AssignSecurityGroupRuleToSecurityGroupStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.CreateSecurityGroupStrategy;
 
@@ -34,7 +34,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by daniel on 29.11.16.
  */
-public class Openstack4JSecurityGroupService implements SecurityGroupService {
+public class Openstack4JSecurityGroupExtension implements SecurityGroupExtension {
 
     private final Supplier<Set<SecurityGroup>> securityGroupSupplier;
     private final AssignSecurityGroupRuleToSecurityGroupStrategy
@@ -42,7 +42,7 @@ public class Openstack4JSecurityGroupService implements SecurityGroupService {
     private final CreateSecurityGroupStrategy createSecurityGroupStrategy;
 
     @Inject
-    public Openstack4JSecurityGroupService(Supplier<Set<SecurityGroup>> securityGroupSupplier,
+    public Openstack4JSecurityGroupExtension(Supplier<Set<SecurityGroup>> securityGroupSupplier,
         AssignSecurityGroupRuleToSecurityGroupStrategy assignSecurityGroupRuleToSecurityGroupStrategy,
         CreateSecurityGroupStrategy createSecurityGroupStrategy) {
         checkNotNull(assignSecurityGroupRuleToSecurityGroupStrategy,

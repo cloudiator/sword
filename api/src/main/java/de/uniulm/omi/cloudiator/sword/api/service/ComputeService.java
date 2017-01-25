@@ -21,9 +21,9 @@ package de.uniulm.omi.cloudiator.sword.api.service;
 import com.google.common.base.Optional;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
-import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
-import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
-import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
+import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 
 /**
  * Compute service interface. Offers method for interaction with the compute API of the cloud
@@ -66,23 +66,23 @@ public interface ComputeService {
     ConnectionService connectionService();
 
     /**
-     * Returns an {@link Optional} {@link PublicIpService} for the cloud provider.
+     * Returns an {@link Optional} {@link PublicIpExtension} for the cloud provider.
      *
-     * @return an optional public ip service.
+     * @return an optional public ip extension.
      */
-    Optional<PublicIpService> publicIpService();
+    Optional<PublicIpExtension> publicIpExtension();
 
     /**
-     * Returns an {@link Optional} {@link KeyPairService} for the cloud provider.
+     * Returns an {@link Optional} {@link KeyPairExtension} for the cloud provider.
      *
-     * @return an optional key pair service.
+     * @return an optional key pair extension.
      */
-    Optional<KeyPairService> keyPairService();
+    Optional<KeyPairExtension> keyPairExtension();
 
     /**
-     * Returns an {@link Optional} {@link SecurityGroupService} for the cloud provider.
+     * Returns an {@link Optional} {@link SecurityGroupExtension} for the cloud provider.
      *
-     * @return an optional security group service.
+     * @return an optional security group extension.
      */
-    Optional<SecurityGroupService> securityGroupService();
+    Optional<SecurityGroupExtension> securityGroupExtension();
 }

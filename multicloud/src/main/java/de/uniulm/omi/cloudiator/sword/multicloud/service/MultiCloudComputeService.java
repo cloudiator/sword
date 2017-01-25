@@ -22,9 +22,9 @@ import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
-import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
-import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
-import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
+import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
 import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
@@ -91,15 +91,15 @@ public class MultiCloudComputeService implements ComputeService {
         return new MultiCloudConnectionService(computeServiceProvider);
     }
 
-    @Override public Optional<PublicIpService> publicIpService() {
-        return Optional.of(new MultiCloudPublicIpService(computeServiceProvider));
+    @Override public Optional<PublicIpExtension> publicIpExtension() {
+        return Optional.of(new MultiCloudPublicIpExtension(computeServiceProvider));
     }
 
-    @Override public Optional<KeyPairService> keyPairService() {
-        return Optional.of(new MultiCloudKeyPairService(computeServiceProvider));
+    @Override public Optional<KeyPairExtension> keyPairExtension() {
+        return Optional.of(new MultiCloudKeyPairExtension(computeServiceProvider));
     }
 
-    @Override public Optional<SecurityGroupService> securityGroupService() {
+    @Override public Optional<SecurityGroupExtension> securityGroupExtension() {
         return null;
     }
 }

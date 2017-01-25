@@ -27,17 +27,17 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
-import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
-import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
-import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
+import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters.*;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.*;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JKeyPairService;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JPublicIpService;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JSecurityGroupService;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JKeyPairExtension;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JPublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JSecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.*;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.*;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.*;
@@ -78,16 +78,16 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
         return injector.getInstance(Openstack4jDeleteVirtualMachineStrategy.class);
     }
 
-    @Override protected Optional<PublicIpService> publicIpService(Injector injector) {
-        return Optional.of(injector.getInstance(Openstack4JPublicIpService.class));
+    @Override protected Optional<PublicIpExtension> publicIpService(Injector injector) {
+        return Optional.of(injector.getInstance(Openstack4JPublicIpExtension.class));
     }
 
-    @Override protected Optional<SecurityGroupService> securityGroupService(Injector injector) {
-        return Optional.of(injector.getInstance(Openstack4JSecurityGroupService.class));
+    @Override protected Optional<SecurityGroupExtension> securityGroupService(Injector injector) {
+        return Optional.of(injector.getInstance(Openstack4JSecurityGroupExtension.class));
     }
 
-    @Override protected Optional<KeyPairService> keyPairService(Injector injector) {
-        return Optional.of(injector.getInstance(Openstack4JKeyPairService.class));
+    @Override protected Optional<KeyPairExtension> keyPairService(Injector injector) {
+        return Optional.of(injector.getInstance(Openstack4JKeyPairExtension.class));
     }
 
     @Override protected void configure() {

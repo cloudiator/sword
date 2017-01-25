@@ -22,7 +22,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
-import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
@@ -39,13 +39,13 @@ import static com.google.common.base.Preconditions.*;
 /**
  * Created by daniel on 30.11.16.
  */
-public class Openstack4JKeyPairService implements KeyPairService {
+public class Openstack4JKeyPairExtension implements KeyPairExtension {
 
     private final OSClient osClient;
     private final NamingStrategy namingStrategy;
     private final GetStrategy<String, Location> locationGetStrategy;
 
-    @Inject public Openstack4JKeyPairService(OSClient osClient, NamingStrategy namingStrategy,
+    @Inject public Openstack4JKeyPairExtension(OSClient osClient, NamingStrategy namingStrategy,
         GetStrategy<String, Location> locationGetStrategy) {
         checkNotNull(locationGetStrategy, "locationGetStrategy is null");
         this.locationGetStrategy = locationGetStrategy;

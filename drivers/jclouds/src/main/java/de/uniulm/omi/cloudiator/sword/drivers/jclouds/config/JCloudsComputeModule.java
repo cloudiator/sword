@@ -27,13 +27,13 @@ import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.common.os.OperatingSystemFamily;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
-import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.core.config.AbstractComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.*;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.*;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.extensions.JCloudsSecurityGroupService;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.extensions.JCloudsSecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsDeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers.HardwareSupplier;
@@ -164,9 +164,9 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
         return JCloudsComputeMetadataToVirtualMachine.class;
     }
 
-    @Override protected Optional<SecurityGroupService> securityGroupService(Injector injector) {
+    @Override protected Optional<SecurityGroupExtension> securityGroupService(Injector injector) {
         //todo should be dependent on jclouds security group extension being present.
-        return Optional.of(injector.getInstance(JCloudsSecurityGroupService.class));
+        return Optional.of(injector.getInstance(JCloudsSecurityGroupExtension.class));
     }
 
     protected abstract Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter();

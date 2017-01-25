@@ -24,10 +24,9 @@ import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
-import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
 import org.jclouds.compute.ComputeServiceContext;
-import org.jclouds.compute.extensions.SecurityGroupExtension;
 import org.jclouds.net.domain.IpPermission;
 
 import java.util.Set;
@@ -38,14 +37,14 @@ import static com.google.common.base.Preconditions.*;
 /**
  * Created by daniel on 01.07.16.
  */
-public class JCloudsSecurityGroupService implements SecurityGroupService {
+public class JCloudsSecurityGroupExtension implements SecurityGroupExtension {
 
-    private final SecurityGroupExtension securityGroupExtension;
+    private final org.jclouds.compute.extensions.SecurityGroupExtension securityGroupExtension;
     private final OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup>
         securityGroupConverter;
     private final OneWayConverter<Location, org.jclouds.domain.Location> locationConverter;
 
-    @Inject public JCloudsSecurityGroupService(JCloudsViewFactory jCloudsViewFactory,
+    @Inject public JCloudsSecurityGroupExtension(JCloudsViewFactory jCloudsViewFactory,
         OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup> securityGroupConverter,
         OneWayConverter<Location, org.jclouds.domain.Location> locationConverter) {
 
@@ -59,7 +58,7 @@ public class JCloudsSecurityGroupService implements SecurityGroupService {
 
         final ComputeServiceContext computeServiceContext =
             jCloudsViewFactory.buildJCloudsView(ComputeServiceContext.class);
-        final Optional<SecurityGroupExtension> optional =
+        final Optional<org.jclouds.compute.extensions.SecurityGroupExtension> optional =
             computeServiceContext.getComputeService().getSecurityGroupExtension();
         checkState(optional.isPresent(), "security group extension not present.");
 

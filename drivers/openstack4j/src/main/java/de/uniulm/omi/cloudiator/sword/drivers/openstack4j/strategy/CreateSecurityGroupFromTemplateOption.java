@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.domain.*;
-import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.core.domain.CidrImpl;
@@ -40,20 +40,20 @@ import static com.google.common.base.Preconditions.checkState;
 public class CreateSecurityGroupFromTemplateOption {
 
     public static final String DEFAULT_SEC_GROUP_NAME = "default";
-    private final SecurityGroupService securityGroupService;
+    private final SecurityGroupExtension securityGroupExtension;
     private final NamingStrategy namingStrategy;
     private final GetStrategy<String, Location> locationGetStrategy;
 
     @Inject public CreateSecurityGroupFromTemplateOption(
-        Optional<SecurityGroupService> securityGroupService, NamingStrategy namingStrategy,
+        Optional<SecurityGroupExtension> securityGroupExtension, NamingStrategy namingStrategy,
         GetStrategy<String, Location> locationGetStrategy) {
         checkNotNull(locationGetStrategy, "locationGetStrategy is null");
         this.locationGetStrategy = locationGetStrategy;
         checkNotNull(namingStrategy, "namingStrategy is null");
         this.namingStrategy = namingStrategy;
-        checkNotNull(securityGroupService, "securityGroupService is null");
-        checkState(securityGroupService.isPresent(), "securityGroupService needs to be present.");
-        this.securityGroupService = securityGroupService.get();
+        checkNotNull(securityGroupExtension, "securityGroupExtension is null");
+        checkState(securityGroupExtension.isPresent(), "securityGroupExtension needs to be present.");
+        this.securityGroupExtension = securityGroupExtension.get();
     }
 
     public String create(TemplateOptions templateOptions, String locationId) {
@@ -68,7 +68,7 @@ public class CreateSecurityGroupFromTemplateOption {
                     String.format("Could not find parent region of location %s", location)));
 
         //check if already exists
-        final Set<SecurityGroup> collect = securityGroupService.listSecurityGroups().stream()
+        final Set<SecurityGroup> collect = securityGroupExtension.listSecurityGroups().stream()
             .filter(securityGroup -> securityGroup.name()
                 .equals(namingStrategy.generateNameBasedOnName(DEFAULT_SEC_GROUP_NAME)))
             .filter(securityGroup -> {
@@ -86,11 +86,11 @@ public class CreateSecurityGroupFromTemplateOption {
 
         //create
         SecurityGroup securityGroup =
-            securityGroupService.createSecurityGroup(DEFAULT_SEC_GROUP_NAME, location);
+            securityGroupExtension.createSecurityGroup(DEFAULT_SEC_GROUP_NAME, location);
 
         //add rules
         templateOptions.inboundPorts().forEach(integer -> {
-            securityGroupService.addRule(
+            securityGroupExtension.addRule(
                 SecurityGroupRuleBuilder.newBuilder().ipProtocol(IpProtocol.ALL).fromPort(integer)
                     .toPort(integer).cidr(CidrImpl.ALL).build(), securityGroup);
         });

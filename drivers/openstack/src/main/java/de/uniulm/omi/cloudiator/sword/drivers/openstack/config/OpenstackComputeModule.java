@@ -26,8 +26,8 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
-import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
-import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
+import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
@@ -36,8 +36,8 @@ import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackComputeClientIm
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.NovaKeyPairToKeypair;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.TemplateOptionsToNovaTemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.domain.KeyPairInRegion;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackKeyPairService;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackPublicIpService;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackKeyPairExtension;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackPublicIpExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.*;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 
@@ -61,14 +61,14 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
             }).to(NovaKeyPairToKeypair.class);
     }
 
-    @Override protected Optional<PublicIpService> publicIpService(Injector injector) {
+    @Override protected Optional<PublicIpExtension> publicIpService(Injector injector) {
         //todo should be dependent on openstack floating ip extension being available.
-        return Optional.fromNullable(injector.getInstance(OpenstackPublicIpService.class));
+        return Optional.fromNullable(injector.getInstance(OpenstackPublicIpExtension.class));
     }
 
-    @Override protected Optional<KeyPairService> keyPairService(Injector injector) {
+    @Override protected Optional<KeyPairExtension> keyPairService(Injector injector) {
         //todo should be dependent on openstack key pair extension being available.
-        return Optional.fromNullable(injector.getInstance(OpenstackKeyPairService.class));
+        return Optional.fromNullable(injector.getInstance(OpenstackKeyPairExtension.class));
     }
 
     @Override protected JCloudsComputeClient overrideComputeClient(Injector injector,

@@ -22,7 +22,7 @@ package de.uniulm.omi.cloudiator.sword.api.extensions;
  * An interface that handles the assignment of public ips to
  * virtual machines.
  */
-public interface PublicIpService {
+public interface PublicIpExtension {
 
     /**
      * Adds a public ip to the virtual machine.

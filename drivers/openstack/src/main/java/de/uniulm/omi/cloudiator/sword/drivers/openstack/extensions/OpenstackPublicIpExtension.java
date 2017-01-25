@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.OpenstackFloatingIpStrategy;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -27,16 +27,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 
 /**
- * Implementation of the {@link PublicIpService} interface for Openstack.
+ * Implementation of the {@link PublicIpExtension} interface for Openstack.
  */
-public class OpenstackPublicIpService implements PublicIpService {
+public class OpenstackPublicIpExtension implements PublicIpExtension {
 
     private final OpenstackFloatingIpStrategy openstackFloatingIpStrategy;
 
     /**
      * @param openstackFloatingIpStrategy a mandatory strategy for assigning public ips in openstack.
      */
-    @Inject public OpenstackPublicIpService(
+    @Inject public OpenstackPublicIpExtension(
         OpenstackFloatingIpStrategy openstackFloatingIpStrategy) {
         checkNotNull(openstackFloatingIpStrategy);
         this.openstackFloatingIpStrategy = openstackFloatingIpStrategy;

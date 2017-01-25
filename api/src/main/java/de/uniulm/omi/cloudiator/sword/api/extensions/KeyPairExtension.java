@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
  * A service for the creation of key pairs at the given
  * cloud provider.
  */
-public interface KeyPairService {
+public interface KeyPairExtension {
 
     /**
      * Automatically creates a private/public key pair, and

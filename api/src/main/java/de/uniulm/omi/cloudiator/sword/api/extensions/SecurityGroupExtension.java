@@ -27,7 +27,7 @@ import java.util.Set;
 /**
  * Created by daniel on 01.07.16.
  */
-public interface SecurityGroupService {
+public interface SecurityGroupExtension {
 
     Set<SecurityGroup> listSecurityGroups();
 

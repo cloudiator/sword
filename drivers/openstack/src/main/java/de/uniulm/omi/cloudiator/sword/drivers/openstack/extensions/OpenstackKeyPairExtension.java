@@ -24,7 +24,7 @@ import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
-import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
@@ -39,10 +39,10 @@ import javax.annotation.Nullable;
 import static com.google.common.base.Preconditions.*;
 
 /**
- * Implementation of the {@link KeyPairService} interface
+ * Implementation of the {@link KeyPairExtension} interface
  * for Openstack.
  */
-public class OpenstackKeyPairService implements KeyPairService {
+public class OpenstackKeyPairExtension implements KeyPairExtension {
 
     private final OneWayConverter<KeyPairInRegion, de.uniulm.omi.cloudiator.sword.api.domain.KeyPair>
         keyPairConverter;
@@ -61,7 +61,7 @@ public class OpenstackKeyPairService implements KeyPairService {
      * @param locationGetStrategy
      * @throws NullPointerException if any of the supplied arguments is null.
      */
-    @Inject public OpenstackKeyPairService(
+    @Inject public OpenstackKeyPairExtension(
         OneWayConverter<KeyPairInRegion, KeyPair> keyPairConverter, NamingStrategy namingStrategy,
         NovaApi novaApi, GetStrategy<String, Location> locationGetStrategy) {
 

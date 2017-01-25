@@ -23,9 +23,9 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
-import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
-import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
-import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
+import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
@@ -44,18 +44,18 @@ public class BaseComputeService implements ComputeService {
     private final DiscoveryService discoveryService;
     private final CreateVirtualMachineStrategy createVirtualMachineStrategy;
     private final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy;
-    private final Optional<PublicIpService> publicIpService;
-    private final Optional<KeyPairService> keyPairService;
-    private final Optional<SecurityGroupService> securityGroupService;
+    private final Optional<PublicIpExtension> publicIpService;
+    private final Optional<KeyPairExtension> keyPairService;
+    private final Optional<SecurityGroupExtension> securityGroupService;
     private final ConnectionService connectionService;
 
 
     @Inject public BaseComputeService(CreateVirtualMachineStrategy createVirtualMachineStrategy,
         DeleteVirtualMachineStrategy deleteVirtualMachineStrategy,
         RemoteConnectionFactory remoteConnectionFactory, ServiceContext serviceContext,
-        DiscoveryService discoveryService, Optional<PublicIpService> publicIpService,
-        Optional<KeyPairService> keyPairService,
-        Optional<SecurityGroupService> securityGroupService, ConnectionService connectionService) {
+        DiscoveryService discoveryService, Optional<PublicIpExtension> publicIpService,
+        Optional<KeyPairExtension> keyPairService,
+        Optional<SecurityGroupExtension> securityGroupService, ConnectionService connectionService) {
 
 
 
@@ -98,15 +98,15 @@ public class BaseComputeService implements ComputeService {
         return connectionService;
     }
 
-    @Override public Optional<PublicIpService> publicIpService() {
+    @Override public Optional<PublicIpExtension> publicIpExtension() {
         return publicIpService;
     }
 
-    @Override public Optional<KeyPairService> keyPairService() {
+    @Override public Optional<KeyPairExtension> keyPairExtension() {
         return keyPairService;
     }
 
-    @Override public Optional<SecurityGroupService> securityGroupService() {
+    @Override public Optional<SecurityGroupExtension> securityGroupExtension() {
         return securityGroupService;
     }
 }

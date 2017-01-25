@@ -27,9 +27,9 @@ import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
-import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
-import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
+import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
@@ -76,15 +76,15 @@ public abstract class AbstractComputeModule extends AbstractModule {
         return deleteVirtualMachineStrategy(injector);
     }
 
-    @Provides final Optional<PublicIpService> provideFloatingIpService(Injector injector) {
+    @Provides final Optional<PublicIpExtension> provideFloatingIpService(Injector injector) {
         return publicIpService(injector);
     }
 
-    @Provides final Optional<KeyPairService> provideKeyPairService(Injector injector) {
+    @Provides final Optional<KeyPairExtension> provideKeyPairService(Injector injector) {
         return keyPairService(injector);
     }
 
-    @Provides final Optional<SecurityGroupService> provideSecurityGroupService(Injector injector) {
+    @Provides final Optional<SecurityGroupExtension> provideSecurityGroupService(Injector injector) {
         return securityGroupService(injector);
     }
 
@@ -206,38 +206,38 @@ public abstract class AbstractComputeModule extends AbstractModule {
     }
 
     /**
-     * Extension point for adding a {@link PublicIpService} extension.
+     * Extension point for adding a {@link PublicIpExtension} extension.
      * <p/>
      * Defaults to {@link com.google.common.base.Absent}
      *
      * @param injector injector for instantiating new classes.
      * @return an optional public ip service.
      */
-    protected Optional<PublicIpService> publicIpService(Injector injector) {
+    protected Optional<PublicIpExtension> publicIpService(Injector injector) {
         return Optional.absent();
     }
 
     /**
-     * Extension point for adding a {@link KeyPairService} extension.
+     * Extension point for adding a {@link KeyPairExtension} extension.
      * <p/>
      * Defaults to {@link com.google.common.base.Absent}
      *
      * @param injector injector for instantiating new classes.
      * @return an optional key pair service.
      */
-    protected Optional<KeyPairService> keyPairService(Injector injector) {
+    protected Optional<KeyPairExtension> keyPairService(Injector injector) {
         return Optional.absent();
     }
 
     /**
-     * Extension point for adding a {@link SecurityGroupService} extension.
+     * Extension point for adding a {@link SecurityGroupExtension} extension.
      * <p/>
      * Defaults to {@link com.google.common.base.Absent}
      *
      * @param injector injector for instantiating new classes.
      * @return an optional security group service
      */
-    protected Optional<SecurityGroupService> securityGroupService(Injector injector) {
+    protected Optional<SecurityGroupExtension> securityGroupService(Injector injector) {
         return Optional.absent();
     }
 

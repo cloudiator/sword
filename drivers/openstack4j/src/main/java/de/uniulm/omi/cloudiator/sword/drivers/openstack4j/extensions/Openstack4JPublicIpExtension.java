@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
 import de.uniulm.omi.cloudiator.sword.api.strategy.PublicIpStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
 import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
@@ -41,13 +41,13 @@ import static com.google.common.base.Preconditions.*;
  * <p/>
  * todo: check of public ip service and strategy are necessary....
  */
-public class Openstack4JPublicIpService implements PublicIpService {
+public class Openstack4JPublicIpExtension implements PublicIpExtension {
 
     private final OSClient osClient;
     private final FloatingIpPoolStrategy floatingIpPoolStrategy;
 
 
-    @Inject public Openstack4JPublicIpService(OSClient osClient,
+    @Inject public Openstack4JPublicIpExtension(OSClient osClient,
         FloatingIpPoolStrategy floatingIpPoolStrategy) {
 
 

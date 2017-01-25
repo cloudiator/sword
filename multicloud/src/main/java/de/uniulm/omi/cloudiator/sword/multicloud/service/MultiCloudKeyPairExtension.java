@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
-import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairService;
+import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.multicloud.domain.KeyPairMultiCloudImpl;
 
 import javax.annotation.Nullable;
@@ -31,19 +31,19 @@ import static com.google.common.base.Preconditions.*;
 /**
  * Created by daniel on 24.01.17.
  */
-public class MultiCloudKeyPairService implements KeyPairService {
+public class MultiCloudKeyPairExtension implements KeyPairExtension {
 
     private final ComputeServiceProvider computeServiceProvider;
 
-    @Inject public MultiCloudKeyPairService(ComputeServiceProvider computeServiceProvider) {
+    @Inject public MultiCloudKeyPairExtension(ComputeServiceProvider computeServiceProvider) {
         checkNotNull(computeServiceProvider, "computeServiceProvider is null");
         this.computeServiceProvider = computeServiceProvider;
     }
 
-    private KeyPairService keyPairService(String scopedId) {
+    private KeyPairExtension keyPairService(String scopedId) {
         final IdScopedByCloud ScopedIdByCloud = IdScopedByClouds.from(scopedId);
-        final Optional<KeyPairService> keyPairServiceOptional =
-            computeServiceProvider.forId(ScopedIdByCloud.cloudId()).keyPairService();
+        final Optional<KeyPairExtension> keyPairServiceOptional =
+            computeServiceProvider.forId(ScopedIdByCloud.cloudId()).keyPairExtension();
         checkState(keyPairServiceOptional.isPresent(), String
             .format("KeyPairService is not present for cloud %s.", ScopedIdByCloud.cloudId()));
         return keyPairServiceOptional.get();
