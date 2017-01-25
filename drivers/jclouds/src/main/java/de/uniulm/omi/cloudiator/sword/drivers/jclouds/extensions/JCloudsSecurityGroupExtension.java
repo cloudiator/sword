@@ -25,6 +25,7 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
+import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.net.domain.IpPermission;
@@ -43,10 +44,15 @@ public class JCloudsSecurityGroupExtension implements SecurityGroupExtension {
     private final OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup>
         securityGroupConverter;
     private final OneWayConverter<Location, org.jclouds.domain.Location> locationConverter;
+    private final GetStrategy<String, Location> locationGetStrategy;
 
     @Inject public JCloudsSecurityGroupExtension(JCloudsViewFactory jCloudsViewFactory,
         OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup> securityGroupConverter,
-        OneWayConverter<Location, org.jclouds.domain.Location> locationConverter) {
+        OneWayConverter<Location, org.jclouds.domain.Location> locationConverter,
+        GetStrategy<String, Location> locationGetStrategy) {
+
+        checkNotNull(locationGetStrategy, "locationGetStrategy is null");
+        this.locationGetStrategy = locationGetStrategy;
 
         checkNotNull(locationConverter);
         this.locationConverter = locationConverter;
@@ -73,10 +79,15 @@ public class JCloudsSecurityGroupExtension implements SecurityGroupExtension {
 
     }
 
-    @Override public SecurityGroup createSecurityGroup(final String name, final Location location) {
+    @Override public SecurityGroup createSecurityGroup(final String name, final String locationId) {
         checkNotNull(name, "name is null");
         checkArgument(!name.isEmpty(), "name is empty");
-        checkNotNull(location, "location is null");
+        checkNotNull(locationId, "locationId is null");
+        checkArgument(!locationId.isEmpty(), "locationId is empty");
+
+        Location location = locationGetStrategy.get(locationId);
+
+        checkNotNull(location, String.format("Could not retrieve location with id %s", locationId));
 
         org.jclouds.domain.Location jcloudsLocation = locationConverter.apply(location);
         return securityGroupConverter

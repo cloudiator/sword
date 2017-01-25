@@ -52,7 +52,8 @@ public class CreateSecurityGroupFromTemplateOption {
         checkNotNull(namingStrategy, "namingStrategy is null");
         this.namingStrategy = namingStrategy;
         checkNotNull(securityGroupExtension, "securityGroupExtension is null");
-        checkState(securityGroupExtension.isPresent(), "securityGroupExtension needs to be present.");
+        checkState(securityGroupExtension.isPresent(),
+            "securityGroupExtension needs to be present.");
         this.securityGroupExtension = securityGroupExtension.get();
     }
 
@@ -63,8 +64,8 @@ public class CreateSecurityGroupFromTemplateOption {
         checkState(location != null, "Could not retrieve location with id " + locationId);
 
         Location region =
-            LocationHierarchy.of(location).firstParentLocationWithScope(LocationScope.REGION).orElseThrow(
-                () -> new IllegalStateException(
+            LocationHierarchy.of(location).firstParentLocationWithScope(LocationScope.REGION)
+                .orElseThrow(() -> new IllegalStateException(
                     String.format("Could not find parent region of location %s", location)));
 
         //check if already exists
@@ -86,7 +87,7 @@ public class CreateSecurityGroupFromTemplateOption {
 
         //create
         SecurityGroup securityGroup =
-            securityGroupExtension.createSecurityGroup(DEFAULT_SEC_GROUP_NAME, location);
+            securityGroupExtension.createSecurityGroup(DEFAULT_SEC_GROUP_NAME, location.id());
 
         //add rules
         templateOptions.inboundPorts().forEach(integer -> {

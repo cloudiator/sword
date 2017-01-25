@@ -23,6 +23,7 @@ import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
+import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.core.util.LocationHierarchy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.SecurityGroupInRegion;
@@ -42,9 +43,13 @@ public class CreateSecurityGroupStrategy {
     private final OSClient osClient;
     private final NamingStrategy namingStrategy;
     private final OneWayConverter<SecurityGroupInRegion, SecurityGroup> securityGroupConverter;
+    private final GetStrategy<String, Location> locationGetStrategy;
 
     @Inject public CreateSecurityGroupStrategy(OSClient osClient, NamingStrategy namingStrategy,
-        OneWayConverter<SecurityGroupInRegion, SecurityGroup> securityGroupConverter) {
+        OneWayConverter<SecurityGroupInRegion, SecurityGroup> securityGroupConverter,
+        GetStrategy<String, Location> locationGetStrategy) {
+        checkNotNull(locationGetStrategy, "locationGetStrategy is null");
+        this.locationGetStrategy = locationGetStrategy;
         checkNotNull(securityGroupConverter, "securityGroupConverter is null");
         this.securityGroupConverter = securityGroupConverter;
         checkNotNull(namingStrategy, "namingStrategy is null");
@@ -53,10 +58,15 @@ public class CreateSecurityGroupStrategy {
         this.osClient = osClient;
     }
 
-    public SecurityGroup create(final String name, final Location location) {
+    public SecurityGroup create(final String name, final String locationId) {
         checkNotNull(name, "name is null");
         checkArgument(!name.isEmpty(), "name is empty");
-        checkNotNull(location, "location is empty");
+        checkNotNull(locationId, "locationId is null");
+        checkArgument(!locationId.isEmpty(), "locationId is empty");
+
+        Location location = locationGetStrategy.get(locationId);
+
+        checkNotNull(location, String.format("Could not retrieve location with id %s", locationId));
 
         Location region =
             LocationHierarchy.of(location).firstParentLocationWithScope(LocationScope.REGION)
