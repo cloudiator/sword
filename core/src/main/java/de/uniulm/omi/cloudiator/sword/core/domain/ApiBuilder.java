@@ -18,21 +18,35 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.sword.api.domain.Api;
+
+import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 18.01.17.
  */
 public class ApiBuilder {
 
-    private String providerName;
+    @Nullable private String providerName;
 
     private ApiBuilder() {
 
     }
 
+    private ApiBuilder(Api api) {
+        this.providerName = api.providerName();
+    }
+
     public static ApiBuilder newBuilder() {
         return new ApiBuilder();
+    }
+
+    public static ApiBuilder of(Api api) {
+        checkNotNull(api, "api is null");
+        return new ApiBuilder(api);
     }
 
     public ApiBuilder providerName(String providerName) {
@@ -44,4 +58,7 @@ public class ApiBuilder {
         return new ApiImpl(providerName);
     }
 
+    @Override public String toString() {
+        return MoreObjects.toStringHelper(this).toString();
+    }
 }

@@ -51,6 +51,31 @@ public abstract class ResourceImpl implements Resource {
         this.location = location;
     }
 
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        ResourceImpl resource = (ResourceImpl) o;
+
+        if (!id.equals(resource.id))
+            return false;
+        if (!providerId.equals(resource.providerId))
+            return false;
+        if (!name.equals(resource.name))
+            return false;
+        return location != null ? location.equals(resource.location) : resource.location == null;
+    }
+
+    @Override public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + providerId.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        return result;
+    }
+
     @Override public String id() {
         return id;
     }

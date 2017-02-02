@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,6 +33,7 @@ public interface VirtualMachineProperties {
      *
      * @return an immutable set of ip addresses.
      */
+    @JsonProperty
     Set<String> publicAddresses();
 
     /**
@@ -38,6 +41,7 @@ public interface VirtualMachineProperties {
      *
      * @return an immutable set of up addresses.
      */
+    @JsonProperty
     Set<String> privateAddresses();
 
     /**
@@ -48,5 +52,6 @@ public interface VirtualMachineProperties {
      *
      * @return optional login credentials.
      */
+    @JsonProperty
     Optional<LoginCredential> loginCredential();
 }

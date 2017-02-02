@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Optional;
 
 /**
@@ -29,6 +31,7 @@ public interface Location extends Identifiable, Named {
     /**
      * The scope of the location, e.g. REGION or ZONE.
      */
+    @JsonProperty
     LocationScope locationScope();
 
     /**
@@ -37,6 +40,7 @@ public interface Location extends Identifiable, Named {
      *
      * @return true if assignable, no if not.
      */
+    @JsonProperty
     boolean isAssignable();
 
     /**
@@ -45,6 +49,7 @@ public interface Location extends Identifiable, Named {
      *
      * @return the parent location, absent of top level.
      */
+    @JsonProperty
     Optional<Location> parent();
 
 }

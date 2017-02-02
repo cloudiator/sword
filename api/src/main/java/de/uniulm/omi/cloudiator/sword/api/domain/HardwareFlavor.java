@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.annotation.Nullable;
 
 /**
@@ -31,6 +33,7 @@ public interface HardwareFlavor extends Resource {
      *
      * @return the number of cores.
      */
+    @JsonProperty
     int numberOfCores();
 
     /**
@@ -38,6 +41,7 @@ public interface HardwareFlavor extends Resource {
      *
      * @return the amount of ram.
      */
+    @JsonProperty
     long mbRam();
 
     /**
@@ -47,5 +51,6 @@ public interface HardwareFlavor extends Resource {
      *
      * @return the amount of disk space or null.
      */
+    @JsonProperty
     @Nullable Float gbDisk();
 }

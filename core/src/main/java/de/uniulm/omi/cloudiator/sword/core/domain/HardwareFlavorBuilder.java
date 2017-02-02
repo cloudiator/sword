@@ -18,9 +18,13 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import com.google.common.base.MoreObjects;
+import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 
 import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 03.12.14.
@@ -38,8 +42,23 @@ public class HardwareFlavorBuilder {
     private HardwareFlavorBuilder() {
     }
 
+    private HardwareFlavorBuilder(HardwareFlavor hardwareFlavor) {
+        id = hardwareFlavor.id();
+        providerId = hardwareFlavor.providerId();
+        name = hardwareFlavor.name();
+        cores = hardwareFlavor.numberOfCores();
+        mbRam = hardwareFlavor.mbRam();
+        gbDisk = hardwareFlavor.gbDisk();
+        location = hardwareFlavor.location().orElse(null);
+    }
+
     public static HardwareFlavorBuilder newBuilder() {
         return new HardwareFlavorBuilder();
+    }
+
+    public static HardwareFlavorBuilder of(HardwareFlavor hardwareFlavor) {
+        checkNotNull(hardwareFlavor, "hardwareFlavor is null");
+        return new HardwareFlavorBuilder(hardwareFlavor);
     }
 
     public HardwareFlavorImpl build() {
@@ -79,5 +98,9 @@ public class HardwareFlavorBuilder {
     public HardwareFlavorBuilder gbDisk(@Nullable Float gbDisk) {
         this.gbDisk = gbDisk;
         return this;
+    }
+
+    @Override public String toString() {
+        return MoreObjects.toStringHelper(this).toString();
     }
 }

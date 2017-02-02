@@ -23,6 +23,8 @@ import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by daniel on 09.01.15.
  */
@@ -37,15 +39,21 @@ public class VirtualMachineTemplateBuilder {
     private VirtualMachineTemplateBuilder() {
     }
 
+    private VirtualMachineTemplateBuilder(VirtualMachineTemplate virtualMachineTemplate) {
+        name = virtualMachineTemplate.name();
+        imageId = virtualMachineTemplate.imageId();
+        hardwareFlavorId = virtualMachineTemplate.hardwareFlavorId();
+        locationId = virtualMachineTemplate.locationId();
+        templateOptions = virtualMachineTemplate.templateOptions().orNull();
+    }
+
     public static VirtualMachineTemplateBuilder newBuilder() {
         return new VirtualMachineTemplateBuilder();
     }
 
     public static VirtualMachineTemplateBuilder of(VirtualMachineTemplate virtualMachineTemplate) {
-        return newBuilder().image(virtualMachineTemplate.imageId())
-            .hardwareFlavor(virtualMachineTemplate.hardwareFlavorId())
-            .location(virtualMachineTemplate.locationId())
-            .templateOptions(virtualMachineTemplate.templateOptions().orNull());
+        checkNotNull(virtualMachineTemplate, "virtualMachineTemplate is null");
+        return new VirtualMachineTemplateBuilder(virtualMachineTemplate);
     }
 
     public VirtualMachineTemplateBuilder name(@Nullable final String name) {

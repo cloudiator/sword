@@ -22,6 +22,8 @@ import de.uniulm.omi.cloudiator.sword.api.domain.Cidr;
 import de.uniulm.omi.cloudiator.sword.api.domain.IpProtocol;
 import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by daniel on 01.07.16.
  */
@@ -34,6 +36,18 @@ public class SecurityGroupRuleBuilder {
 
     private SecurityGroupRuleBuilder() {
 
+    }
+
+    private SecurityGroupRuleBuilder(SecurityGroupRule securityGroupRule) {
+        ipProtocol = securityGroupRule.ipProtocol();
+        fromPort = securityGroupRule.fromPort();
+        toPort = securityGroupRule.toPort();
+        cidr = securityGroupRule.cidr();
+    }
+
+    private SecurityGroupRuleBuilder of(SecurityGroupRule securityGroupRule) {
+        checkNotNull(securityGroupRule, "SecurityGroupRule is null");
+        return new SecurityGroupRuleBuilder(securityGroupRule);
     }
 
     public SecurityGroupRuleBuilder ipProtocol(IpProtocol ipProtocol) {

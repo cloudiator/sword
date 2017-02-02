@@ -21,6 +21,8 @@ package de.uniulm.omi.cloudiator.sword.core.domain;
 import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Builder for a {@link KeyPair}.
  * <p/>
@@ -38,11 +40,25 @@ public class KeyPairBuilder {
     private KeyPairBuilder() {
     }
 
+    private KeyPairBuilder(KeyPair keyPair) {
+        id = keyPair.id();
+        providerId = keyPair.providerId();
+        location = keyPair.location().orElse(null);
+        name = keyPair.name();
+        publicKey = keyPair.publicKey();
+        privateKey = keyPair.privateKey().orElse(null);
+    }
+
     /**
      * @return a new builder instance.
      */
     public static KeyPairBuilder newBuilder() {
         return new KeyPairBuilder();
+    }
+
+    public static KeyPairBuilder of(KeyPair keyPair) {
+        checkNotNull(keyPair, "keypair is null");
+        return new KeyPairBuilder(keyPair);
     }
 
     /**

@@ -18,9 +18,14 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.sword.api.domain.Configuration;
 import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 import de.uniulm.omi.cloudiator.sword.core.properties.PropertiesImpl;
+
+import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 18.01.17.
@@ -28,13 +33,23 @@ import de.uniulm.omi.cloudiator.sword.core.properties.PropertiesImpl;
 public class ConfigurationBuilder {
 
     private Properties properties = PropertiesImpl.EMPTY;
-    private String nodeGroup;
+    @Nullable private String nodeGroup;
+
+    private ConfigurationBuilder(Configuration configuration) {
+        this.properties = configuration.properties();
+        this.nodeGroup = configuration.nodeGroup();
+    }
 
     private ConfigurationBuilder() {
     }
 
     public static ConfigurationBuilder newBuilder() {
         return new ConfigurationBuilder();
+    }
+
+    public static ConfigurationBuilder of(Configuration configuration) {
+        checkNotNull(configuration, "configuration is null");
+        return new ConfigurationBuilder(configuration);
     }
 
     public ConfigurationBuilder properties(Properties properties) {
@@ -49,6 +64,10 @@ public class ConfigurationBuilder {
 
     public Configuration build() {
         return new ConfigurationImpl(nodeGroup, properties);
+    }
+
+    @Override public String toString() {
+        return MoreObjects.toStringHelper(this).toString();
     }
 
 }

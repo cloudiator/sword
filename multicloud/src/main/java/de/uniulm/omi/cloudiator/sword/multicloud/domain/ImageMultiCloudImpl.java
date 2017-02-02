@@ -70,6 +70,25 @@ public class ImageMultiCloudImpl implements Image {
         return cloudId;
     }
 
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        ImageMultiCloudImpl that = (ImageMultiCloudImpl) o;
+
+        if (!delegate.equals(that.delegate))
+            return false;
+        return cloudId.equals(that.cloudId);
+    }
+
+    @Override public int hashCode() {
+        int result = delegate.hashCode();
+        result = 31 * result + cloudId.hashCode();
+        return result;
+    }
+
     @Override public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id()).add("delegate", delegate)
             .add("cloud", cloudId).toString();

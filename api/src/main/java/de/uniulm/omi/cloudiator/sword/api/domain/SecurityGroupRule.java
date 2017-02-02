@@ -18,16 +18,22 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by daniel on 01.07.16.
  */
 public interface SecurityGroupRule {
 
+    @JsonProperty
     IpProtocol ipProtocol();
 
+    @JsonProperty
     int fromPort();
 
+    @JsonProperty
     int toPort();
 
+    @JsonProperty
     Cidr cidr();
 }

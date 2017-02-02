@@ -95,6 +95,34 @@ public class LocationImpl implements Location {
         return this.isAssignable;
     }
 
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        LocationImpl location = (LocationImpl) o;
+
+        if (isAssignable() != location.isAssignable())
+            return false;
+        if (!id.equals(location.id))
+            return false;
+        if (!name.equals(location.name))
+            return false;
+        if (locationScope != location.locationScope)
+            return false;
+        return parent != null ? parent.equals(location.parent) : location.parent == null;
+    }
+
+    @Override public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + locationScope.hashCode();
+        result = 31 * result + (parent != null ? parent.hashCode() : 0);
+        result = 31 * result + (isAssignable() ? 1 : 0);
+        return result;
+    }
+
     @Override public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id).add("providerId", providerId())
             .add("name", name).add("parent", parent).add("isAssignable", isAssignable)

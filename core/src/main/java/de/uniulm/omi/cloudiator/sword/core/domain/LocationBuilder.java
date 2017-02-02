@@ -23,6 +23,8 @@ import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * A builder for immutable {@link Location} objects.
  */
@@ -41,11 +43,24 @@ public class LocationBuilder {
         //intentionally empty
     }
 
+    private LocationBuilder(Location location) {
+        id = location.id();
+        name = location.name();
+        parent = location.parent().orElse(null);
+        isAssignable = location.isAssignable();
+        locationScope = location.locationScope();
+    }
+
     /**
      * @return creates a new builder object.
      */
     public static LocationBuilder newBuilder() {
         return new LocationBuilder();
+    }
+
+    public static LocationBuilder of(Location location) {
+        checkNotNull(location, "location is null");
+        return new LocationBuilder(location);
     }
 
     /**

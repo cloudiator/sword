@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Represents the credentials required
  * to login into a provider.
@@ -27,11 +29,13 @@ public interface Credentials {
     /**
      * @return the user required for login.
      */
+    @JsonProperty
     String user();
 
     /**
      * @return the password required for login.
      */
+    @JsonProperty
     String password();
 
 }

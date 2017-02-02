@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import de.uniulm.omi.cloudiator.common.os.OperatingSystem;
 
 import java.util.Optional;
@@ -27,6 +28,7 @@ import java.util.Optional;
  */
 public interface ImageProperties {
 
+    @JsonProperty
     OperatingSystem operatingSystem();
 
 }

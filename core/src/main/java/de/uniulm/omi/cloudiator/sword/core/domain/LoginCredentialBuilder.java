@@ -39,6 +39,12 @@ public class LoginCredentialBuilder {
 
     }
 
+    private LoginCredentialBuilder(LoginCredential loginCredential) {
+        username = loginCredential.username().orElse(null);
+        privateKey = loginCredential.privateKey().orElse(null);
+        password = loginCredential.password().orElse(null);
+    }
+
     /**
      * Creates a new Builder.
      *
@@ -56,10 +62,8 @@ public class LoginCredentialBuilder {
      * @return a builder
      */
     public static LoginCredentialBuilder of(LoginCredential loginCredential) {
-        checkNotNull(loginCredential);
-        return newBuilder().username(loginCredential.username().orElse(null))
-            .privateKey(loginCredential.privateKey().orElse(null))
-            .password(loginCredential.password().orElse(null));
+        checkNotNull(loginCredential, "loginCredential is null");
+        return new LoginCredentialBuilder(loginCredential);
     }
 
     /**

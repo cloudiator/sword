@@ -19,12 +19,15 @@
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A builder for {@link TemplateOptions} objects.
@@ -34,15 +37,21 @@ import java.util.Set;
 public class TemplateOptionsBuilder {
 
     private String keyPairName;
-    private Map<Object, Object> additionalOptions;
-    private Set<Integer> inboundPorts;
-    private Map<String, String> tags;
+    private Map<Object, Object> additionalOptions = new HashMap<>();
+    private Set<Integer> inboundPorts = new HashSet<>();
+    private Map<String, String> tags = new HashMap<>();
     private String userData;
 
     private TemplateOptionsBuilder() {
-        additionalOptions = new HashMap<>();
-        inboundPorts = new HashSet<>();
-        tags = Maps.newHashMap();
+
+    }
+
+    private TemplateOptionsBuilder(TemplateOptions templateOptions) {
+        keyPairName = templateOptions.keyPairName();
+        additionalOptions = Maps.newHashMap(templateOptions.additionalOptions());
+        inboundPorts = Sets.newHashSet(templateOptions.inboundPorts());
+        tags = Maps.newHashMap(templateOptions.tags());
+        userData = templateOptions.userData();
     }
 
     /**
@@ -55,10 +64,8 @@ public class TemplateOptionsBuilder {
     }
 
     public static TemplateOptionsBuilder of(TemplateOptions templateOptions) {
-        return newBuilder().keyPairName(templateOptions.keyPairName())
-            .addOptions(templateOptions.additionalOptions())
-            .inboundPorts(templateOptions.inboundPorts()).tags(templateOptions.tags())
-            .userData(templateOptions.userData());
+        checkNotNull(templateOptions, "templateOptions is null");
+        return new TemplateOptionsBuilder(templateOptions);
     }
 
     /**

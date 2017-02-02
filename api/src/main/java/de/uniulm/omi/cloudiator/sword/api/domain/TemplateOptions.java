@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
@@ -32,6 +34,7 @@ public interface TemplateOptions {
      *
      * @return the name of the keypair or null.
      */
+    @JsonProperty
     @Nullable String keyPairName();
 
     /**
@@ -40,6 +43,7 @@ public interface TemplateOptions {
      *
      * @return a set of integers depicting the ports.
      */
+    @JsonProperty
     Set<Integer> inboundPorts();
 
     /**
@@ -48,6 +52,7 @@ public interface TemplateOptions {
      *
      * @return a map of key=>value tags.
      */
+    @JsonProperty
     Map<String, String> tags();
 
     /**
@@ -55,6 +60,7 @@ public interface TemplateOptions {
      *
      * @return a string describing user data.
      */
+    @JsonProperty
     String userData();
 
     /**
@@ -65,6 +71,7 @@ public interface TemplateOptions {
      *
      * @return an immutable map
      */
+    @JsonProperty
     Map<Object, Object> additionalOptions();
 
 }

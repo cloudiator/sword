@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import com.google.common.collect.Sets;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
 import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
@@ -27,13 +28,15 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by daniel on 09.12.14.
  */
 public class VirtualMachineBuilder {
 
-    private final Set<String> publicIpAddresses;
-    private final Set<String> privateIpAddresses;
+    private Set<String> publicIpAddresses = new HashSet<>();
+    private Set<String> privateIpAddresses = new HashSet<>();
     @Nullable private String id;
     private String providerId;
     @Nullable private String name;
@@ -41,8 +44,17 @@ public class VirtualMachineBuilder {
     @Nullable private LoginCredential loginCredential;
 
     private VirtualMachineBuilder() {
-        publicIpAddresses = new HashSet<>();
-        privateIpAddresses = new HashSet<>();
+
+    }
+
+    private VirtualMachineBuilder(VirtualMachine virtualMachine) {
+        publicIpAddresses = Sets.newHashSet(virtualMachine.publicAddresses());
+        privateIpAddresses = Sets.newHashSet(virtualMachine.privateAddresses());
+        id = virtualMachine.id();
+        providerId = virtualMachine.providerId();
+        name = virtualMachine.name();
+        location = virtualMachine.location().orElse(null);
+        loginCredential = virtualMachine.loginCredential().orElse(null);
     }
 
     public static VirtualMachineBuilder newBuilder() {
@@ -50,11 +62,8 @@ public class VirtualMachineBuilder {
     }
 
     public static VirtualMachineBuilder of(VirtualMachine virtualMachine) {
-        return newBuilder().id(virtualMachine.id()).providerId(virtualMachine.providerId())
-            .name(virtualMachine.name()).location(virtualMachine.location().orElse(null))
-            .addPublicIpAddresses(virtualMachine.publicAddresses())
-            .addPrivateIpAddresses(virtualMachine.privateAddresses())
-            .loginCredential(virtualMachine.loginCredential().orElse(null));
+        checkNotNull(virtualMachine, "virtualMachine is null");
+        return new VirtualMachineBuilder(virtualMachine);
     }
 
     public VirtualMachineBuilder id(String id) {

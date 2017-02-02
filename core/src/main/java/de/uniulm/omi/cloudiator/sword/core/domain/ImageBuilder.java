@@ -19,7 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
 import de.uniulm.omi.cloudiator.common.os.OperatingSystem;
+import de.uniulm.omi.cloudiator.sword.api.domain.Image;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 01.12.14.
@@ -36,8 +39,21 @@ public class ImageBuilder {
 
     }
 
+    private ImageBuilder(Image image) {
+        id = image.id();
+        providerId = image.providerId();
+        name = image.name();
+        location = image.location().orElse(null);
+        os = image.operatingSystem();
+    }
+
     public static ImageBuilder newBuilder() {
         return new ImageBuilder();
+    }
+
+    public static ImageBuilder of(Image image) {
+        checkNotNull(image, "image is null");
+        return new ImageBuilder(image);
     }
 
     public ImageBuilder id(String id) {

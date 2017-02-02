@@ -26,6 +26,8 @@ import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
 import javax.annotation.Nullable;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by daniel on 01.07.16.
  */
@@ -35,14 +37,27 @@ public class SecurityGroupBuilder {
     private String providerId;
     private String name;
     @Nullable private Location location;
-    private Set<SecurityGroupRule> securityGroupRules;
+    private Set<SecurityGroupRule> securityGroupRules = Sets.newHashSet();
 
     private SecurityGroupBuilder() {
-        this.securityGroupRules = Sets.newHashSet();
+
+    }
+
+    private SecurityGroupBuilder(SecurityGroup securityGroup) {
+        id = securityGroup.id();
+        providerId = securityGroup.providerId();
+        name = securityGroup.name();
+        location = securityGroup.location().orElse(null);
+        securityGroupRules = Sets.newHashSet(securityGroup.rules());
     }
 
     public static SecurityGroupBuilder newBuilder() {
         return new SecurityGroupBuilder();
+    }
+
+    public static SecurityGroupBuilder of(SecurityGroup securityGroup) {
+        checkNotNull(securityGroup, "securityGroup is null");
+        return new SecurityGroupBuilder(securityGroup);
     }
 
     public SecurityGroupBuilder id(String id) {

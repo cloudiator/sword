@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by daniel on 30.10.15.
  */
@@ -26,6 +28,7 @@ public interface Named {
     /**
      * @return a human readable name for the resource.
      */
+    @JsonProperty
     String name();
 
 }

@@ -18,25 +18,41 @@
 
 package de.uniulm.omi.cloudiator.sword.core.domain;
 
+import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.sword.api.domain.Api;
 import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.api.domain.Credentials;
+
+import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 18.01.17.
  */
 public class CloudBuilder {
 
-    private Api api;
-    private String endpoint;
-    private Credentials credentials;
+    @Nullable private Api api;
+    @Nullable private String endpoint;
+    @Nullable private Credentials credentials;
 
     private CloudBuilder() {
 
     }
 
+    private CloudBuilder(Cloud cloud) {
+        this.api = cloud.api();
+        this.endpoint = cloud.endpoint().orElse(null);
+        this.credentials = cloud.credentials();
+    }
+
     public static CloudBuilder newBuilder() {
         return new CloudBuilder();
+    }
+
+    public static CloudBuilder of(Cloud cloud) {
+        checkNotNull(cloud, "cloud is null");
+        return new CloudBuilder(cloud);
     }
 
     public CloudBuilder api(Api api) {
@@ -56,6 +72,10 @@ public class CloudBuilder {
 
     public Cloud build() {
         return new CloudImpl(api, endpoint, credentials);
+    }
+
+    @Override public String toString() {
+        return MoreObjects.toStringHelper(this).toString();
     }
 
 }

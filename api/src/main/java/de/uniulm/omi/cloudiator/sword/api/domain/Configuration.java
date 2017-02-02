@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
 
 /**
@@ -25,8 +26,10 @@ import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
  */
 public interface Configuration {
 
+    @JsonProperty
     String nodeGroup();
 
+    @JsonProperty
     Properties properties();
 
 }

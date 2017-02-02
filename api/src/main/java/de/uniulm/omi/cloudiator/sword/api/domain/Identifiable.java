@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by daniel on 30.10.15.
  */
@@ -26,6 +28,7 @@ public interface Identifiable {
     /**
      * @return a unique identifier for the resource.
      */
+    @JsonProperty
     String id();
 
     /**
@@ -34,5 +37,6 @@ public interface Identifiable {
      *
      * @return the original identifier of the resource.
      */
+    @JsonProperty
     String providerId();
 }
