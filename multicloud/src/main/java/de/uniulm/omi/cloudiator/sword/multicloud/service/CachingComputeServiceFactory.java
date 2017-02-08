@@ -22,8 +22,8 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.annotations.Base;
-import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.api.domain.Configuration;
+import de.uniulm.omi.cloudiator.domain.Cloud;
+import de.uniulm.omi.cloudiator.domain.Configuration;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 
 import java.util.concurrent.TimeUnit;

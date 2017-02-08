@@ -22,11 +22,11 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.core.domain.LoginCredentialBuilder;
-import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineBuilder;
+import de.uniulm.omi.cloudiator.domain.LoginCredentialBuilder;
+import de.uniulm.omi.cloudiator.domain.VirtualMachineBuilder;
 
 /**
  * Created by daniel on 10.12.14.

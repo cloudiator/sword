@@ -21,9 +21,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions;
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
+import de.uniulm.omi.cloudiator.domain.KeyPair;
+import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
@@ -44,7 +44,7 @@ import static com.google.common.base.Preconditions.*;
  */
 public class OpenstackKeyPairExtension implements KeyPairExtension {
 
-    private final OneWayConverter<KeyPairInRegion, de.uniulm.omi.cloudiator.sword.api.domain.KeyPair>
+    private final OneWayConverter<KeyPairInRegion, de.uniulm.omi.cloudiator.domain.KeyPair>
         keyPairConverter;
     private final NamingStrategy namingStrategy;
     private final NovaApi novaApi;

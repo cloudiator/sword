@@ -25,8 +25,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.common.os.OperatingSystemFamily;
-import de.uniulm.omi.cloudiator.sword.api.domain.*;
+import de.uniulm.omi.cloudiator.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
@@ -184,7 +183,7 @@ public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
         //bind the operating system converter
         bind(
-            new TypeLiteral<OneWayConverter<OperatingSystem, de.uniulm.omi.cloudiator.common.os.OperatingSystem>>() {
+            new TypeLiteral<OneWayConverter<OperatingSystem, de.uniulm.omi.cloudiator.domain.OperatingSystem>>() {
             }).to(JCloudsOperatingSystemConverter.class);
 
         //bind the operating system family converter

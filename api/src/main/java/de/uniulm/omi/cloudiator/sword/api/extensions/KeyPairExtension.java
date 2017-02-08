@@ -18,7 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.api.extensions;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.KeyPair;
+
+
+import de.uniulm.omi.cloudiator.domain.KeyPair;
 
 import javax.annotation.Nullable;
 

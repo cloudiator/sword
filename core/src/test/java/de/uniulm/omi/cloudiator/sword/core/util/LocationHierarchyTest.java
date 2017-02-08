@@ -18,9 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.core.util;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.domain.LocationScope;
-import de.uniulm.omi.cloudiator.sword.core.domain.LocationBuilder;
+import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.domain.LocationScope;
+import de.uniulm.omi.cloudiator.domain.LocationBuilder;
 import org.junit.Test;
 
 import java.util.Iterator;

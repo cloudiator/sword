@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.core.base;
 import com.google.common.net.HostAndPort;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.os.RemoteType;
-import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;

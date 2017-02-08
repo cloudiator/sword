@@ -18,8 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.api;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.api.domain.Configuration;
+import de.uniulm.omi.cloudiator.domain.Cloud;
+import de.uniulm.omi.cloudiator.domain.Configuration;
 
 /**
  * Provides the configuration of the service.

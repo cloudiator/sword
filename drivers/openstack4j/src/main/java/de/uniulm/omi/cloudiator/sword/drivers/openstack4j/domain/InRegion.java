@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.domain.Location;
 
 /**
  * Created by daniel on 18.11.16.

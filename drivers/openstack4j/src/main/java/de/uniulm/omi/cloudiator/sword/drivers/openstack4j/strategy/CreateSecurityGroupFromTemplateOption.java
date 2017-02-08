@@ -20,12 +20,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.domain.*;
+import de.uniulm.omi.cloudiator.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
-import de.uniulm.omi.cloudiator.sword.core.domain.CidrImpl;
-import de.uniulm.omi.cloudiator.sword.core.domain.SecurityGroupRuleBuilder;
 import de.uniulm.omi.cloudiator.sword.core.util.LocationHierarchy;
 
 import java.util.Set;

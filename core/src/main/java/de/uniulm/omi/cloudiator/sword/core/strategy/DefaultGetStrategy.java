@@ -20,8 +20,8 @@ package de.uniulm.omi.cloudiator.sword.core.strategy;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.annotations.Memoized;
-import de.uniulm.omi.cloudiator.sword.api.domain.*;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 
 import javax.annotation.Nullable;

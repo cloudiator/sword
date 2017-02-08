@@ -19,8 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.api.strategy;
 
 import com.google.common.base.Function;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
+import de.uniulm.omi.cloudiator.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.domain.VirtualMachineTemplate;
 
 /**
  * Strategy for the creation of virtual machines.

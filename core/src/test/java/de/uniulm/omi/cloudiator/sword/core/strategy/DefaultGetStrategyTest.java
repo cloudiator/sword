@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.core.strategy;
 
 
 import com.google.common.base.Supplier;
-import de.uniulm.omi.cloudiator.sword.api.domain.Identifiable;
+import de.uniulm.omi.cloudiator.domain.Identifiable;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import org.junit.Before;
 import org.junit.Test;

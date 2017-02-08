@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.common.os.RemoteType;
 import de.uniulm.omi.cloudiator.sword.api.annotations.Base;
-import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;

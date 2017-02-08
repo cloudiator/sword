@@ -19,10 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.api.domain.Image;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.domain.Image;
+import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.multicloud.domain.HardwareFlavorMultiCloudImpl;
 import de.uniulm.omi.cloudiator.sword.multicloud.domain.ImageMultiCloudImpl;

@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.domain.Location;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.api.types.ServiceType;
 import org.openstack4j.model.identity.v2.Access;

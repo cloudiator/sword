@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 
 import java.util.Set;

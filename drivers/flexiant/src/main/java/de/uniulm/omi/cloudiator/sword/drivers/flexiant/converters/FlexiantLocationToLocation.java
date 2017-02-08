@@ -22,8 +22,8 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 import com.google.common.collect.ImmutableMap;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.LocationScope;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.core.domain.LocationBuilder;
+import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.domain.LocationBuilder;
 
 import java.util.Map;
 
@@ -33,7 +33,7 @@ import java.util.Map;
 public class FlexiantLocationToLocation
     implements OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location> {
 
-    private final OneWayConverter<LocationScope, de.uniulm.omi.cloudiator.sword.api.domain.LocationScope>
+    private final OneWayConverter<LocationScope, de.uniulm.omi.cloudiator.domain.LocationScope>
         locationScopeConverter;
 
     public FlexiantLocationToLocation() {
@@ -56,22 +56,22 @@ public class FlexiantLocationToLocation
     }
 
     private static class FlexiantLocationScopeToLocationScope implements
-        OneWayConverter<LocationScope, de.uniulm.omi.cloudiator.sword.api.domain.LocationScope> {
+        OneWayConverter<LocationScope, de.uniulm.omi.cloudiator.domain.LocationScope> {
 
-        private static final Map<LocationScope, de.uniulm.omi.cloudiator.sword.api.domain.LocationScope>
+        private static final Map<LocationScope, de.uniulm.omi.cloudiator.domain.LocationScope>
             CONVERSION_MAP;
 
         static {
-            final ImmutableMap.Builder<LocationScope, de.uniulm.omi.cloudiator.sword.api.domain.LocationScope>
+            final ImmutableMap.Builder<LocationScope, de.uniulm.omi.cloudiator.domain.LocationScope>
                 builder = ImmutableMap.builder();
             builder.put(LocationScope.CLUSTER,
-                de.uniulm.omi.cloudiator.sword.api.domain.LocationScope.REGION);
+                de.uniulm.omi.cloudiator.domain.LocationScope.REGION);
             builder.put(LocationScope.VDC,
-                de.uniulm.omi.cloudiator.sword.api.domain.LocationScope.ZONE);
+                de.uniulm.omi.cloudiator.domain.LocationScope.ZONE);
             CONVERSION_MAP = builder.build();
         }
 
-        @Override public de.uniulm.omi.cloudiator.sword.api.domain.LocationScope apply(
+        @Override public de.uniulm.omi.cloudiator.domain.LocationScope apply(
             LocationScope locationScope) {
 
             if (CONVERSION_MAP.containsKey(locationScope)) {

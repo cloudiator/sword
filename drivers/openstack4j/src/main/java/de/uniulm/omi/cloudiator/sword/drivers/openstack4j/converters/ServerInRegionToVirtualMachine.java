@@ -19,8 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineBuilder;
+import de.uniulm.omi.cloudiator.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.domain.VirtualMachineBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
 
 /**

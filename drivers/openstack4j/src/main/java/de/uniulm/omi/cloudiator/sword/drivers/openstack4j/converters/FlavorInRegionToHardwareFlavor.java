@@ -19,8 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.core.domain.HardwareFlavorBuilder;
+import de.uniulm.omi.cloudiator.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.domain.HardwareFlavorBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.FlavorInRegion;
 
 /**

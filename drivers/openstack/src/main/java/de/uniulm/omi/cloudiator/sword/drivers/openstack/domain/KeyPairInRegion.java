@@ -18,8 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.domain;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.domain.LocationScoped;
+import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.domain.LocationScoped;
 import org.jclouds.javax.annotation.Nullable;
 import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 

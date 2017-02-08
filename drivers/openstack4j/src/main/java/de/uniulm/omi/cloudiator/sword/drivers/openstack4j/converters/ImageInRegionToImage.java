@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.common.os.OperatingSystems;
-import de.uniulm.omi.cloudiator.sword.core.domain.ImageBuilder;
+import de.uniulm.omi.cloudiator.domain.ImageBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
 
 import javax.annotation.Nullable;
@@ -29,10 +29,10 @@ import javax.annotation.Nullable;
  * Created by daniel on 16.11.16.
  */
 public class ImageInRegionToImage
-    implements OneWayConverter<ImageInRegion, de.uniulm.omi.cloudiator.sword.api.domain.Image> {
+    implements OneWayConverter<ImageInRegion, de.uniulm.omi.cloudiator.domain.Image> {
 
     @Nullable @Override
-    public de.uniulm.omi.cloudiator.sword.api.domain.Image apply(ImageInRegion imageInRegion) {
+    public de.uniulm.omi.cloudiator.domain.Image apply(ImageInRegion imageInRegion) {
         return ImageBuilder.newBuilder().id(imageInRegion.getId()).location(imageInRegion.region())
             .name(imageInRegion.getName()).providerId(imageInRegion.providerId())
             .os(OperatingSystems.unknown()).build();

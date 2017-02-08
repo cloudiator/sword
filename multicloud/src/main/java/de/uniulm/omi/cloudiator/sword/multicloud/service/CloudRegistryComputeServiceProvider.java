@@ -20,8 +20,8 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
-import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.api.domain.Configuration;
+import de.uniulm.omi.cloudiator.domain.Cloud;
+import de.uniulm.omi.cloudiator.domain.Configuration;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.service.ServiceContextBuilder;
 

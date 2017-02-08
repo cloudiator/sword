@@ -20,15 +20,15 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
+import de.uniulm.omi.cloudiator.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
 import de.uniulm.omi.cloudiator.sword.api.service.DiscoveryService;
-import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineTemplateBuilder;
+import de.uniulm.omi.cloudiator.domain.VirtualMachineTemplateBuilder;
 import de.uniulm.omi.cloudiator.sword.multicloud.domain.VirtualMachineMultiCloudImpl;
 
 import static com.google.common.base.Preconditions.checkNotNull;

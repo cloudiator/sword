@@ -19,8 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.api.service;
 
 import com.google.common.base.Optional;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachineTemplate;
+import de.uniulm.omi.cloudiator.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;

@@ -23,9 +23,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.common.os.OperatingSystems;
-import de.uniulm.omi.cloudiator.sword.api.domain.Image;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.core.domain.ImageBuilder;
+import de.uniulm.omi.cloudiator.domain.Image;
+import de.uniulm.omi.cloudiator.domain.ImageBuilder;
+import de.uniulm.omi.cloudiator.domain.Location;
 import org.jclouds.compute.domain.OperatingSystem;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -37,12 +37,12 @@ public class JCloudsImageToImage
     implements OneWayConverter<org.jclouds.compute.domain.Image, Image> {
 
     private final OneWayConverter<org.jclouds.domain.Location, Location> locationConverter;
-    private final OneWayConverter<OperatingSystem, de.uniulm.omi.cloudiator.common.os.OperatingSystem>
+    private final OneWayConverter<OperatingSystem, de.uniulm.omi.cloudiator.domain.OperatingSystem>
         operatingSystemConverter;
 
     @Inject public JCloudsImageToImage(
         OneWayConverter<org.jclouds.domain.Location, Location> locationConverter,
-        OneWayConverter<OperatingSystem, de.uniulm.omi.cloudiator.common.os.OperatingSystem> operatingSystemConverter) {
+        OneWayConverter<OperatingSystem, de.uniulm.omi.cloudiator.domain.OperatingSystem> operatingSystemConverter) {
 
         checkNotNull(locationConverter);
         checkNotNull(operatingSystemConverter);
@@ -53,7 +53,7 @@ public class JCloudsImageToImage
 
     @Override public Image apply(org.jclouds.compute.domain.Image image) {
 
-        de.uniulm.omi.cloudiator.common.os.OperatingSystem os = OperatingSystems.unknown();
+        de.uniulm.omi.cloudiator.domain.OperatingSystem os = OperatingSystems.unknown();
         if (image.getOperatingSystem() != null) {
             os = operatingSystemConverter.apply(image.getOperatingSystem());
         }

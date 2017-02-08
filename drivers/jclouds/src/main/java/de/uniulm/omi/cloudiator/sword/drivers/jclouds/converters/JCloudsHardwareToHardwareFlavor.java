@@ -21,9 +21,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.core.domain.HardwareFlavorBuilder;
+import de.uniulm.omi.cloudiator.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.domain.HardwareFlavorBuilder;
 import org.jclouds.compute.domain.Hardware;
 import org.jclouds.compute.domain.Processor;
 import org.jclouds.compute.domain.Volume;

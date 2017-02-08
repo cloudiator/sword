@@ -19,9 +19,9 @@
 package de.uniulm.omi.cloudiator.sword.multicloud.domain;
 
 import com.google.common.base.MoreObjects;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
 
 import java.util.Optional;

@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.domain.Image;
+import de.uniulm.omi.cloudiator.domain.Image;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
 
 import java.util.Set;

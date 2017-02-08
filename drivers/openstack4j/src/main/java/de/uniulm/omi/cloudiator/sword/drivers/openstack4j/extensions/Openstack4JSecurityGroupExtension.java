@@ -20,9 +20,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
-import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.domain.SecurityGroup;
+import de.uniulm.omi.cloudiator.domain.SecurityGroupRule;
 import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.AssignSecurityGroupRuleToSecurityGroupStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.CreateSecurityGroupStrategy;

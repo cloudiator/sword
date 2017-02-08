@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.core.config;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
-import de.uniulm.omi.cloudiator.sword.api.properties.Properties;
+import de.uniulm.omi.cloudiator.domain.Properties;
 import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.core.base.BaseConnectionService;

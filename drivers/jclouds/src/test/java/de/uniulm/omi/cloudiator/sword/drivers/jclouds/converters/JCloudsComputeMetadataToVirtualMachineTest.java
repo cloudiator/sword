@@ -1,7 +1,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.api.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.domain.LoginCredential;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.domain.LoginCredentials;
 import org.junit.Before;

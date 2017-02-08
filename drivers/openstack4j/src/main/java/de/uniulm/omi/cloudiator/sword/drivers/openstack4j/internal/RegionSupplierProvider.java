@@ -23,7 +23,7 @@ import com.google.common.base.Suppliers;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
-import de.uniulm.omi.cloudiator.sword.api.domain.Location;
+import de.uniulm.omi.cloudiator.domain.Location;
 
 import java.util.Set;
 

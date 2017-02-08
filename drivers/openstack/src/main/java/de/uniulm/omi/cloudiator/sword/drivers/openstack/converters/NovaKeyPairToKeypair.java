@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.converters;
 
 
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.core.domain.KeyPairBuilder;
+import de.uniulm.omi.cloudiator.domain.KeyPairBuilder;
 import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.domain.KeyPairInRegion;
 
@@ -32,9 +32,9 @@ import static com.google.common.base.Preconditions.checkState;
  * Created by daniel on 19.05.15.
  */
 public class NovaKeyPairToKeypair
-    implements OneWayConverter<KeyPairInRegion, de.uniulm.omi.cloudiator.sword.api.domain.KeyPair> {
+    implements OneWayConverter<KeyPairInRegion, de.uniulm.omi.cloudiator.domain.KeyPair> {
 
-    @Nullable @Override public de.uniulm.omi.cloudiator.sword.api.domain.KeyPair apply(
+    @Nullable @Override public de.uniulm.omi.cloudiator.domain.KeyPair apply(
         @Nullable KeyPairInRegion keyPair) {
         if (keyPair == null) {
             return null;

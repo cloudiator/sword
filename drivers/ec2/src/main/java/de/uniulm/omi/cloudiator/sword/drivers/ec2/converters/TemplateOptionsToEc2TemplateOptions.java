@@ -37,7 +37,7 @@ public class TemplateOptionsToEc2TemplateOptions extends AbstractTemplateOptions
         defaultVpc = null;
 
     @Override protected TemplateOptions convert(
-        de.uniulm.omi.cloudiator.sword.api.domain.TemplateOptions templateOptions) {
+        de.uniulm.omi.cloudiator.domain.TemplateOptions templateOptions) {
         AWSEC2TemplateOptions ec2TemplateOptions = new AWSEC2TemplateOptions();
         final String keyPairName = templateOptions.keyPairName();
         if (keyPairName != null) {

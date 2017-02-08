@@ -19,8 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.service;
 
 import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
-import de.uniulm.omi.cloudiator.sword.api.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.api.domain.Configuration;
+import de.uniulm.omi.cloudiator.domain.Cloud;
+import de.uniulm.omi.cloudiator.domain.Configuration;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

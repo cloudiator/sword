@@ -18,8 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.api.extensions;
 
-import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroup;
-import de.uniulm.omi.cloudiator.sword.api.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.domain.SecurityGroup;
+import de.uniulm.omi.cloudiator.domain.SecurityGroupRule;
 
 import java.util.Set;
 
