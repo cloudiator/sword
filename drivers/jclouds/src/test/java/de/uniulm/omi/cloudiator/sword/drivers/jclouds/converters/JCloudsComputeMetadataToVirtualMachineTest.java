@@ -1,7 +1,11 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.domain.Image;
 import de.uniulm.omi.cloudiator.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
+import org.jclouds.compute.domain.Hardware;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.domain.LoginCredentials;
 import org.junit.Before;
@@ -18,30 +22,31 @@ import static org.mockito.Mockito.*;
  */
 public class JCloudsComputeMetadataToVirtualMachineTest {
 
-    @SuppressWarnings("unchecked")
-    private OneWayConverter<LoginCredentials, LoginCredential>
-            loginCredentialsConverter = mock(OneWayConverter.class);
+    @SuppressWarnings("unchecked") private OneWayConverter<LoginCredentials, LoginCredential>
+        loginCredentialsConverter = mock(OneWayConverter.class);
     private JCloudsComputeMetadataToVirtualMachine jCloudsComputeMetadataToVirtualMachine;
     private NodeMetadata nodeMetadata = mock(NodeMetadata.class);
     private LoginCredential loginCredential = mock(LoginCredential.class);
     private LoginCredentials loginCredentials = mock(LoginCredentials.class);
+    private OneWayConverter<Hardware, HardwareFlavor> hardwareConverter =
+        mock(OneWayConverter.class);
+    private GetStrategy<String, Image> imageGetStrategy = mock(GetStrategy.class);
 
-    @Before
-    public void setUp() throws Exception {
+    @Before public void setUp() throws Exception {
         jCloudsComputeMetadataToVirtualMachine =
-                new JCloudsComputeMetadataToVirtualMachine(loginCredentialsConverter);
+            new JCloudsComputeMetadataToVirtualMachine(loginCredentialsConverter, hardwareConverter,
+                imageGetStrategy);
     }
 
-    @Test
-    public void testApply() throws Exception {
+    @Test public void testApply() throws Exception {
 
         when(nodeMetadata.getId()).thenReturn("id");
         when(nodeMetadata.getProviderId()).thenReturn("providerId");
         when(nodeMetadata.getName()).thenReturn("name");
         when(nodeMetadata.getPublicAddresses())
-                .thenReturn(new HashSet<>(Collections.singletonList("93.184.216.34")));
+            .thenReturn(new HashSet<>(Collections.singletonList("93.184.216.34")));
         when(nodeMetadata.getPrivateAddresses())
-                .thenReturn(new HashSet<>(Collections.singletonList("192.168.0.1")));
+            .thenReturn(new HashSet<>(Collections.singletonList("192.168.0.1")));
         when(nodeMetadata.getCredentials()).thenReturn(loginCredentials);
         when(loginCredentialsConverter.apply(loginCredentials)).thenReturn(loginCredential);
 

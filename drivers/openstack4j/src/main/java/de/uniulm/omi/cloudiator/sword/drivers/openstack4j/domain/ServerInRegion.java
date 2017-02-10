@@ -70,19 +70,19 @@ public class ServerInRegion implements Server, InRegion, ProviderIdentified {
     }
 
     @Override public String getImageId() {
-        return createdServer.getImageId();
+        return getImage().getId();
     }
 
     @Override public Image getImage() {
-        return createdServer.getImage();
+        return new ImageInRegion(createdServer.getImage(), region);
     }
 
     @Override public String getFlavorId() {
-        return createdServer.getFlavorId();
+        return createdServer.getFlavor().getId();
     }
 
     @Override public Flavor getFlavor() {
-        return createdServer.getFlavor();
+        return new FlavorInRegion(createdServer.getFlavor(), region);
     }
 
     @Override public String getAccessIPv4() {

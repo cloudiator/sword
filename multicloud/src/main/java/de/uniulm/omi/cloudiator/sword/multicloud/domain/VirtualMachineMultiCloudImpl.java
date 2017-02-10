@@ -19,9 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.multicloud.domain;
 
 import com.google.common.base.MoreObjects;
-import de.uniulm.omi.cloudiator.domain.Location;
-import de.uniulm.omi.cloudiator.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.domain.*;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
 
 import java.util.Optional;
@@ -69,6 +67,20 @@ public class VirtualMachineMultiCloudImpl implements VirtualMachine {
 
     @Override public Set<String> privateAddresses() {
         return delegate.privateAddresses();
+    }
+
+    @Override public Optional<Image> image() {
+        if (!delegate.image().isPresent()) {
+            return Optional.empty();
+        }
+        return Optional.of(new ImageMultiCloudImpl(delegate.image().get(), cloudId));
+    }
+
+    @Override public Optional<HardwareFlavor> hardware() {
+        if (!delegate.hardware().isPresent()) {
+            return Optional.empty();
+        }
+        return Optional.of(new HardwareFlavorMultiCloudImpl(delegate.hardware().get(), cloudId));
     }
 
     @Override public Optional<LoginCredential> loginCredential() {
