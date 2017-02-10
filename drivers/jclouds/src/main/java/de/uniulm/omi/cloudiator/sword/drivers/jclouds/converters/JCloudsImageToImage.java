@@ -52,7 +52,9 @@ public class JCloudsImageToImage
     }
 
     @Override public Image apply(org.jclouds.compute.domain.Image image) {
-
+        if(image == null) {
+            return null;
+        }
         de.uniulm.omi.cloudiator.domain.OperatingSystem os = OperatingSystems.unknown();
         if (image.getOperatingSystem() != null) {
             os = operatingSystemConverter.apply(image.getOperatingSystem());

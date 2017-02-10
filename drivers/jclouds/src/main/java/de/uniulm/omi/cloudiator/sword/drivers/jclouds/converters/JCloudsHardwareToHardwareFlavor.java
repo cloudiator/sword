@@ -22,8 +22,8 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.domain.Location;
 import de.uniulm.omi.cloudiator.domain.HardwareFlavorBuilder;
+import de.uniulm.omi.cloudiator.domain.Location;
 import org.jclouds.compute.domain.Hardware;
 import org.jclouds.compute.domain.Processor;
 import org.jclouds.compute.domain.Volume;
@@ -43,6 +43,9 @@ public class JCloudsHardwareToHardwareFlavor implements OneWayConverter<Hardware
     }
 
     @Override public HardwareFlavor apply(Hardware hardware) {
+        if (hardware == null) {
+            return null;
+        }
         int cores = 0;
         for (Processor processor : hardware.getProcessors()) {
             cores += processor.getCores();

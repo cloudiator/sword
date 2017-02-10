@@ -23,8 +23,8 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 import com.google.common.collect.ImmutableMap;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.Location;
-import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.domain.LocationBuilder;
+import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocation;
 
 import java.util.Map;
@@ -43,7 +43,6 @@ public class JCloudsLocationToLocation
     }
 
     @Override public Location apply(org.jclouds.domain.Location location) {
-
         if (location == null) {
             return null;
         }
