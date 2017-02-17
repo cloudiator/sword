@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.converters;
 
 
-import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.KeyPairBuilder;
 import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.domain.KeyPairInRegion;

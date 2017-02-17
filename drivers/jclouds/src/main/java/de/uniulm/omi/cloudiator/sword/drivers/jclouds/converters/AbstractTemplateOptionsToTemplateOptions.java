@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
-import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.TemplateOptions;
 
 import javax.annotation.Nullable;

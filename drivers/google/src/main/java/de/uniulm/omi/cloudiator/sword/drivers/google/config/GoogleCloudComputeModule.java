@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.google.config;
 
 import com.google.inject.Injector;
-import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.google.GoogleJCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.google.converters.TemplateOptionsToGoogleTemplateOptions;

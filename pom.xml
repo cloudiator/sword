@@ -123,6 +123,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.github.cloudiator.common</groupId>
+            <artifactId>all</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>

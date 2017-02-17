@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
-import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.IpProtocol;
 import de.uniulm.omi.cloudiator.domain.SecurityGroupRule;
 import de.uniulm.omi.cloudiator.domain.CidrImpl;

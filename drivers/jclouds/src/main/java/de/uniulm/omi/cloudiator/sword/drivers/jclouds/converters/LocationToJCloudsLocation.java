@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocation;

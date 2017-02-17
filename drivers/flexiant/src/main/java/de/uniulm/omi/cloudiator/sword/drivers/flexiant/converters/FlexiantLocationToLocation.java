@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 
 
 import com.google.common.collect.ImmutableMap;
-import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.LocationScope;
 import de.uniulm.omi.cloudiator.domain.Location;
 import de.uniulm.omi.cloudiator.domain.LocationBuilder;

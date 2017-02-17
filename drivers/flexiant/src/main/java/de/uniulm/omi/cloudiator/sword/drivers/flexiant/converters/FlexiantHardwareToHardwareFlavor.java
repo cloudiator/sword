@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Hardware;
 import de.uniulm.omi.cloudiator.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.domain.Location;

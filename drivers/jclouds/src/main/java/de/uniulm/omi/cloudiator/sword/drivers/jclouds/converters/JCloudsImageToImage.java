@@ -21,8 +21,8 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.common.OneWayConverter;
-import de.uniulm.omi.cloudiator.common.os.OperatingSystems;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import de.uniulm.omi.cloudiator.domain.OperatingSystems;
 import de.uniulm.omi.cloudiator.domain.Image;
 import de.uniulm.omi.cloudiator.domain.ImageBuilder;
 import de.uniulm.omi.cloudiator.domain.Location;

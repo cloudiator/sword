@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.AvailabilityZoneInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;

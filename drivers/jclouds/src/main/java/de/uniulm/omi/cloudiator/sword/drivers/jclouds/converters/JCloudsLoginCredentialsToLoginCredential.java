@@ -22,7 +22,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.common.OneWayConverter;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
 import de.uniulm.omi.cloudiator.domain.LoginCredentialBuilder;

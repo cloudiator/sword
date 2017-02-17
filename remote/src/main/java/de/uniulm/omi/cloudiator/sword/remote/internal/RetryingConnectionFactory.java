@@ -3,7 +3,7 @@ package de.uniulm.omi.cloudiator.sword.remote.internal;
 import com.github.rholder.retry.*;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.common.os.RemoteType;
+import de.uniulm.omi.cloudiator.domain.RemoteType;
 import de.uniulm.omi.cloudiator.sword.api.annotations.Base;
 import de.uniulm.omi.cloudiator.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
