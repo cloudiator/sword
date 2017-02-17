@@ -3,7 +3,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.common.os.OperatingSystemBuilder;
-import de.uniulm.omi.cloudiator.common.os.OperatingSystemVersionImpl;
+import de.uniulm.omi.cloudiator.common.os.OperatingSystemVersions;
 import de.uniulm.omi.cloudiator.domain.OperatingSystemArchitecture;
 import de.uniulm.omi.cloudiator.domain.OperatingSystemFamily;
 import de.uniulm.omi.cloudiator.domain.OperatingSystemVersion;
@@ -37,7 +37,7 @@ public class JCloudsOperatingSystemConverter
             operatingSystemVersion = operatingSystemFamily.operatingSystemVersionFormat()
                 .parse(operatingSystem.getVersion());
         } catch (IllegalArgumentException e) {
-            operatingSystemVersion = OperatingSystemVersionImpl.unknown();
+            operatingSystemVersion = OperatingSystemVersions.unknown();
         }
 
         return OperatingSystemBuilder.newBuilder().version(operatingSystemVersion).

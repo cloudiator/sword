@@ -22,6 +22,7 @@ import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.domain.*;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 
@@ -87,12 +88,20 @@ public class VirtualMachineMultiCloudImpl implements VirtualMachine {
         return delegate.loginCredential();
     }
 
+    @Override public State state() {
+        return delegate.state();
+    }
+
     public String cloudId() {
         return cloudId;
     }
 
     @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id()).add("delegate", delegate)
-            .add("cloudId", cloudId).toString();
+        return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
+            .add("location", location()).add("name", name())
+            .add("publicIpAddresses", Arrays.toString(publicAddresses().toArray()))
+            .add("privateIPAddresses", Arrays.toString(privateAddresses().toArray()))
+            .add("image", image()).add("hardware", hardware())
+            .add("loginCredential", loginCredential()).add("cloudId", cloudId).toString();
     }
 }
