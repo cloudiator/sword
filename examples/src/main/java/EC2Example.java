@@ -1,8 +1,4 @@
-import de.uniulm.omi.cloudiator.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.domain.Image;
-import de.uniulm.omi.cloudiator.domain.Location;
-import de.uniulm.omi.cloudiator.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 import de.uniulm.omi.cloudiator.domain.ApiBuilder;
 import de.uniulm.omi.cloudiator.domain.CloudBuilder;
 import de.uniulm.omi.cloudiator.domain.ConfigurationBuilder;

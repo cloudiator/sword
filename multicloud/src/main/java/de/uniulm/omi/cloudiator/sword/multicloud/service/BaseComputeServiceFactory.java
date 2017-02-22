@@ -21,9 +21,9 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.domain.Cloud;
 import de.uniulm.omi.cloudiator.domain.Configuration;
-import de.uniulm.omi.cloudiator.sword.api.remote.AbstractRemoteModule;
-import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
-import de.uniulm.omi.cloudiator.sword.core.logging.AbstractLoggingModule;
+import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
+import de.uniulm.omi.cloudiator.sword.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.service.ServiceBuilder;
 
 import javax.annotation.Nullable;

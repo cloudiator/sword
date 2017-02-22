@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging;
 
-import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
+import de.uniulm.omi.cloudiator.sword.logging.LoggerFactory;
 import org.jclouds.logging.BaseLogger;
 import org.jclouds.logging.Logger;
 
@@ -42,10 +42,10 @@ public class JCloudsLoggingModule extends org.jclouds.logging.config.LoggingModu
 
     private static class DelegateLoggerFactory implements Logger.LoggerFactory {
 
-        private final de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory delegate;
+        private final de.uniulm.omi.cloudiator.sword.logging.LoggerFactory delegate;
 
         private DelegateLoggerFactory(
-            de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory deleteLoggerFactory) {
+            de.uniulm.omi.cloudiator.sword.logging.LoggerFactory deleteLoggerFactory) {
             checkNotNull(deleteLoggerFactory);
             this.delegate = deleteLoggerFactory;
         }
@@ -58,10 +58,10 @@ public class JCloudsLoggingModule extends org.jclouds.logging.config.LoggingModu
 
     private static class DelegateLogger extends BaseLogger {
 
-        private final de.uniulm.omi.cloudiator.sword.api.logging.Logger delegate;
+        private final de.uniulm.omi.cloudiator.sword.logging.Logger delegate;
         private final String category;
 
-        private DelegateLogger(de.uniulm.omi.cloudiator.sword.api.logging.Logger delegate,
+        private DelegateLogger(de.uniulm.omi.cloudiator.sword.logging.Logger delegate,
             String category) {
             checkNotNull(delegate);
             checkNotNull(category);

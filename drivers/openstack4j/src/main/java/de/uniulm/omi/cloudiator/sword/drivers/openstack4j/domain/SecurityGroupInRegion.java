@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain;
 import com.google.common.collect.ImmutableSet;
 import de.uniulm.omi.cloudiator.domain.Identifiable;
 import de.uniulm.omi.cloudiator.domain.Location;
-import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
+import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import org.openstack4j.model.compute.SecGroupExtension;
 import org.openstack4j.openstack.compute.domain.NovaSecGroupExtension;
 

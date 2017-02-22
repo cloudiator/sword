@@ -20,9 +20,9 @@ package de.uniulm.omi.cloudiator.sword.service.providers;
 
 import com.google.inject.AbstractModule;
 import de.uniulm.omi.cloudiator.domain.PropertiesBuilder;
-import de.uniulm.omi.cloudiator.sword.api.exceptions.ProviderNotFoundException;
-import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
-import de.uniulm.omi.cloudiator.sword.core.base.BaseComputeService;
+import de.uniulm.omi.cloudiator.sword.exceptions.ProviderNotFoundException;
+import de.uniulm.omi.cloudiator.sword.properties.Constants;
+import de.uniulm.omi.cloudiator.sword.base.BaseComputeService;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.config.Ec2ComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.config.FlexiantComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.google.config.GoogleCloudComputeModule;

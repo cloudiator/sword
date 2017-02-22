@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import de.uniulm.omi.cloudiator.domain.Cloud;
 import de.uniulm.omi.cloudiator.domain.Configuration;
-import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 
 /**
  * Created by daniel on 19.06.15.

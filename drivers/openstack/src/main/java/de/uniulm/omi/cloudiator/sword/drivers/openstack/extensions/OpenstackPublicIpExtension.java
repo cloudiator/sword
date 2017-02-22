@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.OpenstackFloatingIpStrategy;
 
 import static com.google.common.base.Preconditions.checkArgument;

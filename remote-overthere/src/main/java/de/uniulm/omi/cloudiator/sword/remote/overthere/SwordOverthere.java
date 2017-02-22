@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.remote.overthere;
 import com.xebialabs.overthere.ConnectionOptions;
 import com.xebialabs.overthere.Overthere;
 import com.xebialabs.overthere.RuntimeIOException;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
 
 /**
  * Created by daniel on 23.09.15.

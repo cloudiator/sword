@@ -32,10 +32,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.github.cloudiator.sword</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
         </dependency>

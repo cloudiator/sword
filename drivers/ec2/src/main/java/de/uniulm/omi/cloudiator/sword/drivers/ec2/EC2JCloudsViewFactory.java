@@ -20,8 +20,8 @@ package de.uniulm.omi.cloudiator.sword.drivers.ec2;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
-import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
+import de.uniulm.omi.cloudiator.sword.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.logging.LoggerFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
 import org.jclouds.aws.ec2.reference.AWSEC2Constants;
 

@@ -20,8 +20,8 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
-import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
+import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
+import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import org.openstack4j.api.OSClient;
 
 import java.util.List;

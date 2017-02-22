@@ -4,12 +4,12 @@ import com.github.rholder.retry.*;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.domain.RemoteType;
-import de.uniulm.omi.cloudiator.sword.api.annotations.Base;
+import de.uniulm.omi.cloudiator.sword.annotations.Base;
 import de.uniulm.omi.cloudiator.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
+import de.uniulm.omi.cloudiator.sword.properties.Constants;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionFactory;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;

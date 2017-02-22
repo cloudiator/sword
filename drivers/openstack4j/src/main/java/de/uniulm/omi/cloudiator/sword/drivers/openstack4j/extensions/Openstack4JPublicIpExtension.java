@@ -19,10 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
-import de.uniulm.omi.cloudiator.sword.api.strategy.PublicIpStrategy;
-import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
-import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
+import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.strategy.PublicIpStrategy;
+import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
+import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.Openstack4JConstants;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.FloatingIpPoolStrategy;
 import org.openstack4j.api.OSClient;

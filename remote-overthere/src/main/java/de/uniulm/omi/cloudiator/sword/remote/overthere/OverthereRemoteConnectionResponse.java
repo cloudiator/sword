@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 import com.xebialabs.overthere.OverthereExecutionOutputHandler;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionResponse;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionResponse;
 
 /**
  * Created by daniel on 22.09.15.

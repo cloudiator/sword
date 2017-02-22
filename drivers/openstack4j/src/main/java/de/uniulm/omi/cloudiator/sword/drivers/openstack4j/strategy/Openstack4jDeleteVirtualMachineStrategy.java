@@ -19,8 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
+import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import org.openstack4j.api.OSClient;
 
 import static com.google.common.base.Preconditions.checkNotNull;

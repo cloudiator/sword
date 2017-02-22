@@ -24,8 +24,8 @@ import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.ServerTemplate;
 import de.uniulm.omi.cloudiator.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.domain.VirtualMachineTemplate;
-import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.util.FlexiantUtil;
 

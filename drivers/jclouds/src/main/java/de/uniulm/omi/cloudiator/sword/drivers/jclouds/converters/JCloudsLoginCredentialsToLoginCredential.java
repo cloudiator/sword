@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
+import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.domain.LoginCredentialBuilder;
 import org.jclouds.domain.LoginCredentials;
 

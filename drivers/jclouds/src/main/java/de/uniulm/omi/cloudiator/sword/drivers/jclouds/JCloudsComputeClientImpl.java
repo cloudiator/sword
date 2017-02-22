@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.ServiceContext;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocation;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocationImpl;
 import org.jclouds.compute.ComputeServiceContext;

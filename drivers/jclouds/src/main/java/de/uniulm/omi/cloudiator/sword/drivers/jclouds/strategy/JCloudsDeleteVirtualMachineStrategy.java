@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 
 /**

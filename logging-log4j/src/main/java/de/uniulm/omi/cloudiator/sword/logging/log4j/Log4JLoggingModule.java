@@ -18,8 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.logging.log4j;
 
-import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
-import de.uniulm.omi.cloudiator.sword.core.logging.AbstractLoggingModule;
+import de.uniulm.omi.cloudiator.sword.logging.LoggerFactory;
+import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
 
 /**
  * Created by daniel on 06.03.15.

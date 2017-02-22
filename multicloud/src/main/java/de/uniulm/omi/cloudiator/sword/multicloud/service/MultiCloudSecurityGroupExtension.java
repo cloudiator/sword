@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 import com.google.common.base.Optional;
 import de.uniulm.omi.cloudiator.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.domain.SecurityGroupRule;
-import de.uniulm.omi.cloudiator.sword.api.extensions.SecurityGroupExtension;
+import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.multicloud.domain.SecurityGroupMultiCloudImpl;
 
 import java.util.Set;

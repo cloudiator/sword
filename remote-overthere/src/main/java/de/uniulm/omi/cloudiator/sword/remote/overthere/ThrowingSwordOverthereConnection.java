@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 import com.xebialabs.overthere.*;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
 
 import java.util.concurrent.Callable;
 

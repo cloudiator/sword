@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.ServiceContext;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;

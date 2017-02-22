@@ -21,10 +21,10 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.annotations.Base;
+import de.uniulm.omi.cloudiator.sword.annotations.Base;
 import de.uniulm.omi.cloudiator.domain.Cloud;
 import de.uniulm.omi.cloudiator.domain.Configuration;
-import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 
 import java.util.concurrent.TimeUnit;
 

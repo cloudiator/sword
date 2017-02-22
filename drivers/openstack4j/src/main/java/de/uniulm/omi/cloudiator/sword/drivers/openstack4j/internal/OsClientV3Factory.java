@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.ServiceContext;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.common.Identifier;
 import org.openstack4j.model.identity.v3.Token;

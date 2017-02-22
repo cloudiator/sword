@@ -27,8 +27,8 @@ import de.uniulm.omi.cloudiator.flexiant.client.api.FlexiantException;
 import de.uniulm.omi.cloudiator.flexiant.client.api.ResourceInLocation;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.*;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.generic.ResourceImpl;
-import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
-import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
+import de.uniulm.omi.cloudiator.sword.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.properties.Constants;
 
 import javax.inject.Named;
 import java.util.Arrays;

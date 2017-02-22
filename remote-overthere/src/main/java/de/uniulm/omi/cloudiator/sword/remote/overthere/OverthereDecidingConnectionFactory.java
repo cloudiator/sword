@@ -3,9 +3,9 @@ package de.uniulm.omi.cloudiator.sword.remote.overthere;
 import com.google.common.collect.Sets;
 import de.uniulm.omi.cloudiator.domain.RemoteType;
 import de.uniulm.omi.cloudiator.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionFactory;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
 
 import java.util.LinkedHashSet;
 

@@ -33,10 +33,6 @@
     <dependencies>
         <dependency>
             <groupId>io.github.cloudiator.sword</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.cloudiator.sword</groupId>
             <artifactId>core</artifactId>
         </dependency>
         <dependency>

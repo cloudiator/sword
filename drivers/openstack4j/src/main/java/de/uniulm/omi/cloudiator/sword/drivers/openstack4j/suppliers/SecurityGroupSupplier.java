@@ -23,7 +23,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.Location;
 import de.uniulm.omi.cloudiator.domain.SecurityGroup;
-import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
+import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.SecurityGroupInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
 import org.openstack4j.api.OSClient;

@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud;
 
-import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.CloudRegistry;
 
 /**

@@ -3,9 +3,9 @@ package de.uniulm.omi.cloudiator.sword.remote.overthere;
 import com.google.common.io.ByteStreams;
 import com.xebialabs.overthere.CmdLine;
 import com.xebialabs.overthere.OverthereFile;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionResponse;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionResponse;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
 
 import java.io.File;
 import java.io.FileOutputStream;

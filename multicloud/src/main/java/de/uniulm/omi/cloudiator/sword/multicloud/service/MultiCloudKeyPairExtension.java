@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.domain.KeyPair;
-import de.uniulm.omi.cloudiator.sword.api.extensions.KeyPairExtension;
+import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.multicloud.domain.KeyPairMultiCloudImpl;
 
 import javax.annotation.Nullable;

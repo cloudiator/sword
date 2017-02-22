@@ -22,10 +22,10 @@ import com.google.common.collect.Lists;
 import com.google.common.net.HostAndPort;
 import de.uniulm.omi.cloudiator.domain.RemoteType;
 import de.uniulm.omi.cloudiator.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
-import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
-import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
+import de.uniulm.omi.cloudiator.sword.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.service.ConnectionService;
 
 import java.util.ArrayList;
 import java.util.Collections;

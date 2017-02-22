@@ -3,8 +3,8 @@ package de.uniulm.omi.cloudiator.sword.drivers.ec2.strategy;
 import com.github.rholder.retry.*;
 import de.uniulm.omi.cloudiator.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.domain.VirtualMachineTemplate;
-import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.domain.VirtualMachineBuilder;
 
 import java.util.concurrent.ExecutionException;

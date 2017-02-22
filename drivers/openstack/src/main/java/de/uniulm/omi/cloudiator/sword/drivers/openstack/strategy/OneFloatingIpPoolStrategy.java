@@ -20,8 +20,8 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.util.IdScopedByLocation;
-import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
+import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
+import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.extensions.FloatingIPPoolApi;
 

@@ -24,7 +24,7 @@ import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
 import de.uniulm.omi.cloudiator.domain.Location;
 import de.uniulm.omi.cloudiator.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.domain.LoginCredentialBuilder;
 import de.uniulm.omi.cloudiator.domain.VirtualMachineBuilder;
 

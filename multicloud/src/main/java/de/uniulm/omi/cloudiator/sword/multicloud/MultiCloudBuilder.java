@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.multicloud;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import de.uniulm.omi.cloudiator.sword.core.logging.AbstractLoggingModule;
+import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.multicloud.config.MultiCloudModule;
 import de.uniulm.omi.cloudiator.sword.remote.internal.ExtendedRemoteModule;
 

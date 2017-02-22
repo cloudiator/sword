@@ -22,11 +22,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.name.Names;
 import de.uniulm.omi.cloudiator.domain.Properties;
-import de.uniulm.omi.cloudiator.sword.api.remote.AbstractRemoteModule;
-import de.uniulm.omi.cloudiator.sword.api.service.ConnectionService;
-import de.uniulm.omi.cloudiator.sword.core.base.BaseConnectionService;
-import de.uniulm.omi.cloudiator.sword.core.logging.AbstractLoggingModule;
-import de.uniulm.omi.cloudiator.sword.core.logging.NullLoggingModule;
+import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
+import de.uniulm.omi.cloudiator.sword.service.ConnectionService;
+import de.uniulm.omi.cloudiator.sword.base.BaseConnectionService;
+import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
+import de.uniulm.omi.cloudiator.sword.logging.NullLoggingModule;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

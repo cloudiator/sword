@@ -2,9 +2,9 @@ package de.uniulm.omi.cloudiator.sword.remote.internal;
 
 import com.google.inject.Injector;
 import com.google.inject.Provides;
-import de.uniulm.omi.cloudiator.sword.api.annotations.Base;
-import de.uniulm.omi.cloudiator.sword.api.remote.AbstractRemoteModule;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnectionFactory;
+import de.uniulm.omi.cloudiator.sword.annotations.Base;
+import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionFactory;
 
 /**
  * An abstract module for the definition of an own remote connection module.

@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
 
 import static com.google.common.base.Preconditions.*;
 

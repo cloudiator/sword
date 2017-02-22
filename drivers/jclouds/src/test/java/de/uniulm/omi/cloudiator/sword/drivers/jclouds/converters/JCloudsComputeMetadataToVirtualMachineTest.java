@@ -4,7 +4,7 @@ import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.domain.Image;
 import de.uniulm.omi.cloudiator.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import org.jclouds.compute.domain.Hardware;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.domain.LoginCredentials;

@@ -20,8 +20,8 @@ package de.uniulm.omi.cloudiator.sword.drivers.google;
 
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
-import de.uniulm.omi.cloudiator.sword.api.logging.LoggerFactory;
+import de.uniulm.omi.cloudiator.sword.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.logging.LoggerFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
 import org.jclouds.ssh.jsch.config.JschSshClientModule;
 

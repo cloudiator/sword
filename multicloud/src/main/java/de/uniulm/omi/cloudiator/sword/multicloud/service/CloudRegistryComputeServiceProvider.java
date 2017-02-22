@@ -19,10 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.api.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.ServiceContext;
 import de.uniulm.omi.cloudiator.domain.Cloud;
 import de.uniulm.omi.cloudiator.domain.Configuration;
-import de.uniulm.omi.cloudiator.sword.api.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.service.ServiceContextBuilder;
 
 import javax.annotation.Nullable;

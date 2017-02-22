@@ -25,7 +25,7 @@ import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.OperatingSystems;
 import de.uniulm.omi.cloudiator.domain.Image;
 import de.uniulm.omi.cloudiator.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.domain.ImageBuilder;
 
 /**

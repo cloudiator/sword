@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
-import de.uniulm.omi.cloudiator.sword.api.strategy.DeleteVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import org.jclouds.http.HttpResponse;
 
 import static com.google.common.base.Preconditions.checkNotNull;

@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.properties.Constants;
+import de.uniulm.omi.cloudiator.sword.properties.Constants;
 
 import java.util.Arrays;
 import java.util.HashSet;

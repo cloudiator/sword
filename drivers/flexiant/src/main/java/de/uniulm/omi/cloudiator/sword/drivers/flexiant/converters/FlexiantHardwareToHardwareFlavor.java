@@ -23,7 +23,7 @@ import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Hardware;
 import de.uniulm.omi.cloudiator.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.domain.Location;
-import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.domain.HardwareFlavorBuilder;
 
 /**

@@ -49,7 +49,6 @@
     </properties>
 
     <modules>
-        <module>api</module>
         <module>core</module>
         <module>drivers</module>
         <module>service</module>

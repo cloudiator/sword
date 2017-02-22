@@ -4,8 +4,8 @@ import com.xebialabs.overthere.ConnectionOptions;
 import com.xebialabs.overthere.OperatingSystemFamily;
 import com.xebialabs.overthere.ssh.SshConnectionBuilder;
 import com.xebialabs.overthere.ssh.SshConnectionType;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteConnection;
-import de.uniulm.omi.cloudiator.sword.api.remote.RemoteException;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
+import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
 
 /**
  * Created by daniel on 19.08.15.
