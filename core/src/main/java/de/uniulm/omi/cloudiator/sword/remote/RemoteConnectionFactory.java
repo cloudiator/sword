@@ -1,7 +1,7 @@
 package de.uniulm.omi.cloudiator.sword.remote;
 
-import de.uniulm.omi.cloudiator.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.domain.RemoteType;
+import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 
 /**
  * Created by Daniel Seybold on 06.05.2015.

@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
 import de.uniulm.omi.cloudiator.domain.RemoteType;
-import de.uniulm.omi.cloudiator.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteException;

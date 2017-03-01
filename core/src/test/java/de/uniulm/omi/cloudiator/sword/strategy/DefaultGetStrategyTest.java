@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.strategy;
 
 import com.google.common.base.Supplier;
 import de.uniulm.omi.cloudiator.domain.Identifiable;
-import de.uniulm.omi.cloudiator.domain.ProviderIdentifiable;
+import de.uniulm.omi.cloudiator.sword.domain.ProviderIdentifiable;
 import org.junit.Before;
 import org.junit.Test;
 

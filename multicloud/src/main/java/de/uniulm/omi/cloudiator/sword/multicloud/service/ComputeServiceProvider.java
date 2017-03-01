@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
-import de.uniulm.omi.cloudiator.domain.Cloud;
+import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 
 import java.util.Map;

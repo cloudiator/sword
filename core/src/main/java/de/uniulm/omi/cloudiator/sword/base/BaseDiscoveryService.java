@@ -21,10 +21,10 @@ package de.uniulm.omi.cloudiator.sword.base;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.annotations.Memoized;
-import de.uniulm.omi.cloudiator.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.domain.Image;
-import de.uniulm.omi.cloudiator.domain.Location;
-import de.uniulm.omi.cloudiator.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.domain.Image;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 

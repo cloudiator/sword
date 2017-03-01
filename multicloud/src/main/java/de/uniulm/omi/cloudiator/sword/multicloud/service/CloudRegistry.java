@@ -19,8 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import de.uniulm.omi.cloudiator.sword.ServiceContext;
-import de.uniulm.omi.cloudiator.domain.Cloud;
-import de.uniulm.omi.cloudiator.domain.Configuration;
+import de.uniulm.omi.cloudiator.sword.domain.Cloud;
+import de.uniulm.omi.cloudiator.sword.domain.Configuration;
 
 /**
  * Created by daniel on 19.01.17.

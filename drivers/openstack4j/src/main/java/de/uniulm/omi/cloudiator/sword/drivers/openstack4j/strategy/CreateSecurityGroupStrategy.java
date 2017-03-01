@@ -19,14 +19,14 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.domain.Location;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
-import de.uniulm.omi.cloudiator.domain.SecurityGroup;
-import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
-import de.uniulm.omi.cloudiator.sword.util.LocationHierarchy;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.SecurityGroupInRegion;
+import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.util.LocationHierarchy;
+import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.SecGroupExtension;
 

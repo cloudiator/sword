@@ -1,8 +1,8 @@
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
-import de.uniulm.omi.cloudiator.domain.ApiBuilder;
-import de.uniulm.omi.cloudiator.domain.CloudBuilder;
-import de.uniulm.omi.cloudiator.domain.ConfigurationBuilder;
-import de.uniulm.omi.cloudiator.domain.CredentialsBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.ApiBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.CloudBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.ConfigurationBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.CredentialsBuilder;
 import de.uniulm.omi.cloudiator.sword.service.ServiceBuilder;
 
 /**

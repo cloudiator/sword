@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.remote.internal;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.name.Names;
-import de.uniulm.omi.cloudiator.domain.Properties;
+import de.uniulm.omi.cloudiator.sword.domain.Properties;
 import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.service.ConnectionService;
 import de.uniulm.omi.cloudiator.sword.base.BaseConnectionService;

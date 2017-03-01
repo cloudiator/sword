@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.service.providers;
 
 import com.google.inject.Module;
-import de.uniulm.omi.cloudiator.domain.Properties;
+import de.uniulm.omi.cloudiator.sword.domain.Properties;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 
 import java.util.Set;

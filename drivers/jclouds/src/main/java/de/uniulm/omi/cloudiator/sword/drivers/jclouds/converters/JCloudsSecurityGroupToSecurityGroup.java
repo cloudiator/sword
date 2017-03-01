@@ -20,10 +20,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.domain.Location;
-import de.uniulm.omi.cloudiator.domain.SecurityGroup;
-import de.uniulm.omi.cloudiator.domain.SecurityGroupRule;
-import de.uniulm.omi.cloudiator.domain.SecurityGroupBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroup;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupBuilder;
 import org.jclouds.net.domain.IpPermission;
 
 import java.util.stream.Collectors;

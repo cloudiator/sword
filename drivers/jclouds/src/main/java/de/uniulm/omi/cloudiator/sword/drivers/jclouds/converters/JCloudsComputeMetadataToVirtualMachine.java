@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.domain.*;
+import de.uniulm.omi.cloudiator.sword.domain.*;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Hardware;

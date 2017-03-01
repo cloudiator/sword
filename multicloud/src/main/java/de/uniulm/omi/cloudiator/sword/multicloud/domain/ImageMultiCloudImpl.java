@@ -20,8 +20,8 @@ package de.uniulm.omi.cloudiator.sword.multicloud.domain;
 
 import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.domain.OperatingSystem;
-import de.uniulm.omi.cloudiator.domain.Image;
-import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.Image;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
 
 import java.util.Optional;

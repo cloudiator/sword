@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.service.providers;
 
 import com.google.inject.AbstractModule;
-import de.uniulm.omi.cloudiator.domain.PropertiesBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.PropertiesBuilder;
 import de.uniulm.omi.cloudiator.sword.exceptions.ProviderNotFoundException;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.base.BaseComputeService;

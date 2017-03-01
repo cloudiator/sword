@@ -19,10 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.domain.IpProtocol;
-import de.uniulm.omi.cloudiator.domain.SecurityGroupRule;
-import de.uniulm.omi.cloudiator.domain.CidrImpl;
-import de.uniulm.omi.cloudiator.domain.SecurityGroupRuleBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.IpProtocol;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.sword.domain.CidrImpl;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRuleBuilder;
 import org.openstack4j.model.compute.IPProtocol;
 import org.openstack4j.model.compute.SecGroupExtension;
 

@@ -20,8 +20,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.domain.*;
+import de.uniulm.omi.cloudiator.sword.domain.*;
 import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.util.LocationHierarchy;

@@ -1,10 +1,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.ec2.strategy;
 
-import de.uniulm.omi.cloudiator.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.domain.VirtualMachineTemplate;
+import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.api.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.domain.VirtualMachineBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineBuilder;
 import org.junit.Before;
 import org.junit.Test;
 

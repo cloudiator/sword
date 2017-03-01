@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
 import com.google.common.base.Supplier;
-import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 
 import java.util.Set;
 

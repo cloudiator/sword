@@ -24,12 +24,8 @@ import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.domain.TemplateOptions;
-import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
-import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
-import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.domain.KeyPair;
+import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.OpenstackComputeClientImpl;
@@ -39,6 +35,11 @@ import de.uniulm.omi.cloudiator.sword.drivers.openstack.domain.KeyPairInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackKeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackPublicIpExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.*;
+import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
+import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 
 import java.util.Set;
@@ -56,9 +57,8 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
     @Override protected void configure() {
         super.configure();
         bind(NovaApi.class).toProvider(NovaApiProvider.class);
-        bind(
-            new TypeLiteral<OneWayConverter<KeyPairInRegion, de.uniulm.omi.cloudiator.domain.KeyPair>>() {
-            }).to(NovaKeyPairToKeypair.class);
+        bind(new TypeLiteral<OneWayConverter<KeyPairInRegion, KeyPair>>() {
+        }).to(NovaKeyPairToKeypair.class);
     }
 
     @Override protected Optional<PublicIpExtension> publicIpService(Injector injector) {

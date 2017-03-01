@@ -19,16 +19,16 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.domain.Location;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
-import de.uniulm.omi.cloudiator.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.domain.VirtualMachineTemplate;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
+import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.Server;

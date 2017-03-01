@@ -23,10 +23,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.OperatingSystems;
-import de.uniulm.omi.cloudiator.domain.Image;
-import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.Image;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.domain.ImageBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.ImageBuilder;
 
 /**
  * A {@link OneWayConverter} converting images retrieved by the

@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.extensions;
 
 
 
-import de.uniulm.omi.cloudiator.domain.KeyPair;
+import de.uniulm.omi.cloudiator.sword.domain.KeyPair;
 
 import javax.annotation.Nullable;
 

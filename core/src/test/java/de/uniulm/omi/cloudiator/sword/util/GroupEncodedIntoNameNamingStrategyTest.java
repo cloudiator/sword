@@ -1,7 +1,7 @@
 package de.uniulm.omi.cloudiator.sword.util;
 
 import de.uniulm.omi.cloudiator.sword.ServiceContext;
-import de.uniulm.omi.cloudiator.domain.Configuration;
+import de.uniulm.omi.cloudiator.sword.domain.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

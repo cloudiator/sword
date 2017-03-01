@@ -19,10 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.domain.IpProtocol;
-import de.uniulm.omi.cloudiator.domain.SecurityGroupRule;
-import de.uniulm.omi.cloudiator.domain.CidrImpl;
-import de.uniulm.omi.cloudiator.domain.SecurityGroupRuleBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.IpProtocol;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.sword.domain.CidrImpl;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRuleBuilder;
 import org.jclouds.net.domain.IpPermission;
 
 import static com.google.common.base.Preconditions.checkState;

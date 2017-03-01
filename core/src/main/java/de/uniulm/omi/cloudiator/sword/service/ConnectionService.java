@@ -19,8 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.service;
 
 import com.google.common.net.HostAndPort;
-import de.uniulm.omi.cloudiator.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.domain.RemoteType;
+import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
 

@@ -19,9 +19,9 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
-import de.uniulm.omi.cloudiator.domain.LocationBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.LocationBuilder;
 
 /**
  * Created by daniel on 18.11.16.

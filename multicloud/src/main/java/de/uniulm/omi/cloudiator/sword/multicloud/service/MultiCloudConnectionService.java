@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 import com.google.common.collect.Lists;
 import com.google.common.net.HostAndPort;
 import de.uniulm.omi.cloudiator.domain.RemoteType;
-import de.uniulm.omi.cloudiator.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;

@@ -23,9 +23,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
-import de.uniulm.omi.cloudiator.domain.LoginCredentialBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.LoginCredentialBuilder;
 import org.jclouds.domain.LoginCredentials;
 
 import static com.google.common.base.Preconditions.checkNotNull;

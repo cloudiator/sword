@@ -20,9 +20,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.domain.SecurityGroup;
-import de.uniulm.omi.cloudiator.domain.SecurityGroupRule;
-import de.uniulm.omi.cloudiator.domain.SecurityGroupBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroup;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.SecurityGroupInRegion;
 import org.openstack4j.model.compute.SecGroupExtension;
 

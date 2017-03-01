@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.ec2.config;
 
 import com.google.inject.Injector;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.domain.TemplateOptions;
+import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.DefaultGetStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.EC2JCloudsViewFactory;

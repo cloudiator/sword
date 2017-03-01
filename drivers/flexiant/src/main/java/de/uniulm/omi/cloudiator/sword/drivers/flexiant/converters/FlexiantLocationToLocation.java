@@ -22,8 +22,8 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 import com.google.common.collect.ImmutableMap;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.LocationScope;
-import de.uniulm.omi.cloudiator.domain.Location;
-import de.uniulm.omi.cloudiator.domain.LocationBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.LocationBuilder;
 
 import java.util.Map;
 

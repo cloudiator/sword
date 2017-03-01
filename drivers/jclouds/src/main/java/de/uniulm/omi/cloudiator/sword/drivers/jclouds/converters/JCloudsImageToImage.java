@@ -23,9 +23,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.OperatingSystems;
-import de.uniulm.omi.cloudiator.domain.Image;
-import de.uniulm.omi.cloudiator.domain.ImageBuilder;
-import de.uniulm.omi.cloudiator.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.Image;
+import de.uniulm.omi.cloudiator.sword.domain.ImageBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 import org.jclouds.compute.domain.OperatingSystem;
 
 import static com.google.common.base.Preconditions.checkNotNull;

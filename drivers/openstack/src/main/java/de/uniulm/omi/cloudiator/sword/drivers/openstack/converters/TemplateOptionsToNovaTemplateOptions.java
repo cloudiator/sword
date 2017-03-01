@@ -37,7 +37,7 @@ public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOption
     String availabilityZone = null;
 
     @Override protected TemplateOptions convert(
-        de.uniulm.omi.cloudiator.domain.TemplateOptions templateOptions) {
+        de.uniulm.omi.cloudiator.sword.domain.TemplateOptions templateOptions) {
         NovaTemplateOptions novaTemplateOptions = new NovaTemplateOptions();
         final String keyPairName = templateOptions.keyPairName();
         if (keyPairName != null) {

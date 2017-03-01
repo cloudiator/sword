@@ -19,16 +19,16 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.domain.KeyPair;
-import de.uniulm.omi.cloudiator.domain.Location;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
+import de.uniulm.omi.cloudiator.sword.domain.KeyPair;
+import de.uniulm.omi.cloudiator.sword.domain.KeyPairBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
-import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
-import de.uniulm.omi.cloudiator.domain.KeyPairBuilder;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
+import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
 import de.uniulm.omi.cloudiator.sword.util.LocationHierarchy;
+import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.Keypair;
 

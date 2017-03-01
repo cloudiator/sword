@@ -19,8 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.util;
 
 import com.google.common.collect.Iterables;
-import de.uniulm.omi.cloudiator.domain.Location;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;

@@ -1,7 +1,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.OperatingSystemFamily;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.jclouds.compute.domain.OsFamily;
 
 /**
