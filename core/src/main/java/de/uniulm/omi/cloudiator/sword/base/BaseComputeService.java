@@ -20,7 +20,6 @@ package de.uniulm.omi.cloudiator.sword.base;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.ServiceContext;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
@@ -52,17 +51,16 @@ public class BaseComputeService implements ComputeService {
 
     @Inject public BaseComputeService(CreateVirtualMachineStrategy createVirtualMachineStrategy,
         DeleteVirtualMachineStrategy deleteVirtualMachineStrategy,
-        RemoteConnectionFactory remoteConnectionFactory, ServiceContext serviceContext,
-        DiscoveryService discoveryService, Optional<PublicIpExtension> publicIpService,
-        Optional<KeyPairExtension> keyPairService,
-        Optional<SecurityGroupExtension> securityGroupService, ConnectionService connectionService) {
+        RemoteConnectionFactory remoteConnectionFactory, DiscoveryService discoveryService,
+        Optional<PublicIpExtension> publicIpService, Optional<KeyPairExtension> keyPairService,
+        Optional<SecurityGroupExtension> securityGroupService,
+        ConnectionService connectionService) {
 
 
 
         checkNotNull(createVirtualMachineStrategy);
         checkNotNull(deleteVirtualMachineStrategy);
         checkNotNull(remoteConnectionFactory);
-        checkNotNull(serviceContext);
         checkNotNull(publicIpService);
         checkNotNull(keyPairService);
         checkNotNull(securityGroupService);

@@ -29,9 +29,9 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
 
-    protected int cores;
-    protected long ram;
-    protected Float gbDisk;
+    private int cores;
+    private long ram;
+    Float gbDisk;
 
     HardwareFlavorImpl(String id, String providerId, String name, @Nullable Location location,
         int cores, long ram, @Nullable Float gbDisk) {

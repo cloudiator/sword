@@ -33,54 +33,58 @@ import static org.hamcrest.core.Is.is;
 public class CloudImplTest {
 
     private final Api testApi = ApiBuilder.newBuilder().providerName("providerName").build();
-    private final Credentials testCredentials =
+    private final CloudCredential testCloudCredential =
         CredentialsBuilder.newBuilder().password("password").user("user").build();
     private final String testEndpoint = "endpoint";
+    private final Configuration testConfiguration =
+        ConfigurationBuilder.newBuilder().nodeGroup("nodeGroup").build();
 
     @Test public void testApi() {
-        final Cloud cloud = CloudBuilder.newBuilder().api(testApi).credentials(testCredentials)
-            .endpoint(testEndpoint).build();
+        final Cloud cloud = CloudBuilder.newBuilder().api(testApi).credentials(testCloudCredential)
+            .endpoint(testEndpoint).configuration(testConfiguration).build();
         assertThat(cloud.api(), is(equalTo(testApi)));
     }
 
     @Test public void testCredential() {
-        final Cloud cloud = CloudBuilder.newBuilder().api(testApi).credentials(testCredentials)
-            .endpoint(testEndpoint).build();
-        assertThat(cloud.credentials(), is(equalTo(testCredentials)));
+        final Cloud cloud = CloudBuilder.newBuilder().api(testApi).credentials(testCloudCredential)
+            .endpoint(testEndpoint).configuration(testConfiguration).build();
+        assertThat(cloud.credential(), is(equalTo(testCloudCredential)));
     }
 
     @Test public void testEndpoint() {
-        final Cloud cloud = CloudBuilder.newBuilder().api(testApi).credentials(testCredentials)
-            .endpoint(testEndpoint).build();
+        final Cloud cloud = CloudBuilder.newBuilder().api(testApi).credentials(testCloudCredential)
+            .endpoint(testEndpoint).configuration(testConfiguration).build();
         assertThat(cloud.endpoint().get(), is(equalTo(testEndpoint)));
     }
 
     @Test public void testEndpointNullable() {
         final Cloud cloud =
-            CloudBuilder.newBuilder().api(testApi).credentials(testCredentials).endpoint(null)
-                .build();
+            CloudBuilder.newBuilder().api(testApi).credentials(testCloudCredential).endpoint(null)
+                .configuration(testConfiguration).build();
         assertThat(cloud.endpoint(), is(equalTo(Optional.empty())));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testEmptyEndpointThrowsIllegalArgumentException() {
         final Cloud cloud =
-            CloudBuilder.newBuilder().api(testApi).credentials(testCredentials).endpoint("")
-                .build();
+            CloudBuilder.newBuilder().api(testApi).credentials(testCloudCredential).endpoint("")
+                .configuration(testConfiguration).build();
     }
 
     @Test public void testId() {
         Cloud cloud =
-            CloudBuilder.newBuilder().api(testApi).credentials(testCredentials).endpoint(null)
-                .build();
+            CloudBuilder.newBuilder().api(testApi).credentials(testCloudCredential).endpoint(null)
+                .configuration(testConfiguration).build();
         Cloud sameCloud =
-            CloudBuilder.newBuilder().api(testApi).credentials(testCredentials).endpoint(null)
-                .build();
-        Cloud differentEndpoint = CloudBuilder.newBuilder().api(testApi).credentials(testCredentials)
-            .endpoint(testEndpoint).build();
+            CloudBuilder.newBuilder().api(testApi).credentials(testCloudCredential).endpoint(null)
+                .configuration(testConfiguration).build();
+        Cloud differentEndpoint =
+            CloudBuilder.newBuilder().api(testApi).credentials(testCloudCredential)
+                .configuration(testConfiguration).endpoint(testEndpoint).build();
         Cloud differentApi =
             CloudBuilder.newBuilder().api(ApiBuilder.newBuilder().providerName("different").build())
-                .credentials(testCredentials).endpoint(testEndpoint).build();
+                .configuration(testConfiguration).credentials(testCloudCredential)
+                .endpoint(testEndpoint).build();
 
         assertThat(cloud.id(), not(equalTo(differentApi.id())));
         assertThat(cloud.id(), not(equalTo(differentEndpoint.id())));

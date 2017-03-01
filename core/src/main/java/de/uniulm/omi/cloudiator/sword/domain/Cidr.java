@@ -30,7 +30,6 @@ public interface Cidr {
      *
      * @return the network address
      */
-    @JsonProperty
     String address();
 
     /**
@@ -38,7 +37,6 @@ public interface Cidr {
      *
      * @return the value behind the slash
      */
-    @JsonProperty
     int slash();
 
 }

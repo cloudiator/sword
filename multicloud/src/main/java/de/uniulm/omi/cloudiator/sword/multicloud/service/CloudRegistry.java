@@ -18,9 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
-import de.uniulm.omi.cloudiator.sword.ServiceContext;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.domain.Configuration;
 
 /**
  * Created by daniel on 19.01.17.
@@ -30,17 +28,9 @@ public interface CloudRegistry {
     /**
      * Registers a new {@link Cloud} at the registry.
      *
-     * @param cloud         the cloud to register.
-     * @param configuration the configuration for that cloud.
+     * @param cloud the cloud to register.
      */
-    CloudRegistry register(Cloud cloud, Configuration configuration);
-
-    /**
-     * Registers a new {@link ServiceContext} at the registry.
-     *
-     * @param serviceContext the service context to register.
-     */
-    CloudRegistry register(ServiceContext serviceContext);
+    CloudRegistry register(Cloud cloud);
 
     /**
      * Unregisters an existing {@link Cloud} at the registry if its present.

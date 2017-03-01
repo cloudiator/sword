@@ -18,17 +18,13 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Created by daniel on 18.01.17.
  */
 public interface Configuration {
 
-    @JsonProperty
     String nodeGroup();
 
-    @JsonProperty
     Properties properties();
 
 }

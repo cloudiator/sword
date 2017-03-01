@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocation;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocationImpl;
 import org.jclouds.compute.ComputeServiceContext;
@@ -42,16 +42,16 @@ import static com.google.common.base.Preconditions.*;
 public class JCloudsComputeClientImpl implements JCloudsComputeClient {
 
     private final ComputeServiceContext computeServiceContext;
-    private final ServiceContext serviceContext;
+    private final Cloud cloud;
 
-    @Inject public JCloudsComputeClientImpl(ComputeServiceContext computeServiceContext,
-        ServiceContext serviceContext) {
+    @Inject
+    public JCloudsComputeClientImpl(ComputeServiceContext computeServiceContext, Cloud cloud) {
 
         checkNotNull(computeServiceContext);
-        checkNotNull(serviceContext);
+        checkNotNull(cloud);
 
         this.computeServiceContext = computeServiceContext;
-        this.serviceContext = serviceContext;
+        this.cloud = cloud;
 
     }
 
@@ -94,8 +94,7 @@ public class JCloudsComputeClientImpl implements JCloudsComputeClient {
         try {
             Set<? extends NodeMetadata> nodesInGroup =
                 this.computeServiceContext.getComputeService()
-                    .createNodesInGroup(this.serviceContext.configuration().nodeGroup(), 1,
-                        template);
+                    .createNodesInGroup(cloud.configuration().nodeGroup(), 1, template);
             checkElementIndex(0, nodesInGroup.size());
             checkState(nodesInGroup.size() == 1);
             return nodesInGroup.iterator().next();

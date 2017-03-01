@@ -31,7 +31,8 @@ public class CloudBuilder {
 
     @Nullable private Api api;
     @Nullable private String endpoint;
-    @Nullable private Credentials credentials;
+    @Nullable private CloudCredential cloudCredential;
+    @Nullable private Configuration configuration;
 
     private CloudBuilder() {
 
@@ -40,7 +41,7 @@ public class CloudBuilder {
     private CloudBuilder(Cloud cloud) {
         this.api = cloud.api();
         this.endpoint = cloud.endpoint().orElse(null);
-        this.credentials = cloud.credentials();
+        this.cloudCredential = cloud.credential();
     }
 
     public static CloudBuilder newBuilder() {
@@ -62,13 +63,18 @@ public class CloudBuilder {
         return this;
     }
 
-    public CloudBuilder credentials(Credentials credentials) {
-        this.credentials = credentials;
+    public CloudBuilder credentials(CloudCredential cloudCredential) {
+        this.cloudCredential = cloudCredential;
+        return this;
+    }
+
+    public CloudBuilder configuration(Configuration configuration) {
+        this.configuration = configuration;
         return this;
     }
 
     public Cloud build() {
-        return new CloudImpl(api, endpoint, credentials);
+        return new CloudImpl(api, endpoint, cloudCredential, configuration);
     }
 
     @Override public String toString() {

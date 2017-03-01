@@ -31,14 +31,14 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by daniel on 04.12.14.
  */
-public class CredentialsImplTest {
+public class CloudCredentialImplTest {
 
     private String userTest = "user";
     private String passwordTest = "secret123?password";
-    private Credentials credentials;
+    private CloudCredential cloudCredential;
 
     @Before public void before() {
-        this.credentials =
+        this.cloudCredential =
             CredentialsBuilder.newBuilder().user(userTest).password(passwordTest).build();
     }
 
@@ -59,11 +59,11 @@ public class CredentialsImplTest {
     }
 
     @Test public void getUserTest() {
-        assertThat(this.credentials.user(), equalTo(this.userTest));
+        assertThat(this.cloudCredential.user(), equalTo(this.userTest));
     }
 
     @Test public void getPasswordTest() {
-        assertThat(this.credentials.password(), equalTo(this.passwordTest));
+        assertThat(this.cloudCredential.password(), equalTo(this.passwordTest));
     }
 
     @Test public void testEquals() {

@@ -27,5 +27,5 @@ import de.uniulm.omi.cloudiator.sword.service.ComputeService;
  */
 public interface ComputeServiceFactory {
 
-    ComputeService computeService(Cloud cloud, Configuration configuration);
+    ComputeService computeService(Cloud cloud);
 }

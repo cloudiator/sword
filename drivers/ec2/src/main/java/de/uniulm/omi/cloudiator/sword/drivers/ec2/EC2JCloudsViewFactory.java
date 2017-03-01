@@ -20,9 +20,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.ec2;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.sword.ServiceContext;
-import de.uniulm.omi.cloudiator.sword.logging.LoggerFactory;
+import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
+import de.uniulm.omi.cloudiator.sword.logging.LoggerFactory;
 import org.jclouds.aws.ec2.reference.AWSEC2Constants;
 
 import java.util.Properties;
@@ -39,9 +39,8 @@ public class EC2JCloudsViewFactory extends BaseJCloudsViewFactory {
         amiCcQuery = null;
 
 
-    @Inject public EC2JCloudsViewFactory(ServiceContext serviceContext,
-        LoggerFactory loggerFactory) {
-        super(serviceContext, loggerFactory);
+    @Inject public EC2JCloudsViewFactory(Cloud cloud, LoggerFactory loggerFactory) {
+        super(cloud, loggerFactory);
     }
 
     @Override protected Properties overrideProperties(Properties properties) {

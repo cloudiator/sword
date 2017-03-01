@@ -19,17 +19,15 @@
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.ServiceContext;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.domain.Configuration;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
-import de.uniulm.omi.cloudiator.sword.service.ServiceContextBuilder;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -41,7 +39,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class CloudRegistryComputeServiceProvider implements CloudRegistry, ComputeServiceProvider {
 
     private final ComputeServiceFactory computeServiceFactory;
-    private static final ServiceContextHolder SERVICE_CONTEXT_HOLDER = new ServiceContextHolder();
+    private static final CloudHolder CLOUD_HOLDER = new CloudHolder();
 
     @Inject
     public CloudRegistryComputeServiceProvider(ComputeServiceFactory computeServiceFactory) {
@@ -49,38 +47,30 @@ public class CloudRegistryComputeServiceProvider implements CloudRegistry, Compu
         this.computeServiceFactory = computeServiceFactory;
     }
 
-    @Override public CloudRegistry register(Cloud cloud, Configuration configuration) {
+    @Override public CloudRegistry register(Cloud cloud) {
         checkNotNull(cloud, "cloud is null");
-        checkNotNull(configuration, "configuration is null");
-        SERVICE_CONTEXT_HOLDER.add(cloud, configuration);
-        return this;
-    }
-
-    @Override public CloudRegistry register(ServiceContext serviceContext) {
-        checkNotNull(serviceContext, "serviceContext is null");
-        register(serviceContext.cloud(), serviceContext.configuration());
+        CLOUD_HOLDER.add(cloud);
         return this;
     }
 
     @Override public CloudRegistry unregister(Cloud cloud) {
-        SERVICE_CONTEXT_HOLDER.remove(cloud);
+        CLOUD_HOLDER.remove(cloud);
         return this;
     }
 
     @Override public CloudRegistry unregister(String cloudId) {
-        SERVICE_CONTEXT_HOLDER.remove(cloudId);
+        CLOUD_HOLDER.remove(cloudId);
         return this;
     }
 
     @Override public ComputeService forId(String cloudId) {
-        final ServiceContext serviceContext = SERVICE_CONTEXT_HOLDER.retrieve(cloudId);
-        if (serviceContext == null) {
+        Cloud cloud = CLOUD_HOLDER.retrieve(cloudId);
+        if (cloud == null) {
             throw new NoSuchElementException(String.format(
                 "Could not find a compute service for cloudId %s. No cloud with this id was registered.",
                 cloudId));
         }
-        return computeServiceFactory
-            .computeService(serviceContext.cloud(), serviceContext.configuration());
+        return computeServiceFactory.computeService(cloud);
     }
 
     @Override public ComputeService forCloud(Cloud cloud) {
@@ -89,57 +79,37 @@ public class CloudRegistryComputeServiceProvider implements CloudRegistry, Compu
     }
 
     @Override public Map<Cloud, ComputeService> all() {
-        return SERVICE_CONTEXT_HOLDER.all().stream().collect(Collectors.toMap(ServiceContext::cloud,
-            serviceContext -> computeServiceFactory
-                .computeService(serviceContext.cloud(), serviceContext.configuration())));
+        return CLOUD_HOLDER.all().stream()
+            .collect(Collectors.toMap(Function.identity(), computeServiceFactory::computeService));
     }
 
-    private static class ServiceContextHolder {
-        Map<Cloud, ServiceContext> serviceContextMap = new HashMap<>();
-        Map<String, Cloud> idMap = new HashMap<>();
+    private static class CloudHolder {
+        Map<String, Cloud> cloudMap = new HashMap<>();
 
-        void add(Cloud cloud, Configuration configuration) {
+        void add(Cloud cloud) {
             checkNotNull(cloud, "cloud is null");
-            checkNotNull(configuration, "configuration is null");
-            serviceContextMap.put(cloud,
-                ServiceContextBuilder.newBuilder().cloud(cloud).configuration(configuration)
-                    .build());
-            idMap.put(cloud.id(), cloud);
+            cloudMap.put(cloud.id(), cloud);
         }
 
         void remove(Cloud cloud) {
             checkNotNull(cloud, "cloud is null");
-            serviceContextMap.remove(cloud);
-            idMap.remove(cloud.id());
+            cloudMap.remove(cloud.id());
         }
 
         void remove(String cloudId) {
             checkNotNull(cloudId, "cloudId is null");
             checkArgument(!cloudId.isEmpty(), "cloudId is empty");
-            final Cloud cloud = idMap.get(cloudId);
-            if (cloud == null) {
-                return;
-            }
-            serviceContextMap.remove(cloud);
+            cloudMap.remove(cloudId);
         }
 
-        @Nullable ServiceContext retrieve(Cloud cloud) {
-            checkNotNull(cloud, "cloud is null");
-            return serviceContextMap.get(cloud);
-        }
-
-        @Nullable ServiceContext retrieve(String cloudId) {
+        @Nullable Cloud retrieve(String cloudId) {
             checkNotNull(cloudId, "cloudId is null");
             checkArgument(!cloudId.isEmpty(), "cloudId is empty");
-            final Cloud cloud = idMap.get(cloudId);
-            if (cloud == null) {
-                return null;
-            }
-            return serviceContextMap.get(cloud);
+            return cloudMap.get(cloudId);
         }
 
-        Collection<ServiceContext> all() {
-            return serviceContextMap.values();
+        Collection<Cloud> all() {
+            return cloudMap.values();
         }
     }
 

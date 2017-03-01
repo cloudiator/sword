@@ -34,17 +34,17 @@ public class CredentialsBuilder {
 
     }
 
-    private CredentialsBuilder(Credentials credentials) {
-        this.user = credentials.user();
-        this.password = credentials.password();
+    private CredentialsBuilder(CloudCredential cloudCredential) {
+        this.user = cloudCredential.user();
+        this.password = cloudCredential.password();
     }
 
     public static CredentialsBuilder newBuilder() {
         return new CredentialsBuilder();
     }
 
-    public static CredentialsBuilder of(Credentials credentials) {
-        return new CredentialsBuilder(credentials);
+    public static CredentialsBuilder of(CloudCredential cloudCredential) {
+        return new CredentialsBuilder(cloudCredential);
     }
 
 
@@ -58,8 +58,8 @@ public class CredentialsBuilder {
         return this;
     }
 
-    public Credentials build() {
-        return new CredentialsImpl(user, password);
+    public CloudCredential build() {
+        return new CloudCredentialImpl(user, password);
     }
 
     @Override public String toString() {

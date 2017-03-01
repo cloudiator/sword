@@ -18,18 +18,20 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
+import com.google.common.base.MoreObjects;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 01.12.14.
  */
-public class CredentialsImpl implements Credentials {
+public class CloudCredentialImpl implements CloudCredential {
 
     private final String user;
     private final String password;
 
-    CredentialsImpl(String user, String password) {
+    CloudCredentialImpl(String user, String password) {
 
         checkNotNull(user);
         checkNotNull(password);
@@ -40,13 +42,11 @@ public class CredentialsImpl implements Credentials {
         this.password = password;
     }
 
-    @Override
-    public String user() {
+    @Override public String user() {
         return this.user;
     }
 
-    @Override
-    public String password() {
+    @Override public String password() {
         return this.password;
     }
 
@@ -56,7 +56,7 @@ public class CredentialsImpl implements Credentials {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        CredentialsImpl that = (CredentialsImpl) o;
+        CloudCredentialImpl that = (CloudCredentialImpl) o;
 
         if (!user.equals(that.user))
             return false;
@@ -67,5 +67,15 @@ public class CredentialsImpl implements Credentials {
         int result = user.hashCode();
         result = 31 * result + password.hashCode();
         return result;
+    }
+
+    @Override public String id() {
+        return user;
+    }
+
+    @Override public String toString() {
+        //todo: do not disclose password
+        return MoreObjects.toStringHelper(this).add("user", user).add("password", password)
+            .toString();
     }
 }

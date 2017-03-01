@@ -1,8 +1,8 @@
-import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.domain.ApiBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.CloudBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.ConfigurationBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.CredentialsBuilder;
+import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.service.ServiceBuilder;
 
 /**
@@ -46,13 +46,13 @@ public class NovaExample {
         /**
          * Builds the compute service.
          */
-        ComputeService nova =
-            ServiceBuilder.newServiceBuilder().cloud(CloudBuilder.newBuilder().endpoint(endpoint)
+        ComputeService nova = ServiceBuilder.newServiceBuilder().cloud(
+            CloudBuilder.newBuilder().endpoint(endpoint)
+                .configuration(ConfigurationBuilder.newBuilder().nodeGroup(nodeGroup).build())
                 .credentials(
                     CredentialsBuilder.newBuilder().user(apiUsername).password(password).build())
                 .api(ApiBuilder.newBuilder().providerName("openstack-nova").build()).build())
-                .configuration(ConfigurationBuilder.newBuilder().nodeGroup(nodeGroup).build())
-                .build();
+            .build();
 
     }
 

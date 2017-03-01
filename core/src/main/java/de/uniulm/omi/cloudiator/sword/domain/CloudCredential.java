@@ -16,17 +16,24 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword;
+package de.uniulm.omi.cloudiator.sword.domain;
 
-import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.domain.Configuration;
+import de.uniulm.omi.cloudiator.domain.Identifiable;
 
 /**
- * Provides the configuration of the service.
+ * Represents the credentials required
+ * to login into a provider.
  */
-public interface ServiceContext {
+public interface CloudCredential extends Identifiable {
 
-    Cloud cloud();
+    /**
+     * @return the user required for login.
+     */
+    String user();
 
-    Configuration configuration();
+    /**
+     * @return the password required for login.
+     */
+    String password();
+
 }

@@ -18,8 +18,6 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Optional;
 
 /**
@@ -27,11 +25,13 @@ import java.util.Optional;
  */
 public interface Cloud {
 
-    @JsonProperty String id();
+    String id();
 
-    @JsonProperty Api api();
+    Api api();
 
-    @JsonProperty Optional<String> endpoint();
+    Optional<String> endpoint();
 
-    @JsonProperty Credentials credentials();
+    CloudCredential credential();
+
+    Configuration configuration();
 }

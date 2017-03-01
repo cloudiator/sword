@@ -36,19 +36,23 @@ public class CloudImpl implements Cloud {
 
     private final Api api;
     @Nullable private final String endpoint;
-    private final Credentials credentials;
+    private final CloudCredential cloudCredential;
+    private final Configuration configuration;
 
-    public CloudImpl(Api api, @Nullable String endpoint, Credentials credentials) {
+    CloudImpl(Api api, @Nullable String endpoint, CloudCredential cloudCredential,
+        Configuration configuration) {
 
         checkNotNull(api, "api is null.");
         if (endpoint != null) {
             checkArgument(!endpoint.isEmpty());
         }
-        checkNotNull(credentials, "credentials is null");
+        checkNotNull(cloudCredential, "credentials is null");
+        checkNotNull(configuration, "configuration is null");
 
         this.api = api;
         this.endpoint = endpoint;
-        this.credentials = credentials;
+        this.cloudCredential = cloudCredential;
+        this.configuration = configuration;
     }
 
     @Override public String id() {
@@ -63,8 +67,12 @@ public class CloudImpl implements Cloud {
         return Optional.ofNullable(endpoint);
     }
 
-    @Override public Credentials credentials() {
-        return credentials;
+    @Override public CloudCredential credential() {
+        return cloudCredential;
+    }
+
+    @Override public Configuration configuration() {
+        return configuration;
     }
 
     @Override public boolean equals(Object o) {
@@ -79,20 +87,20 @@ public class CloudImpl implements Cloud {
             return false;
         if (endpoint != null ? !endpoint.equals(cloud.endpoint) : cloud.endpoint != null)
             return false;
-        return credentials.equals(cloud.credentials);
+        return cloudCredential.equals(cloud.cloudCredential);
     }
 
     @Override public int hashCode() {
         int result = api.hashCode();
         result = 31 * result + (endpoint != null ? endpoint.hashCode() : 0);
-        result = 31 * result + credentials.hashCode();
+        result = 31 * result + cloudCredential.hashCode();
         return result;
     }
 
     private static class HashingCloudIdGenerator {
         private static final Funnel<Cloud> CLOUD_FUNNEL = (Funnel<Cloud>) (from, into) -> {
             into.putString(from.api().providerName(), Charsets.UTF_8)
-                .putString(from.credentials().user(), Charsets.UTF_8);
+                .putString(from.credential().user(), Charsets.UTF_8);
             if (from.endpoint().isPresent()) {
                 into.putString(from.endpoint().get(), Charsets.UTF_8);
             }

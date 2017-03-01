@@ -27,7 +27,7 @@ import de.uniulm.omi.cloudiator.flexiant.client.api.FlexiantException;
 import de.uniulm.omi.cloudiator.flexiant.client.api.ResourceInLocation;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.*;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.generic.ResourceImpl;
-import de.uniulm.omi.cloudiator.sword.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
 
 import javax.inject.Named;
@@ -37,8 +37,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.*;
 
 
 /**
@@ -48,21 +47,20 @@ import static com.google.common.base.Preconditions.checkState;
 
     private final de.uniulm.omi.cloudiator.flexiant.client.compute.FlexiantComputeClient
         flexiantComputeClient;
-    private final ServiceContext serviceContext;
+    private final Cloud cloud;
     @Inject(optional = true) @Named(Constants.SWORD_REGIONS) String clusterFilter;
     private final Supplier<Set<String>> validClusterIdSupplier;
 
-    @Inject public FlexiantComputeClientImpl(ServiceContext serviceContext) {
+    @Inject public FlexiantComputeClientImpl(Cloud cloud) {
 
-        checkArgument(serviceContext.cloud().endpoint().isPresent(),
-            "No endpoint configured for FCO.");
+        checkNotNull(cloud, "cloud is null");
+
+        checkArgument(cloud.endpoint().isPresent(), "No endpoint configured for FCO.");
 
         flexiantComputeClient =
             new de.uniulm.omi.cloudiator.flexiant.client.compute.FlexiantComputeClient(
-                serviceContext.cloud().endpoint().get(),
-                serviceContext.cloud().credentials().user(),
-                serviceContext.cloud().credentials().password());
-        this.serviceContext = serviceContext;
+                cloud.endpoint().get(), cloud.credential().user(), cloud.credential().password());
+        this.cloud = cloud;
         this.validClusterIdSupplier =
             Suppliers.memoizeWithExpiration(new ValidClusterSupplier(), 10, TimeUnit.MINUTES);
     }
@@ -133,9 +131,8 @@ import static com.google.common.base.Preconditions.checkState;
 
     @Override public Set<Server> listServers() {
         try {
-            return this.flexiantComputeClient
-                .getServers(serviceContext.configuration().nodeGroup(), null).stream()
-                .filter(resourceFilter()).collect(Collectors.toSet());
+            return this.flexiantComputeClient.getServers(cloud.configuration().nodeGroup(), null)
+                .stream().filter(resourceFilter()).collect(Collectors.toSet());
         } catch (FlexiantException e) {
             throw new RuntimeException("Could not retrieve servers.", e);
         }

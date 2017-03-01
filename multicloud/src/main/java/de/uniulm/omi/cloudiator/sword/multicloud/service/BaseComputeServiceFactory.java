@@ -20,10 +20,9 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.domain.Configuration;
+import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
-import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.service.ServiceBuilder;
 
 import javax.annotation.Nullable;
@@ -39,10 +38,9 @@ public class BaseComputeServiceFactory implements ComputeServiceFactory {
     public BaseComputeServiceFactory() {
     }
 
-    @Override public ComputeService computeService(Cloud cloud, Configuration configuration) {
+    @Override public ComputeService computeService(Cloud cloud) {
 
-        final ServiceBuilder serviceBuilder =
-            ServiceBuilder.newServiceBuilder().cloud(cloud).configuration(configuration);
+        final ServiceBuilder serviceBuilder = ServiceBuilder.newServiceBuilder().cloud(cloud);
         if (abstractLoggingModule != null) {
             serviceBuilder.loggingModule(abstractLoggingModule);
         }

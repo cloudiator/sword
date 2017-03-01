@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.sword.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -33,11 +33,11 @@ public class KeyStoneVersionProvider implements Provider<KeyStoneVersion> {
 
     @Inject(optional = true) @Named(Openstack4JConstants.KEYSTONE_VERSION) private String
         keystoneVersionConfiguration;
-    private final ServiceContext serviceContext;
+    private final Cloud cloud;
 
-    @Inject public KeyStoneVersionProvider(ServiceContext serviceContext) {
-        checkNotNull(serviceContext);
-        this.serviceContext = serviceContext;
+    @Inject public KeyStoneVersionProvider(Cloud cloud) {
+        checkNotNull(cloud);
+        this.cloud = cloud;
     }
 
     @Override public KeyStoneVersion get() {
@@ -51,8 +51,8 @@ public class KeyStoneVersionProvider implements Provider<KeyStoneVersion> {
             }
         }
 
-        checkState(serviceContext.cloud().endpoint().isPresent(), "Endpoint is mandatory.");
-        return checkNotNull(KeyStoneVersion.fromEndpoint(serviceContext.cloud().endpoint().get()),
+        checkState(cloud.endpoint().isPresent(), "Endpoint is mandatory.");
+        return checkNotNull(KeyStoneVersion.fromEndpoint(cloud.endpoint().get()),
             "Unable to resolve keyStone version from endpoint.");
     }
 }

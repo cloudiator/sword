@@ -23,9 +23,9 @@ import com.google.common.cache.CacheBuilder;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.annotations.Base;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.domain.Configuration;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -42,15 +42,15 @@ public class CachingComputeServiceFactory implements ComputeServiceFactory {
         this.computeServiceCache = new ComputeServiceCache(delegate);
     }
 
-    @Override public ComputeService computeService(Cloud cloud, Configuration configuration) {
-        return computeServiceCache.retrieve(cloud, configuration);
+    @Override public ComputeService computeService(Cloud cloud) {
+        return computeServiceCache.retrieve(cloud);
     }
 
     private static class ComputeServiceCache {
 
         private final ComputeServiceFactory computeServiceFactory;
 
-        private Cache<Cloud, CacheEntry> cache =
+        private Cache<Cloud, ComputeService> cache =
             CacheBuilder.newBuilder().expireAfterAccess(10, TimeUnit.MINUTES).build();
 
         private ComputeServiceCache(ComputeServiceFactory computeServiceFactory) {
@@ -58,40 +58,11 @@ public class CachingComputeServiceFactory implements ComputeServiceFactory {
             this.computeServiceFactory = computeServiceFactory;
         }
 
-        public ComputeService retrieve(Cloud cloud, Configuration configuration) {
-
-            CacheEntry cacheEntry = cache.getIfPresent(cloud);
-            if (cacheEntry != null && !cacheEntry.configuration().equals(configuration)) {
-                cache.invalidate(cloud);
-                cacheEntry = null;
-            }
-            if (cacheEntry == null) {
-                cacheEntry =
-                    new CacheEntry(computeServiceFactory.computeService(cloud, configuration),
-                        configuration);
-                cache.put(cloud, cacheEntry);
-            }
-            return cacheEntry.computeService();
-        }
-
-        private static class CacheEntry {
-
-            private final ComputeService computeService;
-            private final Configuration configuration;
-
-            private CacheEntry(ComputeService computeService, Configuration configuration) {
-                checkNotNull(computeService, "computeService is null");
-                checkNotNull(configuration, "configuration is null");
-                this.computeService = computeService;
-                this.configuration = configuration;
-            }
-
-            ComputeService computeService() {
-                return computeService;
-            }
-
-            Configuration configuration() {
-                return configuration;
+        public ComputeService retrieve(Cloud cloud) {
+            try {
+                return cache.get(cloud, () -> computeServiceFactory.computeService(cloud));
+            } catch (ExecutionException e) {
+                throw new IllegalStateException("Could not initialize compute service.", e);
             }
         }
 

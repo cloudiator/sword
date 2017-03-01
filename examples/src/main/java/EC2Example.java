@@ -1,8 +1,8 @@
-import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.domain.ApiBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.CloudBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.ConfigurationBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.CredentialsBuilder;
+import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.service.ServiceBuilder;
 
 /**
@@ -28,11 +28,11 @@ public class EC2Example {
     /**
      * Builds the compute service.
      */
-    ComputeService ec2 =
-        ServiceBuilder.newServiceBuilder().cloud(CloudBuilder.newBuilder().endpoint(null)
+    ComputeService ec2 = ServiceBuilder.newServiceBuilder().cloud(
+        CloudBuilder.newBuilder().endpoint(null)
+            .configuration(ConfigurationBuilder.newBuilder().nodeGroup(nodeGroup).build())
             .credentials(
                 CredentialsBuilder.newBuilder().user(accessKeyId).password(secretAccessKey).build())
-            .api(ApiBuilder.newBuilder().providerName("aws-ec2").build()).build())
-            .configuration(ConfigurationBuilder.newBuilder().nodeGroup(nodeGroup).build()).build();
+            .api(ApiBuilder.newBuilder().providerName("aws-ec2").build()).build()).build();
 
 }

@@ -22,10 +22,10 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.sword.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.domain.Cloud;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging.JCloudsLoggingModule;
 import de.uniulm.omi.cloudiator.sword.logging.LoggerFactory;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging.JCloudsLoggingModule;
 import org.jclouds.ContextBuilder;
 import org.jclouds.View;
 
@@ -39,18 +39,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 @Singleton public class BaseJCloudsViewFactory implements JCloudsViewFactory {
 
-    private final ServiceContext serviceContext;
+    private final Cloud cloud;
     private final LoggerFactory loggerFactory;
     @Inject(optional = true) @Named(Constants.SWORD_REGIONS) private String regions = null;
     @Inject(optional = true) @Named(Constants.REQUEST_TIMEOUT) private String requestTimeout = null;
 
-    @Inject
-    public BaseJCloudsViewFactory(ServiceContext serviceContext, LoggerFactory loggerFactory) {
+    @Inject public BaseJCloudsViewFactory(Cloud cloud, LoggerFactory loggerFactory) {
 
-        checkNotNull(serviceContext);
+        checkNotNull(cloud, "cloud is null");
         checkNotNull(loggerFactory);
 
-        this.serviceContext = serviceContext;
+        this.cloud = cloud;
         this.loggerFactory = loggerFactory;
     }
 
@@ -109,17 +108,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
         moduleSet.addAll(overrideModules());
         moduleSet.add(new JCloudsLoggingModule(loggerFactory));
 
-        ContextBuilder contextBuilder =
-            ContextBuilder.newBuilder(serviceContext.cloud().api().providerName());
-        contextBuilder.credentials(serviceContext.cloud().credentials().user(),
-            serviceContext.cloud().credentials().password()).modules(moduleSet)
-            .overrides(overrideProperties(properties));
+        ContextBuilder contextBuilder = ContextBuilder.newBuilder(cloud.api().providerName());
+        contextBuilder.credentials(cloud.credential().user(), cloud.credential().password())
+            .modules(moduleSet).overrides(overrideProperties(properties));
 
 
         // setting optional endpoint, check for present first
         // as builder does not allow null values...
-        if (serviceContext.cloud().endpoint().isPresent()) {
-            contextBuilder.endpoint(serviceContext.cloud().endpoint().get());
+        if (cloud.endpoint().isPresent()) {
+            contextBuilder.endpoint(cloud.endpoint().get());
         }
 
         return contextBuilder;

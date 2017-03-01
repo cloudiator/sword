@@ -19,7 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.ServiceContext;
+import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.common.Identifier;
 import org.openstack4j.model.identity.v3.Token;
@@ -33,13 +33,13 @@ import static com.google.common.base.Preconditions.checkState;
  */
 public class OsClientV3Factory implements OsClientFactory {
 
-    private final ServiceContext serviceContext;
+    private final Cloud cloud;
     private static Token token = null;
 
 
-    @Inject public OsClientV3Factory(ServiceContext serviceContext) {
-        checkNotNull(serviceContext, "serviceConfiguration is null");
-        this.serviceContext = serviceContext;
+    @Inject public OsClientV3Factory(Cloud cloud) {
+        checkNotNull(cloud, "serviceConfiguration is null");
+        this.cloud = cloud;
     }
 
     @Override public OSClient create() {
@@ -61,10 +61,10 @@ public class OsClientV3Factory implements OsClientFactory {
 
     private OSClient authFromServiceConfiguration() {
 
-        final String[] split = serviceContext.cloud().credentials().user().split(":");
+        final String[] split = cloud.credential().user().split(":");
         checkState(split.length == 3, String
             .format("Illegal username, expected user to be of format domain:tenant:user, got %s",
-                serviceContext.cloud().credentials().user()));
+                cloud.credential().user()));
 
         final String domainId = split[0];
         final String tenantId = split[1];
@@ -75,11 +75,10 @@ public class OsClientV3Factory implements OsClientFactory {
         Identifier domainIdentifier = Identifier.byId(domainId);
         Identifier tenantIdentifier = Identifier.byId(tenantId);
 
-        checkState(serviceContext.cloud().endpoint().isPresent(),
-            "Endpoint is required for Openstack4J Driver.");
+        checkState(cloud.endpoint().isPresent(), "Endpoint is required for Openstack4J Driver.");
 
-        return OSFactory.builderV3().endpoint(serviceContext.cloud().endpoint().get())
-            .credentials(userId, serviceContext.cloud().credentials().password(), domainIdentifier)
+        return OSFactory.builderV3().endpoint(cloud.endpoint().get())
+            .credentials(userId, cloud.credential().password(), domainIdentifier)
             .scopeToProject(tenantIdentifier).authenticate();
     }
 
