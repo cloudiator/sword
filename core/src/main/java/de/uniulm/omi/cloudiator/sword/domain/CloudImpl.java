@@ -99,8 +99,8 @@ public class CloudImpl implements Cloud {
 
     private static class HashingCloudIdGenerator {
         private static final Funnel<Cloud> CLOUD_FUNNEL = (Funnel<Cloud>) (from, into) -> {
-            into.putString(from.api().providerName(), Charsets.UTF_8)
-                .putString(from.credential().user(), Charsets.UTF_8);
+            into.putString(from.api().providerName(), Charsets.UTF_8);
+            into.putString(from.credential().id(), Charsets.UTF_8);
             if (from.endpoint().isPresent()) {
                 into.putString(from.endpoint().get(), Charsets.UTF_8);
             }
