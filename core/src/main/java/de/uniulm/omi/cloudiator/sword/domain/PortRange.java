@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by daniel on 06.07.16.
  */
 public interface PortRange {
-    @JsonProperty int maxPort();
+    int maxPort();
 
-    @JsonProperty int minPort();
+    int minPort();
 }

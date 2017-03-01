@@ -18,11 +18,13 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
+import de.uniulm.omi.cloudiator.domain.OperatingSystem;
+
 /**
  * An image offered by the provider.
  */
-public interface Image extends Resource, ImageProperties {
+public interface Image extends Resource {
 
-
+    OperatingSystem operatingSystem();
 
 }

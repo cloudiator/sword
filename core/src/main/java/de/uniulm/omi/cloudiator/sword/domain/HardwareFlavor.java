@@ -33,7 +33,6 @@ public interface HardwareFlavor extends Resource {
      *
      * @return the number of cores.
      */
-    @JsonProperty
     int numberOfCores();
 
     /**
@@ -41,7 +40,6 @@ public interface HardwareFlavor extends Resource {
      *
      * @return the amount of ram.
      */
-    @JsonProperty
     long mbRam();
 
     /**
@@ -51,6 +49,5 @@ public interface HardwareFlavor extends Resource {
      *
      * @return the amount of disk space or null.
      */
-    @JsonProperty
     @Nullable Float gbDisk();
 }

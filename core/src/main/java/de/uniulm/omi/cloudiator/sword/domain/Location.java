@@ -18,7 +18,6 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.domain.Named;
 
@@ -33,7 +32,7 @@ public interface Location extends ProviderIdentifiable, Named {
     /**
      * The scope of the location, e.g. REGION or ZONE.
      */
-    @JsonProperty LocationScope locationScope();
+    LocationScope locationScope();
 
     /**
      * A location is assignable, if it can be used
@@ -41,7 +40,7 @@ public interface Location extends ProviderIdentifiable, Named {
      *
      * @return true if assignable, no if not.
      */
-    @JsonProperty boolean isAssignable();
+    boolean isAssignable();
 
     /**
      * The {@link Optional} parent location, e.g. availability zone - region.
@@ -49,6 +48,6 @@ public interface Location extends ProviderIdentifiable, Named {
      *
      * @return the parent location, absent of top level.
      */
-    @JsonProperty Optional<Location> parent();
+    Optional<Location> parent();
 
 }

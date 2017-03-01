@@ -29,25 +29,25 @@ public interface VirtualMachineTemplate {
     /**
      * @return the name used for the virtual machine.
      */
-    @JsonProperty String name();
+    String name();
 
     /**
      * @return the id of the image to use.
      */
-    @JsonProperty String imageId();
+    String imageId();
 
     /**
      * @return the id of the hardware flavor to use.
      */
-    @JsonProperty String hardwareFlavorId();
+    String hardwareFlavorId();
 
     /**
      * @return the id of the location to use.
      */
-    @JsonProperty String locationId();
+    String locationId();
 
     /**
      * @return an {@link Optional}{@link TemplateOptions} for running the virtual machine.
      */
-    @JsonProperty Optional<TemplateOptions> templateOptions();
+    Optional<TemplateOptions> templateOptions();
 }

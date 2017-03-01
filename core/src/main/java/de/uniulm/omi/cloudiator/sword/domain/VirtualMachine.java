@@ -39,14 +39,14 @@ public interface VirtualMachine extends Resource {
      *
      * @return an immutable set of ip addresses.
      */
-    @JsonProperty Set<String> publicAddresses();
+    Set<String> publicAddresses();
 
     /**
      * The private up addresses assigned to the virtual machine.
      *
      * @return an immutable set of up addresses.
      */
-    @JsonProperty Set<String> privateAddresses();
+    Set<String> privateAddresses();
 
     /**
      * The {@link Image} used for creating the virtual machine.
@@ -70,7 +70,7 @@ public interface VirtualMachine extends Resource {
      *
      * @return optional login credentials.
      */
-    @JsonProperty Optional<LoginCredential> loginCredential();
+    Optional<LoginCredential> loginCredential();
 
     State state();
 

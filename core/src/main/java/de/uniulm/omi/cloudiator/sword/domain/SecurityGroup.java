@@ -18,8 +18,6 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Set;
 
 /**
@@ -27,7 +25,6 @@ import java.util.Set;
  */
 public interface SecurityGroup extends Resource {
 
-    @JsonProperty
     Set<SecurityGroupRule> rules();
 
 }

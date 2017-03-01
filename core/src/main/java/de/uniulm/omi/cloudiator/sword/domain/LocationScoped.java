@@ -18,8 +18,6 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Optional;
 
 /**
@@ -30,6 +28,6 @@ public interface LocationScoped {
     /**
      * @return {@link Optional} location.
      */
-    @JsonProperty Optional<Location> location();
+    Optional<Location> location();
 
 }

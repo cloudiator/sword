@@ -33,15 +33,15 @@ public interface LoginCredential {
     /**
      * @return an {@link Optional} username used for login.
      */
-    @JsonProperty Optional<String> username();
+    Optional<String> username();
 
     /**
      * @return an {@link Optional} password used for login.
      */
-    @JsonProperty Optional<String> password();
+    Optional<String> password();
 
     /**
      * @return an {@link Optional} private key used for login.
      */
-    @JsonProperty Optional<String> privateKey();
+    Optional<String> privateKey();
 }

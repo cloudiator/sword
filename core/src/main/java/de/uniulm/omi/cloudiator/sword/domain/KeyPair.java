@@ -38,7 +38,6 @@ public interface KeyPair extends Resource {
      *
      * @return the public key.
      */
-    @JsonProperty
     String publicKey();
 
     /**
@@ -46,7 +45,6 @@ public interface KeyPair extends Resource {
      *
      * @return an {@link Optional} private key.
      */
-    @JsonProperty
     Optional<String> privateKey();
 
 }
