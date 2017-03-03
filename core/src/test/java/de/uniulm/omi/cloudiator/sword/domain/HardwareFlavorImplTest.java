@@ -22,9 +22,11 @@ import de.uniulm.omi.cloudiator.domain.LocationScope;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Created by daniel on 03.12.14.
@@ -92,7 +94,7 @@ public class HardwareFlavorImplTest {
 
     @Test public void diskNullTest() {
         final HardwareFlavorImpl hardwareFlavor = validHardwareFlavorBuilder.gbDisk(null).build();
-        assertThat(hardwareFlavor.gbDisk(), nullValue());
+        assertThat(hardwareFlavor.gbDisk(), is(equalTo(Optional.empty())));
     }
 
     @Test(expected = IllegalArgumentException.class) public void diskGreaterZeroTest() {
@@ -120,7 +122,7 @@ public class HardwareFlavorImplTest {
     }
 
     @Test public void getDiskTest() {
-        assertThat(validHardwareFlavor.gbDisk, equalTo(testDisk));
+        assertThat(validHardwareFlavor.gbDisk().get(), equalTo(testDisk));
     }
 
     @Test public void getLocationTest() {

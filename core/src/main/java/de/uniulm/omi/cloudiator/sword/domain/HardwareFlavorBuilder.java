@@ -46,7 +46,7 @@ public class HardwareFlavorBuilder {
         name = hardwareFlavor.name();
         cores = hardwareFlavor.numberOfCores();
         mbRam = hardwareFlavor.mbRam();
-        gbDisk = hardwareFlavor.gbDisk();
+        gbDisk = hardwareFlavor.gbDisk().orElse(null);
         location = hardwareFlavor.location().orElse(null);
     }
 

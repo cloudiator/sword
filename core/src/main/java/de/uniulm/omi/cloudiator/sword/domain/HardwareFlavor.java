@@ -18,9 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * Represents an offered hardware flavor by the
@@ -45,9 +43,9 @@ public interface HardwareFlavor extends Resource {
     /**
      * Returns the amount of disk space the offer (with respect to its boot volume) has. Unit is
      * gigabyte.
-     * If the disk space is unknown, null is returned.
+     * If the disk space is unknown, empty is returned.
      *
      * @return the amount of disk space or null.
      */
-    @Nullable Float gbDisk();
+    Optional<Float> gbDisk();
 }

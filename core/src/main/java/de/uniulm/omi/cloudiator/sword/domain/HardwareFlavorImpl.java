@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.domain;
 import com.google.common.base.MoreObjects;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -31,7 +32,7 @@ public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
 
     private int cores;
     private long ram;
-    Float gbDisk;
+    @Nullable Float gbDisk;
 
     HardwareFlavorImpl(String id, String providerId, String name, @Nullable Location location,
         int cores, long ram, @Nullable Float gbDisk) {
@@ -54,8 +55,8 @@ public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
         return ram;
     }
 
-    @Nullable @Override public Float gbDisk() {
-        return gbDisk;
+    @Nullable @Override public Optional<Float> gbDisk() {
+        return Optional.ofNullable(gbDisk);
     }
 
     @Override public String toString() {
