@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.multicloud.domain;
 
 import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
+import de.uniulm.omi.cloudiator.sword.domain.GeoLocation;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
 
@@ -55,6 +56,10 @@ public class LocationMultiCloudImpl implements Location {
             return delegate.parent();
         }
         return Optional.of(new LocationMultiCloudImpl(delegate.parent().get(), cloudId));
+    }
+
+    @Override public Optional<GeoLocation> geoLocation() {
+        return delegate.geoLocation();
     }
 
     @Override public String id() {

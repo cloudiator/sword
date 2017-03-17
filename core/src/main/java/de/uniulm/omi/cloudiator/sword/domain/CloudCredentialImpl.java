@@ -33,10 +33,10 @@ public class CloudCredentialImpl implements CloudCredential {
 
     CloudCredentialImpl(String user, String password) {
 
-        checkNotNull(user);
-        checkNotNull(password);
-        checkArgument(!user.isEmpty());
-        checkArgument(!password.isEmpty());
+        checkNotNull(user, "user is null");
+        checkNotNull(password, "password is null");
+        checkArgument(!user.isEmpty(), "user is empty");
+        checkArgument(!password.isEmpty(), "password is empty");
 
         this.user = user;
         this.password = password;

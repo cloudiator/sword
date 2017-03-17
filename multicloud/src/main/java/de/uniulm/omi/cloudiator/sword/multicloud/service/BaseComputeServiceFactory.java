@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.config.DefaultMetaModule;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
@@ -34,6 +35,7 @@ public class BaseComputeServiceFactory implements ComputeServiceFactory {
 
     @Nullable @Inject(optional = true) private AbstractRemoteModule abstractRemoteModule;
     @Nullable @Inject(optional = true) private AbstractLoggingModule abstractLoggingModule;
+    @Inject private DefaultMetaModule metaModule;
 
     public BaseComputeServiceFactory() {
     }
@@ -47,6 +49,7 @@ public class BaseComputeServiceFactory implements ComputeServiceFactory {
         if (abstractRemoteModule != null) {
             serviceBuilder.remoteModule(abstractRemoteModule);
         }
+        serviceBuilder.metaModule(metaModule);
         return serviceBuilder.build();
     }
 }

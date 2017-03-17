@@ -38,6 +38,7 @@ public class LocationImpl implements Location {
     private final LocationScope locationScope;
     @Nullable private final Location parent;
     private final boolean isAssignable;
+    @Nullable private final GeoLocation geoLocation;
 
     /**
      * Constructor. For building new objects use {@link LocationBuilder}.
@@ -47,11 +48,12 @@ public class LocationImpl implements Location {
      * @param parent        the parent location (optional)
      * @param isAssignable  if the location is assignable (mandatory)
      * @param locationScope the scope of the location (mandatory)
+     * @param geoLocation   the geoLocation (optional)
      * @throws NullPointerException     if a mandatory parameter is null.
      * @throws IllegalArgumentException if a mandatory string attribute is empty.
      */
     LocationImpl(String id, String name, @Nullable Location parent, boolean isAssignable,
-        LocationScope locationScope) {
+        LocationScope locationScope, @Nullable GeoLocation geoLocation) {
         checkNotNull(id, "Location must have an ID");
         checkArgument(!id.isEmpty(), "Location ID must not be empty.");
         this.id = id;
@@ -62,6 +64,7 @@ public class LocationImpl implements Location {
         this.isAssignable = isAssignable;
         checkNotNull(locationScope);
         this.locationScope = locationScope;
+        this.geoLocation = geoLocation;
 
         if (parent != null) {
             Preconditions.checkArgument(locationScope.hasParent(parent.locationScope()), String
@@ -86,6 +89,10 @@ public class LocationImpl implements Location {
 
     @Override public Optional<Location> parent() {
         return Optional.ofNullable(parent);
+    }
+
+    @Override public Optional<GeoLocation> geoLocation() {
+        return Optional.ofNullable(geoLocation);
     }
 
     @Override public LocationScope locationScope() {
@@ -127,6 +134,6 @@ public class LocationImpl implements Location {
     @Override public String toString() {
         return MoreObjects.toStringHelper(this).add("id", id).add("providerId", providerId())
             .add("name", name).add("parent", parent).add("isAssignable", isAssignable)
-            .add("locationScope", locationScope).toString();
+            .add("locationScope", locationScope).add("geoLocation", geoLocation).toString();
     }
 }

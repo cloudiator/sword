@@ -22,8 +22,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import de.uniulm.omi.cloudiator.sword.config.BaseModule;
+import de.uniulm.omi.cloudiator.sword.config.DefaultMetaModule;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.domain.Configuration;
 import de.uniulm.omi.cloudiator.sword.domain.PropertiesBuilder;
 import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.logging.NullLoggingModule;
@@ -47,6 +47,7 @@ public class ServiceBuilder {
     private Cloud cloud;
     private AbstractLoggingModule loggingModule;
     private AbstractRemoteModule remoteModule;
+    private DefaultMetaModule metaModule = new DefaultMetaModule();
 
     public static ServiceBuilder newServiceBuilder() {
         return new ServiceBuilder();
@@ -63,6 +64,11 @@ public class ServiceBuilder {
 
     public ServiceBuilder remoteModule(AbstractRemoteModule abstractRemoteModule) {
         this.remoteModule = abstractRemoteModule;
+        return this;
+    }
+
+    public ServiceBuilder metaModule(DefaultMetaModule abstractMetaModule) {
+        this.metaModule = abstractMetaModule;
         return this;
     }
 
@@ -85,6 +91,7 @@ public class ServiceBuilder {
         basicModules.addAll(modules);
         basicModules.add(buildLoggingModule());
         basicModules.add(buildRemoteModule());
+        basicModules.add(metaModule);
         return Guice.createInjector(basicModules);
     }
 

@@ -23,6 +23,7 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.inject.*;
 import de.uniulm.omi.cloudiator.sword.annotations.Memoized;
+import de.uniulm.omi.cloudiator.sword.base.MetaService;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;

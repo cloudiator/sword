@@ -21,15 +21,13 @@ package de.uniulm.omi.cloudiator.sword.base;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.annotations.Memoized;
-import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.domain.Image;
-import de.uniulm.omi.cloudiator.sword.domain.Location;
-import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.domain.*;
 import de.uniulm.omi.cloudiator.sword.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 
 import javax.annotation.Nullable;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -37,8 +35,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by daniel on 25.09.15.
  */
-public class BaseDiscoveryService
-    implements DiscoveryService {
+public class BaseDiscoveryService implements DiscoveryService {
 
     private final Supplier<Set<Image>> imageSupplier;
     private final Supplier<Set<Location>> locationSupplier;
@@ -48,6 +45,7 @@ public class BaseDiscoveryService
     private final GetStrategy<String, Location> locationGetStrategy;
     private final GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy;
     private final GetStrategy<String, VirtualMachine> virtualMachineGetStrategy;
+    @Nullable private final MetaService metaService;
 
     @Inject public BaseDiscoveryService(@Memoized Supplier<Set<Image>> imageSupplier,
         @Memoized Supplier<Set<Location>> locationSupplier,
@@ -56,7 +54,8 @@ public class BaseDiscoveryService
         GetStrategy<String, Image> imageGetStrategy,
         GetStrategy<String, Location> locationGetStrategy,
         GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy,
-        GetStrategy<String, VirtualMachine> virtualMachineGetStrategy) {
+        GetStrategy<String, VirtualMachine> virtualMachineGetStrategy, MetaService metaService) {
+
 
         checkNotNull(imageSupplier);
         checkNotNull(locationSupplier);
@@ -76,6 +75,7 @@ public class BaseDiscoveryService
         this.locationGetStrategy = locationGetStrategy;
         this.hardwareFlavorGetStrategy = hardwareFlavorGetStrategy;
         this.virtualMachineGetStrategy = virtualMachineGetStrategy;
+        this.metaService = metaService;
     }
 
     @Override @Nullable public Image getImage(String id) {
@@ -111,7 +111,9 @@ public class BaseDiscoveryService
     }
 
     @Override public Iterable<Location> listLocations() {
-        return locationSupplier.get();
+        return locationSupplier.get().stream().map(location -> LocationBuilder.of(location)
+            .geoLocation(metaService.forLocation(location).orElse(null)).build())
+            .collect(Collectors.toSet());
     }
 
     @Override public Iterable<VirtualMachine> listVirtualMachines() {

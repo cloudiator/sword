@@ -20,8 +20,6 @@ package de.uniulm.omi.cloudiator.sword.domain;
 
 import de.uniulm.omi.cloudiator.domain.LocationScope;
 
-import javax.annotation.Nullable;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -31,9 +29,10 @@ public class LocationBuilder {
 
     private String id;
     private String name;
-    @Nullable private Location parent;
+    private Location parent;
     private boolean isAssignable;
     private LocationScope locationScope;
+    private GeoLocation geoLocation;
 
     /**
      * Use LocationBuilder::newBuilder to create builder objects.
@@ -48,6 +47,7 @@ public class LocationBuilder {
         parent = location.parent().orElse(null);
         isAssignable = location.isAssignable();
         locationScope = location.locationScope();
+        geoLocation = location.geoLocation().orElse(null);
     }
 
     /**
@@ -68,7 +68,7 @@ public class LocationBuilder {
      * @return the location.
      */
     public Location build() {
-        return new LocationImpl(id, name, parent, isAssignable, locationScope);
+        return new LocationImpl(id, name, parent, isAssignable, locationScope, geoLocation);
     }
 
     /**
@@ -113,6 +113,15 @@ public class LocationBuilder {
      */
     public LocationBuilder scope(LocationScope locationScope) {
         this.locationScope = locationScope;
+        return this;
+    }
+
+    /**
+     * @param geoLocation of the location.
+     * @return fluent interface
+     */
+    public LocationBuilder geoLocation(GeoLocation geoLocation) {
+        this.geoLocation = geoLocation;
         return this;
     }
 }

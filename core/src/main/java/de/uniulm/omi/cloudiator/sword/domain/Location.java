@@ -50,4 +50,10 @@ public interface Location extends ProviderIdentifiable, Named {
      */
     Optional<Location> parent();
 
+    /**
+     * The {@link Optional} geographical location.
+     *
+     * @return the geographical location or absent
+     */
+    Optional<GeoLocation> geoLocation();
 }

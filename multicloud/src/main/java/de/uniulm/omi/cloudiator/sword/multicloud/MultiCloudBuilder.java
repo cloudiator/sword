@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.multicloud;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import de.uniulm.omi.cloudiator.sword.config.DefaultMetaModule;
 import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.multicloud.config.MultiCloudModule;
 import de.uniulm.omi.cloudiator.sword.remote.internal.ExtendedRemoteModule;
@@ -31,6 +32,7 @@ public class MultiCloudBuilder {
 
     private ExtendedRemoteModule remoteModule;
     private AbstractLoggingModule loggingModule;
+    private DefaultMetaModule metaModule = new DefaultMetaModule();
 
     private MultiCloudBuilder() {
 
@@ -50,9 +52,14 @@ public class MultiCloudBuilder {
         return this;
     }
 
+    public MultiCloudBuilder metaModule(DefaultMetaModule metaModule) {
+        this.metaModule = metaModule;
+        return this;
+    }
+
     public MultiCloudService build() {
         final Injector injector =
-            Guice.createInjector(new MultiCloudModule(loggingModule, remoteModule));
+            Guice.createInjector(new MultiCloudModule(loggingModule, remoteModule, metaModule));
         return injector.getInstance(MultiCloudService.class);
     }
 
