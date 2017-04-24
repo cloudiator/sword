@@ -24,6 +24,7 @@ import de.uniulm.omi.cloudiator.sword.annotations.Memoized;
 import de.uniulm.omi.cloudiator.sword.domain.*;
 import de.uniulm.omi.cloudiator.sword.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.OperatingSystemDetectionStrategy;
 
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -46,6 +47,7 @@ public class BaseDiscoveryService implements DiscoveryService {
     private final GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy;
     private final GetStrategy<String, VirtualMachine> virtualMachineGetStrategy;
     @Nullable private final MetaService metaService;
+    private final OperatingSystemDetectionStrategy operatingSystemDetectionStrategy;
 
     @Inject public BaseDiscoveryService(@Memoized Supplier<Set<Image>> imageSupplier,
         @Memoized Supplier<Set<Location>> locationSupplier,
@@ -54,7 +56,9 @@ public class BaseDiscoveryService implements DiscoveryService {
         GetStrategy<String, Image> imageGetStrategy,
         GetStrategy<String, Location> locationGetStrategy,
         GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy,
-        GetStrategy<String, VirtualMachine> virtualMachineGetStrategy, MetaService metaService) {
+        GetStrategy<String, VirtualMachine> virtualMachineGetStrategy, MetaService metaService,
+        OperatingSystemDetectionStrategy operatingSystemDetectionStrategy) {
+
 
 
         checkNotNull(imageSupplier);
@@ -65,6 +69,7 @@ public class BaseDiscoveryService implements DiscoveryService {
         checkNotNull(locationGetStrategy);
         checkNotNull(hardwareFlavorGetStrategy);
         checkNotNull(virtualMachineGetStrategy);
+        checkNotNull(operatingSystemDetectionStrategy);
 
 
         this.imageSupplier = imageSupplier;
@@ -76,6 +81,7 @@ public class BaseDiscoveryService implements DiscoveryService {
         this.hardwareFlavorGetStrategy = hardwareFlavorGetStrategy;
         this.virtualMachineGetStrategy = virtualMachineGetStrategy;
         this.metaService = metaService;
+        this.operatingSystemDetectionStrategy = operatingSystemDetectionStrategy;
     }
 
     @Override @Nullable public Image getImage(String id) {
@@ -93,16 +99,20 @@ public class BaseDiscoveryService implements DiscoveryService {
     @Override @Nullable public Location getLocation(String id) {
         checkNotNull(id);
         checkArgument(!id.isEmpty());
-        return locationGetStrategy.get(id);
+        final Location location = locationGetStrategy.get(id);
+        return LocationBuilder.of(location)
+            .geoLocation(metaService.geoLocation(location).orElse(null)).build();
     }
 
     @Override @Nullable public HardwareFlavor getHardwareFlavor(String id) {
         checkNotNull(id);
         checkArgument(!id.isEmpty());
+
         return hardwareFlavorGetStrategy.get(id);
     }
 
     @Override public Iterable<HardwareFlavor> listHardwareFlavors() {
+
         return hardwareFlavorSupplier.get();
     }
 
@@ -112,7 +122,7 @@ public class BaseDiscoveryService implements DiscoveryService {
 
     @Override public Iterable<Location> listLocations() {
         return locationSupplier.get().stream().map(location -> LocationBuilder.of(location)
-            .geoLocation(metaService.forLocation(location).orElse(null)).build())
+            .geoLocation(metaService.geoLocation(location).orElse(null)).build())
             .collect(Collectors.toSet());
     }
 

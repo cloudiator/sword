@@ -22,9 +22,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import de.uniulm.omi.cloudiator.sword.base.MetaService;
-import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.domain.GeoLocation;
-import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.*;
 
 import java.util.Optional;
 
@@ -53,7 +51,11 @@ public class DefaultMetaModule extends AbstractModule {
             return new NoOpMetaService();
         }
 
-        @Override public Optional<GeoLocation> forLocation(Location location) {
+        @Override public Optional<PriceModel> priceModel(HardwareFlavor hardwareFlavor) {
+            return Optional.empty();
+        }
+
+        @Override public Optional<GeoLocation> geoLocation(Location location) {
             return Optional.empty();
         }
     }

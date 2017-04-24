@@ -23,7 +23,7 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.inject.*;
 import de.uniulm.omi.cloudiator.sword.annotations.Memoized;
-import de.uniulm.omi.cloudiator.sword.base.MetaService;
+import de.uniulm.omi.cloudiator.sword.base.BaseDiscoveryService;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
@@ -32,11 +32,7 @@ import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.service.DiscoveryService;
-import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.base.BaseDiscoveryService;
-import de.uniulm.omi.cloudiator.sword.strategy.DefaultGetStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.*;
 
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -65,6 +61,9 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
         bind(new TypeLiteral<GetStrategy<String, HardwareFlavor>>() {
         }).to(getHardwareFlavorStrategy());
+
+        bind(OperatingSystemDetectionStrategy.class)
+            .to(NameSubstringBasedOperatingSystemDetectionStrategy.class);
     }
 
     @Provides
@@ -85,7 +84,8 @@ public abstract class AbstractComputeModule extends AbstractModule {
         return keyPairService(injector);
     }
 
-    @Provides final Optional<SecurityGroupExtension> provideSecurityGroupService(Injector injector) {
+    @Provides
+    final Optional<SecurityGroupExtension> provideSecurityGroupService(Injector injector) {
         return securityGroupService(injector);
     }
 
@@ -120,7 +120,7 @@ public abstract class AbstractComputeModule extends AbstractModule {
         return Suppliers.memoizeWithExpiration(originalSupplier, 1L, TimeUnit.MINUTES);
     }
 
-    @Provides @Memoized @Singleton final Supplier<Set<Location>> provideMemoizedLocationSupplier(
+    @Provides @Memoized @Singleton    final Supplier<Set<Location>> provideMemoizedLocationSupplier(
         Supplier<Set<Location>> originalSupplier) {
         return Suppliers.memoizeWithExpiration(originalSupplier, 1L, TimeUnit.MINUTES);
     }

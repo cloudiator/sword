@@ -16,30 +16,10 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.base;
-
-import de.uniulm.omi.cloudiator.sword.domain.*;
-
-import java.util.Optional;
+package de.uniulm.omi.cloudiator.sword.domain;
 
 /**
- * Created by daniel on 09.03.17.
+ * Created by daniel on 24.04.17.
  */
-public interface MetaService {
-
-    Optional<PriceModel> priceModel(HardwareFlavor hardwareFlavor);
-
-    interface MetaServiceFactory {
-        MetaService of(Cloud cloud);
-    }
-
-    /**
-     * Returns the {@link GeoLocation} for the given {@link Location}
-     * if the service can retrieve it.
-     *
-     * @param location the location
-     *
-     * @return an {@link Optional} geolocation.
-     */
-    Optional<GeoLocation> geoLocation(Location location);
+public class PriceAbstract {
 }

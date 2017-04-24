@@ -20,14 +20,12 @@ package org.cloudiator.meta.cloudharmony;
 
 import de.uniulm.omi.cloudiator.sword.base.MetaService;
 import de.uniulm.omi.cloudiator.sword.config.DefaultMetaModule;
-import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.domain.GeoLocation;
-import de.uniulm.omi.cloudiator.sword.domain.GeoLocationBuilder;
-import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.*;
 import io.github.cloudiator.cloudharmony.ApiClient;
 import io.github.cloudiator.cloudharmony.ApiException;
 import io.github.cloudiator.cloudharmony.api.ApiApi;
 import io.github.cloudiator.cloudharmony.model.CloudService;
+import io.github.cloudiator.cloudharmony.model.ComputeInstanceType;
 
 import java.util.Optional;
 
@@ -65,7 +63,15 @@ public class CloudHarmonyMetaService implements MetaService {
         }
     }
 
-    @Override public Optional<GeoLocation> forLocation(Location location) {
+    private ComputeInstanceType getComputeInstanceType(String hardwareName) {
+        try {
+            return API_API.getComputeInstanceType(computeService, hardwareName, null, null, null);
+        } catch (ApiException e) {
+            throw new IllegalStateException("Could not retrieve computeInstanceType");
+        }
+    }
+
+    @Override public Optional<GeoLocation> geoLocation(Location location) {
         return getCloudService().getRegions().stream()
             .filter(serviceRegion -> serviceRegion.getProviderCode().equals(location.providerId()))
             .findFirst().map(
@@ -74,5 +80,11 @@ public class CloudHarmonyMetaService implements MetaService {
                     .latitude(serviceRegion.getLocationLat())
                     .longitude(serviceRegion.getLocationLong()).build());
 
+    }
+
+    @Override public Optional<PriceModel> priceModel(HardwareFlavor hardwareFlavor) {
+        ComputeInstanceType computeInstanceType = getComputeInstanceType(hardwareFlavor.name());
+
+        return Optional.empty();
     }
 }
