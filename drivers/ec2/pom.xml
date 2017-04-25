@@ -32,7 +32,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.cloudiator.sword.drivers</groupId>
-            <artifactId>jclouds</artifactId>
+            <artifactId>drivers-jclouds</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
