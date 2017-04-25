@@ -12,6 +12,7 @@ branches:
   - gh-pages
 addons:
   sonarqube:
+    organization: cloudiator
     token:
       secure: rzbU247r4apzupA9XbkuvfOPSskQW5y/OZhXA84Iu6CYYM2+e0LUguXnyuMO5RVU9CVABAKLKonv2Aa0GejMCy9ZJq5z93MCszKG4s2px9JZdU2mdKE+PxuhfqoiZbvPnbtnRN0D6ZxfNTjMxrMi6pqqsj2XI0nrHi+3YI+ZBYOckT3PCf4zBS19rZFln+7riCIb75FuSA8KO7WoqRA2qO+zNOR6wIy7uH8FSdkoNVisiTChJRVQVRF0l0Cg2Gy6L/lKiNmI6GZ/TlU8i6CzoYKfRkc3+8Jf9+WON376bN1wYSyk1XdZHrv3chCg6GJDaCS+DvnnifgKoUnB/zVS883H/YPNUdov77h89p6am8HyOMIJ9oNl6ujmz1EVI1fk+uYwVkmhV62+DZWdFAy0+Sou+LRZhTK1VZFp/KwocxIoEOX5vG3RD9JnAJv6ThJvTTD3lpVzKWg6OfyU5HuF2i9kzlDgxCy06vMhAy1Fak/WyN9whrV+VudmTKW22vixGQK5W1QT9l3myrNJfrRzXmnov8UW54BP6Z5U5/NzsYxFPiCSqcugM1+aNOA5Z69dvVhsmJIcdfjAVq57vHTU7eJZ7NUFBE4gBrkPcaejYGiFkCaXoySl2QwtxlluvUZQW2q2ccZosI3gm986t6kx3RpuO7J7DI4/85diiVNbXsQ=
 env:
