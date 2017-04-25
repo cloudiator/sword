@@ -25,10 +25,20 @@
     <parent>
         <groupId>io.github.cloudiator.sword</groupId>
         <artifactId>project</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.3.0-SNAPSHOT</version>
     </parent>
     <artifactId>service</artifactId>
     <packaging>jar</packaging>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.cloudiator.sword.drivers</groupId>
+                <artifactId>drivers-all</artifactId>
+                <version>0.3.0-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -37,8 +47,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.cloudiator.sword.drivers</groupId>
-            <artifactId>all</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <artifactId>drivers-all</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.cloudiator.sword</groupId>

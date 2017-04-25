@@ -24,9 +24,9 @@
     <parent>
         <groupId>io.github.cloudiator.sword.drivers</groupId>
         <artifactId>sword-drivers-project</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.3.0-SNAPSHOT</version>
     </parent>
-    <artifactId>flexiant</artifactId>
+    <artifactId>drivers-flexiant</artifactId>
     <packaging>jar</packaging>
 
     <dependencyManagement>
@@ -34,7 +34,7 @@
             <dependency>
                 <groupId>io.github.cloudiator.flexiant</groupId>
                 <artifactId>flexiant-client</artifactId>
-                <version>0.2.0-SNAPSHOT</version>
+                <version>0.3.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -6,9 +6,9 @@
     <parent>
         <groupId>io.github.cloudiator.sword.drivers</groupId>
         <artifactId>sword-drivers-project</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.3.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jclouds</artifactId>
+    <artifactId>drivers-jclouds</artifactId>
     <packaging>jar</packaging>
 
     <dependencyManagement>
