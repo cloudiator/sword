@@ -34,9 +34,9 @@ public class NameSubstringBasedOperatingSystemDetectionStrategy
 
     @Override public OperatingSystem detectOperatingSystem(Image image) {
 
-        OperatingSystemFamily osFamily = null;
-        OperatingSystemVersion osVersion = null;
-        OperatingSystemArchitecture osArch = null;
+        OperatingSystemFamily osFamily = OperatingSystemFamily.UNKNOWN;
+        OperatingSystemVersion osVersion = OperatingSystemVersions.unknown();
+        OperatingSystemArchitecture osArch = OperatingSystemArchitecture.UNKNOWN;
 
         //detect the operating system family
         final Set<OperatingSystemFamily> candidates = Arrays.stream(OperatingSystemFamily.values())

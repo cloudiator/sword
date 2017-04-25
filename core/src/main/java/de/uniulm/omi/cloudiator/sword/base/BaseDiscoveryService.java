@@ -20,6 +20,8 @@ package de.uniulm.omi.cloudiator.sword.base;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.domain.OperatingSystem;
+import de.uniulm.omi.cloudiator.domain.OperatingSystemBuilder;
 import de.uniulm.omi.cloudiator.sword.annotations.Memoized;
 import de.uniulm.omi.cloudiator.sword.domain.*;
 import de.uniulm.omi.cloudiator.sword.service.DiscoveryService;
@@ -28,6 +30,7 @@ import de.uniulm.omi.cloudiator.sword.strategy.OperatingSystemDetectionStrategy;
 
 import javax.annotation.Nullable;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -87,7 +90,17 @@ public class BaseDiscoveryService implements DiscoveryService {
     @Override @Nullable public Image getImage(String id) {
         checkNotNull(id);
         checkArgument(!id.isEmpty());
-        return this.imageGetStrategy.get(id);
+        final Image image = imageGetStrategy.get(id);
+
+        if (image == null) {
+            return null;
+        }
+
+        final OperatingSystem detectedOs =
+            operatingSystemDetectionStrategy.detectOperatingSystem(image);
+        return ImageBuilder.of(image)
+            .os(OperatingSystemBuilder.of(image.operatingSystem()).merge(detectedOs).build())
+            .build();
     }
 
     @Override @Nullable public VirtualMachine getVirtualMachine(String id) {
@@ -107,17 +120,21 @@ public class BaseDiscoveryService implements DiscoveryService {
     @Override @Nullable public HardwareFlavor getHardwareFlavor(String id) {
         checkNotNull(id);
         checkArgument(!id.isEmpty());
-
         return hardwareFlavorGetStrategy.get(id);
     }
 
     @Override public Iterable<HardwareFlavor> listHardwareFlavors() {
-
         return hardwareFlavorSupplier.get();
     }
 
     @Override public Iterable<Image> listImages() {
-        return imageSupplier.get();
+        return imageSupplier.get().stream().map((Function<Image, Image>) image -> {
+            final OperatingSystem detectedOs =
+                operatingSystemDetectionStrategy.detectOperatingSystem(image);
+            return ImageBuilder.of(image)
+                .os(OperatingSystemBuilder.of(image.operatingSystem()).merge(detectedOs).build())
+                .build();
+        }).collect(Collectors.toSet());
     }
 
     @Override public Iterable<Location> listLocations() {
