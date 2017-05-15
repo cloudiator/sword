@@ -20,7 +20,6 @@ package de.uniulm.omi.cloudiator.sword.extensions;
 
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
-
 import java.util.Set;
 
 /**
@@ -28,10 +27,10 @@ import java.util.Set;
  */
 public interface SecurityGroupExtension {
 
-    Set<SecurityGroup> listSecurityGroups();
+  Set<SecurityGroup> listSecurityGroups();
 
-    SecurityGroup createSecurityGroup(String name, String locationId);
+  SecurityGroup createSecurityGroup(String name, String locationId);
 
-    SecurityGroup addRule(SecurityGroupRule rule, String securityGroupId);
+  SecurityGroup addRule(SecurityGroupRule rule, String securityGroupId);
 
 }

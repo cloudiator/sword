@@ -19,31 +19,32 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Hardware;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavorBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavorBuilder;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 
 /**
  * Created by daniel on 05.12.14.
  */
 public class FlexiantHardwareToHardwareFlavor implements OneWayConverter<Hardware, HardwareFlavor> {
 
-    private final GetStrategy<String, Location> locationGetStrategy;
+  private final GetStrategy<String, Location> locationGetStrategy;
 
-    @Inject
-    public FlexiantHardwareToHardwareFlavor(GetStrategy<String, Location> locationGetStrategy) {
-        this.locationGetStrategy = locationGetStrategy;
-    }
+  @Inject
+  public FlexiantHardwareToHardwareFlavor(GetStrategy<String, Location> locationGetStrategy) {
+    this.locationGetStrategy = locationGetStrategy;
+  }
 
-    @Override public HardwareFlavor apply(Hardware hardware) {
-        String id = hardware.getLocationUUID() + "/" + hardware.getId();
+  @Override
+  public HardwareFlavor apply(Hardware hardware) {
+    String id = hardware.getLocationUUID() + "/" + hardware.getId();
 
-        return HardwareFlavorBuilder.newBuilder().id(id).providerId(id).name(id)
-            .location(locationGetStrategy.get(hardware.getLocationUUID()))
-            .cores(hardware.getCores()).mbRam(hardware.getRam()).gbDisk(hardware.getDiskSpace())
-            .build();
-    }
+    return HardwareFlavorBuilder.newBuilder().id(id).providerId(id).name(id)
+        .location(locationGetStrategy.get(hardware.getLocationUUID()))
+        .cores(hardware.getCores()).mbRam(hardware.getRam()).gbDisk(hardware.getDiskSpace())
+        .build();
+  }
 }

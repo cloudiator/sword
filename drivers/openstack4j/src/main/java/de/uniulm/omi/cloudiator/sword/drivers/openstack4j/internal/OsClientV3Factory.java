@@ -18,6 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import org.openstack4j.api.OSClient;
@@ -25,61 +28,59 @@ import org.openstack4j.model.common.Identifier;
 import org.openstack4j.model.identity.v3.Token;
 import org.openstack4j.openstack.OSFactory;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-
 /**
  * Created by daniel on 17.11.16.
  */
 public class OsClientV3Factory implements OsClientFactory {
 
-    private final Cloud cloud;
-    private static Token token = null;
+  private static Token token = null;
+  private final Cloud cloud;
 
 
-    @Inject public OsClientV3Factory(Cloud cloud) {
-        checkNotNull(cloud, "serviceConfiguration is null");
-        this.cloud = cloud;
+  @Inject
+  public OsClientV3Factory(Cloud cloud) {
+    checkNotNull(cloud, "serviceConfiguration is null");
+    this.cloud = cloud;
+  }
+
+  @Override
+  public OSClient create() {
+
+    OSClient osClient;
+
+    if (token == null) {
+      osClient = authFromServiceConfiguration();
+      token = ((OSClient.OSClientV3) osClient).getToken();
+    } else {
+      osClient = authFromToken();
     }
+    return osClient;
+  }
 
-    @Override public OSClient create() {
+  private OSClient authFromToken() {
+    return OSFactory.clientFromToken(token);
+  }
 
-        OSClient osClient;
+  private OSClient authFromServiceConfiguration() {
 
-        if (token == null) {
-            osClient = authFromServiceConfiguration();
-            token = ((OSClient.OSClientV3) osClient).getToken();
-        } else {
-            osClient = authFromToken();
-        }
-        return osClient;
-    }
+    final String[] split = cloud.credential().user().split(":");
+    checkState(split.length == 3, String
+        .format("Illegal username, expected user to be of format domain:tenant:user, got %s",
+            cloud.credential().user()));
 
-    private OSClient authFromToken() {
-        return OSFactory.clientFromToken(token);
-    }
+    final String domainId = split[0];
+    final String tenantId = split[1];
+    final String userId = split[2];
 
-    private OSClient authFromServiceConfiguration() {
+    //todo resolve identifier from credentials
+    Identifier domainIdentifier = Identifier.byId(domainId);
+    Identifier tenantIdentifier = Identifier.byId(tenantId);
 
-        final String[] split = cloud.credential().user().split(":");
-        checkState(split.length == 3, String
-            .format("Illegal username, expected user to be of format domain:tenant:user, got %s",
-                cloud.credential().user()));
+    checkState(cloud.endpoint().isPresent(), "Endpoint is required for Openstack4J Driver.");
 
-        final String domainId = split[0];
-        final String tenantId = split[1];
-        final String userId = split[2];
-
-
-        //todo resolve identifier from credentials
-        Identifier domainIdentifier = Identifier.byId(domainId);
-        Identifier tenantIdentifier = Identifier.byId(tenantId);
-
-        checkState(cloud.endpoint().isPresent(), "Endpoint is required for Openstack4J Driver.");
-
-        return OSFactory.builderV3().endpoint(cloud.endpoint().get())
-            .credentials(userId, cloud.credential().password(), domainIdentifier)
-            .scopeToProject(tenantIdentifier).authenticate();
-    }
+    return OSFactory.builderV3().endpoint(cloud.endpoint().get())
+        .credentials(userId, cloud.credential().password(), domainIdentifier)
+        .scopeToProject(tenantIdentifier).authenticate();
+  }
 
 }

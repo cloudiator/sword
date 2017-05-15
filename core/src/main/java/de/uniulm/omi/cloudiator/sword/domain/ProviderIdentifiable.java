@@ -25,6 +25,6 @@ import de.uniulm.omi.cloudiator.domain.Identifiable;
  */
 public interface ProviderIdentifiable extends Identifiable {
 
-    String providerId();
+  String providerId();
 
 }

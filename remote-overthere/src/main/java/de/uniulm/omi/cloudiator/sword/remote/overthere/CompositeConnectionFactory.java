@@ -23,7 +23,6 @@ import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
-
 import java.util.Arrays;
 import java.util.Set;
 
@@ -32,27 +31,27 @@ import java.util.Set;
  */
 public class CompositeConnectionFactory implements RemoteConnectionFactory {
 
-    private final Set<RemoteConnectionFactory> remoteConnectionFactories;
+  private final Set<RemoteConnectionFactory> remoteConnectionFactories;
 
-    public CompositeConnectionFactory(Set<RemoteConnectionFactory> remoteConnectionFactories) {
-        this.remoteConnectionFactories = remoteConnectionFactories;
+  public CompositeConnectionFactory(Set<RemoteConnectionFactory> remoteConnectionFactories) {
+    this.remoteConnectionFactories = remoteConnectionFactories;
+  }
+
+  @Override
+  public RemoteConnection createRemoteConnection(String remoteAddress, RemoteType remoteType,
+      LoginCredential loginCredential, int port) throws RemoteException {
+
+    RemoteException last = null;
+    for (RemoteConnectionFactory remoteConnectionFactory : remoteConnectionFactories) {
+      try {
+        return remoteConnectionFactory
+            .createRemoteConnection(remoteAddress, remoteType, loginCredential, port);
+      } catch (RemoteException e) {
+        last = e;
+      }
     }
-
-    @Override
-    public RemoteConnection createRemoteConnection(String remoteAddress, RemoteType remoteType,
-        LoginCredential loginCredential, int port) throws RemoteException {
-
-        RemoteException last = null;
-        for (RemoteConnectionFactory remoteConnectionFactory : remoteConnectionFactories) {
-            try {
-                return remoteConnectionFactory
-                    .createRemoteConnection(remoteAddress, remoteType, loginCredential, port);
-            } catch (RemoteException e) {
-                last = e;
-            }
-        }
-        throw new RemoteException(String.format(
-            "Tried all available connection factories %s but could not establish a connection.",
-            Arrays.toString(remoteConnectionFactories.toArray())), last);
-    }
+    throw new RemoteException(String.format(
+        "Tried all available connection factories %s but could not establish a connection.",
+        Arrays.toString(remoteConnectionFactories.toArray())), last);
+  }
 }

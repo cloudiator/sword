@@ -18,125 +18,145 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import de.uniulm.omi.cloudiator.domain.LocationScope;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.Optional;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+
+import de.uniulm.omi.cloudiator.domain.LocationScope;
+import java.util.Optional;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by daniel on 03.12.14.
  */
 public class HardwareFlavorImplTest {
 
-    private final String testId = "123456";
-    private final String testProviderId = "providerId";
-    private final String testName = "name";
-    private final int testCores = 1;
-    private final long testRam = 1024;
-    private final Float testDisk = 1.024F;
-    private final Location testLocation =
-        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
-            .scope(LocationScope.REGION).build();
-    private HardwareFlavorImpl validHardwareFlavor;
-    private HardwareFlavorBuilder validHardwareFlavorBuilder;
+  private final String testId = "123456";
+  private final String testProviderId = "providerId";
+  private final String testName = "name";
+  private final int testCores = 1;
+  private final long testRam = 1024;
+  private final Float testDisk = 1.024F;
+  private final Location testLocation =
+      LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
+          .scope(LocationScope.REGION).build();
+  private HardwareFlavorImpl validHardwareFlavor;
+  private HardwareFlavorBuilder validHardwareFlavorBuilder;
 
-    @Before public void before() {
-        this.validHardwareFlavorBuilder =
-            HardwareFlavorBuilder.newBuilder().id(testId).providerId(testProviderId).name(testName)
-                .location(testLocation).cores(testCores).mbRam(testRam).gbDisk(testDisk);
-        this.validHardwareFlavor = validHardwareFlavorBuilder.build();
-    }
+  @Before
+  public void before() {
+    this.validHardwareFlavorBuilder =
+        HardwareFlavorBuilder.newBuilder().id(testId).providerId(testProviderId).name(testName)
+            .location(testLocation).cores(testCores).mbRam(testRam).gbDisk(testDisk);
+    this.validHardwareFlavor = validHardwareFlavorBuilder.build();
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void coresNotZeroTest() {
-        validHardwareFlavorBuilder.cores(0).build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void coresNotZeroTest() {
+    validHardwareFlavorBuilder.cores(0).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void coresNotNegativeTest() {
-        validHardwareFlavorBuilder.cores(-1).build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void coresNotNegativeTest() {
+    validHardwareFlavorBuilder.cores(-1).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void ramNotZeroTest() {
-        validHardwareFlavorBuilder.mbRam(0).build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void ramNotZeroTest() {
+    validHardwareFlavorBuilder.mbRam(0).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void ramNotNegativeTest() {
-        validHardwareFlavorBuilder.mbRam(-1).build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void ramNotNegativeTest() {
+    validHardwareFlavorBuilder.mbRam(-1).build();
+  }
 
-    @Test(expected = NullPointerException.class) public void idNotNullTest() {
-        validHardwareFlavorBuilder.id(null).build();
-    }
+  @Test(expected = NullPointerException.class)
+  public void idNotNullTest() {
+    validHardwareFlavorBuilder.id(null).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void idNotEmptyTest() {
-        validHardwareFlavorBuilder.id("").build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void idNotEmptyTest() {
+    validHardwareFlavorBuilder.id("").build();
+  }
 
-    @Test(expected = NullPointerException.class) public void providerIdNotNullTest() {
-        validHardwareFlavorBuilder.providerId(null).build();
-    }
+  @Test(expected = NullPointerException.class)
+  public void providerIdNotNullTest() {
+    validHardwareFlavorBuilder.providerId(null).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void providerIdNotEmptyTest() {
-        validHardwareFlavorBuilder.providerId("").build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void providerIdNotEmptyTest() {
+    validHardwareFlavorBuilder.providerId("").build();
+  }
 
-    @Test(expected = NullPointerException.class) public void nameNotNullTest() {
-        validHardwareFlavorBuilder.name(null).build();
-    }
+  @Test(expected = NullPointerException.class)
+  public void nameNotNullTest() {
+    validHardwareFlavorBuilder.name(null).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void nameNotEmptyTest() {
-        validHardwareFlavorBuilder.name("").build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void nameNotEmptyTest() {
+    validHardwareFlavorBuilder.name("").build();
+  }
 
-    @Test public void diskNullTest() {
-        final HardwareFlavorImpl hardwareFlavor = validHardwareFlavorBuilder.gbDisk(null).build();
-        assertThat(hardwareFlavor.gbDisk(), is(equalTo(Optional.empty())));
-    }
+  @Test
+  public void diskNullTest() {
+    final HardwareFlavorImpl hardwareFlavor = validHardwareFlavorBuilder.gbDisk(null).build();
+    assertThat(hardwareFlavor.gbDisk(), is(equalTo(Optional.empty())));
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void diskGreaterZeroTest() {
-        validHardwareFlavorBuilder.gbDisk(0F).build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void diskGreaterZeroTest() {
+    validHardwareFlavorBuilder.gbDisk(0F).build();
+  }
 
-    @Test public void getIdTest() {
-        assertThat(validHardwareFlavor.id(), equalTo(testId));
-    }
+  @Test
+  public void getIdTest() {
+    assertThat(validHardwareFlavor.id(), equalTo(testId));
+  }
 
-    @Test public void getProviderIdTest() {
-        assertThat(validHardwareFlavor.providerId(), equalTo(testProviderId));
-    }
+  @Test
+  public void getProviderIdTest() {
+    assertThat(validHardwareFlavor.providerId(), equalTo(testProviderId));
+  }
 
-    @Test public void getCoresTest() {
-        assertThat(validHardwareFlavor.numberOfCores(), equalTo(testCores));
-    }
+  @Test
+  public void getCoresTest() {
+    assertThat(validHardwareFlavor.numberOfCores(), equalTo(testCores));
+  }
 
-    @Test public void getRamTest() {
-        assertThat(validHardwareFlavor.mbRam(), equalTo(testRam));
-    }
+  @Test
+  public void getRamTest() {
+    assertThat(validHardwareFlavor.mbRam(), equalTo(testRam));
+  }
 
-    @Test public void getNameTest() {
-        assertThat(validHardwareFlavor.name(), equalTo(testName));
-    }
+  @Test
+  public void getNameTest() {
+    assertThat(validHardwareFlavor.name(), equalTo(testName));
+  }
 
-    @Test public void getDiskTest() {
-        assertThat(validHardwareFlavor.gbDisk().get(), equalTo(testDisk));
-    }
+  @Test
+  public void getDiskTest() {
+    assertThat(validHardwareFlavor.gbDisk().get(), equalTo(testDisk));
+  }
 
-    @Test public void getLocationTest() {
-        assertThat(validHardwareFlavor.location().get(), equalTo(testLocation));
-    }
+  @Test
+  public void getLocationTest() {
+    assertThat(validHardwareFlavor.location().get(), equalTo(testLocation));
+  }
 
-    @Test public void toStringTest() {
-        String string = validHardwareFlavor.toString();
-        assertThat(string.contains(testId), equalTo(true));
-        assertThat(string.contains(testName), equalTo(true));
-        assertThat(string.contains(String.valueOf(testCores)), equalTo(true));
-        assertThat(string.contains(String.valueOf(testRam)), equalTo(true));
-        assertThat(string.contains(String.valueOf(testDisk)), equalTo(true));
-    }
+  @Test
+  public void toStringTest() {
+    String string = validHardwareFlavor.toString();
+    assertThat(string.contains(testId), equalTo(true));
+    assertThat(string.contains(testName), equalTo(true));
+    assertThat(string.contains(String.valueOf(testCores)), equalTo(true));
+    assertThat(string.contains(String.valueOf(testRam)), equalTo(true));
+    assertThat(string.contains(String.valueOf(testDisk)), equalTo(true));
+  }
 
 }
 

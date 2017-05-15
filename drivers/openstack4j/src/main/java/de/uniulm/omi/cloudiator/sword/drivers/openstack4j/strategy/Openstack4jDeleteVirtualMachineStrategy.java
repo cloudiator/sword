@@ -18,27 +18,29 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import org.openstack4j.api.OSClient;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 29.11.16.
  */
 public class Openstack4jDeleteVirtualMachineStrategy implements DeleteVirtualMachineStrategy {
 
-    private final OSClient osClient;
+  private final OSClient osClient;
 
-    @Inject public Openstack4jDeleteVirtualMachineStrategy(OSClient osClient) {
-        checkNotNull(osClient, "osClient is null.");
-        this.osClient = osClient;
-    }
+  @Inject
+  public Openstack4jDeleteVirtualMachineStrategy(OSClient osClient) {
+    checkNotNull(osClient, "osClient is null.");
+    this.osClient = osClient;
+  }
 
-    @Override public void apply(String id) {
-        checkNotNull(id, "id is null.");
-        osClient.compute().servers().delete(IdScopeByLocations.from(id).getId());
-    }
+  @Override
+  public void apply(String id) {
+    checkNotNull(id, "id is null.");
+    osClient.compute().servers().delete(IdScopeByLocations.from(id).getId());
+  }
 }

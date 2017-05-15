@@ -6,7 +6,6 @@ import com.xebialabs.overthere.OverthereFile;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionResponse;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,58 +16,62 @@ import java.io.IOException;
 //todo remove duplicated code
 public class OverthereWinRMConnection implements RemoteConnection {
 
-    private final SwordOverthereConnection delegate;
+  private final SwordOverthereConnection delegate;
 
-    OverthereWinRMConnection(SwordOverthereConnection delegate) {
-        this.delegate = delegate;
+  OverthereWinRMConnection(SwordOverthereConnection delegate) {
+    this.delegate = delegate;
+  }
+
+  @Override
+  public RemoteConnectionResponse executeCommand(String command)
+      throws RemoteException {
+    //TODO: check why the Overthere encoding doesn't work for Windows and Linux!
+    //split the command into separate commands otherwise Windows commands can't be recognized
+
+    String[] splittedCommands = command.split("\\s+");
+
+    OverthereRemoteConnectionResponse response = new OverthereRemoteConnectionResponse();
+    response.setExitStatus(delegate.execute(response.getStdOutExecutionOutputHandler(),
+        response.getStdErrExecutionOutputHandler(), CmdLine.build(splittedCommands)));
+    return response;
+
+  }
+
+  @Override
+  public File downloadFile(String path) throws RemoteException {
+    OverthereFile overthereFile = this.delegate.getFile(path);
+    //todo refactor, is duplicate of unix logic.
+    try {
+      File tempFile = File.createTempFile("sword.overthere", "tmp");
+      tempFile.deleteOnExit();
+      ByteStreams.copy(overthereFile.getInputStream(), new FileOutputStream(tempFile));
+      return tempFile;
+    } catch (IOException e) {
+      throw new RemoteException(e);
+    }
+  }
+
+  @Override
+  public int writeFile(String pathAndFilename, String content, boolean setExecutable)
+      throws RemoteException {
+
+    //todo: ignores setExecutable?
+
+    //spilt at newline
+    String[] splittedContent = content.split("\\r?\\n");
+
+    //use powershell Add-Content to avoid line break issues with windows in config file
+    for (String line : splittedContent) {
+      this.executeCommand(
+          "powershell -command  Add-Content " + pathAndFilename + " '" + line + "'");
     }
 
-    @Override public RemoteConnectionResponse executeCommand(String command)
-        throws RemoteException {
-        //TODO: check why the Overthere encoding doesn't work for Windows and Linux!
-        //split the command into separate commands otherwise Windows commands can't be recognized
+    //todo check this return value
+    return 0;
+  }
 
-        String[] splittedCommands = command.split("\\s+");
-
-        OverthereRemoteConnectionResponse response = new OverthereRemoteConnectionResponse();
-        response.setExitStatus(delegate.execute(response.getStdOutExecutionOutputHandler(),
-            response.getStdErrExecutionOutputHandler(), CmdLine.build(splittedCommands)));
-        return response;
-
-    }
-
-    @Override public File downloadFile(String path) throws RemoteException {
-        OverthereFile overthereFile = this.delegate.getFile(path);
-        //todo refactor, is duplicate of unix logic.
-        try {
-            File tempFile = File.createTempFile("sword.overthere", "tmp");
-            tempFile.deleteOnExit();
-            ByteStreams.copy(overthereFile.getInputStream(), new FileOutputStream(tempFile));
-            return tempFile;
-        } catch (IOException e) {
-            throw new RemoteException(e);
-        }
-    }
-
-    @Override public int writeFile(String pathAndFilename, String content, boolean setExecutable)
-        throws RemoteException {
-
-        //todo: ignores setExecutable?
-
-        //spilt at newline
-        String[] splittedContent = content.split("\\r?\\n");
-
-        //use powershell Add-Content to avoid line break issues with windows in config file
-        for (String line : splittedContent) {
-            this.executeCommand(
-                "powershell -command  Add-Content " + pathAndFilename + " '" + line + "'");
-        }
-
-        //todo check this return value
-        return 0;
-    }
-
-    @Override public void close() {
-        delegate.close();
-    }
+  @Override
+  public void close() {
+    delegate.close();
+  }
 }

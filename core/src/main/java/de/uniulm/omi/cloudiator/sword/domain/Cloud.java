@@ -25,13 +25,13 @@ import java.util.Optional;
  */
 public interface Cloud {
 
-    String id();
+  String id();
 
-    Api api();
+  Api api();
 
-    Optional<String> endpoint();
+  Optional<String> endpoint();
 
-    CloudCredential credential();
+  CloudCredential credential();
 
-    Configuration configuration();
+  Configuration configuration();
 }

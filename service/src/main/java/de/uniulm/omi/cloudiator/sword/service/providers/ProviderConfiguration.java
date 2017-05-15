@@ -18,49 +18,48 @@
 
 package de.uniulm.omi.cloudiator.sword.service.providers;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.Module;
 import de.uniulm.omi.cloudiator.sword.domain.Properties;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
-
 import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 02.12.14.
  */
 public class ProviderConfiguration {
 
-    private final String name;
-    private final Set<? extends Module> modules;
-    private final Class<? extends ComputeService> computeService;
-    private final Properties defaultProperties;
+  private final String name;
+  private final Set<? extends Module> modules;
+  private final Class<? extends ComputeService> computeService;
+  private final Properties defaultProperties;
 
-    public ProviderConfiguration(String name, Set<? extends Module> modules,
-        Class<? extends ComputeService> computeService, Properties defaultProperties) {
-        checkNotNull(name);
-        checkNotNull(modules);
-        checkNotNull(computeService);
-        checkNotNull(defaultProperties);
-        this.name = name;
-        this.modules = modules;
-        this.computeService = computeService;
-        this.defaultProperties = defaultProperties;
-    }
+  public ProviderConfiguration(String name, Set<? extends Module> modules,
+      Class<? extends ComputeService> computeService, Properties defaultProperties) {
+    checkNotNull(name);
+    checkNotNull(modules);
+    checkNotNull(computeService);
+    checkNotNull(defaultProperties);
+    this.name = name;
+    this.modules = modules;
+    this.computeService = computeService;
+    this.defaultProperties = defaultProperties;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Set<? extends Module> getModules() {
-        return modules;
-    }
+  public Set<? extends Module> getModules() {
+    return modules;
+  }
 
-    public Class<? extends ComputeService> getComputeService() {
-        return computeService;
-    }
+  public Class<? extends ComputeService> getComputeService() {
+    return computeService;
+  }
 
-    public Properties getDefaultProperties() {
-        return defaultProperties;
-    }
+  public Properties getDefaultProperties() {
+    return defaultProperties;
+  }
 }

@@ -23,6 +23,6 @@ package de.uniulm.omi.cloudiator.sword.domain;
  */
 public interface Api {
 
-    String providerName();
+  String providerName();
 
 }

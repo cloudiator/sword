@@ -18,52 +18,51 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
-import org.openstack4j.api.OSClient;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.openstack4j.api.OSClient;
 
 /**
  * Created by daniel on 14.11.16.
  */
 public class ImageSupplier implements Supplier<Set<Image>> {
 
-    private final OSClient osClient;
-    private final OneWayConverter<ImageInRegion, Image> converter;
-    private final RegionSupplier regionSupplier;
+  private final OSClient osClient;
+  private final OneWayConverter<ImageInRegion, Image> converter;
+  private final RegionSupplier regionSupplier;
 
-    @Inject
-    public ImageSupplier(OSClient osClient, OneWayConverter<ImageInRegion, Image> converter,
-                         RegionSupplier regionSupplier) {
+  @Inject
+  public ImageSupplier(OSClient osClient, OneWayConverter<ImageInRegion, Image> converter,
+      RegionSupplier regionSupplier) {
 
-        checkNotNull(osClient, "osClient is null");
-        checkNotNull(converter, "converter is null");
-        checkNotNull(regionSupplier, "regionSupplier is null");
+    checkNotNull(osClient, "osClient is null");
+    checkNotNull(converter, "converter is null");
+    checkNotNull(regionSupplier, "regionSupplier is null");
 
-        this.osClient = osClient;
-        this.converter = converter;
-        this.regionSupplier = regionSupplier;
+    this.osClient = osClient;
+    this.converter = converter;
+    this.regionSupplier = regionSupplier;
+  }
+
+  @Override
+  public Set<Image> get() {
+
+    Set<Image> set = new HashSet<>();
+    for (Location region : regionSupplier.get()) {
+      set.addAll(osClient.useRegion(region.id()).compute().images().list().stream().map(
+          image -> new ImageInRegion(
+              image, region)).map(converter).collect(Collectors.toSet()));
     }
-
-    @Override
-    public Set<Image> get() {
-
-        Set<Image> set = new HashSet<>();
-        for (Location region : regionSupplier.get()) {
-            set.addAll(osClient.useRegion(region.id()).compute().images().list().stream().map(
-                    image -> new ImageInRegion(
-                            image, region)).map(converter).collect(Collectors.toSet()));
-        }
-        return set;
-    }
+    return set;
+  }
 }

@@ -19,23 +19,24 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.strategy;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.util.FlexiantUtil;
+import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 
 /**
  * Created by daniel on 14.01.15.
  */
 public class FlexiantDeleteVirtualMachineStrategy implements DeleteVirtualMachineStrategy {
 
-    private final FlexiantComputeClient flexiantComputeClient;
+  private final FlexiantComputeClient flexiantComputeClient;
 
-    @Inject
-    public FlexiantDeleteVirtualMachineStrategy(FlexiantComputeClient flexiantComputeClient) {
-        this.flexiantComputeClient = flexiantComputeClient;
-    }
+  @Inject
+  public FlexiantDeleteVirtualMachineStrategy(FlexiantComputeClient flexiantComputeClient) {
+    this.flexiantComputeClient = flexiantComputeClient;
+  }
 
-    @Override public void apply(String virtualMachineId) {
-        flexiantComputeClient.deleteServer(FlexiantUtil.stripLocation(virtualMachineId));
-    }
+  @Override
+  public void apply(String virtualMachineId) {
+    flexiantComputeClient.deleteServer(FlexiantUtil.stripLocation(virtualMachineId));
+  }
 }

@@ -19,13 +19,12 @@
 package de.uniulm.omi.cloudiator.sword.domain;
 
 
-import com.google.common.base.MoreObjects;
-import org.jclouds.ssh.SshKeys;
-
-import javax.annotation.Nullable;
-import java.util.Optional;
-
 import static com.google.common.base.Preconditions.checkArgument;
+
+import com.google.common.base.MoreObjects;
+import java.util.Optional;
+import javax.annotation.Nullable;
+import org.jclouds.ssh.SshKeys;
 
 /**
  * Basic implementation of the {@link LoginCredential} interface.
@@ -35,51 +34,58 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 public class LoginCredentialImpl implements LoginCredential {
 
-    @Nullable private final String username;
-    @Nullable private final String password;
-    @Nullable private final String privateKey;
+  @Nullable
+  private final String username;
+  @Nullable
+  private final String password;
+  @Nullable
+  private final String privateKey;
 
-    LoginCredentialImpl(@Nullable String username, @Nullable String password,
-        @Nullable String privateKey) {
+  LoginCredentialImpl(@Nullable String username, @Nullable String password,
+      @Nullable String privateKey) {
 
-        if (username != null) {
-            checkArgument(!username.isEmpty(), "Username must not be empty.");
-        }
-
-        if (password != null) {
-            checkArgument(!password.isEmpty(), "Password must not be empty.");
-        }
-
-        if (privateKey != null) {
-            checkArgument(!privateKey.isEmpty(), "Private key must not be empty.");
-        }
-
-        this.username = username;
-        this.password = password;
-        this.privateKey = privateKey;
+    if (username != null) {
+      checkArgument(!username.isEmpty(), "Username must not be empty.");
     }
 
-    @Override public Optional<String> username() {
-        return Optional.ofNullable(username);
+    if (password != null) {
+      checkArgument(!password.isEmpty(), "Password must not be empty.");
     }
 
-    @Override public Optional<String> password() {
-        return Optional.ofNullable(password);
+    if (privateKey != null) {
+      checkArgument(!privateKey.isEmpty(), "Private key must not be empty.");
     }
 
-    @Override public Optional<String> privateKey() {
-        return Optional.ofNullable(privateKey);
-    }
+    this.username = username;
+    this.password = password;
+    this.privateKey = privateKey;
+  }
 
-    public Optional<String> privateKeyFingerprint() {
-        if (privateKey == null) {
-            return Optional.empty();
-        }
-        return Optional.of(SshKeys.fingerprintPrivateKey(privateKey));
-    }
+  @Override
+  public Optional<String> username() {
+    return Optional.ofNullable(username);
+  }
 
-    @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("username", username())
-            .add("password", password()).add("privateKey", privateKeyFingerprint()).toString();
+  @Override
+  public Optional<String> password() {
+    return Optional.ofNullable(password);
+  }
+
+  @Override
+  public Optional<String> privateKey() {
+    return Optional.ofNullable(privateKey);
+  }
+
+  public Optional<String> privateKeyFingerprint() {
+    if (privateKey == null) {
+      return Optional.empty();
     }
+    return Optional.of(SshKeys.fingerprintPrivateKey(privateKey));
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("username", username())
+        .add("password", password()).add("privateKey", privateKeyFingerprint()).toString();
+  }
 }

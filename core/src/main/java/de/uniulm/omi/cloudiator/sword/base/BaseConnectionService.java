@@ -32,17 +32,18 @@ import de.uniulm.omi.cloudiator.sword.service.ConnectionService;
  */
 public class BaseConnectionService implements ConnectionService {
 
-    private final RemoteConnectionFactory remoteConnectionFactory;
+  private final RemoteConnectionFactory remoteConnectionFactory;
 
-    @Inject public BaseConnectionService(RemoteConnectionFactory remoteConnectionFactory) {
-        this.remoteConnectionFactory = remoteConnectionFactory;
-    }
+  @Inject
+  public BaseConnectionService(RemoteConnectionFactory remoteConnectionFactory) {
+    this.remoteConnectionFactory = remoteConnectionFactory;
+  }
 
-    @Override
-    public RemoteConnection getRemoteConnection(HostAndPort hostAndPort, RemoteType remoteType,
-        LoginCredential loginCredential) throws RemoteException {
-        return this.remoteConnectionFactory
-            .createRemoteConnection(hostAndPort.getHostText(), remoteType, loginCredential,
-                hostAndPort.getPort());
-    }
+  @Override
+  public RemoteConnection getRemoteConnection(HostAndPort hostAndPort, RemoteType remoteType,
+      LoginCredential loginCredential) throws RemoteException {
+    return this.remoteConnectionFactory
+        .createRemoteConnection(hostAndPort.getHostText(), remoteType, loginCredential,
+            hostAndPort.getPort());
+  }
 }

@@ -20,56 +20,57 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavorBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import java.util.Optional;
 import org.jclouds.compute.domain.Hardware;
 import org.jclouds.compute.domain.Processor;
 import org.jclouds.compute.domain.Volume;
-
-import java.util.Optional;
 
 /**
  * Created by daniel on 03.12.14.
  */
 public class JCloudsHardwareToHardwareFlavor implements OneWayConverter<Hardware, HardwareFlavor> {
 
-    private final OneWayConverter<org.jclouds.domain.Location, Location> locationConverter;
+  private final OneWayConverter<org.jclouds.domain.Location, Location> locationConverter;
 
-    @Inject public JCloudsHardwareToHardwareFlavor(
-        OneWayConverter<org.jclouds.domain.Location, Location> locationConverter) {
-        this.locationConverter = locationConverter;
+  @Inject
+  public JCloudsHardwareToHardwareFlavor(
+      OneWayConverter<org.jclouds.domain.Location, Location> locationConverter) {
+    this.locationConverter = locationConverter;
+  }
+
+  @Override
+  public HardwareFlavor apply(Hardware hardware) {
+    if (hardware == null) {
+      return null;
+    }
+    int cores = 0;
+    for (Processor processor : hardware.getProcessors()) {
+      cores += processor.getCores();
+    }
+    Float gbDisk = null;
+    final Optional<? extends Volume> bootVolume =
+        hardware.getVolumes().stream().filter(Volume::isBootDevice).findFirst();
+    if (bootVolume.isPresent()) {
+      gbDisk = bootVolume.get().getSize();
+      if (gbDisk == 0) {
+        gbDisk = null;
+      }
     }
 
-    @Override public HardwareFlavor apply(Hardware hardware) {
-        if (hardware == null) {
-            return null;
-        }
-        int cores = 0;
-        for (Processor processor : hardware.getProcessors()) {
-            cores += processor.getCores();
-        }
-        Float gbDisk = null;
-        final Optional<? extends Volume> bootVolume =
-            hardware.getVolumes().stream().filter(Volume::isBootDevice).findFirst();
-        if (bootVolume.isPresent()) {
-            gbDisk = bootVolume.get().getSize();
-            if (gbDisk == 0) {
-                gbDisk = null;
-            }
-        }
+    return HardwareFlavorBuilder.newBuilder().id(hardware.getId())
+        .providerId(hardware.getProviderId()).name(forceName(hardware)).cores(cores)
+        .mbRam(hardware.getRam()).gbDisk(gbDisk)
+        .location(locationConverter.apply(hardware.getLocation())).build();
+  }
 
-        return HardwareFlavorBuilder.newBuilder().id(hardware.getId())
-            .providerId(hardware.getProviderId()).name(forceName(hardware)).cores(cores)
-            .mbRam(hardware.getRam()).gbDisk(gbDisk)
-            .location(locationConverter.apply(hardware.getLocation())).build();
+  private String forceName(Hardware hardware) {
+    if (hardware.getName() == null) {
+      return hardware.getId();
     }
-
-    private String forceName(Hardware hardware) {
-        if (hardware.getName() == null) {
-            return hardware.getId();
-        }
-        return hardware.getName();
-    }
+    return hardware.getName();
+  }
 }

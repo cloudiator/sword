@@ -18,86 +18,104 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import de.uniulm.omi.cloudiator.domain.*;
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+
+import de.uniulm.omi.cloudiator.domain.LocationScope;
+import de.uniulm.omi.cloudiator.domain.OperatingSystem;
+import de.uniulm.omi.cloudiator.domain.OperatingSystemArchitecture;
+import de.uniulm.omi.cloudiator.domain.OperatingSystemBuilder;
+import de.uniulm.omi.cloudiator.domain.OperatingSystemFamily;
+import de.uniulm.omi.cloudiator.domain.OperatingSystemVersions;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by daniel on 03.12.14.
  */
 public class ImageImplTest {
 
-    private final String testId = "123456";
-    private final String testProviderId = "providerId";
-    private final String testName = "name";
-    private final Location testLocation =
-        LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
-            .scope(LocationScope.REGION).build();
-    private final OperatingSystem testOs =
-        OperatingSystemBuilder.newBuilder().architecture(OperatingSystemArchitecture.AMD64)
-            .family(OperatingSystemFamily.UBUNTU).version(OperatingSystemVersions.of(1404, "14.04"))
-            .build();
-    private Image validImage;
-    private ImageBuilder validImageBuilder;
+  private final String testId = "123456";
+  private final String testProviderId = "providerId";
+  private final String testName = "name";
+  private final Location testLocation =
+      LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
+          .scope(LocationScope.REGION).build();
+  private final OperatingSystem testOs =
+      OperatingSystemBuilder.newBuilder().architecture(OperatingSystemArchitecture.AMD64)
+          .family(OperatingSystemFamily.UBUNTU).version(OperatingSystemVersions.of(1404, "14.04"))
+          .build();
+  private Image validImage;
+  private ImageBuilder validImageBuilder;
 
-    @Before public void before() {
+  @Before
+  public void before() {
 
-        validImageBuilder =
-            ImageBuilder.newBuilder().id(testId).providerId(testProviderId).name(testName)
-                .location(testLocation).os(testOs);
-        validImage = validImageBuilder.build();
-    }
+    validImageBuilder =
+        ImageBuilder.newBuilder().id(testId).providerId(testProviderId).name(testName)
+            .location(testLocation).os(testOs);
+    validImage = validImageBuilder.build();
+  }
 
-    @Test(expected = NullPointerException.class) public void idNotNullableTest() {
-        validImageBuilder.id(null).build();
-    }
+  @Test(expected = NullPointerException.class)
+  public void idNotNullableTest() {
+    validImageBuilder.id(null).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void idNotEmptyTest() {
-        validImageBuilder.id("").build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void idNotEmptyTest() {
+    validImageBuilder.id("").build();
+  }
 
-    @Test(expected = NullPointerException.class) public void providerIdNotNullableTest() {
-        validImageBuilder.providerId(null).build();
-    }
+  @Test(expected = NullPointerException.class)
+  public void providerIdNotNullableTest() {
+    validImageBuilder.providerId(null).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void providerIdNotEmptyTest() {
-        validImageBuilder.providerId("").build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void providerIdNotEmptyTest() {
+    validImageBuilder.providerId("").build();
+  }
 
-    @Test(expected = NullPointerException.class) public void nameNotNullableTest() {
-        validImageBuilder.name(null).build();
-    }
+  @Test(expected = NullPointerException.class)
+  public void nameNotNullableTest() {
+    validImageBuilder.name(null).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void nameNotEmptyTest() {
-        validImageBuilder.name("").build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void nameNotEmptyTest() {
+    validImageBuilder.name("").build();
+  }
 
-    @Test public void getOperatingSystemTest() {
-        Image underTest = validImage;
-        assertThat(underTest.operatingSystem(), equalTo(testOs));
-    }
+  @Test
+  public void getOperatingSystemTest() {
+    Image underTest = validImage;
+    assertThat(underTest.operatingSystem(), equalTo(testOs));
+  }
 
-    @Test(expected = NullPointerException.class) public void getOperatingSystemNullTEst() {
-        validImageBuilder.os(null).build();
-    }
+  @Test(expected = NullPointerException.class)
+  public void getOperatingSystemNullTEst() {
+    validImageBuilder.os(null).build();
+  }
 
-    @Test public void getIdTest() {
-        assertThat(validImage.id(), equalTo(testId));
-    }
+  @Test
+  public void getIdTest() {
+    assertThat(validImage.id(), equalTo(testId));
+  }
 
-    @Test public void getProviderIdTest() {
-        assertThat(validImage.providerId(), equalTo(testProviderId));
-    }
+  @Test
+  public void getProviderIdTest() {
+    assertThat(validImage.providerId(), equalTo(testProviderId));
+  }
 
-    @Test public void getNameTest() {
-        assertThat(validImage.name(), equalTo(testName));
-    }
+  @Test
+  public void getNameTest() {
+    assertThat(validImage.name(), equalTo(testName));
+  }
 
-    @Test public void getLocationTest() {
-        assertThat(validImage.location().get(), equalTo(testLocation));
-    }
+  @Test
+  public void getLocationTest() {
+    assertThat(validImage.location().get(), equalTo(testLocation));
+  }
 
 }

@@ -18,39 +18,40 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import org.jclouds.http.HttpResponse;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 15.08.16.
  */
 public class OpenstackDeleteVirtualMachineStrategy implements DeleteVirtualMachineStrategy {
 
-    private final DeleteVirtualMachineStrategy jcloudsDeleteVirtualMachineStrategy;
+  private final DeleteVirtualMachineStrategy jcloudsDeleteVirtualMachineStrategy;
 
-    public OpenstackDeleteVirtualMachineStrategy(
-        DeleteVirtualMachineStrategy jcloudsDeleteVirtualMachineStrategy) {
-        checkNotNull(jcloudsDeleteVirtualMachineStrategy);
-        this.jcloudsDeleteVirtualMachineStrategy = jcloudsDeleteVirtualMachineStrategy;
-    }
+  public OpenstackDeleteVirtualMachineStrategy(
+      DeleteVirtualMachineStrategy jcloudsDeleteVirtualMachineStrategy) {
+    checkNotNull(jcloudsDeleteVirtualMachineStrategy);
+    this.jcloudsDeleteVirtualMachineStrategy = jcloudsDeleteVirtualMachineStrategy;
+  }
 
-    @Override public void apply(String virtualMachineId) {
-        // try to workaround jcloud issue
-        // https://issues.apache.org/jira/browse/JCLOUDS-1155
-        try {
-            jcloudsDeleteVirtualMachineStrategy.apply(virtualMachineId);
-        } catch (org.jclouds.http.HttpResponseException e) {
-            final HttpResponse response = e.getResponse();
-            if (response.getStatusCode() == 400) {
-                if (e.getContent().contains("Security Group") && e.getContent()
-                    .contains("in use")) {
-                    //silently error error
-                    return;
-                }
-            }
-            throw e;
+  @Override
+  public void apply(String virtualMachineId) {
+    // try to workaround jcloud issue
+    // https://issues.apache.org/jira/browse/JCLOUDS-1155
+    try {
+      jcloudsDeleteVirtualMachineStrategy.apply(virtualMachineId);
+    } catch (org.jclouds.http.HttpResponseException e) {
+      final HttpResponse response = e.getResponse();
+      if (response.getStatusCode() == 400) {
+        if (e.getContent().contains("Security Group") && e.getContent()
+            .contains("in use")) {
+          //silently error error
+          return;
         }
+      }
+      throw e;
     }
+  }
 }

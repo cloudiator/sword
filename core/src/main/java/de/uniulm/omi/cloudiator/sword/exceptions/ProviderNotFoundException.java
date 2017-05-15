@@ -24,24 +24,24 @@ package de.uniulm.omi.cloudiator.sword.exceptions;
  */
 public class ProviderNotFoundException extends RuntimeException {
 
-    public ProviderNotFoundException(String message) {
-        super(message);
-    }
+  public ProviderNotFoundException(String message) {
+    super(message);
+  }
 
-    public ProviderNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public ProviderNotFoundException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public ProviderNotFoundException() {
-        super();
-    }
+  public ProviderNotFoundException() {
+    super();
+  }
 
-    public ProviderNotFoundException(Throwable cause) {
-        super(cause);
-    }
+  public ProviderNotFoundException(Throwable cause) {
+    super(cause);
+  }
 
-    protected ProviderNotFoundException(String message, Throwable cause, boolean enableSuppression,
-        boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+  protected ProviderNotFoundException(String message, Throwable cause, boolean enableSuppression,
+      boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
+  }
 }

@@ -25,9 +25,9 @@ import java.util.Optional;
  */
 public interface LocationScoped {
 
-    /**
-     * @return {@link Optional} location.
-     */
-    Optional<Location> location();
+  /**
+   * @return {@link Optional} location.
+   */
+  Optional<Location> location();
 
 }

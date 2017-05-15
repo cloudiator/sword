@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.config;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import de.uniulm.omi.cloudiator.sword.base.BaseConnectionService;
@@ -26,33 +28,31 @@ import de.uniulm.omi.cloudiator.sword.domain.Properties;
 import de.uniulm.omi.cloudiator.sword.service.ConnectionService;
 import de.uniulm.omi.cloudiator.sword.util.GroupEncodedIntoNameNamingStrategy;
 import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
-
 import javax.annotation.Nullable;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 02.12.14.
  */
 public class BaseModule extends AbstractModule {
 
-    private final Cloud cloud;
-    private final Properties properties;
+  private final Cloud cloud;
+  private final Properties properties;
 
-    public BaseModule(Cloud cloud, @Nullable Properties properties) {
+  public BaseModule(Cloud cloud, @Nullable Properties properties) {
 
-        checkNotNull(cloud);
+    checkNotNull(cloud);
 
-        this.cloud = cloud;
-        this.properties = properties;
+    this.cloud = cloud;
+    this.properties = properties;
+  }
+
+  @Override
+  protected void configure() {
+    bind(Cloud.class).toInstance(this.cloud);
+    bind(ConnectionService.class).to(BaseConnectionService.class);
+    if (this.properties != null) {
+      Names.bindProperties(binder(), this.properties.getProperties());
     }
-
-    @Override protected void configure() {
-        bind(Cloud.class).toInstance(this.cloud);
-        bind(ConnectionService.class).to(BaseConnectionService.class);
-        if (this.properties != null) {
-            Names.bindProperties(binder(), this.properties.getProperties());
-        }
-        bind(NamingStrategy.class).to(GroupEncodedIntoNameNamingStrategy.class);
-    }
+    bind(NamingStrategy.class).to(GroupEncodedIntoNameNamingStrategy.class);
+  }
 }

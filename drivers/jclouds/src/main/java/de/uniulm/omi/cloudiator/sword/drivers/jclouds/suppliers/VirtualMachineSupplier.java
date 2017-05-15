@@ -18,47 +18,48 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
-import org.jclouds.compute.domain.ComputeMetadata;
-
+import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.jclouds.compute.domain.ComputeMetadata;
 
 /**
  * Created by daniel on 09.12.14.
  */
 public class VirtualMachineSupplier implements Supplier<Set<VirtualMachine>> {
 
-    private final JCloudsComputeClient jCloudsComputeClient;
-    private final OneWayConverter<ComputeMetadata, VirtualMachine>
-        jCloudsComputeMetadataToVirtualMachine;
-    private final NamingStrategy namingStrategy;
+  private final JCloudsComputeClient jCloudsComputeClient;
+  private final OneWayConverter<ComputeMetadata, VirtualMachine>
+      jCloudsComputeMetadataToVirtualMachine;
+  private final NamingStrategy namingStrategy;
 
-    @Inject public VirtualMachineSupplier(JCloudsComputeClient jCloudsComputeClient,
-        OneWayConverter<ComputeMetadata, VirtualMachine> jCloudsComputeMetadataToVirtualMachine,
-        NamingStrategy namingStrategy) {
+  @Inject
+  public VirtualMachineSupplier(JCloudsComputeClient jCloudsComputeClient,
+      OneWayConverter<ComputeMetadata, VirtualMachine> jCloudsComputeMetadataToVirtualMachine,
+      NamingStrategy namingStrategy) {
 
-        checkNotNull(jCloudsComputeClient, "jCloudsComputeClient is null.");
-        checkNotNull(jCloudsComputeMetadataToVirtualMachine,
-            "jCloudsComputeMetadataToVirtualMachine is null.");
-        checkNotNull(namingStrategy, "namingStrategy is null.");
+    checkNotNull(jCloudsComputeClient, "jCloudsComputeClient is null.");
+    checkNotNull(jCloudsComputeMetadataToVirtualMachine,
+        "jCloudsComputeMetadataToVirtualMachine is null.");
+    checkNotNull(namingStrategy, "namingStrategy is null.");
 
-        this.jCloudsComputeClient = jCloudsComputeClient;
-        this.jCloudsComputeMetadataToVirtualMachine = jCloudsComputeMetadataToVirtualMachine;
-        this.namingStrategy = namingStrategy;
-    }
+    this.jCloudsComputeClient = jCloudsComputeClient;
+    this.jCloudsComputeMetadataToVirtualMachine = jCloudsComputeMetadataToVirtualMachine;
+    this.namingStrategy = namingStrategy;
+  }
 
-    @Override public Set<VirtualMachine> get() {
-        return jCloudsComputeClient.listNodes().stream()
-            .map(jCloudsComputeMetadataToVirtualMachine::apply)
-            .filter(virtualMachine -> namingStrategy.belongsToNamingGroup().test(virtualMachine.name()))
-            .collect(Collectors.toSet());
-    }
+  @Override
+  public Set<VirtualMachine> get() {
+    return jCloudsComputeClient.listNodes().stream()
+        .map(jCloudsComputeMetadataToVirtualMachine::apply)
+        .filter(virtualMachine -> namingStrategy.belongsToNamingGroup().test(virtualMachine.name()))
+        .collect(Collectors.toSet());
+  }
 }

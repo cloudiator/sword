@@ -18,118 +18,118 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import java.util.Collections;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Template;
 import org.jclouds.compute.domain.TemplateBuilder;
-
-import java.util.Collections;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 12.01.15.
  */
 public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
-    private final JCloudsComputeClient jCloudsComputeClient;
-    private final OneWayConverter<ComputeMetadata, VirtualMachine>
-        computeMetadataVirtualMachineConverter;
-    private final OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>
-        templateOptionsConverter;
-    private final NamingStrategy namingStrategy;
+  private final JCloudsComputeClient jCloudsComputeClient;
+  private final OneWayConverter<ComputeMetadata, VirtualMachine>
+      computeMetadataVirtualMachineConverter;
+  private final OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>
+      templateOptionsConverter;
+  private final NamingStrategy namingStrategy;
 
 
-    @Inject public JCloudsCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient,
-        OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter,
-        OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions> templateOptionsConverter,
-        NamingStrategy namingStrategy) {
+  @Inject
+  public JCloudsCreateVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient,
+      OneWayConverter<ComputeMetadata, VirtualMachine> computeMetadataVirtualMachineConverter,
+      OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions> templateOptionsConverter,
+      NamingStrategy namingStrategy) {
 
-        checkNotNull(jCloudsComputeClient);
-        checkNotNull(computeMetadataVirtualMachineConverter);
-        checkNotNull(templateOptionsConverter);
-        checkNotNull(namingStrategy);
+    checkNotNull(jCloudsComputeClient);
+    checkNotNull(computeMetadataVirtualMachineConverter);
+    checkNotNull(templateOptionsConverter);
+    checkNotNull(namingStrategy);
 
-        this.jCloudsComputeClient = jCloudsComputeClient;
-        this.computeMetadataVirtualMachineConverter = computeMetadataVirtualMachineConverter;
-        this.templateOptionsConverter = templateOptionsConverter;
-        this.namingStrategy = namingStrategy;
+    this.jCloudsComputeClient = jCloudsComputeClient;
+    this.computeMetadataVirtualMachineConverter = computeMetadataVirtualMachineConverter;
+    this.templateOptionsConverter = templateOptionsConverter;
+    this.namingStrategy = namingStrategy;
+  }
+
+  @Override
+  public final VirtualMachine apply(final VirtualMachineTemplate virtualMachineTemplate) {
+
+    final VirtualMachineTemplate virtualMachineTemplateToUse =
+        modifyVirtualMachineTemplate(virtualMachineTemplate);
+
+    final TemplateBuilder templateBuilder = jCloudsComputeClient.templateBuilder();
+
+    templateBuilder.hardwareId(virtualMachineTemplateToUse.hardwareFlavorId())
+        .imageId(virtualMachineTemplateToUse.imageId())
+        .locationId(virtualMachineTemplateToUse.locationId());
+
+    final org.jclouds.compute.options.TemplateOptions jcloudsTemplateOptions;
+
+    if (virtualMachineTemplate.templateOptions().isPresent()) {
+      //convert the template options
+      jcloudsTemplateOptions =
+          templateOptionsConverter.apply(virtualMachineTemplateToUse.templateOptions().get());
+
+    } else {
+      //create a template options object for setting the name
+      jcloudsTemplateOptions = this.newTemplateOptions();
+      templateBuilder.options(jcloudsTemplateOptions);
     }
 
-    @Override
-    public final VirtualMachine apply(final VirtualMachineTemplate virtualMachineTemplate) {
+    //set the name
+    jcloudsTemplateOptions.nodeNames(Collections
+        .singleton(namingStrategy.generateUniqueNameBasedOnName(virtualMachineTemplate.name())));
 
-        final VirtualMachineTemplate virtualMachineTemplateToUse =
-            modifyVirtualMachineTemplate(virtualMachineTemplate);
+    //call extension point
+    templateBuilder
+        .options(modifyTemplateOptions(virtualMachineTemplate, jcloudsTemplateOptions));
 
-        final TemplateBuilder templateBuilder = jCloudsComputeClient.templateBuilder();
+    final Template template = templateBuilder.build();
 
-        templateBuilder.hardwareId(virtualMachineTemplateToUse.hardwareFlavorId())
-            .imageId(virtualMachineTemplateToUse.imageId())
-            .locationId(virtualMachineTemplateToUse.locationId());
+    return this.computeMetadataVirtualMachineConverter
+        .apply(this.jCloudsComputeClient.createNode(template));
+  }
 
-        final org.jclouds.compute.options.TemplateOptions jcloudsTemplateOptions;
+  /**
+   * Extension point for the virtual machine template. Allows the subclass to replace
+   * the virtual machine template before it is passed to the jclouds template builder.
+   *
+   * @param originalMachineTemplate the virtual machine template to modify
+   * @return the replaced template
+   */
+  protected VirtualMachineTemplate modifyVirtualMachineTemplate(
+      VirtualMachineTemplate originalMachineTemplate) {
+    return originalMachineTemplate;
+  }
 
-        if (virtualMachineTemplate.templateOptions().isPresent()) {
-            //convert the template options
-            jcloudsTemplateOptions =
-                templateOptionsConverter.apply(virtualMachineTemplateToUse.templateOptions().get());
+  /**
+   * Extension point for the template options. Allows the subclass to replace the
+   * jclouds template options object with a new one before it is passed to the template
+   * builder.
+   *
+   * @param originalVirtualMachineTemplate the original virtual machine template
+   * @param originalTemplateOptions the original template options
+   * @return the replaced template options.
+   */
+  protected org.jclouds.compute.options.TemplateOptions modifyTemplateOptions(
+      VirtualMachineTemplate originalVirtualMachineTemplate,
+      org.jclouds.compute.options.TemplateOptions originalTemplateOptions) {
+    return originalTemplateOptions;
+  }
 
-        } else {
-            //create a template options object for setting the name
-            jcloudsTemplateOptions = this.newTemplateOptions();
-            templateBuilder.options(jcloudsTemplateOptions);
-        }
-
-        //set the name
-        jcloudsTemplateOptions.nodeNames(Collections
-            .singleton(namingStrategy.generateUniqueNameBasedOnName(virtualMachineTemplate.name())));
-
-        //call extension point
-        templateBuilder
-            .options(modifyTemplateOptions(virtualMachineTemplate, jcloudsTemplateOptions));
-
-        final Template template = templateBuilder.build();
-
-        return this.computeMetadataVirtualMachineConverter
-            .apply(this.jCloudsComputeClient.createNode(template));
-    }
-
-    /**
-     * Extension point for the virtual machine template. Allows the subclass to replace
-     * the virtual machine template before it is passed to the jclouds template builder.
-     *
-     * @param originalMachineTemplate the virtual machine template to modify
-     * @return the replaced template
-     */
-    protected VirtualMachineTemplate modifyVirtualMachineTemplate(
-        VirtualMachineTemplate originalMachineTemplate) {
-        return originalMachineTemplate;
-    }
-
-    /**
-     * Extension point for the template options. Allows the subclass to replace the
-     * jclouds template options object with a new one before it is passed to the template
-     * builder.
-     *
-     * @param originalVirtualMachineTemplate the original virtual machine template
-     * @param originalTemplateOptions        the original template options
-     * @return the replaced template options.
-     */
-    protected org.jclouds.compute.options.TemplateOptions modifyTemplateOptions(
-        VirtualMachineTemplate originalVirtualMachineTemplate,
-        org.jclouds.compute.options.TemplateOptions originalTemplateOptions) {
-        return originalTemplateOptions;
-    }
-
-    protected org.jclouds.compute.options.TemplateOptions newTemplateOptions() {
-        return new org.jclouds.compute.options.TemplateOptions();
-    }
+  protected org.jclouds.compute.options.TemplateOptions newTemplateOptions() {
+    return new org.jclouds.compute.options.TemplateOptions();
+  }
 }

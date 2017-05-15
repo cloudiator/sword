@@ -6,7 +6,6 @@ import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
-
 import java.util.LinkedHashSet;
 
 /**
@@ -14,38 +13,38 @@ import java.util.LinkedHashSet;
  */
 public class OverthereDecidingConnectionFactory implements RemoteConnectionFactory {
 
-    private final RemoteConnectionFactory overthereSSHConnectionFactory;
-    private final RemoteConnectionFactory overthereWinRMConnectionFactory;
-    private final RemoteConnectionFactory compositeConnectionFactory;
+  private final RemoteConnectionFactory overthereSSHConnectionFactory;
+  private final RemoteConnectionFactory overthereWinRMConnectionFactory;
+  private final RemoteConnectionFactory compositeConnectionFactory;
 
-    public OverthereDecidingConnectionFactory() {
+  public OverthereDecidingConnectionFactory() {
 
-        overthereSSHConnectionFactory = new OverthereSSHConnectionFactory();
-        overthereWinRMConnectionFactory = new OverthereWinRMConnectionFactory();
+    overthereSSHConnectionFactory = new OverthereSSHConnectionFactory();
+    overthereWinRMConnectionFactory = new OverthereWinRMConnectionFactory();
 
-        final LinkedHashSet<RemoteConnectionFactory> remoteConnectionFactories =
-            Sets.newLinkedHashSetWithExpectedSize(2);
-        remoteConnectionFactories.add(overthereSSHConnectionFactory);
-        remoteConnectionFactories.add(overthereWinRMConnectionFactory);
-        compositeConnectionFactory = new CompositeConnectionFactory(remoteConnectionFactories);
+    final LinkedHashSet<RemoteConnectionFactory> remoteConnectionFactories =
+        Sets.newLinkedHashSetWithExpectedSize(2);
+    remoteConnectionFactories.add(overthereSSHConnectionFactory);
+    remoteConnectionFactories.add(overthereWinRMConnectionFactory);
+    compositeConnectionFactory = new CompositeConnectionFactory(remoteConnectionFactories);
+  }
+
+  @Override
+  public RemoteConnection createRemoteConnection(String remoteAddress, RemoteType remoteType,
+      LoginCredential loginCredential, int port) throws RemoteException {
+
+    switch (remoteType) {
+      case SSH:
+        return overthereSSHConnectionFactory
+            .createRemoteConnection(remoteAddress, remoteType, loginCredential, port);
+      case WINRM:
+        return overthereWinRMConnectionFactory
+            .createRemoteConnection(remoteAddress, remoteType, loginCredential, port);
+      case UNKNOWN:
+        return compositeConnectionFactory
+            .createRemoteConnection(remoteAddress, remoteType, loginCredential, port);
+      default:
+        throw new AssertionError("Unsupported osFamily detected.");
     }
-
-    @Override
-    public RemoteConnection createRemoteConnection(String remoteAddress, RemoteType remoteType,
-        LoginCredential loginCredential, int port) throws RemoteException {
-
-        switch (remoteType) {
-            case SSH:
-                return overthereSSHConnectionFactory
-                    .createRemoteConnection(remoteAddress, remoteType, loginCredential, port);
-            case WINRM:
-                return overthereWinRMConnectionFactory
-                    .createRemoteConnection(remoteAddress, remoteType, loginCredential, port);
-            case UNKNOWN:
-                return compositeConnectionFactory
-                    .createRemoteConnection(remoteAddress, remoteType, loginCredential, port);
-            default:
-                throw new AssertionError("Unsupported osFamily detected.");
-        }
-    }
+  }
 }

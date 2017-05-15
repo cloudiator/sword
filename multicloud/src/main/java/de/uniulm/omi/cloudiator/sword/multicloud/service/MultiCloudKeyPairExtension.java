@@ -18,75 +18,82 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.multicloud.domain.KeyPairMultiCloudImpl;
-
 import javax.annotation.Nullable;
-
-import static com.google.common.base.Preconditions.*;
 
 /**
  * Created by daniel on 24.01.17.
  */
 public class MultiCloudKeyPairExtension implements KeyPairExtension {
 
-    private final ComputeServiceProvider computeServiceProvider;
+  private final ComputeServiceProvider computeServiceProvider;
 
-    @Inject public MultiCloudKeyPairExtension(ComputeServiceProvider computeServiceProvider) {
-        checkNotNull(computeServiceProvider, "computeServiceProvider is null");
-        this.computeServiceProvider = computeServiceProvider;
+  @Inject
+  public MultiCloudKeyPairExtension(ComputeServiceProvider computeServiceProvider) {
+    checkNotNull(computeServiceProvider, "computeServiceProvider is null");
+    this.computeServiceProvider = computeServiceProvider;
+  }
+
+  private KeyPairExtension keyPairService(String scopedId) {
+    final IdScopedByCloud ScopedIdByCloud = IdScopedByClouds.from(scopedId);
+    final Optional<KeyPairExtension> keyPairServiceOptional =
+        computeServiceProvider.forId(ScopedIdByCloud.cloudId()).keyPairExtension();
+    checkState(keyPairServiceOptional.isPresent(), String
+        .format("KeyPairService is not present for cloud %s.", ScopedIdByCloud.cloudId()));
+    return keyPairServiceOptional.get();
+  }
+
+  @Override
+  public KeyPair create(@Nullable String name, String locationId) {
+    if (name != null) {
+      checkArgument(!name.isEmpty(), "name is empty");
     }
+    checkNotNull(locationId, "locationId is null");
+    return new KeyPairMultiCloudImpl(
+        keyPairService(locationId).create(name, IdScopedByClouds.from(locationId).id()),
+        IdScopedByClouds.from(locationId).cloudId());
+  }
 
-    private KeyPairExtension keyPairService(String scopedId) {
-        final IdScopedByCloud ScopedIdByCloud = IdScopedByClouds.from(scopedId);
-        final Optional<KeyPairExtension> keyPairServiceOptional =
-            computeServiceProvider.forId(ScopedIdByCloud.cloudId()).keyPairExtension();
-        checkState(keyPairServiceOptional.isPresent(), String
-            .format("KeyPairService is not present for cloud %s.", ScopedIdByCloud.cloudId()));
-        return keyPairServiceOptional.get();
+  @Override
+  public KeyPair create(@Nullable String name, String publicKey, String locationId) {
+    if (name != null) {
+      checkArgument(!name.isEmpty(), "name is empty");
     }
+    checkNotNull(publicKey, "publicKey is null");
+    checkArgument(!publicKey.isEmpty(), "publicKey is empty");
+    checkNotNull(locationId, "locationId is null");
+    checkArgument(!locationId.isEmpty(), "locationId is empty");
+    return new KeyPairMultiCloudImpl(keyPairService(locationId)
+        .create(name, publicKey, IdScopedByClouds.from(locationId).id()),
+        IdScopedByClouds.from(locationId).cloudId());
+  }
 
-    @Override public KeyPair create(@Nullable String name, String locationId) {
-        if (name != null) {
-            checkArgument(!name.isEmpty(), "name is empty");
-        }
-        checkNotNull(locationId, "locationId is null");
-        return new KeyPairMultiCloudImpl(
-            keyPairService(locationId).create(name, IdScopedByClouds.from(locationId).id()),
-            IdScopedByClouds.from(locationId).cloudId());
-    }
+  @Override
+  public boolean delete(String id) {
+    checkNotNull(id, "id is null");
+    checkArgument(!id.isEmpty(), "id is empty");
 
-    @Override public KeyPair create(@Nullable String name, String publicKey, String locationId) {
-        if (name != null) {
-            checkArgument(!name.isEmpty(), "name is empty");
-        }
-        checkNotNull(publicKey, "publicKey is null");
-        checkArgument(!publicKey.isEmpty(), "publicKey is empty");
-        checkNotNull(locationId, "locationId is null");
-        checkArgument(!locationId.isEmpty(), "locationId is empty");
-        return new KeyPairMultiCloudImpl(keyPairService(locationId)
-            .create(name, publicKey, IdScopedByClouds.from(locationId).id()),
-            IdScopedByClouds.from(locationId).cloudId());
-    }
+    IdScopedByCloud scopedKeyPairId = IdScopedByClouds.from(id);
+    return keyPairService(id).delete(scopedKeyPairId.id());
+  }
 
-    @Override public boolean delete(String id) {
-        checkNotNull(id, "id is null");
-        checkArgument(!id.isEmpty(), "id is empty");
+  @Nullable
+  @Override
+  public KeyPair get(String id) {
+    checkNotNull(id, "id is null");
+    checkArgument(!id.isEmpty(), "id is empty");
 
-        IdScopedByCloud scopedKeyPairId = IdScopedByClouds.from(id);
-        return keyPairService(id).delete(scopedKeyPairId.id());
-    }
+    IdScopedByCloud idScopedByCloud = IdScopedByClouds.from(id);
 
-    @Nullable @Override public KeyPair get(String id) {
-        checkNotNull(id, "id is null");
-        checkArgument(!id.isEmpty(), "id is empty");
-
-        IdScopedByCloud idScopedByCloud = IdScopedByClouds.from(id);
-
-        return new KeyPairMultiCloudImpl(keyPairService(id).get(idScopedByCloud.id()),
-            idScopedByCloud.cloudId());
-    }
+    return new KeyPairMultiCloudImpl(keyPairService(id).get(idScopedByCloud.id()),
+        idScopedByCloud.cloudId());
+  }
 }

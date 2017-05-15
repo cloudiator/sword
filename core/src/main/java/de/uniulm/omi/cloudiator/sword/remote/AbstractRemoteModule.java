@@ -7,15 +7,16 @@ import com.google.inject.AbstractModule;
  */
 public abstract class AbstractRemoteModule extends AbstractModule {
 
-    @Override protected void configure() {
-        bind(RemoteConnectionFactory.class).to(getRemoteConnectionFactory());
-    }
+  @Override
+  protected void configure() {
+    bind(RemoteConnectionFactory.class).to(getRemoteConnectionFactory());
+  }
 
-    /**
-     * Used for defining the class that will be used for creating
-     * remote connections ({@link RemoteConnectionFactory}).
-     *
-     * @return a class implementing a RemoteConnectionFactory.
-     */
-    protected abstract Class<? extends RemoteConnectionFactory> getRemoteConnectionFactory();
+  /**
+   * Used for defining the class that will be used for creating
+   * remote connections ({@link RemoteConnectionFactory}).
+   *
+   * @return a class implementing a RemoteConnectionFactory.
+   */
+  protected abstract Class<? extends RemoteConnectionFactory> getRemoteConnectionFactory();
 }

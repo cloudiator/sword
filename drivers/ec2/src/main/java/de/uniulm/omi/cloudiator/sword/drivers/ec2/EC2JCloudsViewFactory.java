@@ -23,33 +23,38 @@ import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.logging.LoggerFactory;
-import org.jclouds.aws.ec2.reference.AWSEC2Constants;
-
 import java.util.Properties;
+import org.jclouds.aws.ec2.reference.AWSEC2Constants;
 
 /**
  * Created by daniel on 26.04.16.
  */
 public class EC2JCloudsViewFactory extends BaseJCloudsViewFactory {
 
-    @Inject(optional = true) @Named(EC2Constants.PROPERTY_EC2_AMI_QUERY) private String amiQuery =
-        null;
+  @Inject(optional = true)
+  @Named(EC2Constants.PROPERTY_EC2_AMI_QUERY)
+  private String amiQuery =
+      null;
 
-    @Inject(optional = true) @Named(EC2Constants.PROPERTY_EC2_CC_AMI_QUERY) private String
-        amiCcQuery = null;
+  @Inject(optional = true)
+  @Named(EC2Constants.PROPERTY_EC2_CC_AMI_QUERY)
+  private String
+      amiCcQuery = null;
 
 
-    @Inject public EC2JCloudsViewFactory(Cloud cloud, LoggerFactory loggerFactory) {
-        super(cloud, loggerFactory);
+  @Inject
+  public EC2JCloudsViewFactory(Cloud cloud, LoggerFactory loggerFactory) {
+    super(cloud, loggerFactory);
+  }
+
+  @Override
+  protected Properties overrideProperties(Properties properties) {
+    if (amiQuery != null) {
+      properties.setProperty(AWSEC2Constants.PROPERTY_EC2_AMI_QUERY, amiQuery);
     }
-
-    @Override protected Properties overrideProperties(Properties properties) {
-        if (amiQuery != null) {
-            properties.setProperty(AWSEC2Constants.PROPERTY_EC2_AMI_QUERY, amiQuery);
-        }
-        if (amiCcQuery != null) {
-            properties.setProperty(AWSEC2Constants.PROPERTY_EC2_CC_AMI_QUERY, amiCcQuery);
-        }
-        return properties;
+    if (amiCcQuery != null) {
+      properties.setProperty(AWSEC2Constants.PROPERTY_EC2_CC_AMI_QUERY, amiCcQuery);
     }
+    return properties;
+  }
 }

@@ -18,23 +18,24 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
-import de.uniulm.omi.cloudiator.sword.strategy.PublicIpStrategy;
-import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
-import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.Openstack4JConstants;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.FloatingIpPoolStrategy;
+import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.strategy.PublicIpStrategy;
+import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
+import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
+import java.util.Optional;
+import java.util.function.Predicate;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.api.compute.ComputeFloatingIPService;
 import org.openstack4j.api.compute.ComputeService;
 import org.openstack4j.model.compute.FloatingIP;
 import org.openstack4j.model.compute.Server;
-
-import java.util.Optional;
-import java.util.function.Predicate;
-
-import static com.google.common.base.Preconditions.*;
 
 /**
  * Basic implementation of a {@link PublicIpStrategy} for Openstack.
@@ -43,84 +44,85 @@ import static com.google.common.base.Preconditions.*;
  */
 public class Openstack4JPublicIpExtension implements PublicIpExtension {
 
-    private final OSClient osClient;
-    private final FloatingIpPoolStrategy floatingIpPoolStrategy;
+  private final OSClient osClient;
+  private final FloatingIpPoolStrategy floatingIpPoolStrategy;
 
 
-    @Inject public Openstack4JPublicIpExtension(OSClient osClient,
-        FloatingIpPoolStrategy floatingIpPoolStrategy) {
+  @Inject
+  public Openstack4JPublicIpExtension(OSClient osClient,
+      FloatingIpPoolStrategy floatingIpPoolStrategy) {
 
+    checkNotNull(osClient, "osClient is null");
+    checkNotNull(floatingIpPoolStrategy, "floatingIpPoolStrategy is null");
 
-        checkNotNull(osClient, "osClient is null");
-        checkNotNull(floatingIpPoolStrategy, "floatingIpPoolStrategy is null");
+    this.osClient = osClient;
+    this.floatingIpPoolStrategy = floatingIpPoolStrategy;
+  }
 
-        this.osClient = osClient;
-        this.floatingIpPoolStrategy = floatingIpPoolStrategy;
+  private FloatingIP allocateFromPool(ComputeFloatingIPService computeFloatingIPService,
+      String virtualMachineId) {
+    final Optional<String> floatingIpPool = floatingIpPoolStrategy.apply(virtualMachineId);
+    if (floatingIpPool.isPresent()) {
+      return computeFloatingIPService.allocateIP(floatingIpPool.get());
     }
+    throw new IllegalStateException(String.format(
+        "Need to allocate floatingIp but pool could not be resolved. Try to configure %s.",
+        Openstack4JConstants.FLOATING_IP_POOL_PROPERTY));
+  }
 
-    private FloatingIP allocateFromPool(ComputeFloatingIPService computeFloatingIPService,
-        String virtualMachineId) {
-        final Optional<String> floatingIpPool = floatingIpPoolStrategy.apply(virtualMachineId);
-        if (floatingIpPool.isPresent()) {
-            return computeFloatingIPService.allocateIP(floatingIpPool.get());
-        }
-        throw new IllegalStateException(String.format(
-            "Need to allocate floatingIp but pool could not be resolved. Try to configure %s.",
-            Openstack4JConstants.FLOATING_IP_POOL_PROPERTY));
+  private String findPublicIp(ComputeFloatingIPService computeFloatingIPService,
+      String virtualMachineId) {
+
+    final Optional<? extends FloatingIP> any = computeFloatingIPService.list().stream()
+        .filter((Predicate<FloatingIP>) floatingIP -> floatingIP.getInstanceId() == null)
+        .findAny();
+
+    if (!any.isPresent()) {
+      //no floating ip is present, allocate one from the pool.
+      return allocateFromPool(computeFloatingIPService, virtualMachineId)
+          .getFloatingIpAddress();
     }
+    return any.get().getFloatingIpAddress();
+  }
 
-    private String findPublicIp(ComputeFloatingIPService computeFloatingIPService,
-        String virtualMachineId) {
+  private Server server(String virtualMachineId, ComputeService compute) {
+    IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
+    Server server = compute.servers().get(virtualMachineScopedId.getId());
+    checkState(server != null,
+        "Could not retrieve server with id " + virtualMachineScopedId.getId());
+    return server;
+  }
 
+  @Override
+  public String addPublicIp(String virtualMachineId) {
+    checkNotNull(virtualMachineId, "virtualMachineId is null");
+    checkArgument(!virtualMachineId.isEmpty(), "virtualMachineId is empty");
 
-        final Optional<? extends FloatingIP> any = computeFloatingIPService.list().stream()
-            .filter((Predicate<FloatingIP>) floatingIP -> floatingIP.getInstanceId() == null)
-            .findAny();
+    final IdScopedByLocation scopedId = IdScopeByLocations.from(virtualMachineId);
 
-        if (!any.isPresent()) {
-            //no floating ip is present, allocate one from the pool.
-            return allocateFromPool(computeFloatingIPService, virtualMachineId)
-                .getFloatingIpAddress();
-        }
-        return any.get().getFloatingIpAddress();
-    }
+    final ComputeService compute = osClient.useRegion(scopedId.getLocationId()).compute();
 
-    private Server server(String virtualMachineId, ComputeService compute) {
-        IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
-        Server server = compute.servers().get(virtualMachineScopedId.getId());
-        checkState(server != null,
-            "Could not retrieve server with id " + virtualMachineScopedId.getId());
-        return server;
-    }
+    final ComputeFloatingIPService computeFloatingIPService = compute.floatingIps();
 
-    @Override public String addPublicIp(String virtualMachineId) {
-        checkNotNull(virtualMachineId, "virtualMachineId is null");
-        checkArgument(!virtualMachineId.isEmpty(), "virtualMachineId is empty");
+    final String publicIp = findPublicIp(computeFloatingIPService, virtualMachineId);
 
-        final IdScopedByLocation scopedId = IdScopeByLocations.from(virtualMachineId);
+    computeFloatingIPService.addFloatingIP(server(virtualMachineId, compute), publicIp);
 
-        final ComputeService compute = osClient.useRegion(scopedId.getLocationId()).compute();
+    return publicIp;
 
-        final ComputeFloatingIPService computeFloatingIPService = compute.floatingIps();
+  }
 
-        final String publicIp = findPublicIp(computeFloatingIPService, virtualMachineId);
+  @Override
+  public void removePublicIp(String virtualMachineId, String address) {
+    checkNotNull(virtualMachineId, "virtualMachineId is null");
+    checkArgument(!virtualMachineId.isEmpty(), "virtualMachineId is empty");
 
-        computeFloatingIPService.addFloatingIP(server(virtualMachineId, compute), publicIp);
+    checkNotNull(address, "address is null.");
+    checkArgument(!address.isEmpty(), "address is empty");
 
-        return publicIp;
-
-    }
-
-    @Override public void removePublicIp(String virtualMachineId, String address) {
-        checkNotNull(virtualMachineId, "virtualMachineId is null");
-        checkArgument(!virtualMachineId.isEmpty(), "virtualMachineId is empty");
-
-        checkNotNull(address, "address is null.");
-        checkArgument(!address.isEmpty(), "address is empty");
-
-        IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
-        final ComputeService compute =
-            osClient.useRegion(virtualMachineScopedId.getLocationId()).compute();
-        compute.floatingIps().removeFloatingIP(server(virtualMachineId, compute), address);
-    }
+    IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
+    final ComputeService compute =
+        osClient.useRegion(virtualMachineScopedId.getLocationId()).compute();
+    compute.floatingIps().removeFloatingIP(server(virtualMachineId, compute), address);
+  }
 }

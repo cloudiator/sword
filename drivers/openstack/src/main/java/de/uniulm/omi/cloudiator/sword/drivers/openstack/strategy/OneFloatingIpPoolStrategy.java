@@ -18,40 +18,42 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
+import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
 import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.extensions.FloatingIPPoolApi;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Retrieves the floating ip pool if there exists only one.
  */
 public class OneFloatingIpPoolStrategy implements FloatingIpPoolStrategy {
 
-    private final NovaApi novaApi;
+  private final NovaApi novaApi;
 
-    @Inject public OneFloatingIpPoolStrategy(NovaApi novaApi) {
-        this.novaApi = novaApi;
+  @Inject
+  public OneFloatingIpPoolStrategy(NovaApi novaApi) {
+    this.novaApi = novaApi;
+  }
+
+  @Override
+  public Optional<String> apply(String virtualMachine) {
+    checkNotNull(virtualMachine);
+    IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachine);
+
+    final Optional<FloatingIPPoolApi> optionalFloatingIPPoolApi =
+        novaApi.getFloatingIPPoolApi(virtualMachineScopedId.getLocationId());
+    if (!optionalFloatingIPPoolApi.isPresent()) {
+      return Optional.absent();
+    }
+    final FloatingIPPoolApi floatingIPPoolApi = optionalFloatingIPPoolApi.get();
+    if (floatingIPPoolApi.list().size() != 1) {
+      return Optional.absent();
     }
 
-    @Override public Optional<String> apply(String virtualMachine) {
-        checkNotNull(virtualMachine);
-        IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachine);
-
-        final Optional<FloatingIPPoolApi> optionalFloatingIPPoolApi =
-            novaApi.getFloatingIPPoolApi(virtualMachineScopedId.getLocationId());
-        if (!optionalFloatingIPPoolApi.isPresent()) {
-            return Optional.absent();
-        }
-        final FloatingIPPoolApi floatingIPPoolApi = optionalFloatingIPPoolApi.get();
-        if (floatingIPPoolApi.list().size() != 1) {
-            return Optional.absent();
-        }
-
-        return Optional.of(floatingIPPoolApi.list().get(0).getName());
-    }
+    return Optional.of(floatingIPPoolApi.list().get(0).getName());
+  }
 }

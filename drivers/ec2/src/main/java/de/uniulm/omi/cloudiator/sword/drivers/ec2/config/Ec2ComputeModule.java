@@ -19,36 +19,37 @@
 package de.uniulm.omi.cloudiator.sword.drivers.ec2.config;
 
 import com.google.inject.Injector;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
-import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.strategy.DefaultGetStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.EC2JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.converters.TemplateOptionsToEc2TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.strategy.Ec2CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
+import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.DefaultGetStrategy;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 
 /**
  * Created by daniel on 02.12.14.
  */
 public class Ec2ComputeModule extends JCloudsComputeModule {
 
-    @Override protected JCloudsViewFactory overrideJCloudsViewFactory(Injector injector,
-        JCloudsViewFactory originalFactory) {
-        return injector.getInstance(EC2JCloudsViewFactory.class);
-    }
+  @Override
+  protected JCloudsViewFactory overrideJCloudsViewFactory(Injector injector,
+      JCloudsViewFactory originalFactory) {
+    return injector.getInstance(EC2JCloudsViewFactory.class);
+  }
 
-    @Override
-    protected CreateVirtualMachineStrategy overrideCreateVirtualMachineStrategy(Injector injector,
-        CreateVirtualMachineStrategy original) {
-        //todo this is not optimal as it may overwrite the binding of the get strategy.
-        return new Ec2CreateVirtualMachineStrategy(original,
-            injector.getInstance(DefaultGetStrategy.DefaultVirtualMachineGetStrategy.class));
-    }
+  @Override
+  protected CreateVirtualMachineStrategy overrideCreateVirtualMachineStrategy(Injector injector,
+      CreateVirtualMachineStrategy original) {
+    //todo this is not optimal as it may overwrite the binding of the get strategy.
+    return new Ec2CreateVirtualMachineStrategy(original,
+        injector.getInstance(DefaultGetStrategy.DefaultVirtualMachineGetStrategy.class));
+  }
 
-    @Override
-    protected Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter() {
-        return TemplateOptionsToEc2TemplateOptions.class;
-    }
+  @Override
+  protected Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter() {
+    return TemplateOptionsToEc2TemplateOptions.class;
+  }
 }

@@ -26,27 +26,27 @@ import java.util.Map;
  */
 public class PropertiesBuilder {
 
-    private Map<String, String> serviceProperties;
+  private Map<String, String> serviceProperties;
 
-    private PropertiesBuilder() {
-        serviceProperties = new HashMap<>();
-    }
+  private PropertiesBuilder() {
+    serviceProperties = new HashMap<>();
+  }
 
-    public static PropertiesBuilder newBuilder() {
-        return new PropertiesBuilder();
-    }
+  public static PropertiesBuilder newBuilder() {
+    return new PropertiesBuilder();
+  }
 
-    public PropertiesBuilder putProperty(String key, Object value) {
-        this.serviceProperties.put(key, String.valueOf(value));
-        return this;
-    }
+  public PropertiesBuilder putProperty(String key, Object value) {
+    this.serviceProperties.put(key, String.valueOf(value));
+    return this;
+  }
 
-    public PropertiesBuilder putProperties(Map<String, ?> map) {
-        map.forEach(this::putProperty);
-        return this;
-    }
+  public PropertiesBuilder putProperties(Map<String, ?> map) {
+    map.forEach(this::putProperty);
+    return this;
+  }
 
-    public Properties build() {
-        return new PropertiesImpl(serviceProperties);
-    }
+  public Properties build() {
+    return new PropertiesImpl(serviceProperties);
+  }
 }

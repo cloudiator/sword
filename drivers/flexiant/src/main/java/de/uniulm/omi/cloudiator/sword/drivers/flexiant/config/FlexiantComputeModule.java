@@ -21,16 +21,13 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.config;
 import com.google.common.base.Supplier;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Hardware;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
+import de.uniulm.omi.cloudiator.sword.config.AbstractComputeModule;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.config.AbstractComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters.FlexiantHardwareToHardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters.FlexiantImageToImage;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters.FlexiantLocationToLocation;
@@ -41,7 +38,9 @@ import de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers.HardwareSupplie
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers.ImageSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers.LocationSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers.VirtualMachineSupplier;
-
+import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Set;
 
 
@@ -50,51 +49,56 @@ import java.util.Set;
  */
 public class FlexiantComputeModule extends AbstractComputeModule {
 
-    @Override protected Supplier<Set<Image>> imageSupplier(Injector injector) {
-        return injector.getInstance(ImageSupplier.class);
-    }
+  @Override
+  protected Supplier<Set<Image>> imageSupplier(Injector injector) {
+    return injector.getInstance(ImageSupplier.class);
+  }
 
-    @Override protected Supplier<Set<Location>> locationSupplier(Injector injector) {
-        return injector.getInstance(LocationSupplier.class);
-    }
+  @Override
+  protected Supplier<Set<Location>> locationSupplier(Injector injector) {
+    return injector.getInstance(LocationSupplier.class);
+  }
 
-    @Override protected Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier(Injector injector) {
-        return injector.getInstance(HardwareSupplier.class);
-    }
+  @Override
+  protected Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier(Injector injector) {
+    return injector.getInstance(HardwareSupplier.class);
+  }
 
-    @Override protected Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
-        return injector.getInstance(VirtualMachineSupplier.class);
-    }
+  @Override
+  protected Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
+    return injector.getInstance(VirtualMachineSupplier.class);
+  }
 
-    @Override
-    protected CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector) {
-        return injector.getInstance(FlexiantCreateVirtualMachineStrategy.class);
-    }
+  @Override
+  protected CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector) {
+    return injector.getInstance(FlexiantCreateVirtualMachineStrategy.class);
+  }
 
-    @Override
-    protected DeleteVirtualMachineStrategy deleteVirtualMachineStrategy(Injector injector) {
-        return injector.getInstance(FlexiantDeleteVirtualMachineStrategy.class);
-    }
+  @Override
+  protected DeleteVirtualMachineStrategy deleteVirtualMachineStrategy(Injector injector) {
+    return injector.getInstance(FlexiantDeleteVirtualMachineStrategy.class);
+  }
 
-    @Override protected void configure() {
-        super.configure();
+  @Override
+  protected void configure() {
+    super.configure();
 
-        //bind the image converter
-        bind(
-            new TypeLiteral<OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image>>() {
-            }).to(FlexiantImageToImage.class);
+    //bind the image converter
+    bind(
+        new TypeLiteral<OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image>>() {
+        }).to(FlexiantImageToImage.class);
 
-        //bind the location converter
-        bind(
-            new TypeLiteral<OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location>>() {
-            }).to(FlexiantLocationToLocation.class);
+    //bind the location converter
+    bind(
+        new TypeLiteral<OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location>>() {
+        }).to(FlexiantLocationToLocation.class);
 
-        //bind the hardware converter
-        bind(new TypeLiteral<OneWayConverter<Hardware, HardwareFlavor>>() {
-        }).to(FlexiantHardwareToHardwareFlavor.class);
+    //bind the hardware converter
+    bind(new TypeLiteral<OneWayConverter<Hardware, HardwareFlavor>>() {
+    }).to(FlexiantHardwareToHardwareFlavor.class);
 
-        //bind the virtual machine converter
-        bind(new TypeLiteral<OneWayConverter<Server, VirtualMachine>>() {
-        }).to(FlexiantServerToVirtualMachine.class);
-    }
+    //bind the virtual machine converter
+    bind(new TypeLiteral<OneWayConverter<Server, VirtualMachine>>() {
+    }).to(FlexiantServerToVirtualMachine.class);
+  }
 }

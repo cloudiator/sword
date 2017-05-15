@@ -18,34 +18,36 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud;
 
-import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.service.ComputeService;
-import de.uniulm.omi.cloudiator.sword.multicloud.service.CloudRegistry;
-
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.CloudRegistry;
+import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 
 /**
  * Created by daniel on 23.01.17.
  */
 public class MultiCloudServiceImpl implements MultiCloudService {
 
-    private final CloudRegistry cloudRegistry;
-    private final ComputeService computeService;
+  private final CloudRegistry cloudRegistry;
+  private final ComputeService computeService;
 
-    @Inject
-    public MultiCloudServiceImpl(CloudRegistry cloudRegistry, ComputeService computeService) {
-        checkNotNull(cloudRegistry, "cloudRegistry is null");
-        checkNotNull(computeService, "computeService is null");
-        this.cloudRegistry = cloudRegistry;
-        this.computeService = computeService;
-    }
+  @Inject
+  public MultiCloudServiceImpl(CloudRegistry cloudRegistry, ComputeService computeService) {
+    checkNotNull(cloudRegistry, "cloudRegistry is null");
+    checkNotNull(computeService, "computeService is null");
+    this.cloudRegistry = cloudRegistry;
+    this.computeService = computeService;
+  }
 
 
-    @Override public CloudRegistry cloudRegistry() {
-        return cloudRegistry;
-    }
+  @Override
+  public CloudRegistry cloudRegistry() {
+    return cloudRegistry;
+  }
 
-    @Override public ComputeService computeService() {
-        return computeService;
-    }
+  @Override
+  public ComputeService computeService() {
+    return computeService;
+  }
 }

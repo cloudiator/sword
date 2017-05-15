@@ -19,9 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.extensions;
 
 
-
 import de.uniulm.omi.cloudiator.sword.domain.KeyPair;
-
 import javax.annotation.Nullable;
 
 /**
@@ -30,48 +28,49 @@ import javax.annotation.Nullable;
  */
 public interface KeyPairExtension {
 
-    /**
-     * Automatically creates a private/public key pair, and
-     * registers it with the provider.
-     *
-     * @param name       the name for the keypair (nullable)
-     * @param locationId the locationId to create the keyPair in
-     * @return the created keypair, will hold private key.
-     * @throws IllegalArgumentException if the name is empty.
-     */
-    KeyPair create(@Nullable String name, String locationId);
+  /**
+   * Automatically creates a private/public key pair, and
+   * registers it with the provider.
+   *
+   * @param name the name for the keypair (nullable)
+   * @param locationId the locationId to create the keyPair in
+   * @return the created keypair, will hold private key.
+   * @throws IllegalArgumentException if the name is empty.
+   */
+  KeyPair create(@Nullable String name, String locationId);
 
-    /**
-     * Registers the public key at the cloud provider.
-     *
-     * @param name       the name for the key (nullable)
-     * @param publicKey  the public key (non null)
-     * @param locationId the locationId to create the keyPair in
-     * @return the registered keypair
-     * @throws NullPointerException     if the public key is null.
-     * @throws IllegalArgumentException if any of the supplied strings are empty.
-     */
-    KeyPair create(@Nullable String name, String publicKey, String locationId);
+  /**
+   * Registers the public key at the cloud provider.
+   *
+   * @param name the name for the key (nullable)
+   * @param publicKey the public key (non null)
+   * @param locationId the locationId to create the keyPair in
+   * @return the registered keypair
+   * @throws NullPointerException if the public key is null.
+   * @throws IllegalArgumentException if any of the supplied strings are empty.
+   */
+  KeyPair create(@Nullable String name, String publicKey, String locationId);
 
-    /**
-     * Deletes the key pair from the cloud provider.
-     *
-     * @param id id of the keypair
-     * @return true if it was deleted successful, false of not.
-     * @throws NullPointerException     if the id is null.
-     * @throws IllegalArgumentException if the id is empty.
-     */
-    boolean delete(String id);
+  /**
+   * Deletes the key pair from the cloud provider.
+   *
+   * @param id id of the keypair
+   * @return true if it was deleted successful, false of not.
+   * @throws NullPointerException if the id is null.
+   * @throws IllegalArgumentException if the id is empty.
+   */
+  boolean delete(String id);
 
-    /**
-     * Retrieves information about the key pair.
-     *
-     * @param id of the keypair
-     * @return the keypair, or null if not found.
-     * @throws NullPointerException     if the id is null.
-     * @throws IllegalArgumentException if the id is empty.
-     */
-    @Nullable KeyPair get(String id);
+  /**
+   * Retrieves information about the key pair.
+   *
+   * @param id of the keypair
+   * @return the keypair, or null if not found.
+   * @throws NullPointerException if the id is null.
+   * @throws IllegalArgumentException if the id is empty.
+   */
+  @Nullable
+  KeyPair get(String id);
 
 
 }

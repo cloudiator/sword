@@ -19,7 +19,6 @@
 package de.uniulm.omi.cloudiator.sword.domain;
 
 import com.google.common.base.MoreObjects;
-
 import javax.annotation.Nullable;
 
 /**
@@ -27,44 +26,47 @@ import javax.annotation.Nullable;
  */
 public class CredentialsBuilder {
 
-    @Nullable private String user;
-    @Nullable private String password;
+  @Nullable
+  private String user;
+  @Nullable
+  private String password;
 
-    private CredentialsBuilder() {
+  private CredentialsBuilder() {
 
-    }
+  }
 
-    private CredentialsBuilder(CloudCredential cloudCredential) {
-        this.user = cloudCredential.user();
-        this.password = cloudCredential.password();
-    }
+  private CredentialsBuilder(CloudCredential cloudCredential) {
+    this.user = cloudCredential.user();
+    this.password = cloudCredential.password();
+  }
 
-    public static CredentialsBuilder newBuilder() {
-        return new CredentialsBuilder();
-    }
+  public static CredentialsBuilder newBuilder() {
+    return new CredentialsBuilder();
+  }
 
-    public static CredentialsBuilder of(CloudCredential cloudCredential) {
-        return new CredentialsBuilder(cloudCredential);
-    }
+  public static CredentialsBuilder of(CloudCredential cloudCredential) {
+    return new CredentialsBuilder(cloudCredential);
+  }
 
 
-    public CredentialsBuilder user(String user) {
-        this.user = user;
-        return this;
-    }
+  public CredentialsBuilder user(String user) {
+    this.user = user;
+    return this;
+  }
 
-    public CredentialsBuilder password(String password) {
-        this.password = password;
-        return this;
-    }
+  public CredentialsBuilder password(String password) {
+    this.password = password;
+    return this;
+  }
 
-    public CloudCredential build() {
-        return new CloudCredentialImpl(user, password);
-    }
+  public CloudCredential build() {
+    return new CloudCredentialImpl(user, password);
+  }
 
-    @Override public String toString() {
-        return MoreObjects.toStringHelper(this).toString();
-    }
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).toString();
+  }
 
 
 }

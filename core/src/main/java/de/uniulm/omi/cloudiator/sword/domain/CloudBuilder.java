@@ -18,67 +18,71 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.google.common.base.MoreObjects;
-
-import javax.annotation.Nullable;
-
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.base.MoreObjects;
+import javax.annotation.Nullable;
 
 /**
  * Created by daniel on 18.01.17.
  */
 public class CloudBuilder {
 
-    @Nullable private Api api;
-    @Nullable private String endpoint;
-    @Nullable private CloudCredential cloudCredential;
-    @Nullable private Configuration configuration;
+  @Nullable
+  private Api api;
+  @Nullable
+  private String endpoint;
+  @Nullable
+  private CloudCredential cloudCredential;
+  @Nullable
+  private Configuration configuration;
 
-    private CloudBuilder() {
+  private CloudBuilder() {
 
-    }
+  }
 
-    private CloudBuilder(Cloud cloud) {
-        this.api = cloud.api();
-        this.endpoint = cloud.endpoint().orElse(null);
-        this.cloudCredential = cloud.credential();
-    }
+  private CloudBuilder(Cloud cloud) {
+    this.api = cloud.api();
+    this.endpoint = cloud.endpoint().orElse(null);
+    this.cloudCredential = cloud.credential();
+  }
 
-    public static CloudBuilder newBuilder() {
-        return new CloudBuilder();
-    }
+  public static CloudBuilder newBuilder() {
+    return new CloudBuilder();
+  }
 
-    public static CloudBuilder of(Cloud cloud) {
-        checkNotNull(cloud, "cloud is null");
-        return new CloudBuilder(cloud);
-    }
+  public static CloudBuilder of(Cloud cloud) {
+    checkNotNull(cloud, "cloud is null");
+    return new CloudBuilder(cloud);
+  }
 
-    public CloudBuilder api(Api api) {
-        this.api = api;
-        return this;
-    }
+  public CloudBuilder api(Api api) {
+    this.api = api;
+    return this;
+  }
 
-    public CloudBuilder endpoint(String endpoint) {
-        this.endpoint = endpoint;
-        return this;
-    }
+  public CloudBuilder endpoint(String endpoint) {
+    this.endpoint = endpoint;
+    return this;
+  }
 
-    public CloudBuilder credentials(CloudCredential cloudCredential) {
-        this.cloudCredential = cloudCredential;
-        return this;
-    }
+  public CloudBuilder credentials(CloudCredential cloudCredential) {
+    this.cloudCredential = cloudCredential;
+    return this;
+  }
 
-    public CloudBuilder configuration(Configuration configuration) {
-        this.configuration = configuration;
-        return this;
-    }
+  public CloudBuilder configuration(Configuration configuration) {
+    this.configuration = configuration;
+    return this;
+  }
 
-    public Cloud build() {
-        return new CloudImpl(api, endpoint, cloudCredential, configuration);
-    }
+  public Cloud build() {
+    return new CloudImpl(api, endpoint, cloudCredential, configuration);
+  }
 
-    @Override public String toString() {
-        return MoreObjects.toStringHelper(this).toString();
-    }
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).toString();
+  }
 
 }

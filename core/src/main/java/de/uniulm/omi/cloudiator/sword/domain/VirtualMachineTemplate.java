@@ -18,7 +18,6 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Optional;
 
 /**
@@ -26,28 +25,28 @@ import com.google.common.base.Optional;
  */
 public interface VirtualMachineTemplate {
 
-    /**
-     * @return the name used for the virtual machine.
-     */
-    String name();
+  /**
+   * @return the name used for the virtual machine.
+   */
+  String name();
 
-    /**
-     * @return the id of the image to use.
-     */
-    String imageId();
+  /**
+   * @return the id of the image to use.
+   */
+  String imageId();
 
-    /**
-     * @return the id of the hardware flavor to use.
-     */
-    String hardwareFlavorId();
+  /**
+   * @return the id of the hardware flavor to use.
+   */
+  String hardwareFlavorId();
 
-    /**
-     * @return the id of the location to use.
-     */
-    String locationId();
+  /**
+   * @return the id of the location to use.
+   */
+  String locationId();
 
-    /**
-     * @return an {@link Optional}{@link TemplateOptions} for running the virtual machine.
-     */
-    Optional<TemplateOptions> templateOptions();
+  /**
+   * @return an {@link Optional}{@link TemplateOptions} for running the virtual machine.
+   */
+  Optional<TemplateOptions> templateOptions();
 }

@@ -20,10 +20,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,17 +32,19 @@ import java.util.stream.Collectors;
  */
 public class LocationSupplier implements Supplier<Set<Location>> {
 
-    private final JCloudsComputeClient jCloudsComputeClient;
-    private final OneWayConverter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation;
+  private final JCloudsComputeClient jCloudsComputeClient;
+  private final OneWayConverter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation;
 
-    @Inject public LocationSupplier(JCloudsComputeClient jCloudsComputeClient,
-        OneWayConverter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation) {
-        this.jCloudsComputeClient = jCloudsComputeClient;
-        this.jCloudsLocationToLocation = jCloudsLocationToLocation;
-    }
+  @Inject
+  public LocationSupplier(JCloudsComputeClient jCloudsComputeClient,
+      OneWayConverter<org.jclouds.domain.Location, Location> jCloudsLocationToLocation) {
+    this.jCloudsComputeClient = jCloudsComputeClient;
+    this.jCloudsLocationToLocation = jCloudsLocationToLocation;
+  }
 
-    @Override public Set<Location> get() {
-        return jCloudsComputeClient.listLocations().stream().map(jCloudsLocationToLocation::apply)
-            .collect(Collectors.toSet());
-    }
+  @Override
+  public Set<Location> get() {
+    return jCloudsComputeClient.listLocations().stream().map(jCloudsLocationToLocation::apply)
+        .collect(Collectors.toSet());
+  }
 }

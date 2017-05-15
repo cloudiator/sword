@@ -22,8 +22,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import de.uniulm.omi.cloudiator.sword.base.MetaService;
-import de.uniulm.omi.cloudiator.sword.domain.*;
-
+import de.uniulm.omi.cloudiator.sword.domain.Cloud;
+import de.uniulm.omi.cloudiator.sword.domain.GeoLocation;
+import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.PriceModel;
 import java.util.Optional;
 
 /**
@@ -31,32 +34,37 @@ import java.util.Optional;
  */
 public class DefaultMetaModule extends AbstractModule {
 
-    @Override protected void configure() {
-        bind(MetaService.MetaServiceFactory.class).to(overrideMetaServiceFactory());
+  @Override
+  protected void configure() {
+    bind(MetaService.MetaServiceFactory.class).to(overrideMetaServiceFactory());
+  }
+
+  @Provides
+  @Singleton
+  final MetaService providesMetaService(MetaService.MetaServiceFactory metaServiceFactory,
+      Cloud cloud) {
+    return metaServiceFactory.of(cloud);
+  }
+
+  protected Class<? extends MetaService.MetaServiceFactory> overrideMetaServiceFactory() {
+    return NoOpMetaService.class;
+  }
+
+  public static class NoOpMetaService implements MetaService, MetaService.MetaServiceFactory {
+
+    @Override
+    public MetaService of(Cloud cloud) {
+      return new NoOpMetaService();
     }
 
-    @Provides @Singleton
-    final MetaService providesMetaService(MetaService.MetaServiceFactory metaServiceFactory,
-        Cloud cloud) {
-        return metaServiceFactory.of(cloud);
+    @Override
+    public Optional<PriceModel> priceModel(HardwareFlavor hardwareFlavor) {
+      return Optional.empty();
     }
 
-    protected Class<? extends MetaService.MetaServiceFactory> overrideMetaServiceFactory() {
-        return NoOpMetaService.class;
+    @Override
+    public Optional<GeoLocation> geoLocation(Location location) {
+      return Optional.empty();
     }
-
-    public static class NoOpMetaService implements MetaService, MetaService.MetaServiceFactory {
-
-        @Override public MetaService of(Cloud cloud) {
-            return new NoOpMetaService();
-        }
-
-        @Override public Optional<PriceModel> priceModel(HardwareFlavor hardwareFlavor) {
-            return Optional.empty();
-        }
-
-        @Override public Optional<GeoLocation> geoLocation(Location location) {
-            return Optional.empty();
-        }
-    }
+  }
 }

@@ -5,8 +5,8 @@ package de.uniulm.omi.cloudiator.sword.logging;
  */
 public class SystemOutLoggingModule extends AbstractLoggingModule {
 
-    @Override
-    protected LoggerFactory getLoggerFactory() {
-        return category -> new SystemOutLogger();
-    }
+  @Override
+  protected LoggerFactory getLoggerFactory() {
+    return category -> new SystemOutLogger();
+  }
 }

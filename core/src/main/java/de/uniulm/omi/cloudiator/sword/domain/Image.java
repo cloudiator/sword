@@ -25,6 +25,6 @@ import de.uniulm.omi.cloudiator.domain.OperatingSystem;
  */
 public interface Image extends Resource {
 
-    OperatingSystem operatingSystem();
+  OperatingSystem operatingSystem();
 
 }

@@ -23,41 +23,49 @@ package de.uniulm.omi.cloudiator.sword.domain;
  */
 public enum IpProtocol implements PortRange {
 
-    TCP {
-        @Override public int maxPort() {
-            return 65535;
-        }
-
-        @Override public int minPort() {
-            return 0;
-        }
-    },
-    UDP {
-        @Override public int maxPort() {
-            return 65535;
-        }
-
-        @Override public int minPort() {
-            return 0;
-        }
-    },
-    ICMP {
-        @Override public int maxPort() {
-            return -1;
-        }
-
-        @Override public int minPort() {
-            return -1;
-        }
-    },
-    ALL {
-        @Override public int maxPort() {
-            return 65535;
-        }
-
-        @Override public int minPort() {
-            return -1;
-        }
+  TCP {
+    @Override
+    public int maxPort() {
+      return 65535;
     }
+
+    @Override
+    public int minPort() {
+      return 0;
+    }
+  },
+  UDP {
+    @Override
+    public int maxPort() {
+      return 65535;
+    }
+
+    @Override
+    public int minPort() {
+      return 0;
+    }
+  },
+  ICMP {
+    @Override
+    public int maxPort() {
+      return -1;
+    }
+
+    @Override
+    public int minPort() {
+      return -1;
+    }
+  },
+  ALL {
+    @Override
+    public int maxPort() {
+      return 65535;
+    }
+
+    @Override
+    public int minPort() {
+      return -1;
+    }
+  }
 
 }

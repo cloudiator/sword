@@ -25,53 +25,53 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class SecurityGroupRuleBuilder {
 
-    private IpProtocol ipProtocol;
-    private int fromPort;
-    private int toPort;
-    private Cidr cidr;
+  private IpProtocol ipProtocol;
+  private int fromPort;
+  private int toPort;
+  private Cidr cidr;
 
-    private SecurityGroupRuleBuilder() {
+  private SecurityGroupRuleBuilder() {
 
-    }
+  }
 
-    private SecurityGroupRuleBuilder(SecurityGroupRule securityGroupRule) {
-        ipProtocol = securityGroupRule.ipProtocol();
-        fromPort = securityGroupRule.fromPort();
-        toPort = securityGroupRule.toPort();
-        cidr = securityGroupRule.cidr();
-    }
+  private SecurityGroupRuleBuilder(SecurityGroupRule securityGroupRule) {
+    ipProtocol = securityGroupRule.ipProtocol();
+    fromPort = securityGroupRule.fromPort();
+    toPort = securityGroupRule.toPort();
+    cidr = securityGroupRule.cidr();
+  }
 
-    private SecurityGroupRuleBuilder of(SecurityGroupRule securityGroupRule) {
-        checkNotNull(securityGroupRule, "SecurityGroupRule is null");
-        return new SecurityGroupRuleBuilder(securityGroupRule);
-    }
+  public static SecurityGroupRuleBuilder newBuilder() {
+    return new SecurityGroupRuleBuilder();
+  }
 
-    public SecurityGroupRuleBuilder ipProtocol(IpProtocol ipProtocol) {
-        this.ipProtocol = ipProtocol;
-        return this;
-    }
+  private SecurityGroupRuleBuilder of(SecurityGroupRule securityGroupRule) {
+    checkNotNull(securityGroupRule, "SecurityGroupRule is null");
+    return new SecurityGroupRuleBuilder(securityGroupRule);
+  }
 
-    public SecurityGroupRuleBuilder fromPort(int fromPort) {
-        this.fromPort = fromPort;
-        return this;
-    }
+  public SecurityGroupRuleBuilder ipProtocol(IpProtocol ipProtocol) {
+    this.ipProtocol = ipProtocol;
+    return this;
+  }
 
-    public SecurityGroupRuleBuilder toPort(int toPort) {
-        this.toPort = toPort;
-        return this;
-    }
+  public SecurityGroupRuleBuilder fromPort(int fromPort) {
+    this.fromPort = fromPort;
+    return this;
+  }
 
-    public SecurityGroupRuleBuilder cidr(Cidr cidr) {
-        this.cidr = cidr;
-        return this;
-    }
+  public SecurityGroupRuleBuilder toPort(int toPort) {
+    this.toPort = toPort;
+    return this;
+  }
 
-    public static SecurityGroupRuleBuilder newBuilder() {
-        return new SecurityGroupRuleBuilder();
-    }
+  public SecurityGroupRuleBuilder cidr(Cidr cidr) {
+    this.cidr = cidr;
+    return this;
+  }
 
-    public SecurityGroupRule build() {
-        return new SecurityGroupRuleImpl(ipProtocol, fromPort, toPort, cidr);
-    }
+  public SecurityGroupRule build() {
+    return new SecurityGroupRuleImpl(ipProtocol, fromPort, toPort, cidr);
+  }
 
 }

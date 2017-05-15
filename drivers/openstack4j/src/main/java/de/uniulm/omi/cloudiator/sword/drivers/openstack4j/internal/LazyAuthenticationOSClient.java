@@ -20,38 +20,38 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.google.inject.Inject;
+import java.lang.reflect.Method;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.openstack.internal.OSClientSession;
-
-import java.lang.reflect.Method;
 
 /**
  * Created by daniel on 02.12.16.
  */
 public class LazyAuthenticationOSClient extends AbstractInvocationHandler {
 
-    private final OsClientFactory osClientFactory;
+  private static ThreadLocal<OSClient> delegate = new ThreadLocal<>();
+  private final OsClientFactory osClientFactory;
 
-    private static ThreadLocal<OSClient> delegate = new ThreadLocal<>();
+  @Inject
+  public LazyAuthenticationOSClient(OsClientFactory osClientFactory) {
+    this.osClientFactory = osClientFactory;
+  }
 
-    @Inject public LazyAuthenticationOSClient(OsClientFactory osClientFactory) {
-        this.osClientFactory = osClientFactory;
+  @Override
+  protected synchronized Object handleInvocation(Object proxy, Method method, Object[] args)
+      throws Throwable {
+
+    if (delegate.get() == null) {
+      delegate.set(osClientFactory.create());
     }
-
-    @Override
-    protected synchronized Object handleInvocation(Object proxy, Method method, Object[] args)
-        throws Throwable {
-
-        if (delegate.get() == null) {
-            delegate.set(osClientFactory.create());
-        }
-        if (OSClientSession.getCurrent() == null) {
-            delegate.set(osClientFactory.create());
-        }
-        return method.invoke(delegate.get(), args);
+    if (OSClientSession.getCurrent() == null) {
+      delegate.set(osClientFactory.create());
     }
+    return method.invoke(delegate.get(), args);
+  }
 
-    @Override public String toString() {
-        return "LazyAuthenticationOSClient{}";
-    }
+  @Override
+  public String toString() {
+    return "LazyAuthenticationOSClient{}";
+  }
 }

@@ -18,68 +18,78 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain;
 
-import org.jclouds.domain.Location;
-import org.jclouds.domain.LocationScope;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Map;
 import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.jclouds.domain.Location;
+import org.jclouds.domain.LocationScope;
 
 /**
  * Created by daniel on 12.01.16.
  */
 public class AssignableLocationImpl implements AssignableLocation {
 
-    private final Location location;
-    private final boolean isAssignable;
+  private final Location location;
+  private final boolean isAssignable;
 
-    public AssignableLocationImpl(Location location, boolean isAssignable) {
-        checkNotNull(location);
-        this.location = location;
-        this.isAssignable = isAssignable;
+  public AssignableLocationImpl(Location location, boolean isAssignable) {
+    checkNotNull(location);
+    this.location = location;
+    this.isAssignable = isAssignable;
+  }
+
+  @Override
+  public boolean isAssignable() {
+    return isAssignable;
+  }
+
+  @Override
+  public LocationScope getScope() {
+    return location.getScope();
+  }
+
+  @Override
+  public String getId() {
+    return location.getId();
+  }
+
+  @Override
+  public String getDescription() {
+    return location.getDescription();
+  }
+
+  @Override
+  public Location getParent() {
+    return location.getParent();
+  }
+
+  @Override
+  public Map<String, Object> getMetadata() {
+    return location.getMetadata();
+  }
+
+  @Override
+  public Set<String> getIso3166Codes() {
+    return location.getIso3166Codes();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
 
-    @Override public boolean isAssignable() {
-        return isAssignable;
-    }
+    AssignableLocationImpl that = (AssignableLocationImpl) o;
 
-    @Override public LocationScope getScope() {
-        return location.getScope();
-    }
+    return this.location.equals(that.location);
+  }
 
-    @Override public String getId() {
-        return location.getId();
-    }
-
-    @Override public String getDescription() {
-        return location.getDescription();
-    }
-
-    @Override public Location getParent() {
-        return location.getParent();
-    }
-
-    @Override public Map<String, Object> getMetadata() {
-        return location.getMetadata();
-    }
-
-    @Override public Set<String> getIso3166Codes() {
-        return location.getIso3166Codes();
-    }
-
-    @Override public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        AssignableLocationImpl that = (AssignableLocationImpl) o;
-
-        return this.location.equals(that.location);
-    }
-
-    @Override public int hashCode() {
-        return location.hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return location.hashCode();
+  }
 }

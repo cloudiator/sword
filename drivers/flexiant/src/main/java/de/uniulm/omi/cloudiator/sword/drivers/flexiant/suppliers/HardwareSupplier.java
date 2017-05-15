@@ -20,11 +20,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Hardware;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,17 +32,19 @@ import java.util.stream.Collectors;
  */
 public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
 
-    private final FlexiantComputeClient flexiantComputeClient;
-    private final OneWayConverter<Hardware, HardwareFlavor> hardwareConverter;
+  private final FlexiantComputeClient flexiantComputeClient;
+  private final OneWayConverter<Hardware, HardwareFlavor> hardwareConverter;
 
-    @Inject public HardwareSupplier(FlexiantComputeClient flexiantComputeClient,
-        OneWayConverter<Hardware, HardwareFlavor> hardwareConverter) {
-        this.flexiantComputeClient = flexiantComputeClient;
-        this.hardwareConverter = hardwareConverter;
-    }
+  @Inject
+  public HardwareSupplier(FlexiantComputeClient flexiantComputeClient,
+      OneWayConverter<Hardware, HardwareFlavor> hardwareConverter) {
+    this.flexiantComputeClient = flexiantComputeClient;
+    this.hardwareConverter = hardwareConverter;
+  }
 
-    @Override public Set<HardwareFlavor> get() {
-        return flexiantComputeClient.listHardware().stream().map(hardwareConverter::apply)
-            .collect(Collectors.toSet());
-    }
+  @Override
+  public Set<HardwareFlavor> get() {
+    return flexiantComputeClient.listHardware().stream().map(hardwareConverter::apply)
+        .collect(Collectors.toSet());
+  }
 }

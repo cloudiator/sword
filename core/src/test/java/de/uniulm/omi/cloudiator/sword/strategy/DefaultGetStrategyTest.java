@@ -19,69 +19,74 @@
 package de.uniulm.omi.cloudiator.sword.strategy;
 
 
-import com.google.common.base.Supplier;
-import de.uniulm.omi.cloudiator.domain.Identifiable;
-import de.uniulm.omi.cloudiator.sword.domain.ProviderIdentifiable;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
+
+import com.google.common.base.Supplier;
+import de.uniulm.omi.cloudiator.domain.Identifiable;
+import de.uniulm.omi.cloudiator.sword.domain.ProviderIdentifiable;
+import java.util.HashSet;
+import java.util.Set;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by daniel on 29.07.15.
  */
 public class DefaultGetStrategyTest {
 
-    private GetStrategy<String, Identifiable> getStrategy;
-    private final Identifiable resourceToRetrieve = new TestResource("1");
+  private final Identifiable resourceToRetrieve = new TestResource("1");
+  private GetStrategy<String, Identifiable> getStrategy;
 
-    @Before public void setUp() throws Exception {
-        Supplier<Set<Identifiable>> resourceSupplier = () -> {
-            Set<Identifiable> resourceSet = new HashSet<>(2);
-            resourceSet.add(resourceToRetrieve);
-            resourceSet.add(new TestResource("2"));
-            return resourceSet;
-        };
-        this.getStrategy = new DefaultGetStrategy<>(resourceSupplier);
+  @Before
+  public void setUp() throws Exception {
+    Supplier<Set<Identifiable>> resourceSupplier = () -> {
+      Set<Identifiable> resourceSet = new HashSet<>(2);
+      resourceSet.add(resourceToRetrieve);
+      resourceSet.add(new TestResource("2"));
+      return resourceSet;
+    };
+    this.getStrategy = new DefaultGetStrategy<>(resourceSupplier);
+  }
+
+  @Test
+  public void testGet() throws Exception {
+    assertThat(getStrategy.get("1"), equalTo(resourceToRetrieve));
+  }
+
+  @Test
+  public void testGetNull() throws Exception {
+    assertThat(getStrategy.get("3"), nullValue());
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testGetThrowsNullPointerException()
+      throws Exception {
+    getStrategy.get(null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetThrowsIllegalArgumentException() {
+    getStrategy.get("");
+  }
+
+  private final static class TestResource implements ProviderIdentifiable {
+
+    private final String id;
+
+    public TestResource(String id) {
+      this.id = id;
     }
 
-    @Test public void testGet() throws Exception {
-        assertThat(getStrategy.get("1"), equalTo(resourceToRetrieve));
+    @Override
+    public String id() {
+      return id;
     }
 
-    @Test public void testGetNull() throws Exception {
-        assertThat(getStrategy.get("3"), nullValue());
+    @Override
+    public String providerId() {
+      return id;
     }
-
-    @Test(expected = NullPointerException.class) public void testGetThrowsNullPointerException()
-        throws Exception {
-        getStrategy.get(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetThrowsIllegalArgumentException() {
-        getStrategy.get("");
-    }
-
-    private final static class TestResource implements ProviderIdentifiable {
-
-        private final String id;
-
-        public TestResource(String id) {
-            this.id = id;
-        }
-
-        @Override public String id() {
-            return id;
-        }
-
-        @Override public String providerId() {
-            return id;
-        }
-    }
+  }
 }

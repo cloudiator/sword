@@ -25,12 +25,12 @@ import java.math.BigDecimal;
  */
 public interface GeoLocation {
 
-    String country();
+  String country();
 
-    BigDecimal latitude();
+  BigDecimal latitude();
 
-    BigDecimal longitude();
+  BigDecimal longitude();
 
-    String city();
+  String city();
 
 }

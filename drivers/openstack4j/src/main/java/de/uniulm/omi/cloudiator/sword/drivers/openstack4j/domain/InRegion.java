@@ -25,6 +25,6 @@ import de.uniulm.omi.cloudiator.sword.domain.Location;
  */
 interface InRegion {
 
-    Location region();
+  Location region();
 
 }

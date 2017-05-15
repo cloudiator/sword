@@ -18,13 +18,12 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.Openstack4JConstants;
-
 import java.util.Optional;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 
 /**
@@ -32,11 +31,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class ConfigurationFloatingIpPoolStrategy implements FloatingIpPoolStrategy {
 
-    private @Inject(optional = true) @Named(Openstack4JConstants.FLOATING_IP_POOL_PROPERTY) String
-        floatingIpPoolName = null;
+  private @Inject(optional = true)
+  @Named(Openstack4JConstants.FLOATING_IP_POOL_PROPERTY)
+  String
+      floatingIpPoolName = null;
 
-    @Override public Optional<String> apply(String virtualMachine) {
-        checkNotNull(virtualMachine);
-        return Optional.ofNullable(floatingIpPoolName);
-    }
+  @Override
+  public Optional<String> apply(String virtualMachine) {
+    checkNotNull(virtualMachine);
+    return Optional.ofNullable(floatingIpPoolName);
+  }
 }

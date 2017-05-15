@@ -26,26 +26,26 @@ import java.util.Optional;
  */
 public interface HardwareFlavor extends Resource {
 
-    /**
-     * Returns the number of cores the offer has. Always > 0.
-     *
-     * @return the number of cores.
-     */
-    int numberOfCores();
+  /**
+   * Returns the number of cores the offer has. Always > 0.
+   *
+   * @return the number of cores.
+   */
+  int numberOfCores();
 
-    /**
-     * Returns the amount of ram the offer has. Always > 0.
-     *
-     * @return the amount of ram.
-     */
-    long mbRam();
+  /**
+   * Returns the amount of ram the offer has. Always > 0.
+   *
+   * @return the amount of ram.
+   */
+  long mbRam();
 
-    /**
-     * Returns the amount of disk space the offer (with respect to its boot volume) has. Unit is
-     * gigabyte.
-     * If the disk space is unknown, empty is returned.
-     *
-     * @return the amount of disk space or null.
-     */
-    Optional<Float> gbDisk();
+  /**
+   * Returns the amount of disk space the offer (with respect to its boot volume) has. Unit is
+   * gigabyte.
+   * If the disk space is unknown, empty is returned.
+   *
+   * @return the amount of disk space or null.
+   */
+  Optional<Float> gbDisk();
 }

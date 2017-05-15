@@ -18,9 +18,13 @@
 
 package de.uniulm.omi.cloudiator.sword.strategy;
 
-import de.uniulm.omi.cloudiator.domain.*;
+import de.uniulm.omi.cloudiator.domain.OperatingSystem;
+import de.uniulm.omi.cloudiator.domain.OperatingSystemArchitecture;
+import de.uniulm.omi.cloudiator.domain.OperatingSystemBuilder;
+import de.uniulm.omi.cloudiator.domain.OperatingSystemFamily;
+import de.uniulm.omi.cloudiator.domain.OperatingSystemVersion;
+import de.uniulm.omi.cloudiator.domain.OperatingSystemVersions;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
-
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,42 +36,43 @@ public class NameSubstringBasedOperatingSystemDetectionStrategy
     implements OperatingSystemDetectionStrategy {
 
 
-    @Override public OperatingSystem detectOperatingSystem(Image image) {
+  @Override
+  public OperatingSystem detectOperatingSystem(Image image) {
 
-        OperatingSystemFamily osFamily = OperatingSystemFamily.UNKNOWN;
-        OperatingSystemVersion osVersion = OperatingSystemVersions.unknown();
-        OperatingSystemArchitecture osArch = OperatingSystemArchitecture.UNKNOWN;
+    OperatingSystemFamily osFamily = OperatingSystemFamily.UNKNOWN;
+    OperatingSystemVersion osVersion = OperatingSystemVersions.unknown();
+    OperatingSystemArchitecture osArch = OperatingSystemArchitecture.UNKNOWN;
 
-        //detect the operating system family
-        final Set<OperatingSystemFamily> candidates = Arrays.stream(OperatingSystemFamily.values())
-            .filter(operatingSystemType -> image.name().toLowerCase()
-                .contains(operatingSystemType.name().toLowerCase())).collect(Collectors.toSet());
+    //detect the operating system family
+    final Set<OperatingSystemFamily> candidates = Arrays.stream(OperatingSystemFamily.values())
+        .filter(operatingSystemType -> image.name().toLowerCase()
+            .contains(operatingSystemType.name().toLowerCase())).collect(Collectors.toSet());
 
-        //detect the version
-        versionLoop:
-        for (OperatingSystemFamily operatingSystemFamily : candidates) {
-            for (OperatingSystemVersion version : operatingSystemFamily
-                .operatingSystemVersionFormat().allVersions()) {
-                if (image.name().toLowerCase().contains(String.valueOf(version.version())) || (
-                    version.name().isPresent() && image.name().toLowerCase()
-                        .contains(version.name().get().toLowerCase()))) {
-                    osFamily = operatingSystemFamily;
-                    osVersion = version;
-                    break versionLoop;
-                }
-            }
+    //detect the version
+    versionLoop:
+    for (OperatingSystemFamily operatingSystemFamily : candidates) {
+      for (OperatingSystemVersion version : operatingSystemFamily
+          .operatingSystemVersionFormat().allVersions()) {
+        if (image.name().toLowerCase().contains(String.valueOf(version.version())) || (
+            version.name().isPresent() && image.name().toLowerCase()
+                .contains(version.name().get().toLowerCase()))) {
+          osFamily = operatingSystemFamily;
+          osVersion = version;
+          break versionLoop;
         }
-
-        for (OperatingSystemArchitecture operatingSystemArchitecture : OperatingSystemArchitecture
-            .values()) {
-            if (image.name().toLowerCase()
-                .contains(operatingSystemArchitecture.name().toLowerCase())) {
-                osArch = operatingSystemArchitecture;
-                break;
-            }
-        }
-
-        return OperatingSystemBuilder.newBuilder().architecture(osArch).family(osFamily)
-            .version(osVersion).build();
+      }
     }
+
+    for (OperatingSystemArchitecture operatingSystemArchitecture : OperatingSystemArchitecture
+        .values()) {
+      if (image.name().toLowerCase()
+          .contains(operatingSystemArchitecture.name().toLowerCase())) {
+        osArch = operatingSystemArchitecture;
+        break;
+      }
+    }
+
+    return OperatingSystemBuilder.newBuilder().architecture(osArch).family(osFamily)
+        .version(osVersion).build();
+  }
 }

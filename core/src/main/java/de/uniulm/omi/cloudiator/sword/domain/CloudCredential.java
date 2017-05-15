@@ -26,14 +26,14 @@ import de.uniulm.omi.cloudiator.domain.Identifiable;
  */
 public interface CloudCredential extends Identifiable {
 
-    /**
-     * @return the user required for login.
-     */
-    String user();
+  /**
+   * @return the user required for login.
+   */
+  String user();
 
-    /**
-     * @return the password required for login.
-     */
-    String password();
+  /**
+   * @return the password required for login.
+   */
+  String password();
 
 }

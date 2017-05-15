@@ -28,13 +28,15 @@ import org.jclouds.compute.ComputeServiceContext;
  */
 public class ComputeServiceContextProvider implements Provider<ComputeServiceContext> {
 
-    private final JCloudsViewFactory jCloudsViewFactory;
+  private final JCloudsViewFactory jCloudsViewFactory;
 
-    @Inject public ComputeServiceContextProvider(JCloudsViewFactory jCloudsViewFactory) {
-        this.jCloudsViewFactory = jCloudsViewFactory;
-    }
+  @Inject
+  public ComputeServiceContextProvider(JCloudsViewFactory jCloudsViewFactory) {
+    this.jCloudsViewFactory = jCloudsViewFactory;
+  }
 
-    @Override public ComputeServiceContext get() {
-        return jCloudsViewFactory.buildJCloudsView(ComputeServiceContext.class);
-    }
+  @Override
+  public ComputeServiceContext get() {
+    return jCloudsViewFactory.buildJCloudsView(ComputeServiceContext.class);
+  }
 }

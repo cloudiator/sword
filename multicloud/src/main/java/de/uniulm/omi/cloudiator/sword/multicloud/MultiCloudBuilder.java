@@ -30,39 +30,38 @@ import de.uniulm.omi.cloudiator.sword.remote.internal.ExtendedRemoteModule;
  */
 public class MultiCloudBuilder {
 
-    private ExtendedRemoteModule remoteModule;
-    private AbstractLoggingModule loggingModule;
-    private DefaultMetaModule metaModule = new DefaultMetaModule();
+  private ExtendedRemoteModule remoteModule;
+  private AbstractLoggingModule loggingModule;
+  private DefaultMetaModule metaModule = new DefaultMetaModule();
 
-    private MultiCloudBuilder() {
+  private MultiCloudBuilder() {
 
-    }
+  }
 
-    public static MultiCloudBuilder newBuilder() {
-        return new MultiCloudBuilder();
-    }
+  public static MultiCloudBuilder newBuilder() {
+    return new MultiCloudBuilder();
+  }
 
-    public MultiCloudBuilder loggingModule(AbstractLoggingModule loggingModule) {
-        this.loggingModule = loggingModule;
-        return this;
-    }
+  public MultiCloudBuilder loggingModule(AbstractLoggingModule loggingModule) {
+    this.loggingModule = loggingModule;
+    return this;
+  }
 
-    public MultiCloudBuilder remoteModule(ExtendedRemoteModule abstractRemoteModule) {
-        this.remoteModule = abstractRemoteModule;
-        return this;
-    }
+  public MultiCloudBuilder remoteModule(ExtendedRemoteModule abstractRemoteModule) {
+    this.remoteModule = abstractRemoteModule;
+    return this;
+  }
 
-    public MultiCloudBuilder metaModule(DefaultMetaModule metaModule) {
-        this.metaModule = metaModule;
-        return this;
-    }
+  public MultiCloudBuilder metaModule(DefaultMetaModule metaModule) {
+    this.metaModule = metaModule;
+    return this;
+  }
 
-    public MultiCloudService build() {
-        final Injector injector =
-            Guice.createInjector(new MultiCloudModule(loggingModule, remoteModule, metaModule));
-        return injector.getInstance(MultiCloudService.class);
-    }
-
+  public MultiCloudService build() {
+    final Injector injector =
+        Guice.createInjector(new MultiCloudModule(loggingModule, remoteModule, metaModule));
+    return injector.getInstance(MultiCloudService.class);
+  }
 
 
 }

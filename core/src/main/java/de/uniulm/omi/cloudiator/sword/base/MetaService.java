@@ -18,8 +18,11 @@
 
 package de.uniulm.omi.cloudiator.sword.base;
 
-import de.uniulm.omi.cloudiator.sword.domain.*;
-
+import de.uniulm.omi.cloudiator.sword.domain.Cloud;
+import de.uniulm.omi.cloudiator.sword.domain.GeoLocation;
+import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.PriceModel;
 import java.util.Optional;
 
 /**
@@ -27,19 +30,19 @@ import java.util.Optional;
  */
 public interface MetaService {
 
-    Optional<PriceModel> priceModel(HardwareFlavor hardwareFlavor);
+  Optional<PriceModel> priceModel(HardwareFlavor hardwareFlavor);
 
-    interface MetaServiceFactory {
-        MetaService of(Cloud cloud);
-    }
+  /**
+   * Returns the {@link GeoLocation} for the given {@link Location}
+   * if the service can retrieve it.
+   *
+   * @param location the location
+   * @return an {@link Optional} geolocation.
+   */
+  Optional<GeoLocation> geoLocation(Location location);
 
-    /**
-     * Returns the {@link GeoLocation} for the given {@link Location}
-     * if the service can retrieve it.
-     *
-     * @param location the location
-     *
-     * @return an {@link Optional} geolocation.
-     */
-    Optional<GeoLocation> geoLocation(Location location);
+  interface MetaServiceFactory {
+
+    MetaService of(Cloud cloud);
+  }
 }

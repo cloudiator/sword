@@ -21,7 +21,6 @@ package de.uniulm.omi.cloudiator.sword.logging;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
-
 import java.lang.reflect.Field;
 
 /**
@@ -29,25 +28,25 @@ import java.lang.reflect.Field;
  */
 public class LoggingTypeListener implements TypeListener {
 
-    private final LoggerFactory loggerFactory;
+  private final LoggerFactory loggerFactory;
 
-    public LoggingTypeListener(LoggerFactory loggerFactory) {
-        this.loggerFactory = loggerFactory;
-    }
+  public LoggingTypeListener(LoggerFactory loggerFactory) {
+    this.loggerFactory = loggerFactory;
+  }
 
 
-    @Override
-    public <I> void hear(TypeLiteral<I> typeLiteral, TypeEncounter<I> typeEncounter) {
-        Class<?> clazz = typeLiteral.getRawType();
-        while (clazz != null) {
-            for (Field field : clazz.getDeclaredFields()) {
-                if (field.getType() == Logger.class &&
-                        field.isAnnotationPresent(InjectLogger.class)) {
-                    typeEncounter.register(new LoggingMembersInjector<>(field, loggerFactory));
-                }
-            }
-            clazz = clazz.getSuperclass();
+  @Override
+  public <I> void hear(TypeLiteral<I> typeLiteral, TypeEncounter<I> typeEncounter) {
+    Class<?> clazz = typeLiteral.getRawType();
+    while (clazz != null) {
+      for (Field field : clazz.getDeclaredFields()) {
+        if (field.getType() == Logger.class &&
+            field.isAnnotationPresent(InjectLogger.class)) {
+          typeEncounter.register(new LoggingMembersInjector<>(field, loggerFactory));
         }
+      }
+      clazz = clazz.getSuperclass();
     }
+  }
 
 }

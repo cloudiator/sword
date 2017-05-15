@@ -19,9 +19,6 @@
 package de.uniulm.omi.cloudiator.sword.domain;
 
 
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Optional;
 
 /**
@@ -33,18 +30,18 @@ import java.util.Optional;
  */
 public interface KeyPair extends Resource {
 
-    /**
-     * The public key of the keypair.
-     *
-     * @return the public key.
-     */
-    String publicKey();
+  /**
+   * The public key of the keypair.
+   *
+   * @return the public key.
+   */
+  String publicKey();
 
-    /**
-     * The private key. Is only present if the keypair was just created.
-     *
-     * @return an {@link Optional} private key.
-     */
-    Optional<String> privateKey();
+  /**
+   * The private key. Is only present if the keypair was just created.
+   *
+   * @return an {@link Optional} private key.
+   */
+  Optional<String> privateKey();
 
 }

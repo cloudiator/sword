@@ -18,110 +18,110 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import de.uniulm.omi.cloudiator.domain.LocationScope;
-
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import de.uniulm.omi.cloudiator.domain.LocationScope;
 
 /**
  * A builder for immutable {@link Location} objects.
  */
 public class LocationBuilder {
 
-    private String id;
-    private String name;
-    private Location parent;
-    private boolean isAssignable;
-    private LocationScope locationScope;
-    private GeoLocation geoLocation;
+  private String id;
+  private String name;
+  private Location parent;
+  private boolean isAssignable;
+  private LocationScope locationScope;
+  private GeoLocation geoLocation;
 
-    /**
-     * Use LocationBuilder::newBuilder to create builder objects.
-     */
-    private LocationBuilder() {
-        //intentionally empty
-    }
+  /**
+   * Use LocationBuilder::newBuilder to create builder objects.
+   */
+  private LocationBuilder() {
+    //intentionally empty
+  }
 
-    private LocationBuilder(Location location) {
-        id = location.id();
-        name = location.name();
-        parent = location.parent().orElse(null);
-        isAssignable = location.isAssignable();
-        locationScope = location.locationScope();
-        geoLocation = location.geoLocation().orElse(null);
-    }
+  private LocationBuilder(Location location) {
+    id = location.id();
+    name = location.name();
+    parent = location.parent().orElse(null);
+    isAssignable = location.isAssignable();
+    locationScope = location.locationScope();
+    geoLocation = location.geoLocation().orElse(null);
+  }
 
-    /**
-     * @return creates a new builder object.
-     */
-    public static LocationBuilder newBuilder() {
-        return new LocationBuilder();
-    }
+  /**
+   * @return creates a new builder object.
+   */
+  public static LocationBuilder newBuilder() {
+    return new LocationBuilder();
+  }
 
-    public static LocationBuilder of(Location location) {
-        checkNotNull(location, "location is null");
-        return new LocationBuilder(location);
-    }
+  public static LocationBuilder of(Location location) {
+    checkNotNull(location, "location is null");
+    return new LocationBuilder(location);
+  }
 
-    /**
-     * Builds the location.
-     *
-     * @return the location.
-     */
-    public Location build() {
-        return new LocationImpl(id, name, parent, isAssignable, locationScope, geoLocation);
-    }
+  /**
+   * Builds the location.
+   *
+   * @return the location.
+   */
+  public Location build() {
+    return new LocationImpl(id, name, parent, isAssignable, locationScope, geoLocation);
+  }
 
-    /**
-     * @param id unique id of the location.
-     * @return fluent interface.
-     */
-    public LocationBuilder id(String id) {
-        this.id = id;
-        return this;
-    }
+  /**
+   * @param id unique id of the location.
+   * @return fluent interface.
+   */
+  public LocationBuilder id(String id) {
+    this.id = id;
+    return this;
+  }
 
-    /**
-     * @param name the (human-readable) name of the location.
-     * @return fluent interface.
-     */
-    public LocationBuilder name(final String name) {
-        this.name = name;
-        return this;
-    }
+  /**
+   * @param name the (human-readable) name of the location.
+   * @return fluent interface.
+   */
+  public LocationBuilder name(final String name) {
+    this.name = name;
+    return this;
+  }
 
-    /**
-     * @param isAssignable if the location is assignable to a virtual machine.
-     * @return fluent interface.
-     */
-    public LocationBuilder assignable(boolean isAssignable) {
-        this.isAssignable = isAssignable;
-        return this;
-    }
+  /**
+   * @param isAssignable if the location is assignable to a virtual machine.
+   * @return fluent interface.
+   */
+  public LocationBuilder assignable(boolean isAssignable) {
+    this.isAssignable = isAssignable;
+    return this;
+  }
 
-    /**
-     * @param parent the parent location of the location.
-     * @return fluent interface.
-     */
-    public LocationBuilder parent(Location parent) {
-        this.parent = parent;
-        return this;
-    }
+  /**
+   * @param parent the parent location of the location.
+   * @return fluent interface.
+   */
+  public LocationBuilder parent(Location parent) {
+    this.parent = parent;
+    return this;
+  }
 
-    /**
-     * @param locationScope the {@link LocationScope} of the location.
-     * @return fluent interface.
-     */
-    public LocationBuilder scope(LocationScope locationScope) {
-        this.locationScope = locationScope;
-        return this;
-    }
+  /**
+   * @param locationScope the {@link LocationScope} of the location.
+   * @return fluent interface.
+   */
+  public LocationBuilder scope(LocationScope locationScope) {
+    this.locationScope = locationScope;
+    return this;
+  }
 
-    /**
-     * @param geoLocation of the location.
-     * @return fluent interface
-     */
-    public LocationBuilder geoLocation(GeoLocation geoLocation) {
-        this.geoLocation = geoLocation;
-        return this;
-    }
+  /**
+   * @param geoLocation of the location.
+   * @return fluent interface
+   */
+  public LocationBuilder geoLocation(GeoLocation geoLocation) {
+    this.geoLocation = geoLocation;
+    return this;
+  }
 }

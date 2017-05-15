@@ -19,37 +19,38 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 
 
-import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
-import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
-import org.openstack4j.api.OSClient;
+import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
+import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
 import java.util.List;
 import java.util.Optional;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.openstack4j.api.OSClient;
 
 /**
  * Retrieves the floating ip pool if there exists only one.
  */
 public class OneFloatingIpPoolStrategy implements FloatingIpPoolStrategy {
 
-    private final OSClient osClient;
+  private final OSClient osClient;
 
-    @Inject public OneFloatingIpPoolStrategy(OSClient osClient) {
-        this.osClient = osClient;
-    }
+  @Inject
+  public OneFloatingIpPoolStrategy(OSClient osClient) {
+    this.osClient = osClient;
+  }
 
-    @Override public Optional<String> apply(String virtualMachine) {
-        checkNotNull(virtualMachine, "virtualMachine is null.");
-        IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachine);
-        
-        final List<String> poolNames =
-            osClient.useRegion(virtualMachineScopedId.getLocationId()).compute().floatingIps()
-                .getPoolNames();
-        if (poolNames.size() != 1) {
-            return Optional.empty();
-        }
-        return poolNames.stream().findAny();
+  @Override
+  public Optional<String> apply(String virtualMachine) {
+    checkNotNull(virtualMachine, "virtualMachine is null.");
+    IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachine);
+
+    final List<String> poolNames =
+        osClient.useRegion(virtualMachineScopedId.getLocationId()).compute().floatingIps()
+            .getPoolNames();
+    if (poolNames.size() != 1) {
+      return Optional.empty();
     }
+    return poolNames.stream().findAny();
+  }
 }

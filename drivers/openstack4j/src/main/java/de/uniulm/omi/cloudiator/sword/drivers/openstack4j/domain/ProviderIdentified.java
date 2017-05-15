@@ -23,6 +23,6 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain;
  */
 public interface ProviderIdentified {
 
-    String providerId();
+  String providerId();
 
 }

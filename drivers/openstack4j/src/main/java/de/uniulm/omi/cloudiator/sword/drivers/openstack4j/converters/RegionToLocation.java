@@ -18,18 +18,19 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.LocationBuilder;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 
 /**
  * Created by daniel on 18.11.16.
  */
 public class RegionToLocation implements OneWayConverter<String, Location> {
 
-    @Override public Location apply(String region) {
-        return LocationBuilder.newBuilder().scope(LocationScope.REGION).name(region)
-            .assignable(false).id(region).build();
-    }
+  @Override
+  public Location apply(String region) {
+    return LocationBuilder.newBuilder().scope(LocationScope.REGION).name(region)
+        .assignable(false).id(region).build();
+  }
 }

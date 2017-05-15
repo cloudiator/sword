@@ -29,19 +29,20 @@ import javax.annotation.Nullable;
  */
 public interface IdScopedByLocation {
 
-    /**
-     * @return the id part of the scoped id.
-     */
-    String getId();
+  /**
+   * @return the id part of the scoped id.
+   */
+  String getId();
 
-    /**
-     * @return the location part of the scoped id, null if no location scope exists.
-     */
-    @Nullable String getLocationId();
+  /**
+   * @return the location part of the scoped id, null if no location scope exists.
+   */
+  @Nullable
+  String getLocationId();
 
-    /**
-     * @return the scoped id as string.
-     */
-    String getIdWithLocation();
+  /**
+   * @return the scoped id as string.
+   */
+  String getIdWithLocation();
 
 }

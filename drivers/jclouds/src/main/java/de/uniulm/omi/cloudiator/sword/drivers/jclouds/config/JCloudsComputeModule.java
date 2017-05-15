@@ -26,12 +26,28 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.domain.OperatingSystemFamily;
 import de.uniulm.omi.cloudiator.sword.config.AbstractComputeModule;
-import de.uniulm.omi.cloudiator.sword.domain.*;
+import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.domain.Image;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroup;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
+import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClientImpl;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.*;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.JCloudsComputeMetadataToVirtualMachine;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.JCloudsHardwareToHardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.JCloudsImageToImage;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.JCloudsIpPermissionToSecurityGroupRule;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.JCloudsLocationToLocation;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.JCloudsLoginCredentialsToLoginCredential;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.JCloudsOperatingSystemConverter;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.JCloudsOperatingSystemFamilyConverter;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.JCloudsSecurityGroupToSecurityGroup;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.LocationToJCloudsLocation;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.extensions.JCloudsSecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy.JCloudsDeleteVirtualMachineStrategy;
@@ -43,6 +59,7 @@ import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import java.util.Set;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Hardware;
@@ -51,8 +68,6 @@ import org.jclouds.compute.domain.OsFamily;
 import org.jclouds.domain.LoginCredentials;
 import org.jclouds.net.domain.IpPermission;
 
-import java.util.Set;
-
 
 /**
  * An abstract compute module for cloud providers that are supported using
@@ -60,172 +75,179 @@ import java.util.Set;
  */
 public abstract class JCloudsComputeModule extends AbstractComputeModule {
 
-    @Provides private JCloudsComputeClient provideJCloudsComputeClient(Injector injector) {
-        return overrideComputeClient(injector,
-            injector.getInstance(JCloudsComputeClientImpl.class));
-    }
+  @Provides
+  private JCloudsComputeClient provideJCloudsComputeClient(Injector injector) {
+    return overrideComputeClient(injector,
+        injector.getInstance(JCloudsComputeClientImpl.class));
+  }
 
-    protected JCloudsComputeClient overrideComputeClient(Injector injector,
-        JCloudsComputeClient originalComputeClient) {
-        return originalComputeClient;
-    }
+  protected JCloudsComputeClient overrideComputeClient(Injector injector,
+      JCloudsComputeClient originalComputeClient) {
+    return originalComputeClient;
+  }
 
-    @Provides @Singleton JCloudsViewFactory provideJCloudsViewFactory(Injector injector) {
-        return overrideJCloudsViewFactory(injector,
-            injector.getInstance(BaseJCloudsViewFactory.class));
-    }
+  @Provides
+  @Singleton
+  JCloudsViewFactory provideJCloudsViewFactory(Injector injector) {
+    return overrideJCloudsViewFactory(injector,
+        injector.getInstance(BaseJCloudsViewFactory.class));
+  }
 
-    protected JCloudsViewFactory overrideJCloudsViewFactory(Injector injector,
-        JCloudsViewFactory originalFactory) {
-        return originalFactory;
-    }
+  protected JCloudsViewFactory overrideJCloudsViewFactory(Injector injector,
+      JCloudsViewFactory originalFactory) {
+    return originalFactory;
+  }
 
-    @Override protected final Supplier<Set<Image>> imageSupplier(Injector injector) {
-        return overrideImageSupplier(injector, injector.getInstance(ImageSupplier.class));
-    }
+  @Override
+  protected final Supplier<Set<Image>> imageSupplier(Injector injector) {
+    return overrideImageSupplier(injector, injector.getInstance(ImageSupplier.class));
+  }
 
-    /**
-     * Allows jclouds submodules to override the image supplier
-     */
-    protected Supplier<Set<Image>> overrideImageSupplier(Injector injector,
-        Supplier<Set<Image>> originalSupplier) {
-        return originalSupplier;
-    }
+  /**
+   * Allows jclouds submodules to override the image supplier
+   */
+  protected Supplier<Set<Image>> overrideImageSupplier(Injector injector,
+      Supplier<Set<Image>> originalSupplier) {
+    return originalSupplier;
+  }
 
-    @Override protected final Supplier<Set<Location>> locationSupplier(Injector injector) {
-        return overrideLocationSupplier(injector, injector.getInstance(LocationSupplier.class));
-    }
+  @Override
+  protected final Supplier<Set<Location>> locationSupplier(Injector injector) {
+    return overrideLocationSupplier(injector, injector.getInstance(LocationSupplier.class));
+  }
 
-    /**
-     * Allows jclouds submodules to override the location supplier
-     */
-    protected Supplier<Set<Location>> overrideLocationSupplier(Injector injector,
-        Supplier<Set<Location>> originalSupplier) {
-        return originalSupplier;
-    }
+  /**
+   * Allows jclouds submodules to override the location supplier
+   */
+  protected Supplier<Set<Location>> overrideLocationSupplier(Injector injector,
+      Supplier<Set<Location>> originalSupplier) {
+    return originalSupplier;
+  }
 
-    @Override
-    protected final Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier(Injector injector) {
-        return overrideHardwareFlavorSupplier(injector,
-            injector.getInstance(HardwareSupplier.class));
-    }
+  @Override
+  protected final Supplier<Set<HardwareFlavor>> hardwareFlavorSupplier(Injector injector) {
+    return overrideHardwareFlavorSupplier(injector,
+        injector.getInstance(HardwareSupplier.class));
+  }
 
-    /**
-     * Allows jclouds submodules to override the hardware supplier
-     */
-    protected Supplier<Set<HardwareFlavor>> overrideHardwareFlavorSupplier(Injector injector,
-        Supplier<Set<HardwareFlavor>> originalSupplier) {
-        return originalSupplier;
-    }
+  /**
+   * Allows jclouds submodules to override the hardware supplier
+   */
+  protected Supplier<Set<HardwareFlavor>> overrideHardwareFlavorSupplier(Injector injector,
+      Supplier<Set<HardwareFlavor>> originalSupplier) {
+    return originalSupplier;
+  }
 
-    @Override
-    protected final Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
-        return overrideVirtualMachineSupplier(injector,
-            injector.getInstance(VirtualMachineSupplier.class));
-    }
+  @Override
+  protected final Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
+    return overrideVirtualMachineSupplier(injector,
+        injector.getInstance(VirtualMachineSupplier.class));
+  }
 
-    /**
-     * Allows jclouds submodules to override the VirtualMachine supplier
-     */
-    protected Supplier<Set<VirtualMachine>> overrideVirtualMachineSupplier(Injector injector,
-        Supplier<Set<VirtualMachine>> originalSupplier) {
-        return originalSupplier;
-    }
+  /**
+   * Allows jclouds submodules to override the VirtualMachine supplier
+   */
+  protected Supplier<Set<VirtualMachine>> overrideVirtualMachineSupplier(Injector injector,
+      Supplier<Set<VirtualMachine>> originalSupplier) {
+    return originalSupplier;
+  }
 
-    @Override
-    protected final CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector) {
-        return overrideCreateVirtualMachineStrategy(injector,
-            injector.getInstance(JCloudsCreateVirtualMachineStrategy.class));
-    }
+  @Override
+  protected final CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector) {
+    return overrideCreateVirtualMachineStrategy(injector,
+        injector.getInstance(JCloudsCreateVirtualMachineStrategy.class));
+  }
 
-    /**
-     * Allow jclouds submodules to ovveride the create virtual machine strategy
-     */
-    protected CreateVirtualMachineStrategy overrideCreateVirtualMachineStrategy(Injector injector,
-        CreateVirtualMachineStrategy original) {
-        return original;
-    }
+  /**
+   * Allow jclouds submodules to ovveride the create virtual machine strategy
+   */
+  protected CreateVirtualMachineStrategy overrideCreateVirtualMachineStrategy(Injector injector,
+      CreateVirtualMachineStrategy original) {
+    return original;
+  }
 
 
-    @Override
-    protected final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy(Injector injector) {
-        return overrideDeleteVirtualMachineStrategy(injector,
-            injector.getInstance(JCloudsDeleteVirtualMachineStrategy.class));
-    }
+  @Override
+  protected final DeleteVirtualMachineStrategy deleteVirtualMachineStrategy(Injector injector) {
+    return overrideDeleteVirtualMachineStrategy(injector,
+        injector.getInstance(JCloudsDeleteVirtualMachineStrategy.class));
+  }
 
-    protected DeleteVirtualMachineStrategy overrideDeleteVirtualMachineStrategy(Injector injector,
-        DeleteVirtualMachineStrategy original) {
-        return original;
-    }
+  protected DeleteVirtualMachineStrategy overrideDeleteVirtualMachineStrategy(Injector injector,
+      DeleteVirtualMachineStrategy original) {
+    return original;
+  }
 
-    /**
-     * Extension point for the virtual machine converter.
-     *
-     * @return a converter for converting the jclouds compute metadata to virtual machines.
-     */
-    protected Class<? extends OneWayConverter<ComputeMetadata, VirtualMachine>> virtualMachineConverter() {
-        return JCloudsComputeMetadataToVirtualMachine.class;
-    }
+  /**
+   * Extension point for the virtual machine converter.
+   *
+   * @return a converter for converting the jclouds compute metadata to virtual machines.
+   */
+  protected Class<? extends OneWayConverter<ComputeMetadata, VirtualMachine>> virtualMachineConverter() {
+    return JCloudsComputeMetadataToVirtualMachine.class;
+  }
 
-    @Override protected Optional<SecurityGroupExtension> securityGroupService(Injector injector) {
-        //todo should be dependent on jclouds security group extension being present.
-        return Optional.of(injector.getInstance(JCloudsSecurityGroupExtension.class));
-    }
+  @Override
+  protected Optional<SecurityGroupExtension> securityGroupService(Injector injector) {
+    //todo should be dependent on jclouds security group extension being present.
+    return Optional.of(injector.getInstance(JCloudsSecurityGroupExtension.class));
+  }
 
-    protected abstract Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter();
+  protected abstract Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter();
 
-    @Override protected void configure() {
-        super.configure();
+  @Override
+  protected void configure() {
+    super.configure();
 
-        //bind the compute context provider
-        bind(ComputeServiceContext.class).toProvider(ComputeServiceContextProvider.class)
-            .in(Singleton.class);
+    //bind the compute context provider
+    bind(ComputeServiceContext.class).toProvider(ComputeServiceContextProvider.class)
+        .in(Singleton.class);
 
-        //bind the image converter
-        bind(new TypeLiteral<OneWayConverter<org.jclouds.compute.domain.Image, Image>>() {
-        }).to(JCloudsImageToImage.class);
+    //bind the image converter
+    bind(new TypeLiteral<OneWayConverter<org.jclouds.compute.domain.Image, Image>>() {
+    }).to(JCloudsImageToImage.class);
 
-        //bind the operating system converter
-        bind(
-            new TypeLiteral<OneWayConverter<OperatingSystem, de.uniulm.omi.cloudiator.domain.OperatingSystem>>() {
-            }).to(JCloudsOperatingSystemConverter.class);
+    //bind the operating system converter
+    bind(
+        new TypeLiteral<OneWayConverter<OperatingSystem, de.uniulm.omi.cloudiator.domain.OperatingSystem>>() {
+        }).to(JCloudsOperatingSystemConverter.class);
 
-        //bind the operating system family converter
-        bind(new TypeLiteral<OneWayConverter<OsFamily, OperatingSystemFamily>>() {
-        }).to(JCloudsOperatingSystemFamilyConverter.class);
+    //bind the operating system family converter
+    bind(new TypeLiteral<OneWayConverter<OsFamily, OperatingSystemFamily>>() {
+    }).to(JCloudsOperatingSystemFamilyConverter.class);
 
-        //bind the location converter
-        bind(new TypeLiteral<OneWayConverter<org.jclouds.domain.Location, Location>>() {
-        }).to(JCloudsLocationToLocation.class);
+    //bind the location converter
+    bind(new TypeLiteral<OneWayConverter<org.jclouds.domain.Location, Location>>() {
+    }).to(JCloudsLocationToLocation.class);
 
-        //bind the reverse location converter
-        bind(new TypeLiteral<OneWayConverter<Location, org.jclouds.domain.Location>>() {
-        }).to(LocationToJCloudsLocation.class);
+    //bind the reverse location converter
+    bind(new TypeLiteral<OneWayConverter<Location, org.jclouds.domain.Location>>() {
+    }).to(LocationToJCloudsLocation.class);
 
-        //bind the hardware converter
-        bind(new TypeLiteral<OneWayConverter<Hardware, HardwareFlavor>>() {
-        }).to(JCloudsHardwareToHardwareFlavor.class);
+    //bind the hardware converter
+    bind(new TypeLiteral<OneWayConverter<Hardware, HardwareFlavor>>() {
+    }).to(JCloudsHardwareToHardwareFlavor.class);
 
-        //bind the virtual machine converter
-        bind(new TypeLiteral<OneWayConverter<ComputeMetadata, VirtualMachine>>() {
-        }).to(virtualMachineConverter());
+    //bind the virtual machine converter
+    bind(new TypeLiteral<OneWayConverter<ComputeMetadata, VirtualMachine>>() {
+    }).to(virtualMachineConverter());
 
-        //bind the login credential converter
-        bind(new TypeLiteral<OneWayConverter<LoginCredentials, LoginCredential>>() {
-        }).to(JCloudsLoginCredentialsToLoginCredential.class);
+    //bind the login credential converter
+    bind(new TypeLiteral<OneWayConverter<LoginCredentials, LoginCredential>>() {
+    }).to(JCloudsLoginCredentialsToLoginCredential.class);
 
-        //bind the security group converter
-        bind(
-            new TypeLiteral<OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup>>() {
-            }).to(JCloudsSecurityGroupToSecurityGroup.class);
+    //bind the security group converter
+    bind(
+        new TypeLiteral<OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup>>() {
+        }).to(JCloudsSecurityGroupToSecurityGroup.class);
 
-        //bind the security group rule converter
-        bind(new TypeLiteral<OneWayConverter<IpPermission, SecurityGroupRule>>() {
-        }).to(JCloudsIpPermissionToSecurityGroupRule.class);
+    //bind the security group rule converter
+    bind(new TypeLiteral<OneWayConverter<IpPermission, SecurityGroupRule>>() {
+    }).to(JCloudsIpPermissionToSecurityGroupRule.class);
 
-        //bind the template options converter
-        bind(
-            new TypeLiteral<OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>>() {
-            }).to(templateOptionsConverter());
-    }
+    //bind the template options converter
+    bind(
+        new TypeLiteral<OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>>() {
+        }).to(templateOptionsConverter());
+  }
 }

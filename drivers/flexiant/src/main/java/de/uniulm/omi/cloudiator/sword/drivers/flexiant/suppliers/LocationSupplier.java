@@ -20,10 +20,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,18 +31,20 @@ import java.util.stream.Collectors;
  */
 public class LocationSupplier implements Supplier<Set<Location>> {
 
-    private final FlexiantComputeClient flexiantComputeClient;
-    private final OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location>
-        locationConverter;
+  private final FlexiantComputeClient flexiantComputeClient;
+  private final OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location>
+      locationConverter;
 
-    @Inject public LocationSupplier(FlexiantComputeClient flexiantComputeClient,
-        OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location> locationConverter) {
-        this.flexiantComputeClient = flexiantComputeClient;
-        this.locationConverter = locationConverter;
-    }
+  @Inject
+  public LocationSupplier(FlexiantComputeClient flexiantComputeClient,
+      OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Location, Location> locationConverter) {
+    this.flexiantComputeClient = flexiantComputeClient;
+    this.locationConverter = locationConverter;
+  }
 
-    @Override public Set<Location> get() {
-        return flexiantComputeClient.listLocations().stream().map(locationConverter::apply)
-            .collect(Collectors.toSet());
-    }
+  @Override
+  public Set<Location> get() {
+    return flexiantComputeClient.listLocations().stream().map(locationConverter::apply)
+        .collect(Collectors.toSet());
+  }
 }

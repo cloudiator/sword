@@ -31,17 +31,17 @@ import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
  */
 public interface ConnectionService {
 
-    /**
-     * Creates a new remote connection to the given address.
-     *
-     * @param hostAndPort     the host and the port of the remote socket (mandatory).
-     * @param remoteType      the {@link RemoteType} of the remote operating system (mandatory).
-     * @param loginCredential the credentials for login (mandatory).
-     * @return a connection to the remote machine.
-     * @throws NullPointerException if any of the mandatory arguments is null.
-     * @throws RemoteException      if an error occurs while establishing the connection.
-     */
-    RemoteConnection getRemoteConnection(HostAndPort hostAndPort, RemoteType remoteType,
-        LoginCredential loginCredential) throws RemoteException;
+  /**
+   * Creates a new remote connection to the given address.
+   *
+   * @param hostAndPort the host and the port of the remote socket (mandatory).
+   * @param remoteType the {@link RemoteType} of the remote operating system (mandatory).
+   * @param loginCredential the credentials for login (mandatory).
+   * @return a connection to the remote machine.
+   * @throws NullPointerException if any of the mandatory arguments is null.
+   * @throws RemoteException if an error occurs while establishing the connection.
+   */
+  RemoteConnection getRemoteConnection(HostAndPort hostAndPort, RemoteType remoteType,
+      LoginCredential loginCredential) throws RemoteException;
 
 }

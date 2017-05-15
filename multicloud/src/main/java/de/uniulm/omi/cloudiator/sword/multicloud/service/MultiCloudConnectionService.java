@@ -18,6 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.collect.Lists;
 import com.google.common.net.HostAndPort;
 import de.uniulm.omi.cloudiator.domain.RemoteType;
@@ -26,37 +29,33 @@ import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.service.ConnectionService;
-
 import java.util.ArrayList;
 import java.util.Collections;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by daniel on 23.01.17.
  */
 public class MultiCloudConnectionService implements ConnectionService {
 
-    private final ComputeServiceProvider computeServiceProvider;
+  private final ComputeServiceProvider computeServiceProvider;
 
-    public MultiCloudConnectionService(ComputeServiceProvider computeServiceProvider) {
-        checkNotNull(computeServiceProvider, "computeServiceProvider is null");
-        this.computeServiceProvider = computeServiceProvider;
-    }
+  public MultiCloudConnectionService(ComputeServiceProvider computeServiceProvider) {
+    checkNotNull(computeServiceProvider, "computeServiceProvider is null");
+    this.computeServiceProvider = computeServiceProvider;
+  }
 
-    @Override
-    public RemoteConnection getRemoteConnection(HostAndPort hostAndPort, RemoteType remoteType,
-        LoginCredential loginCredential) throws RemoteException {
+  @Override
+  public RemoteConnection getRemoteConnection(HostAndPort hostAndPort, RemoteType remoteType,
+      LoginCredential loginCredential) throws RemoteException {
 
-        //for the time being we simple choose a random connection service from the list.
-        checkState(!computeServiceProvider.all().isEmpty(),
-            "Connection service requires at least one registered compute service");
+    //for the time being we simple choose a random connection service from the list.
+    checkState(!computeServiceProvider.all().isEmpty(),
+        "Connection service requires at least one registered compute service");
 
-        final ArrayList<ComputeService> computeServices =
-            Lists.newArrayList(computeServiceProvider.all().values());
-        Collections.shuffle(computeServices);
-        return computeServices.get(0).connectionService()
-            .getRemoteConnection(hostAndPort, remoteType, loginCredential);
-    }
+    final ArrayList<ComputeService> computeServices =
+        Lists.newArrayList(computeServiceProvider.all().values());
+    Collections.shuffle(computeServices);
+    return computeServices.get(0).connectionService()
+        .getRemoteConnection(hostAndPort, remoteType, loginCredential);
+  }
 }

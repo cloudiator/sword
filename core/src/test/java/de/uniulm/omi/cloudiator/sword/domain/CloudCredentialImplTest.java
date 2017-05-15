@@ -18,64 +18,71 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.HashSet;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.HashSet;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by daniel on 04.12.14.
  */
 public class CloudCredentialImplTest {
 
-    private String userTest = "user";
-    private String passwordTest = "secret123?password";
-    private CloudCredential cloudCredential;
+  private String userTest = "user";
+  private String passwordTest = "secret123?password";
+  private CloudCredential cloudCredential;
 
-    @Before public void before() {
-        this.cloudCredential =
-            CredentialsBuilder.newBuilder().user(userTest).password(passwordTest).build();
-    }
+  @Before
+  public void before() {
+    this.cloudCredential =
+        CredentialsBuilder.newBuilder().user(userTest).password(passwordTest).build();
+  }
 
-    @Test(expected = NullPointerException.class) public void userNotNullTest() {
-        CredentialsBuilder.newBuilder().user(null).password(this.passwordTest).build();
-    }
+  @Test(expected = NullPointerException.class)
+  public void userNotNullTest() {
+    CredentialsBuilder.newBuilder().user(null).password(this.passwordTest).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void userNotEmptyTest() {
-        CredentialsBuilder.newBuilder().user("").password(passwordTest).build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void userNotEmptyTest() {
+    CredentialsBuilder.newBuilder().user("").password(passwordTest).build();
+  }
 
-    @Test(expected = NullPointerException.class) public void passwordNotNullTest() {
-        CredentialsBuilder.newBuilder().user(userTest).password(null).build();
-    }
+  @Test(expected = NullPointerException.class)
+  public void passwordNotNullTest() {
+    CredentialsBuilder.newBuilder().user(userTest).password(null).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class) public void passwordNotEmptyTest() {
-        CredentialsBuilder.newBuilder().user(userTest).password("").build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void passwordNotEmptyTest() {
+    CredentialsBuilder.newBuilder().user(userTest).password("").build();
+  }
 
-    @Test public void getUserTest() {
-        assertThat(this.cloudCredential.user(), equalTo(this.userTest));
-    }
+  @Test
+  public void getUserTest() {
+    assertThat(this.cloudCredential.user(), equalTo(this.userTest));
+  }
 
-    @Test public void getPasswordTest() {
-        assertThat(this.cloudCredential.password(), equalTo(this.passwordTest));
-    }
+  @Test
+  public void getPasswordTest() {
+    assertThat(this.cloudCredential.password(), equalTo(this.passwordTest));
+  }
 
-    @Test public void testEquals() {
-        assertTrue(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()
-            .equals(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()));
-        assertFalse(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()
-            .equals(
-                CredentialsBuilder.newBuilder().password("wrongPassword").user(userTest).build()));
-        assertFalse(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()
-            .equals(
-                CredentialsBuilder.newBuilder().password(passwordTest).user("wrongUser").build()));
-        assertFalse(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()
-            .equals(new HashSet<>()));
-    }
+  @Test
+  public void testEquals() {
+    assertTrue(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()
+        .equals(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()));
+    assertFalse(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()
+        .equals(
+            CredentialsBuilder.newBuilder().password("wrongPassword").user(userTest).build()));
+    assertFalse(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()
+        .equals(
+            CredentialsBuilder.newBuilder().password(passwordTest).user("wrongUser").build()));
+    assertFalse(CredentialsBuilder.newBuilder().password(passwordTest).user(userTest).build()
+        .equals(new HashSet<>()));
+  }
 }

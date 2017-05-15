@@ -20,30 +20,31 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
-import org.jclouds.compute.domain.Hardware;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.jclouds.compute.domain.Hardware;
 
 /**
  * Created by daniel on 03.12.14.
  */
 public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
 
-    private final JCloudsComputeClient jCloudsComputeClient;
-    private final OneWayConverter<Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor;
+  private final JCloudsComputeClient jCloudsComputeClient;
+  private final OneWayConverter<Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor;
 
-    @Inject public HardwareSupplier(JCloudsComputeClient jCloudsComputeClient,
-        OneWayConverter<Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor) {
-        this.jCloudsComputeClient = jCloudsComputeClient;
-        this.jCloudsHardwareToHardwareFlavor = jCloudsHardwareToHardwareFlavor;
-    }
+  @Inject
+  public HardwareSupplier(JCloudsComputeClient jCloudsComputeClient,
+      OneWayConverter<Hardware, HardwareFlavor> jCloudsHardwareToHardwareFlavor) {
+    this.jCloudsComputeClient = jCloudsComputeClient;
+    this.jCloudsHardwareToHardwareFlavor = jCloudsHardwareToHardwareFlavor;
+  }
 
-    @Override public Set<HardwareFlavor> get() {
-        return jCloudsComputeClient.listHardwareProfiles().stream()
-            .map(jCloudsHardwareToHardwareFlavor::apply).collect(Collectors.toSet());
-    }
+  @Override
+  public Set<HardwareFlavor> get() {
+    return jCloudsComputeClient.listHardwareProfiles().stream()
+        .map(jCloudsHardwareToHardwareFlavor::apply).collect(Collectors.toSet());
+  }
 }

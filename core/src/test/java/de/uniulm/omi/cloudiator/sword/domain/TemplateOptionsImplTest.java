@@ -18,75 +18,80 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.google.common.collect.Maps;
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 
+import com.google.common.collect.Maps;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
+import org.junit.Test;
 
 /**
  * Created by daniel on 30.07.15.
  */
 public class TemplateOptionsImplTest {
 
-    @Test(expected = NullPointerException.class)
-    public void testConstructorDisallowsNullAdditionalOptions() {
-        new TemplateOptionsImpl("test", null, Collections.singleton(1),
-            Collections.singletonMap("test", "test"), "test");
-    }
+  @Test(expected = NullPointerException.class)
+  public void testConstructorDisallowsNullAdditionalOptions() {
+    new TemplateOptionsImpl("test", null, Collections.singleton(1),
+        Collections.singletonMap("test", "test"), "test");
+  }
 
-    @Test(expected = NullPointerException.class)
-    public void testConstructorDisallowsNullInboundPorts() {
-        new TemplateOptionsImpl("test", new HashMap<>(), null,
-            Collections.singletonMap("test", "test"), "test");
-    }
+  @Test(expected = NullPointerException.class)
+  public void testConstructorDisallowsNullInboundPorts() {
+    new TemplateOptionsImpl("test", new HashMap<>(), null,
+        Collections.singletonMap("test", "test"), "test");
+  }
 
-    @Test(expected = NullPointerException.class) public void testConstructorDisallowsNullTags() {
-        new TemplateOptionsImpl("test", new HashMap<>(), Collections.singleton(1), null, "test");
-    }
+  @Test(expected = NullPointerException.class)
+  public void testConstructorDisallowsNullTags() {
+    new TemplateOptionsImpl("test", new HashMap<>(), Collections.singleton(1), null, "test");
+  }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testConstructorDisallowsEmptyKeyPairName() {
-        TemplateOptionsBuilder.newBuilder().keyPairName("").build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void testConstructorDisallowsEmptyKeyPairName() {
+    TemplateOptionsBuilder.newBuilder().keyPairName("").build();
+  }
 
-    @Test public void testKeyPairName() throws Exception {
-        TemplateOptions templateOptions =
-            TemplateOptionsBuilder.newBuilder().keyPairName("keyPairName").build();
-        assertThat(templateOptions.keyPairName(), equalTo("keyPairName"));
-    }
+  @Test
+  public void testKeyPairName() throws Exception {
+    TemplateOptions templateOptions =
+        TemplateOptionsBuilder.newBuilder().keyPairName("keyPairName").build();
+    assertThat(templateOptions.keyPairName(), equalTo("keyPairName"));
+  }
 
-    @Test public void testUserData() throws Exception {
-        TemplateOptions templateOptions =
-            TemplateOptionsBuilder.newBuilder().userData("userDataTest").build();
-        assertThat(templateOptions.userData(), equalTo("userDataTest"));
-    }
+  @Test
+  public void testUserData() throws Exception {
+    TemplateOptions templateOptions =
+        TemplateOptionsBuilder.newBuilder().userData("userDataTest").build();
+    assertThat(templateOptions.userData(), equalTo("userDataTest"));
+  }
 
-    @Test public void testAdditionalOptions() throws Exception {
-        Map<Object, Object> map = Maps.newHashMapWithExpectedSize(1);
-        map.put("key2", "value2");
-        TemplateOptions templateOptions =
-            TemplateOptionsBuilder.newBuilder().addOption("key", "value").addOptions(map).build();
-        assertThat(templateOptions.additionalOptions().get("key"), equalTo("value"));
-        assertThat(templateOptions.additionalOptions().get("key2"), equalTo("value2"));
-    }
+  @Test
+  public void testAdditionalOptions() throws Exception {
+    Map<Object, Object> map = Maps.newHashMapWithExpectedSize(1);
+    map.put("key2", "value2");
+    TemplateOptions templateOptions =
+        TemplateOptionsBuilder.newBuilder().addOption("key", "value").addOptions(map).build();
+    assertThat(templateOptions.additionalOptions().get("key"), equalTo("value"));
+    assertThat(templateOptions.additionalOptions().get("key2"), equalTo("value2"));
+  }
 
-    @Test public void testInboundPorts() throws Exception {
-        Set<Integer> inboundPorts = Collections.singleton(1);
-        TemplateOptions templateOptions =
-            TemplateOptionsBuilder.newBuilder().inboundPorts(inboundPorts).build();
-        assertThat(templateOptions.inboundPorts().contains(1), equalTo(true));
-    }
+  @Test
+  public void testInboundPorts() throws Exception {
+    Set<Integer> inboundPorts = Collections.singleton(1);
+    TemplateOptions templateOptions =
+        TemplateOptionsBuilder.newBuilder().inboundPorts(inboundPorts).build();
+    assertThat(templateOptions.inboundPorts().contains(1), equalTo(true));
+  }
 
-    @Test public void testTags() throws Exception {
-        Map<String, String> tags = Collections.singletonMap("key", "value");
-        TemplateOptions templateOptions = TemplateOptionsBuilder.newBuilder().tags(tags).build();
-        assertThat(templateOptions.tags().containsKey("key"), equalTo(true));
-        assertThat(templateOptions.tags().containsValue("value"), equalTo(true));
-    }
+  @Test
+  public void testTags() throws Exception {
+    Map<String, String> tags = Collections.singletonMap("key", "value");
+    TemplateOptions templateOptions = TemplateOptionsBuilder.newBuilder().tags(tags).build();
+    assertThat(templateOptions.tags().containsKey("key"), equalTo(true));
+    assertThat(templateOptions.tags().containsValue("value"), equalTo(true));
+  }
 }

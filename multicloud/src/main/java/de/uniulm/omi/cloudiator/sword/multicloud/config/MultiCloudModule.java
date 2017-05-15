@@ -28,10 +28,15 @@ import de.uniulm.omi.cloudiator.sword.config.DefaultMetaModule;
 import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.multicloud.MultiCloudService;
 import de.uniulm.omi.cloudiator.sword.multicloud.MultiCloudServiceImpl;
-import de.uniulm.omi.cloudiator.sword.multicloud.service.*;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.BaseComputeServiceFactory;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.CachingComputeServiceFactory;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.CloudRegistry;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.CloudRegistryComputeServiceProvider;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.ComputeServiceFactory;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.ComputeServiceProvider;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.MultiCloudComputeService;
 import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
-
 import javax.annotation.Nullable;
 
 /**
@@ -39,36 +44,41 @@ import javax.annotation.Nullable;
  */
 public class MultiCloudModule extends AbstractModule {
 
-    @Nullable private final AbstractLoggingModule loggingModule;
-    @Nullable private final AbstractRemoteModule remoteModule;
-    private final DefaultMetaModule metaModule;
+  @Nullable
+  private final AbstractLoggingModule loggingModule;
+  @Nullable
+  private final AbstractRemoteModule remoteModule;
+  private final DefaultMetaModule metaModule;
 
-    public MultiCloudModule(@Nullable AbstractLoggingModule loggingModule,
-        @Nullable AbstractRemoteModule remoteModule, DefaultMetaModule metaModule) {
-        this.loggingModule = loggingModule;
-        this.remoteModule = remoteModule;
-        this.metaModule = metaModule;
-    }
+  public MultiCloudModule(@Nullable AbstractLoggingModule loggingModule,
+      @Nullable AbstractRemoteModule remoteModule, DefaultMetaModule metaModule) {
+    this.loggingModule = loggingModule;
+    this.remoteModule = remoteModule;
+    this.metaModule = metaModule;
+  }
 
-    @Override protected void configure() {
-        bind(AbstractLoggingModule.class).toProvider(Providers.of(loggingModule));
-        bind(AbstractRemoteModule.class).toProvider(Providers.of(remoteModule));
-        bind(DefaultMetaModule.class).toProvider(Providers.of(metaModule));
-        bind(MultiCloudService.class).to(MultiCloudServiceImpl.class).in(Singleton.class);
-        bind(ComputeService.class).to(MultiCloudComputeService.class).in(Singleton.class);
-        bind(ComputeServiceProvider.class).to(CloudRegistryComputeServiceProvider.class)
-            .in(Singleton.class);
-        bind(CloudRegistry.class).to(CloudRegistryComputeServiceProvider.class).in(Singleton.class);
-    }
+  @Override
+  protected void configure() {
+    bind(AbstractLoggingModule.class).toProvider(Providers.of(loggingModule));
+    bind(AbstractRemoteModule.class).toProvider(Providers.of(remoteModule));
+    bind(DefaultMetaModule.class).toProvider(Providers.of(metaModule));
+    bind(MultiCloudService.class).to(MultiCloudServiceImpl.class).in(Singleton.class);
+    bind(ComputeService.class).to(MultiCloudComputeService.class).in(Singleton.class);
+    bind(ComputeServiceProvider.class).to(CloudRegistryComputeServiceProvider.class)
+        .in(Singleton.class);
+    bind(CloudRegistry.class).to(CloudRegistryComputeServiceProvider.class).in(Singleton.class);
+  }
 
-    @Provides @Base ComputeServiceFactory provideBaseComputeServiceFactory(Injector injector) {
-        return injector.getInstance(BaseComputeServiceFactory.class);
-    }
+  @Provides
+  @Base
+  ComputeServiceFactory provideBaseComputeServiceFactory(Injector injector) {
+    return injector.getInstance(BaseComputeServiceFactory.class);
+  }
 
-    @Provides ComputeServiceFactory provideComputeServiceFactory(Injector injector) {
-        return injector.getInstance(CachingComputeServiceFactory.class);
-    }
-
+  @Provides
+  ComputeServiceFactory provideComputeServiceFactory(Injector injector) {
+    return injector.getInstance(CachingComputeServiceFactory.class);
+  }
 
 
 }

@@ -24,5 +24,4 @@ package de.uniulm.omi.cloudiator.sword.domain;
 public interface PriceModel {
 
 
-
 }

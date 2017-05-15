@@ -27,8 +27,8 @@ import org.cloudiator.meta.cloudharmony.CloudHarmonyMetaService;
  */
 public class CloudHarmonyMetaModule extends DefaultMetaModule {
 
-    @Override
-    protected Class<? extends MetaService.MetaServiceFactory> overrideMetaServiceFactory() {
-        return CloudHarmonyMetaService.CloudHarmonyMetaServiceFactory.class;
-    }
+  @Override
+  protected Class<? extends MetaService.MetaServiceFactory> overrideMetaServiceFactory() {
+    return CloudHarmonyMetaService.CloudHarmonyMetaServiceFactory.class;
+  }
 }

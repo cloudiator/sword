@@ -11,14 +11,18 @@ import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionFactory;
  */
 public abstract class ExtendedRemoteModule extends AbstractRemoteModule {
 
-    @Override protected void configure() {
-    }
+  @Override
+  protected void configure() {
+  }
 
-    @Provides @Base final RemoteConnectionFactory provideBaseConnectionFactory(Injector injector) {
-        return injector.getInstance(getRemoteConnectionFactory());
-    }
+  @Provides
+  @Base
+  final RemoteConnectionFactory provideBaseConnectionFactory(Injector injector) {
+    return injector.getInstance(getRemoteConnectionFactory());
+  }
 
-    @Provides final RemoteConnectionFactory provideConnectionFactory(Injector injector) {
-        return injector.getInstance(RetryingConnectionFactory.class);
-    }
+  @Provides
+  final RemoteConnectionFactory provideConnectionFactory(Injector injector) {
+    return injector.getInstance(RetryingConnectionFactory.class);
+  }
 }

@@ -20,11 +20,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,17 +32,19 @@ import java.util.stream.Collectors;
  */
 public class VirtualMachineSupplier implements Supplier<Set<VirtualMachine>> {
 
-    private final FlexiantComputeClient flexiantComputeClient;
-    private final OneWayConverter<Server, VirtualMachine> virtualMachineConverter;
+  private final FlexiantComputeClient flexiantComputeClient;
+  private final OneWayConverter<Server, VirtualMachine> virtualMachineConverter;
 
-    @Inject public VirtualMachineSupplier(FlexiantComputeClient flexiantComputeClient,
-        OneWayConverter<Server, VirtualMachine> virtualMachineConverter) {
-        this.flexiantComputeClient = flexiantComputeClient;
-        this.virtualMachineConverter = virtualMachineConverter;
-    }
+  @Inject
+  public VirtualMachineSupplier(FlexiantComputeClient flexiantComputeClient,
+      OneWayConverter<Server, VirtualMachine> virtualMachineConverter) {
+    this.flexiantComputeClient = flexiantComputeClient;
+    this.virtualMachineConverter = virtualMachineConverter;
+  }
 
-    @Override public Set<VirtualMachine> get() {
-        return flexiantComputeClient.listServers().stream().map(virtualMachineConverter::apply)
-            .collect(Collectors.toSet());
-    }
+  @Override
+  public Set<VirtualMachine> get() {
+    return flexiantComputeClient.listServers().stream().map(virtualMachineConverter::apply)
+        .collect(Collectors.toSet());
+  }
 }

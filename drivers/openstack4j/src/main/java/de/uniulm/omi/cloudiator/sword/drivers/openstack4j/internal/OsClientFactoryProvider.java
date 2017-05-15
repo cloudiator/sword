@@ -18,30 +18,30 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 17.11.16.
  */
 public class OsClientFactoryProvider implements Provider<OsClientFactory> {
 
-    private final Injector injector;
-    private final KeyStoneVersion keyStoneVersion;
+  private final Injector injector;
+  private final KeyStoneVersion keyStoneVersion;
 
-    @Inject
-    public OsClientFactoryProvider(Injector injector, KeyStoneVersion keyStoneVersion) {
-        checkNotNull(injector, "injector is null");
-        checkNotNull(keyStoneVersion, "keyStoneVersion is null");
-        this.injector = injector;
-        this.keyStoneVersion = keyStoneVersion;
-    }
+  @Inject
+  public OsClientFactoryProvider(Injector injector, KeyStoneVersion keyStoneVersion) {
+    checkNotNull(injector, "injector is null");
+    checkNotNull(keyStoneVersion, "keyStoneVersion is null");
+    this.injector = injector;
+    this.keyStoneVersion = keyStoneVersion;
+  }
 
-    @Override
-    public OsClientFactory get() {
-        return injector.getInstance(keyStoneVersion.clientFactoryClass());
-    }
+  @Override
+  public OsClientFactory get() {
+    return injector.getInstance(keyStoneVersion.clientFactoryClass());
+  }
 }

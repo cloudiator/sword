@@ -23,9 +23,9 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
  */
 public interface IdScopedByCloud {
 
-    String id();
+  String id();
 
-    String cloudId();
+  String cloudId();
 
-    String scopedId();
+  String scopedId();
 }

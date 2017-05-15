@@ -27,11 +27,11 @@ import java.util.Optional;
  */
 public interface FloatingIpPoolStrategy {
 
-    /**
-     * Supplies an floating ip pool for the given vm id.
-     *
-     * @param virtualMachine the id of the virtual machine.
-     * @return an {@link Optional} identifier for the floating ip pool.
-     */
-    Optional<String> apply(String virtualMachine);
+  /**
+   * Supplies an floating ip pool for the given vm id.
+   *
+   * @param virtualMachine the id of the virtual machine.
+   * @return an {@link Optional} identifier for the floating ip pool.
+   */
+  Optional<String> apply(String virtualMachine);
 }

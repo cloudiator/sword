@@ -22,4 +22,5 @@ package de.uniulm.omi.cloudiator.sword.domain;
  * Created by daniel on 24.04.17.
  */
 public class PriceOnDemand {
+
 }

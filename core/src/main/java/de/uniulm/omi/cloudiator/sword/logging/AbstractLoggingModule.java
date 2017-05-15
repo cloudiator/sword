@@ -26,10 +26,11 @@ import com.google.inject.matcher.Matchers;
  */
 public abstract class AbstractLoggingModule extends AbstractModule {
 
-    @Override protected void configure() {
-        bindListener(Matchers.any(), new LoggingTypeListener(getLoggerFactory()));
-        bind(LoggerFactory.class).toInstance(getLoggerFactory());
-    }
+  @Override
+  protected void configure() {
+    bindListener(Matchers.any(), new LoggingTypeListener(getLoggerFactory()));
+    bind(LoggerFactory.class).toInstance(getLoggerFactory());
+  }
 
-    protected abstract LoggerFactory getLoggerFactory();
+  protected abstract LoggerFactory getLoggerFactory();
 }

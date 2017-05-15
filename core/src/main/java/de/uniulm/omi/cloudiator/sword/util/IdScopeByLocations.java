@@ -18,49 +18,49 @@
 
 package de.uniulm.omi.cloudiator.sword.util;
 
-import javax.annotation.Nullable;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import javax.annotation.Nullable;
 
 /**
  * Factory class for {@link IdScopedByLocation} objects.
  */
 public class IdScopeByLocations {
 
-    private IdScopeByLocations() {
+  private IdScopeByLocations() {
+  }
+
+  /**
+   * Creates a new scoped id using the supplied arguments.
+   *
+   * @param locationId the location part of the id (nullable).
+   * @param id the id part of the id (non null)
+   * @return a new scoped id.
+   * @throws NullPointerException if the supplied id is null.
+   * @throws IllegalArgumentException if the supplied strings are empty
+   */
+  public static IdScopedByLocation from(@Nullable String locationId, String id) {
+
+    checkNotNull(id);
+    checkArgument(!id.isEmpty());
+
+    if (locationId != null) {
+      checkArgument(!locationId.isEmpty());
     }
 
-    /**
-     * Creates a new scoped id using the supplied arguments.
-     *
-     * @param locationId the location part of the id (nullable).
-     * @param id         the id part of the id (non null)
-     * @return a new scoped id.
-     * @throws NullPointerException     if the supplied id is null.
-     * @throws IllegalArgumentException if the supplied strings are empty
-     */
-    public static IdScopedByLocation from(@Nullable String locationId, String id) {
+    return new SlashEncodedIdScopedByLocation(locationId, id);
+  }
 
-        checkNotNull(id);
-        checkArgument(!id.isEmpty());
-
-        if (locationId != null) {
-            checkArgument(!locationId.isEmpty());
-        }
-
-        return new SlashEncodedIdScopedByLocation(locationId, id);
-    }
-
-    /**
-     * Creates a new scoped id from a id.
-     *
-     * @param id a scoped id, or an un-scoped id (non null).
-     * @return a new scoped id representing the argument id.
-     * @throws IllegalArgumentException if the scoped id is invalid
-     */
-    public static IdScopedByLocation from(String id) {
-        return new SlashEncodedIdScopedByLocation(id);
-    }
+  /**
+   * Creates a new scoped id from a id.
+   *
+   * @param id a scoped id, or an un-scoped id (non null).
+   * @return a new scoped id representing the argument id.
+   * @throws IllegalArgumentException if the scoped id is invalid
+   */
+  public static IdScopedByLocation from(String id) {
+    return new SlashEncodedIdScopedByLocation(id);
+  }
 
 }

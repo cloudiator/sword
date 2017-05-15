@@ -19,66 +19,70 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
 
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocation;
+import java.util.Set;
 import org.jclouds.compute.ComputeService;
-import org.jclouds.compute.domain.*;
+import org.jclouds.compute.domain.ComputeMetadata;
+import org.jclouds.compute.domain.Hardware;
+import org.jclouds.compute.domain.Image;
+import org.jclouds.compute.domain.NodeMetadata;
+import org.jclouds.compute.domain.Template;
+import org.jclouds.compute.domain.TemplateBuilder;
 import org.jclouds.compute.options.TemplateOptions;
 import org.jclouds.domain.Location;
-
-import java.util.Set;
 
 /**
  * Created by daniel on 02.12.14.
  */
 public interface JCloudsComputeClient {
 
-    /**
-     * @return images known to jclouds.
-     * @see ComputeService#listImages()
-     */
-    Set<? extends Image> listImages();
+  /**
+   * @return images known to jclouds.
+   * @see ComputeService#listImages()
+   */
+  Set<? extends Image> listImages();
 
-    /**
-     * @return hardware known to jclouds.
-     * @see ComputeService#listHardwareProfiles()
-     */
-    Set<? extends Hardware> listHardwareProfiles();
+  /**
+   * @return hardware known to jclouds.
+   * @see ComputeService#listHardwareProfiles()
+   */
+  Set<? extends Hardware> listHardwareProfiles();
 
-    /**
-     * Returns all locations known to jclouds.
-     * <p/>
-     * Includes all locations returned by {@link ComputeService#listAssignableLocations()}. Those
-     * locations will be flagged by {@link AssignableLocation#isAssignable()}.
-     * <p/>
-     * In addition, it also includes all {@link Location#getParent()} locations.
-     *
-     * @return all assignable locations known to jclouds
-     */
-    Set<? extends AssignableLocation> listLocations();
+  /**
+   * Returns all locations known to jclouds.
+   * <p/>
+   * Includes all locations returned by {@link ComputeService#listAssignableLocations()}. Those
+   * locations will be flagged by {@link AssignableLocation#isAssignable()}.
+   * <p/>
+   * In addition, it also includes all {@link Location#getParent()} locations.
+   *
+   * @return all assignable locations known to jclouds
+   */
+  Set<? extends AssignableLocation> listLocations();
 
-    /**
-     * @return all nodes known to jclouds
-     * @see ComputeService#listNodes()
-     */
-    Set<? extends ComputeMetadata> listNodes();
+  /**
+   * @return all nodes known to jclouds
+   * @see ComputeService#listNodes()
+   */
+  Set<? extends ComputeMetadata> listNodes();
 
-    /**
-     * Creates a node
-     *
-     * @param template the template to create the node from.
-     * @return the started node
-     * @see ComputeService#createNodesInGroup(String, int, TemplateOptions)
-     */
-    NodeMetadata createNode(Template template);
+  /**
+   * Creates a node
+   *
+   * @param template the template to create the node from.
+   * @return the started node
+   * @see ComputeService#createNodesInGroup(String, int, TemplateOptions)
+   */
+  NodeMetadata createNode(Template template);
 
-    /**
-     * Deletes the node identified by the given id.
-     *
-     * @param id the unique identifier of the node.
-     */
-    void deleteNode(String id);
+  /**
+   * Deletes the node identified by the given id.
+   *
+   * @param id the unique identifier of the node.
+   */
+  void deleteNode(String id);
 
-    /**
-     * @return a new template builder for creating node templates.
-     */
-    TemplateBuilder templateBuilder();
+  /**
+   * @return a new template builder for creating node templates.
+   */
+  TemplateBuilder templateBuilder();
 }

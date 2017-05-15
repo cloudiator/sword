@@ -19,14 +19,13 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 
 
-
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.domain.OperatingSystems;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
+import de.uniulm.omi.cloudiator.sword.domain.ImageBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
-import de.uniulm.omi.cloudiator.sword.domain.ImageBuilder;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 
 /**
  * A {@link OneWayConverter} converting images retrieved by the
@@ -38,16 +37,18 @@ import de.uniulm.omi.cloudiator.sword.domain.ImageBuilder;
 public class FlexiantImageToImage
     implements OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image> {
 
-    private final GetStrategy<String, Location> locationGetStrategy;
+  private final GetStrategy<String, Location> locationGetStrategy;
 
-    @Inject public FlexiantImageToImage(GetStrategy<String, Location> locationGetStrategy) {
-        this.locationGetStrategy = locationGetStrategy;
-    }
+  @Inject
+  public FlexiantImageToImage(GetStrategy<String, Location> locationGetStrategy) {
+    this.locationGetStrategy = locationGetStrategy;
+  }
 
-    @Override public Image apply(de.uniulm.omi.cloudiator.flexiant.client.domain.Image image) {
-        return ImageBuilder.newBuilder().id(image.getLocationUUID() + "/" + image.getId())
-            .providerId(image.getId()).name(image.getName())
-            .location(locationGetStrategy.get(image.getLocationUUID()))
-            .os(OperatingSystems.unknown()).build();
-    }
+  @Override
+  public Image apply(de.uniulm.omi.cloudiator.flexiant.client.domain.Image image) {
+    return ImageBuilder.newBuilder().id(image.getLocationUUID() + "/" + image.getId())
+        .providerId(image.getId()).name(image.getName())
+        .location(locationGetStrategy.get(image.getLocationUUID()))
+        .os(OperatingSystems.unknown()).build();
+  }
 }

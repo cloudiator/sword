@@ -23,12 +23,12 @@ package de.uniulm.omi.cloudiator.sword.drivers.ec2;
  */
 public class EC2Constants {
 
-    public final static String PROPERTY_EC2_AMI_QUERY = "sword.ec2.ami.query";
-    public final static String PROPERTY_EC2_CC_AMI_QUERY = "sword.ec2.ami.cc.query";
-    public final static String PROPERTY_EC2_DEFAULT_VPC = "sword.ec2.default.vpc";
+  public final static String PROPERTY_EC2_AMI_QUERY = "sword.ec2.ami.query";
+  public final static String PROPERTY_EC2_CC_AMI_QUERY = "sword.ec2.ami.cc.query";
+  public final static String PROPERTY_EC2_DEFAULT_VPC = "sword.ec2.default.vpc";
 
-    private EC2Constants() {
-        throw new AssertionError("intentionally left empty");
-    }
+  private EC2Constants() {
+    throw new AssertionError("intentionally left empty");
+  }
 
 }

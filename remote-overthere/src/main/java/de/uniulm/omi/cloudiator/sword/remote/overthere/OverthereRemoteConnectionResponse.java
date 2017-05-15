@@ -26,56 +26,62 @@ import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionResponse;
  */
 public class OverthereRemoteConnectionResponse implements RemoteConnectionResponse {
 
-    private final OverthereExecutionOutputHandler stdOutHandler;
-    private final OverthereExecutionOutputHandler stdErrHandler;
-    private String stdOut = "";
-    private String stdErr = "";
-    private int exitStatus;
+  private final OverthereExecutionOutputHandler stdOutHandler;
+  private final OverthereExecutionOutputHandler stdErrHandler;
+  private String stdOut = "";
+  private String stdErr = "";
+  private int exitStatus;
 
-    OverthereRemoteConnectionResponse() {
-        stdOutHandler = new OverthereExecutionOutputHandler() {
-            @Override public void handleChar(char c) {
-                stdOut += c;
-            }
+  OverthereRemoteConnectionResponse() {
+    stdOutHandler = new OverthereExecutionOutputHandler() {
+      @Override
+      public void handleChar(char c) {
+        stdOut += c;
+      }
 
-            @Override public void handleLine(String line) {
-                stdOut += line;
-            }
-        };
+      @Override
+      public void handleLine(String line) {
+        stdOut += line;
+      }
+    };
 
+    stdErrHandler = new OverthereExecutionOutputHandler() {
+      @Override
+      public void handleChar(char c) {
+        stdErr += c;
+      }
 
-        stdErrHandler = new OverthereExecutionOutputHandler() {
-            @Override public void handleChar(char c) {
-                stdErr += c;
-            }
+      @Override
+      public void handleLine(String line) {
+        stdErr += line;
+      }
+    };
+  }
 
-            @Override public void handleLine(String line) {
-                stdErr += line;
-            }
-        };
-    }
+  OverthereExecutionOutputHandler getStdOutExecutionOutputHandler() {
+    return stdOutHandler;
+  }
 
-    OverthereExecutionOutputHandler getStdOutExecutionOutputHandler() {
-        return stdOutHandler;
-    }
+  OverthereExecutionOutputHandler getStdErrExecutionOutputHandler() {
+    return stdErrHandler;
+  }
 
-    OverthereExecutionOutputHandler getStdErrExecutionOutputHandler() {
-        return stdErrHandler;
-    }
+  @Override
+  public String stdOut() {
+    return stdOut;
+  }
 
-    @Override public String stdOut() {
-        return stdOut;
-    }
+  @Override
+  public String stdErr() {
+    return stdErr;
+  }
 
-    @Override public String stdErr() {
-        return stdErr;
-    }
+  @Override
+  public int getExitStatus() {
+    return exitStatus;
+  }
 
-    @Override public int getExitStatus() {
-        return exitStatus;
-    }
-
-    void setExitStatus(int exitStatus) {
-        this.exitStatus = exitStatus;
-    }
+  void setExitStatus(int exitStatus) {
+    this.exitStatus = exitStatus;
+  }
 }

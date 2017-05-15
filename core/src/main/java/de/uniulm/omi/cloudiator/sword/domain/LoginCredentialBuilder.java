@@ -18,9 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import javax.annotation.Nullable;
-
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import javax.annotation.Nullable;
 
 
 /**
@@ -29,80 +29,83 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class LoginCredentialBuilder {
 
-    @Nullable private String username;
-    @Nullable private String privateKey;
-    @Nullable private String password;
+  @Nullable
+  private String username;
+  @Nullable
+  private String privateKey;
+  @Nullable
+  private String password;
 
-    private LoginCredentialBuilder() {
+  private LoginCredentialBuilder() {
 
-    }
+  }
 
-    private LoginCredentialBuilder(LoginCredential loginCredential) {
-        username = loginCredential.username().orElse(null);
-        privateKey = loginCredential.privateKey().orElse(null);
-        password = loginCredential.password().orElse(null);
-    }
+  private LoginCredentialBuilder(LoginCredential loginCredential) {
+    username = loginCredential.username().orElse(null);
+    privateKey = loginCredential.privateKey().orElse(null);
+    password = loginCredential.password().orElse(null);
+  }
 
-    /**
-     * Creates a new Builder.
-     *
-     * @return a new builder.
-     */
-    public static LoginCredentialBuilder newBuilder() {
-        return new LoginCredentialBuilder();
-    }
+  /**
+   * Creates a new Builder.
+   *
+   * @return a new builder.
+   */
+  public static LoginCredentialBuilder newBuilder() {
+    return new LoginCredentialBuilder();
+  }
 
-    /**
-     * Returns a builder that is initialized with the values
-     * of the given credential.
-     *
-     * @param loginCredential the login credential used for initialization.
-     * @return a builder
-     */
-    public static LoginCredentialBuilder of(LoginCredential loginCredential) {
-        checkNotNull(loginCredential, "loginCredential is null");
-        return new LoginCredentialBuilder(loginCredential);
-    }
+  /**
+   * Returns a builder that is initialized with the values
+   * of the given credential.
+   *
+   * @param loginCredential the login credential used for initialization.
+   * @return a builder
+   */
+  public static LoginCredentialBuilder of(LoginCredential loginCredential) {
+    checkNotNull(loginCredential, "loginCredential is null");
+    return new LoginCredentialBuilder(loginCredential);
+  }
 
-    /**
-     * Builds the object.
-     *
-     * @return the created login credential.
-     */
-    public LoginCredential build() {
-        return new LoginCredentialImpl(username, password, privateKey);
-    }
+  /**
+   * Builds the object.
+   *
+   * @return the created login credential.
+   */
+  public LoginCredential build() {
+    return new LoginCredentialImpl(username, password, privateKey);
+  }
 
-    /**
-     * The username used for login.
-     *
-     * @param username the username for the user.
-     * @return fluid interface
-     */
-    public LoginCredentialBuilder username(@Nullable String username) {
-        this.username = username;
-        return this;
-    }
+  /**
+   * The username used for login.
+   *
+   * @param username the username for the user.
+   * @return fluid interface
+   */
+  public LoginCredentialBuilder username(@Nullable String username) {
+    this.username = username;
+    return this;
+  }
 
-    /**
-     * The private key.
-     *
-     * @param privateKey the private key used for login.
-     * @return fluid interface
-     */
-    public LoginCredentialBuilder privateKey(@Nullable String privateKey) {
-        this.privateKey = privateKey;
-        return this;
-    }
+  /**
+   * The private key.
+   *
+   * @param privateKey the private key used for login.
+   * @return fluid interface
+   */
+  public LoginCredentialBuilder privateKey(@Nullable String privateKey) {
+    this.privateKey = privateKey;
+    return this;
+  }
 
-    /**
-     * The password for the login.
-     *
-     * @param password the password for the login.
-     * @return fluid interface
-     */
-    public LoginCredentialBuilder password(@Nullable String password) {
-        this.password = password;
-        return this;
-    }
+  /**
+   * The password for the login.
+   *
+   * @param password the password for the login.
+   * @return fluid interface
+   */
+  public LoginCredentialBuilder password(@Nullable String password) {
+    this.password = password;
+    return this;
+  }
 }

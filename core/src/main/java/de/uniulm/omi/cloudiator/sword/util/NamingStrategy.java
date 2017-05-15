@@ -18,36 +18,36 @@
 
 package de.uniulm.omi.cloudiator.sword.util;
 
-import javax.annotation.Nullable;
 import java.util.function.Predicate;
+import javax.annotation.Nullable;
 
 /**
  * Created by daniel on 12.08.16.
  */
 public interface NamingStrategy {
 
-    /**
-     * Generates a unique name based on the name input.
-     *
-     * @param name the name to use within the unique name.
-     * @return a unique named.
-     */
-    String generateUniqueNameBasedOnName(@Nullable String name);
+  /**
+   * Generates a unique name based on the name input.
+   *
+   * @param name the name to use within the unique name.
+   * @return a unique named.
+   */
+  String generateUniqueNameBasedOnName(@Nullable String name);
 
-    /**
-     * Generates a name based on the given name.
-     *
-     * @param name the name
-     * @return a name based on the given string.
-     */
-    String generateNameBasedOnName(String name);
+  /**
+   * Generates a name based on the given name.
+   *
+   * @param name the name
+   * @return a name based on the given string.
+   */
+  String generateNameBasedOnName(String name);
 
-    /**
-     * Returns a {@link Predicate} to check if the name belongs to
-     * the naming group.
-     *
-     * @return the predicate
-     */
-    Predicate<String> belongsToNamingGroup();
+  /**
+   * Returns a {@link Predicate} to check if the name belongs to
+   * the naming group.
+   *
+   * @return the predicate
+   */
+  Predicate<String> belongsToNamingGroup();
 
 }

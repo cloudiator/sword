@@ -25,7 +25,6 @@ import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.service.ServiceBuilder;
-
 import javax.annotation.Nullable;
 
 /**
@@ -33,23 +32,29 @@ import javax.annotation.Nullable;
  */
 public class BaseComputeServiceFactory implements ComputeServiceFactory {
 
-    @Nullable @Inject(optional = true) private AbstractRemoteModule abstractRemoteModule;
-    @Nullable @Inject(optional = true) private AbstractLoggingModule abstractLoggingModule;
-    @Inject private DefaultMetaModule metaModule;
+  @Nullable
+  @Inject(optional = true)
+  private AbstractRemoteModule abstractRemoteModule;
+  @Nullable
+  @Inject(optional = true)
+  private AbstractLoggingModule abstractLoggingModule;
+  @Inject
+  private DefaultMetaModule metaModule;
 
-    public BaseComputeServiceFactory() {
+  public BaseComputeServiceFactory() {
+  }
+
+  @Override
+  public ComputeService computeService(Cloud cloud) {
+
+    final ServiceBuilder serviceBuilder = ServiceBuilder.newServiceBuilder().cloud(cloud);
+    if (abstractLoggingModule != null) {
+      serviceBuilder.loggingModule(abstractLoggingModule);
     }
-
-    @Override public ComputeService computeService(Cloud cloud) {
-
-        final ServiceBuilder serviceBuilder = ServiceBuilder.newServiceBuilder().cloud(cloud);
-        if (abstractLoggingModule != null) {
-            serviceBuilder.loggingModule(abstractLoggingModule);
-        }
-        if (abstractRemoteModule != null) {
-            serviceBuilder.remoteModule(abstractRemoteModule);
-        }
-        serviceBuilder.metaModule(metaModule);
-        return serviceBuilder.build();
+    if (abstractRemoteModule != null) {
+      serviceBuilder.remoteModule(abstractRemoteModule);
     }
+    serviceBuilder.metaModule(metaModule);
+    return serviceBuilder.build();
+  }
 }

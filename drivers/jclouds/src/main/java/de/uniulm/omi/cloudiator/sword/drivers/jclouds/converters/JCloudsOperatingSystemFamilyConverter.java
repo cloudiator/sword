@@ -10,8 +10,9 @@ import org.jclouds.compute.domain.OsFamily;
 public class JCloudsOperatingSystemFamilyConverter
     implements OneWayConverter<OsFamily, OperatingSystemFamily> {
 
-    @Override public OperatingSystemFamily apply(OsFamily osFamily) {
-        //todo: we probably need a map conversion here
-        return OperatingSystemFamily.fromValue(osFamily.value());
-    }
+  @Override
+  public OperatingSystemFamily apply(OsFamily osFamily) {
+    //todo: we probably need a map conversion here
+    return OperatingSystemFamily.fromValue(osFamily.value());
+  }
 }

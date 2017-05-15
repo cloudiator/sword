@@ -18,37 +18,39 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 02.12.16.
  */
 public class FilteringRegionSupplier implements RegionSupplier {
 
-    @Inject(optional = true) @Named(Constants.SWORD_REGIONS) private String regionFilter = null;
-    private final RegionSupplier delegate;
+  private final RegionSupplier delegate;
+  @Inject(optional = true)
+  @Named(Constants.SWORD_REGIONS)
+  private String regionFilter = null;
 
-    public FilteringRegionSupplier(RegionSupplier delegate) {
-        checkNotNull(delegate, "delegate is null");
-        this.delegate = delegate;
-    }
+  public FilteringRegionSupplier(RegionSupplier delegate) {
+    checkNotNull(delegate, "delegate is null");
+    this.delegate = delegate;
+  }
 
-    @Override public Set<Location> get() {
-        if (regionFilter == null) {
-            return delegate.get();
-        }
-        final Set<String> split = new HashSet<>(Arrays.asList(regionFilter.split(",")));
-        return delegate.get().stream().filter(location -> split.contains(location.id()))
-            .collect(Collectors.toSet());
+  @Override
+  public Set<Location> get() {
+    if (regionFilter == null) {
+      return delegate.get();
     }
+    final Set<String> split = new HashSet<>(Arrays.asList(regionFilter.split(",")));
+    return delegate.get().stream().filter(location -> split.contains(location.id()))
+        .collect(Collectors.toSet());
+  }
 }

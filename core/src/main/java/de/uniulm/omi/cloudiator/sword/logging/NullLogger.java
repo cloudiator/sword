@@ -22,85 +22,87 @@ package de.uniulm.omi.cloudiator.sword.logging;
  * Created by daniel on 06.03.15.
  */
 public class NullLogger implements Logger {
-    @Override
-    public boolean isTraceEnabled() {
-        return false;
-    }
+
+  @Override
+  public boolean isTraceEnabled() {
+    return false;
+  }
+
+  @Override
+  public boolean isDebugEnabled() {
+    return false;
+  }
+
+  @Override
+  public boolean isInfoEnabled() {
+    return false;
+  }
+
+  @Override
+  public boolean isWarnEnabled() {
+    return false;
+  }
+
+  @Override
+  public boolean isErrorEnabled() {
+    return false;
+  }
+
+  @Override
+  public boolean isFatalEnabled() {
+    return false;
+  }
+
+  @Override
+  public void trace(String message) {
+    // do nothing
+  }
+
+  @Override
+  public void debug(String message) {
+    // do nothing
+  }
+
+  @Override
+  public void info(String message) {
+    // do nothing
+  }
+
+  @Override
+  public void warn(String message) {
+    // do nothing
+  }
+
+  @Override
+  public void warn(String message, Throwable throwable) {
+    // do nothing
+  }
+
+  @Override
+  public void error(String message) {
+    // do nothing
+  }
+
+  @Override
+  public void error(String message, Throwable throwable) {
+    // do nothing
+  }
+
+  @Override
+  public void fatal(String message) {
+    // do nothing
+  }
+
+  @Override
+  public void fatal(String message, Throwable throwable) {
+    // do nothing
+  }
+
+  public static class NullLoggerFactory implements LoggerFactory {
 
     @Override
-    public boolean isDebugEnabled() {
-        return false;
+    public Logger getLogger(String category) {
+      return new NullLogger();
     }
-
-    @Override
-    public boolean isInfoEnabled() {
-        return false;
-    }
-
-    @Override
-    public boolean isWarnEnabled() {
-        return false;
-    }
-
-    @Override
-    public boolean isErrorEnabled() {
-        return false;
-    }
-
-    @Override
-    public boolean isFatalEnabled() {
-        return false;
-    }
-
-    @Override
-    public void trace(String message) {
-        // do nothing
-    }
-
-    @Override
-    public void debug(String message) {
-        // do nothing
-    }
-
-    @Override
-    public void info(String message) {
-        // do nothing
-    }
-
-    @Override
-    public void warn(String message) {
-        // do nothing
-    }
-
-    @Override
-    public void warn(String message, Throwable throwable) {
-        // do nothing
-    }
-
-    @Override
-    public void error(String message) {
-        // do nothing
-    }
-
-    @Override
-    public void error(String message, Throwable throwable) {
-        // do nothing
-    }
-
-    @Override
-    public void fatal(String message) {
-        // do nothing
-    }
-
-    @Override
-    public void fatal(String message, Throwable throwable) {
-        // do nothing
-    }
-
-    public static class NullLoggerFactory implements LoggerFactory {
-        @Override
-        public Logger getLogger(String category) {
-            return new NullLogger();
-        }
-    }
+  }
 }

@@ -28,10 +28,11 @@ import org.jclouds.compute.options.TemplateOptions;
 public class TemplateOptionsToGoogleTemplateOptions
     extends AbstractTemplateOptionsToTemplateOptions {
 
-    @Override protected TemplateOptions convert(
-        de.uniulm.omi.cloudiator.sword.domain.TemplateOptions templateOptions) {
-        TemplateOptions googleOptions = new TemplateOptions();
-        googleOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
-        return googleOptions;
-    }
+  @Override
+  protected TemplateOptions convert(
+      de.uniulm.omi.cloudiator.sword.domain.TemplateOptions templateOptions) {
+    TemplateOptions googleOptions = new TemplateOptions();
+    googleOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
+    return googleOptions;
+  }
 }

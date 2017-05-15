@@ -25,41 +25,41 @@ import java.math.BigDecimal;
  */
 public class GeoLocationBuilder {
 
-    private String country;
-    private BigDecimal latitude;
-    private BigDecimal longitude;
-    private String city;
+  private String country;
+  private BigDecimal latitude;
+  private BigDecimal longitude;
+  private String city;
 
-    private GeoLocationBuilder() {
-    }
+  private GeoLocationBuilder() {
+  }
 
-    public static GeoLocationBuilder newBuilder() {
-        return new GeoLocationBuilder();
-    }
+  public static GeoLocationBuilder newBuilder() {
+    return new GeoLocationBuilder();
+  }
 
-    public GeoLocationBuilder country(String country) {
-        this.country = country;
-        return this;
-    }
+  public GeoLocationBuilder country(String country) {
+    this.country = country;
+    return this;
+  }
 
-    public GeoLocationBuilder latitude(BigDecimal latitude) {
-        this.latitude = latitude;
-        return this;
-    }
+  public GeoLocationBuilder latitude(BigDecimal latitude) {
+    this.latitude = latitude;
+    return this;
+  }
 
-    public GeoLocationBuilder longitude(BigDecimal longitude) {
-        this.longitude = longitude;
-        return this;
-    }
+  public GeoLocationBuilder longitude(BigDecimal longitude) {
+    this.longitude = longitude;
+    return this;
+  }
 
-    public GeoLocationBuilder city(String city) {
-        this.city = city;
-        return this;
-    }
+  public GeoLocationBuilder city(String city) {
+    this.city = city;
+    return this;
+  }
 
-    public GeoLocation build() {
-        return new GeoLocationImpl(country, latitude, longitude, city);
-    }
+  public GeoLocation build() {
+    return new GeoLocationImpl(country, latitude, longitude, city);
+  }
 
 
 }

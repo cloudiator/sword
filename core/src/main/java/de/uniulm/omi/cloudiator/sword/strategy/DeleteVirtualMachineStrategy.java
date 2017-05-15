@@ -25,4 +25,5 @@ import de.uniulm.omi.cloudiator.sword.util.Consumer;
  * Strategy for the deletion of a virtual machine..
  */
 public interface DeleteVirtualMachineStrategy extends Consumer<String> {
+
 }

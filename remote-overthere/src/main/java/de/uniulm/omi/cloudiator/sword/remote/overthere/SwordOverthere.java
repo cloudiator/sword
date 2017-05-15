@@ -28,15 +28,15 @@ import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
  */
 public class SwordOverthere {
 
-    private SwordOverthere() {
-    }
+  private SwordOverthere() {
+  }
 
-    public static SwordOverthereConnection getConnection(String protocol,
-        final ConnectionOptions options) throws RemoteException {
-        try {
-            return new ThrowingSwordOverthereConnection(Overthere.getConnection(protocol, options));
-        } catch (RuntimeIOException e) {
-            throw new RemoteException(e);
-        }
+  public static SwordOverthereConnection getConnection(String protocol,
+      final ConnectionOptions options) throws RemoteException {
+    try {
+      return new ThrowingSwordOverthereConnection(Overthere.getConnection(protocol, options));
+    } catch (RuntimeIOException e) {
+      throw new RemoteException(e);
     }
+  }
 }

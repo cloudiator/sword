@@ -18,9 +18,13 @@
 
 package de.uniulm.omi.cloudiator.sword.remote.overthere;
 
-import com.xebialabs.overthere.*;
+import com.xebialabs.overthere.CmdLine;
+import com.xebialabs.overthere.ConnectionOptions;
+import com.xebialabs.overthere.OperatingSystemFamily;
+import com.xebialabs.overthere.OverthereExecutionOutputHandler;
+import com.xebialabs.overthere.OverthereFile;
+import com.xebialabs.overthere.OverthereProcess;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
-
 import java.io.Closeable;
 
 /**
@@ -28,30 +32,31 @@ import java.io.Closeable;
  */
 public interface SwordOverthereConnection extends Closeable {
 
-    OperatingSystemFamily getHostOperatingSystem() throws RemoteException;
+  OperatingSystemFamily getHostOperatingSystem() throws RemoteException;
 
-    OverthereFile getFile(String hostPath) throws RemoteException;
+  OverthereFile getFile(String hostPath) throws RemoteException;
 
-    OverthereFile getFile(OverthereFile parent, String child) throws RemoteException;
+  OverthereFile getFile(OverthereFile parent, String child) throws RemoteException;
 
-    OverthereFile getTempFile(String nameTemplate) throws RemoteException;
+  OverthereFile getTempFile(String nameTemplate) throws RemoteException;
 
-    OverthereFile getTempFile(String prefix, String suffix) throws RemoteException;
+  OverthereFile getTempFile(String prefix, String suffix) throws RemoteException;
 
-    OverthereFile getWorkingDirectory() throws RemoteException;
+  OverthereFile getWorkingDirectory() throws RemoteException;
 
-    void setWorkingDirectory(OverthereFile workingDirectory) throws RemoteException;
+  void setWorkingDirectory(OverthereFile workingDirectory) throws RemoteException;
 
-    int execute(CmdLine commandLine) throws RemoteException;
+  int execute(CmdLine commandLine) throws RemoteException;
 
-    int execute(OverthereExecutionOutputHandler stdoutHandler,
-        OverthereExecutionOutputHandler stderrHandler, CmdLine commandLine) throws RemoteException;
+  int execute(OverthereExecutionOutputHandler stdoutHandler,
+      OverthereExecutionOutputHandler stderrHandler, CmdLine commandLine) throws RemoteException;
 
-    OverthereProcess startProcess(CmdLine commandLine) throws RemoteException;
+  OverthereProcess startProcess(CmdLine commandLine) throws RemoteException;
 
-    boolean canStartProcess();
+  boolean canStartProcess();
 
-    @Override void close();
+  @Override
+  void close();
 
-    ConnectionOptions getOptions();
+  ConnectionOptions getOptions();
 }

@@ -19,25 +19,29 @@
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant;
 
 import com.google.inject.ImplementedBy;
-import de.uniulm.omi.cloudiator.flexiant.client.domain.*;
-
+import de.uniulm.omi.cloudiator.flexiant.client.domain.Hardware;
+import de.uniulm.omi.cloudiator.flexiant.client.domain.Image;
+import de.uniulm.omi.cloudiator.flexiant.client.domain.Location;
+import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
+import de.uniulm.omi.cloudiator.flexiant.client.domain.ServerTemplate;
 import java.util.Set;
 
 /**
  * Created by daniel on 04.12.14.
  */
-@ImplementedBy(FlexiantComputeClientImpl.class) public interface FlexiantComputeClient {
+@ImplementedBy(FlexiantComputeClientImpl.class)
+public interface FlexiantComputeClient {
 
-    Set<Image> listImages();
+  Set<Image> listImages();
 
-    Set<Hardware> listHardware();
+  Set<Hardware> listHardware();
 
-    Set<Location> listLocations();
+  Set<Location> listLocations();
 
-    Set<Server> listServers();
+  Set<Server> listServers();
 
-    Server createServer(ServerTemplate flexiantServerTemplate);
+  Server createServer(ServerTemplate flexiantServerTemplate);
 
-    void deleteServer(String serverUUID);
+  void deleteServer(String serverUUID);
 
 }

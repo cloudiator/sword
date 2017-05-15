@@ -18,79 +18,91 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.google.common.base.MoreObjects;
-
-import javax.annotation.Nullable;
-import java.util.Optional;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.base.MoreObjects;
+import java.util.Optional;
+import javax.annotation.Nullable;
 
 /**
  * Created by daniel on 01.12.14.
  */
 public abstract class ResourceImpl implements Resource {
 
-    private final String id;
-    private final String providerId;
-    private final String name;
-    @Nullable private final Location location;
+  private final String id;
+  private final String providerId;
+  private final String name;
+  @Nullable
+  private final Location location;
 
-    ResourceImpl(String id, String providerId, String name, @Nullable Location location) {
-        checkNotNull(id, "id is required.");
-        checkArgument(!id.isEmpty(), "id must not be empty.");
-        this.id = id;
-        checkNotNull(name, "name is required.");
-        checkArgument(!name.isEmpty(), "name must not be empty.");
-        this.name = name;
-        checkNotNull(providerId, "providerId is required");
-        checkArgument(!providerId.isEmpty(), "providerId must not be empty.");
-        this.providerId = providerId;
-        this.location = location;
+  ResourceImpl(String id, String providerId, String name, @Nullable Location location) {
+    checkNotNull(id, "id is required.");
+    checkArgument(!id.isEmpty(), "id must not be empty.");
+    this.id = id;
+    checkNotNull(name, "name is required.");
+    checkArgument(!name.isEmpty(), "name must not be empty.");
+    this.name = name;
+    checkNotNull(providerId, "providerId is required");
+    checkArgument(!providerId.isEmpty(), "providerId must not be empty.");
+    this.providerId = providerId;
+    this.location = location;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
 
-    @Override public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+    ResourceImpl resource = (ResourceImpl) o;
 
-        ResourceImpl resource = (ResourceImpl) o;
-
-        if (!id.equals(resource.id))
-            return false;
-        if (!providerId.equals(resource.providerId))
-            return false;
-        if (!name.equals(resource.name))
-            return false;
-        return location != null ? location.equals(resource.location) : resource.location == null;
+    if (!id.equals(resource.id)) {
+      return false;
     }
-
-    @Override public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + providerId.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        return result;
+    if (!providerId.equals(resource.providerId)) {
+      return false;
     }
-
-    @Override public String id() {
-        return id;
+    if (!name.equals(resource.name)) {
+      return false;
     }
+    return location != null ? location.equals(resource.location) : resource.location == null;
+  }
 
-    @Override public String providerId() {
-        return providerId;
-    }
+  @Override
+  public int hashCode() {
+    int result = id.hashCode();
+    result = 31 * result + providerId.hashCode();
+    result = 31 * result + name.hashCode();
+    result = 31 * result + (location != null ? location.hashCode() : 0);
+    return result;
+  }
 
-    @Override public String name() {
-        return name;
-    }
+  @Override
+  public String id() {
+    return id;
+  }
 
-    @Override public Optional<Location> location() {
-        return Optional.ofNullable(location);
-    }
+  @Override
+  public String providerId() {
+    return providerId;
+  }
 
-    @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id).add("name", name).toString();
-    }
+  @Override
+  public String name() {
+    return name;
+  }
+
+  @Override
+  public Optional<Location> location() {
+    return Optional.ofNullable(location);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("id", id).add("name", name).toString();
+  }
 }

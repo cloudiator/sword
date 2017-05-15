@@ -19,7 +19,6 @@
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.domain.Configuration;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 
 /**
@@ -27,5 +26,5 @@ import de.uniulm.omi.cloudiator.sword.service.ComputeService;
  */
 public interface ComputeServiceFactory {
 
-    ComputeService computeService(Cloud cloud);
+  ComputeService computeService(Cloud cloud);
 }

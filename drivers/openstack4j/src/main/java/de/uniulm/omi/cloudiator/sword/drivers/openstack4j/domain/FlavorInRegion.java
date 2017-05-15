@@ -18,96 +18,111 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
+import java.util.List;
 import org.openstack4j.model.common.Link;
 import org.openstack4j.model.compute.Flavor;
 import org.openstack4j.model.compute.builder.FlavorBuilder;
-
-import java.util.List;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 18.11.16.
  */
 public class FlavorInRegion implements Flavor, InRegion, ProviderIdentified {
 
-    private final Flavor delegate;
-    private final Location region;
-    private final String regionScopedId;
+  private final Flavor delegate;
+  private final Location region;
+  private final String regionScopedId;
 
-    public FlavorInRegion(Flavor delegate, Location region) {
+  public FlavorInRegion(Flavor delegate, Location region) {
 
-        checkNotNull(delegate, "delegate is null");
-        checkNotNull(region, "region is null");
+    checkNotNull(delegate, "delegate is null");
+    checkNotNull(region, "region is null");
 
-        this.delegate = delegate;
-        this.region = region;
-        regionScopedId = IdScopeByLocations.from(region.id(), delegate.getId()).getIdWithLocation();
-    }
+    this.delegate = delegate;
+    this.region = region;
+    regionScopedId = IdScopeByLocations.from(region.id(), delegate.getId()).getIdWithLocation();
+  }
 
-    @Override public FlavorBuilder toBuilder() {
-        return delegate.toBuilder();
-    }
+  @Override
+  public FlavorBuilder toBuilder() {
+    return delegate.toBuilder();
+  }
 
-    @Override public String getId() {
-        return regionScopedId;
-    }
+  @Override
+  public String getId() {
+    return regionScopedId;
+  }
 
-    @Override public String getName() {
-        return delegate.getName();
-    }
+  @Override
+  public String getName() {
+    return delegate.getName();
+  }
 
-    @Override public int getRam() {
-        return delegate.getRam();
-    }
+  @Override
+  public int getRam() {
+    return delegate.getRam();
+  }
 
-    @Override public int getVcpus() {
-        return delegate.getVcpus();
-    }
+  @Override
+  public int getVcpus() {
+    return delegate.getVcpus();
+  }
 
-    @Override public int getDisk() {
-        return delegate.getDisk();
-    }
+  @Override
+  public int getDisk() {
+    return delegate.getDisk();
+  }
 
-    @Override public int getSwap() {
-        return delegate.getSwap();
-    }
+  @Override
+  public int getSwap() {
+    return delegate.getSwap();
+  }
 
-    @Override public float getRxtxFactor() {
-        return delegate.getRxtxFactor();
-    }
+  @Override
+  public float getRxtxFactor() {
+    return delegate.getRxtxFactor();
+  }
 
-    @Override public int getEphemeral() {
-        return delegate.getEphemeral();
-    }
+  @Override
+  public int getEphemeral() {
+    return delegate.getEphemeral();
+  }
 
-    @Override public int getRxtxQuota() {
-        return delegate.getRxtxQuota();
-    }
+  @Override
+  public int getRxtxQuota() {
+    return delegate.getRxtxQuota();
+  }
 
-    @Override public int getRxtxCap() {
-        return delegate.getRxtxCap();
-    }
+  @Override
+  public int getRxtxCap() {
+    return delegate.getRxtxCap();
+  }
 
-    @Override public Boolean isPublic() {
-        return delegate.isPublic();
-    }
+  @Override
+  public Boolean isPublic() {
+    return delegate.isPublic();
+  }
 
-    @Override public Boolean isDisabled() {
-        return delegate.isDisabled();
-    }
+  @Override
+  public Boolean isDisabled() {
+    return delegate.isDisabled();
+  }
 
-    @Override public List<? extends Link> getLinks() {
-        return delegate.getLinks();
-    }
+  @Override
+  public List<? extends Link> getLinks() {
+    return delegate.getLinks();
+  }
 
-    @Override public String providerId() {
-        return delegate.getId();
-    }
+  @Override
+  public String providerId() {
+    return delegate.getId();
+  }
 
-    @Override public Location region() {
-        return region;
-    }
+  @Override
+  public Location region() {
+    return region;
+  }
 }

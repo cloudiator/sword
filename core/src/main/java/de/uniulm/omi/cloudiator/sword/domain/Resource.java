@@ -24,4 +24,5 @@ import de.uniulm.omi.cloudiator.domain.Named;
  * A basic resource located at the cloud provider.
  */
 public interface Resource extends ProviderIdentifiable, Named, LocationScoped {
+
 }

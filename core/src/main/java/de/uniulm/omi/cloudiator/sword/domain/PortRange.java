@@ -18,13 +18,12 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Created by daniel on 06.07.16.
  */
 public interface PortRange {
-    int maxPort();
 
-    int minPort();
+  int maxPort();
+
+  int minPort();
 }

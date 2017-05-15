@@ -18,63 +18,70 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-
-import javax.annotation.Nullable;
-import java.util.Map;
-import java.util.Set;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import java.util.Map;
+import java.util.Set;
+import javax.annotation.Nullable;
 
 /**
  * Basic implementation of the {@link TemplateOptions} interface.
  */
 public class TemplateOptionsImpl implements TemplateOptions {
 
-    @Nullable private final String keyPairName;
-    private final Set<Integer> inboundPorts;
-    private final Map<Object, Object> additionalOptions;
-    private final Map<String, String> tags;
-    @Nullable private final String userData;
+  @Nullable
+  private final String keyPairName;
+  private final Set<Integer> inboundPorts;
+  private final Map<Object, Object> additionalOptions;
+  private final Map<String, String> tags;
+  @Nullable
+  private final String userData;
 
 
-    TemplateOptionsImpl(@Nullable String keyPairName, Map<Object, Object> additionalOptions,
-        Set<Integer> inboundPorts, Map<String, String> tags, @Nullable String userData) {
+  TemplateOptionsImpl(@Nullable String keyPairName, Map<Object, Object> additionalOptions,
+      Set<Integer> inboundPorts, Map<String, String> tags, @Nullable String userData) {
 
-
-        if (keyPairName != null) {
-            checkArgument(!keyPairName.isEmpty());
-        }
-        checkNotNull(additionalOptions);
-        checkNotNull(inboundPorts);
-        checkNotNull(tags);
-
-        this.keyPairName = keyPairName;
-        this.inboundPorts = ImmutableSet.copyOf(inboundPorts);
-        this.additionalOptions = ImmutableMap.copyOf(additionalOptions);
-        this.tags = ImmutableMap.copyOf(tags);
-        this.userData = userData;
+    if (keyPairName != null) {
+      checkArgument(!keyPairName.isEmpty());
     }
+    checkNotNull(additionalOptions);
+    checkNotNull(inboundPorts);
+    checkNotNull(tags);
 
-    @Nullable @Override public String keyPairName() {
-        return keyPairName;
-    }
+    this.keyPairName = keyPairName;
+    this.inboundPorts = ImmutableSet.copyOf(inboundPorts);
+    this.additionalOptions = ImmutableMap.copyOf(additionalOptions);
+    this.tags = ImmutableMap.copyOf(tags);
+    this.userData = userData;
+  }
 
-    @Override public Set<Integer> inboundPorts() {
-        return inboundPorts;
-    }
+  @Nullable
+  @Override
+  public String keyPairName() {
+    return keyPairName;
+  }
 
-    @Override public Map<String, String> tags() {
-        return tags;
-    }
+  @Override
+  public Set<Integer> inboundPorts() {
+    return inboundPorts;
+  }
 
-    @Nullable @Override public String userData() {
-        return userData;
-    }
+  @Override
+  public Map<String, String> tags() {
+    return tags;
+  }
 
-    @Override public Map<Object, Object> additionalOptions() {
-        return additionalOptions;
-    }
+  @Nullable
+  @Override
+  public String userData() {
+    return userData;
+  }
+
+  @Override
+  public Map<Object, Object> additionalOptions() {
+    return additionalOptions;
+  }
 }

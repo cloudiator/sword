@@ -19,21 +19,23 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.strategy;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
+import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 
 /**
  * Created by daniel on 14.01.15.
  */
 public class JCloudsDeleteVirtualMachineStrategy implements DeleteVirtualMachineStrategy {
 
-    private final JCloudsComputeClient jCloudsComputeClient;
+  private final JCloudsComputeClient jCloudsComputeClient;
 
-    @Inject public JCloudsDeleteVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient) {
-        this.jCloudsComputeClient = jCloudsComputeClient;
-    }
+  @Inject
+  public JCloudsDeleteVirtualMachineStrategy(JCloudsComputeClient jCloudsComputeClient) {
+    this.jCloudsComputeClient = jCloudsComputeClient;
+  }
 
-    @Override public void apply(String s) {
-        this.jCloudsComputeClient.deleteNode(s);
-    }
+  @Override
+  public void apply(String s) {
+    this.jCloudsComputeClient.deleteNode(s);
+  }
 }

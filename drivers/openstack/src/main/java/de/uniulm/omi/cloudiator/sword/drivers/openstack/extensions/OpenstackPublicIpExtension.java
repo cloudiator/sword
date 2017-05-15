@@ -18,12 +18,12 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions;
 
-import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.OpenstackFloatingIpStrategy;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.OpenstackFloatingIpStrategy;
+import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
 
 
 /**
@@ -31,31 +31,34 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class OpenstackPublicIpExtension implements PublicIpExtension {
 
-    private final OpenstackFloatingIpStrategy openstackFloatingIpStrategy;
+  private final OpenstackFloatingIpStrategy openstackFloatingIpStrategy;
 
-    /**
-     * @param openstackFloatingIpStrategy a mandatory strategy for assigning public ips in openstack.
-     */
-    @Inject public OpenstackPublicIpExtension(
-        OpenstackFloatingIpStrategy openstackFloatingIpStrategy) {
-        checkNotNull(openstackFloatingIpStrategy);
-        this.openstackFloatingIpStrategy = openstackFloatingIpStrategy;
-    }
+  /**
+   * @param openstackFloatingIpStrategy a mandatory strategy for assigning public ips in openstack.
+   */
+  @Inject
+  public OpenstackPublicIpExtension(
+      OpenstackFloatingIpStrategy openstackFloatingIpStrategy) {
+    checkNotNull(openstackFloatingIpStrategy);
+    this.openstackFloatingIpStrategy = openstackFloatingIpStrategy;
+  }
 
-    @Override public String addPublicIp(String virtualMachineId)  {
-        checkNotNull(virtualMachineId);
-        checkArgument(!virtualMachineId.isEmpty());
-        return this.openstackFloatingIpStrategy.assignPublicIpToVirtualMachine(virtualMachineId);
-    }
+  @Override
+  public String addPublicIp(String virtualMachineId) {
+    checkNotNull(virtualMachineId);
+    checkArgument(!virtualMachineId.isEmpty());
+    return this.openstackFloatingIpStrategy.assignPublicIpToVirtualMachine(virtualMachineId);
+  }
 
-    @Override public void removePublicIp(String virtualMachineId, String address) {
+  @Override
+  public void removePublicIp(String virtualMachineId, String address) {
 
-        checkNotNull(virtualMachineId);
-        checkArgument(!virtualMachineId.isEmpty());
-        checkNotNull(address);
-        checkArgument(!address.isEmpty());
+    checkNotNull(virtualMachineId);
+    checkArgument(!virtualMachineId.isEmpty());
+    checkNotNull(address);
+    checkArgument(!address.isEmpty());
 
-        this.openstackFloatingIpStrategy
-            .removePublicIpFromVirtualMachine(virtualMachineId, address);
-    }
+    this.openstackFloatingIpStrategy
+        .removePublicIpFromVirtualMachine(virtualMachineId, address);
+  }
 }

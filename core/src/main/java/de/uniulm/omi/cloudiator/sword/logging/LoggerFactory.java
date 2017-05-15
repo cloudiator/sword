@@ -23,11 +23,11 @@ package de.uniulm.omi.cloudiator.sword.logging;
  */
 public interface LoggerFactory {
 
-    /**
-     * Returns a {@link Logger} for the given category.
-     *
-     * @param category the category for logging.
-     * @return a logger
-     */
-    Logger getLogger(String category);
+  /**
+   * Returns a {@link Logger} for the given category.
+   *
+   * @param category the category for logging.
+   * @return a logger
+   */
+  Logger getLogger(String category);
 }

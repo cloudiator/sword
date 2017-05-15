@@ -20,11 +20,11 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
 import com.google.common.base.Supplier;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
-
 import java.util.Set;
 
 /**
  * Created by daniel on 17.11.16.
  */
 public interface RegionSupplier extends Supplier<Set<Location>> {
+
 }

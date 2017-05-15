@@ -18,15 +18,15 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
-import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.domain.SecurityGroup;
-import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
-import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupBuilder;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.SecurityGroupInRegion;
-import org.openstack4j.model.compute.SecGroupExtension;
-
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroup;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.SecurityGroupInRegion;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import org.openstack4j.model.compute.SecGroupExtension;
 
 /**
  * Created by daniel on 29.11.16.
@@ -34,22 +34,24 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class SecurityGroupInRegionToSecurityGroup
     implements OneWayConverter<SecurityGroupInRegion, SecurityGroup> {
 
-    private final OneWayConverter<SecGroupExtension.Rule, SecurityGroupRule>
-        securityGroupRuleConverter;
+  private final OneWayConverter<SecGroupExtension.Rule, SecurityGroupRule>
+      securityGroupRuleConverter;
 
-    @Inject public SecurityGroupInRegionToSecurityGroup(
-        OneWayConverter<SecGroupExtension.Rule, SecurityGroupRule> securityGroupRuleConverter) {
-        checkNotNull(securityGroupRuleConverter, "securityGroupRuleConverter is null");
-        this.securityGroupRuleConverter = securityGroupRuleConverter;
-    }
+  @Inject
+  public SecurityGroupInRegionToSecurityGroup(
+      OneWayConverter<SecGroupExtension.Rule, SecurityGroupRule> securityGroupRuleConverter) {
+    checkNotNull(securityGroupRuleConverter, "securityGroupRuleConverter is null");
+    this.securityGroupRuleConverter = securityGroupRuleConverter;
+  }
 
-    @Override public SecurityGroup apply(SecurityGroupInRegion securityGroupInRegion) {
-        final SecurityGroupBuilder securityGroupBuilder =
-            SecurityGroupBuilder.newBuilder().id(securityGroupInRegion.id())
-                .location(securityGroupInRegion.region()).name(securityGroupInRegion.getName())
-                .providerId(securityGroupInRegion.providerId());
-        securityGroupInRegion.rules().stream().map(securityGroupRuleConverter)
-            .forEach(securityGroupBuilder::addSecurityGroupRule);
-        return securityGroupBuilder.build();
-    }
+  @Override
+  public SecurityGroup apply(SecurityGroupInRegion securityGroupInRegion) {
+    final SecurityGroupBuilder securityGroupBuilder =
+        SecurityGroupBuilder.newBuilder().id(securityGroupInRegion.id())
+            .location(securityGroupInRegion.region()).name(securityGroupInRegion.getName())
+            .providerId(securityGroupInRegion.providerId());
+    securityGroupInRegion.rules().stream().map(securityGroupRuleConverter)
+        .forEach(securityGroupBuilder::addSecurityGroupRule);
+    return securityGroupBuilder.build();
+  }
 }

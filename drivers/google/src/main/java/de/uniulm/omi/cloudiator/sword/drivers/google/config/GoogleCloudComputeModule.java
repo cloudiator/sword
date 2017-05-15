@@ -19,25 +19,26 @@
 package de.uniulm.omi.cloudiator.sword.drivers.google.config;
 
 import com.google.inject.Injector;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.google.GoogleJCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.google.converters.TemplateOptionsToGoogleTemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 
 /**
  * Created by daniel on 12.01.16.
  */
 public class GoogleCloudComputeModule extends JCloudsComputeModule {
 
-    @Override protected JCloudsViewFactory overrideJCloudsViewFactory(Injector injector,
-        JCloudsViewFactory originalFactory) {
-        return injector.getInstance(GoogleJCloudsViewFactory.class);
-    }
+  @Override
+  protected JCloudsViewFactory overrideJCloudsViewFactory(Injector injector,
+      JCloudsViewFactory originalFactory) {
+    return injector.getInstance(GoogleJCloudsViewFactory.class);
+  }
 
-    @Override
-    protected Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter() {
-        return TemplateOptionsToGoogleTemplateOptions.class;
-    }
+  @Override
+  protected Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter() {
+    return TemplateOptionsToGoogleTemplateOptions.class;
+  }
 }

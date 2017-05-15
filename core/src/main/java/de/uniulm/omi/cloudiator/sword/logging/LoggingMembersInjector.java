@@ -19,7 +19,6 @@
 package de.uniulm.omi.cloudiator.sword.logging;
 
 import com.google.inject.MembersInjector;
-
 import java.lang.reflect.Field;
 
 /**
@@ -27,20 +26,21 @@ import java.lang.reflect.Field;
  */
 public class LoggingMembersInjector<T> implements MembersInjector<T> {
 
-    private final Field field;
-    private final Logger logger;
+  private final Field field;
+  private final Logger logger;
 
-    LoggingMembersInjector(Field field, LoggerFactory loggerFactory) {
-        this.field = field;
-        this.logger = loggerFactory.getLogger(field.getDeclaringClass().getCanonicalName());
-        field.setAccessible(true);
-    }
+  LoggingMembersInjector(Field field, LoggerFactory loggerFactory) {
+    this.field = field;
+    this.logger = loggerFactory.getLogger(field.getDeclaringClass().getCanonicalName());
+    field.setAccessible(true);
+  }
 
-    @Override public void injectMembers(T instance) {
-        try {
-            field.set(instance, logger);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        }
+  @Override
+  public void injectMembers(T instance) {
+    try {
+      field.set(instance, logger);
+    } catch (IllegalAccessException e) {
+      throw new IllegalStateException(e);
     }
+  }
 }

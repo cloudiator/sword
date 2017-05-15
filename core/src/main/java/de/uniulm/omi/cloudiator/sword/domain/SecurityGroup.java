@@ -25,6 +25,6 @@ import java.util.Set;
  */
 public interface SecurityGroup extends Resource {
 
-    Set<SecurityGroupRule> rules();
+  Set<SecurityGroupRule> rules();
 
 }

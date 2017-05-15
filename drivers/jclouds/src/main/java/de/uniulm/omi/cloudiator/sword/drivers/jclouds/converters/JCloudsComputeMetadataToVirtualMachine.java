@@ -18,17 +18,21 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.domain.*;
+import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.domain.Image;
+import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineBuilder;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.jclouds.compute.domain.ComputeMetadata;
 import org.jclouds.compute.domain.Hardware;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.domain.LoginCredentials;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Converts a jclouds {@link ComputeMetadata} object into
@@ -41,61 +45,63 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class JCloudsComputeMetadataToVirtualMachine
     implements OneWayConverter<ComputeMetadata, VirtualMachine> {
 
-    private final OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter;
-    private final OneWayConverter<Hardware, HardwareFlavor> hardwareConverter;
-    private final GetStrategy<String, Image> imageGetStrategy;
+  private final OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter;
+  private final OneWayConverter<Hardware, HardwareFlavor> hardwareConverter;
+  private final GetStrategy<String, Image> imageGetStrategy;
 
-    /**
-     * Constructor.
-     *
-     * @param loginCredentialConverter a converter for the login credentials (non null)
-     * @param hardwareConverter        a converter for the hardware
-     * @param imageGetStrategy         strategy to retrieve images from an ID
-     */
-    @Inject public JCloudsComputeMetadataToVirtualMachine(
-        OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter,
-        OneWayConverter<Hardware, HardwareFlavor> hardwareConverter,
-        GetStrategy<String, Image> imageGetStrategy) {
+  /**
+   * Constructor.
+   *
+   * @param loginCredentialConverter a converter for the login credentials (non null)
+   * @param hardwareConverter a converter for the hardware
+   * @param imageGetStrategy strategy to retrieve images from an ID
+   */
+  @Inject
+  public JCloudsComputeMetadataToVirtualMachine(
+      OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter,
+      OneWayConverter<Hardware, HardwareFlavor> hardwareConverter,
+      GetStrategy<String, Image> imageGetStrategy) {
 
-        checkNotNull(loginCredentialConverter);
-        checkNotNull(hardwareConverter);
-        checkNotNull(imageGetStrategy);
+    checkNotNull(loginCredentialConverter);
+    checkNotNull(hardwareConverter);
+    checkNotNull(imageGetStrategy);
 
-        this.loginCredentialConverter = loginCredentialConverter;
-        this.hardwareConverter = hardwareConverter;
-        this.imageGetStrategy = imageGetStrategy;
+    this.loginCredentialConverter = loginCredentialConverter;
+    this.hardwareConverter = hardwareConverter;
+    this.imageGetStrategy = imageGetStrategy;
+  }
+
+  @Override
+  public VirtualMachine apply(final ComputeMetadata computeMetadata) {
+
+    checkArgument(computeMetadata instanceof NodeMetadata);
+
+    VirtualMachineBuilder virtualMachineBuilder = VirtualMachineBuilder.newBuilder();
+    virtualMachineBuilder.id(computeMetadata.getId())
+        .providerId(computeMetadata.getProviderId()).name(forceName(computeMetadata));
+
+    ((NodeMetadata) computeMetadata).getPrivateAddresses()
+        .forEach(virtualMachineBuilder::addPrivateIpAddress);
+    ((NodeMetadata) computeMetadata).getPublicAddresses()
+        .forEach(virtualMachineBuilder::addPublicIpAddress);
+    if (((NodeMetadata) computeMetadata).getCredentials() != null) {
+      virtualMachineBuilder.loginCredential(this.loginCredentialConverter
+          .apply(((NodeMetadata) computeMetadata).getCredentials()));
     }
+    virtualMachineBuilder
+        .hardware(hardwareConverter.apply(((NodeMetadata) computeMetadata).getHardware()));
+    virtualMachineBuilder
+        .image(imageGetStrategy.get(((NodeMetadata) computeMetadata).getImageId()));
 
-    @Override public VirtualMachine apply(final ComputeMetadata computeMetadata) {
+    return virtualMachineBuilder.build();
+  }
 
-        checkArgument(computeMetadata instanceof NodeMetadata);
-
-        VirtualMachineBuilder virtualMachineBuilder = VirtualMachineBuilder.newBuilder();
-        virtualMachineBuilder.id(computeMetadata.getId())
-            .providerId(computeMetadata.getProviderId()).name(forceName(computeMetadata));
-
-        ((NodeMetadata) computeMetadata).getPrivateAddresses()
-            .forEach(virtualMachineBuilder::addPrivateIpAddress);
-        ((NodeMetadata) computeMetadata).getPublicAddresses()
-            .forEach(virtualMachineBuilder::addPublicIpAddress);
-        if (((NodeMetadata) computeMetadata).getCredentials() != null) {
-            virtualMachineBuilder.loginCredential(this.loginCredentialConverter
-                .apply(((NodeMetadata) computeMetadata).getCredentials()));
-        }
-        virtualMachineBuilder
-            .hardware(hardwareConverter.apply(((NodeMetadata) computeMetadata).getHardware()));
-        virtualMachineBuilder
-            .image(imageGetStrategy.get(((NodeMetadata) computeMetadata).getImageId()));
-
-        return virtualMachineBuilder.build();
+  private String forceName(ComputeMetadata computeMetadata) {
+    if (computeMetadata.getName() == null) {
+      return computeMetadata.getId();
     }
-
-    private String forceName(ComputeMetadata computeMetadata) {
-        if (computeMetadata.getName() == null) {
-            return computeMetadata.getId();
-        }
-        return computeMetadata.getName();
-    }
+    return computeMetadata.getName();
+  }
 
 
 }

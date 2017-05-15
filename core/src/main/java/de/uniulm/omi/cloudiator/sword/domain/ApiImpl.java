@@ -26,30 +26,35 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class ApiImpl implements Api {
 
-    private final String providerName;
+  private final String providerName;
 
-    public ApiImpl(String providerName) {
-        checkNotNull(providerName, "providerName is null");
-        checkArgument(!providerName.isEmpty(), "providerName is empty");
-        this.providerName = providerName;
+  public ApiImpl(String providerName) {
+    checkNotNull(providerName, "providerName is null");
+    checkArgument(!providerName.isEmpty(), "providerName is empty");
+    this.providerName = providerName;
+  }
+
+  @Override
+  public String providerName() {
+    return providerName;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
 
-    @Override public String providerName() {
-        return providerName;
-    }
+    ApiImpl api = (ApiImpl) o;
 
-    @Override public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+    return providerName.equals(api.providerName);
+  }
 
-        ApiImpl api = (ApiImpl) o;
-
-        return providerName.equals(api.providerName);
-    }
-
-    @Override public int hashCode() {
-        return providerName.hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return providerName.hashCode();
+  }
 }

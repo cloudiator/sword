@@ -23,11 +23,11 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
  */
 public class IdScopedByClouds {
 
-    public static IdScopedByCloud from(String scopedId) {
-        return new ColonDelimitedIdScopedByCloudImpl(scopedId);
-    }
+  public static IdScopedByCloud from(String scopedId) {
+    return new ColonDelimitedIdScopedByCloudImpl(scopedId);
+  }
 
-    public static IdScopedByCloud from(String id, String cloudId) {
-        return new ColonDelimitedIdScopedByCloudImpl(id, cloudId);
-    }
+  public static IdScopedByCloud from(String id, String cloudId) {
+    return new ColonDelimitedIdScopedByCloudImpl(id, cloudId);
+  }
 }

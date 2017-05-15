@@ -18,61 +18,67 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud.domain;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.sword.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
-
 import java.util.Optional;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 24.01.17.
  */
 public class KeyPairMultiCloudImpl implements KeyPair {
 
-    private final KeyPair delegate;
-    private final String cloudId;
+  private final KeyPair delegate;
+  private final String cloudId;
 
-    public KeyPairMultiCloudImpl(KeyPair delegate, String cloudId) {
-        checkNotNull(delegate, "delegate is null");
-        this.delegate = delegate;
-        checkNotNull(cloudId, "cloudId is null");
-        checkArgument(!cloudId.isEmpty(), "cloudId is empty");
-        this.cloudId = cloudId;
-    }
+  public KeyPairMultiCloudImpl(KeyPair delegate, String cloudId) {
+    checkNotNull(delegate, "delegate is null");
+    this.delegate = delegate;
+    checkNotNull(cloudId, "cloudId is null");
+    checkArgument(!cloudId.isEmpty(), "cloudId is empty");
+    this.cloudId = cloudId;
+  }
 
-    @Override public String name() {
-        return delegate.name();
-    }
+  @Override
+  public String name() {
+    return delegate.name();
+  }
 
-    @Override public String id() {
-        return IdScopedByClouds.from(delegate.id(), cloudId).scopedId();
-    }
+  @Override
+  public String id() {
+    return IdScopedByClouds.from(delegate.id(), cloudId).scopedId();
+  }
 
-    @Override public String providerId() {
-        return delegate.providerId();
-    }
+  @Override
+  public String providerId() {
+    return delegate.providerId();
+  }
 
-    @Override public Optional<Location> location() {
-        if (!delegate.location().isPresent()) {
-            return delegate.location();
-        }
-        return Optional.of(new LocationMultiCloudImpl(delegate.location().get(), cloudId));
+  @Override
+  public Optional<Location> location() {
+    if (!delegate.location().isPresent()) {
+      return delegate.location();
     }
+    return Optional.of(new LocationMultiCloudImpl(delegate.location().get(), cloudId));
+  }
 
-    @Override public String publicKey() {
-        return delegate.publicKey();
-    }
+  @Override
+  public String publicKey() {
+    return delegate.publicKey();
+  }
 
-    @Override public Optional<String> privateKey() {
-        return delegate.privateKey();
-    }
+  @Override
+  public Optional<String> privateKey() {
+    return delegate.privateKey();
+  }
 
-    @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id()).add("delegate", delegate)
-            .add("cloudId", cloudId).toString();
-    }
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("id", id()).add("delegate", delegate)
+        .add("cloudId", cloudId).toString();
+  }
 }

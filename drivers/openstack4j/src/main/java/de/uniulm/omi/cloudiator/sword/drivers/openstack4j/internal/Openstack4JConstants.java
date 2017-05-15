@@ -23,19 +23,19 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
  */
 public class Openstack4JConstants {
 
-    public static final String FLOATING_IP_POOL_PROPERTY = "sword.openstack4j.floatingIpPool";
-    /**
-     * todo: workaround for discovering the availability zones via getLocations API.
-     */
-    public static final String DEFAULT_AVAILABILITY_ZONE_PROPERTY =
-        "sword.openstack4j.defaultAvailabilityZone";
+  public static final String FLOATING_IP_POOL_PROPERTY = "sword.openstack4j.floatingIpPool";
+  /**
+   * todo: workaround for discovering the availability zones via getLocations API.
+   */
+  public static final String DEFAULT_AVAILABILITY_ZONE_PROPERTY =
+      "sword.openstack4j.defaultAvailabilityZone";
 
-    public static final String DEFAULT_NETWORK = "sword.openstack4j.defaultNetwork";
+  public static final String DEFAULT_NETWORK = "sword.openstack4j.defaultNetwork";
 
-    public static final String KEYSTONE_VERSION = "sword.openstack4j.keystoneVersion";
+  public static final String KEYSTONE_VERSION = "sword.openstack4j.keystoneVersion";
 
-    private Openstack4JConstants() {
+  private Openstack4JConstants() {
 
-    }
+  }
 
 }

@@ -27,95 +27,95 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class KeyPairBuilder {
 
-    private String id;
-    private String providerId;
-    private Location location;
-    private String name;
-    private String publicKey;
-    private String privateKey;
+  private String id;
+  private String providerId;
+  private Location location;
+  private String name;
+  private String publicKey;
+  private String privateKey;
 
-    private KeyPairBuilder() {
-    }
+  private KeyPairBuilder() {
+  }
 
-    private KeyPairBuilder(KeyPair keyPair) {
-        id = keyPair.id();
-        providerId = keyPair.providerId();
-        location = keyPair.location().orElse(null);
-        name = keyPair.name();
-        publicKey = keyPair.publicKey();
-        privateKey = keyPair.privateKey().orElse(null);
-    }
+  private KeyPairBuilder(KeyPair keyPair) {
+    id = keyPair.id();
+    providerId = keyPair.providerId();
+    location = keyPair.location().orElse(null);
+    name = keyPair.name();
+    publicKey = keyPair.publicKey();
+    privateKey = keyPair.privateKey().orElse(null);
+  }
 
-    /**
-     * @return a new builder instance.
-     */
-    public static KeyPairBuilder newBuilder() {
-        return new KeyPairBuilder();
-    }
+  /**
+   * @return a new builder instance.
+   */
+  public static KeyPairBuilder newBuilder() {
+    return new KeyPairBuilder();
+  }
 
-    public static KeyPairBuilder of(KeyPair keyPair) {
-        checkNotNull(keyPair, "keypair is null");
-        return new KeyPairBuilder(keyPair);
-    }
+  public static KeyPairBuilder of(KeyPair keyPair) {
+    checkNotNull(keyPair, "keypair is null");
+    return new KeyPairBuilder(keyPair);
+  }
 
-    /**
-     * @param id of the keypair
-     * @return fluid interface
-     */
-    public KeyPairBuilder id(String id) {
-        this.id = id;
-        return this;
-    }
+  /**
+   * @param id of the keypair
+   * @return fluid interface
+   */
+  public KeyPairBuilder id(String id) {
+    this.id = id;
+    return this;
+  }
 
-    /**
-     * @param providerId of the keypair
-     * @return fluid interface
-     */
-    public KeyPairBuilder providerId(String providerId) {
-        this.providerId = providerId;
-        return this;
-    }
+  /**
+   * @param providerId of the keypair
+   * @return fluid interface
+   */
+  public KeyPairBuilder providerId(String providerId) {
+    this.providerId = providerId;
+    return this;
+  }
 
-    /**
-     * @param name of the keypair
-     * @return fluid interface
-     */
-    public KeyPairBuilder name(String name) {
-        this.name = name;
-        return this;
-    }
+  /**
+   * @param name of the keypair
+   * @return fluid interface
+   */
+  public KeyPairBuilder name(String name) {
+    this.name = name;
+    return this;
+  }
 
-    public KeyPairBuilder location(Location location) {
-        this.location = location;
-        return this;
-    }
+  public KeyPairBuilder location(Location location) {
+    this.location = location;
+    return this;
+  }
 
-    /**
-     * @param publicKey the public key.
-     * @return fluid interface.
-     */
-    public KeyPairBuilder publicKey(String publicKey) {
-        this.publicKey = publicKey;
-        return this;
-    }
+  /**
+   * @param publicKey the public key.
+   * @return fluid interface.
+   */
+  public KeyPairBuilder publicKey(String publicKey) {
+    this.publicKey = publicKey;
+    return this;
+  }
 
-    /**
-     * @param privateKey the private key.
-     * @return fluid interface
-     */
-    public KeyPairBuilder privateKey(String privateKey) {
-        this.privateKey = privateKey;
-        return this;
-    }
+  /**
+   * @param privateKey the private key.
+   * @return fluid interface
+   */
+  public KeyPairBuilder privateKey(String privateKey) {
+    this.privateKey = privateKey;
+    return this;
+  }
 
-    /**
-     * Builds the keypair.
-     *
-     * @return the created keypair.
-     */
-    public KeyPair build() {
-        return new KeyPairImpl(id, providerId, name, location, publicKey, privateKey);
-    }
+  /**
+   * Builds the keypair.
+   *
+   * @return the created keypair.
+   */
+  public KeyPair build() {
+    return new KeyPairImpl(id, providerId, name, location, publicKey, privateKey);
+  }
 
 
 }

@@ -18,46 +18,47 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.google.common.base.MoreObjects;
-
-import javax.annotation.Nullable;
-
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.base.MoreObjects;
+import javax.annotation.Nullable;
 
 /**
  * Created by daniel on 18.01.17.
  */
 public class ApiBuilder {
 
-    @Nullable private String providerName;
+  @Nullable
+  private String providerName;
 
-    private ApiBuilder() {
+  private ApiBuilder() {
 
-    }
+  }
 
-    private ApiBuilder(Api api) {
-        this.providerName = api.providerName();
-    }
+  private ApiBuilder(Api api) {
+    this.providerName = api.providerName();
+  }
 
-    public static ApiBuilder newBuilder() {
-        return new ApiBuilder();
-    }
+  public static ApiBuilder newBuilder() {
+    return new ApiBuilder();
+  }
 
-    public static ApiBuilder of(Api api) {
-        checkNotNull(api, "api is null");
-        return new ApiBuilder(api);
-    }
+  public static ApiBuilder of(Api api) {
+    checkNotNull(api, "api is null");
+    return new ApiBuilder(api);
+  }
 
-    public ApiBuilder providerName(String providerName) {
-        this.providerName = providerName;
-        return this;
-    }
+  public ApiBuilder providerName(String providerName) {
+    this.providerName = providerName;
+    return this;
+  }
 
-    public Api build() {
-        return new ApiImpl(providerName);
-    }
+  public Api build() {
+    return new ApiImpl(providerName);
+  }
 
-    @Override public String toString() {
-        return MoreObjects.toStringHelper(this).toString();
-    }
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).toString();
+  }
 }

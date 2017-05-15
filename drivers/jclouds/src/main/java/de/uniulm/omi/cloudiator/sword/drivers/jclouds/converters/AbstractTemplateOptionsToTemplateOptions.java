@@ -19,9 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import javax.annotation.Nullable;
 
 /**
@@ -30,12 +29,13 @@ import javax.annotation.Nullable;
 public abstract class AbstractTemplateOptionsToTemplateOptions
     implements OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions> {
 
-    @Nullable @Override
-    public org.jclouds.compute.options.TemplateOptions apply(TemplateOptions templateOptions) {
-        //todo implement conversion of generic options
-        return convert(templateOptions);
-    }
+  @Nullable
+  @Override
+  public org.jclouds.compute.options.TemplateOptions apply(TemplateOptions templateOptions) {
+    //todo implement conversion of generic options
+    return convert(templateOptions);
+  }
 
-    protected abstract org.jclouds.compute.options.TemplateOptions convert(
-        TemplateOptions templateOptions);
+  protected abstract org.jclouds.compute.options.TemplateOptions convert(
+      TemplateOptions templateOptions);
 }

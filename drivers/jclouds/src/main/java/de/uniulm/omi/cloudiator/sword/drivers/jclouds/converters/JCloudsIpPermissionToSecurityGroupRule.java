@@ -18,14 +18,14 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import static com.google.common.base.Preconditions.checkState;
+
+import de.uniulm.omi.cloudiator.sword.domain.CidrImpl;
 import de.uniulm.omi.cloudiator.sword.domain.IpProtocol;
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
-import de.uniulm.omi.cloudiator.sword.domain.CidrImpl;
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRuleBuilder;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.jclouds.net.domain.IpPermission;
-
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by daniel on 01.07.16.
@@ -33,46 +33,48 @@ import static com.google.common.base.Preconditions.checkState;
 public class JCloudsIpPermissionToSecurityGroupRule
     implements OneWayConverter<IpPermission, SecurityGroupRule> {
 
-    private final OneWayConverter<org.jclouds.net.domain.IpProtocol, IpProtocol>
-        ipProtocolConverter;
+  private final OneWayConverter<org.jclouds.net.domain.IpProtocol, IpProtocol>
+      ipProtocolConverter;
 
-    public JCloudsIpPermissionToSecurityGroupRule() {
-        ipProtocolConverter = new JCloudsIpProtocolToIpProtocol();
+  public JCloudsIpPermissionToSecurityGroupRule() {
+    ipProtocolConverter = new JCloudsIpProtocolToIpProtocol();
+  }
+
+  @Override
+  public SecurityGroupRule apply(IpPermission ipPermission) {
+
+    SecurityGroupRuleBuilder securityGroupRuleBuilder = SecurityGroupRuleBuilder.newBuilder()
+        .ipProtocol(ipProtocolConverter.apply(ipPermission.getIpProtocol()))
+        .fromPort(ipPermission.getFromPort()).toPort(ipPermission.getToPort());
+
+    //todo: we only want to support cidr, can we ensure this?
+    checkState(ipPermission.getCidrBlocks().size() == 1);
+    securityGroupRuleBuilder.cidr(CidrImpl.of(ipPermission.getCidrBlocks().iterator().next()));
+    checkState(ipPermission.getExclusionCidrBlocks().size() == 0);
+
+    return securityGroupRuleBuilder.build();
+  }
+
+  private static class JCloudsIpProtocolToIpProtocol
+      implements OneWayConverter<org.jclouds.net.domain.IpProtocol, IpProtocol> {
+
+    @Override
+    public IpProtocol apply(org.jclouds.net.domain.IpProtocol ipProtocol) {
+      switch (ipProtocol) {
+        case TCP:
+          return IpProtocol.TCP;
+        case ICMP:
+          return IpProtocol.ICMP;
+        case UDP:
+          return IpProtocol.UDP;
+        case ALL:
+          return IpProtocol.ALL;
+        case UNRECOGNIZED:
+          throw new IllegalStateException("ip protocol is unrecognized.");
+        default:
+          throw new AssertionError(String.format("unknown ip protocol %s", ipProtocol));
+      }
     }
-
-    @Override public SecurityGroupRule apply(IpPermission ipPermission) {
-
-        SecurityGroupRuleBuilder securityGroupRuleBuilder = SecurityGroupRuleBuilder.newBuilder()
-            .ipProtocol(ipProtocolConverter.apply(ipPermission.getIpProtocol()))
-            .fromPort(ipPermission.getFromPort()).toPort(ipPermission.getToPort());
-
-        //todo: we only want to support cidr, can we ensure this?
-        checkState(ipPermission.getCidrBlocks().size() == 1);
-        securityGroupRuleBuilder.cidr(CidrImpl.of(ipPermission.getCidrBlocks().iterator().next()));
-        checkState(ipPermission.getExclusionCidrBlocks().size() == 0);
-
-        return securityGroupRuleBuilder.build();
-    }
-
-    private static class JCloudsIpProtocolToIpProtocol
-        implements OneWayConverter<org.jclouds.net.domain.IpProtocol, IpProtocol> {
-
-        @Override public IpProtocol apply(org.jclouds.net.domain.IpProtocol ipProtocol) {
-            switch (ipProtocol) {
-                case TCP:
-                    return IpProtocol.TCP;
-                case ICMP:
-                    return IpProtocol.ICMP;
-                case UDP:
-                    return IpProtocol.UDP;
-                case ALL:
-                    return IpProtocol.ALL;
-                case UNRECOGNIZED:
-                    throw new IllegalStateException("ip protocol is unrecognized.");
-                default:
-                    throw new AssertionError(String.format("unknown ip protocol %s", ipProtocol));
-            }
-        }
-    }
+  }
 
 }

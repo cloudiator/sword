@@ -23,21 +23,22 @@ import com.google.inject.Module;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.logging.LoggerFactory;
-import org.jclouds.ssh.jsch.config.JschSshClientModule;
-
 import java.util.Collection;
 import java.util.Collections;
+import org.jclouds.ssh.jsch.config.JschSshClientModule;
 
 /**
  * Created by daniel on 26.04.16.
  */
 public class GoogleJCloudsViewFactory extends BaseJCloudsViewFactory {
 
-    @Inject public GoogleJCloudsViewFactory(Cloud cloud, LoggerFactory loggerFactory) {
-        super(cloud, loggerFactory);
-    }
+  @Inject
+  public GoogleJCloudsViewFactory(Cloud cloud, LoggerFactory loggerFactory) {
+    super(cloud, loggerFactory);
+  }
 
-    @Override protected Collection<Module> overrideModules() {
-        return Collections.singleton(new JschSshClientModule());
-    }
+  @Override
+  protected Collection<Module> overrideModules() {
+    return Collections.singleton(new JschSshClientModule());
+  }
 }

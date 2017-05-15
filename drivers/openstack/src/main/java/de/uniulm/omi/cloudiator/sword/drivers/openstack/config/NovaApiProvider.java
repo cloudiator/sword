@@ -28,13 +28,15 @@ import org.jclouds.openstack.nova.v2_0.NovaApi;
  */
 public class NovaApiProvider implements Provider<NovaApi> {
 
-    private final ComputeServiceContext computeServiceContext;
+  private final ComputeServiceContext computeServiceContext;
 
-    @Inject public NovaApiProvider(ComputeServiceContext computeServiceContext) {
-        this.computeServiceContext = computeServiceContext;
-    }
+  @Inject
+  public NovaApiProvider(ComputeServiceContext computeServiceContext) {
+    this.computeServiceContext = computeServiceContext;
+  }
 
-    @Override public NovaApi get() {
-        return computeServiceContext.unwrapApi(NovaApi.class);
-    }
+  @Override
+  public NovaApi get() {
+    return computeServiceContext.unwrapApi(NovaApi.class);
+  }
 }

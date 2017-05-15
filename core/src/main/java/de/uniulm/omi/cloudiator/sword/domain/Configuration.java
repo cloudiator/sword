@@ -23,8 +23,8 @@ package de.uniulm.omi.cloudiator.sword.domain;
  */
 public interface Configuration {
 
-    String nodeGroup();
+  String nodeGroup();
 
-    Properties properties();
+  Properties properties();
 
 }

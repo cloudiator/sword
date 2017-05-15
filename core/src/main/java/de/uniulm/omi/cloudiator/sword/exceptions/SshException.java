@@ -24,11 +24,11 @@ package de.uniulm.omi.cloudiator.sword.exceptions;
  */
 public class SshException extends RuntimeException {
 
-    public SshException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public SshException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public SshException(Throwable cause) {
-        super(cause);
-    }
+  public SshException(Throwable cause) {
+    super(cause);
+  }
 }

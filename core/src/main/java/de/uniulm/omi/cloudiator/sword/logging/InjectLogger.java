@@ -18,16 +18,19 @@
 
 package de.uniulm.omi.cloudiator.sword.logging;
 
-import com.google.inject.BindingAnnotation;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import com.google.inject.BindingAnnotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
 /**
  * Binding annotation for the injection of a logger.
  */
-@BindingAnnotation @Target({FIELD}) @Retention(RUNTIME) public @interface InjectLogger {
+@BindingAnnotation
+@Target({FIELD})
+@Retention(RUNTIME)
+public @interface InjectLogger {
+
 }

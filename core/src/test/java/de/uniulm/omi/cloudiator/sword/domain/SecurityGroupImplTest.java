@@ -18,43 +18,43 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
+import org.junit.Test;
 
 /**
  * Created by daniel on 17.01.17.
  */
 public class SecurityGroupImplTest {
 
-    @Test(expected = NullPointerException.class)
-    public void nullSecurityGroupRulesThrowsNullPointerException() {
-        new SecurityGroupImpl("id", "providerId", "name", null, null);
-    }
+  @Test(expected = NullPointerException.class)
+  public void nullSecurityGroupRulesThrowsNullPointerException() {
+    new SecurityGroupImpl("id", "providerId", "name", null, null);
+  }
 
-    @Test public void rulesTest() {
-        final SecurityGroupRule all =
-            SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.ALL).fromPort(0).toPort(5)
-                .ipProtocol(IpProtocol.ALL).build();
-        final SecurityGroupRule tcp =
-            SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.ALL).fromPort(20).toPort(100)
-                .ipProtocol(IpProtocol.TCP).build();
+  @Test
+  public void rulesTest() {
+    final SecurityGroupRule all =
+        SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.ALL).fromPort(0).toPort(5)
+            .ipProtocol(IpProtocol.ALL).build();
+    final SecurityGroupRule tcp =
+        SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.ALL).fromPort(20).toPort(100)
+            .ipProtocol(IpProtocol.TCP).build();
 
-        final SecurityGroup securityGroup =
-            SecurityGroupBuilder.newBuilder().id("432794732").location(null)
-                .providerId("providerId").name("name").addSecurityGroupRule(SecurityGroupRules.ALL)
-                .addSecurityGroupRules(new HashSet<SecurityGroupRule>() {{
-                    add(all);
-                    add(tcp);
-                }}).build();
+    final SecurityGroup securityGroup =
+        SecurityGroupBuilder.newBuilder().id("432794732").location(null)
+            .providerId("providerId").name("name").addSecurityGroupRule(SecurityGroupRules.ALL)
+            .addSecurityGroupRules(new HashSet<SecurityGroupRule>() {{
+              add(all);
+              add(tcp);
+            }}).build();
 
-        final Set<SecurityGroupRule> rules = securityGroup.rules();
-        assertThat(rules, hasItem(SecurityGroupRules.ALL));
-        assertThat(rules, hasItem(all));
-        assertThat(rules, hasItem(tcp));
-    }
+    final Set<SecurityGroupRule> rules = securityGroup.rules();
+    assertThat(rules, hasItem(SecurityGroupRules.ALL));
+    assertThat(rules, hasItem(all));
+    assertThat(rules, hasItem(tcp));
+  }
 }

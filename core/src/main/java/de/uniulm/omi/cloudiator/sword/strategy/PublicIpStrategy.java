@@ -23,24 +23,24 @@ package de.uniulm.omi.cloudiator.sword.strategy;
  */
 public interface PublicIpStrategy {
 
-    /**
-     * Assigns a public ip to a virtual machine.
-     *
-     * @param virtualMachineId the unique identifier for the virtual machine.
-     * @return the assigned public ip.
-     * @throws NullPointerException     if the id is null
-     * @throws IllegalArgumentException if the id is empty.
-     */
-    String assignPublicIpToVirtualMachine(String virtualMachineId);
+  /**
+   * Assigns a public ip to a virtual machine.
+   *
+   * @param virtualMachineId the unique identifier for the virtual machine.
+   * @return the assigned public ip.
+   * @throws NullPointerException if the id is null
+   * @throws IllegalArgumentException if the id is empty.
+   */
+  String assignPublicIpToVirtualMachine(String virtualMachineId);
 
-    /**
-     * Removes a public ip from a virtual machine.
-     *
-     * @param virtualMachineId the unique identifier for the virtual machine.
-     * @param address          the address to remove.
-     * @throws NullPointerException     if any of the argument is null.
-     * @throws IllegalArgumentException if any of the string arguments is empty.
-     */
-    void removePublicIpFromVirtualMachine(String virtualMachineId, String address);
+  /**
+   * Removes a public ip from a virtual machine.
+   *
+   * @param virtualMachineId the unique identifier for the virtual machine.
+   * @param address the address to remove.
+   * @throws NullPointerException if any of the argument is null.
+   * @throws IllegalArgumentException if any of the string arguments is empty.
+   */
+  void removePublicIpFromVirtualMachine(String virtualMachineId, String address);
 
 }

@@ -20,43 +20,44 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.converters;
 
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
-import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.domain.LoginCredentialBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineBuilder;
+import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 
 /**
  * Created by daniel on 10.12.14.
  */
 public class FlexiantServerToVirtualMachine implements OneWayConverter<Server, VirtualMachine> {
 
-    private final GetStrategy<String, Location> locationGetStrategy;
+  private final GetStrategy<String, Location> locationGetStrategy;
 
-    @Inject
-    public FlexiantServerToVirtualMachine(GetStrategy<String, Location> locationGetStrategy) {
-        this.locationGetStrategy = locationGetStrategy;
+  @Inject
+  public FlexiantServerToVirtualMachine(GetStrategy<String, Location> locationGetStrategy) {
+    this.locationGetStrategy = locationGetStrategy;
+  }
+
+  @Override
+  public VirtualMachine apply(final Server server) {
+
+    final VirtualMachineBuilder virtualMachineBuilder = VirtualMachineBuilder.newBuilder();
+    virtualMachineBuilder.id(server.getLocationUUID() + "/" + server.getId())
+        .providerId(server.getId()).name(server.getName());
+    if (server.getPublicIpAddress() != null) {
+      virtualMachineBuilder.addPublicIpAddress(server.getPublicIpAddress());
     }
-
-    @Override public VirtualMachine apply(final Server server) {
-
-        final VirtualMachineBuilder virtualMachineBuilder = VirtualMachineBuilder.newBuilder();
-        virtualMachineBuilder.id(server.getLocationUUID() + "/" + server.getId())
-            .providerId(server.getId()).name(server.getName());
-        if (server.getPublicIpAddress() != null) {
-            virtualMachineBuilder.addPublicIpAddress(server.getPublicIpAddress());
-        }
-        if (server.getPrivateIpAddress() != null) {
-            virtualMachineBuilder.addPrivateIpAddress(server.getPrivateIpAddress());
-        }
-        if (server.getInitialPassword() != null && server.getInitialUser() != null) {
-            virtualMachineBuilder.loginCredential(
-                LoginCredentialBuilder.newBuilder().username(server.getInitialUser())
-                    .password(server.getInitialPassword()).build());
-        }
-        virtualMachineBuilder.location(locationGetStrategy.get(server.getLocationUUID()));
-        return virtualMachineBuilder.build();
+    if (server.getPrivateIpAddress() != null) {
+      virtualMachineBuilder.addPrivateIpAddress(server.getPrivateIpAddress());
     }
+    if (server.getInitialPassword() != null && server.getInitialUser() != null) {
+      virtualMachineBuilder.loginCredential(
+          LoginCredentialBuilder.newBuilder().username(server.getInitialUser())
+              .password(server.getInitialPassword()).build());
+    }
+    virtualMachineBuilder.location(locationGetStrategy.get(server.getLocationUUID()));
+    return virtualMachineBuilder.build();
+  }
 }

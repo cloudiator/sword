@@ -20,7 +20,6 @@ package de.uniulm.omi.cloudiator.sword.domain;
 
 import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.domain.Named;
-
 import java.util.Optional;
 
 /**
@@ -29,31 +28,31 @@ import java.util.Optional;
  */
 public interface Location extends ProviderIdentifiable, Named {
 
-    /**
-     * The scope of the location, e.g. REGION or ZONE.
-     */
-    LocationScope locationScope();
+  /**
+   * The scope of the location, e.g. REGION or ZONE.
+   */
+  LocationScope locationScope();
 
-    /**
-     * A location is assignable, if it can be used
-     * for starting virtual machines at the provider.
-     *
-     * @return true if assignable, no if not.
-     */
-    boolean isAssignable();
+  /**
+   * A location is assignable, if it can be used
+   * for starting virtual machines at the provider.
+   *
+   * @return true if assignable, no if not.
+   */
+  boolean isAssignable();
 
-    /**
-     * The {@link Optional} parent location, e.g. availability zone - region.
-     * Is absent of top level.
-     *
-     * @return the parent location, absent of top level.
-     */
-    Optional<Location> parent();
+  /**
+   * The {@link Optional} parent location, e.g. availability zone - region.
+   * Is absent of top level.
+   *
+   * @return the parent location, absent of top level.
+   */
+  Optional<Location> parent();
 
-    /**
-     * The {@link Optional} geographical location.
-     *
-     * @return the geographical location or absent
-     */
-    Optional<GeoLocation> geoLocation();
+  /**
+   * The {@link Optional} geographical location.
+   *
+   * @return the geographical location or absent
+   */
+  Optional<GeoLocation> geoLocation();
 }

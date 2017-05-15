@@ -27,4 +27,5 @@ import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
  */
 public interface CreateVirtualMachineStrategy
     extends Function<VirtualMachineTemplate, VirtualMachine> {
+
 }

@@ -25,16 +25,18 @@ import java.util.function.Function;
  */
 public class ProviderToCloudHarmony implements Function<String, String> {
 
-    @Override public String apply(String swordProviderName) {
+  @Override
+  public String apply(String swordProviderName) {
 
-        switch (swordProviderName) {
-            case "aws-ec2":
-                return "aws:ec2";
-            case "google-compute-engine":
-                return "google:compute";
-            default:
-                throw new UnsupportedOperationException(String.format("%s is not supported by CloudHarmony",swordProviderName));
+    switch (swordProviderName) {
+      case "aws-ec2":
+        return "aws:ec2";
+      case "google-compute-engine":
+        return "google:compute";
+      default:
+        throw new UnsupportedOperationException(
+            String.format("%s is not supported by CloudHarmony", swordProviderName));
 
-        }
     }
+  }
 }

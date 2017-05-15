@@ -18,35 +18,37 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import javax.annotation.Nullable;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 /**
  * Created by daniel on 19.01.15.
  */
 public interface Properties {
 
-    /**
-     * Returns the property identified by the key. If the property does not exist
-     * null is returned.
-     *
-     * @param key the identifier
-     * @return the value stored at the key or null
-     * @throws NullPointerException if key is null.
-     */
-    @Nullable String getProperty(String key);
+  /**
+   * Returns the property identified by the key. If the property does not exist
+   * null is returned.
+   *
+   * @param key the identifier
+   * @return the value stored at the key or null
+   * @throws NullPointerException if key is null.
+   */
+  @Nullable
+  String getProperty(String key);
 
-    /**
-     * Returns the property identified by the key. If the property does not exisit
-     * the value given as default value is returned.
-     *
-     * @param key          the identifier
-     * @param defaultValue default value to return
-     * @return value stored or defaultValue
-     * @throws NullPointerException if key is null.
-     */
-    @Nullable String getProperty(String key, String defaultValue);
+  /**
+   * Returns the property identified by the key. If the property does not exisit
+   * the value given as default value is returned.
+   *
+   * @param key the identifier
+   * @param defaultValue default value to return
+   * @return value stored or defaultValue
+   * @throws NullPointerException if key is null.
+   */
+  @Nullable
+  String getProperty(String key, String defaultValue);
 
-    Map<String, String> getProperties();
+  Map<String, String> getProperties();
 
 }

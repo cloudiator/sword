@@ -24,14 +24,14 @@ package de.uniulm.omi.cloudiator.sword.domain;
 public interface SecurityGroupRule {
 
 
-    IpProtocol ipProtocol();
+  IpProtocol ipProtocol();
 
 
-    int fromPort();
+  int fromPort();
 
 
-    int toPort();
+  int toPort();
 
 
-    Cidr cidr();
+  Cidr cidr();
 }

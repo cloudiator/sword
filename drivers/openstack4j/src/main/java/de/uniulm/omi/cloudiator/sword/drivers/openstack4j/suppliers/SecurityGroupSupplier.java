@@ -18,65 +18,66 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroup;
-import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.SecurityGroupInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
-import org.openstack4j.api.OSClient;
-import org.openstack4j.model.compute.SecGroupExtension;
-import org.openstack4j.openstack.compute.domain.NovaSecGroupExtension;
-
+import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.openstack4j.api.OSClient;
+import org.openstack4j.model.compute.SecGroupExtension;
+import org.openstack4j.openstack.compute.domain.NovaSecGroupExtension;
 
 /**
  * Created by daniel on 30.11.16.
  */
 public class SecurityGroupSupplier implements Supplier<Set<SecurityGroup>> {
 
-    private final OSClient osClient;
-    private final RegionSupplier regionSupplier;
-    private final OneWayConverter<SecurityGroupInRegion, SecurityGroup> converter;
-    private final NamingStrategy namingStrategy;
+  private final OSClient osClient;
+  private final RegionSupplier regionSupplier;
+  private final OneWayConverter<SecurityGroupInRegion, SecurityGroup> converter;
+  private final NamingStrategy namingStrategy;
 
-    @Inject public SecurityGroupSupplier(OSClient osClient, RegionSupplier regionSupplier,
-        OneWayConverter<SecurityGroupInRegion, SecurityGroup> converter,
-        NamingStrategy namingStrategy) {
+  @Inject
+  public SecurityGroupSupplier(OSClient osClient, RegionSupplier regionSupplier,
+      OneWayConverter<SecurityGroupInRegion, SecurityGroup> converter,
+      NamingStrategy namingStrategy) {
 
-        checkNotNull(osClient, "osClient is null");
-        checkNotNull(regionSupplier, "regionSupplier is null");
-        checkNotNull(converter, "converter is null");
-        checkNotNull(namingStrategy, "namingStrategy is null");
+    checkNotNull(osClient, "osClient is null");
+    checkNotNull(regionSupplier, "regionSupplier is null");
+    checkNotNull(converter, "converter is null");
+    checkNotNull(namingStrategy, "namingStrategy is null");
 
-        this.osClient = osClient;
-        this.regionSupplier = regionSupplier;
-        this.converter = converter;
-        this.namingStrategy = namingStrategy;
+    this.osClient = osClient;
+    this.regionSupplier = regionSupplier;
+    this.converter = converter;
+    this.namingStrategy = namingStrategy;
+  }
+
+  @Override
+  public Set<SecurityGroup> get() {
+
+    Set<SecurityGroupInRegion> securityGroups = new HashSet<>();
+    for (Location location : regionSupplier.get()) {
+      Set<NovaSecGroupExtension.Rule> rules = new HashSet<>();
+      osClient.useRegion(location.id()).compute().securityGroups().list().stream().filter(
+          (Predicate<SecGroupExtension>) secGroupExtension -> namingStrategy.belongsToNamingGroup()
+              .test(secGroupExtension.getName()))
+          .forEach((Consumer<SecGroupExtension>) secGroupExtension -> {
+            rules.addAll(secGroupExtension.getRules());
+            securityGroups
+                .add(new SecurityGroupInRegion(secGroupExtension, location, rules));
+          });
     }
-
-    @Override public Set<SecurityGroup> get() {
-
-        Set<SecurityGroupInRegion> securityGroups = new HashSet<>();
-        for (Location location : regionSupplier.get()) {
-            Set<NovaSecGroupExtension.Rule> rules = new HashSet<>();
-            osClient.useRegion(location.id()).compute().securityGroups().list().stream().filter(
-                (Predicate<SecGroupExtension>) secGroupExtension -> namingStrategy.belongsToNamingGroup()
-                    .test(secGroupExtension.getName()))
-                .forEach((Consumer<SecGroupExtension>) secGroupExtension -> {
-                    rules.addAll(secGroupExtension.getRules());
-                    securityGroups
-                        .add(new SecurityGroupInRegion(secGroupExtension, location, rules));
-                });
-        }
-        return securityGroups.stream().map(converter).collect(Collectors.toSet());
-    }
+    return securityGroups.stream().map(converter).collect(Collectors.toSet());
+  }
 }

@@ -18,56 +18,62 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import javax.annotation.Nullable;
-import java.util.Optional;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.Optional;
+import javax.annotation.Nullable;
 
 /**
  * Basic implementation of the {@link KeyPair} interface.
  */
 public class KeyPairImpl extends ResourceImpl implements KeyPair {
 
-    private final String id;
-    private final String name;
-    private final String publicKey;
-    @Nullable private final String privateKey;
+  private final String id;
+  private final String name;
+  private final String publicKey;
+  @Nullable
+  private final String privateKey;
 
-    KeyPairImpl(String id, String providerId, String name, @Nullable Location location,
-        String publicKey, @Nullable String privateKey) {
-        super(id, providerId, name, location);
+  KeyPairImpl(String id, String providerId, String name, @Nullable Location location,
+      String publicKey, @Nullable String privateKey) {
+    super(id, providerId, name, location);
 
-        checkNotNull(publicKey, "Public Key must not be null.");
-        checkArgument(!publicKey.isEmpty(), "Public key must not be empty.");
+    checkNotNull(publicKey, "Public Key must not be null.");
+    checkArgument(!publicKey.isEmpty(), "Public key must not be empty.");
 
-        if (privateKey != null) {
-            checkArgument(!privateKey.isEmpty(), "Private key must not be empty.");
-        }
-
-        this.id = id;
-        this.name = name;
-        this.publicKey = publicKey;
-        this.privateKey = privateKey;
+    if (privateKey != null) {
+      checkArgument(!privateKey.isEmpty(), "Private key must not be empty.");
     }
 
-    @Override public String id() {
-        return id;
-    }
+    this.id = id;
+    this.name = name;
+    this.publicKey = publicKey;
+    this.privateKey = privateKey;
+  }
 
-    @Override public String providerId() {
-        return id();
-    }
+  @Override
+  public String id() {
+    return id;
+  }
 
-    @Override public String name() {
-        return name;
-    }
+  @Override
+  public String providerId() {
+    return id();
+  }
 
-    @Override public String publicKey() {
-        return publicKey;
-    }
+  @Override
+  public String name() {
+    return name;
+  }
 
-    @Override public Optional<String> privateKey() {
-        return Optional.ofNullable(privateKey);
-    }
+  @Override
+  public String publicKey() {
+    return publicKey;
+  }
+
+  @Override
+  public Optional<String> privateKey() {
+    return Optional.ofNullable(privateKey);
+  }
 }

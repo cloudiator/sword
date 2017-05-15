@@ -23,8 +23,8 @@ package de.uniulm.omi.cloudiator.sword.logging;
  */
 public class NullLoggingModule extends AbstractLoggingModule {
 
-    @Override
-    protected LoggerFactory getLoggerFactory() {
-        return new NullLogger.NullLoggerFactory();
-    }
+  @Override
+  protected LoggerFactory getLoggerFactory() {
+    return new NullLogger.NullLoggerFactory();
+  }
 }

@@ -23,34 +23,36 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.EC2Constants;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
+import java.nio.charset.Charset;
 import org.jclouds.aws.ec2.compute.AWSEC2TemplateOptions;
 import org.jclouds.compute.options.TemplateOptions;
-
-import java.nio.charset.Charset;
 
 /**
  * Created by daniel on 28.10.15.
  */
 public class TemplateOptionsToEc2TemplateOptions extends AbstractTemplateOptionsToTemplateOptions {
 
-    @Inject(optional = true) @Named(EC2Constants.PROPERTY_EC2_DEFAULT_VPC) private String
-        defaultVpc = null;
+  @Inject(optional = true)
+  @Named(EC2Constants.PROPERTY_EC2_DEFAULT_VPC)
+  private String
+      defaultVpc = null;
 
-    @Override protected TemplateOptions convert(
-        de.uniulm.omi.cloudiator.sword.domain.TemplateOptions templateOptions) {
-        AWSEC2TemplateOptions ec2TemplateOptions = new AWSEC2TemplateOptions();
-        final String keyPairName = templateOptions.keyPairName();
-        if (keyPairName != null) {
-            ec2TemplateOptions.authorizePublicKey(keyPairName);
-        }
-        ec2TemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
-        if (defaultVpc != null) {
-            ec2TemplateOptions.subnetId(defaultVpc);
-        }
-        if (templateOptions.userData() != null) {
-            ec2TemplateOptions
-                .userData(templateOptions.userData().getBytes(Charset.forName("UTF-8")));
-        }
-        return ec2TemplateOptions;
+  @Override
+  protected TemplateOptions convert(
+      de.uniulm.omi.cloudiator.sword.domain.TemplateOptions templateOptions) {
+    AWSEC2TemplateOptions ec2TemplateOptions = new AWSEC2TemplateOptions();
+    final String keyPairName = templateOptions.keyPairName();
+    if (keyPairName != null) {
+      ec2TemplateOptions.authorizePublicKey(keyPairName);
     }
+    ec2TemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
+    if (defaultVpc != null) {
+      ec2TemplateOptions.subnetId(defaultVpc);
+    }
+    if (templateOptions.userData() != null) {
+      ec2TemplateOptions
+          .userData(templateOptions.userData().getBytes(Charset.forName("UTF-8")));
+    }
+    return ec2TemplateOptions;
+  }
 }

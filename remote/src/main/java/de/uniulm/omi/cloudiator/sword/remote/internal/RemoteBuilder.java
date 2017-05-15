@@ -18,64 +18,65 @@
 
 package de.uniulm.omi.cloudiator.sword.remote.internal;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.name.Names;
-import de.uniulm.omi.cloudiator.sword.domain.Properties;
-import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
-import de.uniulm.omi.cloudiator.sword.service.ConnectionService;
 import de.uniulm.omi.cloudiator.sword.base.BaseConnectionService;
+import de.uniulm.omi.cloudiator.sword.domain.Properties;
 import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
 import de.uniulm.omi.cloudiator.sword.logging.NullLoggingModule;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
+import de.uniulm.omi.cloudiator.sword.service.ConnectionService;
 
 /**
  * Created by daniel on 02.09.15.
  */
 public class RemoteBuilder {
 
-    private AbstractLoggingModule loggingModule;
-    private AbstractRemoteModule remoteModule;
-    private Properties properties;
+  private AbstractLoggingModule loggingModule;
+  private AbstractRemoteModule remoteModule;
+  private Properties properties;
 
-    private RemoteBuilder() {
+  private RemoteBuilder() {
+  }
+
+  public static RemoteBuilder newBuilder() {
+    return new RemoteBuilder();
+  }
+
+  public RemoteBuilder loggingModule(AbstractLoggingModule loggingModule) {
+    this.loggingModule = loggingModule;
+    return this;
+  }
+
+  public RemoteBuilder remoteModule(AbstractRemoteModule abstractRemoteModule) {
+    this.remoteModule = abstractRemoteModule;
+    return this;
+  }
+
+  public RemoteBuilder properties(Properties properties) {
+    this.properties = properties;
+    return this;
+  }
+
+  public ConnectionService build() {
+
+    if (loggingModule == null) {
+      loggingModule = new NullLoggingModule();
     }
+    checkNotNull(remoteModule, "No remote module set.");
 
-    public static RemoteBuilder newBuilder() {
-        return new RemoteBuilder();
-    }
-
-    public RemoteBuilder loggingModule(AbstractLoggingModule loggingModule) {
-        this.loggingModule = loggingModule;
-        return this;
-    }
-
-    public RemoteBuilder remoteModule(AbstractRemoteModule abstractRemoteModule) {
-        this.remoteModule = abstractRemoteModule;
-        return this;
-    }
-
-    public RemoteBuilder properties(Properties properties) {
-        this.properties = properties;
-        return this;
-    }
-
-    public ConnectionService build() {
-
-        if (loggingModule == null) {
-            loggingModule = new NullLoggingModule();
+    return Guice.createInjector(loggingModule, remoteModule, new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(ConnectionService.class).to(BaseConnectionService.class);
+        if (properties != null) {
+          Names.bindProperties(binder(), properties.getProperties());
         }
-        checkNotNull(remoteModule, "No remote module set.");
-
-        return Guice.createInjector(loggingModule, remoteModule, new AbstractModule() {
-            @Override protected void configure() {
-                bind(ConnectionService.class).to(BaseConnectionService.class);
-                if (properties != null) {
-                    Names.bindProperties(binder(), properties.getProperties());
-                }
-            }
-        }).getInstance(ConnectionService.class);
-    }
+      }
+    }).getInstance(ConnectionService.class);
+  }
 
 }

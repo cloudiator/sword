@@ -18,15 +18,15 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import de.uniulm.omi.cloudiator.sword.domain.CidrImpl;
 import de.uniulm.omi.cloudiator.sword.domain.IpProtocol;
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
-import de.uniulm.omi.cloudiator.sword.domain.CidrImpl;
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRuleBuilder;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.openstack4j.model.compute.IPProtocol;
 import org.openstack4j.model.compute.SecGroupExtension;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 30.11.16.
@@ -34,31 +34,33 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class RuleToSecurityGroupRuleConverter
     implements OneWayConverter<SecGroupExtension.Rule, SecurityGroupRule> {
 
-    private final OneWayConverter<IPProtocol, IpProtocol> ipProtocolConverter =
-        new IpProtocolConverter();
+  private final OneWayConverter<IPProtocol, IpProtocol> ipProtocolConverter =
+      new IpProtocolConverter();
 
-    @Override public SecurityGroupRule apply(SecGroupExtension.Rule rule) {
-        return SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.of(rule.getRange().getCidr()))
-            .ipProtocol(ipProtocolConverter.apply(rule.getIPProtocol()))
-            .fromPort(rule.getFromPort()).toPort(rule.getToPort()).build();
+  @Override
+  public SecurityGroupRule apply(SecGroupExtension.Rule rule) {
+    return SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.of(rule.getRange().getCidr()))
+        .ipProtocol(ipProtocolConverter.apply(rule.getIPProtocol()))
+        .fromPort(rule.getFromPort()).toPort(rule.getToPort()).build();
+  }
+
+  private static final class IpProtocolConverter
+      implements OneWayConverter<IPProtocol, IpProtocol> {
+
+    @Override
+    public IpProtocol apply(IPProtocol ipProtocol) {
+      checkNotNull(ipProtocol, "ipProtocol is null.");
+      switch (ipProtocol) {
+        case ICMP:
+          return IpProtocol.ICMP;
+        case TCP:
+          return IpProtocol.TCP;
+        case UDP:
+          return IpProtocol.UDP;
+        default:
+          throw new IllegalStateException(ipProtocol + "is unknown.");
+      }
     }
-
-    private static final class IpProtocolConverter
-        implements OneWayConverter<IPProtocol, IpProtocol> {
-
-        @Override public IpProtocol apply(IPProtocol ipProtocol) {
-            checkNotNull(ipProtocol, "ipProtocol is null.");
-            switch (ipProtocol) {
-                case ICMP:
-                    return IpProtocol.ICMP;
-                case TCP:
-                    return IpProtocol.TCP;
-                case UDP:
-                    return IpProtocol.UDP;
-                default:
-                    throw new IllegalStateException(ipProtocol + "is unknown.");
-            }
-        }
-    }
+  }
 
 }

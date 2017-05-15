@@ -18,43 +18,44 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import org.junit.Test;
-
-import java.util.HashSet;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashSet;
+import org.junit.Test;
+
 /**
  * Created by daniel on 18.01.17.
  */
 public class ApiModelImplTest {
 
-    @Test public void testProviderName() {
-        final Api api = ApiBuilder.newBuilder().providerName("providerName").build();
-        assertThat(api.providerName(), is(equalTo("providerName")));
-    }
+  @Test
+  public void testProviderName() {
+    final Api api = ApiBuilder.newBuilder().providerName("providerName").build();
+    assertThat(api.providerName(), is(equalTo("providerName")));
+  }
 
-    @Test(expected = NullPointerException.class)
-    public void testNullProviderNameCausesNullPointerException() {
-        ApiBuilder.newBuilder().providerName(null).build();
-    }
+  @Test(expected = NullPointerException.class)
+  public void testNullProviderNameCausesNullPointerException() {
+    ApiBuilder.newBuilder().providerName(null).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testEmptyProviderNameCausesIllegalArgumentException() {
-        ApiBuilder.newBuilder().providerName("").build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void testEmptyProviderNameCausesIllegalArgumentException() {
+    ApiBuilder.newBuilder().providerName("").build();
+  }
 
-    @Test public void testEquals() {
-        assertTrue(ApiBuilder.newBuilder().providerName("providerName").build()
-            .equals(ApiBuilder.newBuilder().providerName("providerName").build()));
-        assertFalse(ApiBuilder.newBuilder().providerName("providerName").build()
-            .equals(ApiBuilder.newBuilder().providerName("hello World!").build()));
-        assertFalse(
-            ApiBuilder.newBuilder().providerName("providerName").build().equals(new HashSet<>()));
-    }
+  @Test
+  public void testEquals() {
+    assertTrue(ApiBuilder.newBuilder().providerName("providerName").build()
+        .equals(ApiBuilder.newBuilder().providerName("providerName").build()));
+    assertFalse(ApiBuilder.newBuilder().providerName("providerName").build()
+        .equals(ApiBuilder.newBuilder().providerName("hello World!").build()));
+    assertFalse(
+        ApiBuilder.newBuilder().providerName("providerName").build().equals(new HashSet<>()));
+  }
 
 }

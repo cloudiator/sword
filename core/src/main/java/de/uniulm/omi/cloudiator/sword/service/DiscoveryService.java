@@ -22,7 +22,6 @@ import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
-
 import javax.annotation.Nullable;
 
 /**
@@ -33,71 +32,75 @@ import javax.annotation.Nullable;
  */
 public interface DiscoveryService {
 
-    /**
-     * Retrieves the hardware flavor with the specified id.
-     *
-     * @param id mandatory id for the hardware flavor.
-     * @return the hardware flavor or null if not found.
-     * @throws NullPointerException     if the id is null.
-     * @throws IllegalArgumentException if the id is empty.
-     */
-    @Nullable HardwareFlavor getHardwareFlavor(String id);
+  /**
+   * Retrieves the hardware flavor with the specified id.
+   *
+   * @param id mandatory id for the hardware flavor.
+   * @return the hardware flavor or null if not found.
+   * @throws NullPointerException if the id is null.
+   * @throws IllegalArgumentException if the id is empty.
+   */
+  @Nullable
+  HardwareFlavor getHardwareFlavor(String id);
 
-    /**
-     * Retrieves the image with the specified id.
-     *
-     * @param id mandatory id for the image.
-     * @return the image or null if not found.
-     * @throws NullPointerException     if the id is null.
-     * @throws IllegalArgumentException if the id is empty.
-     */
-    @Nullable Image getImage(String id);
+  /**
+   * Retrieves the image with the specified id.
+   *
+   * @param id mandatory id for the image.
+   * @return the image or null if not found.
+   * @throws NullPointerException if the id is null.
+   * @throws IllegalArgumentException if the id is empty.
+   */
+  @Nullable
+  Image getImage(String id);
 
-    /**
-     * Retrieves the location with the specified id.
-     *
-     * @param id mandatory id for the location.
-     * @return the location or null if not found.
-     * @throws NullPointerException     if the id is null.
-     * @throws IllegalArgumentException if the id is empty.
-     */
-    @Nullable Location getLocation(String id);
+  /**
+   * Retrieves the location with the specified id.
+   *
+   * @param id mandatory id for the location.
+   * @return the location or null if not found.
+   * @throws NullPointerException if the id is null.
+   * @throws IllegalArgumentException if the id is empty.
+   */
+  @Nullable
+  Location getLocation(String id);
 
-    /**
-     * Retrieves the virtual machine with the specified id.
-     *
-     * @param id mandatory id for the virtual machine.
-     * @return the virtual machine or null if not found.
-     * @throws NullPointerException     if the id is null.
-     * @throws IllegalArgumentException if the id is empty.
-     */
-    @Nullable VirtualMachine getVirtualMachine(String id);
+  /**
+   * Retrieves the virtual machine with the specified id.
+   *
+   * @param id mandatory id for the virtual machine.
+   * @return the virtual machine or null if not found.
+   * @throws NullPointerException if the id is null.
+   * @throws IllegalArgumentException if the id is empty.
+   */
+  @Nullable
+  VirtualMachine getVirtualMachine(String id);
 
-    /**
-     * Retrieves an {@link Iterable} of the hardware flavors offered by the cloud provider.
-     *
-     * @return the hardware flavors offered.
-     */
-    Iterable<HardwareFlavor> listHardwareFlavors();
+  /**
+   * Retrieves an {@link Iterable} of the hardware flavors offered by the cloud provider.
+   *
+   * @return the hardware flavors offered.
+   */
+  Iterable<HardwareFlavor> listHardwareFlavors();
 
-    /**
-     * Retrieves an {@link Iterable} of the images offered by the cloud provider.
-     *
-     * @return the images offered.
-     */
-    Iterable<Image> listImages();
+  /**
+   * Retrieves an {@link Iterable} of the images offered by the cloud provider.
+   *
+   * @return the images offered.
+   */
+  Iterable<Image> listImages();
 
-    /**
-     * Retrieves an {@link Iterable} of the locations offered by the cloud provider.
-     *
-     * @return the locations offered.
-     */
-    Iterable<Location> listLocations();
+  /**
+   * Retrieves an {@link Iterable} of the locations offered by the cloud provider.
+   *
+   * @return the locations offered.
+   */
+  Iterable<Location> listLocations();
 
-    /**
-     * Retrieves an {@link Iterable} of the virtual machines offered by the cloud provider.
-     *
-     * @return the virtual machines offered.
-     */
-    Iterable<VirtualMachine> listVirtualMachines();
+  /**
+   * Retrieves an {@link Iterable} of the virtual machines offered by the cloud provider.
+   *
+   * @return the virtual machines offered.
+   */
+  Iterable<VirtualMachine> listVirtualMachines();
 }

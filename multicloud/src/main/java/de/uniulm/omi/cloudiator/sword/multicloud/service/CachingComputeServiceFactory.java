@@ -18,55 +18,56 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.annotations.Base;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 18.01.17.
  */
 public class CachingComputeServiceFactory implements ComputeServiceFactory {
 
-    private final ComputeServiceCache computeServiceCache;
+  private final ComputeServiceCache computeServiceCache;
 
-    @Inject public CachingComputeServiceFactory(@Base ComputeServiceFactory delegate) {
-        checkNotNull(delegate, "delegate is null");
-        this.computeServiceCache = new ComputeServiceCache(delegate);
+  @Inject
+  public CachingComputeServiceFactory(@Base ComputeServiceFactory delegate) {
+    checkNotNull(delegate, "delegate is null");
+    this.computeServiceCache = new ComputeServiceCache(delegate);
+  }
+
+  @Override
+  public ComputeService computeService(Cloud cloud) {
+    return computeServiceCache.retrieve(cloud);
+  }
+
+  private static class ComputeServiceCache {
+
+    private final ComputeServiceFactory computeServiceFactory;
+
+    private Cache<Cloud, ComputeService> cache =
+        CacheBuilder.newBuilder().expireAfterAccess(10, TimeUnit.MINUTES).build();
+
+    private ComputeServiceCache(ComputeServiceFactory computeServiceFactory) {
+      checkNotNull(computeServiceFactory, "computeServiceFactory is null");
+      this.computeServiceFactory = computeServiceFactory;
     }
 
-    @Override public ComputeService computeService(Cloud cloud) {
-        return computeServiceCache.retrieve(cloud);
+    public ComputeService retrieve(Cloud cloud) {
+      try {
+        return cache.get(cloud, () -> computeServiceFactory.computeService(cloud));
+      } catch (ExecutionException e) {
+        throw new IllegalStateException("Could not initialize compute service.", e);
+      }
     }
 
-    private static class ComputeServiceCache {
-
-        private final ComputeServiceFactory computeServiceFactory;
-
-        private Cache<Cloud, ComputeService> cache =
-            CacheBuilder.newBuilder().expireAfterAccess(10, TimeUnit.MINUTES).build();
-
-        private ComputeServiceCache(ComputeServiceFactory computeServiceFactory) {
-            checkNotNull(computeServiceFactory, "computeServiceFactory is null");
-            this.computeServiceFactory = computeServiceFactory;
-        }
-
-        public ComputeService retrieve(Cloud cloud) {
-            try {
-                return cache.get(cloud, () -> computeServiceFactory.computeService(cloud));
-            } catch (ExecutionException e) {
-                throw new IllegalStateException("Could not initialize compute service.", e);
-            }
-        }
-
-    }
+  }
 
 
 }

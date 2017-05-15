@@ -18,17 +18,16 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroup;
-import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupBuilder;
-import org.jclouds.net.domain.IpPermission;
-
+import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.stream.Collectors;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.jclouds.net.domain.IpPermission;
 
 /**
  * Created by daniel on 01.07.16.
@@ -36,27 +35,29 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class JCloudsSecurityGroupToSecurityGroup
     implements OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup> {
 
-    private final OneWayConverter<org.jclouds.domain.Location, Location> locationConverter;
-    private final OneWayConverter<IpPermission, SecurityGroupRule> securityGroupRuleConverter;
+  private final OneWayConverter<org.jclouds.domain.Location, Location> locationConverter;
+  private final OneWayConverter<IpPermission, SecurityGroupRule> securityGroupRuleConverter;
 
-    @Inject public JCloudsSecurityGroupToSecurityGroup(
-        OneWayConverter<org.jclouds.domain.Location, Location> locationConverter,
-        OneWayConverter<IpPermission, SecurityGroupRule> securityGroupRuleConverter) {
-        checkNotNull(securityGroupRuleConverter);
-        this.securityGroupRuleConverter = securityGroupRuleConverter;
-        checkNotNull(locationConverter);
-        this.locationConverter = locationConverter;
-    }
+  @Inject
+  public JCloudsSecurityGroupToSecurityGroup(
+      OneWayConverter<org.jclouds.domain.Location, Location> locationConverter,
+      OneWayConverter<IpPermission, SecurityGroupRule> securityGroupRuleConverter) {
+    checkNotNull(securityGroupRuleConverter);
+    this.securityGroupRuleConverter = securityGroupRuleConverter;
+    checkNotNull(locationConverter);
+    this.locationConverter = locationConverter;
+  }
 
-    @Override public SecurityGroup apply(org.jclouds.compute.domain.SecurityGroup securityGroup) {
+  @Override
+  public SecurityGroup apply(org.jclouds.compute.domain.SecurityGroup securityGroup) {
 
-        final SecurityGroupBuilder securityGroupBuilder =
-            SecurityGroupBuilder.newBuilder().id(securityGroup.getId())
-                .providerId(securityGroup.getProviderId())
-                .location(locationConverter.apply(securityGroup.getLocation()))
-                .name(securityGroup.getName()).addSecurityGroupRules(
-                securityGroup.getIpPermissions().stream().map(securityGroupRuleConverter::apply)
-                    .collect(Collectors.toSet()));
-        return securityGroupBuilder.build();
-    }
+    final SecurityGroupBuilder securityGroupBuilder =
+        SecurityGroupBuilder.newBuilder().id(securityGroup.getId())
+            .providerId(securityGroup.getProviderId())
+            .location(locationConverter.apply(securityGroup.getLocation()))
+            .name(securityGroup.getName()).addSecurityGroupRules(
+            securityGroup.getIpPermissions().stream().map(securityGroupRuleConverter::apply)
+                .collect(Collectors.toSet()));
+    return securityGroupBuilder.build();
+  }
 }

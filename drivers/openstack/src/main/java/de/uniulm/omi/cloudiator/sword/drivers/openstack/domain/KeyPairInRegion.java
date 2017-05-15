@@ -20,47 +20,56 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack.domain;
 
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.LocationScoped;
+import java.util.Optional;
 import org.jclouds.javax.annotation.Nullable;
 import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
-
-import java.util.Optional;
 
 /**
  * Created by daniel on 30.11.16.
  */
 public class KeyPairInRegion extends KeyPair implements LocationScoped {
 
-    private final KeyPair delegate;
-    private final Location region;
+  private final KeyPair delegate;
+  private final Location region;
 
-    public KeyPairInRegion(KeyPair delegate, Location region) {
-        super(delegate.getPublicKey(), delegate.getPrivateKey(), delegate.getUserId(),
-            delegate.getName(), delegate.getFingerprint());
-        this.delegate = delegate;
-        this.region = region;
-    }
+  public KeyPairInRegion(KeyPair delegate, Location region) {
+    super(delegate.getPublicKey(), delegate.getPrivateKey(), delegate.getUserId(),
+        delegate.getName(), delegate.getFingerprint());
+    this.delegate = delegate;
+    this.region = region;
+  }
 
-    @Override @Nullable public String getPublicKey() {
-        return delegate.getPublicKey();
-    }
+  @Override
+  @Nullable
+  public String getPublicKey() {
+    return delegate.getPublicKey();
+  }
 
-    @Override @Nullable public String getPrivateKey() {
-        return delegate.getPrivateKey();
-    }
+  @Override
+  @Nullable
+  public String getPrivateKey() {
+    return delegate.getPrivateKey();
+  }
 
-    @Override @Nullable public String getUserId() {
-        return delegate.getUserId();
-    }
+  @Override
+  @Nullable
+  public String getUserId() {
+    return delegate.getUserId();
+  }
 
-    @Override public String getName() {
-        return delegate.getName();
-    }
+  @Override
+  public String getName() {
+    return delegate.getName();
+  }
 
-    @Override @Nullable public String getFingerprint() {
-        return delegate.getFingerprint();
-    }
+  @Override
+  @Nullable
+  public String getFingerprint() {
+    return delegate.getFingerprint();
+  }
 
-    @Override public Optional<Location> location() {
-        return Optional.of(region);
-    }
+  @Override
+  public Optional<Location> location() {
+    return Optional.of(region);
+  }
 }

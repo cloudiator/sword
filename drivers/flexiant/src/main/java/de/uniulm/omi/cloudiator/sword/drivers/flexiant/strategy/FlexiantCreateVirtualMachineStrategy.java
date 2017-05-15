@@ -18,58 +18,60 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.flexiant.strategy;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.Server;
 import de.uniulm.omi.cloudiator.flexiant.client.domain.ServerTemplate;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
-import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.util.FlexiantUtil;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 
 /**
  * Created by daniel on 12.01.15.
  */
 public class FlexiantCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
-    private final FlexiantComputeClient flexiantComputeClient;
-    private final OneWayConverter<Server, VirtualMachine> serverVirtualMachineConverter;
-    private final NamingStrategy namingStrategy;
+  private final FlexiantComputeClient flexiantComputeClient;
+  private final OneWayConverter<Server, VirtualMachine> serverVirtualMachineConverter;
+  private final NamingStrategy namingStrategy;
 
-    @Inject public FlexiantCreateVirtualMachineStrategy(FlexiantComputeClient flexiantComputeClient,
-        OneWayConverter<Server, VirtualMachine> serverVirtualMachineConverter,
-        NamingStrategy namingStrategy) {
+  @Inject
+  public FlexiantCreateVirtualMachineStrategy(FlexiantComputeClient flexiantComputeClient,
+      OneWayConverter<Server, VirtualMachine> serverVirtualMachineConverter,
+      NamingStrategy namingStrategy) {
 
-        checkNotNull(flexiantComputeClient);
-        checkNotNull(serverVirtualMachineConverter);
-        checkNotNull(namingStrategy);
+    checkNotNull(flexiantComputeClient);
+    checkNotNull(serverVirtualMachineConverter);
+    checkNotNull(namingStrategy);
 
-        this.flexiantComputeClient = flexiantComputeClient;
-        this.serverVirtualMachineConverter = serverVirtualMachineConverter;
-        this.namingStrategy = namingStrategy;
-    }
+    this.flexiantComputeClient = flexiantComputeClient;
+    this.serverVirtualMachineConverter = serverVirtualMachineConverter;
+    this.namingStrategy = namingStrategy;
+  }
 
-    @Override public VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
+  @Override
+  public VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
 
-        final ServerTemplate.FlexiantServerTemplateBuilder flexiantServerTemplateBuilder =
-            new ServerTemplate.FlexiantServerTemplateBuilder();
-        final ServerTemplate serverTemplate = flexiantServerTemplateBuilder
-            .hardwareId(FlexiantUtil.stripLocation(virtualMachineTemplate.hardwareFlavorId()))
-            .image(FlexiantUtil.stripLocation(virtualMachineTemplate.imageId()))
-            .vdc(virtualMachineTemplate.locationId())
-            .serverName(nameWithNodeGroup(virtualMachineTemplate.name())).build();
+    final ServerTemplate.FlexiantServerTemplateBuilder flexiantServerTemplateBuilder =
+        new ServerTemplate.FlexiantServerTemplateBuilder();
+    final ServerTemplate serverTemplate = flexiantServerTemplateBuilder
+        .hardwareId(FlexiantUtil.stripLocation(virtualMachineTemplate.hardwareFlavorId()))
+        .image(FlexiantUtil.stripLocation(virtualMachineTemplate.imageId()))
+        .vdc(virtualMachineTemplate.locationId())
+        .serverName(nameWithNodeGroup(virtualMachineTemplate.name())).build();
 
-        return this.serverVirtualMachineConverter
-            .apply(this.flexiantComputeClient.createServer(serverTemplate));
-    }
+    return this.serverVirtualMachineConverter
+        .apply(this.flexiantComputeClient.createServer(serverTemplate));
+  }
 
-    private String nameWithNodeGroup(String name) {
-        return namingStrategy.generateUniqueNameBasedOnName(name);
-    }
+  private String nameWithNodeGroup(String name) {
+    return namingStrategy.generateUniqueNameBasedOnName(name);
+  }
 
 
 }

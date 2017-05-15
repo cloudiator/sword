@@ -18,57 +18,59 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.collect.ImmutableSet;
 import de.uniulm.omi.cloudiator.domain.Identifiable;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
+import java.util.Set;
 import org.openstack4j.model.compute.SecGroupExtension;
 import org.openstack4j.openstack.compute.domain.NovaSecGroupExtension;
-
-import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 29.11.16.
  */
 public class SecurityGroupInRegion implements InRegion, ProviderIdentified, Identifiable {
 
-    private final SecGroupExtension delegate;
-    private final Location region;
-    private final String regionScopedId;
-    private final Set<SecGroupExtension.Rule> rules;
+  private final SecGroupExtension delegate;
+  private final Location region;
+  private final String regionScopedId;
+  private final Set<SecGroupExtension.Rule> rules;
 
-    public SecurityGroupInRegion(SecGroupExtension original, Location region,
-        Set<NovaSecGroupExtension.Rule> rules) {
+  public SecurityGroupInRegion(SecGroupExtension original, Location region,
+      Set<NovaSecGroupExtension.Rule> rules) {
 
-        checkNotNull(original, "original is null.");
-        checkNotNull(region, "region is null");
-        checkNotNull(rules, "rules are null");
-        delegate = original;
-        this.region = region;
-        this.regionScopedId =
-            IdScopeByLocations.from(region.id(), delegate.getId()).getIdWithLocation();
-        this.rules = rules;
-    }
+    checkNotNull(original, "original is null.");
+    checkNotNull(region, "region is null");
+    checkNotNull(rules, "rules are null");
+    delegate = original;
+    this.region = region;
+    this.regionScopedId =
+        IdScopeByLocations.from(region.id(), delegate.getId()).getIdWithLocation();
+    this.rules = rules;
+  }
 
-    public String getName() {
-        return delegate.getName();
-    }
+  public String getName() {
+    return delegate.getName();
+  }
 
-    @Override public String id() {
-        return regionScopedId;
-    }
+  @Override
+  public String id() {
+    return regionScopedId;
+  }
 
-    @Override public String providerId() {
-        return delegate.getId();
-    }
+  @Override
+  public String providerId() {
+    return delegate.getId();
+  }
 
-    @Override public Location region() {
-        return region;
-    }
+  @Override
+  public Location region() {
+    return region;
+  }
 
-    public Set<NovaSecGroupExtension.Rule> rules() {
-        return ImmutableSet.copyOf(rules);
-    }
+  public Set<NovaSecGroupExtension.Rule> rules() {
+    return ImmutableSet.copyOf(rules);
+  }
 }

@@ -20,7 +20,6 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
-
 import java.util.Map;
 
 /**
@@ -28,29 +27,30 @@ import java.util.Map;
  */
 public interface ComputeServiceProvider {
 
-    /**
-     * Retrieves a {@link ComputeService} for the given cloudId.
-     *
-     * @param cloudId the identifier of the cloud
-     * @return a {@link ComputeService} for the cloud if it exists.
-     * @throws java.util.NoSuchElementException if a compute service for this cloud id does not exist.
-     */
-    ComputeService forId(String cloudId);
+  /**
+   * Retrieves a {@link ComputeService} for the given cloudId.
+   *
+   * @param cloudId the identifier of the cloud
+   * @return a {@link ComputeService} for the cloud if it exists.
+   * @throws java.util.NoSuchElementException if a compute service for this cloud id does not
+   * exist.
+   */
+  ComputeService forId(String cloudId);
 
-    /**
-     * Retrieves a {@link ComputeService} for the given {@link Cloud}.
-     *
-     * @param cloud the {@link Cloud} to retrieve the {@link ComputeService} for.
-     * @return a {@link ComputeService} for the {@link Cloud} if it exists.
-     * @throws java.util.NoSuchElementException if it does not exist.
-     */
-    ComputeService forCloud(Cloud cloud);
+  /**
+   * Retrieves a {@link ComputeService} for the given {@link Cloud}.
+   *
+   * @param cloud the {@link Cloud} to retrieve the {@link ComputeService} for.
+   * @return a {@link ComputeService} for the {@link Cloud} if it exists.
+   * @throws java.util.NoSuchElementException if it does not exist.
+   */
+  ComputeService forCloud(Cloud cloud);
 
-    /**
-     * Returns an immutable {@link Map} of all compute services known for this cloud.
-     *
-     * @return a map containing all compute services known.
-     */
-    Map<Cloud, ComputeService> all();
+  /**
+   * Returns an immutable {@link Map} of all compute services known for this cloud.
+   *
+   * @return a map containing all compute services known.
+   */
+  Map<Cloud, ComputeService> all();
 
 }

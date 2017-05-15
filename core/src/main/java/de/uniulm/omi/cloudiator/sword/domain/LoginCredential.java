@@ -19,9 +19,6 @@
 package de.uniulm.omi.cloudiator.sword.domain;
 
 
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Optional;
 
 /**
@@ -30,18 +27,18 @@ import java.util.Optional;
  */
 public interface LoginCredential {
 
-    /**
-     * @return an {@link Optional} username used for login.
-     */
-    Optional<String> username();
+  /**
+   * @return an {@link Optional} username used for login.
+   */
+  Optional<String> username();
 
-    /**
-     * @return an {@link Optional} password used for login.
-     */
-    Optional<String> password();
+  /**
+   * @return an {@link Optional} password used for login.
+   */
+  Optional<String> password();
 
-    /**
-     * @return an {@link Optional} private key used for login.
-     */
-    Optional<String> privateKey();
+  /**
+   * @return an {@link Optional} private key used for login.
+   */
+  Optional<String> privateKey();
 }

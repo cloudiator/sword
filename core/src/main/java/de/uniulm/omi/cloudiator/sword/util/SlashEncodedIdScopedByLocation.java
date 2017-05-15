@@ -18,10 +18,10 @@
 
 package de.uniulm.omi.cloudiator.sword.util;
 
-import javax.annotation.Nullable;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import javax.annotation.Nullable;
 
 /**
  * Basic implementation of the {@link IdScopedByLocation}
@@ -29,47 +29,52 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class SlashEncodedIdScopedByLocation implements IdScopedByLocation {
 
-    @Nullable private final String locationId;
-    private final String id;
-    static final String DELIMITER = "/";
+  static final String DELIMITER = "/";
+  @Nullable
+  private final String locationId;
+  private final String id;
 
-    SlashEncodedIdScopedByLocation(@Nullable String locationId, String id) {
-        this.locationId = locationId;
-        this.id = id;
+  SlashEncodedIdScopedByLocation(@Nullable String locationId, String id) {
+    this.locationId = locationId;
+    this.id = id;
+  }
+
+  SlashEncodedIdScopedByLocation(String id) {
+    checkNotNull(id, "id is null");
+    checkArgument(!id.isEmpty(), "id is empty");
+
+    String[] parts = id.split(SlashEncodedIdScopedByLocation.DELIMITER);
+
+    switch (parts.length) {
+      case 1:
+        this.locationId = null;
+        this.id = parts[0];
+        break;
+      case 2:
+        this.locationId = parts[0];
+        this.id = parts[1];
+        break;
+      default:
+        throw new IllegalArgumentException("Could not calculate scoped id from " + id);
     }
+  }
 
-    SlashEncodedIdScopedByLocation(String id) {
-        checkNotNull(id, "id is null");
-        checkArgument(!id.isEmpty(), "id is empty");
+  @Override
+  public String getId() {
+    return this.id;
+  }
 
-        String[] parts = id.split(SlashEncodedIdScopedByLocation.DELIMITER);
+  @Nullable
+  @Override
+  public String getLocationId() {
+    return this.locationId;
+  }
 
-        switch (parts.length) {
-            case 1:
-                this.locationId = null;
-                this.id = parts[0];
-                break;
-            case 2:
-                this.locationId = parts[0];
-                this.id = parts[1];
-                break;
-            default:
-                throw new IllegalArgumentException("Could not calculate scoped id from " + id);
-        }
+  @Override
+  public String getIdWithLocation() {
+    if (locationId != null) {
+      return this.getLocationId() + DELIMITER + this.getId();
     }
-
-    @Override public String getId() {
-        return this.id;
-    }
-
-    @Nullable @Override public String getLocationId() {
-        return this.locationId;
-    }
-
-    @Override public String getIdWithLocation() {
-        if (locationId != null) {
-            return this.getLocationId() + DELIMITER + this.getId();
-        }
-        return this.getId();
-    }
+    return this.getId();
+  }
 }

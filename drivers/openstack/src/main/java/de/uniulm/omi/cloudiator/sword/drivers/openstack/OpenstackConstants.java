@@ -23,18 +23,18 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack;
  */
 public class OpenstackConstants {
 
-    public static final String FLOATING_IP_POOL_PROPERTY = "sword.openstack.floatingIpPool";
-    /**
-     * todo: workaround for discovering the availability zones via getLocations API.
-     */
-    public static final String DEFAULT_AVAILABILITY_ZONE_PROPERTY =
-        "sword.openstack.defaultAvailabilityZone";
+  public static final String FLOATING_IP_POOL_PROPERTY = "sword.openstack.floatingIpPool";
+  /**
+   * todo: workaround for discovering the availability zones via getLocations API.
+   */
+  public static final String DEFAULT_AVAILABILITY_ZONE_PROPERTY =
+      "sword.openstack.defaultAvailabilityZone";
 
-    public static final String DEFAULT_NETWORK =
-        "sword.openstack.defaultNetwork";
+  public static final String DEFAULT_NETWORK =
+      "sword.openstack.defaultNetwork";
 
-    private OpenstackConstants() {
+  private OpenstackConstants() {
 
-    }
+  }
 
 }

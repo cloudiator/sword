@@ -27,9 +27,9 @@ import org.jclouds.domain.Location;
  */
 public interface AssignableLocation extends Location {
 
-    /**
-     * @return the location is assignable.
-     */
-    boolean isAssignable();
+  /**
+   * @return the location is assignable.
+   */
+  boolean isAssignable();
 
 }

@@ -18,16 +18,15 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds;
 
-import org.jclouds.View;
-
 import java.io.Closeable;
+import org.jclouds.View;
 
 /**
  * Created by daniel on 14.12.15.
  */
 public interface JCloudsViewFactory {
 
-    <V extends View> V buildJCloudsView(Class<V> viewType);
+  <V extends View> V buildJCloudsView(Class<V> viewType);
 
-    <A extends Closeable> A buildJCloudsApi(Class<A> api);
+  <A extends Closeable> A buildJCloudsApi(Class<A> api);
 }

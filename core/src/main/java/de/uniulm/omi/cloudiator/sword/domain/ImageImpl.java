@@ -18,52 +18,58 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.domain.OperatingSystem;
-
 import javax.annotation.Nullable;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 01.12.14.
  */
 public class ImageImpl extends ResourceImpl implements Image {
 
-    private final OperatingSystem operatingSystem;
+  private final OperatingSystem operatingSystem;
 
-    @Override public OperatingSystem operatingSystem() {
-        return operatingSystem;
+  ImageImpl(String id, String providerId, String name, @Nullable Location location,
+      OperatingSystem operatingSystem) {
+    super(id, providerId, name, location);
+    checkNotNull(operatingSystem, "operating system is null");
+    this.operatingSystem = operatingSystem;
+  }
+
+  @Override
+  public OperatingSystem operatingSystem() {
+    return operatingSystem;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    if (!super.equals(o)) {
+      return false;
     }
 
-    ImageImpl(String id, String providerId, String name, @Nullable Location location,
-        OperatingSystem operatingSystem) {
-        super(id, providerId, name, location);
-        checkNotNull(operatingSystem, "operating system is null");
-        this.operatingSystem = operatingSystem;
-    }
+    ImageImpl image = (ImageImpl) o;
 
-    @Override public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        if (!super.equals(o))
-            return false;
+    return operatingSystem.equals(image.operatingSystem);
+  }
 
-        ImageImpl image = (ImageImpl) o;
+  @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + operatingSystem.hashCode();
+    return result;
+  }
 
-        return operatingSystem.equals(image.operatingSystem);
-    }
-
-    @Override public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + operatingSystem.hashCode();
-        return result;
-    }
-
-    @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
-            .add("name", name()).add("os", operatingSystem).toString();
-    }
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
+        .add("name", name()).add("os", operatingSystem).toString();
+  }
 }

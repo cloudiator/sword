@@ -19,12 +19,11 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.LocationBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.AvailabilityZoneInRegion;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import javax.annotation.Nullable;
 
 /**
@@ -33,13 +32,16 @@ import javax.annotation.Nullable;
 public class AvailabilityZoneInRegionToLocation
     implements OneWayConverter<AvailabilityZoneInRegion, Location> {
 
-    @Inject public AvailabilityZoneInRegionToLocation() {
-    }
+  @Inject
+  public AvailabilityZoneInRegionToLocation() {
+  }
 
-    @Nullable @Override public Location apply(AvailabilityZoneInRegion availabilityZoneInRegion) {
+  @Nullable
+  @Override
+  public Location apply(AvailabilityZoneInRegion availabilityZoneInRegion) {
 
-        return LocationBuilder.newBuilder().id(availabilityZoneInRegion.getId()).assignable(true)
-            .name(availabilityZoneInRegion.getZoneName()).scope(LocationScope.ZONE)
-            .parent(availabilityZoneInRegion.region()).build();
-    }
+    return LocationBuilder.newBuilder().id(availabilityZoneInRegion.getId()).assignable(true)
+        .name(availabilityZoneInRegion.getZoneName()).scope(LocationScope.ZONE)
+        .parent(availabilityZoneInRegion.region()).build();
+  }
 }

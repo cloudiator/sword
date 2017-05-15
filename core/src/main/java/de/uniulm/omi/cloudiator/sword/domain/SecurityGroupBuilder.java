@@ -18,77 +18,77 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import com.google.common.collect.Sets;
-
-import javax.annotation.Nullable;
-import java.util.Set;
-
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.collect.Sets;
+import java.util.Set;
+import javax.annotation.Nullable;
 
 /**
  * Created by daniel on 01.07.16.
  */
 public class SecurityGroupBuilder {
 
-    private String id;
-    private String providerId;
-    private String name;
-    @Nullable private Location location;
-    private Set<SecurityGroupRule> securityGroupRules = Sets.newHashSet();
+  private String id;
+  private String providerId;
+  private String name;
+  @Nullable
+  private Location location;
+  private Set<SecurityGroupRule> securityGroupRules = Sets.newHashSet();
 
-    private SecurityGroupBuilder() {
+  private SecurityGroupBuilder() {
 
-    }
+  }
 
-    private SecurityGroupBuilder(SecurityGroup securityGroup) {
-        id = securityGroup.id();
-        providerId = securityGroup.providerId();
-        name = securityGroup.name();
-        location = securityGroup.location().orElse(null);
-        securityGroupRules = Sets.newHashSet(securityGroup.rules());
-    }
+  private SecurityGroupBuilder(SecurityGroup securityGroup) {
+    id = securityGroup.id();
+    providerId = securityGroup.providerId();
+    name = securityGroup.name();
+    location = securityGroup.location().orElse(null);
+    securityGroupRules = Sets.newHashSet(securityGroup.rules());
+  }
 
-    public static SecurityGroupBuilder newBuilder() {
-        return new SecurityGroupBuilder();
-    }
+  public static SecurityGroupBuilder newBuilder() {
+    return new SecurityGroupBuilder();
+  }
 
-    public static SecurityGroupBuilder of(SecurityGroup securityGroup) {
-        checkNotNull(securityGroup, "securityGroup is null");
-        return new SecurityGroupBuilder(securityGroup);
-    }
+  public static SecurityGroupBuilder of(SecurityGroup securityGroup) {
+    checkNotNull(securityGroup, "securityGroup is null");
+    return new SecurityGroupBuilder(securityGroup);
+  }
 
-    public SecurityGroupBuilder id(String id) {
-        this.id = id;
-        return this;
-    }
+  public SecurityGroupBuilder id(String id) {
+    this.id = id;
+    return this;
+  }
 
-    public SecurityGroupBuilder name(String name) {
-        this.name = name;
-        return this;
-    }
+  public SecurityGroupBuilder name(String name) {
+    this.name = name;
+    return this;
+  }
 
-    public SecurityGroupBuilder providerId(String providerId) {
-        this.providerId = providerId;
-        return this;
-    }
+  public SecurityGroupBuilder providerId(String providerId) {
+    this.providerId = providerId;
+    return this;
+  }
 
-    public SecurityGroupBuilder location(@Nullable Location location) {
-        this.location = location;
-        return this;
-    }
+  public SecurityGroupBuilder location(@Nullable Location location) {
+    this.location = location;
+    return this;
+  }
 
-    public SecurityGroupBuilder addSecurityGroupRule(SecurityGroupRule securityGroupRule) {
-        this.securityGroupRules.add(securityGroupRule);
-        return this;
-    }
+  public SecurityGroupBuilder addSecurityGroupRule(SecurityGroupRule securityGroupRule) {
+    this.securityGroupRules.add(securityGroupRule);
+    return this;
+  }
 
-    public SecurityGroupBuilder addSecurityGroupRules(Set<SecurityGroupRule> securityGroupRule) {
-        this.securityGroupRules.addAll(securityGroupRule);
-        return this;
-    }
+  public SecurityGroupBuilder addSecurityGroupRules(Set<SecurityGroupRule> securityGroupRule) {
+    this.securityGroupRules.addAll(securityGroupRule);
+    return this;
+  }
 
-    public SecurityGroup build() {
-        return new SecurityGroupImpl(id, providerId, name, location, securityGroupRules);
-    }
+  public SecurityGroup build() {
+    return new SecurityGroupImpl(id, providerId, name, location, securityGroupRules);
+  }
 
 }

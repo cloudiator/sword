@@ -18,68 +18,75 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud.domain;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.domain.GeoLocation;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
-
 import java.util.Optional;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 19.01.17.
  */
 public class LocationMultiCloudImpl implements Location {
 
-    private final Location delegate;
-    private final String cloudId;
+  private final Location delegate;
+  private final String cloudId;
 
-    public LocationMultiCloudImpl(Location delegate, String cloudId) {
-        checkNotNull(delegate, "delegate is null");
-        this.delegate = delegate;
-        checkNotNull(cloudId, "cloudId is null");
-        this.cloudId = cloudId;
-    }
+  public LocationMultiCloudImpl(Location delegate, String cloudId) {
+    checkNotNull(delegate, "delegate is null");
+    this.delegate = delegate;
+    checkNotNull(cloudId, "cloudId is null");
+    this.cloudId = cloudId;
+  }
 
-    @Override public LocationScope locationScope() {
-        return delegate.locationScope();
-    }
+  @Override
+  public LocationScope locationScope() {
+    return delegate.locationScope();
+  }
 
-    @Override public boolean isAssignable() {
-        return delegate.isAssignable();
-    }
+  @Override
+  public boolean isAssignable() {
+    return delegate.isAssignable();
+  }
 
-    @Override public Optional<Location> parent() {
-        if (!delegate.parent().isPresent()) {
-            return delegate.parent();
-        }
-        return Optional.of(new LocationMultiCloudImpl(delegate.parent().get(), cloudId));
+  @Override
+  public Optional<Location> parent() {
+    if (!delegate.parent().isPresent()) {
+      return delegate.parent();
     }
+    return Optional.of(new LocationMultiCloudImpl(delegate.parent().get(), cloudId));
+  }
 
-    @Override public Optional<GeoLocation> geoLocation() {
-        return delegate.geoLocation();
-    }
+  @Override
+  public Optional<GeoLocation> geoLocation() {
+    return delegate.geoLocation();
+  }
 
-    @Override public String id() {
-        return IdScopedByClouds.from(delegate.id(), cloudId).scopedId();
-    }
+  @Override
+  public String id() {
+    return IdScopedByClouds.from(delegate.id(), cloudId).scopedId();
+  }
 
-    @Override public String providerId() {
-        return delegate.providerId();
-    }
+  @Override
+  public String providerId() {
+    return delegate.providerId();
+  }
 
-    @Override public String name() {
-        return delegate.name();
-    }
+  @Override
+  public String name() {
+    return delegate.name();
+  }
 
-    public String cloudId() {
-        return cloudId;
-    }
+  public String cloudId() {
+    return cloudId;
+  }
 
-    @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("id", id()).add("delegate", delegate)
-            .add("cloudId", cloudId).toString();
-    }
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("id", id()).add("delegate", delegate)
+        .add("cloudId", cloudId).toString();
+  }
 }

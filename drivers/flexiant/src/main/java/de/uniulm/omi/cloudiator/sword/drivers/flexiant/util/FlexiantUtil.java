@@ -23,13 +23,13 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.util;
  */
 public class FlexiantUtil {
 
-    private FlexiantUtil() {
-        
-    }
+  private FlexiantUtil() {
 
-    public static String stripLocation(final String locationPrefixedId) {
-        String[] parts = locationPrefixedId.split("/");
-        return parts[1];
-    }
+  }
+
+  public static String stripLocation(final String locationPrefixedId) {
+    String[] parts = locationPrefixedId.split("/");
+    return parts[1];
+  }
 
 }

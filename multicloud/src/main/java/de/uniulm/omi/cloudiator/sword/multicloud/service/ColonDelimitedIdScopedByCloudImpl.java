@@ -26,43 +26,46 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class ColonDelimitedIdScopedByCloudImpl implements IdScopedByCloud {
 
-    private final String id;
-    private final String cloudId;
-    private static final String DELIMITER = ":";
+  private static final String DELIMITER = ":";
+  private final String id;
+  private final String cloudId;
 
-    ColonDelimitedIdScopedByCloudImpl(String scopedId) {
-        checkNotNull(scopedId, "scopedId is null");
-        checkArgument(!scopedId.isEmpty(), "scopedId is empty");
-        String parts[] = scopedId.split(DELIMITER);
-        if (parts.length != 2) {
-            throw new IllegalArgumentException(String.format(
-                "Expected scopedId %s to contain exactly one occurrence of delimiter (%s). Splitting however brought %s parts.",
-                scopedId, DELIMITER, parts.length));
-
-        }
-        this.cloudId = parts[0];
-        this.id = parts[1];
+  ColonDelimitedIdScopedByCloudImpl(String scopedId) {
+    checkNotNull(scopedId, "scopedId is null");
+    checkArgument(!scopedId.isEmpty(), "scopedId is empty");
+    String parts[] = scopedId.split(DELIMITER);
+    if (parts.length != 2) {
+      throw new IllegalArgumentException(String.format(
+          "Expected scopedId %s to contain exactly one occurrence of delimiter (%s). Splitting however brought %s parts.",
+          scopedId, DELIMITER, parts.length));
 
     }
+    this.cloudId = parts[0];
+    this.id = parts[1];
 
-    ColonDelimitedIdScopedByCloudImpl(String id, String cloudId) {
-        checkNotNull(id, "id is null");
-        checkArgument(!id.isEmpty(), "id is empty");
-        checkNotNull(cloudId, "cloudId is empty");
-        checkArgument(!cloudId.isEmpty(), "cloud");
-        this.id = id;
-        this.cloudId = cloudId;
-    }
+  }
 
-    @Override public String id() {
-        return id;
-    }
+  ColonDelimitedIdScopedByCloudImpl(String id, String cloudId) {
+    checkNotNull(id, "id is null");
+    checkArgument(!id.isEmpty(), "id is empty");
+    checkNotNull(cloudId, "cloudId is empty");
+    checkArgument(!cloudId.isEmpty(), "cloud");
+    this.id = id;
+    this.cloudId = cloudId;
+  }
 
-    @Override public String cloudId() {
-        return cloudId;
-    }
+  @Override
+  public String id() {
+    return id;
+  }
 
-    @Override public String scopedId() {
-        return cloudId + DELIMITER + id;
-    }
+  @Override
+  public String cloudId() {
+    return cloudId;
+  }
+
+  @Override
+  public String scopedId() {
+    return cloudId + DELIMITER + id;
+  }
 }

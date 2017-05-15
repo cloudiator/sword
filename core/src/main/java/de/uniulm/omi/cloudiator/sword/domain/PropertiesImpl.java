@@ -18,61 +18,68 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
-
 import java.util.Collections;
 import java.util.Map;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 19.01.15.
  */
 public class PropertiesImpl implements Properties {
 
-    public static final Properties EMPTY = new PropertiesImpl(Collections.emptyMap());
+  public static final Properties EMPTY = new PropertiesImpl(Collections.emptyMap());
 
-    private final Map<String, String> propertiesHolder;
+  private final Map<String, String> propertiesHolder;
 
-    public PropertiesImpl(Map<String, String> propertiesHolder) {
-        checkNotNull(propertiesHolder);
-        this.propertiesHolder = propertiesHolder;
+  public PropertiesImpl(Map<String, String> propertiesHolder) {
+    checkNotNull(propertiesHolder);
+    this.propertiesHolder = propertiesHolder;
+  }
+
+  @Override
+  public String getProperty(String key) {
+    checkNotNull(key, "key is null");
+    return this.propertiesHolder.get(key);
+  }
+
+  @Override
+  public String getProperty(String key, String defaultValue) {
+    String value = this.getProperty(key);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
+  }
+
+  @Override
+  public Map<String, String> getProperties() {
+    return ImmutableMap.copyOf(propertiesHolder);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
 
-    @Override public String getProperty(String key) {
-        checkNotNull(key, "key is null");
-        return this.propertiesHolder.get(key);
-    }
+    PropertiesImpl that = (PropertiesImpl) o;
 
-    @Override public String getProperty(String key, String defaultValue) {
-        String value = this.getProperty(key);
-        if (value == null) {
-            return defaultValue;
-        }
-        return value;
-    }
+    return propertiesHolder.equals(that.propertiesHolder);
+  }
 
-    @Override public Map<String, String> getProperties() {
-        return ImmutableMap.copyOf(propertiesHolder);
-    }
+  @Override
+  public int hashCode() {
+    return propertiesHolder.hashCode();
+  }
 
-    @Override public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        PropertiesImpl that = (PropertiesImpl) o;
-
-        return propertiesHolder.equals(that.propertiesHolder);
-    }
-
-    @Override public int hashCode() {
-        return propertiesHolder.hashCode();
-    }
-
-    @Override public String toString() {
-        return MoreObjects.toStringHelper(this).add("properties", propertiesHolder).toString();
-    }
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("properties", propertiesHolder).toString();
+  }
 }

@@ -1,6 +1,5 @@
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
-
 import java.util.function.Supplier;
 
 /**
@@ -9,15 +8,16 @@ import java.util.function.Supplier;
  */
 public class CreateVirtualMachineExample implements Supplier<VirtualMachine> {
 
-    private final ComputeService computeService;
+  private final ComputeService computeService;
 
-    public CreateVirtualMachineExample(
-        ComputeService computeService) {
-        this.computeService = computeService;
-    }
+  public CreateVirtualMachineExample(
+      ComputeService computeService) {
+    this.computeService = computeService;
+  }
 
-    @Override public VirtualMachine get() {
-        //todo fix example
-        return computeService.createVirtualMachine(null);
-    }
+  @Override
+  public VirtualMachine get() {
+    //todo fix example
+    return computeService.createVirtualMachine(null);
+  }
 }

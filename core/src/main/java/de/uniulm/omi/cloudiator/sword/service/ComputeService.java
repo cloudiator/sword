@@ -31,58 +31,59 @@ import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
  */
 public interface ComputeService {
 
-    /**
-     * Returns a discovery service offering the discovery of stored entities at the
-     * cloud provider
-     *
-     * @return the discovery service.
-     */
-    DiscoveryService discoveryService();
+  /**
+   * Returns a discovery service offering the discovery of stored entities at the
+   * cloud provider
+   *
+   * @return the discovery service.
+   */
+  DiscoveryService discoveryService();
 
-    /**
-     * Deletes a virtual machine.
-     *
-     * @param virtualMachineId a mandatory id of the virtual machine.
-     * @throws NullPointerException     if the virtual machine id is null.
-     * @throws IllegalArgumentException if the virtual machine id is empty.
-     */
-    void deleteVirtualMachine(String virtualMachineId);
+  /**
+   * Deletes a virtual machine.
+   *
+   * @param virtualMachineId a mandatory id of the virtual machine.
+   * @throws NullPointerException if the virtual machine id is null.
+   * @throws IllegalArgumentException if the virtual machine id is empty.
+   */
+  void deleteVirtualMachine(String virtualMachineId);
 
-    /**
-     * Creates a virtual machine ({@link VirtualMachine}) for the given {@link VirtualMachineTemplate}.
-     *
-     * @param virtualMachineTemplate mandatory virtual machine template.
-     * @return the created virtual machine.
-     * @throws NullPointerException if the virtual machine template is null.
-     */
-    VirtualMachine createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
+  /**
+   * Creates a virtual machine ({@link VirtualMachine}) for the given {@link
+   * VirtualMachineTemplate}.
+   *
+   * @param virtualMachineTemplate mandatory virtual machine template.
+   * @return the created virtual machine.
+   * @throws NullPointerException if the virtual machine template is null.
+   */
+  VirtualMachine createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
 
-    /**
-     * Returns a {@link ConnectionService} that is used for connecting to
-     * virtual machines.
-     *
-     * @return a connection service.
-     */
-    ConnectionService connectionService();
+  /**
+   * Returns a {@link ConnectionService} that is used for connecting to
+   * virtual machines.
+   *
+   * @return a connection service.
+   */
+  ConnectionService connectionService();
 
-    /**
-     * Returns an {@link Optional} {@link PublicIpExtension} for the cloud provider.
-     *
-     * @return an optional public ip extension.
-     */
-    Optional<PublicIpExtension> publicIpExtension();
+  /**
+   * Returns an {@link Optional} {@link PublicIpExtension} for the cloud provider.
+   *
+   * @return an optional public ip extension.
+   */
+  Optional<PublicIpExtension> publicIpExtension();
 
-    /**
-     * Returns an {@link Optional} {@link KeyPairExtension} for the cloud provider.
-     *
-     * @return an optional key pair extension.
-     */
-    Optional<KeyPairExtension> keyPairExtension();
+  /**
+   * Returns an {@link Optional} {@link KeyPairExtension} for the cloud provider.
+   *
+   * @return an optional key pair extension.
+   */
+  Optional<KeyPairExtension> keyPairExtension();
 
-    /**
-     * Returns an {@link Optional} {@link SecurityGroupExtension} for the cloud provider.
-     *
-     * @return an optional security group extension.
-     */
-    Optional<SecurityGroupExtension> securityGroupExtension();
+  /**
+   * Returns an {@link Optional} {@link SecurityGroupExtension} for the cloud provider.
+   *
+   * @return an optional security group extension.
+   */
+  Optional<SecurityGroupExtension> securityGroupExtension();
 }

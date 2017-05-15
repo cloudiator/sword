@@ -20,10 +20,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.flexiant.suppliers;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.FlexiantComputeClient;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,18 +31,20 @@ import java.util.stream.Collectors;
  */
 public class ImageSupplier implements Supplier<Set<Image>> {
 
-    private final FlexiantComputeClient flexiantComputeClient;
-    private final OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image>
-        imageConverter;
+  private final FlexiantComputeClient flexiantComputeClient;
+  private final OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image>
+      imageConverter;
 
-    @Inject public ImageSupplier(FlexiantComputeClient flexiantComputeClient,
-        OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image> imageConverter) {
-        this.flexiantComputeClient = flexiantComputeClient;
-        this.imageConverter = imageConverter;
-    }
+  @Inject
+  public ImageSupplier(FlexiantComputeClient flexiantComputeClient,
+      OneWayConverter<de.uniulm.omi.cloudiator.flexiant.client.domain.Image, Image> imageConverter) {
+    this.flexiantComputeClient = flexiantComputeClient;
+    this.imageConverter = imageConverter;
+  }
 
-    @Override public Set<Image> get() {
-        return flexiantComputeClient.listImages().stream().map(imageConverter::apply)
-            .collect(Collectors.toSet());
-    }
+  @Override
+  public Set<Image> get() {
+    return flexiantComputeClient.listImages().stream().map(imageConverter::apply)
+        .collect(Collectors.toSet());
+  }
 }

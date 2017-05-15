@@ -18,87 +18,86 @@
 
 package de.uniulm.omi.cloudiator.sword.service.providers;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.AbstractModule;
-import de.uniulm.omi.cloudiator.sword.domain.PropertiesBuilder;
-import de.uniulm.omi.cloudiator.sword.exceptions.ProviderNotFoundException;
-import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.base.BaseComputeService;
+import de.uniulm.omi.cloudiator.sword.domain.PropertiesBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.config.Ec2ComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.config.FlexiantComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.google.config.GoogleCloudComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.config.OpenstackComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.config.Openstack4jComputeModule;
-
+import de.uniulm.omi.cloudiator.sword.exceptions.ProviderNotFoundException;
+import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 02.12.14.
  */
 public class Providers {
 
-    private static final Map<String, ProviderConfiguration> registry = new HashMap<>();
+  private static final Map<String, ProviderConfiguration> registry = new HashMap<>();
 
-    static {
-        registerDefaultProviders();
+  static {
+    registerDefaultProviders();
+  }
+
+  private Providers() {
+
+  }
+
+  private static void registerDefaultProviders() {
+    //Openstack
+    final Set<AbstractModule> openstackModules = new HashSet<>();
+    openstackModules.add(new OpenstackComputeModule());
+    registerProvider(
+        new ProviderConfiguration("openstack-nova", openstackModules, BaseComputeService.class,
+            PropertiesBuilder.newBuilder().putProperty(Constants.IGNORE_LOGIN_KEYPAIR, true)
+                .putProperty(Constants.IGNORE_LOGIN_PASSWORD, true)
+                .putProperty(Constants.IGNORE_LOGIN_USERNAME, true).build()));
+    //Openstack4j
+    final Set<AbstractModule> openstack4jModules = new HashSet<>();
+    openstack4jModules.add(new Openstack4jComputeModule());
+    registerProvider(
+        new ProviderConfiguration("openstack4j", openstack4jModules, BaseComputeService.class,
+            PropertiesBuilder.newBuilder().build()));
+    //Flexiant
+    final Set<AbstractModule> flexiantModules = new HashSet<>();
+    flexiantModules.add(new FlexiantComputeModule());
+    registerProvider(
+        new ProviderConfiguration("flexiant", flexiantModules, BaseComputeService.class,
+            PropertiesBuilder.newBuilder().build()));
+    //EC2
+    final Set<AbstractModule> ec2Modules = new HashSet<>();
+    ec2Modules.add(new Ec2ComputeModule());
+    registerProvider(new ProviderConfiguration("aws-ec2", ec2Modules, BaseComputeService.class,
+        PropertiesBuilder.newBuilder().putProperty(Constants.IGNORE_LOGIN_USERNAME, true)
+            .build()));
+    //Google
+    final Set<AbstractModule> googleModules = new HashSet<>();
+    googleModules.add(new GoogleCloudComputeModule());
+    registerProvider(new ProviderConfiguration("google-compute-engine", googleModules,
+        BaseComputeService.class, PropertiesBuilder.newBuilder().build()));
+  }
+
+  public static void registerProvider(ProviderConfiguration providerConfiguration) {
+    checkNotNull(providerConfiguration);
+    registry.put(providerConfiguration.getName(), providerConfiguration);
+  }
+
+  public static ProviderConfiguration getConfigurationByName(String name) {
+
+    if (!registry.containsKey(name)) {
+      throw new ProviderNotFoundException(String
+          .format("Could not find provider %s. Available providers are: %s", name,
+              registry.keySet()));
     }
 
-    private Providers() {
-
-    }
-
-    private static void registerDefaultProviders() {
-        //Openstack
-        final Set<AbstractModule> openstackModules = new HashSet<>();
-        openstackModules.add(new OpenstackComputeModule());
-        registerProvider(
-            new ProviderConfiguration("openstack-nova", openstackModules, BaseComputeService.class,
-                PropertiesBuilder.newBuilder().putProperty(Constants.IGNORE_LOGIN_KEYPAIR, true)
-                    .putProperty(Constants.IGNORE_LOGIN_PASSWORD, true)
-                    .putProperty(Constants.IGNORE_LOGIN_USERNAME, true).build()));
-        //Openstack4j
-        final Set<AbstractModule> openstack4jModules = new HashSet<>();
-        openstack4jModules.add(new Openstack4jComputeModule());
-        registerProvider(
-            new ProviderConfiguration("openstack4j", openstack4jModules, BaseComputeService.class,
-                PropertiesBuilder.newBuilder().build()));
-        //Flexiant
-        final Set<AbstractModule> flexiantModules = new HashSet<>();
-        flexiantModules.add(new FlexiantComputeModule());
-        registerProvider(
-            new ProviderConfiguration("flexiant", flexiantModules, BaseComputeService.class,
-                PropertiesBuilder.newBuilder().build()));
-        //EC2
-        final Set<AbstractModule> ec2Modules = new HashSet<>();
-        ec2Modules.add(new Ec2ComputeModule());
-        registerProvider(new ProviderConfiguration("aws-ec2", ec2Modules, BaseComputeService.class,
-            PropertiesBuilder.newBuilder().putProperty(Constants.IGNORE_LOGIN_USERNAME, true)
-                .build()));
-        //Google
-        final Set<AbstractModule> googleModules = new HashSet<>();
-        googleModules.add(new GoogleCloudComputeModule());
-        registerProvider(new ProviderConfiguration("google-compute-engine", googleModules,
-            BaseComputeService.class, PropertiesBuilder.newBuilder().build()));
-    }
-
-    public static void registerProvider(ProviderConfiguration providerConfiguration) {
-        checkNotNull(providerConfiguration);
-        registry.put(providerConfiguration.getName(), providerConfiguration);
-    }
-
-    public static ProviderConfiguration getConfigurationByName(String name) {
-
-        if (!registry.containsKey(name)) {
-            throw new ProviderNotFoundException(String
-                .format("Could not find provider %s. Available providers are: %s", name,
-                    registry.keySet()));
-        }
-
-        return registry.get(name);
-    }
+    return registry.get(name);
+  }
 
 }

@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.service;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
@@ -31,12 +33,9 @@ import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.remote.overthere.OverthereModule;
 import de.uniulm.omi.cloudiator.sword.service.providers.ProviderConfiguration;
 import de.uniulm.omi.cloudiator.sword.service.providers.Providers;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 02.12.14.
@@ -44,77 +43,77 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class ServiceBuilder {
 
 
-    private Cloud cloud;
-    private AbstractLoggingModule loggingModule;
-    private AbstractRemoteModule remoteModule;
-    private DefaultMetaModule metaModule = new DefaultMetaModule();
+  private Cloud cloud;
+  private AbstractLoggingModule loggingModule;
+  private AbstractRemoteModule remoteModule;
+  private DefaultMetaModule metaModule = new DefaultMetaModule();
 
-    public static ServiceBuilder newServiceBuilder() {
-        return new ServiceBuilder();
+  private ServiceBuilder() {
+
+  }
+
+  public static ServiceBuilder newServiceBuilder() {
+    return new ServiceBuilder();
+  }
+
+  public ServiceBuilder loggingModule(AbstractLoggingModule loggingModule) {
+    this.loggingModule = loggingModule;
+    return this;
+  }
+
+  public ServiceBuilder remoteModule(AbstractRemoteModule abstractRemoteModule) {
+    this.remoteModule = abstractRemoteModule;
+    return this;
+  }
+
+  public ServiceBuilder metaModule(DefaultMetaModule abstractMetaModule) {
+    this.metaModule = abstractMetaModule;
+    return this;
+  }
+
+  public ServiceBuilder cloud(Cloud cloud) {
+    this.cloud = cloud;
+    return this;
+  }
+
+  public ComputeService build() {
+    ProviderConfiguration providerConfiguration =
+        Providers.getConfigurationByName(cloud.api().providerName());
+    checkNotNull(providerConfiguration);
+    return this.buildInjector(providerConfiguration.getModules(), providerConfiguration)
+        .getInstance(providerConfiguration.getComputeService());
+  }
+
+  protected Injector buildInjector(Collection<? extends Module> modules,
+      ProviderConfiguration providerConfiguration) {
+    Collection<Module> basicModules = this.getBasicModules(providerConfiguration);
+    basicModules.addAll(modules);
+    basicModules.add(buildLoggingModule());
+    basicModules.add(buildRemoteModule());
+    basicModules.add(metaModule);
+    return Guice.createInjector(basicModules);
+  }
+
+  protected Set<Module> getBasicModules(ProviderConfiguration providerConfiguration) {
+    Set<Module> modules = new HashSet<>();
+    PropertiesBuilder propertiesBuilder = PropertiesBuilder.newBuilder()
+        .putProperties(providerConfiguration.getDefaultProperties().getProperties())
+        .putProperties(cloud.configuration().properties().getProperties());
+    modules.add(new BaseModule(cloud, propertiesBuilder.build()));
+    return modules;
+  }
+
+  private AbstractLoggingModule buildLoggingModule() {
+    if (loggingModule == null) {
+      return new NullLoggingModule();
     }
+    return loggingModule;
+  }
 
-    private ServiceBuilder() {
-
+  private AbstractRemoteModule buildRemoteModule() {
+    if (remoteModule == null) {
+      return new OverthereModule();
     }
-
-    public ServiceBuilder loggingModule(AbstractLoggingModule loggingModule) {
-        this.loggingModule = loggingModule;
-        return this;
-    }
-
-    public ServiceBuilder remoteModule(AbstractRemoteModule abstractRemoteModule) {
-        this.remoteModule = abstractRemoteModule;
-        return this;
-    }
-
-    public ServiceBuilder metaModule(DefaultMetaModule abstractMetaModule) {
-        this.metaModule = abstractMetaModule;
-        return this;
-    }
-
-    public ServiceBuilder cloud(Cloud cloud) {
-        this.cloud = cloud;
-        return this;
-    }
-
-    public ComputeService build() {
-        ProviderConfiguration providerConfiguration =
-            Providers.getConfigurationByName(cloud.api().providerName());
-        checkNotNull(providerConfiguration);
-        return this.buildInjector(providerConfiguration.getModules(), providerConfiguration)
-            .getInstance(providerConfiguration.getComputeService());
-    }
-
-    protected Injector buildInjector(Collection<? extends Module> modules,
-        ProviderConfiguration providerConfiguration) {
-        Collection<Module> basicModules = this.getBasicModules(providerConfiguration);
-        basicModules.addAll(modules);
-        basicModules.add(buildLoggingModule());
-        basicModules.add(buildRemoteModule());
-        basicModules.add(metaModule);
-        return Guice.createInjector(basicModules);
-    }
-
-    protected Set<Module> getBasicModules(ProviderConfiguration providerConfiguration) {
-        Set<Module> modules = new HashSet<>();
-        PropertiesBuilder propertiesBuilder = PropertiesBuilder.newBuilder()
-            .putProperties(providerConfiguration.getDefaultProperties().getProperties())
-            .putProperties(cloud.configuration().properties().getProperties());
-        modules.add(new BaseModule(cloud, propertiesBuilder.build()));
-        return modules;
-    }
-
-    private AbstractLoggingModule buildLoggingModule() {
-        if (loggingModule == null) {
-            return new NullLoggingModule();
-        }
-        return loggingModule;
-    }
-
-    private AbstractRemoteModule buildRemoteModule() {
-        if (remoteModule == null) {
-            return new OverthereModule();
-        }
-        return remoteModule;
-    }
+    return remoteModule;
+  }
 }

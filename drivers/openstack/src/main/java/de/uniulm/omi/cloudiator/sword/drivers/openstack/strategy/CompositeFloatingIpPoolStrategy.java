@@ -19,7 +19,6 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy;
 
 import com.google.common.base.Optional;
-
 import java.util.Set;
 
 /**
@@ -27,19 +26,20 @@ import java.util.Set;
  */
 public class CompositeFloatingIpPoolStrategy implements FloatingIpPoolStrategy {
 
-    private final Set<FloatingIpPoolStrategy> strategies;
+  private final Set<FloatingIpPoolStrategy> strategies;
 
-    public CompositeFloatingIpPoolStrategy(Set<FloatingIpPoolStrategy> strategies) {
-        this.strategies = strategies;
-    }
+  public CompositeFloatingIpPoolStrategy(Set<FloatingIpPoolStrategy> strategies) {
+    this.strategies = strategies;
+  }
 
-    @Override public Optional<String> apply(String virtualMachine) {
-        for (FloatingIpPoolStrategy strategy : strategies) {
-            final Optional<String> optionalPool = strategy.apply(virtualMachine);
-            if (optionalPool.isPresent()) {
-                return optionalPool;
-            }
-        }
-        return Optional.absent();
+  @Override
+  public Optional<String> apply(String virtualMachine) {
+    for (FloatingIpPoolStrategy strategy : strategies) {
+      final Optional<String> optionalPool = strategy.apply(virtualMachine);
+      if (optionalPool.isPresent()) {
+        return optionalPool;
+      }
     }
+    return Optional.absent();
+  }
 }

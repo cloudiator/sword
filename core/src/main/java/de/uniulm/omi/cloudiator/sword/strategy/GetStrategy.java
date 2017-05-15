@@ -29,13 +29,14 @@ import javax.annotation.Nullable;
  */
 public interface GetStrategy<S, T> {
 
-    /**
-     * Searches for a T using the provided argument s.
-     *
-     * @param s the id.
-     * @return T if found, otherwise null.
-     * @throws NullPointerException     if the given s is null.
-     * @throws IllegalArgumentException if the given s is invalid.
-     */
-    @Nullable T get(S s);
+  /**
+   * Searches for a T using the provided argument s.
+   *
+   * @param s the id.
+   * @return T if found, otherwise null.
+   * @throws NullPointerException if the given s is null.
+   * @throws IllegalArgumentException if the given s is invalid.
+   */
+  @Nullable
+  T get(S s);
 }

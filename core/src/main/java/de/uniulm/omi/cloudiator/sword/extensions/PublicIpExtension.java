@@ -24,25 +24,25 @@ package de.uniulm.omi.cloudiator.sword.extensions;
  */
 public interface PublicIpExtension {
 
-    /**
-     * Adds a public ip to the virtual machine.
-     *
-     * @param virtualMachineId the unique identifier for the virtual machine.
-     * @return the assigned ip address as string (mandatory).
-     * @throws NullPointerException     if the virtualMachineId is null
-     * @throws IllegalArgumentException if the virtualMachineId is empty.
-     * @todo define format of the address.
-     */
-    String addPublicIp(String virtualMachineId);
+  /**
+   * Adds a public ip to the virtual machine.
+   *
+   * @param virtualMachineId the unique identifier for the virtual machine.
+   * @return the assigned ip address as string (mandatory).
+   * @throws NullPointerException if the virtualMachineId is null
+   * @throws IllegalArgumentException if the virtualMachineId is empty.
+   * @todo define format of the address.
+   */
+  String addPublicIp(String virtualMachineId);
 
-    /**
-     * Removes the public ip from the virtual machine.
-     *
-     * @param virtualMachineId the unique identifier for the virtual machine (mandatory).
-     * @param address          the ip address which shall be removed (mandatory).
-     * @throws NullPointerException     if one of the argument is null.
-     * @throws IllegalArgumentException if one of the arguments is empty.
-     * @todo define format of the address.
-     */
-    void removePublicIp(String virtualMachineId, String address);
+  /**
+   * Removes the public ip from the virtual machine.
+   *
+   * @param virtualMachineId the unique identifier for the virtual machine (mandatory).
+   * @param address the ip address which shall be removed (mandatory).
+   * @throws NullPointerException if one of the argument is null.
+   * @throws IllegalArgumentException if one of the arguments is empty.
+   * @todo define format of the address.
+   */
+  void removePublicIp(String virtualMachineId, String address);
 }

@@ -19,11 +19,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocation;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.function.Predicate;
 
 /**
@@ -32,19 +31,22 @@ import java.util.function.Predicate;
 public class LocationToJCloudsLocation
     implements OneWayConverter<Location, org.jclouds.domain.Location> {
 
-    private final JCloudsComputeClient jCloudsComputeClient;
+  private final JCloudsComputeClient jCloudsComputeClient;
 
-    @Inject public LocationToJCloudsLocation(JCloudsComputeClient jCloudsComputeClient) {
-        this.jCloudsComputeClient = jCloudsComputeClient;
-    }
+  @Inject
+  public LocationToJCloudsLocation(JCloudsComputeClient jCloudsComputeClient) {
+    this.jCloudsComputeClient = jCloudsComputeClient;
+  }
 
-    @Override public org.jclouds.domain.Location apply(Location location) {
-        return jCloudsComputeClient.listLocations().stream()
-            .filter(new Predicate<AssignableLocation>() {
-                @Override public boolean test(AssignableLocation assignableLocation) {
-                    return assignableLocation.getId().equals(location.id());
-                }
-            }).findFirst().orElseThrow(() -> new IllegalStateException(
-                "Could not find jclouds location with id " + location.id()));
-    }
+  @Override
+  public org.jclouds.domain.Location apply(Location location) {
+    return jCloudsComputeClient.listLocations().stream()
+        .filter(new Predicate<AssignableLocation>() {
+          @Override
+          public boolean test(AssignableLocation assignableLocation) {
+            return assignableLocation.getId().equals(location.id());
+          }
+        }).findFirst().orElseThrow(() -> new IllegalStateException(
+            "Could not find jclouds location with id " + location.id()));
+  }
 }

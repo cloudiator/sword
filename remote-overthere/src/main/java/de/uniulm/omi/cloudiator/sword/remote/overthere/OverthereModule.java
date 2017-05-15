@@ -26,7 +26,8 @@ import de.uniulm.omi.cloudiator.sword.remote.internal.ExtendedRemoteModule;
  */
 public class OverthereModule extends ExtendedRemoteModule {
 
-    @Override protected Class<? extends RemoteConnectionFactory> getRemoteConnectionFactory() {
-        return OverthereDecidingConnectionFactory.class;
-    }
+  @Override
+  protected Class<? extends RemoteConnectionFactory> getRemoteConnectionFactory() {
+    return OverthereDecidingConnectionFactory.class;
+  }
 }

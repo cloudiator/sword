@@ -19,16 +19,15 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
-import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.domain.LoginCredentialBuilder;
+import de.uniulm.omi.cloudiator.sword.properties.Constants;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.jclouds.domain.LoginCredentials;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 27.01.15.
@@ -36,25 +35,32 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class JCloudsLoginCredentialsToLoginCredential
     implements OneWayConverter<LoginCredentials, LoginCredential> {
 
-    @Inject(optional = true) @Named(Constants.IGNORE_LOGIN_KEYPAIR) private boolean ignoreKeyPair = false;
-    @Inject(optional = true) @Named(Constants.IGNORE_LOGIN_PASSWORD) private boolean ignorePassword = false;
-    @Inject(optional = true) @Named(Constants.IGNORE_LOGIN_USERNAME) private boolean ignoreUser = false;
+  @Inject(optional = true)
+  @Named(Constants.IGNORE_LOGIN_KEYPAIR)
+  private boolean ignoreKeyPair = false;
+  @Inject(optional = true)
+  @Named(Constants.IGNORE_LOGIN_PASSWORD)
+  private boolean ignorePassword = false;
+  @Inject(optional = true)
+  @Named(Constants.IGNORE_LOGIN_USERNAME)
+  private boolean ignoreUser = false;
 
-    @Override public LoginCredential apply(LoginCredentials loginCredentials) {
+  @Override
+  public LoginCredential apply(LoginCredentials loginCredentials) {
 
-        checkNotNull(loginCredentials);
+    checkNotNull(loginCredentials);
 
-        final LoginCredentialBuilder loginCredentialBuilder = LoginCredentialBuilder.newBuilder();
-        if (!ignoreUser) {
-            loginCredentialBuilder.username(loginCredentials.getUser());
-        }
-        if (loginCredentials.getOptionalPassword().isPresent() && !ignorePassword) {
-            loginCredentialBuilder.password(loginCredentials.getOptionalPassword().get());
-        }
-        if (loginCredentials.getOptionalPrivateKey().isPresent() && !ignoreKeyPair) {
-            loginCredentialBuilder.privateKey(loginCredentials.getOptionalPrivateKey().get());
-        }
-
-        return loginCredentialBuilder.build();
+    final LoginCredentialBuilder loginCredentialBuilder = LoginCredentialBuilder.newBuilder();
+    if (!ignoreUser) {
+      loginCredentialBuilder.username(loginCredentials.getUser());
     }
+    if (loginCredentials.getOptionalPassword().isPresent() && !ignorePassword) {
+      loginCredentialBuilder.password(loginCredentials.getOptionalPassword().get());
+    }
+    if (loginCredentials.getOptionalPrivateKey().isPresent() && !ignoreKeyPair) {
+      loginCredentialBuilder.privateKey(loginCredentials.getOptionalPrivateKey().get());
+    }
+
+    return loginCredentialBuilder.build();
+  }
 }

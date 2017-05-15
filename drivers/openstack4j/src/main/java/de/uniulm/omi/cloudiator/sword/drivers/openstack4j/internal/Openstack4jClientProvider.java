@@ -18,31 +18,33 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.reflect.Reflection;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import org.openstack4j.api.OSClient;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * Created by daniel on 14.11.16.
  */
 public class Openstack4jClientProvider implements Provider<OSClient> {
 
-    private final Injector injector;
-    private final KeyStoneVersion keyStoneVersion;
+  private final Injector injector;
+  private final KeyStoneVersion keyStoneVersion;
 
-    @Inject public Openstack4jClientProvider(Injector injector, KeyStoneVersion keyStoneVersion) {
-        checkNotNull(keyStoneVersion, "keyStoneVersion is null");
-        this.keyStoneVersion = keyStoneVersion;
-        checkNotNull(injector, "injector is null");
-        this.injector = injector;
-    }
+  @Inject
+  public Openstack4jClientProvider(Injector injector, KeyStoneVersion keyStoneVersion) {
+    checkNotNull(keyStoneVersion, "keyStoneVersion is null");
+    this.keyStoneVersion = keyStoneVersion;
+    checkNotNull(injector, "injector is null");
+    this.injector = injector;
+  }
 
-    @Override public OSClient get() {
-        return Reflection.newProxy(keyStoneVersion.osClientClass(),
-            injector.getInstance(LazyAuthenticationOSClient.class));
-    }
+  @Override
+  public OSClient get() {
+    return Reflection.newProxy(keyStoneVersion.osClientClass(),
+        injector.getInstance(LazyAuthenticationOSClient.class));
+  }
 }

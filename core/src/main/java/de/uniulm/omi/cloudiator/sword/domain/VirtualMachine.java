@@ -19,9 +19,6 @@
 package de.uniulm.omi.cloudiator.sword.domain;
 
 
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Optional;
 import java.util.Set;
 
@@ -30,48 +27,48 @@ import java.util.Set;
  */
 public interface VirtualMachine extends Resource {
 
-    enum State {
+  /**
+   * The public ip addresses under which this virtual machine is reachable.
+   *
+   * @return an immutable set of ip addresses.
+   */
+  Set<String> publicAddresses();
 
-    }
+  /**
+   * The private up addresses assigned to the virtual machine.
+   *
+   * @return an immutable set of up addresses.
+   */
+  Set<String> privateAddresses();
 
-    /**
-     * The public ip addresses under which this virtual machine is reachable.
-     *
-     * @return an immutable set of ip addresses.
-     */
-    Set<String> publicAddresses();
+  /**
+   * The {@link Image} used for creating the virtual machine.
+   *
+   * @return {@link Optional} image
+   */
+  Optional<Image> image();
 
-    /**
-     * The private up addresses assigned to the virtual machine.
-     *
-     * @return an immutable set of up addresses.
-     */
-    Set<String> privateAddresses();
+  /**
+   * The {@link HardwareFlavor} used for creating the virtual machine.
+   *
+   * @return {@link Optional} hardware.
+   */
+  Optional<HardwareFlavor> hardware();
 
-    /**
-     * The {@link Image} used for creating the virtual machine.
-     *
-     * @return {@link Optional} image
-     */
-    Optional<Image> image();
+  /**
+   * {@link Optional} login credentials.
+   * <p/>
+   * The login credentials are normally only available
+   * if the machine was just created.
+   *
+   * @return optional login credentials.
+   */
+  Optional<LoginCredential> loginCredential();
 
-    /**
-     * The {@link HardwareFlavor} used for creating the virtual machine.
-     *
-     * @return {@link Optional} hardware.
-     */
-    Optional<HardwareFlavor> hardware();
+  State state();
 
-    /**
-     * {@link Optional} login credentials.
-     * <p/>
-     * The login credentials are normally only available
-     * if the machine was just created.
-     *
-     * @return optional login credentials.
-     */
-    Optional<LoginCredential> loginCredential();
+  enum State {
 
-    State state();
+  }
 
 }

@@ -19,14 +19,12 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
-
 import com.google.common.collect.ImmutableMap;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.LocationBuilder;
-import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.domain.AssignableLocation;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Map;
 
 /**
@@ -35,58 +33,60 @@ import java.util.Map;
 public class JCloudsLocationToLocation
     implements OneWayConverter<org.jclouds.domain.Location, Location> {
 
-    private final OneWayConverter<org.jclouds.domain.LocationScope, LocationScope>
-        locationScopeConverter;
+  private final OneWayConverter<org.jclouds.domain.LocationScope, LocationScope>
+      locationScopeConverter;
 
-    public JCloudsLocationToLocation() {
-        locationScopeConverter = new JCloudsLocationScopeToLocationScope();
+  public JCloudsLocationToLocation() {
+    locationScopeConverter = new JCloudsLocationScopeToLocationScope();
+  }
+
+  @Override
+  public Location apply(org.jclouds.domain.Location location) {
+    if (location == null) {
+      return null;
     }
 
-    @Override public Location apply(org.jclouds.domain.Location location) {
-        if (location == null) {
-            return null;
-        }
+    final LocationBuilder builder =
+        LocationBuilder.newBuilder().id(location.getId()).name(location.getId());
 
-        final LocationBuilder builder =
-            LocationBuilder.newBuilder().id(location.getId()).name(location.getId());
-
-        if (location instanceof AssignableLocation) {
-            builder.assignable(((AssignableLocation) location).isAssignable());
-        } else {
-            builder.assignable(true);
-        }
-
-        if (location.getParent() != null) {
-            final Location parent = apply(location.getParent());
-            builder.parent(parent);
-        }
-
-        builder.scope(locationScopeConverter.apply(location.getScope()));
-
-        return builder.build();
+    if (location instanceof AssignableLocation) {
+      builder.assignable(((AssignableLocation) location).isAssignable());
+    } else {
+      builder.assignable(true);
     }
 
-    private static class JCloudsLocationScopeToLocationScope
-        implements OneWayConverter<org.jclouds.domain.LocationScope, LocationScope> {
-
-        private static final Map<org.jclouds.domain.LocationScope, LocationScope> CONVERSION_MAP;
-
-        static {
-            final ImmutableMap.Builder<org.jclouds.domain.LocationScope, LocationScope> builder =
-                ImmutableMap.builder();
-            builder.put(org.jclouds.domain.LocationScope.PROVIDER, LocationScope.PROVIDER);
-            builder.put(org.jclouds.domain.LocationScope.REGION, LocationScope.REGION);
-            builder.put(org.jclouds.domain.LocationScope.ZONE, LocationScope.ZONE);
-            builder.put(org.jclouds.domain.LocationScope.HOST, LocationScope.HOST);
-            CONVERSION_MAP = builder.build();
-        }
-
-        @Override public LocationScope apply(org.jclouds.domain.LocationScope locationScope) {
-            if (CONVERSION_MAP.containsKey(locationScope)) {
-                return CONVERSION_MAP.get(locationScope);
-            }
-            throw new AssertionError("Found unexpected location scope " + locationScope);
-        }
+    if (location.getParent() != null) {
+      final Location parent = apply(location.getParent());
+      builder.parent(parent);
     }
+
+    builder.scope(locationScopeConverter.apply(location.getScope()));
+
+    return builder.build();
+  }
+
+  private static class JCloudsLocationScopeToLocationScope
+      implements OneWayConverter<org.jclouds.domain.LocationScope, LocationScope> {
+
+    private static final Map<org.jclouds.domain.LocationScope, LocationScope> CONVERSION_MAP;
+
+    static {
+      final ImmutableMap.Builder<org.jclouds.domain.LocationScope, LocationScope> builder =
+          ImmutableMap.builder();
+      builder.put(org.jclouds.domain.LocationScope.PROVIDER, LocationScope.PROVIDER);
+      builder.put(org.jclouds.domain.LocationScope.REGION, LocationScope.REGION);
+      builder.put(org.jclouds.domain.LocationScope.ZONE, LocationScope.ZONE);
+      builder.put(org.jclouds.domain.LocationScope.HOST, LocationScope.HOST);
+      CONVERSION_MAP = builder.build();
+    }
+
+    @Override
+    public LocationScope apply(org.jclouds.domain.LocationScope locationScope) {
+      if (CONVERSION_MAP.containsKey(locationScope)) {
+        return CONVERSION_MAP.get(locationScope);
+      }
+      throw new AssertionError("Found unexpected location scope " + locationScope);
+    }
+  }
 
 }

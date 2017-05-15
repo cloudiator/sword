@@ -25,24 +25,24 @@ import de.uniulm.omi.cloudiator.sword.domain.Cloud;
  */
 public interface CloudRegistry {
 
-    /**
-     * Registers a new {@link Cloud} at the registry.
-     *
-     * @param cloud the cloud to register.
-     */
-    CloudRegistry register(Cloud cloud);
+  /**
+   * Registers a new {@link Cloud} at the registry.
+   *
+   * @param cloud the cloud to register.
+   */
+  CloudRegistry register(Cloud cloud);
 
-    /**
-     * Unregisters an existing {@link Cloud} at the registry if its present.
-     *
-     * @param cloud the {@link Cloud} to remove.
-     */
-    CloudRegistry unregister(Cloud cloud);
+  /**
+   * Unregisters an existing {@link Cloud} at the registry if its present.
+   *
+   * @param cloud the {@link Cloud} to remove.
+   */
+  CloudRegistry unregister(Cloud cloud);
 
-    /**
-     * Unregisters the cloud identified by the id if present.
-     *
-     * @param cloudId the id of the cloud to remove.
-     */
-    CloudRegistry unregister(String cloudId);
+  /**
+   * Unregisters the cloud identified by the id if present.
+   *
+   * @param cloudId the id of the cloud to remove.
+   */
+  CloudRegistry unregister(String cloudId);
 }

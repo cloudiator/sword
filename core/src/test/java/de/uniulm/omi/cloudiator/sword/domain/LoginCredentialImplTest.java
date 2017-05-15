@@ -18,64 +18,69 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by daniel on 29.07.15.
  */
 public class LoginCredentialImplTest {
 
-    private String testUser = "user";
-    private String testPassword = "password";
-    private String testPrivateKey =
-        "shglehsjkghejkshgjkehskgjehjkghesjkhgejkshgjkehsgjkhesjkghejkshgjkeshkgheks";
-    private LoginCredential validLoginCredential;
+  private String testUser = "user";
+  private String testPassword = "password";
+  private String testPrivateKey =
+      "shglehsjkghejkshgjkehskgjehjkghesjkhgejkshgjkehsgjkhesjkghejkshgjkeshkgheks";
+  private LoginCredential validLoginCredential;
 
-    @Before public void before() {
-        validLoginCredential =
-            LoginCredentialBuilder.newBuilder().username(testUser).password(testPassword)
-                .privateKey(testPrivateKey).build();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testConstructorForbidsEmptyPassword() {
-        LoginCredentialBuilder.newBuilder().username(testUser).password("")
+  @Before
+  public void before() {
+    validLoginCredential =
+        LoginCredentialBuilder.newBuilder().username(testUser).password(testPassword)
             .privateKey(testPrivateKey).build();
-    }
+  }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testConstructorForbidsEmptyUsername() {
-        LoginCredentialBuilder.newBuilder().username("").password(testPassword)
-            .privateKey(testPrivateKey).build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void testConstructorForbidsEmptyPassword() {
+    LoginCredentialBuilder.newBuilder().username(testUser).password("")
+        .privateKey(testPrivateKey).build();
+  }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testConstructorForbidsEmptyPrivateKey() {
-        LoginCredentialBuilder.newBuilder().username(testUser).password(testPassword).privateKey("")
-            .build();
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void testConstructorForbidsEmptyUsername() {
+    LoginCredentialBuilder.newBuilder().username("").password(testPassword)
+        .privateKey(testPrivateKey).build();
+  }
 
-    @Test public void testUsername() throws Exception {
-        assertThat(validLoginCredential.username().get(), equalTo(testUser));
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void testConstructorForbidsEmptyPrivateKey() {
+    LoginCredentialBuilder.newBuilder().username(testUser).password(testPassword).privateKey("")
+        .build();
+  }
 
-    @Test public void testPassword() throws Exception {
-        assertThat(validLoginCredential.password().get(), equalTo(testPassword));
-    }
+  @Test
+  public void testUsername() throws Exception {
+    assertThat(validLoginCredential.username().get(), equalTo(testUser));
+  }
 
-    @Test public void testPrivateKey() throws Exception {
-        assertThat(validLoginCredential.privateKey().get(), equalTo(testPrivateKey));
-    }
+  @Test
+  public void testPassword() throws Exception {
+    assertThat(validLoginCredential.password().get(), equalTo(testPassword));
+  }
 
-    @Test public void testBuilderOf() {
-        LoginCredentialBuilder builder = LoginCredentialBuilder.of(validLoginCredential);
-        LoginCredential toTest = builder.build();
-        assertThat(toTest.password().get(), equalTo(validLoginCredential.password().get()));
-        assertThat(toTest.privateKey().get(), equalTo(validLoginCredential.privateKey().get()));
-        assertThat(toTest.username().get(), equalTo(validLoginCredential.username().get()));
-    }
+  @Test
+  public void testPrivateKey() throws Exception {
+    assertThat(validLoginCredential.privateKey().get(), equalTo(testPrivateKey));
+  }
+
+  @Test
+  public void testBuilderOf() {
+    LoginCredentialBuilder builder = LoginCredentialBuilder.of(validLoginCredential);
+    LoginCredential toTest = builder.build();
+    assertThat(toTest.password().get(), equalTo(validLoginCredential.password().get()));
+    assertThat(toTest.privateKey().get(), equalTo(validLoginCredential.privateKey().get()));
+    assertThat(toTest.username().get(), equalTo(validLoginCredential.username().get()));
+  }
 }

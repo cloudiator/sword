@@ -18,88 +18,96 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
+import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplateBuilder;
 import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
+import de.uniulm.omi.cloudiator.sword.multicloud.domain.VirtualMachineMultiCloudImpl;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.service.ConnectionService;
 import de.uniulm.omi.cloudiator.sword.service.DiscoveryService;
-import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplateBuilder;
-import de.uniulm.omi.cloudiator.sword.multicloud.domain.VirtualMachineMultiCloudImpl;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by daniel on 20.01.17.
  */
 public class MultiCloudComputeService implements ComputeService {
 
-    private final ComputeServiceProvider computeServiceProvider;
+  private final ComputeServiceProvider computeServiceProvider;
 
-    @Inject public MultiCloudComputeService(ComputeServiceProvider computeServiceProvider) {
-        checkNotNull(computeServiceProvider, "computeServiceProvider is null");
-        this.computeServiceProvider = computeServiceProvider;
-    }
+  @Inject
+  public MultiCloudComputeService(ComputeServiceProvider computeServiceProvider) {
+    checkNotNull(computeServiceProvider, "computeServiceProvider is null");
+    this.computeServiceProvider = computeServiceProvider;
+  }
 
-    @Override public DiscoveryService discoveryService() {
-        return new MultiCloudDiscoveryService(computeServiceProvider);
-    }
+  @Override
+  public DiscoveryService discoveryService() {
+    return new MultiCloudDiscoveryService(computeServiceProvider);
+  }
 
-    @Override public void deleteVirtualMachine(String virtualMachineId) {
-        final IdScopedByCloud scopedVmId = IdScopedByClouds.from(virtualMachineId);
-        this.computeServiceProvider.forId(scopedVmId.cloudId())
-            .deleteVirtualMachine(scopedVmId.id());
-    }
+  @Override
+  public void deleteVirtualMachine(String virtualMachineId) {
+    final IdScopedByCloud scopedVmId = IdScopedByClouds.from(virtualMachineId);
+    this.computeServiceProvider.forId(scopedVmId.cloudId())
+        .deleteVirtualMachine(scopedVmId.id());
+  }
 
-    @Override public VirtualMachine createVirtualMachine(
-        final VirtualMachineTemplate virtualMachineTemplate) {
-        final IdScopedByCloud scopedImageId =
-            IdScopedByClouds.from(virtualMachineTemplate.imageId());
-        final IdScopedByCloud scopedLocationId =
-            IdScopedByClouds.from(virtualMachineTemplate.locationId());
-        final IdScopedByCloud scopedHardwareId =
-            IdScopedByClouds.from(virtualMachineTemplate.hardwareFlavorId());
+  @Override
+  public VirtualMachine createVirtualMachine(
+      final VirtualMachineTemplate virtualMachineTemplate) {
+    final IdScopedByCloud scopedImageId =
+        IdScopedByClouds.from(virtualMachineTemplate.imageId());
+    final IdScopedByCloud scopedLocationId =
+        IdScopedByClouds.from(virtualMachineTemplate.locationId());
+    final IdScopedByCloud scopedHardwareId =
+        IdScopedByClouds.from(virtualMachineTemplate.hardwareFlavorId());
 
-        checkState(
-            scopedImageId.cloudId().equals(scopedLocationId.cloudId()) && scopedLocationId.cloudId()
-                .equals(scopedHardwareId.cloudId()), String.format(
-                "VirtualMachineTemplate %s has different cloud targets. Image targets cloud %s, Location targets cloud %s and Hardware targets cloud %s.",
-                virtualMachineTemplate, scopedImageId.cloudId(), scopedLocationId.cloudId(),
-                scopedHardwareId.cloudId()));
+    checkState(
+        scopedImageId.cloudId().equals(scopedLocationId.cloudId()) && scopedLocationId.cloudId()
+            .equals(scopedHardwareId.cloudId()), String.format(
+            "VirtualMachineTemplate %s has different cloud targets. Image targets cloud %s, Location targets cloud %s and Hardware targets cloud %s.",
+            virtualMachineTemplate, scopedImageId.cloudId(), scopedLocationId.cloudId(),
+            scopedHardwareId.cloudId()));
 
-        final VirtualMachineTemplate singleCloudTemplate =
-            VirtualMachineTemplateBuilder.of(virtualMachineTemplate).image(scopedImageId.id())
-                .location(scopedLocationId.id()).hardwareFlavor(scopedHardwareId.id()).build();
+    final VirtualMachineTemplate singleCloudTemplate =
+        VirtualMachineTemplateBuilder.of(virtualMachineTemplate).image(scopedImageId.id())
+            .location(scopedLocationId.id()).hardwareFlavor(scopedHardwareId.id()).build();
 
-        //we chose the cloudId of the image, but we asserted above that it is the same for hardware
-        //and location;
-        String cloudId = scopedImageId.cloudId();
+    //we chose the cloudId of the image, but we asserted above that it is the same for hardware
+    //and location;
+    String cloudId = scopedImageId.cloudId();
 
-        final VirtualMachine virtualMachine =
-            this.computeServiceProvider.forId(scopedLocationId.cloudId())
-                .createVirtualMachine(singleCloudTemplate);
+    final VirtualMachine virtualMachine =
+        this.computeServiceProvider.forId(scopedLocationId.cloudId())
+            .createVirtualMachine(singleCloudTemplate);
 
-        return new VirtualMachineMultiCloudImpl(virtualMachine, cloudId);
-    }
+    return new VirtualMachineMultiCloudImpl(virtualMachine, cloudId);
+  }
 
-    @Override public ConnectionService connectionService() {
-        return new MultiCloudConnectionService(computeServiceProvider);
-    }
+  @Override
+  public ConnectionService connectionService() {
+    return new MultiCloudConnectionService(computeServiceProvider);
+  }
 
-    @Override public Optional<PublicIpExtension> publicIpExtension() {
-        return Optional.of(new MultiCloudPublicIpExtension(computeServiceProvider));
-    }
+  @Override
+  public Optional<PublicIpExtension> publicIpExtension() {
+    return Optional.of(new MultiCloudPublicIpExtension(computeServiceProvider));
+  }
 
-    @Override public Optional<KeyPairExtension> keyPairExtension() {
-        return Optional.of(new MultiCloudKeyPairExtension(computeServiceProvider));
-    }
+  @Override
+  public Optional<KeyPairExtension> keyPairExtension() {
+    return Optional.of(new MultiCloudKeyPairExtension(computeServiceProvider));
+  }
 
-    @Override public Optional<SecurityGroupExtension> securityGroupExtension() {
-        return Optional.of(new MultiCloudSecurityGroupExtension(computeServiceProvider));
-    }
+  @Override
+  public Optional<SecurityGroupExtension> securityGroupExtension() {
+    return Optional.of(new MultiCloudSecurityGroupExtension(computeServiceProvider));
+  }
 }

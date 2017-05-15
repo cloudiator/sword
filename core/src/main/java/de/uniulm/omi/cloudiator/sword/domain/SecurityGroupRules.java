@@ -23,12 +23,12 @@ package de.uniulm.omi.cloudiator.sword.domain;
  */
 public class SecurityGroupRules {
 
-    public static SecurityGroupRule ALL =
-        SecurityGroupRuleBuilder.newBuilder().ipProtocol(IpProtocol.ALL).fromPort(-1).toPort(-1)
-            .cidr(CidrImpl.ALL).build();
+  public static SecurityGroupRule ALL =
+      SecurityGroupRuleBuilder.newBuilder().ipProtocol(IpProtocol.ALL).fromPort(-1).toPort(-1)
+          .cidr(CidrImpl.ALL).build();
 
-    private SecurityGroupRules() {
-        throw new AssertionError("static class");
-    }
+  private SecurityGroupRules() {
+    throw new AssertionError("static class");
+  }
 
 }

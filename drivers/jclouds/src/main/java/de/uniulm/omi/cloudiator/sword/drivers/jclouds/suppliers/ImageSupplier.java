@@ -21,12 +21,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.jclouds.suppliers;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsComputeClient;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Set;
-
 import java.util.stream.Collectors;
 
 /**
@@ -34,17 +32,19 @@ import java.util.stream.Collectors;
  */
 public class ImageSupplier implements Supplier<Set<Image>> {
 
-    private final JCloudsComputeClient jCloudsComputeClient;
-    private final OneWayConverter<org.jclouds.compute.domain.Image, Image> jCloudsImageToImage;
+  private final JCloudsComputeClient jCloudsComputeClient;
+  private final OneWayConverter<org.jclouds.compute.domain.Image, Image> jCloudsImageToImage;
 
-    @Inject public ImageSupplier(JCloudsComputeClient jCloudsComputeClient,
-        OneWayConverter<org.jclouds.compute.domain.Image, Image> jCloudsImageToImage) {
-        this.jCloudsComputeClient = jCloudsComputeClient;
-        this.jCloudsImageToImage = jCloudsImageToImage;
-    }
+  @Inject
+  public ImageSupplier(JCloudsComputeClient jCloudsComputeClient,
+      OneWayConverter<org.jclouds.compute.domain.Image, Image> jCloudsImageToImage) {
+    this.jCloudsComputeClient = jCloudsComputeClient;
+    this.jCloudsImageToImage = jCloudsImageToImage;
+  }
 
-    @Override public Set<Image> get() {
-        return jCloudsComputeClient.listImages().stream().map(jCloudsImageToImage::apply)
-            .collect(Collectors.toSet());
-    }
+  @Override
+  public Set<Image> get() {
+    return jCloudsComputeClient.listImages().stream().map(jCloudsImageToImage::apply)
+        .collect(Collectors.toSet());
+  }
 }

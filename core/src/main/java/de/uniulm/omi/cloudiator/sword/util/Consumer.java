@@ -25,12 +25,12 @@ package de.uniulm.omi.cloudiator.sword.util;
  */
 public interface Consumer<T> {
 
-    /**
-     * Applies the action to t.
-     *
-     * @param t the object the action is applied to.
-     * @throws NullPointerException if the given object is null.
-     */
-    void apply(T t);
+  /**
+   * Applies the action to t.
+   *
+   * @param t the object the action is applied to.
+   * @throws NullPointerException if the given object is null.
+   */
+  void apply(T t);
 
 }

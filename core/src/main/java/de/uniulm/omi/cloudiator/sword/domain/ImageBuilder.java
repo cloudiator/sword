@@ -19,68 +19,68 @@
 package de.uniulm.omi.cloudiator.sword.domain;
 
 
-import de.uniulm.omi.cloudiator.domain.OperatingSystem;
-
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import de.uniulm.omi.cloudiator.domain.OperatingSystem;
 
 /**
  * Created by daniel on 01.12.14.
  */
 public class ImageBuilder {
 
-    private String id;
-    private String providerId;
-    private String name;
-    private Location location;
-    private OperatingSystem os;
+  private String id;
+  private String providerId;
+  private String name;
+  private Location location;
+  private OperatingSystem os;
 
-    private ImageBuilder() {
+  private ImageBuilder() {
 
-    }
+  }
 
-    private ImageBuilder(Image image) {
-        id = image.id();
-        providerId = image.providerId();
-        name = image.name();
-        location = image.location().orElse(null);
-        os = image.operatingSystem();
-    }
+  private ImageBuilder(Image image) {
+    id = image.id();
+    providerId = image.providerId();
+    name = image.name();
+    location = image.location().orElse(null);
+    os = image.operatingSystem();
+  }
 
-    public static ImageBuilder newBuilder() {
-        return new ImageBuilder();
-    }
+  public static ImageBuilder newBuilder() {
+    return new ImageBuilder();
+  }
 
-    public static ImageBuilder of(Image image) {
-        checkNotNull(image, "image is null");
-        return new ImageBuilder(image);
-    }
+  public static ImageBuilder of(Image image) {
+    checkNotNull(image, "image is null");
+    return new ImageBuilder(image);
+  }
 
-    public ImageBuilder id(String id) {
-        this.id = id;
-        return this;
-    }
+  public ImageBuilder id(String id) {
+    this.id = id;
+    return this;
+  }
 
-    public ImageBuilder providerId(String providerId) {
-        this.providerId = providerId;
-        return this;
-    }
+  public ImageBuilder providerId(String providerId) {
+    this.providerId = providerId;
+    return this;
+  }
 
-    public ImageBuilder name(String name) {
-        this.name = name;
-        return this;
-    }
+  public ImageBuilder name(String name) {
+    this.name = name;
+    return this;
+  }
 
-    public ImageBuilder location(Location location) {
-        this.location = location;
-        return this;
-    }
+  public ImageBuilder location(Location location) {
+    this.location = location;
+    return this;
+  }
 
-    public ImageBuilder os(OperatingSystem os) {
-        this.os = os;
-        return this;
-    }
+  public ImageBuilder os(OperatingSystem os) {
+    this.os = os;
+    return this;
+  }
 
-    public ImageImpl build() {
-        return new ImageImpl(id, providerId, name, location, os);
-    }
+  public ImageImpl build() {
+    return new ImageImpl(id, providerId, name, location, os);
+  }
 }

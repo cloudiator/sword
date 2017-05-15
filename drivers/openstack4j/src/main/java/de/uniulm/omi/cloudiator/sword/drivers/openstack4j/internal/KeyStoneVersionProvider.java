@@ -18,41 +18,45 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by daniel on 17.11.16.
  */
 public class KeyStoneVersionProvider implements Provider<KeyStoneVersion> {
 
-    @Inject(optional = true) @Named(Openstack4JConstants.KEYSTONE_VERSION) private String
-        keystoneVersionConfiguration;
-    private final Cloud cloud;
+  private final Cloud cloud;
+  @Inject(optional = true)
+  @Named(Openstack4JConstants.KEYSTONE_VERSION)
+  private String
+      keystoneVersionConfiguration;
 
-    @Inject public KeyStoneVersionProvider(Cloud cloud) {
-        checkNotNull(cloud);
-        this.cloud = cloud;
+  @Inject
+  public KeyStoneVersionProvider(Cloud cloud) {
+    checkNotNull(cloud);
+    this.cloud = cloud;
+  }
+
+  @Override
+  public KeyStoneVersion get() {
+
+    if (keystoneVersionConfiguration != null) {
+      try {
+        return KeyStoneVersion.valueOf(keystoneVersionConfiguration);
+      } catch (IllegalArgumentException e) {
+        throw new IllegalStateException(
+            "Illegal configuration for " + Openstack4JConstants.KEYSTONE_VERSION);
+      }
     }
 
-    @Override public KeyStoneVersion get() {
-
-        if (keystoneVersionConfiguration != null) {
-            try {
-                return KeyStoneVersion.valueOf(keystoneVersionConfiguration);
-            } catch (IllegalArgumentException e) {
-                throw new IllegalStateException(
-                    "Illegal configuration for " + Openstack4JConstants.KEYSTONE_VERSION);
-            }
-        }
-
-        checkState(cloud.endpoint().isPresent(), "Endpoint is mandatory.");
-        return checkNotNull(KeyStoneVersion.fromEndpoint(cloud.endpoint().get()),
-            "Unable to resolve keyStone version from endpoint.");
-    }
+    checkState(cloud.endpoint().isPresent(), "Endpoint is mandatory.");
+    return checkNotNull(KeyStoneVersion.fromEndpoint(cloud.endpoint().get()),
+        "Unable to resolve keyStone version from endpoint.");
+  }
 }

@@ -18,88 +18,101 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
-import org.openstack4j.model.common.Link;
-import org.openstack4j.model.compute.Image;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.openstack4j.model.common.Link;
+import org.openstack4j.model.compute.Image;
 
 /**
  * Created by daniel on 18.11.16.
  */
 public class ImageInRegion implements Image, InRegion, ProviderIdentified {
 
-    private final Image delegate;
-    private final Location region;
-    private final String regionScopedId;
+  private final Image delegate;
+  private final Location region;
+  private final String regionScopedId;
 
-    public ImageInRegion(Image original, Location region) {
-        checkNotNull(original, "original is null.");
-        checkNotNull(region, "region is null");
-        delegate = original;
-        this.region = region;
-        this.regionScopedId =
-            IdScopeByLocations.from(region.id(), delegate.getId()).getIdWithLocation();
-    }
+  public ImageInRegion(Image original, Location region) {
+    checkNotNull(original, "original is null.");
+    checkNotNull(region, "region is null");
+    delegate = original;
+    this.region = region;
+    this.regionScopedId =
+        IdScopeByLocations.from(region.id(), delegate.getId()).getIdWithLocation();
+  }
 
-    @Override public String getId() {
-        return regionScopedId;
-    }
+  @Override
+  public String getId() {
+    return regionScopedId;
+  }
 
-    @Override public String getName() {
-        return delegate.getName();
-    }
+  @Override
+  public String getName() {
+    return delegate.getName();
+  }
 
-    @Override public long getSize() {
-        return delegate.getSize();
-    }
+  @Override
+  public long getSize() {
+    return delegate.getSize();
+  }
 
-    @Override public int getMinDisk() {
-        return delegate.getMinDisk();
-    }
+  @Override
+  public int getMinDisk() {
+    return delegate.getMinDisk();
+  }
 
-    @Override public int getMinRam() {
-        return delegate.getMinRam();
-    }
+  @Override
+  public int getMinRam() {
+    return delegate.getMinRam();
+  }
 
-    @Override public int getProgress() {
-        return delegate.getProgress();
-    }
+  @Override
+  public int getProgress() {
+    return delegate.getProgress();
+  }
 
-    @Override public Status getStatus() {
-        return delegate.getStatus();
-    }
+  @Override
+  public Status getStatus() {
+    return delegate.getStatus();
+  }
 
-    @Override public Date getCreated() {
-        return delegate.getCreated();
-    }
+  @Override
+  public Date getCreated() {
+    return delegate.getCreated();
+  }
 
-    @Override public Date getUpdated() {
-        return delegate.getUpdated();
-    }
+  @Override
+  public Date getUpdated() {
+    return delegate.getUpdated();
+  }
 
-    @Override public List<? extends Link> getLinks() {
-        return delegate.getLinks();
-    }
+  @Override
+  public List<? extends Link> getLinks() {
+    return delegate.getLinks();
+  }
 
-    @Override public Map<String, Object> getMetaData() {
-        return delegate.getMetaData();
-    }
+  @Override
+  public Map<String, Object> getMetaData() {
+    return delegate.getMetaData();
+  }
 
-    @Override public boolean isSnapshot() {
-        return delegate.isSnapshot();
-    }
+  @Override
+  public boolean isSnapshot() {
+    return delegate.isSnapshot();
+  }
 
-    @Override public String providerId() {
-        return delegate.getId();
-    }
+  @Override
+  public String providerId() {
+    return delegate.getId();
+  }
 
-    @Override public Location region() {
-        return region;
-    }
+  @Override
+  public Location region() {
+    return region;
+  }
 }

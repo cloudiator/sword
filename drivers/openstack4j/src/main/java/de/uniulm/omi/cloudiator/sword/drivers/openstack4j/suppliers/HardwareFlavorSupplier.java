@@ -18,55 +18,54 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.FlavorInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
-import org.openstack4j.api.OSClient;
-
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.openstack4j.api.OSClient;
 
 /**
  * Created by daniel on 14.11.16.
  */
 public class HardwareFlavorSupplier implements Supplier<Set<HardwareFlavor>> {
 
-    private final OSClient osClient;
-    private final OneWayConverter<FlavorInRegion, HardwareFlavor> converter;
-    private final RegionSupplier regionSupplier;
+  private final OSClient osClient;
+  private final OneWayConverter<FlavorInRegion, HardwareFlavor> converter;
+  private final RegionSupplier regionSupplier;
 
-    @Inject
-    public HardwareFlavorSupplier(OSClient osClient,
-                                  OneWayConverter<FlavorInRegion, HardwareFlavor> converter, RegionSupplier regionSupplier) {
+  @Inject
+  public HardwareFlavorSupplier(OSClient osClient,
+      OneWayConverter<FlavorInRegion, HardwareFlavor> converter, RegionSupplier regionSupplier) {
 
-        checkNotNull(osClient, "osClient is null");
-        checkNotNull(converter, "converter is null");
-        checkNotNull(regionSupplier, "regionSupplier is null");
+    checkNotNull(osClient, "osClient is null");
+    checkNotNull(converter, "converter is null");
+    checkNotNull(regionSupplier, "regionSupplier is null");
 
-        this.osClient = osClient;
-        this.converter = converter;
-        this.regionSupplier = regionSupplier;
+    this.osClient = osClient;
+    this.converter = converter;
+    this.regionSupplier = regionSupplier;
+  }
+
+  @Override
+  public Set<HardwareFlavor> get() {
+
+    Set<HardwareFlavor> hardwareFlavors = new HashSet<>();
+
+    for (Location region : regionSupplier.get()) {
+      hardwareFlavors.addAll(
+          osClient.useRegion(region.id()).compute().flavors().list().stream().map(
+              flavor -> new FlavorInRegion(flavor, region))
+              .map(converter).collect(Collectors.toSet()));
     }
 
-    @Override
-    public Set<HardwareFlavor> get() {
-
-        Set<HardwareFlavor> hardwareFlavors = new HashSet<>();
-
-        for (Location region : regionSupplier.get()) {
-            hardwareFlavors.addAll(
-                    osClient.useRegion(region.id()).compute().flavors().list().stream().map(
-                            flavor -> new FlavorInRegion(flavor, region))
-                            .map(converter).collect(Collectors.toSet()));
-        }
-
-        return hardwareFlavors;
-    }
+    return hardwareFlavors;
+  }
 }
