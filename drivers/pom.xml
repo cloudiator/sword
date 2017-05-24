@@ -39,6 +39,7 @@
         <module>jclouds</module>
         <module>openstack</module>
         <module>openstack4j</module>
+        <module>azure</module>
     </modules>
 
     <dependencies>

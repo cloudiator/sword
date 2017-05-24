@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.inject.AbstractModule;
 import de.uniulm.omi.cloudiator.sword.base.BaseComputeService;
 import de.uniulm.omi.cloudiator.sword.domain.PropertiesBuilder;
+import de.uniulm.omi.cloudiator.sword.drivers.azure.config.AzureComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.config.Ec2ComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.config.FlexiantComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.google.config.GoogleCloudComputeModule;
@@ -82,6 +83,11 @@ public class Providers {
     googleModules.add(new GoogleCloudComputeModule());
     registerProvider(new ProviderConfiguration("google-compute-engine", googleModules,
         BaseComputeService.class, PropertiesBuilder.newBuilder().build()));
+    //Azure
+    final Set<AbstractModule> azureModules = new HashSet<>();
+    azureModules.add(new AzureComputeModule());
+    registerProvider(new ProviderConfiguration("azure", azureModules, BaseComputeService.class,
+        PropertiesBuilder.newBuilder().build()));
   }
 
   public static void registerProvider(ProviderConfiguration providerConfiguration) {
