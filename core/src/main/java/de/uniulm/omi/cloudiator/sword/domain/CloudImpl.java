@@ -38,9 +38,11 @@ public class CloudImpl implements Cloud {
   private final String endpoint;
   private final CloudCredential cloudCredential;
   private final Configuration configuration;
+  @Nullable
+  private final CloudType cloudType;
 
   CloudImpl(Api api, @Nullable String endpoint, CloudCredential cloudCredential,
-      Configuration configuration) {
+      Configuration configuration, @Nullable CloudType cloudType) {
 
     checkNotNull(api, "api is null.");
     if (endpoint != null) {
@@ -53,6 +55,7 @@ public class CloudImpl implements Cloud {
     this.endpoint = endpoint;
     this.cloudCredential = cloudCredential;
     this.configuration = configuration;
+    this.cloudType = cloudType;
   }
 
   @Override
@@ -80,6 +83,12 @@ public class CloudImpl implements Cloud {
     return configuration;
   }
 
+  @Nullable
+  @Override
+  public CloudType cloudType() {
+    return cloudType;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -97,7 +106,13 @@ public class CloudImpl implements Cloud {
     if (endpoint != null ? !endpoint.equals(cloud.endpoint) : cloud.endpoint != null) {
       return false;
     }
-    return cloudCredential.equals(cloud.cloudCredential);
+    if (!cloudCredential.equals(cloud.cloudCredential)) {
+      return false;
+    }
+    if (!configuration.equals(cloud.configuration)) {
+      return false;
+    }
+    return cloudType == cloud.cloudType;
   }
 
   @Override
@@ -105,6 +120,8 @@ public class CloudImpl implements Cloud {
     int result = api.hashCode();
     result = 31 * result + (endpoint != null ? endpoint.hashCode() : 0);
     result = 31 * result + cloudCredential.hashCode();
+    result = 31 * result + configuration.hashCode();
+    result = 31 * result + (cloudType != null ? cloudType.hashCode() : 0);
     return result;
   }
 

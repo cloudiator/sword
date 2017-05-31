@@ -36,6 +36,8 @@ public class CloudBuilder {
   private CloudCredential cloudCredential;
   @Nullable
   private Configuration configuration;
+  @Nullable
+  CloudType cloudType;
 
   private CloudBuilder() {
 
@@ -45,6 +47,7 @@ public class CloudBuilder {
     this.api = cloud.api();
     this.endpoint = cloud.endpoint().orElse(null);
     this.cloudCredential = cloud.credential();
+    this.cloudType = cloud.cloudType();
   }
 
   public static CloudBuilder newBuilder() {
@@ -76,8 +79,13 @@ public class CloudBuilder {
     return this;
   }
 
+  public CloudBuilder cloudType(CloudType cloudType) {
+    this.cloudType = cloudType;
+    return this;
+  }
+
   public Cloud build() {
-    return new CloudImpl(api, endpoint, cloudCredential, configuration);
+    return new CloudImpl(api, endpoint, cloudCredential, configuration, cloudType);
   }
 
   @Override
