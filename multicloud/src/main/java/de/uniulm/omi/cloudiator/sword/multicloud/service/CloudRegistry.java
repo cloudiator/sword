@@ -33,6 +33,14 @@ public interface CloudRegistry {
   CloudRegistry register(Cloud cloud);
 
   /**
+   * Checks of the cloud is already registered.
+   *
+   * @param cloud the cloud
+   * @return true if already registered, false if not.
+   */
+  boolean isRegistered(Cloud cloud);
+
+  /**
    * Unregisters an existing {@link Cloud} at the registry if its present.
    *
    * @param cloud the {@link Cloud} to remove.
