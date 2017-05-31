@@ -18,24 +18,12 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import java.util.Optional;
-import javax.annotation.Nullable;
-
 /**
- * Created by daniel on 18.01.17.
+ * Created by daniel on 31.05.17.
  */
-public interface Cloud {
+public enum CloudType {
 
-  String id();
+  PRIVATE,
+  PUBLIC
 
-  Api api();
-
-  Optional<String> endpoint();
-
-  CloudCredential credential();
-
-  Configuration configuration();
-
-  @Nullable
-  CloudType cloudType();
 }
