@@ -22,6 +22,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.hash.Funnel;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
@@ -87,6 +89,17 @@ public class CloudImpl implements Cloud {
   @Override
   public CloudType cloudType() {
     return cloudType;
+  }
+
+  protected ToStringHelper toStringHelper() {
+    return MoreObjects.toStringHelper(this).add("id", id()).add("api", api)
+        .add("endpoint", endpoint).add("credential", cloudCredential)
+        .add("configuration", configuration).add("cloudType", cloudType);
+  }
+
+  @Override
+  public String toString() {
+    return toStringHelper().toString();
   }
 
   @Override
