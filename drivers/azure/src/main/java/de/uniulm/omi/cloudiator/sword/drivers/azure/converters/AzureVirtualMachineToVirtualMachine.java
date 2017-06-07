@@ -42,8 +42,10 @@ public class AzureVirtualMachineToVirtualMachine implements
   public AzureVirtualMachineToVirtualMachine(
       GetStrategy<String, Location> locationGetStrategy,
       GetStrategy<String, HardwareFlavor> hardwareGetStrategy) {
+    
     checkNotNull(hardwareGetStrategy, "hardwareGetStrategy is null");
     this.hardwareGetStrategy = hardwareGetStrategy;
+
     checkNotNull(locationGetStrategy, "locationGetStrategy is null");
     this.locationGetStrategy = locationGetStrategy;
   }
@@ -52,12 +54,13 @@ public class AzureVirtualMachineToVirtualMachine implements
   public de.uniulm.omi.cloudiator.sword.domain.VirtualMachine apply(
       VirtualMachine virtualMachine) {
 
+    final String id = IdScopeByLocations
+        .from(virtualMachine.regionName(), virtualMachine.name()).getIdWithLocation();
+
     return VirtualMachineBuilder.newBuilder()
         .addPrivateIpAddress(virtualMachine.getPrimaryNetworkInterface().primaryPrivateIP())
         .addPublicIpAddress(virtualMachine.getPrimaryPublicIPAddress().ipAddress())
-        .name(virtualMachine.name()).id(
-            IdScopeByLocations.from(virtualMachine.regionName(), virtualMachine.vmId())
-                .getIdWithLocation())
+        .name(virtualMachine.name()).id(id)
         .providerId(virtualMachine.vmId())
         .location(locationGetStrategy.get(virtualMachine.regionName()))
         .hardware(hardwareGetStrategy.get(

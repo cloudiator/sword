@@ -34,6 +34,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.azure.converters.VirtualMachineSiz
 import de.uniulm.omi.cloudiator.sword.drivers.azure.domain.VirtualMachineSizeInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.internal.AzureProvider;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.strategies.AzureCreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.drivers.azure.strategies.AzureDeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.suppliers.HardwareSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.suppliers.ImageSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.suppliers.LocationSupplier;
@@ -97,11 +98,6 @@ public class AzureComputeModule extends AbstractComputeModule {
 
   @Override
   protected DeleteVirtualMachineStrategy deleteVirtualMachineStrategy(Injector injector) {
-    return new DeleteVirtualMachineStrategy() {
-      @Override
-      public void apply(String s) {
-        throw new UnsupportedOperationException();
-      }
-    };
+    return injector.getInstance(AzureDeleteVirtualMachineStrategy.class);
   }
 }
