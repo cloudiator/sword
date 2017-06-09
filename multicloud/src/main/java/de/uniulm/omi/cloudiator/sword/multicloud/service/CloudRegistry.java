@@ -19,6 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.multicloud.service;
 
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
+import java.util.Collection;
+import javax.annotation.Nullable;
 
 /**
  * Created by daniel on 19.01.17.
@@ -39,6 +41,22 @@ public interface CloudRegistry {
    * @return true if already registered, false if not.
    */
   boolean isRegistered(Cloud cloud);
+
+  /**
+   * Lists all clouds stored in the registry.
+   *
+   * @return a collection of all clouds
+   */
+  Collection<Cloud> list();
+
+  /**
+   * Retrieve cloud.
+   *
+   * @param cloudId the cloudId of the cloud
+   * @return the cloud with the given cloudId
+   */
+  @Nullable
+  Cloud getCloud(String cloudId);
 
   /**
    * Unregisters an existing {@link Cloud} at the registry if its present.
