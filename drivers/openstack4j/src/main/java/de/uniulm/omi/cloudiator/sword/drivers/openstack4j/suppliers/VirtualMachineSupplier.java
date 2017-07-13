@@ -71,7 +71,7 @@ public class VirtualMachineSupplier implements Supplier<Set<VirtualMachine>> {
               (Predicate<Server>) server -> namingStrategy.belongsToNamingGroup()
                   .test(server.getName())).map(
               (Function<Server, ServerInRegion>) server -> new ServerInRegion(server, server,
-                  region)).map(virtualMachineConverter).collect(Collectors.toSet()));
+                  region, null)).map(virtualMachineConverter).collect(Collectors.toSet()));
     }
     return virtualMachines;
   }
