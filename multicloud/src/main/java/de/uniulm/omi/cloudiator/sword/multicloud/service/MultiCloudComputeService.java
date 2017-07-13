@@ -102,7 +102,7 @@ public class MultiCloudComputeService implements ComputeService {
   }
 
   @Override
-  public Optional<KeyPairExtension> keyPairExtension() {
+  @Deprecated public Optional<KeyPairExtension> keyPairExtension() {
     return Optional.of(new MultiCloudKeyPairExtension(computeServiceProvider));
   }
 

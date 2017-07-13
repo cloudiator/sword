@@ -28,7 +28,7 @@ import java.util.Optional;
  * The private key is optional, and is normally only available
  * if the keypair was just created.
  */
-public interface KeyPair extends Resource {
+@Deprecated public interface KeyPair extends Resource {
 
   /**
    * The public key of the keypair.

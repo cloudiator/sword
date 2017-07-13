@@ -32,6 +32,7 @@ public interface TemplateOptions {
    *
    * @return the name of the keypair or null.
    */
+  @Deprecated
   @Nullable
   String keyPairName();
 

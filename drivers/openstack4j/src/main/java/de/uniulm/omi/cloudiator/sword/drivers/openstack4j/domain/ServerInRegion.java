@@ -20,16 +20,21 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import de.uniulm.omi.cloudiator.sword.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import javax.annotation.Nullable;
 import org.openstack4j.model.common.Link;
 import org.openstack4j.model.compute.Addresses;
 import org.openstack4j.model.compute.Fault;
 import org.openstack4j.model.compute.Flavor;
 import org.openstack4j.model.compute.Image;
+import org.openstack4j.model.compute.Keypair;
 import org.openstack4j.model.compute.SecurityGroup;
 import org.openstack4j.model.compute.Server;
 
@@ -42,8 +47,10 @@ public class ServerInRegion implements Server, InRegion, ProviderIdentified {
   private final Server retrievedServer;
   private final Location region;
   private final String regionScopedId;
+  @Nullable
+  private final Keypair keypair;
 
-  public ServerInRegion(Server createdServer, Server retrievedServer, Location region) {
+  public ServerInRegion(Server createdServer, Server retrievedServer, Location region, @Nullable Keypair keypair) {
     checkNotNull(retrievedServer);
     checkNotNull(createdServer, "createdServer is null.");
     checkNotNull(region, "region is null.");
@@ -52,6 +59,11 @@ public class ServerInRegion implements Server, InRegion, ProviderIdentified {
     this.region = region;
     regionScopedId =
         IdScopeByLocations.from(region.id(), createdServer.getId()).getIdWithLocation();
+    this.keypair = keypair;
+  }
+
+  public Optional<Keypair> keypair() {
+    return Optional.ofNullable(keypair);
   }
 
   @Override

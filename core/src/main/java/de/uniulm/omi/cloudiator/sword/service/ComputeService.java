@@ -29,7 +29,7 @@ import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
  * Compute service interface. Offers method for interaction with the compute API of the cloud
  * providers.
  */
-public interface ComputeService {
+@Deprecated public interface ComputeService {
 
   /**
    * Returns a discovery service offering the discovery of stored entities at the

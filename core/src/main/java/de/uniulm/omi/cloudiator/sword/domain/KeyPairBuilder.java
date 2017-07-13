@@ -25,7 +25,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * <p/>
  * Use {@link #newBuilder()} to create a new builder instance.
  */
-public class KeyPairBuilder {
+@Deprecated public class KeyPairBuilder {
 
   private String id;
   private String providerId;

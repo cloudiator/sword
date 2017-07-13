@@ -28,7 +28,7 @@ import org.junit.Test;
 /**
  * Created by daniel on 30.07.15.
  */
-public class KeyPairImplTest {
+@Deprecated public class KeyPairImplTest {
 
   private final String testId = "id";
   private final String testProviderId = "id";

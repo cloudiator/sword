@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
+import org.openstack4j.model.compute.Keypair;
 import org.openstack4j.model.compute.Server;
 import org.openstack4j.model.compute.ServerCreate;
 import org.openstack4j.model.compute.builder.ServerCreateBuilder;
@@ -89,9 +90,14 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
     }
 
     //keypair
-    String keyPair = null;
+    String keyPairName = null;
+    Keypair keypair = null;
     if (virtualMachineTemplate.templateOptions().isPresent()) {
-      keyPair = virtualMachineTemplate.templateOptions().get().keyPairName();
+      keyPairName = virtualMachineTemplate.templateOptions().get().keyPairName();
+    }
+    if (keyPairName == null) {
+      keypair = osClient.compute().keypairs()
+          .create(namingStrategy.generateNameBasedOnName(null), null);
     }
 
     List<String> secGroups = new ArrayList<>(1);
@@ -107,7 +113,7 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
         .flavor(IdScopeByLocations.from(virtualMachineTemplate.hardwareFlavorId()).getId())
         .image(IdScopeByLocations.from(virtualMachineTemplate.imageId()).getId())
         .availabilityZone(IdScopeByLocations.from(virtualMachineTemplate.locationId()).getId())
-        .networks(networks).keypairName(keyPair);
+        .networks(networks).keypairName(keyPairName);
     for (String secGroup : secGroups) {
       serverCreateBuilder.addSecurityGroup(secGroup);
     }
@@ -121,6 +127,6 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
     checkState(retrievedServer != null,
         "Could not retrieve newly created server with id " + createdServer.getId());
     return virtualMachineConverter
-        .apply(new ServerInRegion(createdServer, retrievedServer, region));
+        .apply(new ServerInRegion(createdServer, retrievedServer, region, keypair));
   }
 }

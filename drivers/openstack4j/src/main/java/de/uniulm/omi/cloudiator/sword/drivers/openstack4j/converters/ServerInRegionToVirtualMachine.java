@@ -22,6 +22,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
+import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
+import de.uniulm.omi.cloudiator.sword.domain.LoginCredentialBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
@@ -52,10 +54,16 @@ public class ServerInRegionToVirtualMachine
     //todo check which region to return. Always region or av or host?
     //todo add login credential and ip addresses
 
+    LoginCredential loginCredential = null;
+    if (serverInRegion.keypair().isPresent()) {
+      loginCredential = LoginCredentialBuilder.newBuilder()
+          .privateKey(serverInRegion.keypair().get().getPrivateKey()).build();
+    }
+
     return VirtualMachineBuilder.newBuilder().name(serverInRegion.getName())
         .image(imageGetStrategy.get(serverInRegion.getImageId()))
         .hardware(hardwareFlavorGetStrategy.get(serverInRegion.getFlavorId()))
         .id(serverInRegion.getId()).providerId(serverInRegion.providerId())
-        .location(serverInRegion.region()).build();
+        .location(serverInRegion.region()).loginCredential(loginCredential).build();
   }
 }

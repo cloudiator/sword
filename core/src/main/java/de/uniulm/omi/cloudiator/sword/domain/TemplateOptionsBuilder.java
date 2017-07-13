@@ -72,7 +72,7 @@ public class TemplateOptionsBuilder {
    * @param keyPairName the name of the keypair to use.
    * @return fluid interface
    */
-  public TemplateOptionsBuilder keyPairName(String keyPairName) {
+  @Deprecated public TemplateOptionsBuilder keyPairName(String keyPairName) {
     this.keyPairName = keyPairName;
     return this;
   }

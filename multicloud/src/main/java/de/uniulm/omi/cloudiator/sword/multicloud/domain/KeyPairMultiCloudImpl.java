@@ -30,7 +30,7 @@ import java.util.Optional;
 /**
  * Created by daniel on 24.01.17.
  */
-public class KeyPairMultiCloudImpl implements KeyPair {
+@Deprecated public class KeyPairMultiCloudImpl implements KeyPair {
 
   private final KeyPair delegate;
   private final String cloudId;

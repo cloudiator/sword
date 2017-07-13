@@ -43,7 +43,7 @@ import org.jclouds.openstack.nova.v2_0.extensions.KeyPairApi;
  * Implementation of the {@link KeyPairExtension} interface
  * for Openstack.
  */
-public class OpenstackKeyPairExtension implements KeyPairExtension {
+@Deprecated public class OpenstackKeyPairExtension implements KeyPairExtension {
 
   private final OneWayConverter<KeyPairInRegion, KeyPair> keyPairConverter;
   private final NamingStrategy namingStrategy;

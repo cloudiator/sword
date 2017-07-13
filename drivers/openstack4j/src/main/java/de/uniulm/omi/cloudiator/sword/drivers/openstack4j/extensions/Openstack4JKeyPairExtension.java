@@ -40,7 +40,7 @@ import org.openstack4j.model.compute.Keypair;
 /**
  * Created by daniel on 30.11.16.
  */
-public class Openstack4JKeyPairExtension implements KeyPairExtension {
+@Deprecated public class Openstack4JKeyPairExtension implements KeyPairExtension {
 
   private final OSClient osClient;
   private final NamingStrategy namingStrategy;

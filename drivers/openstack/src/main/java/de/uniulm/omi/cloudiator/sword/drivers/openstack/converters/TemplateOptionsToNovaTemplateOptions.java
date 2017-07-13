@@ -44,6 +44,7 @@ public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOption
     if (keyPairName != null) {
       novaTemplateOptions.keyPairName(keyPairName);
     }
+    novaTemplateOptions.generateKeyPair(true);
     if (availabilityZone != null) {
       novaTemplateOptions.availabilityZone(availabilityZone);
     }

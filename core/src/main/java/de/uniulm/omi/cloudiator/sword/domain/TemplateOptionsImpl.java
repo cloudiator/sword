@@ -60,6 +60,7 @@ public class TemplateOptionsImpl implements TemplateOptions {
 
   @Nullable
   @Override
+  @Deprecated
   public String keyPairName() {
     return keyPairName;
   }

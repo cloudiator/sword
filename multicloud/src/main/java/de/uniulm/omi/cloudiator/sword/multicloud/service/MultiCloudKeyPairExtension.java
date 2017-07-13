@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
 /**
  * Created by daniel on 24.01.17.
  */
-public class MultiCloudKeyPairExtension implements KeyPairExtension {
+@Deprecated public class MultiCloudKeyPairExtension implements KeyPairExtension {
 
   private final ComputeServiceProvider computeServiceProvider;
 

@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 /**
  * Created by daniel on 19.05.15.
  */
-public class NovaKeyPairToKeypair implements OneWayConverter<KeyPairInRegion, KeyPair> {
+@Deprecated public class NovaKeyPairToKeypair implements OneWayConverter<KeyPairInRegion, KeyPair> {
 
   @Nullable
   @Override
