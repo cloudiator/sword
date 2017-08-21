@@ -29,9 +29,12 @@ public interface VirtualMachine extends Resource {
 
   /**
    * The {@link IpAddress}es of the virtual machine.
-   * @return
    */
   Set<IpAddress> ipAddresses();
+
+  Set<IpAddress> publicIpAddresses();
+
+  Set<IpAddress> privateIpAddresses();
 
   /**
    * The {@link Image} used for creating the virtual machine.
@@ -50,8 +53,7 @@ public interface VirtualMachine extends Resource {
   /**
    * {@link Optional} login credentials.
    * <p/>
-   * The login credentials are normally only available
-   * if the machine was just created.
+   * The login credentials are normally only available if the machine was just created.
    *
    * @return optional login credentials.
    */

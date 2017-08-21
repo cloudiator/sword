@@ -22,9 +22,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
+import de.uniulm.omi.cloudiator.sword.domain.IpAddress.IpAddressType;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 /**
@@ -66,6 +68,20 @@ public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
   @Override
   public Set<IpAddress> ipAddresses() {
     return ipAddresses;
+  }
+
+  @Override
+  public Set<IpAddress> publicIpAddresses() {
+    return ipAddresses.stream().filter(ipAddress -> ipAddress.type().equals(IpAddressType.PUBLIC))
+        .collect(
+            Collectors.toSet());
+  }
+
+  @Override
+  public Set<IpAddress> privateIpAddresses() {
+    return ipAddresses.stream().filter(ipAddress -> ipAddress.type().equals(IpAddressType.PRIVATE))
+        .collect(
+            Collectors.toSet());
   }
 
   @Override

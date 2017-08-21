@@ -76,6 +76,16 @@ public class VirtualMachineMultiCloudImpl implements VirtualMachine {
   }
 
   @Override
+  public Set<IpAddress> publicIpAddresses() {
+    return delegate.publicIpAddresses();
+  }
+
+  @Override
+  public Set<IpAddress> privateIpAddresses() {
+    return delegate.privateIpAddresses();
+  }
+
+  @Override
   public Optional<Image> image() {
     if (!delegate.image().isPresent()) {
       return Optional.empty();
