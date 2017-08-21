@@ -32,8 +32,8 @@ import javax.annotation.Nullable;
  */
 public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
 
-  private final Set<String> publicIpAddresses;
-  private final Set<String> privateIpAddresses;
+
+  private final Set<IpAddress> ipAddresses;
   @Nullable
   private final LoginCredential loginCredential;
   @Nullable
@@ -42,16 +42,14 @@ public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
   private final HardwareFlavor hardwareFlavor;
 
   VirtualMachineImpl(String id, String providerId, String name, @Nullable Location location,
-      Set<String> publicIpAddresses, Set<String> privateIpAddresses,
+      Set<IpAddress> ipAddresses,
       @Nullable LoginCredential loginCredential, @Nullable Image image,
       @Nullable HardwareFlavor hardwareFlavor) {
     super(id, providerId, name, location);
 
-    checkNotNull(publicIpAddresses);
-    checkNotNull(privateIpAddresses);
+    checkNotNull(ipAddresses);
 
-    this.publicIpAddresses = ImmutableSet.copyOf(publicIpAddresses);
-    this.privateIpAddresses = ImmutableSet.copyOf(privateIpAddresses);
+    this.ipAddresses = ImmutableSet.copyOf(ipAddresses);
     this.loginCredential = loginCredential;
     this.image = image;
     this.hardwareFlavor = hardwareFlavor;
@@ -61,19 +59,13 @@ public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
   public String toString() {
     return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
         .add("name", name()).add("loginCredential", loginCredential)
-        .add("publicIpAddresses", Arrays.toString(publicIpAddresses.toArray()))
-        .add("privateIpAddresses", Arrays.toString(privateIpAddresses.toArray()))
+        .add("ipAddresses", Arrays.toString(ipAddresses.toArray()))
         .add("image", image).add("hardwareFlavor", hardwareFlavor).toString();
   }
 
   @Override
-  public Set<String> publicAddresses() {
-    return publicIpAddresses;
-  }
-
-  @Override
-  public Set<String> privateAddresses() {
-    return privateIpAddresses;
+  public Set<IpAddress> ipAddresses() {
+    return ipAddresses;
   }
 
   @Override

@@ -28,18 +28,10 @@ import java.util.Set;
 public interface VirtualMachine extends Resource {
 
   /**
-   * The public ip addresses under which this virtual machine is reachable.
-   *
-   * @return an immutable set of ip addresses.
+   * The {@link IpAddress}es of the virtual machine.
+   * @return
    */
-  Set<String> publicAddresses();
-
-  /**
-   * The private up addresses assigned to the virtual machine.
-   *
-   * @return an immutable set of up addresses.
-   */
-  Set<String> privateAddresses();
+  Set<IpAddress> ipAddresses();
 
   /**
    * The {@link Image} used for creating the virtual machine.

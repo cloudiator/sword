@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
+import de.uniulm.omi.cloudiator.sword.domain.IpAddress;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
@@ -70,13 +71,8 @@ public class VirtualMachineMultiCloudImpl implements VirtualMachine {
   }
 
   @Override
-  public Set<String> publicAddresses() {
-    return delegate.publicAddresses();
-  }
-
-  @Override
-  public Set<String> privateAddresses() {
-    return delegate.privateAddresses();
+  public Set<IpAddress> ipAddresses() {
+    return delegate.ipAddresses();
   }
 
   @Override
@@ -113,8 +109,7 @@ public class VirtualMachineMultiCloudImpl implements VirtualMachine {
   public String toString() {
     return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
         .add("location", location()).add("name", name())
-        .add("publicIpAddresses", Arrays.toString(publicAddresses().toArray()))
-        .add("privateIPAddresses", Arrays.toString(privateAddresses().toArray()))
+        .add("ipAddresses", Arrays.toString(ipAddresses().toArray()))
         .add("image", image()).add("hardware", hardware())
         .add("loginCredential", loginCredential()).add("cloudId", cloudId).toString();
   }

@@ -31,8 +31,7 @@ import javax.annotation.Nullable;
  */
 public class VirtualMachineBuilder {
 
-  private Set<String> publicIpAddresses = new HashSet<>();
-  private Set<String> privateIpAddresses = new HashSet<>();
+  private Set<IpAddress> ipAddresses = new HashSet<>();
   @Nullable
   private String id;
   private String providerId;
@@ -52,8 +51,7 @@ public class VirtualMachineBuilder {
   }
 
   private VirtualMachineBuilder(VirtualMachine virtualMachine) {
-    publicIpAddresses = Sets.newHashSet(virtualMachine.publicAddresses());
-    privateIpAddresses = Sets.newHashSet(virtualMachine.privateAddresses());
+    ipAddresses = Sets.newHashSet(virtualMachine.ipAddresses());
     id = virtualMachine.id();
     providerId = virtualMachine.providerId();
     name = virtualMachine.name();
@@ -90,23 +88,23 @@ public class VirtualMachineBuilder {
     return this;
   }
 
-  public VirtualMachineBuilder addPublicIpAddress(String publicIpAddress) {
-    this.publicIpAddresses.add(publicIpAddress);
+  public VirtualMachineBuilder addIpString(String ip) {
+    this.ipAddresses.add(IpAddresses.of(ip));
     return this;
   }
 
-  public VirtualMachineBuilder addPublicIpAddresses(Collection<String> publicIpAddresses) {
-    this.publicIpAddresses.addAll(publicIpAddresses);
+  public VirtualMachineBuilder addIpStrings(Set<String> ips) {
+    ips.forEach(this::addIpString);
     return this;
   }
 
-  public VirtualMachineBuilder addPrivateIpAddress(String privateIpAddress) {
-    this.privateIpAddresses.add(privateIpAddress);
+  public VirtualMachineBuilder addIpAddress(IpAddress ipAddress) {
+    this.ipAddresses.add(ipAddress);
     return this;
   }
 
-  public VirtualMachineBuilder addPrivateIpAddresses(Collection<String> privateIpAddresses) {
-    this.privateIpAddresses.addAll(privateIpAddresses);
+  public VirtualMachineBuilder addIpAddressess(Collection<? extends IpAddress> ipAddresses) {
+    this.ipAddresses.addAll(ipAddresses);
     return this;
   }
 
@@ -126,7 +124,7 @@ public class VirtualMachineBuilder {
   }
 
   public VirtualMachine build() {
-    return new VirtualMachineImpl(id, providerId, name, location, publicIpAddresses,
-        privateIpAddresses, loginCredential, image, hardwareFlavor);
+    return new VirtualMachineImpl(id, providerId, name, location, ipAddresses,
+        loginCredential, image, hardwareFlavor);
   }
 }

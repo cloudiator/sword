@@ -58,8 +58,8 @@ public class AzureVirtualMachineToVirtualMachine implements
         .from(virtualMachine.regionName(), virtualMachine.name()).getIdWithLocation();
 
     return VirtualMachineBuilder.newBuilder()
-        .addPrivateIpAddress(virtualMachine.getPrimaryNetworkInterface().primaryPrivateIP())
-        .addPublicIpAddress(virtualMachine.getPrimaryPublicIPAddress().ipAddress())
+        .addIpString(virtualMachine.getPrimaryNetworkInterface().primaryPrivateIP())
+        .addIpString(virtualMachine.getPrimaryPublicIPAddress().ipAddress())
         .name(virtualMachine.name()).id(id)
         .providerId(virtualMachine.vmId())
         .location(locationGetStrategy.get(virtualMachine.regionName()))

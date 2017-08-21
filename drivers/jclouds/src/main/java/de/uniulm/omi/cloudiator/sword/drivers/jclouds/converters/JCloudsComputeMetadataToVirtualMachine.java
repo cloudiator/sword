@@ -81,9 +81,9 @@ public class JCloudsComputeMetadataToVirtualMachine
         .providerId(computeMetadata.getProviderId()).name(forceName(computeMetadata));
 
     ((NodeMetadata) computeMetadata).getPrivateAddresses()
-        .forEach(virtualMachineBuilder::addPrivateIpAddress);
+        .forEach(virtualMachineBuilder::addIpString);
     ((NodeMetadata) computeMetadata).getPublicAddresses()
-        .forEach(virtualMachineBuilder::addPublicIpAddress);
+        .forEach(virtualMachineBuilder::addIpString);
     if (((NodeMetadata) computeMetadata).getCredentials() != null) {
       virtualMachineBuilder.loginCredential(this.loginCredentialConverter
           .apply(((NodeMetadata) computeMetadata).getCredentials()));

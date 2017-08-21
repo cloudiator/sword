@@ -20,9 +20,7 @@ package de.uniulm.omi.cloudiator.sword.domain;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
 
-import com.google.common.collect.ImmutableSet;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,8 +36,10 @@ public class VirtualMachineImplTest {
   String testId = "1";
   String providerId = "providerId";
   String testName = "name";
-  String testPublicIpAddress = "93.184.216.34";
-  String testPrivateIpAddress = "192.168.0.2";
+
+  IpAddress testPublicIpAddress = IpAddresses.of("93.184.216.34");
+  IpAddress testPrivateIpAddress = IpAddresses.of("192.168.0.2");
+
   LoginCredential loginCredential =
       LoginCredentialBuilder.newBuilder().password("password").username("username").build();
 
@@ -50,8 +50,8 @@ public class VirtualMachineImplTest {
   public void before() {
     validVirtualMachineBuilder =
         VirtualMachineBuilder.newBuilder().id(testId).providerId(providerId).name(testName)
-            .location(testLocation).addPrivateIpAddress(testPrivateIpAddress)
-            .addPublicIpAddress(testPublicIpAddress).loginCredential(loginCredential);
+            .location(testLocation).addIpAddress(testPrivateIpAddress)
+            .addIpAddress(testPublicIpAddress).loginCredential(loginCredential);
     validVirtualMachine = validVirtualMachineBuilder.build();
   }
 
@@ -97,13 +97,13 @@ public class VirtualMachineImplTest {
 
   @Test
   public void testPublicAddresses() throws Exception {
-    assertThat(validVirtualMachine.publicAddresses().contains(testPublicIpAddress),
+    assertThat(validVirtualMachine.ipAddresses().contains(testPublicIpAddress),
         equalTo(true));
   }
 
   @Test
   public void testPrivateAddresses() throws Exception {
-    assertThat(validVirtualMachine.privateAddresses().contains(testPrivateIpAddress),
+    assertThat(validVirtualMachine.ipAddresses().contains(testPrivateIpAddress),
         equalTo(true));
   }
 
@@ -113,11 +113,5 @@ public class VirtualMachineImplTest {
     assertThat(
         validVirtualMachineBuilder.loginCredential(null).build().loginCredential().isPresent(),
         equalTo(false));
-  }
-
-  @Test
-  public void testIpAddressesAreImmutable() throws Exception {
-    assertThat(validVirtualMachine.privateAddresses(), instanceOf(ImmutableSet.class));
-    assertThat(validVirtualMachine.publicAddresses(), instanceOf(ImmutableSet.class));
   }
 }

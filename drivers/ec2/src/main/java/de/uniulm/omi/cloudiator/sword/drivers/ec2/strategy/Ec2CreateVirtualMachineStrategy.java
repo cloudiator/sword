@@ -5,6 +5,7 @@ import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.WaitStrategies;
+import de.uniulm.omi.cloudiator.sword.domain.IpAddress.IpAddressType;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
@@ -35,20 +36,21 @@ public class Ec2CreateVirtualMachineStrategy implements CreateVirtualMachineStra
     //we have to wait until we know it and then add it
 
     //return early if ip is present
-    if (!virtualMachine.publicAddresses().isEmpty()) {
+    if (virtualMachine.ipAddresses().stream().anyMatch(ipAddress -> ipAddress.type().equals(
+        IpAddressType.PUBLIC))) {
       return virtualMachine;
     }
 
     Retryer<VirtualMachine> retryer = RetryerBuilder.<VirtualMachine>newBuilder()
-        .retryIfResult(input -> input.publicAddresses().isEmpty())
+        .retryIfResult(input -> input.ipAddresses().stream()
+            .anyMatch(ipAddress -> ipAddress.type().equals(IpAddressType.PUBLIC)))
         .withStopStrategy(StopStrategies.stopAfterDelay(2, TimeUnit.MINUTES))
         .withWaitStrategy(WaitStrategies.fixedWait(10, TimeUnit.SECONDS)).build();
 
     try {
       VirtualMachine call =
           retryer.call(() -> virtualMachineGetStrategy.get(virtualMachine.id()));
-      return VirtualMachineBuilder.of(virtualMachine)
-          .addPublicIpAddresses(call.publicAddresses()).build();
+      return VirtualMachineBuilder.of(virtualMachine).addIpAddressess(call.ipAddresses()).build();
     } catch (ExecutionException e) {
       throw new RuntimeException(e.getCause());
     } catch (RetryException e) {

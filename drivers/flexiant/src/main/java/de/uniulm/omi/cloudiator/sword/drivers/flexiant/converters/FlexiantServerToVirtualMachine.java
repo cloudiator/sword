@@ -47,10 +47,10 @@ public class FlexiantServerToVirtualMachine implements OneWayConverter<Server, V
     virtualMachineBuilder.id(server.getLocationUUID() + "/" + server.getId())
         .providerId(server.getId()).name(server.getName());
     if (server.getPublicIpAddress() != null) {
-      virtualMachineBuilder.addPublicIpAddress(server.getPublicIpAddress());
+      virtualMachineBuilder.addIpString(server.getPublicIpAddress());
     }
     if (server.getPrivateIpAddress() != null) {
-      virtualMachineBuilder.addPrivateIpAddress(server.getPrivateIpAddress());
+      virtualMachineBuilder.addIpString(server.getPrivateIpAddress());
     }
     if (server.getInitialPassword() != null && server.getInitialUser() != null) {
       virtualMachineBuilder.loginCredential(
