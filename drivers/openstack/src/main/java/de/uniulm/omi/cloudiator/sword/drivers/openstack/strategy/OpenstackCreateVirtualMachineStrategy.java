@@ -128,6 +128,8 @@ public class OpenstackCreateVirtualMachineStrategy extends JCloudsCreateVirtualM
           .availabilityZone(availabilityZone + ":" + host);
     }
 
+    ((NovaTemplateOptions) templateOptionsToModify).generateKeyPair(true);
+
     // configure network
     if (defaultNetwork != null) {
       templateOptionsToModify.networks(defaultNetwork);

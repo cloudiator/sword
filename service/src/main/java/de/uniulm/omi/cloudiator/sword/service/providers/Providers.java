@@ -57,7 +57,7 @@ public class Providers {
     openstackModules.add(new OpenstackComputeModule());
     registerProvider(
         new ProviderConfiguration("openstack-nova", openstackModules, BaseComputeService.class,
-            PropertiesBuilder.newBuilder().putProperty(Constants.IGNORE_LOGIN_KEYPAIR, true)
+            PropertiesBuilder.newBuilder().putProperty(Constants.IGNORE_LOGIN_KEYPAIR, false)
                 .putProperty(Constants.IGNORE_LOGIN_PASSWORD, true)
                 .putProperty(Constants.IGNORE_LOGIN_USERNAME, true).build()));
     //Openstack4j

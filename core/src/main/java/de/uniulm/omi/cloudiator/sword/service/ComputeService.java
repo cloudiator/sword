@@ -29,11 +29,10 @@ import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
  * Compute service interface. Offers method for interaction with the compute API of the cloud
  * providers.
  */
-@Deprecated public interface ComputeService {
+public interface ComputeService {
 
   /**
-   * Returns a discovery service offering the discovery of stored entities at the
-   * cloud provider
+   * Returns a discovery service offering the discovery of stored entities at the cloud provider
    *
    * @return the discovery service.
    */
@@ -59,8 +58,7 @@ import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
   VirtualMachine createVirtualMachine(VirtualMachineTemplate virtualMachineTemplate);
 
   /**
-   * Returns a {@link ConnectionService} that is used for connecting to
-   * virtual machines.
+   * Returns a {@link ConnectionService} that is used for connecting to virtual machines.
    *
    * @return a connection service.
    */
@@ -78,6 +76,7 @@ import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
    *
    * @return an optional key pair extension.
    */
+  @Deprecated
   Optional<KeyPairExtension> keyPairExtension();
 
   /**
