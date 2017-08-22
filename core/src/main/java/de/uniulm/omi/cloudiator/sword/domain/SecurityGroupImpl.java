@@ -33,7 +33,7 @@ public class SecurityGroupImpl extends ResourceImpl implements SecurityGroup {
 
   private final Set<SecurityGroupRule> securityGroupRules;
 
-  public SecurityGroupImpl(String id, String providerId, String name, @Nullable Location location,
+  SecurityGroupImpl(String id, String providerId, String name, @Nullable Location location,
       Set<SecurityGroupRule> securityGroupRules) {
     super(id, providerId, name, location);
     checkNotNull(securityGroupRules, "securityGroupRules is null.");

@@ -34,7 +34,7 @@ public class PropertiesImpl implements Properties {
 
   private final Map<String, String> propertiesHolder;
 
-  public PropertiesImpl(Map<String, String> propertiesHolder) {
+  PropertiesImpl(Map<String, String> propertiesHolder) {
     checkNotNull(propertiesHolder);
     this.propertiesHolder = propertiesHolder;
   }

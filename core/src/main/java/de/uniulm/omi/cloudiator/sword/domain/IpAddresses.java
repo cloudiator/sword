@@ -31,6 +31,10 @@ public class IpAddresses {
     throw new AssertionError("Do not instantiate.");
   }
 
+  public static IpAddress of(String ip, IpAddressType type, IpVersion ipVersion) {
+    return new IpAddressImpl(ip, type, ipVersion);
+  }
+
   public static IpAddress of(String ip) {
     try {
       InetAddress inetAddress = InetAddress.getByName(ip);

@@ -36,7 +36,7 @@ public class SecurityGroupRuleImpl implements SecurityGroupRule {
   private final int toPort;
   private final Cidr cidr;
 
-  public SecurityGroupRuleImpl(IpProtocol ipProtocol, int fromPort, int toPort, Cidr cidr) {
+  SecurityGroupRuleImpl(IpProtocol ipProtocol, int fromPort, int toPort, Cidr cidr) {
     checkNotNull(ipProtocol, "ipProtocol is null");
     this.ipProtocol = ipProtocol;
 
