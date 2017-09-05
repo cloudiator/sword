@@ -16,20 +16,19 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.ec2.config;
-
-import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
-import de.uniulm.omi.cloudiator.sword.drivers.ec2.converters.TemplateOptionsToProfitbricksTemplateOptions;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
+package de.uniulm.omi.cloudiator.sword.drivers.profitbricks;
 
 /**
- * Created by daniel on 02.12.14.
+ * Created by daniel on 08.09.15.
  */
-public class ProfitbricksComputeModule extends JCloudsComputeModule {
+public class EC2Constants {
 
-  @Override
-  protected Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter() {
-    return TemplateOptionsToProfitbricksTemplateOptions.class;
+  public final static String PROPERTY_EC2_AMI_QUERY = "sword.ec2.ami.query";
+  public final static String PROPERTY_EC2_CC_AMI_QUERY = "sword.ec2.ami.cc.query";
+  public final static String PROPERTY_EC2_DEFAULT_VPC = "sword.ec2.default.vpc";
+
+  private EC2Constants() {
+    throw new AssertionError("intentionally left empty");
   }
+
 }

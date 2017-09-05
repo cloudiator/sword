@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.ec2.converters;
+package de.uniulm.omi.cloudiator.sword.drivers.profitbricks.converters;
 
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
 import org.jclouds.compute.options.TemplateOptions;
