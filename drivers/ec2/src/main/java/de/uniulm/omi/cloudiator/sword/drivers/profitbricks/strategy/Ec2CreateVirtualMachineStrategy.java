@@ -1,4 +1,4 @@
-package de.uniulm.omi.cloudiator.sword.drivers.ec2.strategy;
+package de.uniulm.omi.cloudiator.sword.drivers.profitbricks.strategy;
 
 import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.Retryer;

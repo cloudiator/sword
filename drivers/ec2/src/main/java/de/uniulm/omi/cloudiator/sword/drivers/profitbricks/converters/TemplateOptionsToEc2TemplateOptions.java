@@ -16,12 +16,12 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.ec2.converters;
+package de.uniulm.omi.cloudiator.sword.drivers.profitbricks.converters;
 
 import com.google.common.primitives.Ints;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.sword.drivers.ec2.EC2Constants;
+import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.EC2Constants;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
 import java.nio.charset.Charset;
 import org.jclouds.aws.ec2.compute.AWSEC2TemplateOptions;
