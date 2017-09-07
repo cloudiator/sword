@@ -39,7 +39,8 @@ public class HardwareFlavorImplTest {
   private final long testRam = 1024;
   private final Float testDisk = 1.024F;
   private final Location testLocation =
-      LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
+      LocationBuilder.newBuilder().id("test").providerId("test").name("test").parent(null)
+          .assignable(true)
           .scope(LocationScope.REGION).build();
   private HardwareFlavorImpl validHardwareFlavor;
   private HardwareFlavorBuilder validHardwareFlavorBuilder;

@@ -40,7 +40,8 @@ public class AvailabilityZoneInRegionToLocation
   @Override
   public Location apply(AvailabilityZoneInRegion availabilityZoneInRegion) {
 
-    return LocationBuilder.newBuilder().id(availabilityZoneInRegion.getId()).assignable(true)
+    return LocationBuilder.newBuilder().id(availabilityZoneInRegion.getId())
+        .providerId(availabilityZoneInRegion.providerId()).assignable(true)
         .name(availabilityZoneInRegion.getZoneName()).scope(LocationScope.ZONE)
         .parent(availabilityZoneInRegion.region()).build();
   }

@@ -31,52 +31,60 @@ import org.junit.Test;
 public class LocationImplTest {
 
   private final String testId = "123456";
+  private final String testProviderId = "providerId";
   private final String testName = "This is a very fine location";
   private final boolean testAssignable = true;
   private final LocationScope testScope = LocationScope.HOST;
   private final Location testParent =
-      LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
+      LocationBuilder.newBuilder().id("test").providerId("test").name("test").parent(null)
+          .assignable(true)
           .scope(LocationScope.REGION).build();
   private Location validLocation;
 
   @Before
   public void before() {
     this.validLocation =
-        LocationBuilder.newBuilder().id(testId).name(testName).assignable(testAssignable)
+        LocationBuilder.newBuilder().id(testId).providerId(testProviderId).name(testName)
+            .assignable(testAssignable)
             .parent(testParent).scope(testScope).build();
   }
 
   @Test(expected = NullPointerException.class)
   public void idNotNullableTest() {
 
-    LocationBuilder.newBuilder().id(null).name(testName).assignable(testAssignable)
+    LocationBuilder.newBuilder().id(null).providerId(testProviderId).name(testName)
+        .assignable(testAssignable)
         .parent(testParent).scope(testScope).build();
   }
 
   @Test(expected = NullPointerException.class)
   public void nameNotNullableTest() {
 
-    LocationBuilder.newBuilder().id(testId).name(null).assignable(testAssignable)
+    LocationBuilder.newBuilder().id(testId).providerId(testProviderId).name(null)
+        .assignable(testAssignable)
         .parent(testParent).scope(testScope).build();
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void idNotEmptyTest() {
 
-    LocationBuilder.newBuilder().id("").name(testName).assignable(testAssignable)
+    LocationBuilder.newBuilder().id("").providerId(testProviderId).name(testName)
+        .assignable(testAssignable)
         .parent(testParent).scope(testScope).build();
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void nameNotEmptyTest() {
 
-    LocationBuilder.newBuilder().id(testId).name("").assignable(testAssignable)
+    LocationBuilder.newBuilder().id(testId).providerId(testProviderId).name("")
+        .assignable(testAssignable)
         .parent(testParent).scope(testScope).build();
   }
 
   @Test(expected = NullPointerException.class)
   public void locationScopeNotNullTest() {
-    LocationBuilder.newBuilder().id(testId).name(testName).assignable(testAssignable)
+    LocationBuilder.newBuilder().id(testId).providerId(testProviderId).name(testName)
+        .assignable(testAssignable)
         .parent(testParent).scope(null).build();
   }
 
@@ -105,12 +113,29 @@ public class LocationImplTest {
     assertThat(validLocation.locationScope(), equalTo(testScope));
   }
 
+  @Test(expected = NullPointerException.class)
+  public void testProviderIdIsNotNullable() {
+    LocationBuilder.of(validLocation).providerId(null).build();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testProviderIdCanNotBeEmpty() {
+    LocationBuilder.of(validLocation).providerId("").build();
+  }
+
+  @Test
+  public void testGetProviderId() {
+    assertThat(validLocation.providerId(), equalTo(testProviderId));
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void testLocationScopeOfParentIsLarger() {
     Location parent =
-        LocationBuilder.newBuilder().id("43824302").scope(LocationScope.ZONE).name("parent")
+        LocationBuilder.newBuilder().id("43824302").providerId(testProviderId)
+            .scope(LocationScope.ZONE).name("parent")
             .build();
-    Location child = LocationBuilder.newBuilder().id("3724387492").scope(LocationScope.PROVIDER)
+    Location child = LocationBuilder.newBuilder().id("3724387492").providerId(testProviderId)
+        .scope(LocationScope.PROVIDER)
         .name("child").parent(parent).build();
   }
 
@@ -118,6 +143,7 @@ public class LocationImplTest {
   public void toStringTest() {
     assertThat(this.validLocation.toString().contains(testId), equalTo(true));
     assertThat(this.validLocation.toString().contains(testName), equalTo(true));
+    assertThat(this.validLocation.toString().contains(testProviderId), equalTo(true));
     assertThat(this.validLocation.toString().contains(String.valueOf(testAssignable)),
         equalTo(true));
     assertThat(this.validLocation.toString().contains(testScope.name()), equalTo(true));

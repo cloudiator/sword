@@ -28,7 +28,8 @@ import org.junit.Test;
 /**
  * Created by daniel on 30.07.15.
  */
-@Deprecated public class KeyPairImplTest {
+@Deprecated
+public class KeyPairImplTest {
 
   private final String testId = "id";
   private final String testProviderId = "id";
@@ -36,7 +37,7 @@ import org.junit.Test;
   private final String testPrivateKey = "privateKey";
   private final String testPublicKey = "publicKey";
   private final Location testLocation =
-      LocationBuilder.newBuilder().assignable(true).id("id").name("name")
+      LocationBuilder.newBuilder().assignable(true).id("id").providerId("test").name("name")
           .scope(LocationScope.REGION).build();
   private KeyPair validKeyPair;
   private KeyPairBuilder validKeyPairBuilder;

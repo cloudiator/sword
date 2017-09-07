@@ -39,7 +39,7 @@ public class ImageImplTest {
   private final String testProviderId = "providerId";
   private final String testName = "name";
   private final Location testLocation =
-      LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
+      LocationBuilder.newBuilder().id("test").providerId("test").name("test").parent(null).assignable(true)
           .scope(LocationScope.REGION).build();
   private final OperatingSystem testOs =
       OperatingSystemBuilder.newBuilder().architecture(OperatingSystemArchitecture.AMD64)

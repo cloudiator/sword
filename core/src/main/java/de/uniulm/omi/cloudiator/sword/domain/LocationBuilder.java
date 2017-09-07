@@ -28,6 +28,7 @@ import de.uniulm.omi.cloudiator.domain.LocationScope;
 public class LocationBuilder {
 
   private String id;
+  private String providerId;
   private String name;
   private Location parent;
   private boolean isAssignable;
@@ -43,6 +44,7 @@ public class LocationBuilder {
 
   private LocationBuilder(Location location) {
     id = location.id();
+    providerId = location.providerId();
     name = location.name();
     parent = location.parent().orElse(null);
     isAssignable = location.isAssignable();
@@ -68,7 +70,7 @@ public class LocationBuilder {
    * @return the location.
    */
   public Location build() {
-    return new LocationImpl(id, name, parent, isAssignable, locationScope, geoLocation);
+    return new LocationImpl(id, providerId, name, parent, isAssignable, locationScope, geoLocation);
   }
 
   /**
@@ -122,6 +124,15 @@ public class LocationBuilder {
    */
   public LocationBuilder geoLocation(GeoLocation geoLocation) {
     this.geoLocation = geoLocation;
+    return this;
+  }
+
+  /**
+   * @param providerId of the location
+   * @return fluent interface
+   */
+  public LocationBuilder providerId(String providerId) {
+    this.providerId = providerId;
     return this;
   }
 }

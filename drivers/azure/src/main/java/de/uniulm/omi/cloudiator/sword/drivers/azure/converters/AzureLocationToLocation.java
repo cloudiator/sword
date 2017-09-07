@@ -20,7 +20,6 @@ package de.uniulm.omi.cloudiator.sword.drivers.azure.converters;
 
 import com.microsoft.azure.management.resources.Location;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
-import de.uniulm.omi.cloudiator.sword.domain.GeoLocationBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.LocationBuilder;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import javax.annotation.Nullable;
@@ -33,7 +32,8 @@ public class AzureLocationToLocation implements
 
   @Override
   public de.uniulm.omi.cloudiator.sword.domain.Location apply(@Nullable Location location) {
-    return LocationBuilder.newBuilder().id(location.name()).assignable(true)
+    return LocationBuilder.newBuilder().id(location.name()).providerId(location.name())
+        .assignable(true)
         .name(location.displayName()).scope(LocationScope.ZONE).build();
   }
 }

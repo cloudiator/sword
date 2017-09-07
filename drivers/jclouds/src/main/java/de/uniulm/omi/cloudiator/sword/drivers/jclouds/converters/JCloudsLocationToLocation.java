@@ -47,7 +47,8 @@ public class JCloudsLocationToLocation
     }
 
     final LocationBuilder builder =
-        LocationBuilder.newBuilder().id(location.getId()).name(location.getId());
+        LocationBuilder.newBuilder().id(location.getId()).providerId(location.getId())
+            .name(location.getId());
 
     if (location instanceof AssignableLocation) {
       builder.assignable(((AssignableLocation) location).isAssignable());

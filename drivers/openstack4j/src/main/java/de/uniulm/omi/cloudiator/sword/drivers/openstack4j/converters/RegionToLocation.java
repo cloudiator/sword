@@ -31,6 +31,6 @@ public class RegionToLocation implements OneWayConverter<String, Location> {
   @Override
   public Location apply(String region) {
     return LocationBuilder.newBuilder().scope(LocationScope.REGION).name(region)
-        .assignable(false).id(region).build();
+        .assignable(false).id(region).providerId(region).build();
   }
 }

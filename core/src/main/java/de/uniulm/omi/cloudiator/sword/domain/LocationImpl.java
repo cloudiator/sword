@@ -33,6 +33,7 @@ import javax.annotation.Nullable;
 public class LocationImpl implements Location {
 
   private final String id;
+  private final String providerId;
   private final String name;
   private final LocationScope locationScope;
   @Nullable
@@ -45,6 +46,7 @@ public class LocationImpl implements Location {
    * Constructor. For building new objects use {@link LocationBuilder}.
    *
    * @param id the id of the location (mandatory)
+   * @param providerId the providerId of the location (mandatory)
    * @param name the name of the location (mandatory)
    * @param parent the parent location (optional)
    * @param isAssignable if the location is assignable (mandatory)
@@ -53,13 +55,17 @@ public class LocationImpl implements Location {
    * @throws NullPointerException if a mandatory parameter is null.
    * @throws IllegalArgumentException if a mandatory string attribute is empty.
    */
-  LocationImpl(String id, String name, @Nullable Location parent, boolean isAssignable,
+  LocationImpl(String id, String providerId, String name, @Nullable Location parent,
+      boolean isAssignable,
       LocationScope locationScope, @Nullable GeoLocation geoLocation) {
-    checkNotNull(id, "Location must have an ID");
-    checkArgument(!id.isEmpty(), "Location ID must not be empty.");
+    checkNotNull(id, "id is null");
+    checkArgument(!id.isEmpty(), "id is empty");
     this.id = id;
-    checkNotNull(name, "Location must have a name.");
-    checkArgument(!name.isEmpty(), "Location name must not be empty.");
+    checkNotNull(providerId, "providerId is null");
+    checkArgument(!providerId.isEmpty(), "providerId is empty");
+    this.providerId = providerId;
+    checkNotNull(name, "name is null");
+    checkArgument(!name.isEmpty(), "name is empty");
     this.name = name;
     this.parent = parent;
     this.isAssignable = isAssignable;
@@ -83,7 +89,7 @@ public class LocationImpl implements Location {
 
   @Override
   public String providerId() {
-    return id();
+    return providerId;
   }
 
   @Override
@@ -122,10 +128,13 @@ public class LocationImpl implements Location {
 
     LocationImpl location = (LocationImpl) o;
 
-    if (isAssignable() != location.isAssignable()) {
+    if (isAssignable != location.isAssignable) {
       return false;
     }
     if (!id.equals(location.id)) {
+      return false;
+    }
+    if (!providerId.equals(location.providerId)) {
       return false;
     }
     if (!name.equals(location.name)) {
@@ -134,16 +143,22 @@ public class LocationImpl implements Location {
     if (locationScope != location.locationScope) {
       return false;
     }
-    return parent != null ? parent.equals(location.parent) : location.parent == null;
+    if (parent != null ? !parent.equals(location.parent) : location.parent != null) {
+      return false;
+    }
+    return geoLocation != null ? geoLocation.equals(location.geoLocation)
+        : location.geoLocation == null;
   }
 
   @Override
   public int hashCode() {
     int result = id.hashCode();
+    result = 31 * result + providerId.hashCode();
     result = 31 * result + name.hashCode();
     result = 31 * result + locationScope.hashCode();
     result = 31 * result + (parent != null ? parent.hashCode() : 0);
-    result = 31 * result + (isAssignable() ? 1 : 0);
+    result = 31 * result + (isAssignable ? 1 : 0);
+    result = 31 * result + (geoLocation != null ? geoLocation.hashCode() : 0);
     return result;
   }
 

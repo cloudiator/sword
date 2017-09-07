@@ -31,7 +31,9 @@ import org.junit.Test;
 public class VirtualMachineImplTest {
 
   private final Location testLocation =
-      LocationBuilder.newBuilder().id("test").name("test").parent(null).assignable(true)
+      LocationBuilder.newBuilder().id("locationId").providerId("locationProviderId")
+          .name("locationName").parent(null)
+          .assignable(true)
           .scope(LocationScope.REGION).build();
   String testId = "1";
   String providerId = "providerId";

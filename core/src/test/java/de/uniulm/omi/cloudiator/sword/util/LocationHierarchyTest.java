@@ -46,13 +46,15 @@ public class LocationHierarchyTest {
   @Test
   public void testTopMostLocation() {
     final Location region =
-        LocationBuilder.newBuilder().id("5732752").name("region").scope(LocationScope.REGION)
+        LocationBuilder.newBuilder().id("5732752").providerId("providerId").name("region").scope(LocationScope.REGION)
             .build();
     final Location zone =
-        LocationBuilder.newBuilder().id("37589327592").name("zone").scope(LocationScope.ZONE)
+        LocationBuilder.newBuilder().id("37589327592").providerId("providerId").name("zone")
+            .scope(LocationScope.ZONE)
             .parent(region).build();
     final Location host =
-        LocationBuilder.newBuilder().id("57472592759").name("host").scope(LocationScope.HOST)
+        LocationBuilder.newBuilder().id("57472592759").providerId("providerId").name("host")
+            .scope(LocationScope.HOST)
             .parent(zone).build();
     final LocationHierarchy regionHierarchy = LocationHierarchy.of(region);
     final LocationHierarchy zoneHierarchy = LocationHierarchy.of(zone);
@@ -65,13 +67,16 @@ public class LocationHierarchyTest {
   @Test
   public void testFirstParentWithLocationScope() {
     final Location region =
-        LocationBuilder.newBuilder().id("37483749").name("region").scope(LocationScope.REGION)
+        LocationBuilder.newBuilder().id("37483749").providerId("providerId").name("region")
+            .scope(LocationScope.REGION)
             .build();
     final Location zone =
-        LocationBuilder.newBuilder().id("748372894").name("zone").scope(LocationScope.ZONE)
+        LocationBuilder.newBuilder().id("748372894").providerId("providerId").name("zone")
+            .scope(LocationScope.ZONE)
             .parent(region).build();
     final Location host =
-        LocationBuilder.newBuilder().id("4738724932").name("host").scope(LocationScope.HOST)
+        LocationBuilder.newBuilder().id("4738724932").providerId("providerId").name("host")
+            .scope(LocationScope.HOST)
             .parent(zone).build();
     final LocationHierarchy regionHierarchy = LocationHierarchy.of(region);
     final LocationHierarchy zoneHierarchy = LocationHierarchy.of(zone);
@@ -96,10 +101,12 @@ public class LocationHierarchyTest {
   @Test
   public void testIteration() {
     final Location last =
-        LocationBuilder.newBuilder().id("5737523").name("last").scope(LocationScope.ZONE)
+        LocationBuilder.newBuilder().id("5737523").providerId("providerId").name("last")
+            .scope(LocationScope.ZONE)
             .build();
     final Location first =
-        LocationBuilder.newBuilder().id("57375932").name("first").scope(LocationScope.HOST)
+        LocationBuilder.newBuilder().id("57375932").providerId("providerId").name("first")
+            .scope(LocationScope.HOST)
             .parent(last).build();
 
     final LocationHierarchy hierarchy = LocationHierarchy.of(first);
