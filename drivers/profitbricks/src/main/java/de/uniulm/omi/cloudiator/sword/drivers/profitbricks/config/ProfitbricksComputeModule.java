@@ -21,7 +21,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.profitbricks.config;
 import com.google.common.base.Optional;
 import com.google.inject.Injector;
 import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.ProfitBricksJcloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.converters.TemplateOptionsToProfitbricksTemplateOptions;
 import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
@@ -39,5 +41,11 @@ public class ProfitbricksComputeModule extends JCloudsComputeModule {
   @Override
   protected Optional<SecurityGroupExtension> securityGroupService(Injector injector) {
     return Optional.absent();
+  }
+
+  @Override
+  protected JCloudsViewFactory overrideJCloudsViewFactory(Injector injector,
+      JCloudsViewFactory originalFactory) {
+    return injector.getInstance(ProfitBricksJcloudsViewFactory.class);
   }
 }

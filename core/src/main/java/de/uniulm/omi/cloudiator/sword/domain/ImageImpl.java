@@ -70,6 +70,7 @@ public class ImageImpl extends ResourceImpl implements Image {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
-        .add("name", name()).add("os", operatingSystem).toString();
+        .add("name", name()).add("os", operatingSystem).add("location", location().orElse(null))
+        .toString();
   }
 }
