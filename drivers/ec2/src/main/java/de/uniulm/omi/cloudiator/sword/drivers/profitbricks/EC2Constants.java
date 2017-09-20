@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.ec2;
+package de.uniulm.omi.cloudiator.sword.drivers.profitbricks;
 
 /**
  * Created by daniel on 08.09.15.

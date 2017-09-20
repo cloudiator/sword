@@ -16,13 +16,13 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.ec2.config;
+package de.uniulm.omi.cloudiator.sword.drivers.profitbricks.config;
 
 import com.google.inject.Injector;
 import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
-import de.uniulm.omi.cloudiator.sword.drivers.ec2.EC2JCloudsViewFactory;
-import de.uniulm.omi.cloudiator.sword.drivers.ec2.converters.TemplateOptionsToEc2TemplateOptions;
-import de.uniulm.omi.cloudiator.sword.drivers.ec2.strategy.Ec2CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.EC2JCloudsViewFactory;
+import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.converters.TemplateOptionsToEc2TemplateOptions;
+import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.strategy.Ec2CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;

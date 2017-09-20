@@ -35,12 +35,9 @@ import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.domain.LoginCredentials;
 
 /**
- * Converts a jclouds {@link ComputeMetadata} object into
- * a {@link VirtualMachine} object.
- * <p>
- * Requires the compute metadata object to be of type
- * {@link NodeMetadata}, as otherwise not all required
- * information is available.
+ * Converts a jclouds {@link ComputeMetadata} object into a {@link VirtualMachine} object. <p>
+ * Requires the compute metadata object to be of type {@link NodeMetadata}, as otherwise not all
+ * required information is available.
  */
 public class JCloudsComputeMetadataToVirtualMachine
     implements OneWayConverter<ComputeMetadata, VirtualMachine> {
@@ -88,10 +85,14 @@ public class JCloudsComputeMetadataToVirtualMachine
       virtualMachineBuilder.loginCredential(this.loginCredentialConverter
           .apply(((NodeMetadata) computeMetadata).getCredentials()));
     }
+
     virtualMachineBuilder
         .hardware(hardwareConverter.apply(((NodeMetadata) computeMetadata).getHardware()));
-    virtualMachineBuilder
-        .image(imageGetStrategy.get(((NodeMetadata) computeMetadata).getImageId()));
+
+    String imageId = ((NodeMetadata) computeMetadata).getImageId();
+    if (imageId != null) {
+      virtualMachineBuilder.image(imageGetStrategy.get(imageId));
+    }
 
     return virtualMachineBuilder.build();
   }
