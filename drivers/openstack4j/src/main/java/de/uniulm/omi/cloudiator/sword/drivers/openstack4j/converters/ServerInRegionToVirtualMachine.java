@@ -29,6 +29,7 @@ import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import javax.inject.Inject;
 
 /**
  * Created by daniel on 18.11.16.
@@ -39,6 +40,7 @@ public class ServerInRegionToVirtualMachine
   private final GetStrategy<String, Image> imageGetStrategy;
   private final GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy;
 
+  @Inject
   public ServerInRegionToVirtualMachine(GetStrategy<String, Image> imageGetStrategy,
       GetStrategy<String, HardwareFlavor> hardwareFlavorGetStrategy) {
 
