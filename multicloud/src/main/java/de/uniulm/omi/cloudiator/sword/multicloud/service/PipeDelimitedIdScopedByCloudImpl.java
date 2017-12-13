@@ -24,13 +24,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by daniel on 19.01.17.
  */
-public class ColonDelimitedIdScopedByCloudImpl implements IdScopedByCloud {
+public class PipeDelimitedIdScopedByCloudImpl implements IdScopedByCloud {
 
-  private static final String DELIMITER = ":";
+  private static final String DELIMITER = "\\|";
   private final String id;
   private final String cloudId;
 
-  ColonDelimitedIdScopedByCloudImpl(String scopedId) {
+  PipeDelimitedIdScopedByCloudImpl(String scopedId) {
     checkNotNull(scopedId, "scopedId is null");
     checkArgument(!scopedId.isEmpty(), "scopedId is empty");
     String parts[] = scopedId.split(DELIMITER);
@@ -45,7 +45,7 @@ public class ColonDelimitedIdScopedByCloudImpl implements IdScopedByCloud {
 
   }
 
-  ColonDelimitedIdScopedByCloudImpl(String id, String cloudId) {
+  PipeDelimitedIdScopedByCloudImpl(String id, String cloudId) {
     checkNotNull(id, "id is null");
     checkArgument(!id.isEmpty(), "id is empty");
     checkNotNull(cloudId, "cloudId is empty");
