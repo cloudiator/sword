@@ -47,5 +47,5 @@ public interface HardwareFlavor extends Resource {
    *
    * @return the amount of disk space or null.
    */
-  Optional<Float> gbDisk();
+  Optional<Double> gbDisk();
 }

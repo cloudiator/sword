@@ -51,11 +51,11 @@ public class JCloudsHardwareToHardwareFlavor implements OneWayConverter<Hardware
     for (Processor processor : hardware.getProcessors()) {
       cores += processor.getCores();
     }
-    Float gbDisk = null;
+    Double gbDisk = null;
     final Optional<? extends Volume> bootVolume =
         hardware.getVolumes().stream().filter(Volume::isBootDevice).findFirst();
     if (bootVolume.isPresent()) {
-      gbDisk = bootVolume.get().getSize();
+      gbDisk = bootVolume.get().getSize().doubleValue();
       if (gbDisk == 0) {
         gbDisk = null;
       }

@@ -35,7 +35,7 @@ public class VirtualMachineSizeInRegionToHardwareFlavor implements
         .providerId(virtualMachineSizeInRegion.providerId())
         .name(virtualMachineSizeInRegion.providerId())
         .cores(virtualMachineSizeInRegion.numberOfCores())
-        .gbDisk((float) virtualMachineSizeInRegion.osDiskSizeInMB() / 1000)
+        .gbDisk((double) virtualMachineSizeInRegion.osDiskSizeInMB() / 1000)
         .mbRam(virtualMachineSizeInRegion.memoryInMB())
         .location(virtualMachineSizeInRegion.region()).build();
   }

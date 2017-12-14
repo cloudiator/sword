@@ -34,7 +34,7 @@ public class HardwareFlavorBuilder {
   private int cores;
   private long mbRam;
   @Nullable
-  private Float gbDisk;
+  private Double gbDisk;
   @Nullable
   private Location location;
 
@@ -94,7 +94,7 @@ public class HardwareFlavorBuilder {
     return this;
   }
 
-  public HardwareFlavorBuilder gbDisk(@Nullable Float gbDisk) {
+  public HardwareFlavorBuilder gbDisk(@Nullable Double gbDisk) {
     this.gbDisk = gbDisk;
     return this;
   }

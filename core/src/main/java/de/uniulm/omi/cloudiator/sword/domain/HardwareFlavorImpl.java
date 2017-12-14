@@ -30,12 +30,12 @@ import javax.annotation.Nullable;
 public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
 
   @Nullable
-  Float gbDisk;
+  private Double gbDisk;
   private int cores;
   private long ram;
 
   HardwareFlavorImpl(String id, String providerId, String name, @Nullable Location location,
-      int cores, long ram, @Nullable Float gbDisk) {
+      int cores, long ram, @Nullable Double gbDisk) {
     super(id, providerId, name, location);
     checkArgument(cores > 0, "Cores must be > 0");
     checkArgument(ram > 0, "RAM must be > 0");
@@ -59,7 +59,7 @@ public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
 
   @Nullable
   @Override
-  public Optional<Float> gbDisk() {
+  public Optional<Double> gbDisk() {
     return Optional.ofNullable(gbDisk);
   }
 
