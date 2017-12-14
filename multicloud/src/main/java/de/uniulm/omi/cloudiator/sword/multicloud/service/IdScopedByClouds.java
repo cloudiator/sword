@@ -24,10 +24,10 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 public class IdScopedByClouds {
 
   public static IdScopedByCloud from(String scopedId) {
-    return new PipeDelimitedIdScopedByCloudImpl(scopedId);
+    return new TildeDelimitedIdScopedByCloudImpl(scopedId);
   }
 
   public static IdScopedByCloud from(String id, String cloudId) {
-    return new PipeDelimitedIdScopedByCloudImpl(id, cloudId);
+    return new TildeDelimitedIdScopedByCloudImpl(id, cloudId);
   }
 }
