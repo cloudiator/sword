@@ -18,7 +18,6 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.google.converters;
 
-import com.google.common.primitives.Ints;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
 import org.jclouds.compute.options.TemplateOptions;
 
@@ -31,8 +30,6 @@ public class TemplateOptionsToGoogleTemplateOptions
   @Override
   protected TemplateOptions convert(
       de.uniulm.omi.cloudiator.sword.domain.TemplateOptions templateOptions) {
-    TemplateOptions googleOptions = new TemplateOptions();
-    googleOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
-    return googleOptions;
+    return new TemplateOptions();
   }
 }

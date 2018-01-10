@@ -18,7 +18,6 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack.converters;
 
-import com.google.common.primitives.Ints;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
@@ -39,6 +38,7 @@ public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOption
   @Override
   protected TemplateOptions convert(
       de.uniulm.omi.cloudiator.sword.domain.TemplateOptions templateOptions) {
+
     NovaTemplateOptions novaTemplateOptions = new NovaTemplateOptions();
     final String keyPairName = templateOptions.keyPairName();
     if (keyPairName != null) {
@@ -48,8 +48,6 @@ public class TemplateOptionsToNovaTemplateOptions extends AbstractTemplateOption
     if (availabilityZone != null) {
       novaTemplateOptions.availabilityZone(availabilityZone);
     }
-    novaTemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
-    novaTemplateOptions.userMetadata(templateOptions.tags());
     if (templateOptions.userData() != null) {
       novaTemplateOptions
           .userData(templateOptions.userData().getBytes(Charset.forName("UTF-8")));

@@ -24,12 +24,12 @@ import com.google.inject.AbstractModule;
 import de.uniulm.omi.cloudiator.sword.base.BaseComputeService;
 import de.uniulm.omi.cloudiator.sword.domain.PropertiesBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.config.AzureComputeModule;
-import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.config.Ec2ComputeModule;
-import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.config.ProfitbricksComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.flexiant.config.FlexiantComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.google.config.GoogleCloudComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.config.OpenstackComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.config.Openstack4jComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.config.Ec2ComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.config.ProfitbricksComputeModule;
 import de.uniulm.omi.cloudiator.sword.exceptions.ProviderNotFoundException;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import java.util.HashMap;
@@ -93,7 +93,8 @@ public class Providers {
     final Set<AbstractModule> profitbricksModules = new HashSet<>();
     profitbricksModules.add(new ProfitbricksComputeModule());
     registerProvider(
-        new ProviderConfiguration("profitbricks-rest", profitbricksModules, BaseComputeService.class,
+        new ProviderConfiguration("profitbricks-rest", profitbricksModules,
+            BaseComputeService.class,
             PropertiesBuilder.newBuilder().build()));
   }
 

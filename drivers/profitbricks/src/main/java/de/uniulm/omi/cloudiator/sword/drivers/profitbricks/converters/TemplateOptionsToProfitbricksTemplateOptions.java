@@ -27,11 +27,6 @@ import org.jclouds.compute.options.TemplateOptions;
 public class TemplateOptionsToProfitbricksTemplateOptions extends
     AbstractTemplateOptionsToTemplateOptions {
 
-  //@Inject(optional = true)
-  //@Named(EC2Constants.PROPERTY_EC2_DEFAULT_VPC)
-  //private String
-  //    defaultVpc = null;
-
   @Override
   protected TemplateOptions convert(
       de.uniulm.omi.cloudiator.sword.domain.TemplateOptions templateOptions) {

@@ -18,11 +18,10 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.profitbricks.converters;
 
-import com.google.common.primitives.Ints;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.EC2Constants;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
+import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.EC2Constants;
 import java.nio.charset.Charset;
 import org.jclouds.aws.ec2.compute.AWSEC2TemplateOptions;
 import org.jclouds.compute.options.TemplateOptions;
@@ -45,7 +44,6 @@ public class TemplateOptionsToEc2TemplateOptions extends AbstractTemplateOptions
     if (keyPairName != null) {
       ec2TemplateOptions.authorizePublicKey(keyPairName);
     }
-    ec2TemplateOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
     if (defaultVpc != null) {
       ec2TemplateOptions.subnetId(defaultVpc);
     }

@@ -19,7 +19,11 @@
 package de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters;
 
 
+import com.google.common.primitives.Ints;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
+import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import javax.annotation.Nullable;
 
@@ -29,11 +33,23 @@ import javax.annotation.Nullable;
 public abstract class AbstractTemplateOptionsToTemplateOptions
     implements OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions> {
 
+  private @Inject(optional = true)
+  @Named(Constants.DEFAULT_SECURITY_GROUP)
+  String defaultSecurityGroup = null;
+
   @Nullable
   @Override
   public org.jclouds.compute.options.TemplateOptions apply(TemplateOptions templateOptions) {
-    //todo implement conversion of generic options
-    return convert(templateOptions);
+
+    org.jclouds.compute.options.TemplateOptions jcloudsOptions = convert(templateOptions);
+    jcloudsOptions.inboundPorts(Ints.toArray(templateOptions.inboundPorts()));
+    jcloudsOptions.userMetadata(templateOptions.tags());
+
+    if (defaultSecurityGroup != null) {
+      jcloudsOptions.securityGroups(defaultSecurityGroup);
+    }
+
+    return jcloudsOptions;
   }
 
   protected abstract org.jclouds.compute.options.TemplateOptions convert(

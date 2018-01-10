@@ -31,6 +31,7 @@ public class Constants {
   public static final String SSH_MAX_RETRIES = "sword.ssh.max.retries";
   public static final String REQUEST_TIMEOUT = "sword.request.timeout";
   public static final String SWORD_REGIONS = "sword.regions";
+  public static final String DEFAULT_SECURITY_GROUP = "sword.default.securityGroup";
 
   private Constants() {
     throw new AssertionError("constants class");

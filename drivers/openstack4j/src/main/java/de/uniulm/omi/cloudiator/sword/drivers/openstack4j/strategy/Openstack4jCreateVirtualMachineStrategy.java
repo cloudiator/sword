@@ -22,11 +22,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
+import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
@@ -52,6 +54,10 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
   private final OpenstackNetworkStrategy networkStrategy;
   private final NamingStrategy namingStrategy;
   private final CreateSecurityGroupFromTemplateOption createSecurityGroupFromTemplateOption;
+
+  private @Inject(optional = true)
+  @Named(Constants.DEFAULT_SECURITY_GROUP)
+  String defaultSecurityGroup = null;
 
   @Inject
   public Openstack4jCreateVirtualMachineStrategy(OSClient osClient,
@@ -105,6 +111,10 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
       secGroups.add(createSecurityGroupFromTemplateOption
           .create(virtualMachineTemplate.templateOptions().get(),
               virtualMachineTemplate.locationId()));
+    }
+
+    if (defaultSecurityGroup != null) {
+      secGroups.add(defaultSecurityGroup);
     }
 
     //todo this code also assumes that location is always the availability zone
