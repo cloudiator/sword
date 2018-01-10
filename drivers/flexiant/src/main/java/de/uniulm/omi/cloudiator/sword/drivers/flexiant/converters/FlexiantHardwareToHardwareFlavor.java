@@ -44,7 +44,8 @@ public class FlexiantHardwareToHardwareFlavor implements OneWayConverter<Hardwar
 
     return HardwareFlavorBuilder.newBuilder().id(id).providerId(id).name(id)
         .location(locationGetStrategy.get(hardware.getLocationUUID()))
-        .cores(hardware.getCores()).mbRam(hardware.getRam()).gbDisk(hardware.getDiskSpace())
+        .cores(hardware.getCores()).mbRam(hardware.getRam())
+        .gbDisk(hardware.getDiskSpace().doubleValue())
         .build();
   }
 }

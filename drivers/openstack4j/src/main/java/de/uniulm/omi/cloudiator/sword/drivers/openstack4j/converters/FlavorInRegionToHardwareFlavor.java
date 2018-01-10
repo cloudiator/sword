@@ -34,6 +34,6 @@ public class FlavorInRegionToHardwareFlavor
     return HardwareFlavorBuilder.newBuilder().id(flavorInRegion.getId())
         .location(flavorInRegion.region()).providerId(flavorInRegion.providerId())
         .name(flavorInRegion.getName()).cores(flavorInRegion.getVcpus())
-        .gbDisk((float) flavorInRegion.getDisk()).mbRam(flavorInRegion.getRam()).build();
+        .gbDisk((double) flavorInRegion.getDisk()).mbRam(flavorInRegion.getRam()).build();
   }
 }

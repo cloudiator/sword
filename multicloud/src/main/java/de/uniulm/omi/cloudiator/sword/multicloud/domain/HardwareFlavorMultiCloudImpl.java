@@ -54,7 +54,7 @@ public class HardwareFlavorMultiCloudImpl implements HardwareFlavor {
 
   @Nullable
   @Override
-  public Optional<Float> gbDisk() {
+  public Optional<Double> gbDisk() {
     return delegate.gbDisk();
   }
 

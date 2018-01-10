@@ -37,7 +37,7 @@ public class HardwareFlavorImplTest {
   private final String testName = "name";
   private final int testCores = 1;
   private final long testRam = 1024;
-  private final Float testDisk = 1.024F;
+  private final Double testDisk = 1.024D;
   private final Location testLocation =
       LocationBuilder.newBuilder().id("test").providerId("test").name("test").parent(null)
           .assignable(true)
@@ -111,7 +111,7 @@ public class HardwareFlavorImplTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void diskGreaterZeroTest() {
-    validHardwareFlavorBuilder.gbDisk(0F).build();
+    validHardwareFlavorBuilder.gbDisk(0D).build();
   }
 
   @Test
