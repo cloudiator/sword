@@ -23,12 +23,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Optional;
 import javax.annotation.Nullable;
-import javax.ws.rs.DELETE;
 
 /**
  * Basic implementation of the {@link KeyPair} interface.
  */
-@Deprecated public class KeyPairImpl extends ResourceImpl implements KeyPair {
+@Deprecated
+public class KeyPairImpl extends ResourceImpl implements KeyPair {
 
   private final String id;
   private final String name;

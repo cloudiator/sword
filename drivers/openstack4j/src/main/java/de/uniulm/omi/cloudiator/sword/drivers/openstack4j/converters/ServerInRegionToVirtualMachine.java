@@ -29,6 +29,7 @@ import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 /**

@@ -24,13 +24,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.MoreObjects;
 import java.util.Optional;
 import javax.annotation.Nullable;
-import org.jclouds.ssh.SshKeys;
 
 /**
  * Basic implementation of the {@link LoginCredential} interface.
  * <p/>
- * Use {@link LoginCredentialBuilder}
- * to create new objects.
+ * Use {@link LoginCredentialBuilder} to create new objects.
  */
 public class LoginCredentialImpl implements LoginCredential {
 
@@ -76,16 +74,9 @@ public class LoginCredentialImpl implements LoginCredential {
     return Optional.ofNullable(privateKey);
   }
 
-  public Optional<String> privateKeyFingerprint() {
-    if (privateKey == null) {
-      return Optional.empty();
-    }
-    return Optional.of(SshKeys.fingerprintPrivateKey(privateKey));
-  }
-
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).add("username", username())
-        .add("password", password()).add("privateKey", privateKeyFingerprint()).toString();
+        .add("password", password()).add("privateKey", privateKey).toString();
   }
 }
