@@ -22,6 +22,10 @@ import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.core.domain.VirtualMachineBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+import org.openstack4j.model.compute.Address;
 
 /**
  * Created by daniel on 18.11.16.
@@ -32,8 +36,42 @@ public class ServerInRegionToVirtualMachine
     @Override public VirtualMachine apply(ServerInRegion serverInRegion) {
         //todo check which region to return. Always region or av or host?
         //todo add login credential and ip addresses
-        return VirtualMachineBuilder.newBuilder().name(serverInRegion.getName())
+
+        VirtualMachineBuilder virtualMachineBuilder = VirtualMachineBuilder.newBuilder().name(serverInRegion.getName())
             .id(serverInRegion.getId()).providerId(serverInRegion.providerId())
-            .location(serverInRegion.region()).build();
+            .location(serverInRegion.region());
+
+        Set<Entry<String, List<? extends Address>>> addressSet = serverInRegion
+            .getAddresses().getAddresses().entrySet();
+
+        if(addressSet.size()>1){
+            //TODO: warning, server is configured with multiple network types
+            //LOGGER.warn(String.format("Server %s is configured with multiple network types!", serverInRegion.getId()));
+        }
+
+        //add all available addresses
+        if(addressSet.iterator().hasNext()){
+            Entry<String, List<? extends Address>> addressEntry = addressSet.iterator().next();
+
+            //System.out.println("Using addresses for network: " + addressEntry.getKey());
+            //LOGGER.warn(String.format("Using addresses for network:  %s", addressEntry.getKey()));
+
+            List<? extends Address> addressList = addressEntry.getValue();
+
+            for (Address address : addressList){
+
+                //TODO: only add fixed IPs or all?
+                if(address.getType().equals("fixed")){
+                    //System.out.println("Found private (fixed) IP: " + address.getAddr());
+                    //LOGGER.warn(String.format("Found private (fixed) IP: %s", address.getAddr()));
+
+                    virtualMachineBuilder.addPrivateIpAddress(address.getAddr());
+
+                }
+            }
+
+        }
+
+        return virtualMachineBuilder.build();
     }
 }
