@@ -45,26 +45,23 @@ public class ServerInRegionToVirtualMachine
             .getAddresses().getAddresses().entrySet();
 
         if(addressSet.size()>1){
-            //TODO: warning, server is configured with multiple network types
-            //LOGGER.warn(String.format("Server %s is configured with multiple network types!", serverInRegion.getId()));
+            //TODO: server is configured with multiple network types, how to handle this?
+            //LOGGER.warn(String.format("VM %s is configured with multiple network types!", serverInRegion.getId()));
+
         }
 
         //add all available addresses
         if(addressSet.iterator().hasNext()){
             Entry<String, List<? extends Address>> addressEntry = addressSet.iterator().next();
-
-            //System.out.println("Using addresses for network: " + addressEntry.getKey());
             //LOGGER.warn(String.format("Using addresses for network:  %s", addressEntry.getKey()));
 
             List<? extends Address> addressList = addressEntry.getValue();
 
             for (Address address : addressList){
 
-                //TODO: only add fixed IPs or all?
+                //TODO: currently only adding fixed IPs?
                 if(address.getType().equals("fixed")){
-                    //System.out.println("Found private (fixed) IP: " + address.getAddr());
                     //LOGGER.warn(String.format("Found private (fixed) IP: %s", address.getAddr()));
-
                     virtualMachineBuilder.addPrivateIpAddress(address.getAddr());
 
                 }
