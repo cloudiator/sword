@@ -25,6 +25,7 @@ import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.domain.GeoLocation;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -88,5 +89,10 @@ public class LocationMultiCloudImpl implements Location {
   public String toString() {
     return MoreObjects.toStringHelper(this).add("id", id()).add("delegate", delegate)
         .add("cloudId", cloudId).toString();
+  }
+
+  @Override
+  public Map<String, String> tags() {
+    return delegate.tags();
   }
 }

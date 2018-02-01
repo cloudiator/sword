@@ -26,7 +26,7 @@ import java.util.Optional;
  * Represents a location offered by
  * the provider.
  */
-public interface Location extends ProviderIdentifiable, Named {
+public interface Location extends ProviderIdentifiable, Named, Tagged {
 
   /**
    * The scope of the location, e.g. REGION or ZONE.
