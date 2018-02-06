@@ -86,8 +86,8 @@ public class CloudHarmonyMetaService implements MetaService {
     @Override
     public MetaService of(Cloud cloud) {
       try {
-        return new CloudHarmonyMetaService(
-            new ProviderToCloudHarmony().apply(cloud.api().providerName()));
+        return new CachedCloudHarmonyMetaService(new CloudHarmonyMetaService(
+            new ProviderToCloudHarmony().apply(cloud.api().providerName())));
       } catch (Exception e) {
         return new DefaultMetaModule.NoOpMetaService();
       }
