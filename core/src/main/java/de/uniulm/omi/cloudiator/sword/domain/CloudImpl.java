@@ -48,7 +48,7 @@ public class CloudImpl implements Cloud {
 
     checkNotNull(api, "api is null.");
     if (endpoint != null) {
-      checkArgument(!endpoint.isEmpty());
+      checkArgument(!endpoint.isEmpty(), "endpoint is empty");
     }
     checkNotNull(cloudCredential, "credentials is null");
     checkNotNull(configuration, "configuration is null");
