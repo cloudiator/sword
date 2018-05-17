@@ -103,7 +103,7 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
     }
     if (keyPairName == null) {
       keypair = osClient.compute().keypairs()
-          .create(namingStrategy.generateNameBasedOnName(null), null);
+          .create(namingStrategy.generateUniqueNameBasedOnName(null), null);
     }
 
     List<String> secGroups = new ArrayList<>(1);
