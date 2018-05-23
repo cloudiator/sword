@@ -51,7 +51,7 @@ public class ServerInRegion implements Server, InRegion, ProviderIdentified {
   private final Keypair keypair;
 
   public ServerInRegion(Server createdServer, Server retrievedServer, Location region, @Nullable Keypair keypair) {
-    checkNotNull(retrievedServer);
+    checkNotNull(retrievedServer, "retrieved server is null");
     checkNotNull(createdServer, "createdServer is null.");
     checkNotNull(region, "region is null.");
     this.createdServer = createdServer;
