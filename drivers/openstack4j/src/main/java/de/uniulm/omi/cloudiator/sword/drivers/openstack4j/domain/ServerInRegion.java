@@ -20,9 +20,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import de.uniulm.omi.cloudiator.sword.domain.KeyPair;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
-import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +48,8 @@ public class ServerInRegion implements Server, InRegion, ProviderIdentified {
   @Nullable
   private final Keypair keypair;
 
-  public ServerInRegion(Server createdServer, Server retrievedServer, Location region, @Nullable Keypair keypair) {
+  public ServerInRegion(Server createdServer, Server retrievedServer, Location region,
+      @Nullable Keypair keypair) {
     checkNotNull(retrievedServer, "retrieved server is null");
     checkNotNull(createdServer, "createdServer is null.");
     checkNotNull(region, "region is null.");
@@ -96,7 +95,12 @@ public class ServerInRegion implements Server, InRegion, ProviderIdentified {
 
   @Override
   public Image getImage() {
-    return new ImageInRegion(createdServer.getImage(), region);
+
+    if (createdServer.getImage() != null) {
+      return new ImageInRegion(createdServer.getImage(), region);
+    }
+
+    return new ImageInRegion(retrievedServer.getImage(), region);
   }
 
   @Override
@@ -106,7 +110,11 @@ public class ServerInRegion implements Server, InRegion, ProviderIdentified {
 
   @Override
   public Flavor getFlavor() {
-    return new FlavorInRegion(createdServer.getFlavor(), region);
+    if (createdServer.getFlavor() != null) {
+      return new FlavorInRegion(createdServer.getFlavor(), region);
+    }
+    return new FlavorInRegion(retrievedServer.getFlavor(), region);
+
   }
 
   @Override
