@@ -105,7 +105,7 @@ public class ServerInRegion implements Server, InRegion, ProviderIdentified {
 
   @Override
   public String getFlavorId() {
-    return createdServer.getFlavor().getId();
+    return getFlavor().getId();
   }
 
   @Override
