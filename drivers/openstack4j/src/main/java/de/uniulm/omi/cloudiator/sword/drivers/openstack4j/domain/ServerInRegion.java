@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
@@ -90,7 +91,17 @@ public class ServerInRegion implements Server, InRegion, ProviderIdentified {
 
   @Override
   public String getImageId() {
-    return getImage().getId();
+    String imageId = null;
+
+    if (createdServer.getImageId() != null) {
+      imageId = createdServer.getFlavorId();
+    } else if (retrievedServer.getImageId() != null) {
+      imageId = retrievedServer.getFlavorId();
+    }
+
+    checkState(imageId != null, "Could not determine imageId of " + this);
+
+    return IdScopeByLocations.from(region.id(), imageId).getIdWithLocation();
   }
 
   @Override
@@ -105,7 +116,18 @@ public class ServerInRegion implements Server, InRegion, ProviderIdentified {
 
   @Override
   public String getFlavorId() {
-    return getFlavor().getId();
+    String flavorId = null;
+
+    if (createdServer.getFlavorId() != null) {
+      flavorId = createdServer.getFlavorId();
+    } else if (retrievedServer.getFlavorId() != null) {
+      flavorId = retrievedServer.getFlavorId();
+    }
+
+    checkState(flavorId != null, "Could not determine flavorId of " + this);
+
+    return IdScopeByLocations.from(region.id(), flavorId).getIdWithLocation();
+
   }
 
   @Override
