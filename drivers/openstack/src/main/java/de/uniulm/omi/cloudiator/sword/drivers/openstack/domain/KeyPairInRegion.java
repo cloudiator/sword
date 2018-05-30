@@ -27,7 +27,8 @@ import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 /**
  * Created by daniel on 30.11.16.
  */
-@Deprecated public class KeyPairInRegion extends KeyPair implements LocationScoped {
+@Deprecated
+public class KeyPairInRegion extends KeyPair implements LocationScoped {
 
   private final KeyPair delegate;
   private final Location region;
@@ -71,5 +72,13 @@ import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
   @Override
   public Optional<Location> location() {
     return Optional.of(region);
+  }
+
+  @Override
+  public Optional<String> locationId() {
+    if (!location().isPresent()) {
+      return Optional.empty();
+    }
+    return Optional.of(location().get().id());
   }
 }

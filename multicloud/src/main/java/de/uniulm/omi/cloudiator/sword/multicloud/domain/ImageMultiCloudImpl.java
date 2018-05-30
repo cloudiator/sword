@@ -66,6 +66,14 @@ public class ImageMultiCloudImpl implements Image {
   }
 
   @Override
+  public Optional<String> locationId() {
+    if (!location().isPresent()) {
+      return Optional.empty();
+    }
+    return Optional.of(location().get().id());
+  }
+
+  @Override
   public String name() {
     return delegate.name();
   }

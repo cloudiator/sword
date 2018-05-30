@@ -90,8 +90,24 @@ public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
   }
 
   @Override
+  public Optional<String> imageId() {
+    if (image == null) {
+      return Optional.empty();
+    }
+    return Optional.of(image.id());
+  }
+
+  @Override
   public Optional<HardwareFlavor> hardware() {
     return Optional.ofNullable(hardwareFlavor);
+  }
+
+  @Override
+  public Optional<String> hardwareId() {
+    if (hardwareFlavor == null) {
+      return Optional.empty();
+    }
+    return Optional.of(hardwareFlavor.id());
   }
 
   @Override
