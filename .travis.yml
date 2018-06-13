@@ -2,11 +2,10 @@ sudo: false
 jdk:
 - oraclejdk8
 language: java
-install: mvn -q install -U -DskipTests=true
-script: mvn -q org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.javadoc.skip=true
-  sonar:sonar
+install: travis_wait mvn -q install -U -DskipTests=true
+script: travis_wait mvn -q install -Dmaven.javadoc.skip=true
 after_success:
-- ci/deploy_snapshot.sh
+- travis_wait ci/deploy_snapshot.sh
 - ci/publish-javadoc-to-gh-pages.sh
 branches:
   except:
