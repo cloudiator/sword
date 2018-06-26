@@ -73,12 +73,4 @@ public class KeyPairInRegion extends KeyPair implements LocationScoped {
   public Optional<Location> location() {
     return Optional.of(region);
   }
-
-  @Override
-  public Optional<String> locationId() {
-    if (!location().isPresent()) {
-      return Optional.empty();
-    }
-    return Optional.of(location().get().id());
-  }
 }

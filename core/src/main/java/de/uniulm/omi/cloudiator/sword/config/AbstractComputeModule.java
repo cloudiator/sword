@@ -66,24 +66,29 @@ public abstract class AbstractComputeModule extends AbstractModule {
   @Provides
   GetStrategy<String, Location> provideLocationGetStrategy(Injector injector,
       FilteringFactory filteringFactory) {
-    return filteringFactory.filter(injector.getInstance(getLocationStrategy()));
+    return filteringFactory
+        .filterLocationScoped(filteringFactory.filter(injector.getInstance(getLocationStrategy())));
   }
 
   @Provides
   GetStrategy<String, Image> provideImageGetStrategy(Injector injector,
       FilteringFactory filteringFactory) {
-    return filteringFactory.filter(injector.getInstance(getImageStrategy()));
+    return filteringFactory
+        .filterLocationScoped(filteringFactory.filter(injector.getInstance(getImageStrategy())));
   }
 
   @Provides
   GetStrategy<String, HardwareFlavor> provideHardwareGetStrategy(Injector injector,
       FilteringFactory filteringFactory) {
-    return filteringFactory.filter(injector.getInstance(getHardwareFlavorStrategy()));
+    return filteringFactory.filterLocationScoped(
+        filteringFactory.filter(injector.getInstance(getHardwareFlavorStrategy())));
   }
 
   @Provides
-  GetStrategy<String, VirtualMachine> provideVirtualMachineGetStrategy(Injector injector) {
-    return injector.getInstance(getVirtualMachineStrategy());
+  GetStrategy<String, VirtualMachine> provideVirtualMachineGetStrategy(Injector injector,
+      FilteringFactory filteringFactory) {
+    return filteringFactory.filterLocationScoped(
+        filteringFactory.filter(injector.getInstance(getVirtualMachineStrategy())));
   }
 
   @Provides
@@ -115,27 +120,31 @@ public abstract class AbstractComputeModule extends AbstractModule {
   @Singleton
   final Supplier<Set<Image>> provideImageSupplier(Injector injector,
       FilteringFactory filteringFactory) {
-    return filteringFactory.filter(imageSupplier(injector));
+    return filteringFactory.filterLocationScoped(filteringFactory.filter(imageSupplier(injector)));
   }
 
   @Provides
   @Singleton
   final Supplier<Set<Location>> provideLocationSupplier(Injector injector,
       FilteringFactory filteringFactory) {
-    return filteringFactory.filter(locationSupplier(injector));
+    return filteringFactory
+        .filterLocationScoped(filteringFactory.filter(locationSupplier(injector)));
   }
 
   @Provides
   @Singleton
   final Supplier<Set<HardwareFlavor>> provideHardwareFlavorSupplier(Injector injector,
       FilteringFactory filteringFactory) {
-    return filteringFactory.filter(hardwareFlavorSupplier(injector));
+    return filteringFactory
+        .filterLocationScoped(filteringFactory.filter(hardwareFlavorSupplier(injector)));
   }
 
   @Provides
   @Singleton
-  final Supplier<Set<VirtualMachine>> provideVirtualMachineSupplier(Injector injector) {
-    return virtualMachineSupplier(injector);
+  final Supplier<Set<VirtualMachine>> provideVirtualMachineSupplier(Injector injector,
+      FilteringFactory filteringFactory) {
+    return filteringFactory
+        .filterLocationScoped(filteringFactory.filter(virtualMachineSupplier(injector)));
   }
 
   /*

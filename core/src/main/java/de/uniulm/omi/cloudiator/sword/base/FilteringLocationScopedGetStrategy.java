@@ -18,19 +18,27 @@
 
 package de.uniulm.omi.cloudiator.sword.base;
 
-import de.uniulm.omi.cloudiator.sword.domain.ProviderIdentifiable;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.LocationScoped;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
+import java.util.Optional;
 import java.util.Set;
 import javax.annotation.Nullable;
 
-public class FilteringGetStrategy<S, T extends ProviderIdentifiable> implements GetStrategy<S, T> {
+/**
+ * todo: should not only consider the parent location but all parent locations
+ */
+public class FilteringLocationScopedGetStrategy<S, T extends LocationScoped> implements
+    GetStrategy<S, T> {
+
 
   private final GetStrategy<S, T> delegate;
   private final Set<String> whiteList;
   private final Set<String> blackList;
 
-  public FilteringGetStrategy(GetStrategy<S, T> delegate, Set<String> whiteList,
-      Set<String> blackList) {
+  public FilteringLocationScopedGetStrategy(
+      GetStrategy<S, T> delegate, Set<String> whiteList, Set<String> blackList) {
+
     this.delegate = delegate;
     this.whiteList = whiteList;
     this.blackList = blackList;
@@ -40,17 +48,23 @@ public class FilteringGetStrategy<S, T extends ProviderIdentifiable> implements 
   @Override
   public T get(S s) {
 
-    T t = delegate.get(s);
+    final T t = delegate.get(s);
 
     if (t == null) {
       return null;
     }
 
-    if (blackList.contains(t.providerId())) {
+    Optional<Location> locationOptional = t.location();
+
+    if (!locationOptional.isPresent()) {
+      return t;
+    }
+
+    if (blackList.contains(locationOptional.get().providerId())) {
       return null;
     }
 
-    if (!whiteList.isEmpty() && !whiteList.contains(t.providerId())) {
+    if (!whiteList.isEmpty() && !whiteList.contains(locationOptional.get().providerId())) {
       return null;
     }
 

@@ -23,10 +23,9 @@ import de.uniulm.omi.cloudiator.domain.Named;
 import java.util.Optional;
 
 /**
- * Represents a location offered by
- * the provider.
+ * Represents a location offered by the provider.
  */
-public interface Location extends ProviderIdentifiable, Named, Tagged {
+public interface Location extends ProviderIdentifiable, Named, Tagged, LocationScoped {
 
   /**
    * The scope of the location, e.g. REGION or ZONE.
@@ -34,20 +33,22 @@ public interface Location extends ProviderIdentifiable, Named, Tagged {
   LocationScope locationScope();
 
   /**
-   * A location is assignable, if it can be used
-   * for starting virtual machines at the provider.
+   * A location is assignable, if it can be used for starting virtual machines at the provider.
    *
    * @return true if assignable, no if not.
    */
   boolean isAssignable();
 
   /**
-   * The {@link Optional} parent location, e.g. availability zone - region.
-   * Is absent of top level.
+   * The {@link Optional} parent location, e.g. availability zone - region. Is absent of top level.
    *
    * @return the parent location, absent of top level.
    */
   Optional<Location> parent();
+
+  default Optional<Location> location() {
+    return parent();
+  }
 
   /**
    * The {@link Optional} geographical location.

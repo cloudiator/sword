@@ -67,14 +67,6 @@ import java.util.Optional;
   }
 
   @Override
-  public Optional<String> locationId() {
-    if (!location().isPresent()) {
-      return Optional.empty();
-    }
-    return Optional.of(location().get().id());
-  }
-
-  @Override
   public String publicKey() {
     return delegate.publicKey();
   }

@@ -24,13 +24,13 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class FilteringSupplier<T extends ProviderIdentifiable> implements Supplier<Set<T>> {
+public class FilteringProviderIdentifiableSupplier<T extends ProviderIdentifiable> implements Supplier<Set<T>> {
 
   private final Supplier<Set<T>> toBeFiltered;
   private final Set<String> whiteList;
   private final Set<String> blackList;
 
-  FilteringSupplier(Supplier<Set<T>> delegate, Set<String> whiteList,
+  FilteringProviderIdentifiableSupplier(Supplier<Set<T>> delegate, Set<String> whiteList,
       Set<String> blackList) {
     this.toBeFiltered = delegate;
     this.whiteList = whiteList;

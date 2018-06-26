@@ -74,14 +74,6 @@ public class SecurityGroupMultiCloudImpl implements SecurityGroup {
   }
 
   @Override
-  public Optional<String> locationId() {
-    if (!location().isPresent()) {
-      return Optional.empty();
-    }
-    return Optional.of(location().get().id());
-  }
-
-  @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).add("id", id()).add("delegate", delegate)
         .add("cloud", cloudId).toString();

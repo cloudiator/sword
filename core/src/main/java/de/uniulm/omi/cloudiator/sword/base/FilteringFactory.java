@@ -20,7 +20,9 @@ package de.uniulm.omi.cloudiator.sword.base;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.domain.LocationScoped;
 import de.uniulm.omi.cloudiator.sword.domain.ProviderIdentifiable;
+import de.uniulm.omi.cloudiator.sword.domain.Resource;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import java.util.Collections;
@@ -68,12 +70,21 @@ public class FilteringFactory {
 
   public <T extends ProviderIdentifiable> Supplier<Set<T>> filter(
       Supplier<Set<T>> toBeFiltered) {
-    return new FilteringSupplier<T>(toBeFiltered, whiteList, blackList);
+    return new FilteringProviderIdentifiableSupplier<T>(toBeFiltered, whiteList, blackList);
+  }
+
+  public <T extends LocationScoped> Supplier<Set<T>> filterLocationScoped(Supplier<Set<T>> toBeFiltered) {
+    return new FilteringLocationScopedSupplier<T>(toBeFiltered, whiteList, blackList);
   }
 
   public <T extends ProviderIdentifiable, S> GetStrategy<S, T> filter(
       GetStrategy<S, T> getStrategy) {
-    return new FilteringGetStrategy<>(getStrategy, whiteList, blackList);
+    return new FilteringProviderIdentifiableGetStrategy<>(getStrategy, whiteList, blackList);
+  }
+
+  public <T extends LocationScoped, S> GetStrategy<S, T> filterLocationScoped(
+      GetStrategy<S, T> getStrategy) {
+    return new FilteringLocationScopedGetStrategy<>(getStrategy, whiteList, blackList);
   }
 
   private static Set<String> handleDelimiterString(String s) {
