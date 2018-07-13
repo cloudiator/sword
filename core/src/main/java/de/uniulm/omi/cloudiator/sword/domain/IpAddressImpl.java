@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
+import com.google.common.base.MoreObjects;
 import java.io.IOException;
 import java.net.InetAddress;
 
@@ -75,5 +76,11 @@ public class IpAddressImpl implements IpAddress {
   @Override
   public int hashCode() {
     return ip.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("ip", ip).add("type", type).add("version", version)
+        .toString();
   }
 }
