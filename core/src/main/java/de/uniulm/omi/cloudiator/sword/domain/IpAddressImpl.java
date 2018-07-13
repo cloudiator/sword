@@ -18,6 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
+import java.io.IOException;
+import java.net.InetAddress;
+
 public class IpAddressImpl implements IpAddress {
 
   private final String ip;
@@ -44,6 +47,15 @@ public class IpAddressImpl implements IpAddress {
   @Override
   public IpVersion version() {
     return version;
+  }
+
+  @Override
+  public boolean isPingable() {
+    try {
+      return InetAddress.getByName(ip()).isReachable(5000);
+    } catch (IOException e) {
+      return false;
+    }
   }
 
   @Override

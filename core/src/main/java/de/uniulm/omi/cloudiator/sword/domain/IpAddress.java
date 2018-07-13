@@ -36,4 +36,6 @@ public interface IpAddress {
 
   IpVersion version();
 
+  boolean isPingable();
+
 }
