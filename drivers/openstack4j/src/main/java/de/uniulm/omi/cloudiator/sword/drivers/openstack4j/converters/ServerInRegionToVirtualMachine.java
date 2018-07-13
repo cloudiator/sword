@@ -79,14 +79,13 @@ public class ServerInRegionToVirtualMachine
     Set<Entry<String, List<? extends Address>>> addressSet = serverInRegion
         .getAddresses().getAddresses().entrySet();
 
-    if(addressSet.size()>1){
-      //TODO: server is configured with multiple network types, how to handle this?
-      //LOGGER.warn(String.format("VM %s is configured with multiple network types!", serverInRegion.getId()));
-
+    if (addressSet.size() > 1) {
+      throw new UnsupportedOperationException(
+          "Server is configured with multiple networks. This is currently not supported.");
     }
 
     //adding only the addresses of the first network interface
-    if(addressSet.iterator().hasNext()){
+    if (addressSet.iterator().hasNext()) {
       Entry<String, List<? extends Address>> addressEntry = addressSet.iterator().next();
       //LOGGER.warn(String.format("Using addresses for network:  %s", addressEntry.getKey()));
 
@@ -94,10 +93,10 @@ public class ServerInRegionToVirtualMachine
 
       Set<String> ipAdressesToAdd = new HashSet<>();
 
-      for (Address address : addressList){
+      for (Address address : addressList) {
 
         //TODO: currently only adding fixed IPs, i.e. private IPs, public IPs will be resolved later
-        if(address.getType().equals("fixed")){
+        if (address.getType().equals("fixed")) {
           //LOGGER.warn(String.format("Found private (fixed) IP: %s", address.getAddr()));
           //virtualMachineBuilder.addPrivateIpAddress(address.getAddr());
           ipAdressesToAdd.add(address.getAddr());
