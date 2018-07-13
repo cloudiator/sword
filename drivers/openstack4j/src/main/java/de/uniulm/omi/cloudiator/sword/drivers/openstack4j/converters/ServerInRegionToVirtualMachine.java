@@ -29,8 +29,12 @@ import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 import javax.inject.Inject;
+import org.openstack4j.model.compute.Address;
 
 /**
  * Created by daniel on 18.11.16.
@@ -63,10 +67,50 @@ public class ServerInRegionToVirtualMachine
           .privateKey(serverInRegion.keypair().get().getPrivateKey()).build();
     }
 
-    return VirtualMachineBuilder.newBuilder().name(serverInRegion.getName())
+    VirtualMachineBuilder virtualMachineBuilder = VirtualMachineBuilder.newBuilder()
+        .name(serverInRegion.getName())
         .image(imageGetStrategy.get(serverInRegion.getImageId()))
         .hardware(hardwareFlavorGetStrategy.get(serverInRegion.getFlavorId()))
         .id(serverInRegion.getId()).providerId(serverInRegion.providerId())
-        .location(serverInRegion.region()).loginCredential(loginCredential).build();
+        .location(serverInRegion.region())
+        .loginCredential(loginCredential);
+
+    //extract private Ips from serverInRegion
+    Set<Entry<String, List<? extends Address>>> addressSet = serverInRegion
+        .getAddresses().getAddresses().entrySet();
+
+    if(addressSet.size()>1){
+      //TODO: server is configured with multiple network types, how to handle this?
+      //LOGGER.warn(String.format("VM %s is configured with multiple network types!", serverInRegion.getId()));
+
+    }
+
+    //adding only the addresses of the first network interface
+    if(addressSet.iterator().hasNext()){
+      Entry<String, List<? extends Address>> addressEntry = addressSet.iterator().next();
+      //LOGGER.warn(String.format("Using addresses for network:  %s", addressEntry.getKey()));
+
+      List<? extends Address> addressList = addressEntry.getValue();
+
+      Set<String> ipAdressesToAdd = new HashSet<>();
+
+      for (Address address : addressList){
+
+        //TODO: currently only adding fixed IPs, i.e. private IPs, public IPs will be resolved later
+        if(address.getType().equals("fixed")){
+          //LOGGER.warn(String.format("Found private (fixed) IP: %s", address.getAddr()));
+          //virtualMachineBuilder.addPrivateIpAddress(address.getAddr());
+          ipAdressesToAdd.add(address.getAddr());
+
+        }
+      }
+
+      virtualMachineBuilder.addIpStrings(ipAdressesToAdd);
+
+    }
+
+    return virtualMachineBuilder.build();
+
+
   }
 }
