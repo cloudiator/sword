@@ -18,6 +18,10 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
+import com.google.common.base.MoreObjects;
+import java.io.IOException;
+import java.net.InetAddress;
+
 public class IpAddressImpl implements IpAddress {
 
   private final String ip;
@@ -47,6 +51,15 @@ public class IpAddressImpl implements IpAddress {
   }
 
   @Override
+  public boolean isPingable() {
+    try {
+      return InetAddress.getByName(ip()).isReachable(5000);
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -63,5 +76,11 @@ public class IpAddressImpl implements IpAddress {
   @Override
   public int hashCode() {
     return ip.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("ip", ip).add("type", type).add("version", version)
+        .toString();
   }
 }

@@ -21,6 +21,8 @@ package de.uniulm.omi.cloudiator.sword.domain;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import de.uniulm.omi.cloudiator.domain.LocationScope;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A builder for immutable {@link Location} objects.
@@ -34,6 +36,7 @@ public class LocationBuilder {
   private boolean isAssignable;
   private LocationScope locationScope;
   private GeoLocation geoLocation;
+  private Map<String, String> tags = new HashMap<>();
 
   /**
    * Use LocationBuilder::newBuilder to create builder objects.
@@ -50,6 +53,7 @@ public class LocationBuilder {
     isAssignable = location.isAssignable();
     locationScope = location.locationScope();
     geoLocation = location.geoLocation().orElse(null);
+    tags = new HashMap<>(location.tags());
   }
 
   /**
@@ -70,7 +74,8 @@ public class LocationBuilder {
    * @return the location.
    */
   public Location build() {
-    return new LocationImpl(id, providerId, name, parent, isAssignable, locationScope, geoLocation);
+    return new LocationImpl(id, providerId, name, parent, isAssignable, locationScope, geoLocation,
+        tags);
   }
 
   /**
@@ -79,6 +84,16 @@ public class LocationBuilder {
    */
   public LocationBuilder id(String id) {
     this.id = id;
+    return this;
+  }
+
+  /**
+   * @param key key of the tag
+   * @param value value of the tag
+   * @return fluent interface
+   */
+  public LocationBuilder addTag(String key, String value) {
+    this.tags.put(key, value);
     return this;
   }
 

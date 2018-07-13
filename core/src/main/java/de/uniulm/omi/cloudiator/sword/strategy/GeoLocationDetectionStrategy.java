@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -16,19 +16,21 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.profitbricks;
+package de.uniulm.omi.cloudiator.sword.strategy;
 
-/**
- * Created by daniel on 08.09.15.
- */
-public class EC2Constants {
+import de.uniulm.omi.cloudiator.sword.domain.GeoLocation;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
+import java.util.Optional;
 
-  public final static String PROPERTY_EC2_AMI_QUERY = "sword.ec2.ami.query";
-  public final static String PROPERTY_EC2_CC_AMI_QUERY = "sword.ec2.ami.cc.query";
-  public final static String PROPERTY_EC2_DEFAULT_VPC = "sword.ec2.default.vpc";
+public interface GeoLocationDetectionStrategy  {
 
-  private EC2Constants() {
-    throw new AssertionError("intentionally left empty");
-  }
+  /**
+   * Returns the {@link GeoLocation} for the given {@link Location}
+   * if the service can retrieve it.
+   *
+   * @param location the location
+   * @return an {@link Optional} geolocation.
+   */
+  Optional<GeoLocation> geoLocation(Location location);
 
 }

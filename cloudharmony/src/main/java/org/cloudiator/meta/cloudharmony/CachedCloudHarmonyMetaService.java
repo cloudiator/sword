@@ -16,20 +16,28 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.profitbricks.converters;
+package org.cloudiator.meta.cloudharmony;
 
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
-import org.jclouds.compute.options.TemplateOptions;
+import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.domain.ProviderIdentifiable;
+import java.util.function.Function;
 
-/**
- * Created by daniel on 28.10.15.
- */
-public class TemplateOptionsToProfitbricksTemplateOptions extends
-    AbstractTemplateOptionsToTemplateOptions {
+public class CachedCloudHarmonyMetaService extends CachedMetaService {
+
+  public CachedCloudHarmonyMetaService(
+      CloudHarmonyMetaService cloudHarmonyMetaService) {
+    super(cloudHarmonyMetaService);
+  }
+
 
   @Override
-  protected TemplateOptions convert(
-      de.uniulm.omi.cloudiator.sword.domain.TemplateOptions templateOptions) {
-    return new TemplateOptions();
+  protected Function<HardwareFlavor, String> hardwareIdentity() {
+    return ProviderIdentifiable::providerId;
+  }
+
+  @Override
+  protected Function<Location, String> locationIdentity() {
+    return ProviderIdentifiable::providerId;
   }
 }

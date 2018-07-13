@@ -126,7 +126,7 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
         symbols = tmp.toString().toCharArray();
       }
 
-      private final Random random = new Random();
+      private static final Random RANDOM = new Random();
 
       private final char[] buf;
 
@@ -139,7 +139,7 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
 
       private String nextString() {
         for (int idx = 0; idx < buf.length; ++idx) {
-          buf[idx] = symbols[random.nextInt(symbols.length)];
+          buf[idx] = symbols[RANDOM.nextInt(symbols.length)];
         }
         return new String(buf);
       }

@@ -27,7 +27,8 @@ import org.jclouds.openstack.nova.v2_0.domain.KeyPair;
 /**
  * Created by daniel on 30.11.16.
  */
-@Deprecated public class KeyPairInRegion extends KeyPair implements LocationScoped {
+@Deprecated
+public class KeyPairInRegion extends KeyPair implements LocationScoped {
 
   private final KeyPair delegate;
   private final Location region;

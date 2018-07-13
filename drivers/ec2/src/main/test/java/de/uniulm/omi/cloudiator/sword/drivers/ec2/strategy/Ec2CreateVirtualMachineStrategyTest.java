@@ -1,4 +1,4 @@
-package de.uniulm.omi.cloudiator.sword.drivers.profitbricks.strategy;
+package de.uniulm.omi.cloudiator.sword.drivers.ec2.strategy;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;

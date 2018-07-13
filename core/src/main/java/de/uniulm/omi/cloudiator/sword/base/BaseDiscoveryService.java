@@ -27,6 +27,7 @@ import de.uniulm.omi.cloudiator.domain.OperatingSystem;
 import de.uniulm.omi.cloudiator.domain.OperatingSystemBuilder;
 import de.uniulm.omi.cloudiator.sword.annotations.Memoized;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavorBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.ImageBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
@@ -105,6 +106,7 @@ public class BaseDiscoveryService implements DiscoveryService {
         operatingSystemDetectionStrategy.detectOperatingSystem(image);
     return ImageBuilder.of(image)
         .os(OperatingSystemBuilder.of(image.operatingSystem()).merge(detectedOs).build())
+        .location(annotateMetaData(image.location().orElse(null)))
         .build();
   }
 
@@ -116,14 +118,26 @@ public class BaseDiscoveryService implements DiscoveryService {
     return this.virtualMachineGetStrategy.get(id);
   }
 
+  private Location annotateMetaData(Location location) {
+    if (location == null) {
+      return null;
+    }
+    if (location.parent().isPresent()) {
+      location = LocationBuilder.of(location).parent(annotateMetaData((location).parent().get()))
+          .build();
+    }
+    return LocationBuilder.of(location)
+        .geoLocation(metaService.geoLocation(location).orElse(location.geoLocation().orElse(null)))
+        .build();
+  }
+
   @Override
   @Nullable
   public Location getLocation(String id) {
     checkNotNull(id);
     checkArgument(!id.isEmpty());
     final Location location = locationGetStrategy.get(id);
-    return LocationBuilder.of(location)
-        .geoLocation(metaService.geoLocation(location).orElse(null)).build();
+    return annotateMetaData(location);
   }
 
   @Override
@@ -131,12 +145,22 @@ public class BaseDiscoveryService implements DiscoveryService {
   public HardwareFlavor getHardwareFlavor(String id) {
     checkNotNull(id);
     checkArgument(!id.isEmpty());
-    return hardwareFlavorGetStrategy.get(id);
+    final HardwareFlavor hardwareFlavor = hardwareFlavorGetStrategy.get(id);
+    if (hardwareFlavor == null) {
+      return null;
+    }
+    return HardwareFlavorBuilder.of(hardwareFlavor)
+        .location(annotateMetaData(hardwareFlavor.location().orElse(null))).build();
+
   }
 
   @Override
   public Iterable<HardwareFlavor> listHardwareFlavors() {
-    return hardwareFlavorSupplier.get();
+    return hardwareFlavorSupplier.get().stream()
+        .map((Function<HardwareFlavor, HardwareFlavor>) hardwareFlavor -> HardwareFlavorBuilder
+            .of(hardwareFlavor)
+            .location(annotateMetaData(hardwareFlavor.location().orElse(null))).build())
+        .collect(Collectors.toSet());
   }
 
   @Override
@@ -146,14 +170,14 @@ public class BaseDiscoveryService implements DiscoveryService {
           operatingSystemDetectionStrategy.detectOperatingSystem(image);
       return ImageBuilder.of(image)
           .os(OperatingSystemBuilder.of(image.operatingSystem()).merge(detectedOs).build())
+          .location(annotateMetaData(image.location().orElse(null)))
           .build();
     }).collect(Collectors.toSet());
   }
 
   @Override
   public Iterable<Location> listLocations() {
-    return locationSupplier.get().stream().map(location -> LocationBuilder.of(location)
-        .geoLocation(metaService.geoLocation(location).orElse(null)).build())
+    return locationSupplier.get().stream().map(this::annotateMetaData)
         .collect(Collectors.toSet());
   }
 

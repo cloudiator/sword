@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.profitbricks;
+package de.uniulm.omi.cloudiator.sword.drivers.ec2;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

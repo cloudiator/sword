@@ -30,4 +30,16 @@ public interface LocationScoped {
    */
   Optional<Location> location();
 
+  /**
+   * The id of the location.
+   *
+   * @return {@link Optional} id of the location
+   */
+  default Optional<String> locationId() {
+    if (location().isPresent()) {
+      return Optional.of(location().get().providerId());
+    }
+    return Optional.empty();
+  }
+
 }

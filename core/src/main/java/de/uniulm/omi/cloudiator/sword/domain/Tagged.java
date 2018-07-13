@@ -16,20 +16,12 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.profitbricks.converters;
+package de.uniulm.omi.cloudiator.sword.domain;
 
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
-import org.jclouds.compute.options.TemplateOptions;
+import java.util.Map;
 
-/**
- * Created by daniel on 28.10.15.
- */
-public class TemplateOptionsToProfitbricksTemplateOptions extends
-    AbstractTemplateOptionsToTemplateOptions {
+public interface Tagged {
 
-  @Override
-  protected TemplateOptions convert(
-      de.uniulm.omi.cloudiator.sword.domain.TemplateOptions templateOptions) {
-    return new TemplateOptions();
-  }
+  Map<String, String> tags();
+
 }

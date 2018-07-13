@@ -21,6 +21,8 @@ package de.uniulm.omi.cloudiator.sword.domain;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import java.util.Map;
@@ -84,5 +86,16 @@ public class TemplateOptionsImpl implements TemplateOptions {
   @Override
   public Map<Object, Object> additionalOptions() {
     return additionalOptions;
+  }
+
+  protected ToStringHelper stringHelper() {
+    return MoreObjects.toStringHelper(this).add("keyPairName", keyPairName)
+        .add("inboundPorts", inboundPorts).add("additionalOptions", additionalOptions)
+        .add("tags", tags).add("userdata", userData);
+  }
+
+  @Override
+  public String toString() {
+    return stringHelper().toString();
   }
 }

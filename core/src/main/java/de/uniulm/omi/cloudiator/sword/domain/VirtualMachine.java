@@ -44,11 +44,23 @@ public interface VirtualMachine extends Resource {
   Optional<Image> image();
 
   /**
+   * The id of the image.
+   * @return {@link Optional} id of the image
+   */
+  Optional<String> imageId();
+
+  /**
    * The {@link HardwareFlavor} used for creating the virtual machine.
    *
    * @return {@link Optional} hardware.
    */
   Optional<HardwareFlavor> hardware();
+
+  /**
+   * The id of the hardware.
+   * @return {@link Optional} id of the hardware
+   */
+  Optional<String> hardwareId();
 
   /**
    * {@link Optional} login credentials.

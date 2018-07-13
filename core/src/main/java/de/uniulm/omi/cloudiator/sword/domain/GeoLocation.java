@@ -19,18 +19,19 @@
 package de.uniulm.omi.cloudiator.sword.domain;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * Created by daniel on 09.03.17.
  */
 public interface GeoLocation {
 
-  String country();
+  Optional<String> country();
 
-  BigDecimal latitude();
+  Optional<BigDecimal> latitude();
 
-  BigDecimal longitude();
+  Optional<BigDecimal> longitude();
 
-  String city();
+  Optional<String> city();
 
 }

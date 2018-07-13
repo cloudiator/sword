@@ -94,11 +94,27 @@ public class VirtualMachineMultiCloudImpl implements VirtualMachine {
   }
 
   @Override
+  public Optional<String> imageId() {
+    if (!image().isPresent()) {
+      return Optional.empty();
+    }
+    return Optional.of(image().get().id());
+  }
+
+  @Override
   public Optional<HardwareFlavor> hardware() {
     if (!delegate.hardware().isPresent()) {
       return Optional.empty();
     }
     return Optional.of(new HardwareFlavorMultiCloudImpl(delegate.hardware().get(), cloudId));
+  }
+
+  @Override
+  public Optional<String> hardwareId() {
+    if (!hardware().isPresent()) {
+      return Optional.empty();
+    }
+    return Optional.of(hardware().get().id());
   }
 
   @Override

@@ -23,7 +23,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
+import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
@@ -41,6 +43,7 @@ public class LocationImpl implements Location {
   private final boolean isAssignable;
   @Nullable
   private final GeoLocation geoLocation;
+  private final Map<String, String> tags;
 
   /**
    * Constructor. For building new objects use {@link LocationBuilder}.
@@ -52,12 +55,13 @@ public class LocationImpl implements Location {
    * @param isAssignable if the location is assignable (mandatory)
    * @param locationScope the scope of the location (mandatory)
    * @param geoLocation the geoLocation (optional)
+   * @param tags a map of tags
    * @throws NullPointerException if a mandatory parameter is null.
    * @throws IllegalArgumentException if a mandatory string attribute is empty.
    */
   LocationImpl(String id, String providerId, String name, @Nullable Location parent,
       boolean isAssignable,
-      LocationScope locationScope, @Nullable GeoLocation geoLocation) {
+      LocationScope locationScope, @Nullable GeoLocation geoLocation, Map<String, String> tags) {
     checkNotNull(id, "id is null");
     checkArgument(!id.isEmpty(), "id is empty");
     this.id = id;
@@ -69,9 +73,11 @@ public class LocationImpl implements Location {
     this.name = name;
     this.parent = parent;
     this.isAssignable = isAssignable;
-    checkNotNull(locationScope);
+    checkNotNull(locationScope, "locationScope is null");
     this.locationScope = locationScope;
     this.geoLocation = geoLocation;
+    checkNotNull(tags, "tags is null");
+    this.tags = ImmutableMap.copyOf(tags);
 
     if (parent != null) {
       Preconditions.checkArgument(locationScope.hasParent(parent.locationScope()), String
@@ -167,5 +173,10 @@ public class LocationImpl implements Location {
     return MoreObjects.toStringHelper(this).add("id", id).add("providerId", providerId())
         .add("name", name).add("parent", parent).add("isAssignable", isAssignable)
         .add("locationScope", locationScope).add("geoLocation", geoLocation).toString();
+  }
+
+  @Override
+  public Map<String, String> tags() {
+    return tags;
   }
 }

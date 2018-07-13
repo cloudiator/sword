@@ -77,6 +77,6 @@ public class CreateSecurityGroupStrategy {
         osClient.useRegion(region.id()).compute().securityGroups()
             .create(namingStrategy.generateNameBasedOnName(name), name);
     return securityGroupConverter
-        .apply(new SecurityGroupInRegion(secGroupExtension, location, Collections.emptySet()));
+        .apply(new SecurityGroupInRegion(secGroupExtension, region, Collections.emptySet()));
   }
 }

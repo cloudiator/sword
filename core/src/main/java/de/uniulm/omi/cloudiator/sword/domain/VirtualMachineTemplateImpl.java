@@ -21,6 +21,8 @@ package de.uniulm.omi.cloudiator.sword.domain;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Optional;
 import javax.annotation.Nullable;
 
@@ -80,5 +82,16 @@ public class VirtualMachineTemplateImpl implements VirtualMachineTemplate {
   @Override
   public Optional<TemplateOptions> templateOptions() {
     return Optional.fromNullable(templateOptions);
+  }
+
+  protected ToStringHelper stringHelper() {
+    return MoreObjects.toStringHelper(this).add("name", name).add("imageId", imageId)
+        .add("hardwareFlavorId", hardwareFlavorId).add("locationId", locationId)
+        .add("templateOptions", templateOptions);
+  }
+
+  @Override
+  public String toString() {
+    return stringHelper().toString();
   }
 }

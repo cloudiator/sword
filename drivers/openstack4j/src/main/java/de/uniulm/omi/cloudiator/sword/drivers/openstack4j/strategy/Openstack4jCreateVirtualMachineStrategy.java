@@ -102,8 +102,9 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
       keyPairName = virtualMachineTemplate.templateOptions().get().keyPairName();
     }
     if (keyPairName == null) {
-      keypair = osClient.compute().keypairs()
-          .create(namingStrategy.generateNameBasedOnName(null), null);
+      keypair = osClient.useRegion(region.id()).compute().keypairs()
+          .create(namingStrategy.generateUniqueNameBasedOnName(null), null);
+      keyPairName = keypair.getName();
     }
 
     List<String> secGroups = new ArrayList<>(1);
@@ -133,7 +134,8 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
         .bootAndWaitActive(serverCreate, 120000);
     // we retrieve the newly created server to get additional details the creation request does
     // not contain
-    final Server retrievedServer = osClient.compute().servers().get(createdServer.getId());
+    final Server retrievedServer = osClient.useRegion(region.id()).compute().servers()
+        .get(createdServer.getId());
     checkState(retrievedServer != null,
         "Could not retrieve newly created server with id " + createdServer.getId());
     return virtualMachineConverter

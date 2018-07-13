@@ -28,7 +28,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.flexiant.config.FlexiantComputeMod
 import de.uniulm.omi.cloudiator.sword.drivers.google.config.GoogleCloudComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.config.OpenstackComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.config.Openstack4jComputeModule;
-import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.config.Ec2ComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.ec2.config.Ec2ComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.config.ProfitbricksComputeModule;
 import de.uniulm.omi.cloudiator.sword.exceptions.ProviderNotFoundException;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;

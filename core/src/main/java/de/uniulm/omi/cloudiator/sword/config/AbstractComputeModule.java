@@ -25,9 +25,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import de.uniulm.omi.cloudiator.sword.annotations.Memoized;
 import de.uniulm.omi.cloudiator.sword.base.BaseDiscoveryService;
+import de.uniulm.omi.cloudiator.sword.base.FilteringFactory;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
@@ -59,20 +59,36 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
     bind(DiscoveryService.class).to(BaseDiscoveryService.class);
 
-    bind(new TypeLiteral<GetStrategy<String, VirtualMachine>>() {
-    }).to(getVirtualMachineStrategy());
-
-    bind(new TypeLiteral<GetStrategy<String, Image>>() {
-    }).to(getImageStrategy());
-
-    bind(new TypeLiteral<GetStrategy<String, Location>>() {
-    }).to(getLocationStrategy());
-
-    bind(new TypeLiteral<GetStrategy<String, HardwareFlavor>>() {
-    }).to(getHardwareFlavorStrategy());
-
     bind(OperatingSystemDetectionStrategy.class)
         .to(NameSubstringBasedOperatingSystemDetectionStrategy.class);
+  }
+
+  @Provides
+  GetStrategy<String, Location> provideLocationGetStrategy(Injector injector,
+      FilteringFactory filteringFactory) {
+    return filteringFactory
+        .filterLocationScoped(filteringFactory.filter(injector.getInstance(getLocationStrategy())));
+  }
+
+  @Provides
+  GetStrategy<String, Image> provideImageGetStrategy(Injector injector,
+      FilteringFactory filteringFactory) {
+    return filteringFactory
+        .filterLocationScoped(filteringFactory.filter(injector.getInstance(getImageStrategy())));
+  }
+
+  @Provides
+  GetStrategy<String, HardwareFlavor> provideHardwareGetStrategy(Injector injector,
+      FilteringFactory filteringFactory) {
+    return filteringFactory.filterLocationScoped(
+        filteringFactory.filter(injector.getInstance(getHardwareFlavorStrategy())));
+  }
+
+  @Provides
+  GetStrategy<String, VirtualMachine> provideVirtualMachineGetStrategy(Injector injector,
+      FilteringFactory filteringFactory) {
+    return filteringFactory.filterLocationScoped(
+        filteringFactory.filter(injector.getInstance(getVirtualMachineStrategy())));
   }
 
   @Provides
@@ -102,34 +118,41 @@ public abstract class AbstractComputeModule extends AbstractModule {
 
   @Provides
   @Singleton
-  final Supplier<Set<Image>> provideImageSupplier(Injector injector) {
-    return imageSupplier(injector);
+  final Supplier<Set<Image>> provideImageSupplier(Injector injector,
+      FilteringFactory filteringFactory) {
+    return filteringFactory.filterLocationScoped(filteringFactory.filter(imageSupplier(injector)));
   }
 
   @Provides
   @Singleton
-  final Supplier<Set<Location>> provideLocationSupplier(Injector injector) {
-    return locationSupplier(injector);
+  final Supplier<Set<Location>> provideLocationSupplier(Injector injector,
+      FilteringFactory filteringFactory) {
+    return filteringFactory
+        .filterLocationScoped(filteringFactory.filter(locationSupplier(injector)));
   }
 
   @Provides
   @Singleton
-  final Supplier<Set<HardwareFlavor>> provideHardwareFlavorSupplier(Injector injector) {
-    return hardwareFlavorSupplier(injector);
+  final Supplier<Set<HardwareFlavor>> provideHardwareFlavorSupplier(Injector injector,
+      FilteringFactory filteringFactory) {
+    return filteringFactory
+        .filterLocationScoped(filteringFactory.filter(hardwareFlavorSupplier(injector)));
   }
 
   @Provides
   @Singleton
-  final Supplier<Set<VirtualMachine>> provideVirtualMachineSupplier(Injector injector) {
-    return virtualMachineSupplier(injector);
+  final Supplier<Set<VirtualMachine>> provideVirtualMachineSupplier(Injector injector,
+      FilteringFactory filteringFactory) {
+    return filteringFactory
+        .filterLocationScoped(filteringFactory.filter(virtualMachineSupplier(injector)));
   }
 
-    /*
-     *   Providers for memoized suppliers
-     *   These provides wrap the base injection
-     *   with a memoized implementation.
-     *   todo: make expiration configurable
-     */
+  /*
+   *   Providers for memoized suppliers
+   *   These provides wrap the base injection
+   *   with a memoized implementation.
+   *   todo: make expiration configurable
+   */
 
   @Provides
   @Memoized

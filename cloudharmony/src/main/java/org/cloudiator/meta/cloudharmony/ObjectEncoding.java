@@ -16,20 +16,35 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.drivers.profitbricks.converters;
+package org.cloudiator.meta.cloudharmony;
 
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.converters.AbstractTemplateOptionsToTemplateOptions;
-import org.jclouds.compute.options.TemplateOptions;
+public interface ObjectEncoding {
 
-/**
- * Created by daniel on 28.10.15.
- */
-public class TemplateOptionsToProfitbricksTemplateOptions extends
-    AbstractTemplateOptionsToTemplateOptions {
+  String encode(Object o) throws EncodingException;
 
-  @Override
-  protected TemplateOptions convert(
-      de.uniulm.omi.cloudiator.sword.domain.TemplateOptions templateOptions) {
-    return new TemplateOptions();
+  <T> T decode(String s, Class<T> tClass) throws EncodingException;
+
+  class EncodingException extends Exception {
+
+    public EncodingException() {
+      super();
+    }
+
+    public EncodingException(String s) {
+      super(s);
+    }
+
+    public EncodingException(String s, Throwable throwable) {
+      super(s, throwable);
+    }
+
+    public EncodingException(Throwable throwable) {
+      super(throwable);
+    }
+
+    protected EncodingException(String s, Throwable throwable, boolean b, boolean b1) {
+      super(s, throwable, b, b1);
+    }
   }
+
 }

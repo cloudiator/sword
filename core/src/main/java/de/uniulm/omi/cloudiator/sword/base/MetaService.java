@@ -19,27 +19,17 @@
 package de.uniulm.omi.cloudiator.sword.base;
 
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.domain.GeoLocation;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.PriceModel;
+import de.uniulm.omi.cloudiator.sword.strategy.GeoLocationDetectionStrategy;
 import java.util.Optional;
 
 /**
  * Created by daniel on 09.03.17.
  */
-public interface MetaService {
+public interface MetaService extends GeoLocationDetectionStrategy {
 
   Optional<PriceModel> priceModel(HardwareFlavor hardwareFlavor);
-
-  /**
-   * Returns the {@link GeoLocation} for the given {@link Location}
-   * if the service can retrieve it.
-   *
-   * @param location the location
-   * @return an {@link Optional} geolocation.
-   */
-  Optional<GeoLocation> geoLocation(Location location);
 
   interface MetaServiceFactory {
 
