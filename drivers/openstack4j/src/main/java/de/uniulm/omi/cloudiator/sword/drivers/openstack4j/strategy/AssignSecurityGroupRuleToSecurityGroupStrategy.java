@@ -94,9 +94,11 @@ public class AssignSecurityGroupRuleToSecurityGroupStrategy {
     final IdScopedByLocation scopedByLocation = IdScopeByLocations.from(securityGroupId);
 
     SecurityGroup securityGroup = securityGroupSupplier.get().stream().filter(
-        securityGroupCandidate -> securityGroupCandidate.id().equals(scopedByLocation.getId()))
+        securityGroupCandidate -> securityGroupCandidate.providerId()
+            .equals(scopedByLocation.getId()))
         .findAny().orElseThrow(() -> new IllegalStateException(
-            String.format("Could not find security group with id %s.", securityGroupId)));
+            String.format("Could not find security group with provider id %s.",
+                scopedByLocation.getId())));
 
     Location region = LocationHierarchy.of(securityGroup.location().get())
         .firstParentLocationWithScope(LocationScope.REGION).orElseThrow(

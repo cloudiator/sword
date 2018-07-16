@@ -93,6 +93,10 @@ public class CreateSecurityGroupFromTemplateOption {
     SecurityGroup securityGroup =
         securityGroupExtension.createSecurityGroup(DEFAULT_SEC_GROUP_NAME, location.id());
 
+    //add icmp
+    securityGroupExtension.addRule(
+        SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.ALL).ipProtocol(IpProtocol.ICMP)
+            .build(), securityGroup.id());
     //add rules
     templateOptions.inboundPorts().forEach(integer -> {
       securityGroupExtension.addRule(

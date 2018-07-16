@@ -48,7 +48,7 @@ public enum IpProtocol implements PortRange {
   ICMP {
     @Override
     public int maxPort() {
-      return -1;
+      return 65535;
     }
 
     @Override
