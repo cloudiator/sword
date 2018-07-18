@@ -18,6 +18,9 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.common.OneWayConverter;
 import de.uniulm.omi.cloudiator.sword.api.domain.Location;
@@ -29,17 +32,13 @@ import de.uniulm.omi.cloudiator.sword.api.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.api.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.sword.core.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
+import java.util.ArrayList;
+import java.util.List;
 import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.Server;
 import org.openstack4j.model.compute.ServerCreate;
 import org.openstack4j.model.compute.builder.ServerCreateBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by daniel on 18.11.16.
@@ -113,7 +112,7 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
         final ServerCreate serverCreate = serverCreateBuilder.build();
         //todo make timeout configurable
         final Server createdServer = osClient.useRegion(region.id()).compute().servers()
-            .bootAndWaitActive(serverCreate, 120000);
+            .bootAndWaitActive(serverCreate, 600000);
         // we retrieve the newly created server to get additional details the creation request does
         // not contain
         final Server retrievedServer = osClient.compute().servers().get(createdServer.getId());
