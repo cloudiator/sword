@@ -67,12 +67,6 @@ public class Providers {
     registerProvider(
         new ProviderConfiguration("openstack4j", openstack4jModules, BaseComputeService.class,
             PropertiesBuilder.newBuilder().build()));
-    //Flexiant
-    final Set<AbstractModule> flexiantModules = new HashSet<>();
-    flexiantModules.add(new FlexiantComputeModule());
-    registerProvider(
-        new ProviderConfiguration("flexiant", flexiantModules, BaseComputeService.class,
-            PropertiesBuilder.newBuilder().build()));
     //EC2
     final Set<AbstractModule> ec2Modules = new HashSet<>();
     ec2Modules.add(new Ec2ComputeModule());

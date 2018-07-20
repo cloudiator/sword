@@ -34,7 +34,6 @@
     <modules>
         <module>all</module>
         <module>ec2</module>
-        <module>flexiant</module>
         <module>google</module>
         <module>jclouds</module>
         <module>openstack</module>
