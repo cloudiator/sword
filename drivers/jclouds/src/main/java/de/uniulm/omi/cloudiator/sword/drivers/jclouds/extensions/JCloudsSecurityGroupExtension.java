@@ -41,11 +41,11 @@ import org.jclouds.net.domain.IpPermission;
  */
 public class JCloudsSecurityGroupExtension implements SecurityGroupExtension {
 
-  private final org.jclouds.compute.extensions.SecurityGroupExtension securityGroupExtension;
   private final OneWayConverter<org.jclouds.compute.domain.SecurityGroup, SecurityGroup>
       securityGroupConverter;
   private final OneWayConverter<Location, org.jclouds.domain.Location> locationConverter;
   private final GetStrategy<String, Location> locationGetStrategy;
+  private final JCloudsViewFactory jCloudsViewFactory;
 
   @Inject
   public JCloudsSecurityGroupExtension(JCloudsViewFactory jCloudsViewFactory,
@@ -63,23 +63,24 @@ public class JCloudsSecurityGroupExtension implements SecurityGroupExtension {
     this.securityGroupConverter = securityGroupConverter;
 
     checkNotNull(jCloudsViewFactory);
+    this.jCloudsViewFactory = jCloudsViewFactory;
 
+  }
+
+  private org.jclouds.compute.extensions.SecurityGroupExtension loadJcloudsSecurityExtension() {
     final ComputeServiceContext computeServiceContext =
         jCloudsViewFactory.buildJCloudsView(ComputeServiceContext.class);
     final Optional<org.jclouds.compute.extensions.SecurityGroupExtension> optional =
         computeServiceContext.getComputeService().getSecurityGroupExtension();
     checkState(optional.isPresent(), "security group extension not present.");
-
-    this.securityGroupExtension = optional.get();
-
+    return optional.get();
   }
 
   @Override
   public Set<SecurityGroup> listSecurityGroups() {
-    return securityGroupExtension.listSecurityGroups().stream()
+    return loadJcloudsSecurityExtension().listSecurityGroups().stream()
         .filter(securityGroup -> securityGroup.getName().startsWith("jclouds-"))
         .map(securityGroupConverter).collect(Collectors.toSet());
-
   }
 
   @Override
@@ -95,7 +96,7 @@ public class JCloudsSecurityGroupExtension implements SecurityGroupExtension {
 
     org.jclouds.domain.Location jcloudsLocation = locationConverter.apply(location);
     return securityGroupConverter
-        .apply(this.securityGroupExtension.createSecurityGroup(name, jcloudsLocation));
+        .apply(this.loadJcloudsSecurityExtension().createSecurityGroup(name, jcloudsLocation));
   }
 
   @Override
@@ -122,14 +123,14 @@ public class JCloudsSecurityGroupExtension implements SecurityGroupExtension {
         throw new AssertionError("unknown ipProtocol" + rule.ipProtocol());
     }
     org.jclouds.compute.domain.SecurityGroup jcloudsSecurityGroup =
-        securityGroupExtension.getSecurityGroupById(securityGroupId);
+        loadJcloudsSecurityExtension().getSecurityGroupById(securityGroupId);
 
     IpPermission ipPermission =
         new IpPermission.Builder().cidrBlock(rule.cidr().toString()).fromPort(rule.fromPort())
             .toPort(rule.toPort()).ipProtocol(ipProtocol).build();
 
     return securityGroupConverter
-        .apply(securityGroupExtension.addIpPermission(ipPermission, jcloudsSecurityGroup));
+        .apply(loadJcloudsSecurityExtension().addIpPermission(ipPermission, jcloudsSecurityGroup));
   }
 
 
