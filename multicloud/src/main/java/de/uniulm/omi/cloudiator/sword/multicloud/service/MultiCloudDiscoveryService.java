@@ -21,7 +21,10 @@ package de.uniulm.omi.cloudiator.sword.multicloud.service;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSet.Builder;
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
@@ -30,10 +33,10 @@ import de.uniulm.omi.cloudiator.sword.multicloud.domain.HardwareFlavorMultiCloud
 import de.uniulm.omi.cloudiator.sword.multicloud.domain.ImageMultiCloudImpl;
 import de.uniulm.omi.cloudiator.sword.multicloud.domain.LocationMultiCloudImpl;
 import de.uniulm.omi.cloudiator.sword.multicloud.domain.VirtualMachineMultiCloudImpl;
+import de.uniulm.omi.cloudiator.sword.multicloud.exception.MultiCloudException;
+import de.uniulm.omi.cloudiator.sword.service.ComputeService;
 import de.uniulm.omi.cloudiator.sword.service.DiscoveryService;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 /**
@@ -72,42 +75,73 @@ public class MultiCloudDiscoveryService implements DiscoveryService {
 
   @Override
   public Iterable<HardwareFlavor> listHardwareFlavors() {
-    return this.computeServiceProvider.all().entrySet().stream().flatMap(
-        cloudComputeServiceEntry -> StreamSupport.stream(
-            cloudComputeServiceEntry.getValue().discoveryService().listHardwareFlavors()
-                .spliterator(), false).map(
-            (Function<HardwareFlavor, HardwareFlavor>) hardwareFlavor -> new HardwareFlavorMultiCloudImpl(
-                hardwareFlavor, cloudComputeServiceEntry.getKey().id())))
-        .collect(Collectors.toSet());
+
+    final Builder<HardwareFlavor> builder = ImmutableSet.builder();
+    for (Entry<Cloud, ComputeService> entry : computeServiceProvider.all().entrySet()) {
+      try {
+        for (HardwareFlavor singleCloudHardware : entry.getValue().discoveryService()
+            .listHardwareFlavors()) {
+          builder
+              .add(new HardwareFlavorMultiCloudImpl(singleCloudHardware, entry.getKey().id()));
+        }
+      } catch (Exception e) {
+        throw MultiCloudException.of(entry.getKey().id(), e);
+      }
+    }
+    return builder.build();
   }
 
   @Override
   public Iterable<Image> listImages() {
-    return this.computeServiceProvider.all().entrySet().stream().flatMap(
-        cloudComputeServiceEntry -> StreamSupport.stream(
-            cloudComputeServiceEntry.getValue().discoveryService().listImages().spliterator(),
-            false).map((Function<Image, Image>) image -> new ImageMultiCloudImpl(image,
-            cloudComputeServiceEntry.getKey().id()))).collect(Collectors.toSet());
+
+    final Builder<Image> builder = ImmutableSet.builder();
+    for (Entry<Cloud, ComputeService> entry : computeServiceProvider.all().entrySet()) {
+      try {
+        for (Image singleCloudImage : entry.getValue().discoveryService()
+            .listImages()) {
+          builder
+              .add(new ImageMultiCloudImpl(singleCloudImage, entry.getKey().id()));
+        }
+      } catch (Exception e) {
+        throw MultiCloudException.of(entry.getKey().id(), e);
+      }
+    }
+    return builder.build();
   }
 
   @Override
   public Iterable<Location> listLocations() {
-    return this.computeServiceProvider.all().entrySet().stream().flatMap(
-        cloudComputeServiceEntry -> StreamSupport.stream(
-            cloudComputeServiceEntry.getValue().discoveryService().listLocations()
-                .spliterator(), false).map(
-            (Function<Location, Location>) location -> new LocationMultiCloudImpl(location,
-                cloudComputeServiceEntry.getKey().id()))).collect(Collectors.toSet());
+    final Builder<Location> builder = ImmutableSet.builder();
+    for (Entry<Cloud, ComputeService> entry : computeServiceProvider.all().entrySet()) {
+      try {
+        for (Location singleCloudLocation : entry.getValue().discoveryService()
+            .listLocations()) {
+          builder
+              .add(new LocationMultiCloudImpl(singleCloudLocation, entry.getKey().id()));
+        }
+      } catch (Exception e) {
+        throw MultiCloudException.of(entry.getKey().id(), e);
+      }
+    }
+    return builder.build();
   }
 
   @Override
   public Iterable<VirtualMachine> listVirtualMachines() {
-    return this.computeServiceProvider.all().entrySet().stream().flatMap(
-        cloudComputeServiceEntry -> StreamSupport.stream(
-            cloudComputeServiceEntry.getValue().discoveryService().listVirtualMachines()
-                .spliterator(), false).map(
-            (Function<VirtualMachine, VirtualMachine>) location -> new VirtualMachineMultiCloudImpl(
-                location, cloudComputeServiceEntry.getKey().id()))).collect(Collectors.toSet());
+    final Builder<VirtualMachine> builder = ImmutableSet.builder();
+    for (Entry<Cloud, ComputeService> entry : computeServiceProvider.all().entrySet()) {
+      try {
+        for (VirtualMachine singleCloudVirtualMachine : entry.getValue().discoveryService()
+            .listVirtualMachines()) {
+          builder
+              .add(
+                  new VirtualMachineMultiCloudImpl(singleCloudVirtualMachine, entry.getKey().id()));
+        }
+      } catch (Exception e) {
+        throw MultiCloudException.of(entry.getKey().id(), e);
+      }
+    }
+    return builder.build();
   }
 
   @Nullable
