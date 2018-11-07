@@ -37,7 +37,7 @@ public class CloudBuilder {
   @Nullable
   private Configuration configuration;
   @Nullable
-  CloudType cloudType;
+  private CloudType cloudType;
 
   private CloudBuilder() {
 
@@ -48,6 +48,7 @@ public class CloudBuilder {
     this.endpoint = cloud.endpoint().orElse(null);
     this.cloudCredential = cloud.credential();
     this.cloudType = cloud.cloudType();
+    this.configuration = cloud.configuration();
   }
 
   public static CloudBuilder newBuilder() {
