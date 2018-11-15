@@ -18,11 +18,14 @@
 
 package de.uniulm.omi.cloudiator.sword.remote.internal;
 
+import com.github.rholder.retry.Attempt;
 import com.github.rholder.retry.RetryException;
+import com.github.rholder.retry.RetryListener;
 import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.WaitStrategies;
+import com.google.common.base.MoreObjects;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.domain.RemoteType;
@@ -35,11 +38,16 @@ import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by daniel on 19.08.15.
  */
 class RetryingConnectionFactory implements RemoteConnectionFactory {
+
+  private static final Logger LOGGER = LoggerFactory
+      .getLogger(RetryingConnectionFactory.class);
 
   private final RemoteConnectionFactory remoteConnectionFactory;
   @Inject(optional = true)
@@ -59,11 +67,26 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
   public RemoteConnection createRemoteConnection(String remoteAddress, RemoteType remoteType,
       LoginCredential loginCredential, int port) {
 
+    LOGGER.info(String.format(
+        "%s is opening a remote connection to remoteAddress: %s, remoteType: %s, loginCredential %s and port %s.",
+        this, remoteAddress, remoteType, loginCredential, port));
+
     Callable<RemoteConnection> callable = () -> remoteConnectionFactory
         .createRemoteConnection(remoteAddress, remoteType, loginCredential, port);
 
     Retryer<RemoteConnection> remoteConnectionRetryer =
         RetryerBuilder.<RemoteConnection>newBuilder().retryIfRuntimeException()
+            .withRetryListener(new RetryListener() {
+              @Override
+              public <V> void onRetry(Attempt<V> attempt) {
+                if (attempt.hasException()) {
+                  LOGGER.debug(String.format(
+                      "Attempt number %s received exception %s. Delay since initial start: %s",
+                      attempt.getAttemptNumber(), attempt.getExceptionCause().getMessage(),
+                      attempt.getDelaySinceFirstAttempt()), attempt.getExceptionCause());
+                }
+              }
+            })
             .retryIfException(throwable -> throwable instanceof RemoteException)
             .withStopStrategy(StopStrategies.stopAfterAttempt(connectionRetries))
             .withWaitStrategy(WaitStrategies
@@ -75,5 +98,11 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
     } catch (ExecutionException | RetryException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("connectionRetries", connectionRetries)
+        .add("fixedWaitTime", sshFixedWaitSeconds).toString();
   }
 }
