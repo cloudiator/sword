@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -27,8 +27,7 @@ import javax.annotation.Nullable;
 public interface Properties {
 
   /**
-   * Returns the property identified by the key. If the property does not exist
-   * null is returned.
+   * Returns the property identified by the key. If the property does not exist null is returned.
    *
    * @param key the identifier
    * @return the value stored at the key or null
@@ -38,8 +37,8 @@ public interface Properties {
   String getProperty(String key);
 
   /**
-   * Returns the property identified by the key. If the property does not exisit
-   * the value given as default value is returned.
+   * Returns the property identified by the key. If the property does not exisit the value given as
+   * default value is returned.
    *
    * @param key the identifier
    * @param defaultValue default value to return

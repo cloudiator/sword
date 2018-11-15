@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -21,8 +21,7 @@ package de.uniulm.omi.cloudiator.sword.domain;
 import java.util.Optional;
 
 /**
- * Represents an offered hardware flavor by the
- * provider.
+ * Represents an offered hardware flavor by the provider.
  */
 public interface HardwareFlavor extends Resource {
 
@@ -42,8 +41,7 @@ public interface HardwareFlavor extends Resource {
 
   /**
    * Returns the amount of disk space the offer (with respect to its boot volume) has. Unit is
-   * gigabyte.
-   * If the disk space is unknown, empty is returned.
+   * gigabyte. If the disk space is unknown, empty is returned.
    *
    * @return the amount of disk space or null.
    */

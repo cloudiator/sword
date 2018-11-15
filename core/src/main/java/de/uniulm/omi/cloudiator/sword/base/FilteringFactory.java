@@ -22,7 +22,6 @@ import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.domain.LocationScoped;
 import de.uniulm.omi.cloudiator.sword.domain.ProviderIdentifiable;
-import de.uniulm.omi.cloudiator.sword.domain.Resource;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import java.util.Collections;
@@ -32,23 +31,7 @@ import javax.inject.Named;
 
 public class FilteringFactory {
 
-  static class WhileListHolder {
-
-    @Named(Constants.PROVIDERID_WHITELIST)
-    @Inject(optional = true)
-    String value = null;
-  }
-
-  static class BlackListHolder {
-
-    @Named(Constants.PROVIDERID_BLACKLIST)
-    @Inject(optional = true)
-    String value = null;
-  }
-
-
   private final static String DELIMITER = ",";
-
   private final Set<String> whiteList;
   private final Set<String> blackList;
 
@@ -68,12 +51,24 @@ public class FilteringFactory {
     }
   }
 
+  private static Set<String> handleDelimiterString(String s) {
+    final String[] splits = s.split(DELIMITER);
+    final Set<String> result = new HashSet<>(splits.length);
+
+    for (String split : splits) {
+      result.add(split.trim());
+    }
+
+    return result;
+  }
+
   public <T extends ProviderIdentifiable> Supplier<Set<T>> filter(
       Supplier<Set<T>> toBeFiltered) {
     return new FilteringProviderIdentifiableSupplier<T>(toBeFiltered, whiteList, blackList);
   }
 
-  public <T extends LocationScoped> Supplier<Set<T>> filterLocationScoped(Supplier<Set<T>> toBeFiltered) {
+  public <T extends LocationScoped> Supplier<Set<T>> filterLocationScoped(
+      Supplier<Set<T>> toBeFiltered) {
     return new FilteringLocationScopedSupplier<T>(toBeFiltered, whiteList, blackList);
   }
 
@@ -87,15 +82,18 @@ public class FilteringFactory {
     return new FilteringLocationScopedGetStrategy<>(getStrategy, whiteList, blackList);
   }
 
-  private static Set<String> handleDelimiterString(String s) {
-    final String[] splits = s.split(DELIMITER);
-    final Set<String> result = new HashSet<>(splits.length);
+  static class WhileListHolder {
 
-    for (String split : splits) {
-      result.add(split.trim());
-    }
+    @Named(Constants.PROVIDERID_WHITELIST)
+    @Inject(optional = true)
+    String value = null;
+  }
 
-    return result;
+  static class BlackListHolder {
+
+    @Named(Constants.PROVIDERID_BLACKLIST)
+    @Inject(optional = true)
+    String value = null;
   }
 
 }

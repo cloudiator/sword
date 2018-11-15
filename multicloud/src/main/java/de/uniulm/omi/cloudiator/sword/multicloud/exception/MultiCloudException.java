@@ -23,13 +23,13 @@ public class MultiCloudException extends RuntimeException {
   private final String cloudId;
   private final Exception delegate;
 
-  public static MultiCloudException of(String cloudId, Exception delegate) {
-    return new MultiCloudException(cloudId, delegate);
-  }
-
   private MultiCloudException(String cloudId, Exception delegate) {
     this.cloudId = cloudId;
     this.delegate = delegate;
+  }
+
+  public static MultiCloudException of(String cloudId, Exception delegate) {
+    return new MultiCloudException(cloudId, delegate);
   }
 
   public String cloudId() {

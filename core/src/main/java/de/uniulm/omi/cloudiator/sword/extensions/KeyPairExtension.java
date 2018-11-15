@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -23,14 +23,13 @@ import de.uniulm.omi.cloudiator.sword.domain.KeyPair;
 import javax.annotation.Nullable;
 
 /**
- * A service for the creation of key pairs at the given
- * cloud provider.
+ * A service for the creation of key pairs at the given cloud provider.
  */
-@Deprecated public interface KeyPairExtension {
+@Deprecated
+public interface KeyPairExtension {
 
   /**
-   * Automatically creates a private/public key pair, and
-   * registers it with the provider.
+   * Automatically creates a private/public key pair, and registers it with the provider.
    *
    * @param name the name for the keypair (nullable)
    * @param locationId the locationId to create the keyPair in

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -43,8 +43,7 @@ public interface NamingStrategy {
   String generateNameBasedOnName(String name);
 
   /**
-   * Returns a {@link Predicate} to check if the name belongs to
-   * the naming group.
+   * Returns a {@link Predicate} to check if the name belongs to the naming group.
    *
    * @return the predicate
    */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -22,13 +22,12 @@ package de.uniulm.omi.cloudiator.sword.domain;
 import java.util.Optional;
 
 /**
- * Represents a public/private keypair for accessing
- * servers with SSH.
+ * Represents a public/private keypair for accessing servers with SSH.
  * <p/>
- * The private key is optional, and is normally only available
- * if the keypair was just created.
+ * The private key is optional, and is normally only available if the keypair was just created.
  */
-@Deprecated public interface KeyPair extends Resource {
+@Deprecated
+public interface KeyPair extends Resource {
 
   /**
    * The public key of the keypair.

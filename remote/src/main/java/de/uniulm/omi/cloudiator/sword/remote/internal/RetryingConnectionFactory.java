@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2014-2018 University of Ulm
+ *
+ * See the NOTICE file distributed with this work for additional information
+ * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 package de.uniulm.omi.cloudiator.sword.remote.internal;
 
 import com.github.rholder.retry.RetryException;
@@ -26,15 +44,11 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
   private final RemoteConnectionFactory remoteConnectionFactory;
   @Inject(optional = true)
   @Named(Constants.SSH_MAX_RETRIES)
-  private int connectionRetries = 10;
+  private int connectionRetries = 15;
   @Inject(optional = true)
-  @Named(Constants.SSH_EXPONENTIAL_MULTIPLIER)
+  @Named(Constants.SSH_FIXED_WAIT_SECONDS)
   private long
-      exponentialMultiplier = 1000;
-  @Inject(optional = true)
-  @Named(Constants.SSH_EXPONENTIAL_MAX_TIME)
-  private long
-      exponentialMaxTime = 30;
+      sshFixedWaitSeconds = 15;
 
   @Inject
   RetryingConnectionFactory(@Base RemoteConnectionFactory remoteConnectionFactory) {
@@ -53,7 +67,7 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
             .retryIfException(throwable -> throwable instanceof RemoteException)
             .withStopStrategy(StopStrategies.stopAfterAttempt(connectionRetries))
             .withWaitStrategy(WaitStrategies
-                .exponentialWait(exponentialMultiplier, exponentialMaxTime, TimeUnit.SECONDS))
+                .fixedWait(sshFixedWaitSeconds, TimeUnit.SECONDS))
             .build();
 
     try {

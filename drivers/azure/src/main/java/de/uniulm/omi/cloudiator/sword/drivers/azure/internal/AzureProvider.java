@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -33,8 +33,8 @@ import java.io.IOException;
  */
 public class AzureProvider implements Provider<Azure> {
 
-  private final Cloud cloud;
   private final static String DELIMITER = ":";
+  private final Cloud cloud;
 
   @Inject
   public AzureProvider(Cloud cloud) {

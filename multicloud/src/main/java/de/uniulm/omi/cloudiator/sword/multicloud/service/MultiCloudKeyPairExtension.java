@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -32,7 +32,8 @@ import javax.annotation.Nullable;
 /**
  * Created by daniel on 24.01.17.
  */
-@Deprecated public class MultiCloudKeyPairExtension implements KeyPairExtension {
+@Deprecated
+public class MultiCloudKeyPairExtension implements KeyPairExtension {
 
   private final ComputeServiceProvider computeServiceProvider;
 

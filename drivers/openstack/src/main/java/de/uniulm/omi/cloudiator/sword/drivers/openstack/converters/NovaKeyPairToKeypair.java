@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -31,7 +31,8 @@ import javax.annotation.Nullable;
 /**
  * Created by daniel on 19.05.15.
  */
-@Deprecated public class NovaKeyPairToKeypair implements OneWayConverter<KeyPairInRegion, KeyPair> {
+@Deprecated
+public class NovaKeyPairToKeypair implements OneWayConverter<KeyPairInRegion, KeyPair> {
 
   @Nullable
   @Override

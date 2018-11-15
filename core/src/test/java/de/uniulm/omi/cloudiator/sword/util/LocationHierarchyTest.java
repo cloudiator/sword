@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -46,7 +46,8 @@ public class LocationHierarchyTest {
   @Test
   public void testTopMostLocation() {
     final Location region =
-        LocationBuilder.newBuilder().id("5732752").providerId("providerId").name("region").scope(LocationScope.REGION)
+        LocationBuilder.newBuilder().id("5732752").providerId("providerId").name("region")
+            .scope(LocationScope.REGION)
             .build();
     final Location zone =
         LocationBuilder.newBuilder().id("37589327592").providerId("providerId").name("zone")

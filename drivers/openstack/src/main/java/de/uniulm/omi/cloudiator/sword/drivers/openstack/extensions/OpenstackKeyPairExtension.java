@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -40,10 +40,10 @@ import org.jclouds.openstack.nova.v2_0.NovaApi;
 import org.jclouds.openstack.nova.v2_0.extensions.KeyPairApi;
 
 /**
- * Implementation of the {@link KeyPairExtension} interface
- * for Openstack.
+ * Implementation of the {@link KeyPairExtension} interface for Openstack.
  */
-@Deprecated public class OpenstackKeyPairExtension implements KeyPairExtension {
+@Deprecated
+public class OpenstackKeyPairExtension implements KeyPairExtension {
 
   private final OneWayConverter<KeyPairInRegion, KeyPair> keyPairConverter;
   private final NamingStrategy namingStrategy;

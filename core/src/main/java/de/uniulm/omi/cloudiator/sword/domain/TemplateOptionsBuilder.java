@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -72,7 +72,8 @@ public class TemplateOptionsBuilder {
    * @param keyPairName the name of the keypair to use.
    * @return fluid interface
    */
-  @Deprecated public TemplateOptionsBuilder keyPairName(String keyPairName) {
+  @Deprecated
+  public TemplateOptionsBuilder keyPairName(String keyPairName) {
     this.keyPairName = keyPairName;
     return this;
   }
@@ -90,8 +91,7 @@ public class TemplateOptionsBuilder {
   }
 
   /**
-   * Adds multiple generic options to the template.
-   * See {@link #addOption(Object, Object)}.
+   * Adds multiple generic options to the template. See {@link #addOption(Object, Object)}.
    *
    * @param options a map of key->value options.
    * @return fluid interface

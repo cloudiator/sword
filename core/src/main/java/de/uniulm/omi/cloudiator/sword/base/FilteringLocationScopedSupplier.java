@@ -21,7 +21,6 @@ package de.uniulm.omi.cloudiator.sword.base;
 import com.google.common.base.Supplier;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.LocationScoped;
-import de.uniulm.omi.cloudiator.sword.domain.Resource;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;

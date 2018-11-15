@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -24,11 +24,10 @@ import com.google.inject.AbstractModule;
 import de.uniulm.omi.cloudiator.sword.base.BaseComputeService;
 import de.uniulm.omi.cloudiator.sword.domain.PropertiesBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.config.AzureComputeModule;
-import de.uniulm.omi.cloudiator.sword.drivers.flexiant.config.FlexiantComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.ec2.config.Ec2ComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.google.config.GoogleCloudComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.config.OpenstackComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.config.Openstack4jComputeModule;
-import de.uniulm.omi.cloudiator.sword.drivers.ec2.config.Ec2ComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.config.ProfitbricksComputeModule;
 import de.uniulm.omi.cloudiator.sword.exceptions.ProviderNotFoundException;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;

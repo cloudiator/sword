@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -21,9 +21,8 @@ package de.uniulm.omi.cloudiator.sword.util;
 import javax.annotation.Nullable;
 
 /**
- * Represents an id which has a location scope,
- * e.g. regionOne/1 where regionOne is the location scope
- * and 1 is the real id.
+ * Represents an id which has a location scope, e.g. regionOne/1 where regionOne is the location
+ * scope and 1 is the real id.
  * <p/>
  * Use {@link IdScopeByLocations} to create objects.
  */

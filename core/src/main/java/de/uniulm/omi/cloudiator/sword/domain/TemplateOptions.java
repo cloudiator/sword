@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -37,16 +37,16 @@ public interface TemplateOptions {
   String keyPairName();
 
   /**
-   * The ports to open for the virtual machine.
-   * The set is immutable {@link com.google.common.collect.ImmutableSet}
+   * The ports to open for the virtual machine. The set is immutable {@link
+   * com.google.common.collect.ImmutableSet}
    *
    * @return a set of integers depicting the ports.
    */
   Set<Integer> inboundPorts();
 
   /**
-   * Tags to assign to the virtual machine.
-   * The map is immutable {@link com.google.common.collect.ImmutableMap}
+   * Tags to assign to the virtual machine. The map is immutable {@link
+   * com.google.common.collect.ImmutableMap}
    *
    * @return a map of key=>value tags.
    */
@@ -60,8 +60,7 @@ public interface TemplateOptions {
   String userData();
 
   /**
-   * A map of additional generic options in
-   * key->value form.
+   * A map of additional generic options in key->value form.
    * <p/>
    * The map is immutable ({@link com.google.common.collect.ImmutableMap})
    *

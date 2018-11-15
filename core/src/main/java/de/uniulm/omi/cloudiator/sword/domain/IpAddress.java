@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2017 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -20,6 +20,14 @@ package de.uniulm.omi.cloudiator.sword.domain;
 
 public interface IpAddress {
 
+  String ip();
+
+  IpAddressType type();
+
+  IpVersion version();
+
+  boolean isPingable();
+
   enum IpAddressType {
     PUBLIC,
     PRIVATE
@@ -29,13 +37,5 @@ public interface IpAddress {
     V4,
     V6
   }
-
-  String ip();
-
-  IpAddressType type();
-
-  IpVersion version();
-
-  boolean isPingable();
 
 }

@@ -32,41 +32,17 @@ import java.util.function.Supplier;
 
 public abstract class CachedMetaService implements MetaService {
 
-  private final MetaService delegate;
   private static final Cache<String, GeoLocation> GEO_LOCATION_CACHE = CacheBuilder.newBuilder()
       .build();
   private static final Cache<String, PriceModel> PRICE_MODEL_CACHE = CacheBuilder.newBuilder()
       .build();
-
   private static final Supplier<CacheLoadException> CACHE_LOAD_EXCEPTION_SUPPLIER = new Supplier<CacheLoadException>() {
     @Override
     public CacheLoadException get() {
       return new CacheLoadException("Cache loading faled");
     }
   };
-
-  private static class CacheLoadException extends Exception {
-
-    public CacheLoadException() {
-      super();
-    }
-
-    public CacheLoadException(String s) {
-      super(s);
-    }
-
-    public CacheLoadException(String s, Throwable throwable) {
-      super(s, throwable);
-    }
-
-    public CacheLoadException(Throwable throwable) {
-      super(throwable);
-    }
-
-    protected CacheLoadException(String s, Throwable throwable, boolean b, boolean b1) {
-      super(s, throwable, b, b1);
-    }
-  }
+  private final MetaService delegate;
 
   public CachedMetaService(MetaService delegate) {
     this.delegate = delegate;
@@ -98,4 +74,27 @@ public abstract class CachedMetaService implements MetaService {
   protected abstract Function<HardwareFlavor, String> hardwareIdentity();
 
   protected abstract Function<Location, String> locationIdentity();
+
+  private static class CacheLoadException extends Exception {
+
+    public CacheLoadException() {
+      super();
+    }
+
+    public CacheLoadException(String s) {
+      super(s);
+    }
+
+    public CacheLoadException(String s, Throwable throwable) {
+      super(s, throwable);
+    }
+
+    public CacheLoadException(Throwable throwable) {
+      super(throwable);
+    }
+
+    protected CacheLoadException(String s, Throwable throwable, boolean b, boolean b1) {
+      super(s, throwable, b, b1);
+    }
+  }
 }

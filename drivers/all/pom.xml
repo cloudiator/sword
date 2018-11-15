@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2014-2016 University of Ulm
+  ~ Copyright (c) 2014-2018 University of Ulm
   ~
   ~ See the NOTICE file distributed with this work for additional information
   ~ regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -17,53 +17,48 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>io.github.cloudiator.sword.drivers</groupId>
-        <artifactId>sword-drivers-project</artifactId>
-        <version>0.3.0-SNAPSHOT</version>
-    </parent>
-    <artifactId>drivers-all</artifactId>
-    <packaging>jar</packaging>
+  <parent>
+    <groupId>io.github.cloudiator.sword.drivers</groupId>
+    <artifactId>sword-drivers-project</artifactId>
+    <version>0.3.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>drivers-all</artifactId>
+  <packaging>jar</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.github.cloudiator.sword.drivers</groupId>
-            <artifactId>drivers-ec2</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.cloudiator.sword.drivers</groupId>
-            <artifactId>drivers-flexiant</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.cloudiator.sword.drivers</groupId>
-            <artifactId>drivers-google</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.cloudiator.sword.drivers</groupId>
-            <artifactId>drivers-openstack</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.cloudiator.sword.drivers</groupId>
-            <artifactId>drivers-openstack4j</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.cloudiator.sword.drivers</groupId>
-            <artifactId>drivers-azure</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.cloudiator.sword.drivers</groupId>
-            <artifactId>drivers-profitbricks</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>io.github.cloudiator.sword.drivers</groupId>
+      <artifactId>drivers-ec2</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.cloudiator.sword.drivers</groupId>
+      <artifactId>drivers-google</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.cloudiator.sword.drivers</groupId>
+      <artifactId>drivers-openstack</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.cloudiator.sword.drivers</groupId>
+      <artifactId>drivers-openstack4j</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.cloudiator.sword.drivers</groupId>
+      <artifactId>drivers-azure</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.cloudiator.sword.drivers</groupId>
+      <artifactId>drivers-profitbricks</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 </project>

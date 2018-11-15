@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -114,6 +114,7 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
     private static class RandomString {
 
       private static final char[] symbols;
+      private static final Random RANDOM = new Random();
 
       static {
         StringBuilder tmp = new StringBuilder();
@@ -125,8 +126,6 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
         }
         symbols = tmp.toString().toCharArray();
       }
-
-      private static final Random RANDOM = new Random();
 
       private final char[] buf;
 

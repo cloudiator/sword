@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -25,9 +25,8 @@ import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
 
 /**
- * A service for creating a {@link RemoteConnection} to an ip address.
- * The remote connection allows the execution of commands on the remote
- * machine.
+ * A service for creating a {@link RemoteConnection} to an ip address. The remote connection allows
+ * the execution of commands on the remote machine.
  */
 public interface ConnectionService {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -49,47 +49,6 @@ public class OsClientV3Factory implements OsClientFactory {
     this.cloud = cloud;
   }
 
-  @Override
-  public OSClient create() {
-
-    OSClient osClient;
-
-    if (token == null) {
-      osClient = authFromServiceConfiguration();
-      token = ((OSClient.OSClientV3) osClient).getToken();
-    } else {
-      osClient = authFromToken();
-    }
-    return osClient;
-  }
-
-  private OSClient authFromToken() {
-    return OSFactory.clientFromToken(token);
-  }
-
-  private OSClient authFromServiceConfiguration() {
-
-    final String[] split = cloud.credential().user().split(":");
-    checkState(split.length == 3, String
-        .format("Illegal username, expected user to be of format domain:project:user, got %s",
-            cloud.credential().user()));
-
-    final String domainId = split[0];
-    final String tenantId = split[1];
-    final String userId = split[2];
-
-    checkState(cloud.endpoint().isPresent(), "Endpoint is required for Openstack4J Driver.");
-
-    final Identifiers identifiers = handleIdentifiers(domainId, tenantId, cloud.endpoint().get(),
-        userId, cloud.credential().password());
-
-    checkState(identifiers != null,
-        "Could not determine correct identifiers to use for domain and project. Probably the credentials are wrong.");
-
-    return authenticate(cloud.endpoint().get(), userId, cloud.credential().password(),
-        identifiers.getDomain(), identifiers.getProject());
-  }
-
   /**
    * This method tries to determine if the authentication should happen by using the user provided
    * information as domain ID or domain name resp. project ID or project name.
@@ -133,6 +92,47 @@ public class OsClientV3Factory implements OsClientFactory {
     return OSFactory.builderV3().endpoint(endpoint)
         .credentials(userId, password, domain)
         .scopeToProject(project).authenticate();
+  }
+
+  @Override
+  public OSClient create() {
+
+    OSClient osClient;
+
+    if (token == null) {
+      osClient = authFromServiceConfiguration();
+      token = ((OSClient.OSClientV3) osClient).getToken();
+    } else {
+      osClient = authFromToken();
+    }
+    return osClient;
+  }
+
+  private OSClient authFromToken() {
+    return OSFactory.clientFromToken(token);
+  }
+
+  private OSClient authFromServiceConfiguration() {
+
+    final String[] split = cloud.credential().user().split(":");
+    checkState(split.length == 3, String
+        .format("Illegal username, expected user to be of format domain:project:user, got %s",
+            cloud.credential().user()));
+
+    final String domainId = split[0];
+    final String tenantId = split[1];
+    final String userId = split[2];
+
+    checkState(cloud.endpoint().isPresent(), "Endpoint is required for Openstack4J Driver.");
+
+    final Identifiers identifiers = handleIdentifiers(domainId, tenantId, cloud.endpoint().get(),
+        userId, cloud.credential().password());
+
+    checkState(identifiers != null,
+        "Could not determine correct identifiers to use for domain and project. Probably the credentials are wrong.");
+
+    return authenticate(cloud.endpoint().get(), userId, cloud.credential().password(),
+        identifiers.getDomain(), identifiers.getProject());
   }
 
   private static class Identifiers {

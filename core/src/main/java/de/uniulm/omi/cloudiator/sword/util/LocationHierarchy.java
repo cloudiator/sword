@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2016 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -31,8 +31,7 @@ import javax.annotation.Nullable;
 /**
  * The LocationHierarchy class.
  * <p>
- * Helper class for iterating over Locations and finding special locations
- * of interest.
+ * Helper class for iterating over Locations and finding special locations of interest.
  */
 public class LocationHierarchy implements Iterable<Location> {
 
@@ -65,8 +64,8 @@ public class LocationHierarchy implements Iterable<Location> {
   /**
    * Returns an {@link Optional} first parent location that has the given scope.
    * <p>
-   * Will iterate upwards through the location hierarchy and return the first
-   * location that matches the given scope.
+   * Will iterate upwards through the location hierarchy and return the first location that matches
+   * the given scope.
    *
    * @param locationScope the scope to check for
    * @return an {@link Optional} first parent location or {@link Optional::empty}

@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -34,8 +34,8 @@ import javax.annotation.Nullable;
 
 
 /**
- * A generic get strategy, that uses the supplier and searches for the correct
- * id within the supplier.
+ * A generic get strategy, that uses the supplier and searches for the correct id within the
+ * supplier.
  *
  * @param <T> the type of the identifiable to search for.
  * @author Daniel Baur <daniel.baur@uni-ulm.de>
@@ -91,8 +91,7 @@ public class DefaultGetStrategy<T extends Identifiable> implements GetStrategy<S
 
 
   /**
-   * A generic get strategy for images.
-   * * @todo necessary?
+   * A generic get strategy for images. * @todo necessary?
    */
   public static class DefaultImageGetStrategy extends DefaultGetStrategy<Image> {
 
@@ -104,8 +103,7 @@ public class DefaultGetStrategy<T extends Identifiable> implements GetStrategy<S
 
 
   /**
-   * A generic get strategy for locations.
-   * * @todo necessary?
+   * A generic get strategy for locations. * @todo necessary?
    */
   public static class DefaultLocationGetStrategy extends DefaultGetStrategy<Location> {
 
@@ -117,8 +115,7 @@ public class DefaultGetStrategy<T extends Identifiable> implements GetStrategy<S
 
 
   /**
-   * A generic get strategy for hardware flavors.
-   * * @todo necessary?
+   * A generic get strategy for hardware flavors. * @todo necessary?
    */
   public static class DefaultHardwareFlavorGetStrategy
       extends DefaultGetStrategy<HardwareFlavor> {

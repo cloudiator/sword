@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -25,10 +25,8 @@ import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import javax.annotation.Nullable;
 
 /**
- * Provides methods to either directly fetch
- * resources (HardwareFlavor, Image, Location and Virtual Machine)
- * stored at the cloud provider or
- * to fetch all resources of a specific type.
+ * Provides methods to either directly fetch resources (HardwareFlavor, Image, Location and Virtual
+ * Machine) stored at the cloud provider or to fetch all resources of a specific type.
  */
 public interface DiscoveryService {
 

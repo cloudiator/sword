@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2014-2015 University of Ulm
+ * Copyright (c) 2014-2018 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -26,8 +26,7 @@ public class Constants {
   public static final String IGNORE_LOGIN_PASSWORD = "sword.login.password.ignore";
   public static final String IGNORE_LOGIN_USERNAME = "sword.login.username.ignore";
   public static final String IGNORE_LOGIN_KEYPAIR = "sword.login.keypair.ignore";
-  public static final String SSH_EXPONENTIAL_MULTIPLIER = "sword.ssh.exponential.multiplier";
-  public static final String SSH_EXPONENTIAL_MAX_TIME = "sword.ssh.exponential.max.time";
+  public static final String SSH_FIXED_WAIT_SECONDS = "sword.ssh.fixed.wait.seconds";
   public static final String SSH_MAX_RETRIES = "sword.ssh.max.retries";
   public static final String REQUEST_TIMEOUT = "sword.request.timeout";
   public static final String SWORD_REGIONS = "sword.regions";

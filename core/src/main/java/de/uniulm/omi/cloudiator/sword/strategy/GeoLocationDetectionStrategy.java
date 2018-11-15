@@ -22,11 +22,10 @@ import de.uniulm.omi.cloudiator.sword.domain.GeoLocation;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import java.util.Optional;
 
-public interface GeoLocationDetectionStrategy  {
+public interface GeoLocationDetectionStrategy {
 
   /**
-   * Returns the {@link GeoLocation} for the given {@link Location}
-   * if the service can retrieve it.
+   * Returns the {@link GeoLocation} for the given {@link Location} if the service can retrieve it.
    *
    * @param location the location
    * @return an {@link Optional} geolocation.

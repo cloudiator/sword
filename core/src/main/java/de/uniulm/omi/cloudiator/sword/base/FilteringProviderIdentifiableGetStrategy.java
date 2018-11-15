@@ -23,7 +23,8 @@ import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import java.util.Set;
 import javax.annotation.Nullable;
 
-public class FilteringProviderIdentifiableGetStrategy<S, T extends ProviderIdentifiable> implements GetStrategy<S, T> {
+public class FilteringProviderIdentifiableGetStrategy<S, T extends ProviderIdentifiable> implements
+    GetStrategy<S, T> {
 
   private final GetStrategy<S, T> delegate;
   private final Set<String> whiteList;
