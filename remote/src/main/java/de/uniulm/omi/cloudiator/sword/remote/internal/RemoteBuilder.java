@@ -25,8 +25,6 @@ import com.google.inject.Guice;
 import com.google.inject.name.Names;
 import de.uniulm.omi.cloudiator.sword.base.BaseConnectionService;
 import de.uniulm.omi.cloudiator.sword.domain.Properties;
-import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
-import de.uniulm.omi.cloudiator.sword.logging.NullLoggingModule;
 import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.service.ConnectionService;
 
@@ -35,7 +33,6 @@ import de.uniulm.omi.cloudiator.sword.service.ConnectionService;
  */
 public class RemoteBuilder {
 
-  private AbstractLoggingModule loggingModule;
   private AbstractRemoteModule remoteModule;
   private Properties properties;
 
@@ -44,11 +41,6 @@ public class RemoteBuilder {
 
   public static RemoteBuilder newBuilder() {
     return new RemoteBuilder();
-  }
-
-  public RemoteBuilder loggingModule(AbstractLoggingModule loggingModule) {
-    this.loggingModule = loggingModule;
-    return this;
   }
 
   public RemoteBuilder remoteModule(AbstractRemoteModule abstractRemoteModule) {
@@ -63,12 +55,9 @@ public class RemoteBuilder {
 
   public ConnectionService build() {
 
-    if (loggingModule == null) {
-      loggingModule = new NullLoggingModule();
-    }
     checkNotNull(remoteModule, "No remote module set.");
 
-    return Guice.createInjector(loggingModule, remoteModule, new AbstractModule() {
+    return Guice.createInjector(remoteModule, new AbstractModule() {
       @Override
       protected void configure() {
         bind(ConnectionService.class).to(BaseConnectionService.class);

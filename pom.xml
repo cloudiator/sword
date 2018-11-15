@@ -54,7 +54,6 @@
         <module>service</module>
         <module>remote</module>
         <module>remote-overthere</module>
-        <module>logging-log4j</module>
         <module>examples</module>
         <module>multicloud</module>
         <module>cloudharmony</module>

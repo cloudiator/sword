@@ -23,13 +23,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.logging.InjectLogger;
-import de.uniulm.omi.cloudiator.sword.logging.Logger;
-import de.uniulm.omi.cloudiator.sword.logging.NullLogger;
 import java.util.Random;
 import java.util.UUID;
 import java.util.function.Predicate;
 import javax.annotation.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by daniel on 12.08.16.
@@ -39,9 +38,9 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
   private final static String DELIMITER = "-";
   private final String nodeGroup;
   private final PrefixGenerator prefixGenerator;
-  private @InjectLogger
-  Logger LOGGER = new NullLogger();
 
+  private static final Logger LOGGER = LoggerFactory
+      .getLogger(GroupEncodedIntoNameNamingStrategy.class);
 
   @Inject
   GroupEncodedIntoNameNamingStrategy(Cloud cloud) {

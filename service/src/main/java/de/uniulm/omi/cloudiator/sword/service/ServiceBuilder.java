@@ -27,8 +27,6 @@ import de.uniulm.omi.cloudiator.sword.config.BaseModule;
 import de.uniulm.omi.cloudiator.sword.config.DefaultMetaModule;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.domain.PropertiesBuilder;
-import de.uniulm.omi.cloudiator.sword.logging.AbstractLoggingModule;
-import de.uniulm.omi.cloudiator.sword.logging.NullLoggingModule;
 import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.remote.overthere.OverthereModule;
 import de.uniulm.omi.cloudiator.sword.service.providers.ProviderConfiguration;
@@ -44,7 +42,6 @@ public class ServiceBuilder {
 
 
   private Cloud cloud;
-  private AbstractLoggingModule loggingModule;
   private AbstractRemoteModule remoteModule;
   private DefaultMetaModule metaModule = new DefaultMetaModule();
 
@@ -54,11 +51,6 @@ public class ServiceBuilder {
 
   public static ServiceBuilder newServiceBuilder() {
     return new ServiceBuilder();
-  }
-
-  public ServiceBuilder loggingModule(AbstractLoggingModule loggingModule) {
-    this.loggingModule = loggingModule;
-    return this;
   }
 
   public ServiceBuilder remoteModule(AbstractRemoteModule abstractRemoteModule) {
@@ -88,7 +80,6 @@ public class ServiceBuilder {
       ProviderConfiguration providerConfiguration) {
     Collection<Module> basicModules = this.getBasicModules(providerConfiguration);
     basicModules.addAll(modules);
-    basicModules.add(buildLoggingModule());
     basicModules.add(buildRemoteModule());
     basicModules.add(metaModule);
     return Guice.createInjector(basicModules);
@@ -101,13 +92,6 @@ public class ServiceBuilder {
         .putProperties(cloud.configuration().properties().getProperties());
     modules.add(new BaseModule(cloud, propertiesBuilder.build()));
     return modules;
-  }
-
-  private AbstractLoggingModule buildLoggingModule() {
-    if (loggingModule == null) {
-      return new NullLoggingModule();
-    }
-    return loggingModule;
   }
 
   private AbstractRemoteModule buildRemoteModule() {

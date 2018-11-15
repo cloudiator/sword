@@ -20,7 +20,6 @@ package de.uniulm.omi.cloudiator.sword.drivers.profitbricks;
 
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
-import de.uniulm.omi.cloudiator.sword.logging.LoggerFactory;
 import java.util.Properties;
 import javax.inject.Inject;
 import org.jclouds.Constants;
@@ -28,9 +27,8 @@ import org.jclouds.Constants;
 public class ProfitBricksJcloudsViewFactory extends BaseJCloudsViewFactory {
 
   @Inject
-  public ProfitBricksJcloudsViewFactory(Cloud cloud,
-      LoggerFactory loggerFactory) {
-    super(cloud, loggerFactory);
+  public ProfitBricksJcloudsViewFactory(Cloud cloud) {
+    super(cloud);
   }
 
   @Override

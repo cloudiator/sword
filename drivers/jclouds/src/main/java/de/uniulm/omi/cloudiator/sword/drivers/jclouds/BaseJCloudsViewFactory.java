@@ -25,8 +25,6 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import de.uniulm.omi.cloudiator.sword.drivers.jclouds.logging.JCloudsLoggingModule;
-import de.uniulm.omi.cloudiator.sword.logging.LoggerFactory;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import java.io.Closeable;
 import java.util.Collection;
@@ -36,6 +34,7 @@ import java.util.Properties;
 import java.util.Set;
 import org.jclouds.ContextBuilder;
 import org.jclouds.View;
+import org.jclouds.logging.slf4j.config.SLF4JLoggingModule;
 
 /**
  * Created by daniel on 14.12.15.
@@ -44,7 +43,6 @@ import org.jclouds.View;
 public class BaseJCloudsViewFactory implements JCloudsViewFactory {
 
   private final Cloud cloud;
-  private final LoggerFactory loggerFactory;
   @Inject(optional = true)
   @Named(Constants.SWORD_REGIONS)
   private String regions = null;
@@ -53,13 +51,11 @@ public class BaseJCloudsViewFactory implements JCloudsViewFactory {
   private String requestTimeout = null;
 
   @Inject
-  public BaseJCloudsViewFactory(Cloud cloud, LoggerFactory loggerFactory) {
+  public BaseJCloudsViewFactory(Cloud cloud) {
 
     checkNotNull(cloud, "cloud is null");
-    checkNotNull(loggerFactory);
 
     this.cloud = cloud;
-    this.loggerFactory = loggerFactory;
   }
 
   /**
@@ -117,7 +113,7 @@ public class BaseJCloudsViewFactory implements JCloudsViewFactory {
 
     Set<Module> moduleSet = new HashSet<>();
     moduleSet.addAll(overrideModules());
-    moduleSet.add(new JCloudsLoggingModule(loggerFactory));
+    moduleSet.add(new SLF4JLoggingModule());
 
     ContextBuilder contextBuilder = ContextBuilder.newBuilder(cloud.api().providerName());
     contextBuilder.credentials(cloud.credential().user(), cloud.credential().password())
