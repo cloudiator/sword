@@ -103,7 +103,7 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
 
   private static class RandomPrefixGenerator implements PrefixGenerator {
 
-    private RandomString randomString = new RandomString(5);
+    private RandomString randomString = new RandomString(8);
 
     @Override
     public String generatePrefix() {
