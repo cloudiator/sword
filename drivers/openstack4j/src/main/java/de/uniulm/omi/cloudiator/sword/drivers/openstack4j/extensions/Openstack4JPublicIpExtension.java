@@ -95,6 +95,7 @@ public class Openstack4JPublicIpExtension implements PublicIpExtension {
 
   @Override
   public String addPublicIp(String virtualMachineId) {
+
     checkNotNull(virtualMachineId, "virtualMachineId is null");
     checkArgument(!virtualMachineId.isEmpty(), "virtualMachineId is empty");
 
@@ -104,12 +105,12 @@ public class Openstack4JPublicIpExtension implements PublicIpExtension {
 
     final ComputeFloatingIPService computeFloatingIPService = compute.floatingIps();
 
-    final String publicIp = findPublicIp(computeFloatingIPService, virtualMachineId);
-
-    computeFloatingIPService.addFloatingIP(server(virtualMachineId, compute), publicIp);
-
-    return publicIp;
-
+    //run the finding and association in synchronized to avoid race conditions
+    synchronized (Openstack4JPublicIpExtension.class) {
+      final String publicIp = findPublicIp(computeFloatingIPService, virtualMachineId);
+      computeFloatingIPService.addFloatingIP(server(virtualMachineId, compute), publicIp);
+      return publicIp;
+    }
   }
 
   @Override
