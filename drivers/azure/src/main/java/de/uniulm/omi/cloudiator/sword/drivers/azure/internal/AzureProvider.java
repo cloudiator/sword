@@ -44,18 +44,17 @@ public class AzureProvider implements Provider<Azure> {
 
   @Override
   public Azure get() {
-
-    final String[] split = cloud.credential().user().split(DELIMITER);
-    if (split.length != 2) {
-      throw new IllegalStateException("Expected user to be of format clientId:tenant");
+    String clientTenant = cloud.credential().user();
+    int colonIndex = clientTenant.lastIndexOf(DELIMITER);
+    if (colonIndex == -1) {
+        throw new IllegalStateException("Expected user '" + clientTenant + "' to be of format clientId:tenant");
     }
-
-    String clientId = split[0];
-    String tenant = split[1];
+    String clientId = clientTenant.substring(0, colonIndex);
+    String tenantId = clientTenant.substring(colonIndex + 1);
     String key = cloud.credential().password();
 
-    ApplicationTokenCredentials credentials = new ApplicationTokenCredentials(clientId, tenant, key,
-        AzureEnvironment.AZURE);
+    ApplicationTokenCredentials credentials = new ApplicationTokenCredentials(
+        clientId, tenantId, key, AzureEnvironment.AZURE);
     try {
       return Azure.authenticate(credentials).withDefaultSubscription();
     } catch (IOException e) {

@@ -34,6 +34,6 @@ public class AzureLocationToLocation implements
   public de.uniulm.omi.cloudiator.sword.domain.Location apply(@Nullable Location location) {
     return LocationBuilder.newBuilder().id(location.name()).providerId(location.name())
         .assignable(true)
-        .name(location.displayName()).scope(LocationScope.ZONE).build();
+        .name(location.displayName()).scope(LocationScope.REGION).build();
   }
 }

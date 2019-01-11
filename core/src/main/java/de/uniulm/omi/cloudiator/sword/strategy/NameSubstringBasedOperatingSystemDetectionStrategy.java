@@ -48,6 +48,11 @@ public class NameSubstringBasedOperatingSystemDetectionStrategy
         .filter(operatingSystemType -> image.name().toLowerCase()
             .contains(operatingSystemType.name().toLowerCase())).collect(Collectors.toSet());
 
+    // To have the family at least
+    if (candidates.size() == 1) {
+      osFamily = candidates.iterator().next();
+    }
+
     //detect the version
     versionLoop:
     for (OperatingSystemFamily operatingSystemFamily : candidates) {
