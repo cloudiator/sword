@@ -38,6 +38,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.azure.strategies.AzureDeleteVirtua
 import de.uniulm.omi.cloudiator.sword.drivers.azure.suppliers.HardwareSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.suppliers.ImageSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.suppliers.LocationSupplier;
+import de.uniulm.omi.cloudiator.sword.drivers.azure.suppliers.VirtualMachineSupplier;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
@@ -83,12 +84,7 @@ public class AzureComputeModule extends AbstractComputeModule {
 
   @Override
   protected Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
-    return new Supplier<Set<VirtualMachine>>() {
-      @Override
-      public Set<VirtualMachine> get() {
-        return Collections.emptySet();
-      }
-    };
+    return injector.getInstance(VirtualMachineSupplier.class);
   }
 
   @Override
