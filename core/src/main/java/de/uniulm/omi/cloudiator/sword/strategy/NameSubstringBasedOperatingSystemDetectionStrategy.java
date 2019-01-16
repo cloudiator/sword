@@ -26,6 +26,7 @@ import de.uniulm.omi.cloudiator.domain.OperatingSystemVersion;
 import de.uniulm.omi.cloudiator.domain.OperatingSystemVersions;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -45,8 +46,8 @@ public class NameSubstringBasedOperatingSystemDetectionStrategy
 
     //detect the operating system family
     final Set<OperatingSystemFamily> candidates = Arrays.stream(OperatingSystemFamily.values())
-        .filter(operatingSystemType -> image.name().toLowerCase()
-            .contains(operatingSystemType.name().toLowerCase())).collect(Collectors.toSet());
+        .filter(family -> image.name().toLowerCase()
+            .contains(family.name().toLowerCase())).collect(Collectors.toSet());
 
     //detect the version
     versionLoop:
@@ -61,6 +62,10 @@ public class NameSubstringBasedOperatingSystemDetectionStrategy
           break versionLoop;
         }
       }
+    }
+
+    if(candidates.size() == 1) {
+      osFamily = candidates.iterator().next();
     }
 
     for (OperatingSystemArchitecture operatingSystemArchitecture : OperatingSystemArchitecture
