@@ -18,15 +18,21 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.azure.suppliers;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.microsoft.azure.management.Azure;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
+
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by daniel on 16.05.17.
@@ -35,6 +41,10 @@ public class LocationSupplier implements Supplier<Set<Location>> {
 
   private final Azure azure;
   private final OneWayConverter<com.microsoft.azure.management.resources.Location, Location> converter;
+
+  @Inject(optional = true)
+  @Named(Constants.SWORD_REGIONS)
+  private String regionFilter = null;
 
   @Inject
   public LocationSupplier(Azure azure,
@@ -47,7 +57,11 @@ public class LocationSupplier implements Supplier<Set<Location>> {
 
   @Override
   public Set<Location> get() {
-    return azure.getCurrentSubscription().listLocations().stream().map(
-        converter::apply).collect(Collectors.toSet());
+    return azure.getCurrentSubscription().listLocations().stream().filter(getFilter())
+        .map(converter).collect(Collectors.toSet());
+  }
+
+  private Predicate<com.microsoft.azure.management.resources.Location> getFilter() {
+    return region -> regionFilter.contains(region.name());
   }
 }
