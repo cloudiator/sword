@@ -21,11 +21,17 @@ package de.uniulm.omi.cloudiator.sword.drivers.azure.strategies;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.microsoft.azure.management.Azure;
+import com.microsoft.azure.management.compute.VirtualMachine;
+import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.internal.ResourceGroupNamingStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
 import javax.inject.Inject;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by daniel on 07.06.17.
@@ -55,8 +61,30 @@ public class AzureDeleteVirtualMachineStrategy implements DeleteVirtualMachineSt
     final String resourceGroup = resourceGroupNamingStrategy
         .apply(idScopedByLocation.getLocationId());
 
-    azure.virtualMachines().powerOff(resourceGroup, idScopedByLocation.getId());
+    String vmId = idScopedByLocation.getId();
+    VirtualMachine virtualMachine =
+        azure.virtualMachines().getByResourceGroup(resourceGroup, vmId);
 
-    azure.virtualMachines().deleteByResourceGroup(resourceGroup, idScopedByLocation.getId());
+    // Stop VM and release public and private IP
+    virtualMachine.deallocate();
+
+    // Collect IDs of resources to delete
+    List<String> networkInterfaces = virtualMachine.networkInterfaceIds();
+    String publicIp = virtualMachine.getPrimaryPublicIPAddress().id();
+    List<String> disks = virtualMachine.dataDisks().values()
+        .stream().map(disk -> disk.id()).collect(Collectors.toList());
+    disks.add(virtualMachine.osDiskId());
+    List<String> networks = networkInterfaces.stream()
+        .map(iface -> azure.networkInterfaces().getById(iface).primaryIPConfiguration().getNetwork().id())
+        .collect(Collectors.toList());
+
+    // Delete VM
+    azure.virtualMachines().deleteByResourceGroup(resourceGroup, vmId);
+
+    // Delete resources
+    azure.networkInterfaces().deleteByIds(networkInterfaces);
+    azure.publicIPAddresses().deleteById(publicIp);
+    azure.disks().deleteByIds(disks);
+    azure.networks().deleteByIds(networks);
   }
 }

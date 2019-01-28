@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.Azure;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
@@ -56,12 +57,17 @@ public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
   public Set<HardwareFlavor> get() {
     Set<VirtualMachineSizeInRegion> virtualMachineSizeInRegions = new HashSet<>();
     for (Location region : regionSupplier.get()) {
-      azure.virtualMachines().sizes().listByRegion(region.id()).stream().map(
-          virtualMachineSize -> new VirtualMachineSizeInRegion(virtualMachineSize, region))
-          .forEach(virtualMachineSizeInRegions::add);
+      try {
+        azure.virtualMachines().sizes().listByRegion(region.id()).stream().map(
+            virtualMachineSize -> new VirtualMachineSizeInRegion(virtualMachineSize, region))
+            .forEach(virtualMachineSizeInRegions::add);
+      } catch (CloudException e) {
+        // swallow
+        // some regions are already visible, but not available yet
+      }
     }
     return virtualMachineSizeInRegions.stream()
-        .map(virtualMachineSizeInRegion -> hardwareConverter.apply(virtualMachineSizeInRegion))
+        .map(hardwareConverter::apply)
         .collect(Collectors.toSet());
   }
 }

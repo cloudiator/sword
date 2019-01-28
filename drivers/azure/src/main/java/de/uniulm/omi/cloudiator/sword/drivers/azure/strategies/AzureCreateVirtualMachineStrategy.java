@@ -18,27 +18,24 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.azure.strategies;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-
 import com.google.inject.Inject;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
-import de.uniulm.omi.cloudiator.sword.domain.LoginCredentialBuilder;
-import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineBuilder;
-import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
+import de.uniulm.omi.cloudiator.sword.domain.*;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.internal.ResourceGroupNamingStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import java.util.Arrays;
-import java.util.List;
 import org.passay.CharacterData;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.PasswordGenerator;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by daniel on 22.05.17.
@@ -93,7 +90,6 @@ public class AzureCreateVirtualMachineStrategy implements
     handleSecurityGroups(virtualMachineTemplate);
 
     String password = generatePassword();
-
     final com.microsoft.azure.management.compute.VirtualMachine virtualMachine = azure
         .virtualMachines().define(virtualMachineTemplate.name())
         .withRegion(virtualMachineTemplate.locationId())
