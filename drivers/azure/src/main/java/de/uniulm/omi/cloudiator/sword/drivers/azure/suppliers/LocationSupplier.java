@@ -29,6 +29,7 @@ import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,7 @@ public class LocationSupplier implements Supplier<Set<Location>> {
   @Inject(optional = true)
   @Named(Constants.SWORD_REGIONS)
   private String regionFilter = null;
+  private Set<String> allowedRegions = null;
 
   @Inject
   public LocationSupplier(Azure azure,
@@ -57,11 +59,19 @@ public class LocationSupplier implements Supplier<Set<Location>> {
     this.azure = azure;
   }
 
+  private Set<String> getAllowedRegions() {
+    if (regionFilter != null && allowedRegions == null) {
+      allowedRegions = Arrays.stream(regionFilter.split("[,;]")).collect(Collectors.toSet());
+    }
+    return allowedRegions;
+  }
+
   @Override
   public Set<Location> get() {
+    Set<String> filter = getAllowedRegions();
     return azure.getCurrentSubscription().listLocations().stream()
         .map(loc -> loc.region())
-        .filter(region -> regionFilter == null || regionFilter.contains(region.name()))
+        .filter(region -> filter == null || filter.contains(region.name()))
         .map(converter)
         .collect(Collectors.toSet());
   }
