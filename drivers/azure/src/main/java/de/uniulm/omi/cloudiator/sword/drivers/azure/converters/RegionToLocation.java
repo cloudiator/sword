@@ -36,12 +36,8 @@ public class RegionToLocation implements
         .id(location.name())
         .providerId(location.name())
         .assignable(true)
-<<<<<<< HEAD:drivers/azure/src/main/java/de/uniulm/omi/cloudiator/sword/drivers/azure/converters/RegionToLocation.java
         .name(location.label())
         .scope(LocationScope.REGION)
         .build();
-=======
-        .name(location.displayName()).scope(LocationScope.REGION).build();
->>>>>>> master:drivers/azure/src/main/java/de/uniulm/omi/cloudiator/sword/drivers/azure/converters/AzureLocationToLocation.java
   }
 }
