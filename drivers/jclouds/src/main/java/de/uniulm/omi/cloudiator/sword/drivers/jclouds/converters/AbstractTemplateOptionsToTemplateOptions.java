@@ -23,6 +23,7 @@ import com.google.common.primitives.Ints;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
+import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsConstants;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import javax.annotation.Nullable;
@@ -37,6 +38,14 @@ public abstract class AbstractTemplateOptionsToTemplateOptions
   @Named(Constants.DEFAULT_SECURITY_GROUP)
   String defaultSecurityGroup = null;
 
+  private @Inject(optional = true)
+  @Named(JCloudsConstants.OVERRIDE_LOGIN_PASSWORD)
+  String overrideLoginPassword = null;
+
+  private @Inject(optional = true)
+  @Named(JCloudsConstants.OVERRIDE_LOGIN_USER)
+  String overrideLoginUser = null;
+
   @Nullable
   @Override
   public org.jclouds.compute.options.TemplateOptions apply(TemplateOptions templateOptions) {
@@ -47,6 +56,14 @@ public abstract class AbstractTemplateOptionsToTemplateOptions
 
     if (defaultSecurityGroup != null) {
       jcloudsOptions.securityGroups(defaultSecurityGroup);
+    }
+
+    if (overrideLoginPassword != null) {
+      jcloudsOptions.overrideLoginPassword(overrideLoginPassword);
+    }
+
+    if (overrideLoginUser != null) {
+      jcloudsOptions.overrideLoginUser(overrideLoginUser);
     }
 
     return jcloudsOptions;

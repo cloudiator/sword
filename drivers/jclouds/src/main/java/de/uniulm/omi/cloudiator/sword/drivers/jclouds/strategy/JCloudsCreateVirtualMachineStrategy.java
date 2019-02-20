@@ -30,6 +30,8 @@ import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Collections;
 import org.jclouds.compute.domain.ComputeMetadata;
+import org.jclouds.compute.domain.NodeMetadata;
+import org.jclouds.compute.domain.NodeMetadataBuilder;
 import org.jclouds.compute.domain.Template;
 import org.jclouds.compute.domain.TemplateBuilder;
 
@@ -98,8 +100,37 @@ public class JCloudsCreateVirtualMachineStrategy implements CreateVirtualMachine
 
     final Template template = templateBuilder.build();
 
+    final NodeMetadata nodeMetadata = this.jCloudsComputeClient.createNode(template);
+
     return this.computeMetadataVirtualMachineConverter
-        .apply(this.jCloudsComputeClient.createNode(template));
+        .apply(enrich(nodeMetadata, template));
+  }
+
+  /**
+   * Enriches the spawned vm with information of the template if the spawned vm does not contain
+   * information about hardware, image or location
+   *
+   * @param nodeMetadata the node to enrich
+   * @param template the template used to spawn the node
+   * @return the enriched node
+   */
+  private NodeMetadata enrich(NodeMetadata nodeMetadata, Template template) {
+    final NodeMetadataBuilder nodeMetadataBuilder = NodeMetadataBuilder
+        .fromNodeMetadata(nodeMetadata);
+
+    if (nodeMetadata.getHardware() == null) {
+      nodeMetadataBuilder.hardware(template.getHardware());
+    }
+
+    if (nodeMetadata.getImageId() == null) {
+      nodeMetadataBuilder.imageId(template.getImage().getId());
+    }
+
+    if (nodeMetadata.getLocation() == null) {
+      nodeMetadataBuilder.location(template.getLocation());
+    }
+
+    return nodeMetadataBuilder.build();
   }
 
   /**
