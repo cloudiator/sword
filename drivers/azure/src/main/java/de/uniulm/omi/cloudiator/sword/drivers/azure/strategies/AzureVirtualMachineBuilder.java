@@ -5,6 +5,7 @@ import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.network.PublicIPAddress;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import de.uniulm.omi.cloudiator.domain.OperatingSystem;
 import de.uniulm.omi.cloudiator.domain.OperatingSystemType;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
@@ -70,7 +71,7 @@ public class AzureVirtualMachineBuilder {
 
   public VirtualMachine build() {
     PublicIPAddress publicIPAddress = azure.publicIPAddresses()
-        .define("IP")
+        .define(template.name() + "publicIP")
         .withRegion(template.locationId())
         .withExistingResourceGroup(resourceGroup)
         .withDynamicIP()
