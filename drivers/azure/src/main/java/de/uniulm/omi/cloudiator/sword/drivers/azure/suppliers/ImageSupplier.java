@@ -20,39 +20,65 @@ package de.uniulm.omi.cloudiator.sword.drivers.azure.suppliers;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import com.microsoft.azure.management.Azure;
+import com.microsoft.azure.management.compute.ImageReference;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
+import com.microsoft.azure.management.compute.VirtualMachineCustomImage;
 import de.uniulm.omi.cloudiator.domain.OperatingSystems;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.ImageBuilder;
-import java.util.HashSet;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
+
+import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by daniel on 16.05.17.
  */
 public class ImageSupplier implements Supplier<Set<Image>> {
 
-  @Inject
-  public ImageSupplier() {
+  private final Azure azure;
+  private final OneWayConverter<VirtualMachineCustomImage, Image> customImageConverter;
 
+  @Inject
+  public ImageSupplier(Azure azure, OneWayConverter<VirtualMachineCustomImage, Image> customImageConverter) {
+    this.azure = azure;
+    this.customImageConverter = customImageConverter;
   }
 
   @Override
   public Set<Image> get() {
+    Stream<Image> linux = Arrays.stream(KnownLinuxVirtualMachineImage.values())
+        .map(ImageSupplier::convertLinuxImage);
+    Stream<Image> windows = Arrays.stream(KnownWindowsVirtualMachineImage.values())
+        .map(ImageSupplier::convertWindowsImage);
+    Stream<Image> staticImages = Stream.concat(linux, windows);
+    Stream<Image> customImages = azure.virtualMachineCustomImages().list().stream()
+        .map(customImageConverter);
 
-    Set<Image> images = new HashSet<>();
+    return Stream.concat(staticImages, customImages).collect(Collectors.toSet());
+  }
 
-    for (KnownLinuxVirtualMachineImage linuxImage : KnownLinuxVirtualMachineImage.values()) {
-      images.add(ImageBuilder.newBuilder().id(linuxImage.name()).providerId(linuxImage.name())
-          .name(linuxImage.name()).os(OperatingSystems.unknown()).build());
-    }
-    for (KnownWindowsVirtualMachineImage windowsMachineImage : KnownWindowsVirtualMachineImage
-        .values()) {
-      images.add(ImageBuilder.newBuilder().id(windowsMachineImage.name())
-          .providerId(windowsMachineImage.name()).name(windowsMachineImage.name())
-          .os(OperatingSystems.unknown()).build());
-    }
-    return images;
+  private static Image convertLinuxImage(KnownLinuxVirtualMachineImage image) {
+    return buildImage(image.imageReference(), image.name());
+  }
+
+  private static Image convertWindowsImage(KnownWindowsVirtualMachineImage image) {
+    return buildImage(image.imageReference(), image.name());
+  }
+
+  private static Image buildImage(ImageReference imageReference, String id) {
+    String name = MessageFormat.format("{0}-{1}-{2}",
+        imageReference.publisher(), imageReference.offer(), imageReference.sku());
+    return ImageBuilder.newBuilder()
+        .id(id)
+        .providerId(id)
+        .name(name)
+        .os(OperatingSystems.unknown())
+        .build();
   }
 }

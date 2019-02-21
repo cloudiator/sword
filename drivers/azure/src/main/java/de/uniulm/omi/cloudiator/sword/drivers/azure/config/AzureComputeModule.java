@@ -23,14 +23,15 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.microsoft.azure.management.Azure;
+import com.microsoft.azure.management.compute.ImageReference;
+import com.microsoft.azure.management.compute.VirtualMachineCustomImage;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import de.uniulm.omi.cloudiator.sword.config.AbstractComputeModule;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.drivers.azure.converters.AzureLocationToLocation;
-import de.uniulm.omi.cloudiator.sword.drivers.azure.converters.AzureVirtualMachineToVirtualMachine;
-import de.uniulm.omi.cloudiator.sword.drivers.azure.converters.VirtualMachineSizeInRegionToHardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.drivers.azure.converters.*;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.domain.VirtualMachineSizeInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.internal.AzureProvider;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.strategies.AzureCreateVirtualMachineStrategy;
@@ -42,7 +43,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.azure.suppliers.VirtualMachineSupp
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import java.util.Collections;
+
 import java.util.Set;
 
 /**
@@ -53,18 +54,20 @@ public class AzureComputeModule extends AbstractComputeModule {
   @Override
   protected void configure() {
     super.configure();
+    // azure api
     bind(Azure.class).toProvider(AzureProvider.class).in(Singleton.class);
-    bind(
-        new TypeLiteral<OneWayConverter<com.microsoft.azure.management.resources.Location, de.uniulm.omi.cloudiator.sword.domain.Location>>() {
-        }).to(
-        AzureLocationToLocation.class);
-    bind(new TypeLiteral<OneWayConverter<VirtualMachineSizeInRegion, HardwareFlavor>>() {
-    }).to(
-        VirtualMachineSizeInRegionToHardwareFlavor.class);
-    bind(
-        new TypeLiteral<OneWayConverter<com.microsoft.azure.management.compute.VirtualMachine, VirtualMachine>>() {
-        }).to(
-        AzureVirtualMachineToVirtualMachine.class);
+    // converters
+    bind(new TypeLiteral<OneWayConverter<Region, Location>>() {})
+        .to(RegionToLocation.class);
+
+    bind(new TypeLiteral<OneWayConverter<VirtualMachineSizeInRegion, HardwareFlavor>>() {})
+        .to(VirtualMachineSizeInRegionToHardwareFlavor.class);
+
+    bind(new TypeLiteral<OneWayConverter<com.microsoft.azure.management.compute.VirtualMachine, VirtualMachine>>() {})
+        .to(AzureVirtualMachineToVirtualMachine.class);
+
+    bind(new TypeLiteral<OneWayConverter<VirtualMachineCustomImage, Image>>() {})
+        .to(CustomImageToImage.class);
   }
 
   @Override

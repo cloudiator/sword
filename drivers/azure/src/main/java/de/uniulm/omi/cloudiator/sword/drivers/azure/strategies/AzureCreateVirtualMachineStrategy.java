@@ -20,11 +20,14 @@ package de.uniulm.omi.cloudiator.sword.drivers.azure.strategies;
 
 import com.google.inject.Inject;
 import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.microsoft.azure.management.compute.VirtualMachine;
+import de.uniulm.omi.cloudiator.domain.OperatingSystem;
 import de.uniulm.omi.cloudiator.sword.domain.*;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.internal.ResourceGroupNamingStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.NameSubstringBasedOperatingSystemDetectionStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.OperatingSystemDetectionStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.passay.CharacterData;
 import org.passay.CharacterRule;
@@ -43,15 +46,20 @@ import static com.google.common.base.Preconditions.checkState;
 public class AzureCreateVirtualMachineStrategy implements
     CreateVirtualMachineStrategy {
 
+  private static final OperatingSystemDetectionStrategy osDetection =
+      new NameSubstringBasedOperatingSystemDetectionStrategy();
+
   private final Azure azure;
   private final GetStrategy<String, HardwareFlavor> hardwareGetStrategy;
-  private final OneWayConverter<com.microsoft.azure.management.compute.VirtualMachine, VirtualMachine> virtualMachineConverter;
+  private final GetStrategy<String, Image> imageGetStrategy;
+  private final OneWayConverter<VirtualMachine, de.uniulm.omi.cloudiator.sword.domain.VirtualMachine> virtualMachineConverter;
   private final ResourceGroupNamingStrategy resourceGroupNamingStrategy;
 
   @Inject
   public AzureCreateVirtualMachineStrategy(Azure azure,
       GetStrategy<String, HardwareFlavor> hardwareGetStrategy,
-      OneWayConverter<com.microsoft.azure.management.compute.VirtualMachine, VirtualMachine> virtualMachineConverter,
+      GetStrategy<String, Image> imageGetStrategy,
+      OneWayConverter<VirtualMachine, de.uniulm.omi.cloudiator.sword.domain.VirtualMachine> virtualMachineConverter,
       ResourceGroupNamingStrategy resourceGroupNamingStrategy) {
 
     checkNotNull(resourceGroupNamingStrategy, "resourceGroupNamingStrategy is null");
@@ -63,16 +71,19 @@ public class AzureCreateVirtualMachineStrategy implements
     checkNotNull(hardwareGetStrategy, "hardwareGetStrategy is null");
     this.hardwareGetStrategy = hardwareGetStrategy;
 
+    checkNotNull(imageGetStrategy, "imageGetStrategy is null");
+    this.imageGetStrategy = imageGetStrategy;
+
     checkNotNull(azure, "azure is null");
     this.azure = azure;
-
   }
 
   @Override
-  public VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
-
+  public de.uniulm.omi.cloudiator.sword.domain.VirtualMachine apply(VirtualMachineTemplate virtualMachineTemplate) {
     HardwareFlavor hardwareFlavor = hardwareGetStrategy
         .get(virtualMachineTemplate.hardwareFlavorId());
+    Image image = imageGetStrategy.get(virtualMachineTemplate.imageId());
+    OperatingSystem os = osDetection.detectOperatingSystem(image);
     checkState(hardwareFlavor != null, String.format("hardwareFlavor with id %s does not exist",
         virtualMachineTemplate.hardwareFlavorId()));
 
@@ -90,24 +101,23 @@ public class AzureCreateVirtualMachineStrategy implements
     handleSecurityGroups(virtualMachineTemplate);
 
     String password = generatePassword();
-    final com.microsoft.azure.management.compute.VirtualMachine virtualMachine = azure
-        .virtualMachines().define(virtualMachineTemplate.name())
-        .withRegion(virtualMachineTemplate.locationId())
-        .withExistingResourceGroup(resourceGroupName)
-        .withNewPrimaryNetwork("10.0.0.0/28").withPrimaryPrivateIPAddressDynamic()
-        .withNewPrimaryPublicIPAddress(virtualMachineTemplate.name().toLowerCase())
-        .withPopularLinuxImage(
-            KnownLinuxVirtualMachineImage.valueOf(virtualMachineTemplate.imageId()))
-        .withRootUsername("azure").withRootPassword(password)
-        .withSize(hardwareFlavor.providerId()).create();
+    final VirtualMachine virtualMachine = AzureVirtualMachineBuilder.newBuilder()
+        .setAzure(azure)
+        .setTemplate(virtualMachineTemplate)
+        .setOs(os)
+        .setHardware(hardwareFlavor.providerId())
+        .setResourceGroup(resourceGroupName)
+        .setUsername("azure")
+        .setPassword(password)
+        .build();
 
-    VirtualMachine startedVM = virtualMachineConverter.apply(virtualMachine);
+    de.uniulm.omi.cloudiator.sword.domain.VirtualMachine startedVM =
+        virtualMachineConverter.apply(virtualMachine);
 
     return VirtualMachineBuilder.of(startedVM)
         .loginCredential(
             LoginCredentialBuilder.newBuilder().password(password).username("azure").build())
         .build();
-
   }
 
   private void handleSecurityGroups(VirtualMachineTemplate virtualMachineTemplate) {
