@@ -4,6 +4,7 @@ import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.microsoft.azure.management.compute.VirtualMachine;
+import com.microsoft.azure.management.network.PublicIPAddress;
 import de.uniulm.omi.cloudiator.domain.OperatingSystem;
 import de.uniulm.omi.cloudiator.domain.OperatingSystemType;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
@@ -68,12 +69,20 @@ public class AzureVirtualMachineBuilder {
   }
 
   public VirtualMachine build() {
+    PublicIPAddress publicIPAddress = azure.publicIPAddresses()
+        .define("IP")
+        .withRegion(template.locationId())
+        .withExistingResourceGroup(resourceGroup)
+        .withDynamicIP()
+        .withoutLeafDomainLabel()
+        .create();
+
     VirtualMachine.DefinitionStages.WithOS commonVmConfig = azure
         .virtualMachines().define(template.name())
         .withRegion(template.locationId())
         .withExistingResourceGroup(resourceGroup)
         .withNewPrimaryNetwork("10.0.0.0/28").withPrimaryPrivateIPAddressDynamic()
-        .withNewPrimaryPublicIPAddress(template.name().toLowerCase());
+        .withExistingPrimaryPublicIPAddress(publicIPAddress);
 
     // if ImageId is in KnownLinuxVirtualMachineImage
     if (Arrays.stream(KnownLinuxVirtualMachineImage.values())
