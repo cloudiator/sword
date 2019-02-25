@@ -123,8 +123,8 @@ public class VirtualMachineMultiCloudImpl implements VirtualMachine {
   }
 
   @Override
-  public State state() {
-    return delegate.state();
+  public VirtualMachineState remoteState() {
+    return delegate.remoteState();
   }
 
   public String cloudId() {

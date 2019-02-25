@@ -73,9 +73,9 @@ public interface VirtualMachine extends Resource {
    */
   Optional<LoginCredential> loginCredential();
 
-  State state();
+  VirtualMachineState remoteState();
 
-  enum State {
+  enum VirtualMachineState {
 
   }
 

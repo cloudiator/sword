@@ -116,8 +116,8 @@ public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
   }
 
   @Override
-  public State state() {
-    //todo implement state
-    throw new UnsupportedOperationException("VirtualMachine state not implemented yet.");
+  public VirtualMachineState remoteState() {
+    //todo implement remoteState
+    throw new UnsupportedOperationException("VirtualMachine remoteState not implemented yet.");
   }
 }
