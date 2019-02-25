@@ -22,14 +22,15 @@ import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.microsoft.azure.management.Azure;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -39,29 +40,39 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class LocationSupplier implements Supplier<Set<Location>> {
 
+  private static Logger LOGGER = LoggerFactory.getLogger(LocationSupplier.class);
+
   private final Azure azure;
-  private final OneWayConverter<com.microsoft.azure.management.resources.Location, Location> converter;
+  private final OneWayConverter<Region, Location> converter;
 
   @Inject(optional = true)
   @Named(Constants.SWORD_REGIONS)
   private String regionFilter = null;
+  private Set<String> allowedRegions = null;
 
   @Inject
   public LocationSupplier(Azure azure,
-      OneWayConverter<com.microsoft.azure.management.resources.Location, Location> converter) {
+      OneWayConverter<Region, Location> converter) {
     checkNotNull(converter, "converter is null");
     this.converter = converter;
     checkNotNull(azure, "azure is null");
     this.azure = azure;
   }
 
-  @Override
-  public Set<Location> get() {
-    return azure.getCurrentSubscription().listLocations().stream().filter(getFilter())
-        .map(converter).collect(Collectors.toSet());
+  private Set<String> getAllowedRegions() {
+    if (regionFilter != null && allowedRegions == null) {
+      allowedRegions = Arrays.stream(regionFilter.split("[,;]")).collect(Collectors.toSet());
+    }
+    return allowedRegions;
   }
 
-  private Predicate<com.microsoft.azure.management.resources.Location> getFilter() {
-    return region -> regionFilter.contains(region.name());
+  @Override
+  public Set<Location> get() {
+    Set<String> filter = getAllowedRegions();
+    return azure.getCurrentSubscription().listLocations().stream()
+        .map(loc -> loc.region())
+        .filter(region -> filter == null || filter.contains(region.name()))
+        .map(converter)
+        .collect(Collectors.toSet());
   }
 }

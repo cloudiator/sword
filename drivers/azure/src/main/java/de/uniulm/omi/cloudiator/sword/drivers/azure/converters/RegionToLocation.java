@@ -18,22 +18,26 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.azure.converters;
 
-import com.microsoft.azure.management.resources.Location;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.LocationBuilder;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import javax.annotation.Nullable;
 
 /**
  * Created by daniel on 16.05.17.
  */
-public class AzureLocationToLocation implements
-    OneWayConverter<Location, de.uniulm.omi.cloudiator.sword.domain.Location> {
+public class RegionToLocation implements
+    OneWayConverter<Region, Location> {
 
   @Override
-  public de.uniulm.omi.cloudiator.sword.domain.Location apply(@Nullable Location location) {
-    return LocationBuilder.newBuilder().id(location.name()).providerId(location.name())
+  public Location apply(Region location) {
+    return LocationBuilder.newBuilder()
+        .id(location.name())
+        .providerId(location.name())
         .assignable(true)
-        .name(location.displayName()).scope(LocationScope.REGION).build();
+        .name(location.label())
+        .scope(LocationScope.REGION)
+        .build();
   }
 }
