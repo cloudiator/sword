@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.MoreObjects;
+import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
@@ -57,28 +58,13 @@ public abstract class ResourceImpl implements Resource {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
     ResourceImpl resource = (ResourceImpl) o;
-
-    if (!id.equals(resource.id)) {
-      return false;
-    }
-    if (!providerId.equals(resource.providerId)) {
-      return false;
-    }
-    if (!name.equals(resource.name)) {
-      return false;
-    }
-    return location != null ? location.equals(resource.location) : resource.location == null;
+    return id.equals(resource.id);
   }
 
   @Override
   public int hashCode() {
-    int result = id.hashCode();
-    result = 31 * result + providerId.hashCode();
-    result = 31 * result + name.hashCode();
-    result = 31 * result + (location != null ? location.hashCode() : 0);
-    return result;
+    return Objects.hash(id);
   }
 
   @Override

@@ -24,6 +24,7 @@ import com.google.common.base.MoreObjects;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
+import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
@@ -83,6 +84,24 @@ public class HardwareFlavorMultiCloudImpl implements HardwareFlavor {
 
   public String cloudId() {
     return cloudId;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    HardwareFlavorMultiCloudImpl that = (HardwareFlavorMultiCloudImpl) o;
+    return delegate.equals(that.delegate) &&
+        cloudId.equals(that.cloudId);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(delegate, cloudId);
   }
 
   @Override

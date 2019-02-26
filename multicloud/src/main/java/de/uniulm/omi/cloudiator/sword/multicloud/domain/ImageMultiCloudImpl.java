@@ -25,6 +25,7 @@ import de.uniulm.omi.cloudiator.domain.OperatingSystem;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -82,20 +83,14 @@ public class ImageMultiCloudImpl implements Image {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
     ImageMultiCloudImpl that = (ImageMultiCloudImpl) o;
-
-    if (!delegate.equals(that.delegate)) {
-      return false;
-    }
-    return cloudId.equals(that.cloudId);
+    return delegate.equals(that.delegate) &&
+        cloudId.equals(that.cloudId);
   }
 
   @Override
   public int hashCode() {
-    int result = delegate.hashCode();
-    result = 31 * result + cloudId.hashCode();
-    return result;
+    return Objects.hash(delegate, cloudId);
   }
 
   @Override

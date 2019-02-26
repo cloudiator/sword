@@ -29,6 +29,7 @@ import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -129,6 +130,24 @@ public class VirtualMachineMultiCloudImpl implements VirtualMachine {
 
   public String cloudId() {
     return cloudId;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    VirtualMachineMultiCloudImpl that = (VirtualMachineMultiCloudImpl) o;
+    return delegate.equals(that.delegate) &&
+        cloudId.equals(that.cloudId);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(delegate, cloudId);
   }
 
   @Override

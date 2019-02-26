@@ -26,6 +26,7 @@ import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroupRule;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.IdScopedByClouds;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -71,6 +72,24 @@ public class SecurityGroupMultiCloudImpl implements SecurityGroup {
       return delegate.location();
     }
     return Optional.of(new LocationMultiCloudImpl(delegate.location().get(), cloudId));
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    SecurityGroupMultiCloudImpl that = (SecurityGroupMultiCloudImpl) o;
+    return delegate.equals(that.delegate) &&
+        cloudId.equals(that.cloudId);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(delegate, cloudId);
   }
 
   @Override
