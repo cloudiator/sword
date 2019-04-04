@@ -43,6 +43,8 @@ import org.openstack4j.model.compute.Keypair;
 import org.openstack4j.model.compute.Server;
 import org.openstack4j.model.compute.ServerCreate;
 import org.openstack4j.model.compute.builder.ServerCreateBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by daniel on 18.11.16.
@@ -55,6 +57,8 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
   private final OpenstackNetworkStrategy networkStrategy;
   private final NamingStrategy namingStrategy;
   private final CreateSecurityGroupFromTemplateOption createSecurityGroupFromTemplateOption;
+  private static final Logger LOGGER = LoggerFactory
+      .getLogger(Openstack4jCreateVirtualMachineStrategy.class);
 
   private @Inject(optional = true)
   @Named(Constants.DEFAULT_SECURITY_GROUP)
@@ -111,6 +115,8 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
         } catch (ClientResponseException e) {
           if (e.getStatusCode().getCode() != 409) {
             throw e;
+          } else {
+            LOGGER.warn("Conflict while creating keypair. Generating new name and retrying.", e);
           }
         }
       }
