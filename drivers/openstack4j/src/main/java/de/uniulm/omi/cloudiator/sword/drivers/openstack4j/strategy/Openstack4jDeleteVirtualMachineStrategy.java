@@ -25,6 +25,8 @@ import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.compute.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by daniel on 29.11.16.
@@ -32,6 +34,8 @@ import org.openstack4j.model.compute.Server;
 public class Openstack4jDeleteVirtualMachineStrategy implements DeleteVirtualMachineStrategy {
 
   private final OSClient osClient;
+  private static final Logger LOGGER = LoggerFactory
+      .getLogger(Openstack4jDeleteVirtualMachineStrategy.class);
 
   @Inject
   public Openstack4jDeleteVirtualMachineStrategy(OSClient osClient) {
@@ -47,10 +51,20 @@ public class Openstack4jDeleteVirtualMachineStrategy implements DeleteVirtualMac
     final String keyName = server.getKeyName();
 
     checkNotNull(id, "id is null.");
-    osClient.compute().servers().delete(IdScopeByLocations.from(id).getId());
+    LOGGER.info(String.format("Deleting server %s.", server));
+    osClient.compute().servers().delete(server.getId());
 
     if (keyName != null) {
-      osClient.compute().keypairs().delete(keyName);
+      try {
+        LOGGER.debug(String
+            .format("Deleting keyPair %s belonging to previously deleted server %s", keyName,
+                server));
+        osClient.compute().keypairs().delete(keyName);
+      } catch (Exception e) {
+        //ignored
+        LOGGER.warn(String.format("Error while deleting keyPair %s. Ignoring this error.", keyName),
+            e);
+      }
     }
 
   }
