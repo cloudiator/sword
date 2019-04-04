@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import org.openstack4j.api.OSClient;
+import org.openstack4j.model.compute.Server;
 
 /**
  * Created by daniel on 29.11.16.
@@ -40,7 +41,17 @@ public class Openstack4jDeleteVirtualMachineStrategy implements DeleteVirtualMac
 
   @Override
   public void apply(String id) {
+
+    final Server server = osClient.compute().servers().get(IdScopeByLocations.from(id).getId());
+
+    final String keyName = server.getKeyName();
+
     checkNotNull(id, "id is null.");
     osClient.compute().servers().delete(IdScopeByLocations.from(id).getId());
+
+    if (keyName != null) {
+      osClient.compute().keypairs().delete(keyName);
+    }
+
   }
 }

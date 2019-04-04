@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
+import org.openstack4j.api.exceptions.ClientResponseException;
 import org.openstack4j.model.compute.Keypair;
 import org.openstack4j.model.compute.Server;
 import org.openstack4j.model.compute.ServerCreate;
@@ -102,9 +103,17 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
       keyPairName = virtualMachineTemplate.templateOptions().get().keyPairName();
     }
     if (keyPairName == null) {
-      keypair = osClient.useRegion(region.id()).compute().keypairs()
-          .create(namingStrategy.generateUniqueNameBasedOnName(null), null);
-      keyPairName = keypair.getName();
+      while (keyPairName == null) {
+        try {
+          keypair = osClient.useRegion(region.id()).compute().keypairs()
+              .create(namingStrategy.generateUniqueNameBasedOnName(null), null);
+          keyPairName = keypair.getName();
+        } catch (ClientResponseException e) {
+          if (e.getStatusCode().getCode() != 409) {
+            throw e;
+          }
+        }
+      }
     }
 
     List<String> secGroups = new ArrayList<>(1);
