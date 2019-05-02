@@ -16,24 +16,38 @@
  * under the License.
  */
 
-package de.uniulm.cloudiator.sword.drivers.simulation.strategy;
+package de.uniulm.cloudiator.sword.drivers.simulation.config;
 
-import com.google.inject.Inject;
-import de.uniulm.cloudiator.sword.drivers.simulation.state.VirtualMachineStore;
-import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
+import com.google.inject.Singleton;
+import desmoj.core.dist.ContDistNormal;
+import desmoj.core.simulator.Model;
 
-public class SimulationDeleteVirtualMachineStrategy implements DeleteVirtualMachineStrategy {
+@Singleton
+public class SimulationModel extends Model {
 
-  private final VirtualMachineStore virtualMachineStore;
+  private ContDistNormal vmStartupTime;
 
-  @Inject
-  public SimulationDeleteVirtualMachineStrategy(
-      VirtualMachineStore virtualMachineStore) {
-    this.virtualMachineStore = virtualMachineStore;
+  public SimulationModel() {
+    super(null, "Cloud Model", true, true);
   }
 
   @Override
-  public void apply(String s) {
-    virtualMachineStore.delete(s);
+  public String description() {
+    return null;
   }
+
+  @Override
+  public void doInitialSchedules() {
+
+  }
+
+  @Override
+  public void init() {
+    this.vmStartupTime = new ContDistNormal(this, "VM Start Time", 2, 1, true, true);
+  }
+
+  public Double vmStartupTime() {
+    return vmStartupTime.sample();
+  }
+
 }

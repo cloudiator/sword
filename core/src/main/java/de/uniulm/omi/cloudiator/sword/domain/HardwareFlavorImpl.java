@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.domain;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
@@ -64,8 +65,7 @@ public class HardwareFlavorImpl extends ResourceImpl implements HardwareFlavor {
   }
 
   @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
-        .add("name", id()).add("cores", cores).add("ram", ram).add("disk", gbDisk).toString();
+  protected ToStringHelper toStringHelper() {
+    return super.toStringHelper().add("cores", cores).add("ram", ram).add("disk", gbDisk);
   }
 }

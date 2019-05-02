@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.domain;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.ImmutableSet;
 import de.uniulm.omi.cloudiator.sword.domain.IpAddress.IpAddressType;
 import java.util.Arrays;
@@ -58,11 +58,10 @@ public class VirtualMachineImpl extends ResourceImpl implements VirtualMachine {
   }
 
   @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
-        .add("name", name()).add("loginCredential", loginCredential)
+  protected ToStringHelper toStringHelper() {
+    return super.toStringHelper().add("loginCredential", loginCredential)
         .add("ipAddresses", Arrays.toString(ipAddresses.toArray()))
-        .add("image", image).add("hardwareFlavor", hardwareFlavor).toString();
+        .add("image", image).add("hardwareFlavor", hardwareFlavor);
   }
 
   @Override

@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.domain;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.MoreObjects.ToStringHelper;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
@@ -30,8 +31,6 @@ import javax.annotation.Nullable;
 @Deprecated
 public class KeyPairImpl extends ResourceImpl implements KeyPair {
 
-  private final String id;
-  private final String name;
   private final String publicKey;
   @Nullable
   private final String privateKey;
@@ -47,25 +46,13 @@ public class KeyPairImpl extends ResourceImpl implements KeyPair {
       checkArgument(!privateKey.isEmpty(), "Private key must not be empty.");
     }
 
-    this.id = id;
-    this.name = name;
     this.publicKey = publicKey;
     this.privateKey = privateKey;
   }
 
   @Override
-  public String id() {
-    return id;
-  }
-
-  @Override
   public String providerId() {
     return id();
-  }
-
-  @Override
-  public String name() {
-    return name;
   }
 
   @Override
@@ -76,5 +63,10 @@ public class KeyPairImpl extends ResourceImpl implements KeyPair {
   @Override
   public Optional<String> privateKey() {
     return Optional.ofNullable(privateKey);
+  }
+
+  @Override
+  protected ToStringHelper toStringHelper() {
+    return super.toStringHelper().add("publicKey", publicKey).add("privateKey", privateKey);
   }
 }

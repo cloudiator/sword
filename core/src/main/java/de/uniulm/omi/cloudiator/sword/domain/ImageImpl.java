@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.domain;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import de.uniulm.omi.cloudiator.domain.OperatingSystem;
 import javax.annotation.Nullable;
 
@@ -68,9 +68,7 @@ public class ImageImpl extends ResourceImpl implements Image {
   }
 
   @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
-        .add("name", name()).add("os", operatingSystem).add("location", location().orElse(null))
-        .toString();
+  protected ToStringHelper toStringHelper() {
+    return super.toStringHelper().add("os", operatingSystem);
   }
 }

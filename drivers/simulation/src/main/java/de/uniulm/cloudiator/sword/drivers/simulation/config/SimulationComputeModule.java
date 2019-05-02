@@ -18,11 +18,13 @@
 
 package de.uniulm.cloudiator.sword.drivers.simulation.config;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Supplier;
 import com.google.inject.Injector;
+import de.uniulm.cloudiator.sword.drivers.simulation.extension.SimulationIpGenerator;
 import de.uniulm.cloudiator.sword.drivers.simulation.state.VirtualMachineStore;
+import de.uniulm.cloudiator.sword.drivers.simulation.strategy.SimulationCreateVirtualMachineStrategy;
 import de.uniulm.cloudiator.sword.drivers.simulation.strategy.SimulationDeleteVirtualMachineStrategy;
-import de.uniulm.cloudiator.sword.drivers.simulation.strategy.SimulationVirtualMachineStrategy;
 import de.uniulm.cloudiator.sword.drivers.simulation.suppliers.HardwareGenerator;
 import de.uniulm.cloudiator.sword.drivers.simulation.suppliers.ImageGenerator;
 import de.uniulm.cloudiator.sword.drivers.simulation.suppliers.LocationGenerator;
@@ -31,11 +33,19 @@ import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import java.util.Set;
 
 public class SimulationComputeModule extends AbstractComputeModule {
+
+
+  @Override
+  protected void configure() {
+    super.configure();
+    bind(ContinuousExperiment.class).asEagerSingleton();
+  }
 
   @Override
   protected Supplier<Set<Image>> imageSupplier(Injector injector) {
@@ -59,11 +69,16 @@ public class SimulationComputeModule extends AbstractComputeModule {
 
   @Override
   protected CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector) {
-    return injector.getInstance(SimulationVirtualMachineStrategy.class);
+    return injector.getInstance(SimulationCreateVirtualMachineStrategy.class);
   }
 
   @Override
   protected DeleteVirtualMachineStrategy deleteVirtualMachineStrategy(Injector injector) {
     return injector.getInstance(SimulationDeleteVirtualMachineStrategy.class);
+  }
+
+  @Override
+  protected Optional<PublicIpExtension> publicIpService(Injector injector) {
+    return Optional.of(injector.getInstance(SimulationIpGenerator.class));
   }
 }

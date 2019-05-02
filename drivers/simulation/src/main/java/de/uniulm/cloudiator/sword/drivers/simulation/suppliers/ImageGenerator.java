@@ -56,7 +56,7 @@ public class ImageGenerator implements Supplier<Set<Image>> {
               .version(version).build();
 
           final String generateId = generateId(operatingSystem);
-          final Image image = ImageBuilder.newBuilder().id(generateId)
+          final Image image = ImageBuilder.newBuilder().id(location.id() + "/" + generateId)
               .location(location).name(generateId)
               .os(operatingSystem).providerId(generateId).build();
 
@@ -69,8 +69,9 @@ public class ImageGenerator implements Supplier<Set<Image>> {
   }
 
   private static String generateId(OperatingSystem os) {
-    return os.operatingSystemFamily() + " " + os.operatingSystemArchitecture() + " " + os
-        .operatingSystemVersion();
+    //noinspection OptionalGetWithoutIsPresent
+    return os.operatingSystemFamily() + "-" + os.operatingSystemArchitecture() + "-" + os
+        .operatingSystemVersion().name().get();
   }
 
 }
