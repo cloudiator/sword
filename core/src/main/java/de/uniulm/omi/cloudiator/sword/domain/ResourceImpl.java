@@ -87,8 +87,13 @@ public abstract class ResourceImpl implements Resource {
     return Optional.ofNullable(location);
   }
 
+  protected MoreObjects.ToStringHelper toStringHelper() {
+    return MoreObjects.toStringHelper(this).add("id", id).add("providerId", providerId)
+        .add("name", name).add("location", location);
+  }
+
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).add("id", id).add("name", name).toString();
+    return toStringHelper().toString();
   }
 }

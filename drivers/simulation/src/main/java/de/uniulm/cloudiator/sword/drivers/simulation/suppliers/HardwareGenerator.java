@@ -110,9 +110,10 @@ public class HardwareGenerator implements Supplier<Set<HardwareFlavor>> {
               disk <= RangeParser.of(diskRange).higherBound(); disk = disk + diskStep) {
 
             final String generateId = generateId(core, ram, disk);
-            final HardwareFlavor hardwareFlavor = HardwareFlavorBuilder.newBuilder().id(generateId)
+            final HardwareFlavor hardwareFlavor = HardwareFlavorBuilder.newBuilder()
+                .id(location.id() + "/" + generateId)
                 .providerId(generateId)
-                .name(generateId).cores(core).mbRam(ram).gbDisk((double) disk).build();
+                .name(generateId).location(location).cores(core).mbRam(ram).gbDisk((double) disk).build();
 
             hardwareFlavors.add(hardwareFlavor);
 

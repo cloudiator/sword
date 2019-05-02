@@ -18,15 +18,61 @@
 
 package de.uniulm.cloudiator.sword.drivers.simulation.state;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Supplier;
+import com.google.inject.Singleton;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+import javax.annotation.Nullable;
 
+@Singleton
 public class VirtualMachineStore implements Supplier<Set<VirtualMachine>> {
+
+  private final Map<String, VirtualMachine> storedMachines = new HashMap<>();
 
   @Override
   public Set<VirtualMachine> get() {
     return Collections.emptySet();
+  }
+
+  @Nullable
+  public VirtualMachine get(String id) {
+    return storedMachines.get(id);
+  }
+
+  public void delete(String id) {
+    checkState(storedMachines.get(id) != null,
+        String.format("VirtualMachine with the id %s does not exist.", id));
+    storedMachines.remove(id);
+  }
+
+  /**
+   * @param virtualMachine vm to update
+   * @return fluent interface
+   */
+  public VirtualMachine store(VirtualMachine virtualMachine) {
+    checkArgument(storedMachines.get(virtualMachine.id()) == null,
+        String.format("VirtualMachine with id %s is already stored.", virtualMachine.id()));
+    storedMachines.put(virtualMachine.id(), virtualMachine);
+    return virtualMachine;
+  }
+
+  /**
+   * @param virtualMachine vm to update
+   * @return fluent interface
+   */
+  public VirtualMachine update(VirtualMachine virtualMachine) {
+
+    final VirtualMachine stored = storedMachines.get(virtualMachine.id());
+    checkArgument(stored != null,
+        String.format("Virtual machine %s was never stored.", virtualMachine));
+
+    storedMachines.put(virtualMachine.id(), virtualMachine);
+    return virtualMachine;
   }
 }

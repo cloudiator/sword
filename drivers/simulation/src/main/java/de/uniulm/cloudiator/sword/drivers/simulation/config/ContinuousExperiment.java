@@ -16,18 +16,36 @@
  * under the License.
  */
 
-package de.uniulm.cloudiator.sword.drivers.simulation.strategy;
+package de.uniulm.cloudiator.sword.drivers.simulation.config;
 
-import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
-import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
-import javax.annotation.Nullable;
+import com.google.inject.Inject;
+import desmoj.core.simulator.Experiment;
 
-public class SimulationVirtualMachineStrategy implements CreateVirtualMachineStrategy {
+public class ContinuousExperiment {
 
-  @Nullable
-  @Override
-  public VirtualMachine apply(@Nullable VirtualMachineTemplate virtualMachineTemplate) {
-    return null;
+  private final SimulationModel simulationModel;
+  private final Experiment experiment;
+
+  @Inject
+  public ContinuousExperiment(
+      SimulationModel simulationModel) {
+    this.simulationModel = simulationModel;
+    experiment = new Experiment("Cloud Model");
+    init();
   }
+
+  private void init() {
+
+    simulationModel.connectToExperiment(experiment);
+
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        experiment.start();
+      }
+    });
+
+  }
+
+
 }
