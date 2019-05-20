@@ -91,12 +91,12 @@ public class Providers {
             BaseComputeService.class,
             PropertiesBuilder.newBuilder().build()));
     //Simulation
-    final Set<AbstractModule> simulationModules = new HashSet<>();
-    simulationModules.add(new SimulationComputeModule());
-    registerProvider(
-        new ProviderConfiguration("simulation", simulationModules,
-            BaseComputeService.class,
-            PropertiesBuilder.newBuilder().build()));
+    //final Set<AbstractModule> simulationModules = new HashSet<>();
+    //simulationModules.add(new SimulationComputeModule());
+    //registerProvider(
+    //    new ProviderConfiguration("simulation", simulationModules,
+    //        BaseComputeService.class,
+    //        PropertiesBuilder.newBuilder().build()));
   }
 
   public static void registerProvider(ProviderConfiguration providerConfiguration) {
