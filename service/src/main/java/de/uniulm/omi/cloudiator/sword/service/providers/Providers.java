@@ -21,7 +21,6 @@ package de.uniulm.omi.cloudiator.sword.service.providers;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.inject.AbstractModule;
-import de.uniulm.cloudiator.sword.drivers.simulation.config.SimulationComputeModule;
 import de.uniulm.omi.cloudiator.sword.base.BaseComputeService;
 import de.uniulm.omi.cloudiator.sword.domain.PropertiesBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.config.AzureComputeModule;
