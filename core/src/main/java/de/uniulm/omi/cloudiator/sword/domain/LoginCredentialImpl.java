@@ -22,6 +22,7 @@ package de.uniulm.omi.cloudiator.sword.domain;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.MoreObjects;
+import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Nullable;
 
@@ -72,6 +73,20 @@ public class LoginCredentialImpl implements LoginCredential {
   @Override
   public Optional<String> privateKey() {
     return Optional.ofNullable(privateKey);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    LoginCredential that = (LoginCredential) o;
+    return Objects.equals(username, that.username()) &&
+        Objects.equals(password, that.password()) &&
+        Objects.equals(privateKey, that.privateKey());
   }
 
   @Override
