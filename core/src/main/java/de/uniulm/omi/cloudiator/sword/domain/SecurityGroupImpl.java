@@ -20,7 +20,7 @@ package de.uniulm.omi.cloudiator.sword.domain;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.ImmutableSet;
 import java.util.Arrays;
 import java.util.Set;
@@ -46,9 +46,8 @@ public class SecurityGroupImpl extends ResourceImpl implements SecurityGroup {
   }
 
   @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this).add("id", id()).add("providerId", providerId())
-        .add("name", name()).add("location", location())
-        .add("securityGroupRules", Arrays.toString(securityGroupRules.toArray())).toString();
+  protected ToStringHelper toStringHelper() {
+    return super.toStringHelper()
+        .add("securityGroupRules", Arrays.toString(securityGroupRules.toArray()));
   }
 }
