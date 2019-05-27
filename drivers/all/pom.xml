@@ -60,10 +60,10 @@
       <artifactId>drivers-profitbricks</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <!--<dependency>
+    <dependency>
       <groupId>io.github.cloudiator.sword.drivers</groupId>
       <artifactId>drivers-simulation</artifactId>
       <version>${project.version}</version>
-    </dependency>-->
+    </dependency>
   </dependencies>
 </project>
