@@ -40,7 +40,7 @@
     <module>openstack4j</module>
     <module>azure</module>
     <module>profitbricks</module>
-    <!-- <module>simulation</module> -->
+    <module>simulation</module>
   </modules>
 
   <dependencies>

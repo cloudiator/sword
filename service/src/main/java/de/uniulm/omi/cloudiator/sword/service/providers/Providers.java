@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.service.providers;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.inject.AbstractModule;
+import de.uniulm.cloudiator.sword.drivers.simulation.config.SimulationComputeModule;
 import de.uniulm.omi.cloudiator.sword.base.BaseComputeService;
 import de.uniulm.omi.cloudiator.sword.domain.PropertiesBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.config.AzureComputeModule;
@@ -90,12 +91,12 @@ public class Providers {
             BaseComputeService.class,
             PropertiesBuilder.newBuilder().build()));
     //Simulation
-    //final Set<AbstractModule> simulationModules = new HashSet<>();
-    //simulationModules.add(new SimulationComputeModule());
-    //registerProvider(
-    //    new ProviderConfiguration("simulation", simulationModules,
-    //        BaseComputeService.class,
-    //        PropertiesBuilder.newBuilder().build()));
+    final Set<AbstractModule> simulationModules = new HashSet<>();
+    simulationModules.add(new SimulationComputeModule());
+    registerProvider(
+        new ProviderConfiguration("simulation", simulationModules,
+            BaseComputeService.class,
+            PropertiesBuilder.newBuilder().build()));
   }
 
   public static void registerProvider(ProviderConfiguration providerConfiguration) {
