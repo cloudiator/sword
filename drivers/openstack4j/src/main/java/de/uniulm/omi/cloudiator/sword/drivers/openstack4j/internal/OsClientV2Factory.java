@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
+import java.util.Date;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.identity.v2.Access;
 import org.openstack4j.openstack.OSFactory;
@@ -52,7 +53,7 @@ public class OsClientV2Factory implements OsClientFactory {
     final String tenantName = split[0];
     final String userName = split[1];
 
-    if (access == null) {
+    if (access == null || isExpired(access)) {
       final OSClient.OSClientV2 authenticate =
           OSFactory.builderV2().endpoint(cloud.endpoint().get())
               .credentials(userName, cloud.credential().password()).tenantName(tenantName)
@@ -61,5 +62,12 @@ public class OsClientV2Factory implements OsClientFactory {
       return authenticate;
     }
     return OSFactory.clientFromAccess(access);
+  }
+
+  private static boolean isExpired(Access access) {
+    final Date expires = access.getToken().getExpires();
+    //we assume a minute later so there is a grace period
+    final Date now = new Date(System.currentTimeMillis() + 60000);
+    return now.after(expires);
   }
 }

@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
@@ -51,7 +52,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
-  private final OSClient osClient;
+  private final Provider<OSClient> osClient;
   private final OneWayConverter<ServerInRegion, VirtualMachine> virtualMachineConverter;
   private final GetStrategy<String, Location> locationGetStrategy;
   private final OpenstackNetworkStrategy networkStrategy;
@@ -65,7 +66,7 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
   String defaultSecurityGroup = null;
 
   @Inject
-  public Openstack4jCreateVirtualMachineStrategy(OSClient osClient,
+  public Openstack4jCreateVirtualMachineStrategy(Provider<OSClient> osClient,
       OneWayConverter<ServerInRegion, VirtualMachine> virtualMachineConverter,
       GetStrategy<String, Location> locationGetStrategy, OpenstackNetworkStrategy networkStrategy,
       NamingStrategy namingStrategy,
@@ -109,7 +110,7 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
     if (keyPairName == null) {
       while (keyPairName == null) {
         try {
-          keypair = osClient.useRegion(region.id()).compute().keypairs()
+          keypair = osClient.get().useRegion(region.id()).compute().keypairs()
               .create(namingStrategy.generateUniqueNameBasedOnName(null), null);
           keyPairName = keypair.getName();
         } catch (ClientResponseException e) {
@@ -145,11 +146,11 @@ public class Openstack4jCreateVirtualMachineStrategy implements CreateVirtualMac
     }
     final ServerCreate serverCreate = serverCreateBuilder.build();
     //todo make timeout configurable
-    final Server createdServer = osClient.useRegion(region.id()).compute().servers()
+    final Server createdServer = osClient.get().useRegion(region.id()).compute().servers()
         .bootAndWaitActive(serverCreate, 120000);
     // we retrieve the newly created server to get additional details the creation request does
     // not contain
-    final Server retrievedServer = osClient.useRegion(region.id()).compute().servers()
+    final Server retrievedServer = osClient.get().useRegion(region.id()).compute().servers()
         .get(createdServer.getId());
     checkState(retrievedServer != null,
         "Could not retrieve newly created server with id " + createdServer.getId());

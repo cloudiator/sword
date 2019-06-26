@@ -23,6 +23,7 @@ import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.extensions.QuotaExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
 
 /**
@@ -85,4 +86,11 @@ public interface ComputeService {
    * @return an optional security group extension.
    */
   Optional<SecurityGroupExtension> securityGroupExtension();
+
+  /**
+   * Returns an {@link Optional} {@link QuotaExtension} for the cloud provider
+   *
+   * @return an optional quota extension for the cloud provider
+   */
+  Optional<QuotaExtension> quotaExtension();
 }

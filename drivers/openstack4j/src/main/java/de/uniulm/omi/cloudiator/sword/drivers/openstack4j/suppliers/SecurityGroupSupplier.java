@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroup;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.SecurityGroupInRegion;
@@ -42,13 +43,13 @@ import org.openstack4j.openstack.compute.domain.NovaSecGroupExtension;
  */
 public class SecurityGroupSupplier implements Supplier<Set<SecurityGroup>> {
 
-  private final OSClient osClient;
+  private final Provider<OSClient> osClient;
   private final RegionSupplier regionSupplier;
   private final OneWayConverter<SecurityGroupInRegion, SecurityGroup> converter;
   private final NamingStrategy namingStrategy;
 
   @Inject
-  public SecurityGroupSupplier(OSClient osClient, RegionSupplier regionSupplier,
+  public SecurityGroupSupplier(Provider<OSClient> osClient, RegionSupplier regionSupplier,
       OneWayConverter<SecurityGroupInRegion, SecurityGroup> converter,
       NamingStrategy namingStrategy) {
 
@@ -69,7 +70,7 @@ public class SecurityGroupSupplier implements Supplier<Set<SecurityGroup>> {
     Set<SecurityGroupInRegion> securityGroups = new HashSet<>();
     for (Location location : regionSupplier.get()) {
       Set<NovaSecGroupExtension.Rule> rules = new HashSet<>();
-      osClient.useRegion(location.id()).compute().securityGroups().list().stream().filter(
+      osClient.get().useRegion(location.id()).compute().securityGroups().list().stream().filter(
           (Predicate<SecGroupExtension>) secGroupExtension -> namingStrategy.belongsToNamingGroup()
               .test(secGroupExtension.getName()))
           .forEach((Consumer<SecGroupExtension>) secGroupExtension -> {

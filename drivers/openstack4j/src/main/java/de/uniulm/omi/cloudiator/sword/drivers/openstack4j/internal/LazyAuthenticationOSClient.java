@@ -23,14 +23,18 @@ import com.google.inject.Inject;
 import java.lang.reflect.Method;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.openstack.internal.OSClientSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by daniel on 02.12.16.
  */
+@Deprecated
 public class LazyAuthenticationOSClient extends AbstractInvocationHandler {
 
   private static ThreadLocal<OSClient> delegate = new ThreadLocal<>();
   private final OsClientFactory osClientFactory;
+  private static final Logger LOGGER = LoggerFactory.getLogger(LazyAuthenticationOSClient.class);
 
   @Inject
   public LazyAuthenticationOSClient(OsClientFactory osClientFactory) {

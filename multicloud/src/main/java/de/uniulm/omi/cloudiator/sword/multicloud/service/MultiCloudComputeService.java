@@ -28,6 +28,7 @@ import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplateBuilder;
 import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.extensions.QuotaExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.multicloud.domain.VirtualMachineMultiCloudImpl;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
@@ -110,5 +111,10 @@ public class MultiCloudComputeService implements ComputeService {
   @Override
   public Optional<SecurityGroupExtension> securityGroupExtension() {
     return Optional.of(new MultiCloudSecurityGroupExtension(computeServiceProvider));
+  }
+
+  @Override
+  public Optional<QuotaExtension> quotaExtension() {
+    return Optional.of(new MultiCloudQuotaExtension(computeServiceProvider));
   }
 }

@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.Openstack4JConstants;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.FloatingIpPoolStrategy;
 import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
@@ -44,12 +45,12 @@ import org.openstack4j.model.compute.Server;
  */
 public class Openstack4JPublicIpExtension implements PublicIpExtension {
 
-  private final OSClient osClient;
+  private final Provider<OSClient> osClient;
   private final FloatingIpPoolStrategy floatingIpPoolStrategy;
 
 
   @Inject
-  public Openstack4JPublicIpExtension(OSClient osClient,
+  public Openstack4JPublicIpExtension(Provider<OSClient> osClient,
       FloatingIpPoolStrategy floatingIpPoolStrategy) {
 
     checkNotNull(osClient, "osClient is null");
@@ -101,7 +102,7 @@ public class Openstack4JPublicIpExtension implements PublicIpExtension {
 
     final IdScopedByLocation scopedId = IdScopeByLocations.from(virtualMachineId);
 
-    final ComputeService compute = osClient.useRegion(scopedId.getLocationId()).compute();
+    final ComputeService compute = osClient.get().useRegion(scopedId.getLocationId()).compute();
 
     final ComputeFloatingIPService computeFloatingIPService = compute.floatingIps();
 
@@ -123,7 +124,7 @@ public class Openstack4JPublicIpExtension implements PublicIpExtension {
 
     IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachineId);
     final ComputeService compute =
-        osClient.useRegion(virtualMachineScopedId.getLocationId()).compute();
+        osClient.get().useRegion(virtualMachineScopedId.getLocationId()).compute();
     compute.floatingIps().removeFloatingIP(server(virtualMachineId, compute), address);
   }
 }

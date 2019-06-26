@@ -27,6 +27,7 @@ import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
 import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.extensions.QuotaExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
@@ -47,6 +48,7 @@ public class BaseComputeService implements ComputeService {
   private final Optional<KeyPairExtension> keyPairService;
   private final Optional<SecurityGroupExtension> securityGroupService;
   private final ConnectionService connectionService;
+  private final Optional<QuotaExtension> quotaExtension;
 
 
   @Inject
@@ -55,7 +57,8 @@ public class BaseComputeService implements ComputeService {
       RemoteConnectionFactory remoteConnectionFactory, DiscoveryService discoveryService,
       Optional<PublicIpExtension> publicIpService, Optional<KeyPairExtension> keyPairService,
       Optional<SecurityGroupExtension> securityGroupService,
-      ConnectionService connectionService) {
+      ConnectionService connectionService,
+      Optional<QuotaExtension> quotaExtension) {
 
     checkNotNull(createVirtualMachineStrategy);
     checkNotNull(deleteVirtualMachineStrategy);
@@ -65,6 +68,7 @@ public class BaseComputeService implements ComputeService {
     checkNotNull(securityGroupService);
     checkNotNull(connectionService);
     checkNotNull(discoveryService);
+    checkNotNull(quotaExtension);
 
     this.createVirtualMachineStrategy = createVirtualMachineStrategy;
     this.deleteVirtualMachineStrategy = deleteVirtualMachineStrategy;
@@ -73,6 +77,7 @@ public class BaseComputeService implements ComputeService {
     this.securityGroupService = securityGroupService;
     this.connectionService = connectionService;
     this.discoveryService = discoveryService;
+    this.quotaExtension = quotaExtension;
   }
 
   @Override
@@ -112,5 +117,10 @@ public class BaseComputeService implements ComputeService {
   @Override
   public Optional<SecurityGroupExtension> securityGroupExtension() {
     return securityGroupService;
+  }
+
+  @Override
+  public Optional<QuotaExtension> quotaExtension() {
+    return quotaExtension;
   }
 }

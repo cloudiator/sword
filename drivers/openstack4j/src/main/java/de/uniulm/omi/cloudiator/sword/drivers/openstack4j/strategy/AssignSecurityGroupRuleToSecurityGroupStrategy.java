@@ -24,6 +24,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.domain.IpProtocol;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
@@ -46,12 +47,12 @@ import org.openstack4j.model.compute.SecGroupExtension;
  */
 public class AssignSecurityGroupRuleToSecurityGroupStrategy {
 
-  private final OSClient osClient;
+  private final Provider<OSClient> osClient;
   private final Supplier<Set<SecurityGroup>> securityGroupSupplier;
   private final OneWayConverter<SecurityGroupInRegion, SecurityGroup> securityGroupConverter;
 
   @Inject
-  public AssignSecurityGroupRuleToSecurityGroupStrategy(OSClient osClient,
+  public AssignSecurityGroupRuleToSecurityGroupStrategy(Provider<OSClient> osClient,
       Supplier<Set<SecurityGroup>> securityGroupSupplier,
       OneWayConverter<SecurityGroupInRegion, SecurityGroup> securityGroupConverter) {
     checkNotNull(securityGroupConverter, "securityGroupConverter is null");
@@ -110,7 +111,8 @@ public class AssignSecurityGroupRuleToSecurityGroupStrategy {
         Builders.secGroupRule().cidr(cidr).protocol(IPProtocol.valueOf(ipProtocol))
             .range(from, to).parentGroupId(securityGroup.providerId()).build();
 
-    return osClient.useRegion(region.providerId()).compute().securityGroups().createRule(rule);
+    return osClient.get().useRegion(region.providerId()).compute().securityGroups()
+        .createRule(rule);
 
   }
 }

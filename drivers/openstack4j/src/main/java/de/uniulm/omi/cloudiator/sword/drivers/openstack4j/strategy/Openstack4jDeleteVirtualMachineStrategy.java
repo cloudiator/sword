@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import org.openstack4j.api.OSClient;
@@ -33,12 +34,12 @@ import org.slf4j.LoggerFactory;
  */
 public class Openstack4jDeleteVirtualMachineStrategy implements DeleteVirtualMachineStrategy {
 
-  private final OSClient osClient;
+  private final Provider<OSClient> osClient;
   private static final Logger LOGGER = LoggerFactory
       .getLogger(Openstack4jDeleteVirtualMachineStrategy.class);
 
   @Inject
-  public Openstack4jDeleteVirtualMachineStrategy(OSClient osClient) {
+  public Openstack4jDeleteVirtualMachineStrategy(Provider<OSClient> osClient) {
     checkNotNull(osClient, "osClient is null.");
     this.osClient = osClient;
   }
@@ -46,20 +47,22 @@ public class Openstack4jDeleteVirtualMachineStrategy implements DeleteVirtualMac
   @Override
   public void apply(String id) {
 
-    final Server server = osClient.compute().servers().get(IdScopeByLocations.from(id).getId());
+    //todo: use region?
+    final Server server = osClient.get().compute().servers()
+        .get(IdScopeByLocations.from(id).getId());
 
     final String keyName = server.getKeyName();
 
     checkNotNull(id, "id is null.");
     LOGGER.info(String.format("Deleting server %s.", server));
-    osClient.compute().servers().delete(server.getId());
+    osClient.get().compute().servers().delete(server.getId());
 
     if (keyName != null) {
       try {
         LOGGER.debug(String
             .format("Deleting keyPair %s belonging to previously deleted server %s", keyName,
                 server));
-        osClient.compute().keypairs().delete(keyName);
+        osClient.get().compute().keypairs().delete(keyName);
       } catch (Exception e) {
         //ignored
         LOGGER.warn(String.format("Error while deleting keyPair %s. Ignoring this error.", keyName),

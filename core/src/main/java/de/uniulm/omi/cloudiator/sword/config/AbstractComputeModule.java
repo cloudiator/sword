@@ -34,6 +34,7 @@ import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.extensions.QuotaExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
@@ -114,6 +115,11 @@ public abstract class AbstractComputeModule extends AbstractModule {
   @Provides
   final Optional<SecurityGroupExtension> provideSecurityGroupService(Injector injector) {
     return securityGroupService(injector);
+  }
+
+  @Provides
+  final Optional<QuotaExtension> provideQuotaExtension(Injector injector) {
+    return quotaExtension(injector);
   }
 
   @Provides
@@ -288,6 +294,18 @@ public abstract class AbstractComputeModule extends AbstractModule {
    * @return an optional security group service
    */
   protected Optional<SecurityGroupExtension> securityGroupService(Injector injector) {
+    return Optional.absent();
+  }
+
+  /**
+   * Extension point for adding a {@link QuotaExtension} extension.
+   * <p/>
+   * Defaults to {@link com.google.common.base.Absent}
+   *
+   * @param injector injector for instantiating new classes.
+   * @return an optional quota service
+   */
+  protected Optional<QuotaExtension> quotaExtension(Injector injector) {
     return Optional.absent();
   }
 

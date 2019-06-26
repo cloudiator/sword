@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
@@ -37,12 +38,12 @@ import org.openstack4j.api.OSClient;
  */
 public class ImageSupplier implements Supplier<Set<Image>> {
 
-  private final OSClient osClient;
+  private final Provider<OSClient> osClient;
   private final OneWayConverter<ImageInRegion, Image> converter;
   private final RegionSupplier regionSupplier;
 
   @Inject
-  public ImageSupplier(OSClient osClient, OneWayConverter<ImageInRegion, Image> converter,
+  public ImageSupplier(Provider<OSClient> osClient, OneWayConverter<ImageInRegion, Image> converter,
       RegionSupplier regionSupplier) {
 
     checkNotNull(osClient, "osClient is null");
@@ -59,7 +60,7 @@ public class ImageSupplier implements Supplier<Set<Image>> {
 
     Set<Image> set = new HashSet<>();
     for (Location region : regionSupplier.get()) {
-      set.addAll(osClient.useRegion(region.id()).compute().images().list().stream().map(
+      set.addAll(osClient.get().useRegion(region.id()).compute().images().list().stream().map(
           image -> new ImageInRegion(
               image, region)).map(converter).collect(Collectors.toSet()));
     }

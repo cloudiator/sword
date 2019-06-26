@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2018 University of Ulm
+ * Copyright (c) 2014-2019 University of Ulm
  *
  * See the NOTICE file distributed with this work for additional information
  * regarding copyright ownership.  Licensed under the Apache License, Version 2.0 (the
@@ -18,34 +18,22 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import com.google.common.reflect.Reflection;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
 import org.openstack4j.api.OSClient;
 
-/**
- * Created by daniel on 14.11.16.
- */
-@Deprecated
-public class Openstack4jClientProvider implements Provider<OSClient> {
+public class OSClientProvider implements Provider<OSClient> {
 
-  private final Injector injector;
-  private final KeyStoneVersion keyStoneVersion;
+  private final OsClientFactory osClientFactory;
 
   @Inject
-  public Openstack4jClientProvider(Injector injector, KeyStoneVersion keyStoneVersion) {
-    checkNotNull(keyStoneVersion, "keyStoneVersion is null");
-    this.keyStoneVersion = keyStoneVersion;
-    checkNotNull(injector, "injector is null");
-    this.injector = injector;
+  public OSClientProvider(
+      OsClientFactory osClientFactory) {
+    this.osClientFactory = osClientFactory;
   }
 
   @Override
   public OSClient get() {
-    return Reflection.newProxy(keyStoneVersion.osClientClass(),
-        injector.getInstance(LazyAuthenticationOSClient.class));
+    return osClientFactory.create();
   }
 }
