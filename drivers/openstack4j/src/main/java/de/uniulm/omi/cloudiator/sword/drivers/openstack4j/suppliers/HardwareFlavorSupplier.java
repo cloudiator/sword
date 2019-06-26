@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.FlavorInRegion;
@@ -37,12 +38,12 @@ import org.openstack4j.api.OSClient;
  */
 public class HardwareFlavorSupplier implements Supplier<Set<HardwareFlavor>> {
 
-  private final OSClient osClient;
+  private final Provider<OSClient> osClient;
   private final OneWayConverter<FlavorInRegion, HardwareFlavor> converter;
   private final RegionSupplier regionSupplier;
 
   @Inject
-  public HardwareFlavorSupplier(OSClient osClient,
+  public HardwareFlavorSupplier(Provider<OSClient> osClient,
       OneWayConverter<FlavorInRegion, HardwareFlavor> converter, RegionSupplier regionSupplier) {
 
     checkNotNull(osClient, "osClient is null");
@@ -61,7 +62,7 @@ public class HardwareFlavorSupplier implements Supplier<Set<HardwareFlavor>> {
 
     for (Location region : regionSupplier.get()) {
       hardwareFlavors.addAll(
-          osClient.useRegion(region.id()).compute().flavors().list().stream().map(
+          osClient.get().useRegion(region.id()).compute().flavors().list().stream().map(
               flavor -> new FlavorInRegion(flavor, region))
               .map(converter).collect(Collectors.toSet()));
     }

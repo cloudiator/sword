@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
@@ -42,13 +43,14 @@ import org.openstack4j.model.compute.Server;
 public class VirtualMachineSupplier implements Supplier<Set<VirtualMachine>> {
 
   private final OneWayConverter<ServerInRegion, VirtualMachine> virtualMachineConverter;
-  private final OSClient osClient;
+  private final Provider<OSClient> osClient;
   private final RegionSupplier regionSupplier;
   private final NamingStrategy namingStrategy;
 
   @Inject
   public VirtualMachineSupplier(
-      OneWayConverter<ServerInRegion, VirtualMachine> virtualMachineConverter, OSClient osClient,
+      OneWayConverter<ServerInRegion, VirtualMachine> virtualMachineConverter,
+      Provider<OSClient> osClient,
       RegionSupplier regionSupplier, NamingStrategy namingStrategy) {
 
     checkNotNull(virtualMachineConverter, "virtualMachineConverter is null");
@@ -67,7 +69,7 @@ public class VirtualMachineSupplier implements Supplier<Set<VirtualMachine>> {
     Set<VirtualMachine> virtualMachines = new HashSet<>();
     for (Location region : regionSupplier.get()) {
       virtualMachines.addAll(
-          osClient.useRegion(region.id()).compute().servers().list().stream().filter(
+          osClient.get().useRegion(region.id()).compute().servers().list().stream().filter(
               (Predicate<Server>) server -> namingStrategy.belongsToNamingGroup()
                   .test(server.getName())).map(
               (Function<Server, ServerInRegion>) server -> new ServerInRegion(server, server,

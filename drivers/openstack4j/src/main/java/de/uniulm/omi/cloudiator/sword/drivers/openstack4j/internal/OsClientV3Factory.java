@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.annotation.Nullable;
@@ -94,12 +95,19 @@ public class OsClientV3Factory implements OsClientFactory {
         .scopeToProject(project).authenticate();
   }
 
+  private static boolean isExpired(Token token) {
+    final Date expires = token.getExpires();
+    //we assume a minute later so there is a grace period
+    final Date now = new Date(System.currentTimeMillis() + 60000);
+    return now.after(expires);
+  }
+
   @Override
-  public OSClient create() {
+  public synchronized OSClient create() {
 
     OSClient osClient;
 
-    if (token == null) {
+    if (token == null || isExpired(token)) {
       osClient = authFromServiceConfiguration();
       token = ((OSClient.OSClientV3) osClient).getToken();
     } else {

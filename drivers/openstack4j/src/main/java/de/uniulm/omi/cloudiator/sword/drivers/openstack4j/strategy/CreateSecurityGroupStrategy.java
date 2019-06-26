@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.SecurityGroup;
@@ -39,13 +40,13 @@ import org.openstack4j.model.compute.SecGroupExtension;
  */
 public class CreateSecurityGroupStrategy {
 
-  private final OSClient osClient;
+  private final Provider<OSClient> osClient;
   private final NamingStrategy namingStrategy;
   private final OneWayConverter<SecurityGroupInRegion, SecurityGroup> securityGroupConverter;
   private final GetStrategy<String, Location> locationGetStrategy;
 
   @Inject
-  public CreateSecurityGroupStrategy(OSClient osClient, NamingStrategy namingStrategy,
+  public CreateSecurityGroupStrategy(Provider<OSClient> osClient, NamingStrategy namingStrategy,
       OneWayConverter<SecurityGroupInRegion, SecurityGroup> securityGroupConverter,
       GetStrategy<String, Location> locationGetStrategy) {
     checkNotNull(locationGetStrategy, "locationGetStrategy is null");
@@ -74,7 +75,7 @@ public class CreateSecurityGroupStrategy {
                 String.format("Could not find parent region of location %s", location)));
 
     final SecGroupExtension secGroupExtension =
-        osClient.useRegion(region.id()).compute().securityGroups()
+        osClient.get().useRegion(region.id()).compute().securityGroups()
             .create(namingStrategy.generateNameBasedOnName(name), name);
     return securityGroupConverter
         .apply(new SecurityGroupInRegion(secGroupExtension, region, Collections.emptySet()));

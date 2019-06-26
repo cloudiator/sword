@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Set;
@@ -30,6 +31,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.openstack4j.api.OSClient;
+import org.openstack4j.api.OSClient.OSClientV2;
 import org.openstack4j.api.types.ServiceType;
 import org.openstack4j.model.identity.v2.Access;
 import org.openstack4j.model.identity.v2.Endpoint;
@@ -39,23 +41,24 @@ import org.openstack4j.model.identity.v2.Endpoint;
  */
 public class OsClientV2RegionSupplier implements RegionSupplier {
 
-  private final OSClient.OSClientV2 osClientV2;
+  private final Provider<OSClient> osClient;
   private final OneWayConverter<String, Location> regionConverter;
 
   @Inject
-  public OsClientV2RegionSupplier(OSClient osClient,
+  public OsClientV2RegionSupplier(Provider<OSClient> osClient,
       OneWayConverter<String, Location> regionConverter) {
     checkNotNull(regionConverter, "regionConverter is null");
     this.regionConverter = regionConverter;
     checkNotNull(osClient, "osClient is null");
-    checkState(osClient instanceof OSClient.OSClientV2,
+    checkState(osClient.get() instanceof OSClient.OSClientV2,
         "Illegal version of OSClient supplied.");
-    this.osClientV2 = (OSClient.OSClientV2) osClient;
+    this.osClient = osClient;
   }
 
   @Override
   public Set<Location> get() {
-    return new AccessToRegionSet().apply(osClientV2.getAccess()).stream().map(regionConverter)
+    return new AccessToRegionSet().apply(((OSClientV2) osClient.get()).getAccess()).stream()
+        .map(regionConverter)
         .collect(Collectors.toSet());
   }
 

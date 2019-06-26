@@ -47,9 +47,10 @@ import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ServerInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JKeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JPublicIpExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4JSecurityGroupExtension;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.extensions.Openstack4jQuotaExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.KeyStoneVersion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.KeyStoneVersionProvider;
-import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.Openstack4jClientProvider;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.OSClientProvider;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.OsClientFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.OsClientFactoryProvider;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.RegionSupplier;
@@ -72,6 +73,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.SecurityGrou
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.suppliers.VirtualMachineSupplier;
 import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.extensions.QuotaExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.SecurityGroupExtension;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
@@ -132,9 +134,14 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
   }
 
   @Override
+  protected Optional<QuotaExtension> quotaExtension(Injector injector) {
+    return Optional.of(injector.getInstance(Openstack4jQuotaExtension.class));
+  }
+
+  @Override
   protected void configure() {
     super.configure();
-    bind(OSClient.class).toProvider(Openstack4jClientProvider.class).in(Singleton.class);
+    bind(OSClient.class).toProvider(OSClientProvider.class);
     bind(KeyStoneVersion.class).toProvider(KeyStoneVersionProvider.class).in(Singleton.class);
     bind(OsClientFactory.class).toProvider(OsClientFactoryProvider.class).in(Singleton.class);
     bind(RegionSupplier.class).toProvider(RegionSupplierProvider.class).in(Singleton.class);
@@ -169,4 +176,6 @@ public class Openstack4jComputeModule extends AbstractComputeModule {
     availableStrategies.add(injector.getInstance(OneFloatingIpPoolStrategy.class));
     return new CompositeFloatingIpPoolStrategy(availableStrategies);
   }
+
+
 }

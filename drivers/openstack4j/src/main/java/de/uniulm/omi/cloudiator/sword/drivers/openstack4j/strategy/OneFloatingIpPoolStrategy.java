@@ -22,6 +22,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import de.uniulm.omi.cloudiator.sword.util.IdScopeByLocations;
 import de.uniulm.omi.cloudiator.sword.util.IdScopedByLocation;
 import java.util.List;
@@ -33,10 +34,10 @@ import org.openstack4j.api.OSClient;
  */
 public class OneFloatingIpPoolStrategy implements FloatingIpPoolStrategy {
 
-  private final OSClient osClient;
+  private final Provider<OSClient> osClient;
 
   @Inject
-  public OneFloatingIpPoolStrategy(OSClient osClient) {
+  public OneFloatingIpPoolStrategy(Provider<OSClient> osClient) {
     this.osClient = osClient;
   }
 
@@ -46,7 +47,7 @@ public class OneFloatingIpPoolStrategy implements FloatingIpPoolStrategy {
     IdScopedByLocation virtualMachineScopedId = IdScopeByLocations.from(virtualMachine);
 
     final List<String> poolNames =
-        osClient.useRegion(virtualMachineScopedId.getLocationId()).compute().floatingIps()
+        osClient.get().useRegion(virtualMachineScopedId.getLocationId()).compute().floatingIps()
             .getPoolNames();
     if (poolNames.size() != 1) {
       return Optional.empty();
