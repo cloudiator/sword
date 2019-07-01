@@ -26,6 +26,10 @@ public class EC2Constants {
   public final static String PROPERTY_EC2_AMI_QUERY = "sword.ec2.ami.query";
   public final static String PROPERTY_EC2_CC_AMI_QUERY = "sword.ec2.ami.cc.query";
   public final static String PROPERTY_EC2_DEFAULT_VPC = "sword.ec2.default.vpc";
+  public final static String PROPERTY_EC2_AMI_OWNERS = "sword.ec2.ami.owners";
+  //overrides quotas in the format sword.ec2.quota.location.hardware
+  //e.g. sword.ec2.quota.eu-west-1.m5.2xlarge
+  public final static String PROPERTY_EC2_QUOTA_PREFIX = "sword.ec2.quota.";
 
   private EC2Constants() {
     throw new AssertionError("intentionally left empty");

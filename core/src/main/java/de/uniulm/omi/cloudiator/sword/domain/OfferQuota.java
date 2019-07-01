@@ -21,9 +21,7 @@ package de.uniulm.omi.cloudiator.sword.domain;
 public interface OfferQuota extends Quota {
 
   enum OfferType {
-    HARDWARE,
-    LOCATION,
-    IMAGE
+    HARDWARE
   }
 
   String id();

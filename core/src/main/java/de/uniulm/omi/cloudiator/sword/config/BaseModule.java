@@ -52,7 +52,9 @@ public class BaseModule extends AbstractModule {
     bind(ConnectionService.class).to(BaseConnectionService.class);
     if (this.properties != null) {
       Names.bindProperties(binder(), this.properties.getProperties());
+      bind(Properties.class).toInstance(properties);
     }
+
     bind(NamingStrategy.class).to(GroupEncodedIntoNameNamingStrategy.class);
   }
 }

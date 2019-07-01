@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.domain;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -72,9 +73,12 @@ public class QuotaSet {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("quotaSet", quotaSet)
-        .toString();
+    final ToStringHelper toStringHelper = MoreObjects.toStringHelper(this)
+        .add("size", quotaSet.size());
+    if (quotaSet.size() <= 10) {
+      toStringHelper.add("quotaSet", quotaSet);
+    }
+    return toStringHelper.toString();
   }
 
   @Override

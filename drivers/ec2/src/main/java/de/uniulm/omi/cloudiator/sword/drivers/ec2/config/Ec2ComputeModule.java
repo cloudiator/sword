@@ -18,13 +18,16 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.ec2.config;
 
+import com.google.common.base.Optional;
 import com.google.inject.Injector;
 import de.uniulm.omi.cloudiator.sword.domain.TemplateOptions;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.EC2JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.converters.TemplateOptionsToEc2TemplateOptions;
+import de.uniulm.omi.cloudiator.sword.drivers.ec2.extensions.Ec2QuotaExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.strategy.Ec2CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.JCloudsViewFactory;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.config.JCloudsComputeModule;
+import de.uniulm.omi.cloudiator.sword.extensions.QuotaExtension;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.DefaultGetStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
@@ -51,5 +54,10 @@ public class Ec2ComputeModule extends JCloudsComputeModule {
   @Override
   protected Class<? extends OneWayConverter<TemplateOptions, org.jclouds.compute.options.TemplateOptions>> templateOptionsConverter() {
     return TemplateOptionsToEc2TemplateOptions.class;
+  }
+
+  @Override
+  protected Optional<QuotaExtension> quotaExtension(Injector injector) {
+    return Optional.of(injector.getInstance(Ec2QuotaExtension.class));
   }
 }

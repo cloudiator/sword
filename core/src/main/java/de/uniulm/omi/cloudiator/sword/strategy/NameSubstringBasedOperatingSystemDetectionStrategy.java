@@ -26,7 +26,9 @@ import de.uniulm.omi.cloudiator.domain.OperatingSystemVersion;
 import de.uniulm.omi.cloudiator.domain.OperatingSystemVersions;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,6 +38,28 @@ import java.util.stream.Collectors;
 public class NameSubstringBasedOperatingSystemDetectionStrategy
     implements OperatingSystemDetectionStrategy {
 
+  private Optional<OperatingSystemVersion> detectVersion(String name,
+      OperatingSystemFamily operatingSystemFamily) {
+
+    Set<OperatingSystemVersion> candidates = new HashSet<>();
+    for (OperatingSystemVersion version : operatingSystemFamily
+        .operatingSystemVersionFormat().allVersions()) {
+
+      if (name.toLowerCase().contains(String.valueOf(version.version())) || (
+          version.name().isPresent() && name.toLowerCase()
+              .contains(version.name().get().toLowerCase()))) {
+        candidates.add(version);
+      }
+    }
+
+    if (candidates.size() == 0) {
+      return Optional.empty();
+    } else if (candidates.size() == 1) {
+      return Optional.of(candidates.iterator().next());
+    } else {
+      return candidates.stream().max(Comparator.comparing(OperatingSystemVersion::version));
+    }
+  }
 
   @Override
   public OperatingSystem detectOperatingSystem(Image image) {
@@ -50,21 +74,19 @@ public class NameSubstringBasedOperatingSystemDetectionStrategy
             .contains(family.name().toLowerCase())).collect(Collectors.toSet());
 
     //detect the version
-    versionLoop:
     for (OperatingSystemFamily operatingSystemFamily : candidates) {
-      for (OperatingSystemVersion version : operatingSystemFamily
-          .operatingSystemVersionFormat().allVersions()) {
-        if (image.name().toLowerCase().contains(String.valueOf(version.version())) || (
-            version.name().isPresent() && image.name().toLowerCase()
-                .contains(version.name().get().toLowerCase()))) {
-          osFamily = operatingSystemFamily;
-          osVersion = version;
-          break versionLoop;
-        }
+
+      final Optional<OperatingSystemVersion> operatingSystemVersion = detectVersion(image.name(),
+          operatingSystemFamily);
+
+      if (operatingSystemVersion.isPresent()) {
+        osFamily = operatingSystemFamily;
+        osVersion = operatingSystemVersion.get();
+        break;
       }
     }
 
-    if(candidates.size() == 1) {
+    if (candidates.size() == 1) {
       osFamily = candidates.iterator().next();
     }
 
