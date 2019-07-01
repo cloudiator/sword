@@ -40,6 +40,11 @@ public class EC2JCloudsViewFactory extends BaseJCloudsViewFactory {
   private String
       amiCcQuery = null;
 
+  @Inject(optional = true)
+  @Named(EC2Constants.PROPERTY_EC2_AMI_OWNERS)
+  private String
+      amiOwners = null;
+
 
   @Inject
   public EC2JCloudsViewFactory(Cloud cloud) {
@@ -53,6 +58,9 @@ public class EC2JCloudsViewFactory extends BaseJCloudsViewFactory {
     }
     if (amiCcQuery != null) {
       properties.setProperty(AWSEC2Constants.PROPERTY_EC2_CC_AMI_QUERY, amiCcQuery);
+    }
+    if (amiOwners != null) {
+      properties.setProperty(AWSEC2Constants.PROPERTY_EC2_AMI_OWNERS, amiOwners);
     }
     return properties;
   }

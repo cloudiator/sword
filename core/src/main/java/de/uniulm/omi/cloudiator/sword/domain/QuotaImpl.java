@@ -69,7 +69,11 @@ public abstract class QuotaImpl implements Quota {
   public BigDecimal remaining() {
     if (remaining == null) {
       checkState(limit != null && usage != null);
-      return limit.subtract(usage);
+      final BigDecimal difference = limit.subtract(usage);
+      if (difference.compareTo(BigDecimal.ZERO) < 0) {
+        return BigDecimal.ZERO;
+      }
+      return difference;
     }
     return remaining;
   }

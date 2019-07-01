@@ -46,7 +46,7 @@ public class NameSubstringBasedOperatingSystemDetectionStrategyTest {
     String ubuntu = "Ubuntu Server 14.04.5 LTS";
     final OperatingSystem apply = apply(ubuntu);
     assertThat(apply.operatingSystemFamily(), equalTo(OperatingSystemFamily.UBUNTU));
-    assertThat(apply.operatingSystemVersion().version(),equalTo(1404));
+    assertThat(apply.operatingSystemVersion().version(), equalTo(1404));
   }
 
   @Test
@@ -54,7 +54,15 @@ public class NameSubstringBasedOperatingSystemDetectionStrategyTest {
     String ubuntu = "ubuntu-1604";
     final OperatingSystem apply = apply(ubuntu);
     assertThat(apply.operatingSystemFamily(), equalTo(OperatingSystemFamily.UBUNTU));
-    assertThat(apply.operatingSystemVersion().version(),equalTo(1604));
+    assertThat(apply.operatingSystemVersion().version(), equalTo(1604));
+  }
+
+  @Test
+  public void testUbuntuTwoVersionsContained() {
+    String ubuntu = "ubuntu-1804";
+    final OperatingSystem apply = apply(ubuntu);
+    assertThat(apply.operatingSystemFamily(), equalTo(OperatingSystemFamily.UBUNTU));
+    assertThat(apply.operatingSystemVersion().version(), equalTo(1804));
   }
 
   private Image generate(String name) {
