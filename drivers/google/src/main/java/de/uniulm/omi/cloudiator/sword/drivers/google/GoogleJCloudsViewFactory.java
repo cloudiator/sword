@@ -21,6 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.google;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
+import de.uniulm.omi.cloudiator.sword.domain.Properties;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,8 +33,8 @@ import org.jclouds.ssh.jsch.config.JschSshClientModule;
 public class GoogleJCloudsViewFactory extends BaseJCloudsViewFactory {
 
   @Inject
-  public GoogleJCloudsViewFactory(Cloud cloud) {
-    super(cloud);
+  public GoogleJCloudsViewFactory(Cloud cloud, Properties properties) {
+    super(cloud, properties);
   }
 
   @Override
