@@ -27,8 +27,9 @@ import org.jclouds.Constants;
 public class ProfitBricksJcloudsViewFactory extends BaseJCloudsViewFactory {
 
   @Inject
-  public ProfitBricksJcloudsViewFactory(Cloud cloud) {
-    super(cloud);
+  public ProfitBricksJcloudsViewFactory(Cloud cloud,
+      de.uniulm.omi.cloudiator.sword.domain.Properties properties) {
+    super(cloud, properties);
   }
 
   @Override
