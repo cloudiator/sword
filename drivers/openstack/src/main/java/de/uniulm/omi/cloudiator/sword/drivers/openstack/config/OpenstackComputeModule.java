@@ -34,6 +34,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.openstack.converters.TemplateOptio
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.domain.KeyPairInRegion;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackKeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackPublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.drivers.openstack.extensions.OpenstackQuotaExtension;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.CompositeFloatingIpPoolStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.ConfigurationFloatingIpPoolStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.FloatingIpPoolStrategy;
@@ -42,6 +43,7 @@ import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.OpenstackCreate
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.OpenstackDeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.extensions.KeyPairExtension;
 import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
+import de.uniulm.omi.cloudiator.sword.extensions.QuotaExtension;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
@@ -76,6 +78,11 @@ public class OpenstackComputeModule extends JCloudsComputeModule {
   protected Optional<KeyPairExtension> keyPairService(Injector injector) {
     //todo should be dependent on openstack key pair extension being available.
     return Optional.fromNullable(injector.getInstance(OpenstackKeyPairExtension.class));
+  }
+
+  @Override
+  protected Optional<QuotaExtension> quotaExtension(Injector injector) {
+    return Optional.of(injector.getInstance(OpenstackQuotaExtension.class));
   }
 
   @Override
