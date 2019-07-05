@@ -65,6 +65,14 @@ public class NameSubstringBasedOperatingSystemDetectionStrategyTest {
     assertThat(apply.operatingSystemVersion().version(), equalTo(1804));
   }
 
+  @Test
+  public void testUbuntuTwoVersionsContainedWithDot() {
+    String ubuntu = "Ubuntu 18.04";
+    final OperatingSystem apply = apply(ubuntu);
+    assertThat(apply.operatingSystemFamily(), equalTo(OperatingSystemFamily.UBUNTU));
+    assertThat(apply.operatingSystemVersion().version(), equalTo(1804));
+  }
+
   private Image generate(String name) {
     checkNotNull(name, "name is null");
     return ImageBuilder.newBuilder().id(UUID.randomUUID().toString())
