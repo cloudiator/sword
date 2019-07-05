@@ -38,6 +38,7 @@ import org.openstack4j.model.compute.SimpleTenantUsage.ServerUsage;
 
 public class Openstack4jQuotaExtension implements QuotaExtension {
 
+
   private final Provider<OSClient> osClient;
   private final UserIdentity userIdentity;
   private final RegionSupplier regionSupplier;

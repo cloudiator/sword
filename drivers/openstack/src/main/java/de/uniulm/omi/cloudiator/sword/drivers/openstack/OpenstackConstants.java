@@ -33,6 +33,8 @@ public class OpenstackConstants {
   public static final String DEFAULT_NETWORK =
       "sword.openstack.defaultNetwork";
 
+  public static final String TENANT_ID = "sword.openstack.tenantID";
+
   private OpenstackConstants() {
 
   }
