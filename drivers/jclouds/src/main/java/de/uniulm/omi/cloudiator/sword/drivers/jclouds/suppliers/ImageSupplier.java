@@ -44,7 +44,9 @@ public class ImageSupplier implements Supplier<Set<Image>> {
 
   @Override
   public Set<Image> get() {
-    return jCloudsComputeClient.listImages().stream().map(jCloudsImageToImage::apply)
+
+    return jCloudsComputeClient
+        .listImages().stream().map(jCloudsImageToImage)
         .collect(Collectors.toSet());
   }
 }

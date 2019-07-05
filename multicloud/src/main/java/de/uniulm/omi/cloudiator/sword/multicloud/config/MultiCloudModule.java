@@ -71,6 +71,7 @@ public class MultiCloudModule extends AbstractModule {
   }
 
   @Provides
+  @Singleton
   ComputeServiceFactory provideComputeServiceFactory(Injector injector) {
     return injector.getInstance(CachingComputeServiceFactory.class);
   }

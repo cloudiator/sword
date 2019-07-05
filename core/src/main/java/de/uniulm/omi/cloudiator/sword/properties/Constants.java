@@ -33,6 +33,7 @@ public class Constants {
   public static final String DEFAULT_SECURITY_GROUP = "sword.default.securityGroup";
   public static final String PROVIDERID_WHITELIST = "sword.providerId.whitelist";
   public static final String PROVIDERID_BLACKLIST = "sword.providerId.blacklist";
+  public static final String IMAGE_GROUPING = "sword.image.grouping";
 
   private Constants() {
     throw new AssertionError("constants class");
