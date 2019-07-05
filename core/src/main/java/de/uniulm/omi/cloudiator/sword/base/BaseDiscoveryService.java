@@ -115,7 +115,7 @@ public class BaseDiscoveryService implements DiscoveryService {
     final OperatingSystem detectedOs =
         operatingSystemDetectionStrategy.detectOperatingSystem(image);
     return ImageBuilder.of(image)
-        .os(OperatingSystemBuilder.of(image.operatingSystem()).merge(detectedOs).build())
+        .os(OperatingSystemBuilder.of(image.operatingSystem()).merge(detectedOs, false).build())
         .location(annotateMetaData(image.location().orElse(null)))
         .build();
   }
@@ -179,7 +179,7 @@ public class BaseDiscoveryService implements DiscoveryService {
       final OperatingSystem detectedOs =
           operatingSystemDetectionStrategy.detectOperatingSystem(image);
       return ImageBuilder.of(image)
-          .os(OperatingSystemBuilder.of(image.operatingSystem()).merge(detectedOs).build())
+          .os(OperatingSystemBuilder.of(image.operatingSystem()).merge(detectedOs, false).build())
           .location(annotateMetaData(image.location().orElse(null)))
           .build();
     }).collect(Collectors.toSet());
