@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.domain.OperatingSystem;
 import de.uniulm.omi.cloudiator.domain.OperatingSystemBuilder;
 import de.uniulm.omi.cloudiator.sword.annotations.Memoized;
@@ -33,9 +34,13 @@ import de.uniulm.omi.cloudiator.sword.domain.ImageBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.LocationBuilder;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
+import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.service.DiscoveryService;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.OperatingSystemDetectionStrategy;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -45,6 +50,11 @@ import javax.annotation.Nullable;
  * Created by daniel on 25.09.15.
  */
 public class BaseDiscoveryService implements DiscoveryService {
+
+  @Inject(optional = true)
+  @Named(Constants.IMAGE_GROUPING)
+  private boolean imageGrouping = false;
+
 
   private final Supplier<Set<Image>> imageSupplier;
   private final Supplier<Set<Location>> locationSupplier;
@@ -165,7 +175,7 @@ public class BaseDiscoveryService implements DiscoveryService {
 
   @Override
   public Iterable<Image> listImages() {
-    return imageSupplier.get().stream().map((Function<Image, Image>) image -> {
+    final Set<Image> images = imageSupplier.get().stream().map((Function<Image, Image>) image -> {
       final OperatingSystem detectedOs =
           operatingSystemDetectionStrategy.detectOperatingSystem(image);
       return ImageBuilder.of(image)
@@ -173,6 +183,20 @@ public class BaseDiscoveryService implements DiscoveryService {
           .location(annotateMetaData(image.location().orElse(null)))
           .build();
     }).collect(Collectors.toSet());
+
+    if (imageGrouping) {
+      final Map<ImageGroupBy, Image> grouped = images.stream().collect(Collectors.groupingBy(
+          image -> new ImageGroupBy(image.operatingSystem(), image.locationId().orElse(null)),
+          Collectors.collectingAndThen(
+              Collectors
+                  .reducing((Image d1, Image d2) -> d1.name().compareTo(d2.name()) >= 0 ? d1 : d2),
+              Optional::get
+          )
+      ));
+      return grouped.values();
+    } else {
+      return images;
+    }
   }
 
   @Override
@@ -184,5 +208,34 @@ public class BaseDiscoveryService implements DiscoveryService {
   @Override
   public Iterable<VirtualMachine> listVirtualMachines() {
     return virtualMachineSupplier.get();
+  }
+
+  private static class ImageGroupBy {
+
+    OperatingSystem os;
+    String location;
+
+    public ImageGroupBy(OperatingSystem os, String location) {
+      this.os = os;
+      this.location = location;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      ImageGroupBy groupBy = (ImageGroupBy) o;
+      return os.equals(groupBy.os) &&
+          Objects.equals(location, groupBy.location);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(os, location);
+    }
   }
 }
