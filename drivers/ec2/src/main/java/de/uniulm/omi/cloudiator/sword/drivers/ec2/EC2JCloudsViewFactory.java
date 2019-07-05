@@ -22,7 +22,9 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.drivers.jclouds.BaseJCloudsViewFactory;
+
 import java.util.Properties;
+
 import org.jclouds.aws.ec2.reference.AWSEC2Constants;
 
 /**
@@ -47,8 +49,9 @@ public class EC2JCloudsViewFactory extends BaseJCloudsViewFactory {
 
 
   @Inject
-  public EC2JCloudsViewFactory(Cloud cloud) {
-    super(cloud);
+  public EC2JCloudsViewFactory(Cloud cloud,
+      de.uniulm.omi.cloudiator.sword.domain.Properties properties) {
+    super(cloud, properties);
   }
 
   @Override

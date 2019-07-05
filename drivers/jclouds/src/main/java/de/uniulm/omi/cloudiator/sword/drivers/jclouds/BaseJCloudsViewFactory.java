@@ -26,12 +26,14 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
+
 import java.io.Closeable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
+
 import org.jclouds.ContextBuilder;
 import org.jclouds.View;
 import org.jclouds.logging.slf4j.config.SLF4JLoggingModule;
@@ -50,12 +52,17 @@ public class BaseJCloudsViewFactory implements JCloudsViewFactory {
   @Named(Constants.REQUEST_TIMEOUT)
   private String requestTimeout = null;
 
+  private final de.uniulm.omi.cloudiator.sword.domain.Properties properties;
+
   @Inject
-  public BaseJCloudsViewFactory(Cloud cloud) {
+  public BaseJCloudsViewFactory(Cloud cloud,
+      de.uniulm.omi.cloudiator.sword.domain.Properties properties) {
 
     checkNotNull(cloud, "cloud is null");
 
     this.cloud = cloud;
+    this.properties = properties;
+
   }
 
   /**
@@ -100,6 +107,10 @@ public class BaseJCloudsViewFactory implements JCloudsViewFactory {
   private ContextBuilder buildContext() {
     //todo ugly hack
     final Properties properties = new Properties();
+
+    //pass all properties to jclouds
+    this.properties.getProperties().forEach(properties::put);
+
     if (regions != null) {
       properties.setProperty("jclouds.regions", regions);
     }
