@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
@@ -52,12 +53,14 @@ public class JCloudsComputeMetadataToVirtualMachineTest {
   private OneWayConverter<Hardware, HardwareFlavor> hardwareConverter =
       mock(OneWayConverter.class);
   private GetStrategy<String, Image> imageGetStrategy = mock(GetStrategy.class);
+  private OneWayConverter<org.jclouds.domain.Location, Location> locationConverter =
+      mock(OneWayConverter.class);
 
   @Before
   public void setUp() throws Exception {
     jCloudsComputeMetadataToVirtualMachine =
         new JCloudsComputeMetadataToVirtualMachine(loginCredentialsConverter, hardwareConverter,
-            imageGetStrategy);
+            imageGetStrategy, locationConverter);
   }
 
   @Test

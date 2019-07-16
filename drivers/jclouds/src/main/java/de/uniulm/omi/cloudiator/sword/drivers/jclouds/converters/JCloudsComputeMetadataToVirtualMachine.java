@@ -24,6 +24,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineBuilder;
@@ -45,6 +46,7 @@ public class JCloudsComputeMetadataToVirtualMachine
   private final OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter;
   private final OneWayConverter<Hardware, HardwareFlavor> hardwareConverter;
   private final GetStrategy<String, Image> imageGetStrategy;
+  private final OneWayConverter<org.jclouds.domain.Location, Location> locationConverter;
 
   /**
    * Constructor.
@@ -52,12 +54,14 @@ public class JCloudsComputeMetadataToVirtualMachine
    * @param loginCredentialConverter a converter for the login credentials (non null)
    * @param hardwareConverter a converter for the hardware
    * @param imageGetStrategy strategy to retrieve images from an ID
+   * @param locationConverter a converter for the location
    */
   @Inject
   public JCloudsComputeMetadataToVirtualMachine(
       OneWayConverter<LoginCredentials, LoginCredential> loginCredentialConverter,
       OneWayConverter<Hardware, HardwareFlavor> hardwareConverter,
-      GetStrategy<String, Image> imageGetStrategy) {
+      GetStrategy<String, Image> imageGetStrategy,
+      OneWayConverter<org.jclouds.domain.Location, Location> locationConverter) {
 
     checkNotNull(loginCredentialConverter);
     checkNotNull(hardwareConverter);
@@ -66,6 +70,7 @@ public class JCloudsComputeMetadataToVirtualMachine
     this.loginCredentialConverter = loginCredentialConverter;
     this.hardwareConverter = hardwareConverter;
     this.imageGetStrategy = imageGetStrategy;
+    this.locationConverter = locationConverter;
   }
 
   @Override
@@ -88,6 +93,8 @@ public class JCloudsComputeMetadataToVirtualMachine
 
     virtualMachineBuilder
         .hardware(hardwareConverter.apply(((NodeMetadata) computeMetadata).getHardware()));
+
+    virtualMachineBuilder.location(locationConverter.apply(computeMetadata.getLocation()));
 
     String imageId = ((NodeMetadata) computeMetadata).getImageId();
     if (imageId != null) {
