@@ -59,6 +59,11 @@ public class CloudRegistryComputeServiceProvider implements CloudRegistry, Compu
   }
 
   @Override
+  public boolean isRegistered(String cloudId) {
+    return CLOUD_HOLDER.retrieve(cloudId) != null;
+  }
+
+  @Override
   public Collection<Cloud> list() {
     return CLOUD_HOLDER.all();
   }

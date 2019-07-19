@@ -43,6 +43,14 @@ public interface CloudRegistry {
   boolean isRegistered(Cloud cloud);
 
   /**
+   * Checks of the cloud with the given UUID is already registered.
+   *
+   * @param cloudId ID of the cloud
+   * @return true if already registered, false if not.
+   */
+  boolean isRegistered(String cloudId);
+
+  /**
    * Lists all clouds stored in the registry.
    *
    * @return a collection of all clouds
