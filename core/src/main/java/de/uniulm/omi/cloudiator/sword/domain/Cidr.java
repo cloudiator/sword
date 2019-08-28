@@ -24,17 +24,10 @@ package de.uniulm.omi.cloudiator.sword.domain;
 public interface Cidr {
 
   /**
-   * Network address in dotted form (e.g. 0.0.0.0)
+   * Cidr
    *
-   * @return the network address
+   * @return the cidr
    */
-  String address();
-
-  /**
-   * The slash value
-   *
-   * @return the value behind the slash
-   */
-  int slash();
+  String cidr();
 
 }

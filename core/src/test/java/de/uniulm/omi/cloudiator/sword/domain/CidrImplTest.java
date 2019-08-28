@@ -18,41 +18,13 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
 import org.junit.Test;
 
 /**
  * Created by daniel on 12.01.17.
  */
 public class CidrImplTest {
-
-  final private String lowAddress = "0.0.0.0/0";
-  final private String highAddress = "255.255.255.255/32";
-
-  @Test
-  public void getAddressTest() {
-    final Cidr cidr = CidrImpl.of("192.168.1.1", 24);
-    assertThat(cidr.address(), is(equalTo("192.168.1.1")));
-  }
-
-  @Test
-  public void getSlashTest() {
-    final Cidr cidr = CidrImpl.of("192.168.1.1", 24);
-    assertThat(cidr.slash(), is(equalTo(24)));
-  }
-
-  @Test
-  public void toStringTest() {
-    final Cidr cidr = CidrImpl.of("192.168.1.1", 24);
-    assertThat(cidr.toString(), is(equalTo("192.168.1.1/24")));
-  }
-
+  
   @Test(expected = IllegalArgumentException.class)
   public void cidrWithoutSlashRejected() {
     CidrImpl.of("0.0.0.0");
@@ -111,27 +83,5 @@ public class CidrImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void addressWithNonIntegerOctetRejected() {
     CidrImpl.of("0.String.0.0/24");
-  }
-
-  @Test
-  public void testLowAddress() {
-    final Cidr cidr = CidrImpl.of(lowAddress);
-    assertThat(cidr.address(), is(equalTo("0.0.0.0")));
-    assertThat(cidr.slash(), equalTo(0));
-  }
-
-  @Test
-  public void testHighAddress() {
-    final Cidr cidr = CidrImpl.of(highAddress);
-    assertThat(cidr.address(), is(equalTo("255.255.255.255")));
-    assertThat(cidr.slash(), is(equalTo(32)));
-  }
-
-  @Test
-  public void testEquals() {
-    assertTrue(CidrImpl.of("0.0.0.0", 32).equals(CidrImpl.of("0.0.0.0", 32)));
-    assertFalse(CidrImpl.of("0.0.0.0", 24).equals(CidrImpl.of("0.0.0.0", 32)));
-    assertFalse(CidrImpl.of("0.0.0.0", 32).equals(CidrImpl.of("192.168.1.0", 32)));
-    assertFalse(CidrImpl.of("0.0.0.0", 32).equals(new ArrayList<>()));
   }
 }

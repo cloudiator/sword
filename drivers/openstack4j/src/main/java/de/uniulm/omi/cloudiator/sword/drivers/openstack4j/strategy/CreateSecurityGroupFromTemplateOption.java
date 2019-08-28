@@ -95,13 +95,13 @@ public class CreateSecurityGroupFromTemplateOption {
 
     //add icmp
     securityGroupExtension.addRule(
-        SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.ALL).ipProtocol(IpProtocol.ICMP)
+        SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.ALL_IP4).ipProtocol(IpProtocol.ICMP)
             .build(), securityGroup.id());
     //add rules
     templateOptions.inboundPorts().forEach(integer -> {
       securityGroupExtension.addRule(
           SecurityGroupRuleBuilder.newBuilder().ipProtocol(IpProtocol.ALL).fromPort(integer)
-              .toPort(integer).cidr(CidrImpl.ALL).build(), securityGroup.id());
+              .toPort(integer).cidr(CidrImpl.ALL_IP4).build(), securityGroup.id());
     });
     return securityGroup.name();
   }

@@ -38,10 +38,10 @@ public class SecurityGroupImplTest {
   @Test
   public void rulesTest() {
     final SecurityGroupRule all =
-        SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.ALL).fromPort(0).toPort(5)
+        SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.ALL_IP4).fromPort(0).toPort(5)
             .ipProtocol(IpProtocol.ALL).build();
     final SecurityGroupRule tcp =
-        SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.ALL).fromPort(20).toPort(100)
+        SecurityGroupRuleBuilder.newBuilder().cidr(CidrImpl.ALL_IP4).fromPort(20).toPort(100)
             .ipProtocol(IpProtocol.TCP).build();
 
     final SecurityGroup securityGroup =
