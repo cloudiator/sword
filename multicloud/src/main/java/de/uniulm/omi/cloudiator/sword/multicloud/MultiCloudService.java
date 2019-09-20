@@ -20,6 +20,7 @@ package de.uniulm.omi.cloudiator.sword.multicloud;
 
 import de.uniulm.omi.cloudiator.sword.multicloud.service.CloudRegistry;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.service.PricingService;
 
 /**
  * Created by daniel on 23.01.17.
@@ -30,4 +31,5 @@ public interface MultiCloudService {
 
   ComputeService computeService();
 
+  PricingService pricingService();
 }

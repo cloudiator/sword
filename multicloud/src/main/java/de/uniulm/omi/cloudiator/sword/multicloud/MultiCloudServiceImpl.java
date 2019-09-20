@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.multicloud.service.CloudRegistry;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.service.PricingService;
 
 /**
  * Created by daniel on 23.01.17.
@@ -31,13 +32,16 @@ public class MultiCloudServiceImpl implements MultiCloudService {
 
   private final CloudRegistry cloudRegistry;
   private final ComputeService computeService;
+  private final PricingService pricingService;
 
   @Inject
-  public MultiCloudServiceImpl(CloudRegistry cloudRegistry, ComputeService computeService) {
+  public MultiCloudServiceImpl(CloudRegistry cloudRegistry, ComputeService computeService, PricingService pricingService) {
     checkNotNull(cloudRegistry, "cloudRegistry is null");
     checkNotNull(computeService, "computeService is null");
+    checkNotNull(pricingService, "pricingService is null");
     this.cloudRegistry = cloudRegistry;
     this.computeService = computeService;
+    this.pricingService = pricingService;
   }
 
 
@@ -49,5 +53,10 @@ public class MultiCloudServiceImpl implements MultiCloudService {
   @Override
   public ComputeService computeService() {
     return computeService;
+  }
+
+  @Override
+  public PricingService pricingService() {
+    return pricingService;
   }
 }
