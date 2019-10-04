@@ -19,19 +19,26 @@ public class MultiCloudPricingService implements PricingService {
 
     @Inject
     public MultiCloudPricingService(CloudRegistry cloudRegistry) {
-        checkNotNull(cloudRegistry, "cloudRegistry is null");
-        this.cloudRegistry = cloudRegistry;
+        this.cloudRegistry = checkNotNull(cloudRegistry, "cloudRegistry is null");
     }
 
     @Override
     public Iterable<Pricing> listPricing() {
-        final ImmutableSet.Builder<Pricing> builder = ImmutableSet.builder();
+        /*final ImmutableSet.Builder<Pricing> builder = ImmutableSet.builder();
         Optional<Cloud> awsCloud = cloudRegistry.list().stream().filter(cloud -> cloud.api().providerName().equals("aws-ec2")).findFirst();
 
         if(awsCloud.isPresent()) {
             Supplier<Set<Pricing>> awsPricingSupplier = pricingSupplierFactory.createAWSPricingSupplier(awsCloud.get().credential());
             builder.addAll(awsPricingSupplier.get());
         }
+        return builder.build();*/
+        final ImmutableSet.Builder<Pricing> builder = ImmutableSet.builder();
+        cloudRegistry
+                .list()
+                .stream()
+                .filter(cloud -> cloud.api().providerName().equals("aws-ec2"))
+                .findFirst()
+                .ifPresent(cloud -> builder.addAll(pricingSupplierFactory.createAWSPricingSupplier(cloud.credential()).get()));
         return builder.build();
     }
 }

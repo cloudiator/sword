@@ -65,7 +65,7 @@ public class MultiCloudModule extends AbstractModule {
     bind(PricingService.class).to(MultiCloudPricingService.class).in(Singleton.class);
 
     install(new FactoryModuleBuilder()
-            .implement(new TypeLiteral<Supplier<Set<Pricing>>>(){}, Names.named("aws"), AWSPricingSupplier.class)
+            .implement(new TypeLiteral<Supplier<Set<Pricing>>>(){}, Names.named(PricingSupplierFactory.awsName), AWSPricingSupplier.class)
             .build(PricingSupplierFactory.class));
   }
 

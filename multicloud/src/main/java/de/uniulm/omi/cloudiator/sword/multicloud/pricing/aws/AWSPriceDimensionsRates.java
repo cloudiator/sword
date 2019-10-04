@@ -12,7 +12,7 @@ import java.util.Map;
 public class AWSPriceDimensionsRates {
 
     @JsonIgnore
-    private Map<String, AWSDimensionRates> awsDimensionRates = new HashMap<String, AWSDimensionRates>();
+    private Map<String, AWSDimensionRates> awsDimensionRates = new HashMap<>();
 
     @JsonAnyGetter
     public Map<String, AWSDimensionRates> getAwsDimensionRates() {
@@ -27,5 +27,5 @@ public class AWSPriceDimensionsRates {
     public String sku;
     public String effectiveDate;
     public String offerTermCode;
-    public Map<String, String> termAttributes; // Object
+    public Map<String, String> termAttributes;
 }

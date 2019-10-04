@@ -36,12 +36,9 @@ public class MultiCloudServiceImpl implements MultiCloudService {
 
   @Inject
   public MultiCloudServiceImpl(CloudRegistry cloudRegistry, ComputeService computeService, PricingService pricingService) {
-    checkNotNull(cloudRegistry, "cloudRegistry is null");
-    checkNotNull(computeService, "computeService is null");
-    checkNotNull(pricingService, "pricingService is null");
-    this.cloudRegistry = cloudRegistry;
-    this.computeService = computeService;
-    this.pricingService = pricingService;
+    this.cloudRegistry = checkNotNull(cloudRegistry, "cloudRegistry is null");
+    this.computeService = checkNotNull(computeService, "computeService is null");
+    this.pricingService = checkNotNull(pricingService, "pricingService is null");
   }
 
 

@@ -8,5 +8,6 @@ import de.uniulm.omi.cloudiator.sword.domain.Pricing;
 import java.util.Set;
 
 public interface PricingSupplierFactory {
-    @Named("aws") Supplier<Set<Pricing>> createAWSPricingSupplier(CloudCredential cloudCredential);
+    String awsName = "aws";
+    @Named(awsName) Supplier<Set<Pricing>> createAWSPricingSupplier(CloudCredential cloudCredential);
 }

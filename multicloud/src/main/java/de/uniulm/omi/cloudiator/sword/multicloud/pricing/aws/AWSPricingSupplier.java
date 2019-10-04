@@ -13,9 +13,11 @@ import com.google.inject.assistedinject.Assisted;
 import de.uniulm.omi.cloudiator.domain.*;
 import de.uniulm.omi.cloudiator.sword.domain.*;
 import de.uniulm.omi.cloudiator.sword.multicloud.pricing.aws.converters.AWSPricingLocationConverter;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -28,7 +30,7 @@ public class AWSPricingSupplier implements Supplier<Set<Pricing>> {
             .getLogger(AWSPricingSupplier.class);
     private static final List<String> productFamiliesFilter = Arrays.asList("Compute Instance", "Compute Instance (bare metal)");
     private static final List<String> tenanciesFilter = Arrays.asList("Shared", "Dedicated");
-    private static final List<String> capacityStatusesFilter = Arrays.asList("Used");
+    private static final List<String> capacityStatusesFilter = Collections.singletonList("Used");
     private static final String operationsPatternFilter = "RunInstances";
 
     @Inject
@@ -43,7 +45,7 @@ public class AWSPricingSupplier implements Supplier<Set<Pricing>> {
         GetProductsRequest getProductsRequest = new GetProductsRequest().withServiceCode("AmazonEC2");
         GetProductsResult getProductsResult;
 
-        if (nextToken == null || nextToken.isEmpty()){
+        if (StringUtils.isBlank(nextToken)){
             getProductsResult = client.getProducts(getProductsRequest);
         }
         else {
@@ -60,7 +62,6 @@ public class AWSPricingSupplier implements Supplier<Set<Pricing>> {
             }
         } catch (Exception e) {
             LOGGER.error("Exception caught while retrieving AWS Price List", e);
-            e.printStackTrace();
         }
         return new AWSPricingPack(awsProductAndTermsSet, getProductsResult.getNextToken());
     }
@@ -76,13 +77,6 @@ public class AWSPricingSupplier implements Supplier<Set<Pricing>> {
 
         do {
             awsPricingPack = getRawAWSPricingPaginated(nextToken);
-
-            /*if(!awsPricingPack.getAwsProductAndTerms().isEmpty()) {
-                LOGGER.info(String.format("AWSPricingPack no: %d", ++awsPricingPackCounter));
-            }
-            else {
-                LOGGER.info("AWSPricingPack is empty");
-            }*/
 
             for(AWSProductAndTerms awsProductAndTerms : awsPricingPack.getAwsProductAndTerms()) {
                 if(!productFamiliesFilter.contains(awsProductAndTerms.product.productFamily)
@@ -142,17 +136,20 @@ public class AWSPricingSupplier implements Supplier<Set<Pricing>> {
                 Optional<String> currency = Optional.empty();
 
                 if(awsProductAndTerms.terms != null && awsProductAndTerms.terms.get("OnDemand") != null) {
-                    for (Map.Entry<String, AWSPriceDimensionsRates> entry : awsProductAndTerms.terms.get("OnDemand").entrySet()) {
-                        for (Map.Entry<String, AWSDimensionRates> entry2 : entry.getValue().getAwsDimensionRates().entrySet()) {
+                    for (Map.Entry<String, AWSPriceDimensionsRates> onDemandPriceDimensionsRates : awsProductAndTerms.terms.get("OnDemand").entrySet()) {
+                        for (Map.Entry<String, AWSDimensionRates> onDemandDimensionRates : onDemandPriceDimensionsRates.getValue().getAwsDimensionRates().entrySet()) {
                             List<PricingDimensions> pricingDimensions = new ArrayList<>();
-                            for (Map.Entry<String, AWSBaseTerm> entry3 : entry2.getValue().entrySet()) {
-                                Map.Entry<String, BigDecimal> price = entry3.getValue().getPricePerUnit().entrySet().iterator().next();
-                                pricingDimensions.add(new PricingDimensions(price.getValue(), entry3.getValue().getUnit(), entry3.getValue().getDescription(), entry3.getValue().getBeginRange(), entry3.getValue().getEndRange()));
+                            for (Map.Entry<String, AWSBaseTerm> onDemandBaseTerm : onDemandDimensionRates.getValue().entrySet()) {
+                                Map.Entry<String, BigDecimal> price = onDemandBaseTerm.getValue().getPricePerUnit().entrySet().iterator().next();
+                                pricingDimensions.add(new PricingDimensions(price.getValue(), onDemandBaseTerm.getValue().getUnit(), onDemandBaseTerm.getValue().getDescription(), onDemandBaseTerm.getValue().getBeginRange(), onDemandBaseTerm.getValue().getEndRange()));
                             }
-                            pricingOnDemandTerms.add(new PricingTerms(pricingDimensions, entry.getValue().termAttributes.get("LeaseContractLength"), entry.getValue().termAttributes.get("OfferingClass"), entry.getValue().termAttributes.get("PurchaseOption")));
+                            pricingOnDemandTerms.add(new PricingTerms(pricingDimensions, onDemandPriceDimensionsRates.getValue().termAttributes.get("LeaseContractLength"), onDemandPriceDimensionsRates.getValue().termAttributes.get("OfferingClass"), onDemandPriceDimensionsRates.getValue().termAttributes.get("PurchaseOption")));
                         }
                     }
-                    currency = Optional.ofNullable(awsProductAndTerms.terms.get("OnDemand").entrySet().iterator().next().getValue().getAwsDimensionRates().entrySet().iterator().next().getValue().entrySet().iterator().next().getValue().getPricePerUnit().entrySet().iterator().next().getKey());
+                    Optional<AWSPriceDimensionsRates> awsPriceDimensionsRates = awsProductAndTerms.terms.get("OnDemand").entrySet().stream().findFirst().map(Map.Entry::getValue);
+                    Optional<AWSDimensionRates> awsDimensionRates = awsPriceDimensionsRates.flatMap(value -> value.getAwsDimensionRates().entrySet().stream().findFirst().map(Map.Entry::getValue));
+                    Optional<AWSBaseTerm> awsBaseTerm = awsDimensionRates.flatMap(value -> value.entrySet().stream().findFirst().map(Map.Entry::getValue));
+                    currency = awsBaseTerm.flatMap(value -> value.getPricePerUnit().entrySet().stream().findFirst().map(Map.Entry::getKey));
                 }
 
                 // currently only OnDemand offers are being presented
@@ -181,7 +178,7 @@ public class AWSPricingSupplier implements Supplier<Set<Pricing>> {
                         .instanceName(awsProductAndTerms.product.attributes.get("instanceType"))
                         .cloudServiceProviderName("aws")
                         .api(ApiBuilder.newBuilder().providerName("aws-ec2").build())
-                        .currency(currency.isPresent() ? currency.get() : "N/A")
+                        .currency(currency.orElse("N/A"))
                         .tenancy(awsProductAndTerms.product.attributes.get("tenancy"))
                         .operatingSystem(operatingSystemBuilder.build())
                         .onDemandTerms(pricingOnDemandTerms)
@@ -197,7 +194,7 @@ public class AWSPricingSupplier implements Supplier<Set<Pricing>> {
 
             nextToken = awsPricingPack.getNextToken();
         } while (nextToken != null);
-        LOGGER.info(String.format("AWS products (with terms) processed (= size of returned Set<Pricing>): %d", pricings.size()));
+        LOGGER.info("AWS products (with terms) processed (= size of returned Set<Pricing>): {}", pricings.size());
 
         return pricings;
     }
