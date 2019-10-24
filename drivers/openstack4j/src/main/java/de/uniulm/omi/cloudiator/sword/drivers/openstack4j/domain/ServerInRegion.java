@@ -94,9 +94,9 @@ public class ServerInRegion implements Server, InRegion, ProviderIdentified {
     String imageId = null;
 
     if (createdServer.getImageId() != null) {
-      imageId = createdServer.getFlavorId();
+      imageId = createdServer.getImageId();
     } else if (retrievedServer.getImageId() != null) {
-      imageId = retrievedServer.getFlavorId();
+      imageId = retrievedServer.getImageId();
     }
 
     checkState(imageId != null, "Could not determine imageId of " + this);

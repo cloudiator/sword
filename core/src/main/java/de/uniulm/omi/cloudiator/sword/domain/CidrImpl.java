@@ -18,8 +18,11 @@
 
 package de.uniulm.omi.cloudiator.sword.domain;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.github.jgonian.ipmath.Ipv4Range;
+import com.github.jgonian.ipmath.Ipv6Range;
+import java.util.Objects;
 
 /**
  * Created by daniel on 04.07.16.
@@ -27,72 +30,51 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class CidrImpl implements Cidr {
 
 
-  public static final Cidr ALL = new CidrImpl("0.0.0.0", 0);
+  public static final Cidr ALL_IP4 = new CidrImpl("0.0.0.0/0");
+  public static final Cidr ALL_IP6 = new CidrImpl("::/0");
 
-  private final String address;
-  private final int slash;
+  private final String cidr;
 
-  private CidrImpl(String address, int slash) {
-    validateAddress(address);
-    this.address = address;
+  private CidrImpl(String cidr) {
+    checkNotNull(cidr, "cidr is null");
+    final boolean validate = validate(cidr);
 
-    checkArgument(slash >= 0 && slash <= 32);
-    this.slash = slash;
-  }
+    if (!validate) {
+      throw new IllegalArgumentException("Cidr " + cidr + " is illegal.");
+    }
 
-  public static Cidr of(String address, int slash) {
-    return new CidrImpl(address, slash);
+    this.cidr = cidr;
   }
 
   public static Cidr of(String cidr) {
-    checkArgument(cidr.contains("/"),
-        String.format("Expected cidr to contain a slash (/) but %s contains none.", cidr));
-    String[] split = cidr.split("/");
-    checkArgument(split.length == 2,
-        String.format("Expected cidr to contain one address and one slash, but got %s.", cidr));
+    return new CidrImpl(cidr);
+  }
+
+  private boolean validate(String cidr) {
+
+    boolean isV4 = false;
+    boolean isV6 = false;
+
     try {
-      int slash = Integer.parseInt(split[1]);
-      return new CidrImpl(split[0], slash);
-    } catch (NumberFormatException e) {
-      throw new IllegalArgumentException(String
-          .format("Expected second part (slash) to be parsable to integer but %s is not.",
-              split[1]));
+      Ipv4Range.parseCidr(cidr);
+      isV4 = true;
+    } catch (IllegalArgumentException e) {
+      //left empty
     }
-  }
 
-  private void validateAddress(String address) {
-    checkNotNull(address);
-    checkArgument(!address.isEmpty());
-
-    String[] split = address.split("\\.");
-    checkArgument(split.length == 4, String
-        .format("Expected address to consist of four octets, but %s has only %s octet(s)",
-            address, split.length));
-    for (String part : split) {
-      try {
-        Integer integer = Integer.valueOf(part);
-        checkArgument(integer >= 0 && integer <= 255, String
-            .format("Octet needs to be between 0 and 255, one octet was %s.", integer));
-      } catch (NumberFormatException e) {
-        throw new IllegalArgumentException("Address contains illegal octet " + part, e);
-      }
+    try {
+      Ipv6Range.parseCidr(cidr);
+      isV6 = true;
+    } catch (IllegalArgumentException e) {
+      //do nothing
     }
-  }
 
-
-  @Override
-  public String address() {
-    return address;
-  }
-
-  @Override
-  public int slash() {
-    return slash;
+    return isV4 || isV6;
   }
 
   @Override
   public String toString() {
-    return address + "/" + slash;
+    return cidr();
   }
 
   @Override
@@ -103,19 +85,17 @@ public class CidrImpl implements Cidr {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    CidrImpl cidr = (CidrImpl) o;
-
-    if (slash != cidr.slash) {
-      return false;
-    }
-    return address.equals(cidr.address);
+    CidrImpl cidr1 = (CidrImpl) o;
+    return cidr.equals(cidr1.cidr);
   }
 
   @Override
   public int hashCode() {
-    int result = address.hashCode();
-    result = 31 * result + slash;
-    return result;
+    return Objects.hash(cidr);
+  }
+
+  @Override
+  public String cidr() {
+    return cidr;
   }
 }

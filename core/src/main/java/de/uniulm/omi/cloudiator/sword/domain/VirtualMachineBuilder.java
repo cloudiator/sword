@@ -57,6 +57,8 @@ public class VirtualMachineBuilder {
     name = virtualMachine.name();
     location = virtualMachine.location().orElse(null);
     loginCredential = virtualMachine.loginCredential().orElse(null);
+    image = virtualMachine.image().orElse(null);
+    hardwareFlavor = virtualMachine.hardware().orElse(null);
   }
 
   public static VirtualMachineBuilder newBuilder() {

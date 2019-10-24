@@ -18,10 +18,14 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.openstack4j.converters;
 
+import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.domain.OperatingSystem;
 import de.uniulm.omi.cloudiator.domain.OperatingSystems;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.ImageBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.ImageImpl;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.domain.ImageInRegion;
+import de.uniulm.omi.cloudiator.sword.strategy.OperatingSystemDetectionStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import javax.annotation.Nullable;
 
@@ -30,11 +34,26 @@ import javax.annotation.Nullable;
  */
 public class ImageInRegionToImage implements OneWayConverter<ImageInRegion, Image> {
 
+  private final OperatingSystemDetectionStrategy operatingSystemDetectionStrategy;
+
+  @Inject
+  public ImageInRegionToImage(
+      OperatingSystemDetectionStrategy operatingSystemDetectionStrategy) {
+    this.operatingSystemDetectionStrategy = operatingSystemDetectionStrategy;
+  }
+
   @Nullable
   @Override
   public Image apply(ImageInRegion imageInRegion) {
-    return ImageBuilder.newBuilder().id(imageInRegion.getId()).location(imageInRegion.region())
+
+    final ImageImpl tempImage = ImageBuilder.newBuilder().id(imageInRegion.getId())
+        .location(imageInRegion.region())
         .name(imageInRegion.getName()).providerId(imageInRegion.providerId())
         .os(OperatingSystems.unknown()).build();
+
+    final OperatingSystem operatingSystem = operatingSystemDetectionStrategy
+        .detectOperatingSystem(tempImage);
+
+    return ImageBuilder.of(tempImage).os(operatingSystem).build();
   }
 }

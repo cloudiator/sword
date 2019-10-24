@@ -25,7 +25,7 @@ public class SecurityGroupRules {
 
   public static SecurityGroupRule ALL =
       SecurityGroupRuleBuilder.newBuilder().ipProtocol(IpProtocol.ALL).fromPort(-1).toPort(-1)
-          .cidr(CidrImpl.ALL).build();
+          .cidr(CidrImpl.ALL_IP4).build();
 
   private SecurityGroupRules() {
     throw new AssertionError("static class");
