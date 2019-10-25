@@ -146,16 +146,6 @@ public abstract class AbstractComputeModule extends AbstractModule {
         .filterLocationScoped(filteringFactory.filter(hardwareFlavorSupplier(injector)));
   }
 
-
-  @Provides
-  @Singleton
-  final Supplier<Set<Pricing>> providePricingSupplier(Injector injector,
-                                                        FilteringFactory filteringFactory) {
-    return filteringFactory
-            .filterLocationScoped(filteringFactory.filter(pricingSupplier(injector)));
-  }
-
-
   @Provides
   @Singleton
   final Supplier<Set<VirtualMachine>> provideVirtualMachineSupplier(Injector injector,
@@ -221,11 +211,6 @@ public abstract class AbstractComputeModule extends AbstractModule {
    * @return the {@link VirtualMachine} {@link Supplier} to use
    */
   protected abstract Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector);
-
-  /**
-   * @return the {@link Pricing} {@link Supplier} to use
-   */
-  protected abstract Supplier<Set<Pricing>> pricingSupplier(Injector injector);
 
   /**
    * @return the {@link CreateVirtualMachineStrategy} used for creating {@link VirtualMachine}s
