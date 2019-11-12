@@ -1,0 +1,295 @@
+{
+  "Items": [
+    {
+      "Id": 76901,
+      "Name": "Component_App_Instance_1_0",
+      "CreationDate": "2019-05-13T10:04:16Z",
+      "CreationUser": {
+        "Id": 16639,
+        "Login": "kmaterka",
+        "FirstName": "Katarzyna",
+        "LastName": "Materka"
+      },
+      "IsLocked": false,
+      "LockingDate": null,
+      "Template": {
+        "Id": 764
+      },
+      "Subregion": {
+        "Id": 1
+      },
+      "Type": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "Status": {
+        "Id": 86,
+        "Label": "Powered On",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/27"
+            }
+          ],
+          "Id": 27
+        }
+      },
+      "SystemCategory": {
+        "Id": 1277,
+        "Label": "Ubuntu",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "AutoscalingType": {
+        "Id": 187,
+        "Label": "Off",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/56"
+            }
+          ],
+          "Id": 56
+        }
+      },
+      "VmWareToolsStatus": {
+        "Id": 1365,
+        "Label": "VMware Tools are supported and not running",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/155"
+            }
+          ],
+          "Id": 155
+        }
+      },
+      "MonitStatus": {
+        "Id": 840,
+        "Label": "Off",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/92"
+            }
+          ],
+          "Id": 92
+        }
+      },
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      },
+      "IpAddress": "176.119.33.122",
+      "DnsAddress": "76901-1-655799-01.services.oktawave.com",
+      "TotalDisksCapacity": 5,
+      "PaymentType": {
+        "Id": 33,
+        "Label": "Hourly charge",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/11"
+            }
+          ],
+          "Id": 11
+        }
+      },
+      "HealthCheck": null,
+      "ScsiControllerType": {
+        "Id": 1571,
+        "Label": "LSI Logic SAS",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/182"
+            }
+          ],
+          "Id": 182
+        }
+      },
+      "IsFreemium": false,
+      "CpuNumber": 1,
+      "RamMb": 512,
+      "SupportType": null
+    },
+    {
+      "Id": 76900,
+      "Name": "Component_DB_Instance_1_5",
+      "CreationDate": "2019-05-13T10:04:15Z",
+      "CreationUser": {
+        "Id": 16639,
+        "Login": "kmaterka",
+        "FirstName": "Katarzyna",
+        "LastName": "Materka"
+      },
+      "IsLocked": false,
+      "LockingDate": null,
+      "Template": {
+        "Id": 764
+      },
+      "Subregion": {
+        "Id": 1
+      },
+      "Type": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "Status": {
+        "Id": 86,
+        "Label": "Powered On",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/27"
+            }
+          ],
+          "Id": 27
+        }
+      },
+      "SystemCategory": {
+        "Id": 1277,
+        "Label": "Ubuntu",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "AutoscalingType": {
+        "Id": 187,
+        "Label": "Off",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/56"
+            }
+          ],
+          "Id": 56
+        }
+      },
+      "VmWareToolsStatus": {
+        "Id": 1367,
+        "Label": "VMware Tools are unmanaged and running",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/155"
+            }
+          ],
+          "Id": 155
+        }
+      },
+      "MonitStatus": {
+        "Id": 840,
+        "Label": "Off",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/92"
+            }
+          ],
+          "Id": 92
+        }
+      },
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      },
+      "IpAddress": "176.119.32.127",
+      "DnsAddress": "76900-1-e92137-01.services.oktawave.com",
+      "TotalDisksCapacity": 5,
+      "PaymentType": {
+        "Id": 33,
+        "Label": "Hourly charge",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/11"
+            }
+          ],
+          "Id": 11
+        }
+      },
+      "HealthCheck": null,
+      "ScsiControllerType": {
+        "Id": 1571,
+        "Label": "LSI Logic SAS",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/182"
+            }
+          ],
+          "Id": 182
+        }
+      },
+      "IsFreemium": false,
+      "CpuNumber": 1,
+      "RamMb": 512,
+      "SupportType": null
+    }
+  ],
+  "Meta": {
+    "Total": 2
+  }
+}

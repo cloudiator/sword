@@ -1,0 +1,163 @@
+{
+  "Items": [
+    {
+      "Id": 256,
+      "Label": "Windows",
+      "Dictionary": {
+        "Links": [
+          {
+            "Rel": "self",
+            "Href": "https://api.oktawave.com/beta/dictionaries/70"
+          }
+        ],
+        "Id": 70
+      }
+    },
+    {
+      "Id": 257,
+      "Label": "Linux - other",
+      "Dictionary": {
+        "Links": [
+          {
+            "Rel": "self",
+            "Href": "https://api.oktawave.com/beta/dictionaries/70"
+          }
+        ],
+        "Id": 70
+      }
+    },
+    {
+      "Id": 258,
+      "Label": "FreeBSD",
+      "Dictionary": {
+        "Links": [
+          {
+            "Rel": "self",
+            "Href": "https://api.oktawave.com/beta/dictionaries/70"
+          }
+        ],
+        "Id": 70
+      }
+    },
+    {
+      "Id": 894,
+      "Label": "Other",
+      "Dictionary": {
+        "Links": [
+          {
+            "Rel": "self",
+            "Href": "https://api.oktawave.com/beta/dictionaries/70"
+          }
+        ],
+        "Id": 70
+      }
+    },
+    {
+      "Id": 1272,
+      "Label": "Debian",
+      "Dictionary": {
+        "Links": [
+          {
+            "Rel": "self",
+            "Href": "https://api.oktawave.com/beta/dictionaries/70"
+          }
+        ],
+        "Id": 70
+      }
+    },
+    {
+      "Id": 1273,
+      "Label": "Fedora",
+      "Dictionary": {
+        "Links": [
+          {
+            "Rel": "self",
+            "Href": "https://api.oktawave.com/beta/dictionaries/70"
+          }
+        ],
+        "Id": 70
+      }
+    },
+    {
+      "Id": 1274,
+      "Label": "Gentoo",
+      "Dictionary": {
+        "Links": [
+          {
+            "Rel": "self",
+            "Href": "https://api.oktawave.com/beta/dictionaries/70"
+          }
+        ],
+        "Id": 70
+      }
+    },
+    {
+      "Id": 1275,
+      "Label": "OpenSuse",
+      "Dictionary": {
+        "Links": [
+          {
+            "Rel": "self",
+            "Href": "https://api.oktawave.com/beta/dictionaries/70"
+          }
+        ],
+        "Id": 70
+      }
+    },
+    {
+      "Id": 1276,
+      "Label": "Red Hat",
+      "Dictionary": {
+        "Links": [
+          {
+            "Rel": "self",
+            "Href": "https://api.oktawave.com/beta/dictionaries/70"
+          }
+        ],
+        "Id": 70
+      }
+    },
+    {
+      "Id": 1277,
+      "Label": "Ubuntu",
+      "Dictionary": {
+        "Links": [
+          {
+            "Rel": "self",
+            "Href": "https://api.oktawave.com/beta/dictionaries/70"
+          }
+        ],
+        "Id": 70
+      }
+    },
+    {
+      "Id": 1278,
+      "Label": "CentOS",
+      "Dictionary": {
+        "Links": [
+          {
+            "Rel": "self",
+            "Href": "https://api.oktawave.com/beta/dictionaries/70"
+          }
+        ],
+        "Id": 70
+      }
+    },
+    {
+      "Id": 1511,
+      "Label": "Mikrotik RouterOS",
+      "Dictionary": {
+        "Links": [
+          {
+            "Rel": "self",
+            "Href": "https://api.oktawave.com/beta/dictionaries/70"
+          }
+        ],
+        "Id": 70
+      }
+    }
+  ],
+  "Meta": {
+    "Total": 12
+  }
+}

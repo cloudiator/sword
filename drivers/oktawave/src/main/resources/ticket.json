@@ -1,0 +1,53 @@
+{
+  "Id": 2908316,
+  "CreationDate": "2019-05-13T10:01:55Z",
+  "CreationUser": {
+    "Id": 16639,
+    "Login": "kmaterka",
+    "FirstName": "Katarzyna",
+    "LastName": "Materka"
+  },
+  "EndDate": null,
+  "Status": {
+    "Id": 135,
+    "Label": "Running",
+    "Dictionary": {
+      "Links": [
+        {
+          "Rel": "self",
+          "Href": "https://api.oktawave.com/beta/dictionaries/40"
+        }
+      ],
+      "Id": 40
+    }
+  },
+  "OperationType": {
+    "Id": 138,
+    "Label": "Deploying instance",
+    "Dictionary": {
+      "Links": [
+        {
+          "Rel": "self",
+          "Href": "https://api.oktawave.com/beta/dictionaries/41"
+        }
+      ],
+      "Id": 41
+    }
+  },
+  "ObjectId": null,
+  "ObjectType": {
+    "Id": 139,
+    "Label": "Instance",
+    "Dictionary": {
+      "Links": [
+        {
+          "Rel": "self",
+          "Href": "https://api.oktawave.com/beta/dictionaries/42"
+        }
+      ],
+      "Id": 42
+    }
+  },
+  "ObjectName": "Component_DB_Instance_1_5",
+  "Progress": 0
+}

@@ -1,0 +1,92 @@
+{
+  "id": "ac18a239d11a8864cfca3066198b6084",
+  "nodeCandidateType": "IAAS",
+  "price": 73.1,
+  "cloud": {
+    "endpoint": "https://omistack.e-technik.uni-ulm.de:5000/v3/",
+    "cloudType": "PRIVATE",
+    "api": {
+      "providerName": "openstack4j"
+    },
+    "credential": {
+      "user": "default:af398d60fab340ed84a49cadd2607f7e:prusinski",
+      "secret": "default:af398d60fab340ed84a49cadd2607f7e:prusinski"
+    },
+    "cloudConfiguration": {
+      "nodeGroup": "",
+      "properties": null
+    },
+    "id": "b5be761e20bcd0f6dd77d88c638fdc48",
+    "owner": "admin",
+    "state": "OK",
+    "diagnostic": null
+  },
+  "image": {
+    "id": "b5be761e20bcd0f6dd77d88c638fdc48~RegionOne/731b8590-bb25-45f3-b1df-22f3dec08f20",
+    "name": "ubuntu-1604",
+    "providerId": "731b8590-bb25-45f3-b1df-22f3dec08f20",
+    "operatingSystem": {
+      "operatingSystemFamily": "UBUNTU",
+      "operatingSystemArchitecture": "UNKOWN",
+      "operatingSystemVersion": 1604
+    },
+    "location": {
+      "id": "b5be761e20bcd0f6dd77d88c638fdc48~RegionOne",
+      "name": "RegionOne",
+      "providerId": "RegionOne",
+      "locationScope": "REGION",
+      "isAssignable": false,
+      "geoLocation": null,
+      "parent": null,
+      "state": "UNKNOWN",
+      "owner": "admin"
+    },
+    "state": "OK",
+    "owner": "admin"
+  },
+  "hardware": {
+    "id": "b5be761e20bcd0f6dd77d88c638fdc48~RegionOne/b95ac984-0514-42cd-b12d-c7d343138665",
+    "name": "MEL_xxlarge",
+    "providerId": "b95ac984-0514-42cd-b12d-c7d343138665",
+    "cores": 8,
+    "ram": 65536,
+    "disk": 10,
+    "location": {
+      "id": "b5be761e20bcd0f6dd77d88c638fdc48~RegionOne",
+      "name": "RegionOne",
+      "providerId": "RegionOne",
+      "locationScope": "REGION",
+      "isAssignable": false,
+      "geoLocation": null,
+      "parent": null,
+      "state": "UNKNOWN",
+      "owner": "admin"
+    },
+    "state": "OK",
+    "owner": "admin"
+  },
+  "location": {
+    "id": "b5be761e20bcd0f6dd77d88c638fdc48~RegionOne/blade",
+    "name": "blade",
+    "providerId": "blade",
+    "locationScope": "ZONE",
+    "isAssignable": true,
+    "geoLocation": null,
+    "parent": {
+      "id": "b5be761e20bcd0f6dd77d88c638fdc48~RegionOne",
+      "name": "RegionOne",
+      "providerId": "RegionOne",
+      "locationScope": "REGION",
+      "isAssignable": false,
+      "geoLocation": null,
+      "parent": null,
+      "state": "UNKNOWN",
+      "owner": "admin"
+    },
+    "state": "OK",
+    "owner": "admin"
+  },
+  "pricePerInvocation": null,
+  "memoryPrice": null,
+  "environment": null
+}

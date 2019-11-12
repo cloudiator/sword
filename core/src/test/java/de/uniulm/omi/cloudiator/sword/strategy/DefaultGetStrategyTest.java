@@ -29,11 +29,13 @@ import de.uniulm.omi.cloudiator.sword.domain.ProviderIdentifiable;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Created by daniel on 29.07.15.
  */
+@Ignore
 public class DefaultGetStrategyTest {
 
   private final Identifiable resourceToRetrieve = new TestResource("1");

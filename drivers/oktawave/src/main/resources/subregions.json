@@ -1,0 +1,32 @@
+{
+  "Items": [
+    {
+      "Id": 1,
+      "Name": "PL-001",
+      "IsActive": true
+    },
+    {
+      "Id": 4,
+      "Name": "PL-002",
+      "IsActive": true
+    },
+    {
+      "Id": 5,
+      "Name": "PL-003",
+      "IsActive": true
+    },
+    {
+      "Id": 6,
+      "Name": "PL-004",
+      "IsActive": true
+    },
+    {
+      "Id": 7,
+      "Name": "PL-005",
+      "IsActive": true
+    }
+  ],
+  "Meta": {
+    "Total": 5
+  }
+}

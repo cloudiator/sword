@@ -28,8 +28,11 @@ import de.uniulm.omi.cloudiator.domain.OperatingSystems;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.ImageBuilder;
 import java.util.UUID;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class NameSubstringBasedOperatingSystemDetectionStrategyTest {
 
   private static final NameSubstringBasedOperatingSystemDetectionStrategy SUT = new NameSubstringBasedOperatingSystemDetectionStrategy();

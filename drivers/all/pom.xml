@@ -65,5 +65,10 @@
       <artifactId>drivers-simulation</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>io.github.cloudiator.sword.drivers</groupId>
+      <artifactId>drivers-oktawave</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>

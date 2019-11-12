@@ -1,0 +1,3898 @@
+{
+  "Items": [
+    {
+      "Id": 1,
+      "Name": "Mongo DB",
+      "Description": "Mongo DB",
+      "Version": null,
+      "CreationDate": "2012-04-21T17:34:50Z",
+      "LastChangeDate": "2016-09-12T07:43:09Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 289,
+        "Label": "v1.standard-1.09",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 289,
+        "Label": "v1.standard-1.09",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 257,
+        "Label": "Linux - other",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 199,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2012-10-01T12:19:38Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 42,
+          "Name": "Ubuntu Linux (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 57,
+      "Name": "CentOS 6",
+      "Description": "CentOS 6.6 is a Linux distribution that attempts to provide a free, enterprise-class, community-supported computing platform which aims to be 100% binary compatible with its upstream source, Red Hat Enterprise Linux",
+      "Version": "6.6",
+      "CreationDate": "2012-04-30T11:06:05Z",
+      "LastChangeDate": "2017-03-27T17:17:32Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1278,
+        "Label": "CentOS",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2328,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-01-18T15:50:02Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 39,
+          "Name": "CentOS 4/5/6 (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 58,
+      "Name": "OpenSUSE",
+      "Description": "OpenSuse 13.1   is a general purpose  operating system built on top of the Linux kernel, developed by the community-supported openSUSE Project and sponsored by SUSE and a number of other companies",
+      "Version": "13.1",
+      "CreationDate": "2012-04-30T11:07:35Z",
+      "LastChangeDate": "2016-09-12T07:43:09Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 289,
+        "Label": "v1.standard-1.09",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 257,
+        "Label": "Linux - other",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 1786,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2015-05-20T15:29:39Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 41,
+          "Name": "Novell SUSE Linux Enterprise 11 (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 63,
+      "Name": "Ruby on Rails",
+      "Description": "Ruby On Rails with Nginx",
+      "Version": null,
+      "CreationDate": "2012-05-22T12:43:37Z",
+      "LastChangeDate": "2016-09-12T07:43:09Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 289,
+        "Label": "v1.standard-1.09",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 289,
+        "Label": "v1.standard-1.09",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 257,
+        "Label": "Linux - other",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 200,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2012-10-01T12:40:58Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 42,
+          "Name": "Ubuntu Linux (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 64,
+      "Name": "Django OCI",
+      "Description": "Django  is a high-level Python Web framework that encourages rapid development and clean, pragmatic design",
+      "Version": null,
+      "CreationDate": "2012-05-23T10:51:18Z",
+      "LastChangeDate": "2016-09-12T07:43:09Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 289,
+        "Label": "v1.standard-1.09",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 257,
+        "Label": "Linux - other",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 1199,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2014-08-28T12:43:44Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 42,
+          "Name": "Ubuntu Linux (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 69,
+      "Name": "Zimbra",
+      "Description": "Zimbra Collaboration Suite OSE",
+      "Version": "8.0",
+      "CreationDate": "2013-01-24T10:19:35Z",
+      "LastChangeDate": "2016-09-12T07:43:09Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 257,
+        "Label": "Linux - other",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 247,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 10,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2013-01-24T22:23:21Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 42,
+          "Name": "Ubuntu Linux (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 80,
+      "Name": "MS SQL 2012 Standard",
+      "Description": "SQL Server 2012 is a relational database management system developed by Microsoft. As a database, it is a software product whose primary function is to store and retrieve data as requested by other software applications. Standard Edition",
+      "Version": "",
+      "CreationDate": "2013-03-26T11:22:04Z",
+      "LastChangeDate": "2018-08-08T13:54:33Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 256,
+        "Label": "Windows",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 1372,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 32,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2014-10-27T12:50:58Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        },
+        {
+          "Id": 1373,
+          "Name": "Hard disk 2",
+          "SpaceCapacity": 10,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2014-10-27T12:50:58Z",
+          "Controller": 0,
+          "Slot": 1,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 10,
+          "Name": "MS SQL Server 2012 Standard Edition"
+        },
+        {
+          "Id": 46,
+          "Name": "Microsoft Windows Server 8 (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 81,
+      "Name": "MS SQL 2012 Web",
+      "Description": "SQL Server 2012 is a relational database management system developed by Microsoft. As a database, it is a software product whose primary function is to store and retrieve data as requested by other software applications. Web Edition",
+      "Version": "",
+      "CreationDate": "2013-03-26T11:24:06Z",
+      "LastChangeDate": "2018-08-08T13:54:33Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 256,
+        "Label": "Windows",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 1374,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 32,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2014-10-27T12:51:19Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        },
+        {
+          "Id": 1375,
+          "Name": "Hard disk 2",
+          "SpaceCapacity": 10,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2014-10-27T12:51:19Z",
+          "Controller": 0,
+          "Slot": 1,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 9,
+          "Name": "MS SQL Server 2012 Web Edition"
+        },
+        {
+          "Id": 46,
+          "Name": "Microsoft Windows Server 8 (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 82,
+      "Name": "MS SQL 2012 Express",
+      "Description": "SQL Server 2012 is a relational database management system developed by Microsoft. As a database, it is a software product whose primary function is to store and retrieve data as requested by other software applications. Express Edition",
+      "Version": "",
+      "CreationDate": "2013-03-26T11:26:29Z",
+      "LastChangeDate": "2018-08-08T13:54:33Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 256,
+        "Label": "Windows",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 1376,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 32,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2014-10-27T12:52:39Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        },
+        {
+          "Id": 1377,
+          "Name": "Hard disk 2",
+          "SpaceCapacity": 10,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2014-10-27T12:52:39Z",
+          "Controller": 0,
+          "Slot": 1,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 46,
+          "Name": "Microsoft Windows Server 8 (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 86,
+      "Name": "Debian 7",
+      "Description": "Debian 7.8 'Wheezy'  is an operating system which is composed primarily of free software, most of which is under the GNU General Public License, and developed by a group of individuals known as the Debian project. Debian is one of the most popular Linux distributions for personal computers and network servers, and has been used as a base for several other Linux distributions",
+      "Version": "7.11",
+      "CreationDate": "2013-05-05T23:31:30Z",
+      "LastChangeDate": "2018-03-22T11:24:06Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1272,
+        "Label": "Debian",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2326,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-01-18T15:46:09Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 32,
+          "Name": "Debian GNU/Linux 6 (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 94,
+      "Name": "Ubuntu Server 14.04 LTS",
+      "Description": "Ubuntu Server LTS 14.04 is a Debian-based Linux operating system dedicated for servers. LTS releases get regular point releases with support for new hardware and integration of all the updates published in that series to date.",
+      "Version": "14.04.5",
+      "CreationDate": "2014-04-18T12:05:00Z",
+      "LastChangeDate": "2018-08-07T10:00:52Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1277,
+        "Label": "Ubuntu",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2324,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-01-18T15:38:10Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 42,
+          "Name": "Ubuntu Linux (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 96,
+      "Name": "FreeBSD 10",
+      "Description": "FreeBSD is a free Unix-like operating system descended from Research Unix via BSD. Although for legal reasons FreeBSD cannot use the Unix trademark, it is a direct descendant of BSD, which was historically also called BSD Unix or Berkeley Unix",
+      "Version": "10.3",
+      "CreationDate": "2014-05-07T10:50:45Z",
+      "LastChangeDate": "2017-03-30T10:11:24Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 258,
+        "Label": "FreeBSD",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 1784,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2015-05-19T15:25:34Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 40,
+          "Name": "FreeBSD (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 97,
+      "Name": "MS SQL 2014 Standard",
+      "Description": "SQL Server 2014 is a relational database management system developed by Microsoft. As a database, it is a software product whose primary function is to store and retrieve data as requested by other software applications. Standard Edition",
+      "Version": "",
+      "CreationDate": "2014-05-07T13:57:12Z",
+      "LastChangeDate": "2018-08-08T13:54:33Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 256,
+        "Label": "Windows",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2551,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 32,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-29T12:06:08Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        },
+        {
+          "Id": 2552,
+          "Name": "Hard disk 2",
+          "SpaceCapacity": 10,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-29T12:06:08Z",
+          "Controller": 0,
+          "Slot": 1,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 46,
+          "Name": "Microsoft Windows Server 8 (64-bit)"
+        },
+        {
+          "Id": 47,
+          "Name": "MS SQL Server 2014 Standard Edition"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 98,
+      "Name": "Windows Server 2012 R2",
+      "Description": "Windows Server 2012 R2  is a server operating system produced by Microsoft .It is built onthe same kernel used with the client-oriented Windows 7,succeeds Windows Server 2012.  It is the first 64-bit-only operating system released from Microsoft. Datacenter Edition",
+      "Version": "",
+      "CreationDate": "2014-05-07T17:54:25Z",
+      "LastChangeDate": "2018-08-29T20:49:07Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 256,
+        "Label": "Windows",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2044,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 32,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2016-03-07T13:12:53Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 46,
+          "Name": "Microsoft Windows Server 8 (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 99,
+      "Name": "MS SQL 2014 Web",
+      "Description": "SQL Server 2014 is a relational database management system developed by Microsoft. As a database, it is a software product whose primary function is to store and retrieve data as requested by other software applications. Web Editio",
+      "Version": "",
+      "CreationDate": "2014-05-09T17:07:44Z",
+      "LastChangeDate": "2018-08-08T13:54:33Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 256,
+        "Label": "Windows",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2553,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 32,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-29T12:06:27Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        },
+        {
+          "Id": 2554,
+          "Name": "Hard disk 2",
+          "SpaceCapacity": 10,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-29T12:06:27Z",
+          "Controller": 0,
+          "Slot": 1,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 46,
+          "Name": "Microsoft Windows Server 8 (64-bit)"
+        },
+        {
+          "Id": 49,
+          "Name": "MS SQL Server 2014 Web Edition"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 101,
+      "Name": "MS SQL 2014 Express",
+      "Description": "SQL Server 2014 is a relational database management system developed by Microsoft. As a database, it is a software product whose primary function is to store and retrieve data as requested by other software applications. Express Edition",
+      "Version": "",
+      "CreationDate": "2014-05-10T14:43:16Z",
+      "LastChangeDate": "2018-08-08T13:54:33Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 256,
+        "Label": "Windows",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2555,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 32,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-29T12:07:05Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        },
+        {
+          "Id": 2556,
+          "Name": "Hard disk 2",
+          "SpaceCapacity": 10,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-29T12:07:05Z",
+          "Controller": 0,
+          "Slot": 1,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 46,
+          "Name": "Microsoft Windows Server 8 (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 304,
+      "Name": "Debian 8",
+      "Description": "Debian Jessie ships with a new default init system, systemd. The systemd suite provides many exciting features such as faster boot times, cgroups for services, and the possibility of isolating part of the services. The sysvinit init system is still available in Jessie. Other features include Linux 3.16, Apache 2.4.10, PHP 5.6.7, MariaDB 10.0.16, MySQL 5.5.42, PostgreSQL 9.4.1 and much more.",
+      "Version": "8",
+      "CreationDate": "2015-04-26T14:00:32Z",
+      "LastChangeDate": "2018-03-26T12:40:28Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 289,
+        "Label": "v1.standard-1.09",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1272,
+        "Label": "Debian",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 1753,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2015-04-26T14:32:02Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 32,
+          "Name": "Debian GNU/Linux 6 (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 392,
+      "Name": "Red Hat Enterprise Linux 6",
+      "Description": "The ready-made instance template based on the Red Hat Enterprise Linux 6.\r\nOktawave, as a Red Hat Certified Cloud and Service Provider (CCSP) , delivers access to updates supplied by Red Hat as well as technical support.",
+      "Version": "",
+      "CreationDate": "2015-11-23T11:09:02Z",
+      "LastChangeDate": "2016-09-12T07:43:09Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1276,
+        "Label": "Red Hat",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2106,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2016-04-04T14:20:28Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 61,
+          "Name": "Red Hat Enterprise Linux 6 (64-bit)"
+        },
+        {
+          "Id": 62,
+          "Name": "Red Hat Enterprise Linux"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 396,
+      "Name": "Red Hat Enterprise Linux 7",
+      "Description": "The ready-made instance template based on the Red Hat Enterprise Linux 7. Oktawave, as a Red Hat Certified Cloud and Service Provider (CCSP), delivers access to updates supplied by Red Hat as well as technical support.",
+      "Version": "",
+      "CreationDate": "2015-11-25T16:20:17Z",
+      "LastChangeDate": "2016-09-12T07:43:09Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1276,
+        "Label": "Red Hat",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2041,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2016-03-07T13:09:12Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 61,
+          "Name": "Red Hat Enterprise Linux 6 (64-bit)"
+        },
+        {
+          "Id": 62,
+          "Name": "Red Hat Enterprise Linux"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 514,
+      "Name": "FreeBSD 11.0",
+      "Description": "FreeBSD to system operacyjny z rodziny Unix. Do wersji 2.0 wywodzil sie z systemu 4.3BSD, kolejne wersje wywodzily sie z 4.4BSD Lite2; obu stworzonych przez Computer Systems Research Group (CSRG) na Uniwersytecie Kalifornijskim w Berkeley",
+      "Version": "11.0",
+      "CreationDate": "2016-09-28T12:50:42Z",
+      "LastChangeDate": "2017-07-26T11:02:10Z",
+      "CreationUser": {
+        "Id": 9332,
+        "Login": "oktawave_marketplace",
+        "FirstName": "Oktawave",
+        "LastName": "Marketplace"
+      },
+      "DefaultInstanceType": {
+        "Id": 289,
+        "Label": "v1.standard-1.09",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 258,
+        "Label": "FreeBSD",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2673,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-07-26T11:02:10Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 40,
+          "Name": "FreeBSD (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 624,
+      "Name": "Windows Server 2016",
+      "Description": "Windows Server 2016 jest to siódme wydanie Windows Server, wersja serwerowa systemu Windows 10 i następca Windows Server 2012 R2. Edycja Datacenter",
+      "Version": "",
+      "CreationDate": "2017-05-16T16:36:44Z",
+      "LastChangeDate": "2018-08-29T07:03:34Z",
+      "CreationUser": {
+        "Id": 9332,
+        "Login": "oktawave_marketplace",
+        "FirstName": "Oktawave",
+        "LastName": "Marketplace"
+      },
+      "DefaultInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 256,
+        "Label": "Windows",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2483,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 32,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-16T17:21:46Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 46,
+          "Name": "Microsoft Windows Server 8 (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 643,
+      "Name": "MS SQL 2016 Express",
+      "Description": "SQL Server 2016 to system zarządzania bazą danych, wspierany i rozpowszechniany przez korporację Microsoft. Jest to główny produkt bazodanowy tej firmy, który charakteryzuje się tym, iż jako język zapytań używany jest przede wszystkim Transact-SQL. Edycja Express",
+      "Version": "",
+      "CreationDate": "2017-05-24T11:33:52Z",
+      "LastChangeDate": "2018-08-08T13:54:33Z",
+      "CreationUser": {
+        "Id": 9332,
+        "Login": "oktawave_marketplace",
+        "FirstName": "Oktawave",
+        "LastName": "Marketplace"
+      },
+      "DefaultInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1442,
+        "Label": "E1000",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 256,
+        "Label": "Windows",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2528,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 32,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-24T11:34:58Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        },
+        {
+          "Id": 2529,
+          "Name": "Hard disk 2",
+          "SpaceCapacity": 10,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-24T11:34:58Z",
+          "Controller": 0,
+          "Slot": 1,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 46,
+          "Name": "Microsoft Windows Server 8 (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 644,
+      "Name": "MS SQL 2016 Standard",
+      "Description": "SQL Server 2016 to system zarządzania bazą danych, wspierany i rozpowszechniany przez korporację Microsoft. Jest to główny produkt bazodanowy tej firmy, który charakteryzuje się tym, iż jako język zapytań używany jest przede wszystkim Transact-SQL. Edycja Standard",
+      "Version": "",
+      "CreationDate": "2017-05-24T11:53:52Z",
+      "LastChangeDate": "2018-08-08T13:54:33Z",
+      "CreationUser": {
+        "Id": 9332,
+        "Login": "oktawave_marketplace",
+        "FirstName": "Oktawave",
+        "LastName": "Marketplace"
+      },
+      "DefaultInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1442,
+        "Label": "E1000",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 256,
+        "Label": "Windows",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2532,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 32,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-24T11:55:44Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        },
+        {
+          "Id": 2533,
+          "Name": "Hard disk 2",
+          "SpaceCapacity": 10,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-24T11:55:44Z",
+          "Controller": 0,
+          "Slot": 1,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 46,
+          "Name": "Microsoft Windows Server 8 (64-bit)"
+        },
+        {
+          "Id": 65,
+          "Name": "MS SQL Server 2016 Standard Edition"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 645,
+      "Name": "MS SQL 2016 Web",
+      "Description": "SQL Server 2016 to system zarządzania bazą danych, wspierany i rozpowszechniany przez korporację Microsoft. Jest to główny produkt bazodanowy tej firmy, który charakteryzuje się tym, iż jako język zapytań używany jest przede wszystkim Transact-SQL. Edycja Web",
+      "Version": "",
+      "CreationDate": "2017-05-24T11:57:18Z",
+      "LastChangeDate": "2018-08-08T13:54:33Z",
+      "CreationUser": {
+        "Id": 9332,
+        "Login": "oktawave_marketplace",
+        "FirstName": "Oktawave",
+        "LastName": "Marketplace"
+      },
+      "DefaultInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 34,
+        "Label": "v1.standard-2.2",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1442,
+        "Label": "E1000",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 256,
+        "Label": "Windows",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2534,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 32,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-24T11:57:18Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        },
+        {
+          "Id": 2535,
+          "Name": "Hard disk 2",
+          "SpaceCapacity": 10,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-05-24T11:57:18Z",
+          "Controller": 0,
+          "Slot": 1,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 46,
+          "Name": "Microsoft Windows Server 8 (64-bit)"
+        },
+        {
+          "Id": 68,
+          "Name": "MS SQL Server 2016 Web Edition"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 670,
+      "Name": "Fedora Server 26",
+      "Description": "Fedora Server 26",
+      "Version": "26",
+      "CreationDate": "2017-07-10T11:02:03Z",
+      "LastChangeDate": "2017-07-11T14:34:28Z",
+      "CreationUser": {
+        "Id": 9332,
+        "Login": "oktawave_marketplace",
+        "FirstName": "Oktawave",
+        "LastName": "Marketplace"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1273,
+        "Label": "Fedora",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2666,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-07-11T14:34:29Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 42,
+          "Name": "Ubuntu Linux (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 678,
+      "Name": "FreeBSD 11.1",
+      "Description": "FreeBSD is a free Unix-like operating system descended from Research Unix via BSD. Although for legal reasons FreeBSD cannot use the Unix trademark, it is a direct descendant of BSD, which was historically also called BSD Unix or Berkeley Unix",
+      "Version": "11.1",
+      "CreationDate": "2017-07-26T11:01:54Z",
+      "LastChangeDate": "2017-07-26T16:46:13Z",
+      "CreationUser": {
+        "Id": 9332,
+        "Login": "oktawave_marketplace",
+        "FirstName": "Oktawave",
+        "LastName": "Marketplace"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 258,
+        "Label": "FreeBSD",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2676,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2017-07-26T16:46:13Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [
+        {
+          "Id": 40,
+          "Name": "FreeBSD (64-bit)"
+        }
+      ],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 764,
+      "Name": "Ubuntu Server 16.04 LTS",
+      "Description": "Ubuntu Server LTS is a Debian-based Linux operating system dedicated for servers. LTS releases get regular point releases with support for new hardware and integration of all the updates published in that series to date.",
+      "Version": "16.04",
+      "CreationDate": "2018-04-10T13:35:02Z",
+      "LastChangeDate": "2018-07-12T12:20:23Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1277,
+        "Label": "Ubuntu",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2839,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2018-04-11T11:48:56Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 765,
+      "Name": "Debian 9",
+      "Description": "Debian 9",
+      "Version": "9",
+      "CreationDate": "2018-04-12T11:05:30Z",
+      "LastChangeDate": "2018-05-28T11:19:57Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 289,
+        "Label": "v1.standard-1.09",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1272,
+        "Label": "Debian",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2840,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2018-04-12T11:05:59Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 767,
+      "Name": "CentOS 7",
+      "Description": "CentOS 7.0 is a Linux distribution that attempts to provide a free, enterprise-class, community-supported computing platform which aims to be 100% binary compatible with its upstream source, Red Hat Enterprise Linux",
+      "Version": "7.0",
+      "CreationDate": "2018-04-13T10:24:38Z",
+      "LastChangeDate": "2018-05-28T11:19:57Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1278,
+        "Label": "CentOS",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2842,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2018-04-13T10:25:05Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 771,
+      "Name": "Fedora Server 27",
+      "Description": "Fedora Server 26",
+      "Version": "27",
+      "CreationDate": "2018-04-16T13:03:05Z",
+      "LastChangeDate": "2018-05-28T11:19:57Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1273,
+        "Label": "Fedora",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2846,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2018-04-16T13:03:23Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 772,
+      "Name": "OpenSUSE Leap",
+      "Description": "openSUSE 42.2 jest drugą wersją z serii openSUSE Leap 42. Oparta o SUSE Linux Enterprise 12 Service Pack 2 posiada stabilność, która okazuje się nie do osiągnięcia przez inne dystrybucje Linux - bardziej stabilna, wysokiej jakości i dobrze przetestowana.\r\n\r\nWkład programistów społeczności do projektu Leap i innych projektów wchodząych w skład dystrybucji jest równie wysoki, co wypełnia lukę pomiędzy dojrzałymi pakietami SLE i nowszymi pakietami, które można znaleźć w innej dystrybucji openSUSE, Tumbleweed. ",
+      "Version": "42.3",
+      "CreationDate": "2018-04-18T11:19:53Z",
+      "LastChangeDate": "2018-05-28T11:19:57Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1275,
+        "Label": "OpenSuse",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2847,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2018-04-18T11:20:16Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 775,
+      "Name": "pfSense",
+      "Description": "pfSense is an open source firewall/router computer software distribution based on FreeBSD. It is installed on a computer to make a dedicated firewall/router for a network and is noted for its reliability[1] and offering features often only found in expensive commercial firewalls",
+      "Version": "2.3.4-RELEASE",
+      "CreationDate": "2018-04-25T14:32:15Z",
+      "LastChangeDate": "2018-05-28T11:19:57Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 257,
+        "Label": "Linux - other",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2856,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2018-05-17T13:43:13Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    },
+    {
+      "Id": 776,
+      "Name": "Ubuntu Server 18.04 LTS",
+      "Description": "Ubuntu Server LTS is a Debian-based Linux operating system dedicated for servers. LTS releases get regular point releases with support for new hardware and integration of all the updates published in that series to date.",
+      "Version": "18.04",
+      "CreationDate": "2018-04-27T10:52:37Z",
+      "LastChangeDate": "2018-07-12T12:20:23Z",
+      "CreationUser": {
+        "Id": 4,
+        "Login": "root",
+        "FirstName": "Default",
+        "LastName": "Admin"
+      },
+      "DefaultInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "MinimumInstanceType": {
+        "Id": 1047,
+        "Label": "v1.standard-1.05",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/12"
+            }
+          ],
+          "Id": 12
+        }
+      },
+      "EthernetControllersNumber": 1,
+      "EthernetControllersType": {
+        "Id": 1443,
+        "Label": "VMXNET 3",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/167"
+            }
+          ],
+          "Id": 167
+        }
+      },
+      "SystemCategory": {
+        "Id": 1277,
+        "Label": "Ubuntu",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/70"
+            }
+          ],
+          "Id": 70
+        }
+      },
+      "OwnerAccount": null,
+      "PublicationStatus": null,
+      "Disks": [
+        {
+          "Id": 2853,
+          "Name": "Hard disk 1",
+          "SpaceCapacity": 5,
+          "Tier": {
+            "Id": 48,
+            "Label": "Tier 1",
+            "Dictionary": {
+              "Links": [
+                {
+                  "Rel": "self",
+                  "Href": "https://api.oktawave.com/beta/dictionaries/17"
+                }
+              ],
+              "Id": 17
+            }
+          },
+          "CreationDate": "2018-04-27T10:52:56Z",
+          "Controller": 0,
+          "Slot": 0,
+          "IsSystemDisk": true
+        }
+      ],
+      "Software": [],
+      "TemplateType": {
+        "Id": 174,
+        "Label": "Instance",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/52"
+            }
+          ],
+          "Id": 52
+        }
+      }
+    }
+  ],
+  "Meta": {
+    "Total": 33
+  }
+}

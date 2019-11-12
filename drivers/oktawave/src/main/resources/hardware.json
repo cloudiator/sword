@@ -1,0 +1,647 @@
+{
+  "Items": [
+    {
+      "Id": 1271,
+      "Name": "v1.highcpu-16.8",
+      "Cpu": 16,
+      "Ram": 8192,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1251,
+        "Label": "High CPU",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1268,
+      "Name": "v1.highcpu-2.09",
+      "Cpu": 2,
+      "Ram": 896,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1251,
+        "Label": "High CPU",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1269,
+      "Name": "v1.highcpu-4.2",
+      "Cpu": 4,
+      "Ram": 2048,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1251,
+        "Label": "High CPU",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1270,
+      "Name": "v1.highcpu-8.4",
+      "Cpu": 8,
+      "Ram": 4096,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1251,
+        "Label": "High CPU",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1769,
+      "Name": "v1.highmemory.16.48",
+      "Cpu": 16,
+      "Ram": 49152,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1770,
+      "Name": "v1.highmemory.24.48",
+      "Cpu": 24,
+      "Ram": 49152,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1767,
+      "Name": "v1.highmemory.4.48",
+      "Cpu": 4,
+      "Ram": 49152,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1768,
+      "Name": "v1.highmemory.8.48",
+      "Cpu": 8,
+      "Ram": 49152,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1263,
+      "Name": "v1.highmemory-1.4",
+      "Cpu": 1,
+      "Ram": 4096,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1757,
+      "Name": "v1.highmemory-16.24",
+      "Cpu": 16,
+      "Ram": 24576,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1049,
+      "Name": "v1.highmemory-16.32",
+      "Cpu": 16,
+      "Ram": 32768,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1050,
+      "Name": "v1.highmemory-16.64",
+      "Cpu": 16,
+      "Ram": 65536,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1267,
+      "Name": "v1.highmemory-16.96",
+      "Cpu": 16,
+      "Ram": 98304,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1428,
+      "Name": "v1.highmemory-2.4",
+      "Cpu": 2,
+      "Ram": 4096,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1264,
+      "Name": "v1.highmemory-2.8",
+      "Cpu": 2,
+      "Ram": 8192,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1765,
+      "Name": "v1.highmemory-24.32",
+      "Cpu": 24,
+      "Ram": 32768,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1759,
+      "Name": "v1.highmemory-24.64",
+      "Cpu": 24,
+      "Ram": 65536,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1265,
+      "Name": "v1.highmemory-4.16",
+      "Cpu": 4,
+      "Ram": 16384,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1420,
+      "Name": "v1.highmemory-4.32",
+      "Cpu": 4,
+      "Ram": 32768,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1421,
+      "Name": "v1.highmemory-4.64",
+      "Cpu": 4,
+      "Ram": 65536,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1423,
+      "Name": "v1.highmemory-4.8",
+      "Cpu": 4,
+      "Ram": 8192,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1424,
+      "Name": "v1.highmemory-8.16",
+      "Cpu": 8,
+      "Ram": 16384,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1266,
+      "Name": "v1.highmemory-8.32",
+      "Cpu": 8,
+      "Ram": 32768,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1422,
+      "Name": "v1.highmemory-8.64",
+      "Cpu": 8,
+      "Ram": 65536,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1574,
+      "Name": "v1.highmemory-8.96",
+      "Cpu": 8,
+      "Ram": 98304,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1250,
+        "Label": "High memory",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1047,
+      "Name": "v1.standard-1.05",
+      "Cpu": 1,
+      "Ram": 512,
+      "AvailableForFreemium": true,
+      "Category": {
+        "Id": 1249,
+        "Label": "Standard",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 289,
+      "Name": "v1.standard-1.09",
+      "Cpu": 1,
+      "Ram": 896,
+      "AvailableForFreemium": true,
+      "Category": {
+        "Id": 1249,
+        "Label": "Standard",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1048,
+      "Name": "v1.standard-16.16",
+      "Cpu": 16,
+      "Ram": 16384,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1249,
+        "Label": "Standard",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 34,
+      "Name": "v1.standard-2.2",
+      "Cpu": 2,
+      "Ram": 2048,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1249,
+        "Label": "Standard",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 1766,
+      "Name": "v1.standard-24.24",
+      "Cpu": 24,
+      "Ram": 24576,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1249,
+        "Label": "Standard",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 35,
+      "Name": "v1.standard-4.4",
+      "Cpu": 4,
+      "Ram": 4096,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1249,
+        "Label": "Standard",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    },
+    {
+      "Id": 36,
+      "Name": "v1.standard-8.8",
+      "Cpu": 8,
+      "Ram": 8192,
+      "AvailableForFreemium": false,
+      "Category": {
+        "Id": 1249,
+        "Label": "Standard",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/141"
+            }
+          ],
+          "Id": 141
+        }
+      }
+    }
+  ],
+  "Meta": {
+    "Total": 32
+  }
+}

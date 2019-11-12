@@ -1,0 +1,107 @@
+{
+  "Id": 776,
+  "Name": "Ubuntu Server 18.04 LTS",
+  "Description": "Ubuntu Server LTS is a Debian-based Linux operating system dedicated for servers. LTS releases get regular point releases with support for new hardware and integration of all the updates published in that series to date.",
+  "Version": "18.04",
+  "CreationDate": "2018-04-27T10:52:37Z",
+  "LastChangeDate": "2018-07-12T12:20:23Z",
+  "CreationUser": {
+    "Id": 4,
+    "Login": "root",
+    "FirstName": "Default",
+    "LastName": "Admin"
+  },
+  "DefaultInstanceType": {
+    "Id": 1047,
+    "Label": "v1.standard-1.05",
+    "Dictionary": {
+      "Links": [
+        {
+          "Rel": "self",
+          "Href": "https://api.oktawave.com/beta/dictionaries/12"
+        }
+      ],
+      "Id": 12
+    }
+  },
+  "MinimumInstanceType": {
+    "Id": 1047,
+    "Label": "v1.standard-1.05",
+    "Dictionary": {
+      "Links": [
+        {
+          "Rel": "self",
+          "Href": "https://api.oktawave.com/beta/dictionaries/12"
+        }
+      ],
+      "Id": 12
+    }
+  },
+  "EthernetControllersNumber": 1,
+  "EthernetControllersType": {
+    "Id": 1443,
+    "Label": "VMXNET 3",
+    "Dictionary": {
+      "Links": [
+        {
+          "Rel": "self",
+          "Href": "https://api.oktawave.com/beta/dictionaries/167"
+        }
+      ],
+      "Id": 167
+    }
+  },
+  "SystemCategory": {
+    "Id": 1277,
+    "Label": "Ubuntu",
+    "Dictionary": {
+      "Links": [
+        {
+          "Rel": "self",
+          "Href": "https://api.oktawave.com/beta/dictionaries/70"
+        }
+      ],
+      "Id": 70
+    }
+  },
+  "OwnerAccount": null,
+  "PublicationStatus": null,
+  "Disks": [
+    {
+      "Id": 2853,
+      "Name": "Hard disk 1",
+      "SpaceCapacity": 5,
+      "Tier": {
+        "Id": 48,
+        "Label": "Tier 1",
+        "Dictionary": {
+          "Links": [
+            {
+              "Rel": "self",
+              "Href": "https://api.oktawave.com/beta/dictionaries/17"
+            }
+          ],
+          "Id": 17
+        }
+      },
+      "CreationDate": "2018-04-27T10:52:56Z",
+      "Controller": 0,
+      "Slot": 0,
+      "IsSystemDisk": true
+    }
+  ],
+  "Software": [],
+  "TemplateType": {
+    "Id": 174,
+    "Label": "Instance",
+    "Dictionary": {
+      "Links": [
+        {
+          "Rel": "self",
+          "Href": "https://api.oktawave.com/beta/dictionaries/52"
+        }
+      ],
+      "Id": 52
+    }
+  }
+}

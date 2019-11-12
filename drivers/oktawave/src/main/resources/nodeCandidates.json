@@ -1,0 +1,534 @@
+[
+  {
+    "id": "925c88f180740b3440bcfb97c5d06f39",
+    "nodeCandidateType": "IAAS",
+    "price": 10,
+    "cloud": {
+      "endpoint": null,
+      "cloudType": "PUBLIC",
+      "api": {
+        "providerName": "aws-ec2"
+      },
+      "credential": {
+        "user": "AKIAII3HMMQZHC4HLOSQ",
+        "secret": "AKIAII3HMMQZHC4HLOSQ"
+      },
+      "cloudConfiguration": {
+        "nodeGroup": "",
+        "properties": null
+      },
+      "id": "f19092fa5144fbac58c9366c616ba11c",
+      "userId": null,
+      "state": "OK",
+      "diagnostic": null
+    },
+    "image": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1/ami-052835130f4a2f8e3",
+      "name": "fcr-RC-2.0-ami-UBUNTU-16.04-AMD64-LINUX_20190219",
+      "providerId": "ami-052835130f4a2f8e3",
+      "operatingSystem": {
+        "operatingSystemFamily": "UBUNTU",
+        "operatingSystemArchitecture": "AMD64",
+        "operatingSystemVersion": 1604
+      },
+      "location": {
+        "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1",
+        "name": "eu-west-1",
+        "providerId": "eu-west-1",
+        "locationScope": "REGION",
+        "isAssignable": true,
+        "geoLocation": {
+          "city": "Dublin",
+          "country": "IE",
+          "latitude": 53.33,
+          "longitude": -6.25
+        },
+        "parent": null,
+        "state": "NEW",
+        "owner": ""
+      },
+      "state": "NEW",
+      "owner": ""
+    },
+    "hardware": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~m4.large",
+      "name": "m4.large",
+      "providerId": "m4.large",
+      "cores": 2,
+      "ram": 8192,
+      "disk": 0,
+      "location": null,
+      "state": "NEW",
+      "owner": ""
+    },
+    "location": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1",
+      "name": "eu-west-1",
+      "providerId": "eu-west-1",
+      "locationScope": "REGION",
+      "isAssignable": true,
+      "geoLocation": {
+        "city": "Dublin",
+        "country": "IE",
+        "latitude": 53.33,
+        "longitude": -6.25
+      },
+      "parent": null,
+      "state": "NEW",
+      "owner": ""
+    },
+    "pricePerInvocation": null,
+    "memoryPrice": null,
+    "environment": null
+  },
+  {
+    "id": "fb6ae4e3138f4c8a0c576c9634025274",
+    "nodeCandidateType": "IAAS",
+    "price": 10,
+    "cloud": {
+      "endpoint": null,
+      "cloudType": "PUBLIC",
+      "api": {
+        "providerName": "aws-ec2"
+      },
+      "credential": {
+        "user": "AKIAII3HMMQZHC4HLOSQ",
+        "secret": "AKIAII3HMMQZHC4HLOSQ"
+      },
+      "cloudConfiguration": {
+        "nodeGroup": "",
+        "properties": null
+      },
+      "id": "f19092fa5144fbac58c9366c616ba11c",
+      "userId": null,
+      "state": "OK",
+      "diagnostic": null
+    },
+    "image": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1/ami-052835130f4a2f8e3",
+      "name": "fcr-RC-2.0-ami-UBUNTU-16.04-AMD64-LINUX_20190219",
+      "providerId": "ami-052835130f4a2f8e3",
+      "operatingSystem": {
+        "operatingSystemFamily": "UBUNTU",
+        "operatingSystemArchitecture": "AMD64",
+        "operatingSystemVersion": 1604
+      },
+      "location": {
+        "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1",
+        "name": "eu-west-1",
+        "providerId": "eu-west-1",
+        "locationScope": "REGION",
+        "isAssignable": true,
+        "geoLocation": {
+          "city": "Dublin",
+          "country": "IE",
+          "latitude": 53.33,
+          "longitude": -6.25
+        },
+        "parent": null,
+        "state": "NEW",
+        "owner": ""
+      },
+      "state": "NEW",
+      "owner": ""
+    },
+    "hardware": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~m4.large",
+      "name": "m4.large",
+      "providerId": "m4.large",
+      "cores": 2,
+      "ram": 8192,
+      "disk": 0,
+      "location": null,
+      "state": "NEW",
+      "owner": ""
+    },
+    "location": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1b",
+      "name": "eu-west-1b",
+      "providerId": "eu-west-1b",
+      "locationScope": "ZONE",
+      "isAssignable": true,
+      "geoLocation": null,
+      "parent": {
+        "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1",
+        "name": "eu-west-1",
+        "providerId": "eu-west-1",
+        "locationScope": "REGION",
+        "isAssignable": true,
+        "geoLocation": {
+          "city": "Dublin",
+          "country": "IE",
+          "latitude": 53.33,
+          "longitude": -6.25
+        },
+        "parent": null,
+        "state": "NEW",
+        "owner": ""
+      },
+      "state": "NEW",
+      "owner": ""
+    },
+    "pricePerInvocation": null,
+    "memoryPrice": null,
+    "environment": null
+  },
+  {
+    "id": "2364a5fafe2a4e5ecf4cd30f0fbb63e9",
+    "nodeCandidateType": "IAAS",
+    "price": 9,
+    "cloud": {
+      "endpoint": null,
+      "cloudType": "PUBLIC",
+      "api": {
+        "providerName": "aws-ec2"
+      },
+      "credential": {
+        "user": "AKIAII3HMMQZHC4HLOSQ",
+        "secret": "AKIAII3HMMQZHC4HLOSQ"
+      },
+      "cloudConfiguration": {
+        "nodeGroup": "",
+        "properties": null
+      },
+      "id": "f19092fa5144fbac58c9366c616ba11c",
+      "userId": null,
+      "state": "OK",
+      "diagnostic": null
+    },
+    "image": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1/ami-052835130f4a2f8e3",
+      "name": "fcr-RC-2.0-ami-UBUNTU-16.04-AMD64-LINUX_20190219",
+      "providerId": "ami-052835130f4a2f8e3",
+      "operatingSystem": {
+        "operatingSystemFamily": "UBUNTU",
+        "operatingSystemArchitecture": "AMD64",
+        "operatingSystemVersion": 1604
+      },
+      "location": {
+        "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1",
+        "name": "eu-west-1",
+        "providerId": "eu-west-1",
+        "locationScope": "REGION",
+        "isAssignable": true,
+        "geoLocation": {
+          "city": "Dublin",
+          "country": "IE",
+          "latitude": 53.33,
+          "longitude": -6.25
+        },
+        "parent": null,
+        "state": "NEW",
+        "owner": ""
+      },
+      "state": "NEW",
+      "owner": ""
+    },
+    "hardware": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~t2.large",
+      "name": "t2.large",
+      "providerId": "t2.large",
+      "cores": 1,
+      "ram": 8192,
+      "disk": 0,
+      "location": null,
+      "state": "NEW",
+      "owner": ""
+    },
+    "location": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1c",
+      "name": "eu-west-1c",
+      "providerId": "eu-west-1c",
+      "locationScope": "ZONE",
+      "isAssignable": true,
+      "geoLocation": null,
+      "parent": {
+        "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1",
+        "name": "eu-west-1",
+        "providerId": "eu-west-1",
+        "locationScope": "REGION",
+        "isAssignable": true,
+        "geoLocation": {
+          "city": "Dublin",
+          "country": "IE",
+          "latitude": 53.33,
+          "longitude": -6.25
+        },
+        "parent": null,
+        "state": "NEW",
+        "owner": ""
+      },
+      "state": "NEW",
+      "owner": ""
+    },
+    "pricePerInvocation": null,
+    "memoryPrice": null,
+    "environment": null
+  },
+  {
+    "id": "03936eb8ba29c4cf5bd93473c5d5d37e",
+    "nodeCandidateType": "IAAS",
+    "price": 10,
+    "cloud": {
+      "endpoint": null,
+      "cloudType": "PUBLIC",
+      "api": {
+        "providerName": "aws-ec2"
+      },
+      "credential": {
+        "user": "AKIAII3HMMQZHC4HLOSQ",
+        "secret": "AKIAII3HMMQZHC4HLOSQ"
+      },
+      "cloudConfiguration": {
+        "nodeGroup": "",
+        "properties": null
+      },
+      "id": "f19092fa5144fbac58c9366c616ba11c",
+      "userId": null,
+      "state": "OK",
+      "diagnostic": null
+    },
+    "image": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1/ami-052835130f4a2f8e3",
+      "name": "fcr-RC-2.0-ami-UBUNTU-16.04-AMD64-LINUX_20190219",
+      "providerId": "ami-052835130f4a2f8e3",
+      "operatingSystem": {
+        "operatingSystemFamily": "UBUNTU",
+        "operatingSystemArchitecture": "AMD64",
+        "operatingSystemVersion": 1604
+      },
+      "location": {
+        "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1",
+        "name": "eu-west-1",
+        "providerId": "eu-west-1",
+        "locationScope": "REGION",
+        "isAssignable": true,
+        "geoLocation": {
+          "city": "Dublin",
+          "country": "IE",
+          "latitude": 53.33,
+          "longitude": -6.25
+        },
+        "parent": null,
+        "state": "NEW",
+        "owner": ""
+      },
+      "state": "NEW",
+      "owner": ""
+    },
+    "hardware": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~m4.large",
+      "name": "m4.large",
+      "providerId": "m4.large",
+      "cores": 2,
+      "ram": 8192,
+      "disk": 0,
+      "location": null,
+      "state": "NEW",
+      "owner": ""
+    },
+    "location": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1c",
+      "name": "eu-west-1c",
+      "providerId": "eu-west-1c",
+      "locationScope": "ZONE",
+      "isAssignable": true,
+      "geoLocation": null,
+      "parent": {
+        "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1",
+        "name": "eu-west-1",
+        "providerId": "eu-west-1",
+        "locationScope": "REGION",
+        "isAssignable": true,
+        "geoLocation": {
+          "city": "Dublin",
+          "country": "IE",
+          "latitude": 53.33,
+          "longitude": -6.25
+        },
+        "parent": null,
+        "state": "NEW",
+        "owner": ""
+      },
+      "state": "NEW",
+      "owner": ""
+    },
+    "pricePerInvocation": null,
+    "memoryPrice": null,
+    "environment": null
+  },
+  {
+    "id": "7a98128e833d1ce2c1fef886fcfb3bce",
+    "nodeCandidateType": "IAAS",
+    "price": 9,
+    "cloud": {
+      "endpoint": null,
+      "cloudType": "PUBLIC",
+      "api": {
+        "providerName": "aws-ec2"
+      },
+      "credential": {
+        "user": "AKIAII3HMMQZHC4HLOSQ",
+        "secret": "AKIAII3HMMQZHC4HLOSQ"
+      },
+      "cloudConfiguration": {
+        "nodeGroup": "",
+        "properties": null
+      },
+      "id": "f19092fa5144fbac58c9366c616ba11c",
+      "userId": null,
+      "state": "OK",
+      "diagnostic": null
+    },
+    "image": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1/ami-052835130f4a2f8e3",
+      "name": "fcr-RC-2.0-ami-UBUNTU-16.04-AMD64-LINUX_20190219",
+      "providerId": "ami-052835130f4a2f8e3",
+      "operatingSystem": {
+        "operatingSystemFamily": "UBUNTU",
+        "operatingSystemArchitecture": "AMD64",
+        "operatingSystemVersion": 1604
+      },
+      "location": {
+        "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1",
+        "name": "eu-west-1",
+        "providerId": "eu-west-1",
+        "locationScope": "REGION",
+        "isAssignable": true,
+        "geoLocation": {
+          "city": "Dublin",
+          "country": "IE",
+          "latitude": 53.33,
+          "longitude": -6.25
+        },
+        "parent": null,
+        "state": "NEW",
+        "owner": ""
+      },
+      "state": "NEW",
+      "owner": ""
+    },
+    "hardware": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~t2.large",
+      "name": "t2.large",
+      "providerId": "t2.large",
+      "cores": 1,
+      "ram": 8192,
+      "disk": 0,
+      "location": null,
+      "state": "NEW",
+      "owner": ""
+    },
+    "location": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1b",
+      "name": "eu-west-1b",
+      "providerId": "eu-west-1b",
+      "locationScope": "ZONE",
+      "isAssignable": true,
+      "geoLocation": null,
+      "parent": {
+        "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1",
+        "name": "eu-west-1",
+        "providerId": "eu-west-1",
+        "locationScope": "REGION",
+        "isAssignable": true,
+        "geoLocation": {
+          "city": "Dublin",
+          "country": "IE",
+          "latitude": 53.33,
+          "longitude": -6.25
+        },
+        "parent": null,
+        "state": "NEW",
+        "owner": ""
+      },
+      "state": "NEW",
+      "owner": ""
+    },
+    "pricePerInvocation": null,
+    "memoryPrice": null,
+    "environment": null
+  },
+  {
+    "id": "5001f91bb3843f1b0fe052dc545892ed",
+    "nodeCandidateType": "IAAS",
+    "price": 9,
+    "cloud": {
+      "endpoint": null,
+      "cloudType": "PUBLIC",
+      "api": {
+        "providerName": "aws-ec2"
+      },
+      "credential": {
+        "user": "AKIAII3HMMQZHC4HLOSQ",
+        "secret": "AKIAII3HMMQZHC4HLOSQ"
+      },
+      "cloudConfiguration": {
+        "nodeGroup": "",
+        "properties": null
+      },
+      "id": "f19092fa5144fbac58c9366c616ba11c",
+      "userId": null,
+      "state": "OK",
+      "diagnostic": null
+    },
+    "image": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1/ami-052835130f4a2f8e3",
+      "name": "fcr-RC-2.0-ami-UBUNTU-16.04-AMD64-LINUX_20190219",
+      "providerId": "ami-052835130f4a2f8e3",
+      "operatingSystem": {
+        "operatingSystemFamily": "UBUNTU",
+        "operatingSystemArchitecture": "AMD64",
+        "operatingSystemVersion": 1604
+      },
+      "location": {
+        "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1",
+        "name": "eu-west-1",
+        "providerId": "eu-west-1",
+        "locationScope": "REGION",
+        "isAssignable": true,
+        "geoLocation": {
+          "city": "Dublin",
+          "country": "IE",
+          "latitude": 53.33,
+          "longitude": -6.25
+        },
+        "parent": null,
+        "state": "NEW",
+        "owner": ""
+      },
+      "state": "NEW",
+      "owner": ""
+    },
+    "hardware": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~t2.large",
+      "name": "t2.large",
+      "providerId": "t2.large",
+      "cores": 1,
+      "ram": 8192,
+      "disk": 0,
+      "location": null,
+      "state": "NEW",
+      "owner": ""
+    },
+    "location": {
+      "id": "f19092fa5144fbac58c9366c616ba11c~eu-west-1",
+      "name": "eu-west-1",
+      "providerId": "eu-west-1",
+      "locationScope": "REGION",
+      "isAssignable": true,
+      "geoLocation": {
+        "city": "Dublin",
+        "country": "IE",
+        "latitude": 53.33,
+        "longitude": -6.25
+      },
+      "parent": null,
+      "state": "NEW",
+      "owner": ""
+    },
+    "pricePerInvocation": null,
+    "memoryPrice": null,
+    "environment": null
+  }
+]

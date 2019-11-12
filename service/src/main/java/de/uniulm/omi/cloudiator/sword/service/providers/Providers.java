@@ -27,6 +27,7 @@ import de.uniulm.omi.cloudiator.sword.domain.PropertiesBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.azure.config.AzureComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.ec2.config.Ec2ComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.google.config.GoogleCloudComputeModule;
+import de.uniulm.omi.cloudiator.sword.drivers.oktawave.config.OktawaveComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.config.OpenstackComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.config.Openstack4jComputeModule;
 import de.uniulm.omi.cloudiator.sword.drivers.profitbricks.config.ProfitbricksComputeModule;
@@ -96,6 +97,11 @@ public class Providers {
     registerProvider(
         new ProviderConfiguration("simulation", simulationModules,
             BaseComputeService.class,
+            PropertiesBuilder.newBuilder().build()));
+    //Oktawave
+    final Set<AbstractModule> oktawaveModules = new HashSet<>();
+    oktawaveModules.add(new OktawaveComputeModule());
+    registerProvider(new ProviderConfiguration("oktawave", oktawaveModules, BaseComputeService.class,
             PropertiesBuilder.newBuilder().build()));
   }
 

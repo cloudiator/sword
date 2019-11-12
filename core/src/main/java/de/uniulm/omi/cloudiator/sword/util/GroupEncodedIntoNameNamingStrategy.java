@@ -72,6 +72,32 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
     return uniqueName;
   }
 
+  //TODO - this class is awfull, I  should do it better.
+
+  @Override
+  public String generateUniqueNameBasedOnName(@Nullable String name, int length) {
+
+    final String uniqueName;
+
+    if (name == null) {
+      uniqueName = generateUniquePrefix(length);
+    } else {
+      checkArgument(!name.isEmpty(), "name is empty.");
+      final String uniquePrefix = generateUniquePrefix(length-DELIMITER.length()-name.length());
+      uniqueName = uniquePrefix + DELIMITER + name;
+    }
+
+    LOGGER.debug(String.format("Generated unique name for name %s: %s", name, uniqueName));
+
+    if (uniqueName.length() >= length) {
+      LOGGER.warn(
+              "Generated unique name exceeds/matches host name limit of " + length + " characters, this may cause"
+                      + " problems with virtual machines. Actual length is " + uniqueName.length());
+    }
+    return uniqueName;
+
+  }
+
   @Override
   public String generateNameBasedOnName(String name) {
     checkNotNull(name, "name is null");
@@ -88,9 +114,20 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
     return nodeGroup + DELIMITER + prefixGenerator.generatePrefix();
   }
 
+  private String generateUniquePrefix(int length) {
+    int xxx = length - nodeGroup.length() - DELIMITER.length();
+    if (xxx > 0) {
+      return nodeGroup + DELIMITER + prefixGenerator.generatePrefix(xxx);
+    } else {
+      return nodeGroup + DELIMITER + prefixGenerator.generatePrefix();
+    }
+  }
+
   private interface PrefixGenerator {
 
     String generatePrefix();
+
+    String generatePrefix(int length);
   }
 
   private static class UUIDPrefixGenerator implements PrefixGenerator {
@@ -98,6 +135,11 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
     @Override
     public String generatePrefix() {
       return UUID.randomUUID().toString();
+    }
+
+    @Override
+    public String generatePrefix(int length) {
+      return null;
     }
   }
 
@@ -108,6 +150,11 @@ public class GroupEncodedIntoNameNamingStrategy implements NamingStrategy {
     @Override
     public String generatePrefix() {
       return randomString.nextString();
+    }
+
+    @Override
+    public String generatePrefix(int length) {
+      return new RandomString(length).nextString();
     }
 
     private static class RandomString {

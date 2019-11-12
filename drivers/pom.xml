@@ -31,17 +31,19 @@
   <artifactId>sword-drivers-project</artifactId>
   <packaging>pom</packaging>
 
-  <modules>
-    <module>all</module>
-    <module>ec2</module>
-    <module>google</module>
-    <module>jclouds</module>
-    <module>openstack</module>
-    <module>openstack4j</module>
-    <module>azure</module>
-    <module>profitbricks</module>
-    <module>simulation</module>
-  </modules>
+    <modules>
+        <module>all</module>
+        <module>ec2</module>
+        <module>google</module>
+        <module>jclouds</module>
+        <module>openstack</module>
+        <module>openstack4j</module>
+        <module>azure</module>
+        <module>profitbricks</module>
+        <module>simulation</module>
+        <module>oktawave-client</module>
+        <module>oktawave</module>
+    </modules>
 
   <dependencies>
     <dependency>

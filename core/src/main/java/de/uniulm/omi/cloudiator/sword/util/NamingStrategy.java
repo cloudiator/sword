@@ -35,6 +35,15 @@ public interface NamingStrategy {
   String generateUniqueNameBasedOnName(@Nullable String name);
 
   /**
+   * Generates a unique name based on the name input.
+   *
+   * @param name the name to use within the unique name.
+   * @param length max length of name.
+   * @return a unique named.
+   */
+  String generateUniqueNameBasedOnName(@Nullable String name, int length);
+
+  /**
    * Generates a name based on the given name.
    *
    * @param name the name
