@@ -54,7 +54,7 @@ public class JCloudsOperatingSystemConverter
     OperatingSystemVersion operatingSystemVersion;
     try {
       operatingSystemVersion = operatingSystemFamily.operatingSystemVersionFormat()
-          .parse(operatingSystem.getVersion());
+          .parseName(operatingSystem.getVersion());
     } catch (IllegalArgumentException e) {
       operatingSystemVersion = OperatingSystemVersions.unknown();
     }
