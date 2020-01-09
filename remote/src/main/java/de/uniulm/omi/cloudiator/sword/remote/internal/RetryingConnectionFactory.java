@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.remote.internal;
 
 import com.github.rholder.retry.Attempt;
+import com.github.rholder.retry.AttemptTimeLimiters;
 import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.RetryListener;
 import com.github.rholder.retry.Retryer;
@@ -57,6 +58,10 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
   @Named(Constants.SSH_FIXED_WAIT_SECONDS)
   private long
       sshFixedWaitSeconds = 5;
+  @Inject(optional = true)
+  @Named(Constants.SSH_ATTEMPT_TIME)
+  private long
+      sshAttemptTime = 10;
 
   @Inject
   RetryingConnectionFactory(@Base RemoteConnectionFactory remoteConnectionFactory) {
@@ -91,6 +96,8 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
             .withStopStrategy(StopStrategies.stopAfterAttempt(connectionRetries))
             .withWaitStrategy(WaitStrategies
                 .fixedWait(sshFixedWaitSeconds, TimeUnit.SECONDS))
+            .withAttemptTimeLimiter(
+                AttemptTimeLimiters.fixedTimeLimit(sshAttemptTime, TimeUnit.SECONDS))
             .build();
 
     try {
