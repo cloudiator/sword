@@ -52,11 +52,11 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
   private final RemoteConnectionFactory remoteConnectionFactory;
   @Inject(optional = true)
   @Named(Constants.SSH_MAX_RETRIES)
-  private int connectionRetries = 15;
+  private int connectionRetries = 12;
   @Inject(optional = true)
   @Named(Constants.SSH_FIXED_WAIT_SECONDS)
   private long
-      sshFixedWaitSeconds = 15;
+      sshFixedWaitSeconds = 5;
 
   @Inject
   RetryingConnectionFactory(@Base RemoteConnectionFactory remoteConnectionFactory) {
