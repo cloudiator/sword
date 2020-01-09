@@ -62,10 +62,6 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
   @Named(Constants.SSH_ATTEMPT_TIME)
   private long
       sshAttemptTime = 10;
-  @Inject(optional = true)
-  @Named(Constants.SSH_TOTAL_TIME)
-  private long
-      sshTotalTime = 60;
 
   @Inject
   RetryingConnectionFactory(@Base RemoteConnectionFactory remoteConnectionFactory) {
@@ -98,7 +94,6 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
             })
             .retryIfException(throwable -> throwable instanceof RemoteException)
             .withStopStrategy(StopStrategies.stopAfterAttempt(connectionRetries))
-            .withStopStrategy(StopStrategies.stopAfterDelay(sshTotalTime, TimeUnit.SECONDS))
             .withWaitStrategy(WaitStrategies
                 .fixedWait(sshFixedWaitSeconds, TimeUnit.SECONDS))
             .withAttemptTimeLimiter(
