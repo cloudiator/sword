@@ -20,6 +20,7 @@ package de.uniulm.cloudiator.sword.drivers.simulation.extension;
 
 import de.uniulm.omi.cloudiator.sword.domain.IpAddress;
 import de.uniulm.omi.cloudiator.sword.domain.IpAddress.IpAddressType;
+import de.uniulm.omi.cloudiator.sword.domain.IpAddress.IpVersion;
 import de.uniulm.omi.cloudiator.sword.domain.IpAddresses;
 import java.util.Random;
 
@@ -37,10 +38,8 @@ public class IpGenerator {
       String ip =
           random.nextInt(256) + "." + random.nextInt(256) + "." + random.nextInt(256) + "." + random
               .nextInt(256);
-      final IpAddress ipAddress = IpAddresses.of(ip);
-      if (ipAddress.type().equals(IpAddressType.PUBLIC)) {
-        return ipAddress;
-      }
+
+      return IpAddresses.of(ip, IpAddressType.PUBLIC, IpVersion.V4);
     }
   }
 
@@ -48,7 +47,7 @@ public class IpGenerator {
     String ip =
         192 + "." + 168 + "." + random.nextInt(256) + "." + random
             .nextInt(256);
-    return IpAddresses.of(ip);
+    return IpAddresses.of(ip, IpAddressType.PRIVATE, IpVersion.V4);
   }
 
 }
