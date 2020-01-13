@@ -24,6 +24,7 @@ package de.uniulm.omi.cloudiator.sword.domain;
 public enum CloudType {
 
   PRIVATE,
-  PUBLIC
+  PUBLIC,
+  SIMULATION
 
 }
