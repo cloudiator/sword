@@ -24,6 +24,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.domain.IpAddress;
 import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
 
 /**
@@ -49,7 +50,7 @@ public class MultiCloudPublicIpExtension implements PublicIpExtension {
   }
 
   @Override
-  public String addPublicIp(String virtualMachineId) {
+  public IpAddress addPublicIp(String virtualMachineId) {
     checkNotNull(virtualMachineId, "virtualMachineId is null");
     checkArgument(!virtualMachineId.isEmpty(), "virtualMachineId is empty");
     return publicIpService(virtualMachineId)
