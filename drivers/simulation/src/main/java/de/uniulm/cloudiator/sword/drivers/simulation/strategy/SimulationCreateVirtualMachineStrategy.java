@@ -36,6 +36,8 @@ import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.inject.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SimulationCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
@@ -43,6 +45,8 @@ public class SimulationCreateVirtualMachineStrategy implements CreateVirtualMach
   @Named(VM_STARTUP_TIME)
   private Long vmStartupTime = null;
 
+  private static final Logger LOGGER = LoggerFactory
+      .getLogger(SimulationCreateVirtualMachineStrategy.class);
   private final SimulationModel simulationModel;
   private final Supplier<Set<Location>> locationSupplier;
   private final Supplier<Set<Image>> imageSupplier;
@@ -71,6 +75,7 @@ public class SimulationCreateVirtualMachineStrategy implements CreateVirtualMach
 
     if (vmStartupTime != null) {
       try {
+        LOGGER.debug("Sleeping for " + vmStartupTime + " seconds to simulate start up time");
         Thread.sleep(vmStartupTime * 1000);
       } catch (InterruptedException e) {
         Thread.currentThread().interrupt();
