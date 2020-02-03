@@ -89,7 +89,7 @@ public abstract class AbstractComputeModule extends AbstractModule {
   GetStrategy<String, VirtualMachine> provideVirtualMachineGetStrategy(Injector injector,
       FilteringFactory filteringFactory) {
     return filteringFactory.filterLocationScoped(
-        filteringFactory.filter(injector.getInstance(getVirtualMachineStrategy())));
+        injector.getInstance(getVirtualMachineStrategy()));
   }
 
   @Provides
@@ -150,7 +150,7 @@ public abstract class AbstractComputeModule extends AbstractModule {
   final Supplier<Set<VirtualMachine>> provideVirtualMachineSupplier(Injector injector,
       FilteringFactory filteringFactory) {
     return filteringFactory
-        .filterLocationScoped(filteringFactory.filter(virtualMachineSupplier(injector)));
+        .filterLocationScoped(virtualMachineSupplier(injector));
   }
 
   /*

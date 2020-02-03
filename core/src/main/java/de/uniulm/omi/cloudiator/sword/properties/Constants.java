@@ -34,6 +34,7 @@ public class Constants {
   public static final String PROVIDERID_WHITELIST = "sword.providerId.whitelist";
   public static final String PROVIDERID_BLACKLIST = "sword.providerId.blacklist";
   public static final String IMAGE_GROUPING = "sword.image.grouping";
+  public static final String SSH_ATTEMPT_TIME = "sword.ssh.attempt.time";
 
   private Constants() {
     throw new AssertionError("constants class");

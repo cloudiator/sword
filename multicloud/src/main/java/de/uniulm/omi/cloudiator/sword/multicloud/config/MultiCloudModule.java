@@ -18,25 +18,25 @@
 
 package de.uniulm.omi.cloudiator.sword.multicloud.config;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Injector;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
+import com.google.common.base.Supplier;
+import com.google.inject.*;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.name.Names;
 import com.google.inject.util.Providers;
 import de.uniulm.omi.cloudiator.sword.annotations.Base;
 import de.uniulm.omi.cloudiator.sword.config.DefaultMetaModule;
+import de.uniulm.omi.cloudiator.sword.domain.Pricing;
 import de.uniulm.omi.cloudiator.sword.multicloud.MultiCloudService;
 import de.uniulm.omi.cloudiator.sword.multicloud.MultiCloudServiceImpl;
-import de.uniulm.omi.cloudiator.sword.multicloud.service.BaseComputeServiceFactory;
-import de.uniulm.omi.cloudiator.sword.multicloud.service.CachingComputeServiceFactory;
-import de.uniulm.omi.cloudiator.sword.multicloud.service.CloudRegistry;
-import de.uniulm.omi.cloudiator.sword.multicloud.service.CloudRegistryComputeServiceProvider;
-import de.uniulm.omi.cloudiator.sword.multicloud.service.ComputeServiceFactory;
-import de.uniulm.omi.cloudiator.sword.multicloud.service.ComputeServiceProvider;
-import de.uniulm.omi.cloudiator.sword.multicloud.service.MultiCloudComputeService;
+import de.uniulm.omi.cloudiator.sword.multicloud.pricing.PricingSupplierFactory;
+import de.uniulm.omi.cloudiator.sword.multicloud.pricing.aws.AWSPricingSupplier;
+import de.uniulm.omi.cloudiator.sword.multicloud.service.*;
 import de.uniulm.omi.cloudiator.sword.remote.AbstractRemoteModule;
 import de.uniulm.omi.cloudiator.sword.service.ComputeService;
+import de.uniulm.omi.cloudiator.sword.service.PricingService;
+
 import javax.annotation.Nullable;
+import java.util.Set;
 
 /**
  * Created by daniel on 23.01.17.
@@ -62,6 +62,11 @@ public class MultiCloudModule extends AbstractModule {
     bind(ComputeServiceProvider.class).to(CloudRegistryComputeServiceProvider.class)
         .in(Singleton.class);
     bind(CloudRegistry.class).to(CloudRegistryComputeServiceProvider.class).in(Singleton.class);
+    bind(PricingService.class).to(MultiCloudPricingService.class).in(Singleton.class);
+
+    install(new FactoryModuleBuilder()
+            .implement(new TypeLiteral<Supplier<Set<Pricing>>>(){}, Names.named(PricingSupplierFactory.awsName), AWSPricingSupplier.class)
+            .build(PricingSupplierFactory.class));
   }
 
   @Provides
