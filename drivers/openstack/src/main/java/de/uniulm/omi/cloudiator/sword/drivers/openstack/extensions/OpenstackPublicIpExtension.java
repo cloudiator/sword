@@ -22,6 +22,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.inject.Inject;
+import de.uniulm.omi.cloudiator.sword.domain.IpAddress;
+import de.uniulm.omi.cloudiator.sword.domain.IpAddresses;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack.strategy.OpenstackFloatingIpStrategy;
 import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
 
@@ -44,10 +46,11 @@ public class OpenstackPublicIpExtension implements PublicIpExtension {
   }
 
   @Override
-  public String addPublicIp(String virtualMachineId) {
+  public IpAddress addPublicIp(String virtualMachineId) {
     checkNotNull(virtualMachineId);
     checkArgument(!virtualMachineId.isEmpty());
-    return this.openstackFloatingIpStrategy.assignPublicIpToVirtualMachine(virtualMachineId);
+    return IpAddresses
+        .of(this.openstackFloatingIpStrategy.assignPublicIpToVirtualMachine(virtualMachineId));
   }
 
   @Override
