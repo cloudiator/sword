@@ -33,6 +33,8 @@ public class SimulationConstants {
 
     public static final String LOCATION_SIZE = "sword.simulation.location.size";
 
+    public static final String VM_STARTUP_TIME = "sword.simulation.vm.startup.time";
+
   }
 
 }

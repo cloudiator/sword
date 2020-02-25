@@ -19,6 +19,7 @@
 package de.uniulm.cloudiator.sword.drivers.simulation.strategy;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static de.uniulm.cloudiator.sword.drivers.simulation.config.SimulationConstants.Properties.VM_STARTUP_TIME;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
@@ -34,9 +35,18 @@ import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
+import javax.inject.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SimulationCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
+  @Inject(optional = true)
+  @Named(VM_STARTUP_TIME)
+  private Long vmStartupTime = null;
+
+  private static final Logger LOGGER = LoggerFactory
+      .getLogger(SimulationCreateVirtualMachineStrategy.class);
   private final SimulationModel simulationModel;
   private final Supplier<Set<Location>> locationSupplier;
   private final Supplier<Set<Image>> imageSupplier;
@@ -63,7 +73,14 @@ public class SimulationCreateVirtualMachineStrategy implements CreateVirtualMach
     validateExists(virtualMachineTemplate);
     validateMatches(virtualMachineTemplate);
 
-    System.out.println(simulationModel.vmStartupTime());
+    if (vmStartupTime != null) {
+      try {
+        LOGGER.debug("Sleeping for " + vmStartupTime + " seconds to simulate start up time");
+        Thread.sleep(vmStartupTime * 1000);
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+      }
+    }
 
     final String id = UUID.randomUUID().toString();
 

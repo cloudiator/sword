@@ -39,7 +39,7 @@ public class SimulationIpGenerator implements PublicIpExtension {
   }
 
   @Override
-  public String addPublicIp(String virtualMachineId) {
+  public IpAddress addPublicIp(String virtualMachineId) {
     final IpAddress generated = IpGenerator.generatePublic();
 
     checkArgument(virtualMachineStore.get(virtualMachineId) != null,
@@ -51,7 +51,7 @@ public class SimulationIpGenerator implements PublicIpExtension {
 
     virtualMachineStore.update(updated);
 
-    return generated.toString();
+    return generated;
 
   }
 

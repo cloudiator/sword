@@ -18,6 +18,8 @@
 
 package de.uniulm.omi.cloudiator.sword.extensions;
 
+import de.uniulm.omi.cloudiator.sword.domain.IpAddress;
+
 /**
  * An interface that handles the assignment of public ips to virtual machines.
  */
@@ -32,7 +34,7 @@ public interface PublicIpExtension {
    * @throws IllegalArgumentException if the virtualMachineId is empty.
    * @todo define format of the address.
    */
-  String addPublicIp(String virtualMachineId);
+  IpAddress addPublicIp(String virtualMachineId);
 
   /**
    * Removes the public ip from the virtual machine.

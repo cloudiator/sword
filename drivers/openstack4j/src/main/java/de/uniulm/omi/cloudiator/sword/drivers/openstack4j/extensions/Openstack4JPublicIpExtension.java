@@ -24,6 +24,8 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import de.uniulm.omi.cloudiator.sword.domain.IpAddress;
+import de.uniulm.omi.cloudiator.sword.domain.IpAddresses;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.internal.Openstack4JConstants;
 import de.uniulm.omi.cloudiator.sword.drivers.openstack4j.strategy.FloatingIpPoolStrategy;
 import de.uniulm.omi.cloudiator.sword.extensions.PublicIpExtension;
@@ -95,7 +97,7 @@ public class Openstack4JPublicIpExtension implements PublicIpExtension {
   }
 
   @Override
-  public String addPublicIp(String virtualMachineId) {
+  public IpAddress addPublicIp(String virtualMachineId) {
 
     checkNotNull(virtualMachineId, "virtualMachineId is null");
     checkArgument(!virtualMachineId.isEmpty(), "virtualMachineId is empty");
@@ -110,7 +112,7 @@ public class Openstack4JPublicIpExtension implements PublicIpExtension {
     synchronized (Openstack4JPublicIpExtension.class) {
       final String publicIp = findPublicIp(computeFloatingIPService, virtualMachineId);
       computeFloatingIPService.addFloatingIP(server(virtualMachineId, compute), publicIp);
-      return publicIp;
+      return IpAddresses.of(publicIp);
     }
   }
 
