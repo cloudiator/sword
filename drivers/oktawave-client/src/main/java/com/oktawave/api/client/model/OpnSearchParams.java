@@ -28,7 +28,7 @@ import java.util.Objects;
  * Search params for OPNs
  */
 @ApiModel(description = "Search params for OPNs")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class OpnSearchParams {
   @SerializedName("InstanceId")
   private Integer instanceId = null;
@@ -235,8 +235,8 @@ public class OpnSearchParams {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class OpnSearchParams {\n");
-    
-    sb.append("    instanceId: ").append(toIndentedString(instanceId)).append("\n");
+
+      sb.append("    instanceId: ").append(toIndentedString(instanceId)).append("\n");
     sb.append("    query: ").append(toIndentedString(query)).append("\n");
     sb.append("    pageSize: ").append(toIndentedString(pageSize)).append("\n");
     sb.append("    pageNumber: ").append(toIndentedString(pageNumber)).append("\n");

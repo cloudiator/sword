@@ -24,7 +24,7 @@ import java.util.Objects;
  * Group scheduler
  */
 @ApiModel(description = "Group scheduler")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class GroupScheduler {
   @SerializedName("Id")
   private Integer id = null;
@@ -46,6 +46,9 @@ public class GroupScheduler {
 
   @SerializedName("StartDate")
   private OffsetDateTime startDate = null;
+
+    @SerializedName("TimeZoneName")
+    private String timeZoneName = null;
 
   @SerializedName("Name")
   private String name = null;
@@ -191,6 +194,25 @@ public class GroupScheduler {
     this.startDate = startDate;
   }
 
+    public GroupScheduler timeZoneName(String timeZoneName) {
+        this.timeZoneName = timeZoneName;
+        return this;
+    }
+
+    /**
+     * Time zone name
+     *
+     * @return timeZoneName
+     **/
+    @ApiModelProperty(value = "Time zone name")
+    public String getTimeZoneName() {
+        return timeZoneName;
+    }
+
+    public void setTimeZoneName(String timeZoneName) {
+        this.timeZoneName = timeZoneName;
+    }
+
   public GroupScheduler name(String name) {
     this.name = name;
     return this;
@@ -316,6 +338,7 @@ public class GroupScheduler {
         Objects.equals(this.creationDate, groupScheduler.creationDate) &&
         Objects.equals(this.lastChangeDate, groupScheduler.lastChangeDate) &&
         Objects.equals(this.startDate, groupScheduler.startDate) &&
+            Objects.equals(this.timeZoneName, groupScheduler.timeZoneName) &&
         Objects.equals(this.name, groupScheduler.name) &&
         Objects.equals(this.status, groupScheduler.status) &&
         Objects.equals(this.type, groupScheduler.type) &&
@@ -326,7 +349,7 @@ public class GroupScheduler {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, creationUser, instance, group, creationDate, lastChangeDate, startDate, name, status, type, actionType, cycleType, cycleNumber);
+      return Objects.hash(id, creationUser, instance, group, creationDate, lastChangeDate, startDate, timeZoneName, name, status, type, actionType, cycleType, cycleNumber);
   }
 
 
@@ -334,7 +357,7 @@ public class GroupScheduler {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class GroupScheduler {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    creationUser: ").append(toIndentedString(creationUser)).append("\n");
     sb.append("    instance: ").append(toIndentedString(instance)).append("\n");
@@ -342,6 +365,7 @@ public class GroupScheduler {
     sb.append("    creationDate: ").append(toIndentedString(creationDate)).append("\n");
     sb.append("    lastChangeDate: ").append(toIndentedString(lastChangeDate)).append("\n");
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
+      sb.append("    timeZoneName: ").append(toIndentedString(timeZoneName)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");

@@ -24,13 +24,16 @@ import java.util.Objects;
  * Create group scheduler command
  */
 @ApiModel(description = "Create group scheduler command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateUpdateGroupSchedulerCommand {
   @SerializedName("Name")
   private String name = null;
 
   @SerializedName("StartDate")
   private OffsetDateTime startDate = null;
+
+    @SerializedName("TimeZoneName")
+    private String timeZoneName = null;
 
   @SerializedName("InstanceId")
   private Integer instanceId = null;
@@ -82,6 +85,25 @@ public class CreateUpdateGroupSchedulerCommand {
   public void setStartDate(OffsetDateTime startDate) {
     this.startDate = startDate;
   }
+
+    public CreateUpdateGroupSchedulerCommand timeZoneName(String timeZoneName) {
+        this.timeZoneName = timeZoneName;
+        return this;
+    }
+
+    /**
+     * Timezone name
+     *
+     * @return timeZoneName
+     **/
+    @ApiModelProperty(required = true, value = "Timezone name")
+    public String getTimeZoneName() {
+        return timeZoneName;
+    }
+
+    public void setTimeZoneName(String timeZoneName) {
+        this.timeZoneName = timeZoneName;
+    }
 
   public CreateUpdateGroupSchedulerCommand instanceId(Integer instanceId) {
     this.instanceId = instanceId;
@@ -187,6 +209,7 @@ public class CreateUpdateGroupSchedulerCommand {
     CreateUpdateGroupSchedulerCommand createUpdateGroupSchedulerCommand = (CreateUpdateGroupSchedulerCommand) o;
     return Objects.equals(this.name, createUpdateGroupSchedulerCommand.name) &&
         Objects.equals(this.startDate, createUpdateGroupSchedulerCommand.startDate) &&
+            Objects.equals(this.timeZoneName, createUpdateGroupSchedulerCommand.timeZoneName) &&
         Objects.equals(this.instanceId, createUpdateGroupSchedulerCommand.instanceId) &&
         Objects.equals(this.actionTypeId, createUpdateGroupSchedulerCommand.actionTypeId) &&
         Objects.equals(this.schedulerTypeId, createUpdateGroupSchedulerCommand.schedulerTypeId) &&
@@ -196,7 +219,7 @@ public class CreateUpdateGroupSchedulerCommand {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, startDate, instanceId, actionTypeId, schedulerTypeId, cycleTypeId, cycleNumber);
+      return Objects.hash(name, startDate, timeZoneName, instanceId, actionTypeId, schedulerTypeId, cycleTypeId, cycleNumber);
   }
 
 
@@ -204,9 +227,10 @@ public class CreateUpdateGroupSchedulerCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateUpdateGroupSchedulerCommand {\n");
-    
+
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
+      sb.append("    timeZoneName: ").append(toIndentedString(timeZoneName)).append("\n");
     sb.append("    instanceId: ").append(toIndentedString(instanceId)).append("\n");
     sb.append("    actionTypeId: ").append(toIndentedString(actionTypeId)).append("\n");
     sb.append("    schedulerTypeId: ").append(toIndentedString(schedulerTypeId)).append("\n");

@@ -23,7 +23,7 @@ import java.util.Objects;
  * Create import command
  */
 @ApiModel(description = "Create import command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateImportCommand {
   @SerializedName("Name")
   private String name = null;
@@ -113,8 +113,8 @@ public class CreateImportCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateImportCommand {\n");
-    
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+
+      sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    ocsFileLocation: ").append(toIndentedString(ocsFileLocation)).append("\n");
     sb.append("    ocsProjectId: ").append(toIndentedString(ocsProjectId)).append("\n");
     sb.append("}");

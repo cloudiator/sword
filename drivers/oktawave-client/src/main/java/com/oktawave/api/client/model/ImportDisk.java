@@ -23,7 +23,7 @@ import java.util.Objects;
  * Disk of imported OCI
  */
 @ApiModel(description = "Disk of imported OCI")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ImportDisk {
   @SerializedName("Id")
   private Integer id = null;
@@ -179,8 +179,8 @@ public class ImportDisk {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ImportDisk {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+
+      sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    capacity: ").append(toIndentedString(capacity)).append("\n");
     sb.append("    diskName: ").append(toIndentedString(diskName)).append("\n");
     sb.append("    relativePath: ").append(toIndentedString(relativePath)).append("\n");

@@ -26,7 +26,7 @@ import java.util.Objects;
  * Http health check
  */
 @ApiModel(description = "Http health check")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class HealthCheckHttp {
   @SerializedName("HttpMethod")
   private DictionaryItem httpMethod = null;
@@ -96,6 +96,9 @@ public class HealthCheckHttp {
 
   @SerializedName("LastValidCheck")
   private OffsetDateTime lastValidCheck = null;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public HealthCheckHttp httpMethod(DictionaryItem httpMethod) {
     this.httpMethod = httpMethod;
@@ -527,6 +530,25 @@ public class HealthCheckHttp {
     this.lastValidCheck = lastValidCheck;
   }
 
+    public HealthCheckHttp description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -559,12 +581,13 @@ public class HealthCheckHttp {
         Objects.equals(this.paused, healthCheckHttp.paused) &&
         Objects.equals(this.suspended, healthCheckHttp.suspended) &&
         Objects.equals(this.lastInvalidCheck, healthCheckHttp.lastInvalidCheck) &&
-        Objects.equals(this.lastValidCheck, healthCheckHttp.lastValidCheck);
+            Objects.equals(this.lastValidCheck, healthCheckHttp.lastValidCheck) &&
+            Objects.equals(this.description, healthCheckHttp.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(httpMethod, contentRegularExpression, contentNegativeRegularExpression, port, timeout, content, contentType, notificationTypes, notificationEventTypes, notificationTime, locationsFailoverEnabled, errorTolerance, id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck);
+      return Objects.hash(httpMethod, contentRegularExpression, contentNegativeRegularExpression, port, timeout, content, contentType, notificationTypes, notificationEventTypes, notificationTime, locationsFailoverEnabled, errorTolerance, id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck, description);
   }
 
 
@@ -572,7 +595,7 @@ public class HealthCheckHttp {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HealthCheckHttp {\n");
-    
+
     sb.append("    httpMethod: ").append(toIndentedString(httpMethod)).append("\n");
     sb.append("    contentRegularExpression: ").append(toIndentedString(contentRegularExpression)).append("\n");
     sb.append("    contentNegativeRegularExpression: ").append(toIndentedString(contentNegativeRegularExpression)).append("\n");
@@ -596,6 +619,7 @@ public class HealthCheckHttp {
     sb.append("    suspended: ").append(toIndentedString(suspended)).append("\n");
     sb.append("    lastInvalidCheck: ").append(toIndentedString(lastInvalidCheck)).append("\n");
     sb.append("    lastValidCheck: ").append(toIndentedString(lastValidCheck)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

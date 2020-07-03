@@ -23,7 +23,7 @@ import java.util.Objects;
  * Attach IP to instance command
  */
 @ApiModel(description = "Attach IP to instance command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class AttachIpToInstanceCommand {
   @SerializedName("IpId")
   private Integer ipId = null;
@@ -91,8 +91,8 @@ public class AttachIpToInstanceCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AttachIpToInstanceCommand {\n");
-    
-    sb.append("    ipId: ").append(toIndentedString(ipId)).append("\n");
+
+      sb.append("    ipId: ").append(toIndentedString(ipId)).append("\n");
     sb.append("    ipV6: ").append(toIndentedString(ipV6)).append("\n");
     sb.append("}");
     return sb.toString();

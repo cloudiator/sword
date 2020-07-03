@@ -16,33 +16,19 @@ package com.oktawave.api.client.model;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * ApiCollectionSoftware
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ApiCollectionSoftware {
   @SerializedName("Items")
   private List<Software> items = null;
 
   @SerializedName("Meta")
   private ApiCollectionMetadata meta = null;
-
-  public ApiCollectionSoftware items(List<Software> items) {
-    this.items = items;
-    return this;
-  }
-
-  public ApiCollectionSoftware addItemsItem(Software itemsItem) {
-    if (this.items == null) {
-      this.items = new ArrayList<Software>();
-    }
-    this.items.add(itemsItem);
-    return this;
-  }
 
    /**
    * Get items
@@ -51,10 +37,6 @@ public class ApiCollectionSoftware {
   @ApiModelProperty(value = "")
   public List<Software> getItems() {
     return items;
-  }
-
-  public void setItems(List<Software> items) {
-    this.items = items;
   }
 
   public ApiCollectionSoftware meta(ApiCollectionMetadata meta) {
@@ -99,8 +81,8 @@ public class ApiCollectionSoftware {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ApiCollectionSoftware {\n");
-    
-    sb.append("    items: ").append(toIndentedString(items)).append("\n");
+
+      sb.append("    items: ").append(toIndentedString(items)).append("\n");
     sb.append("    meta: ").append(toIndentedString(meta)).append("\n");
     sb.append("}");
     return sb.toString();

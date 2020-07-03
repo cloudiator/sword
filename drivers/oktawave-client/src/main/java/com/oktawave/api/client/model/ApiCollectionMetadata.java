@@ -21,7 +21,7 @@ import java.util.Objects;
 /**
  * ApiCollectionMetadata
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ApiCollectionMetadata {
   @SerializedName("Total")
   private Integer total = null;
@@ -67,8 +67,8 @@ public class ApiCollectionMetadata {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ApiCollectionMetadata {\n");
-    
-    sb.append("    total: ").append(toIndentedString(total)).append("\n");
+
+      sb.append("    total: ").append(toIndentedString(total)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -20,14 +20,10 @@ package de.uniulm.omi.cloudiator.sword.drivers.oktawave.internal;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.oktawave.api.client.handler.ApiClient;
-import com.oktawave.api.client.handler.Configuration;
-import com.oktawave.api.client.handler.auth.OAuth;
+import com.oktawave.api.client.ApiClient;
+import com.oktawave.api.client.Configuration;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import jdk.nashorn.internal.parser.Token;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -36,7 +32,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class OktawaveProvider implements Provider<ApiClient> {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(OktawaveProvider.class);
     private final static String DELIMITER = ":";
 
     private final Cloud cloud;

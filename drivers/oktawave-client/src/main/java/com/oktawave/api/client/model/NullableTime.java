@@ -21,7 +21,7 @@ import java.util.Objects;
 /**
  * NullableTime
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class NullableTime {
   @SerializedName("Hours")
   private Integer hours = null;
@@ -71,8 +71,8 @@ public class NullableTime {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NullableTime {\n");
-    
-    sb.append("    hours: ").append(toIndentedString(hours)).append("\n");
+
+      sb.append("    hours: ").append(toIndentedString(hours)).append("\n");
     sb.append("    minutes: ").append(toIndentedString(minutes)).append("\n");
     sb.append("}");
     return sb.toString();

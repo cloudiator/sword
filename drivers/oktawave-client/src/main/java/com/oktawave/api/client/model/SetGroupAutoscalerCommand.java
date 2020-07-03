@@ -25,7 +25,7 @@ import java.util.Objects;
  * Set container autoscaler
  */
 @ApiModel(description = "Set container autoscaler")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class SetGroupAutoscalerCommand {
   @SerializedName("ExpansionTypeId")
   private Integer expansionTypeId = null;
@@ -146,8 +146,8 @@ public class SetGroupAutoscalerCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SetGroupAutoscalerCommand {\n");
-    
-    sb.append("    expansionTypeId: ").append(toIndentedString(expansionTypeId)).append("\n");
+
+      sb.append("    expansionTypeId: ").append(toIndentedString(expansionTypeId)).append("\n");
     sb.append("    minimumInstanceNumber: ").append(toIndentedString(minimumInstanceNumber)).append("\n");
     sb.append("    maximumInstanceNumber: ").append(toIndentedString(maximumInstanceNumber)).append("\n");
     sb.append("    instances: ").append(toIndentedString(instances)).append("\n");

@@ -23,7 +23,7 @@ import java.util.Objects;
  * Instance autoscaling configuration
  */
 @ApiModel(description = "Instance autoscaling configuration")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class InstanceAutoscalingParameter {
   @SerializedName("AutoscalingParameterType")
   private DictionaryItem autoscalingParameterType = null;
@@ -289,8 +289,8 @@ public class InstanceAutoscalingParameter {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class InstanceAutoscalingParameter {\n");
-    
-    sb.append("    autoscalingParameterType: ").append(toIndentedString(autoscalingParameterType)).append("\n");
+
+      sb.append("    autoscalingParameterType: ").append(toIndentedString(autoscalingParameterType)).append("\n");
     sb.append("    minRam: ").append(toIndentedString(minRam)).append("\n");
     sb.append("    maxRam: ").append(toIndentedString(maxRam)).append("\n");
     sb.append("    minCpu: ").append(toIndentedString(minCpu)).append("\n");

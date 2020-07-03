@@ -25,7 +25,7 @@ import java.util.Objects;
  * Create/update FullPage health check command
  */
 @ApiModel(description = "Create/update FullPage health check command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateUpdateHealthCheckFullPageCommand {
   @SerializedName("HttpMethodId")
   private Integer httpMethodId = 1440;
@@ -113,6 +113,9 @@ public class CreateUpdateHealthCheckFullPageCommand {
 
   @SerializedName("NotificationTimeId")
   private Integer notificationTimeId = 1594;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public CreateUpdateHealthCheckFullPageCommand httpMethodId(Integer httpMethodId) {
     this.httpMethodId = httpMethodId;
@@ -670,6 +673,25 @@ public class CreateUpdateHealthCheckFullPageCommand {
     this.notificationTimeId = notificationTimeId;
   }
 
+    public CreateUpdateHealthCheckFullPageCommand description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -708,12 +730,13 @@ public class CreateUpdateHealthCheckFullPageCommand {
         Objects.equals(this.locationsFailoverEnabled, createUpdateHealthCheckFullPageCommand.locationsFailoverEnabled) &&
         Objects.equals(this.notificationTypeIds, createUpdateHealthCheckFullPageCommand.notificationTypeIds) &&
         Objects.equals(this.notificationEventTypeIds, createUpdateHealthCheckFullPageCommand.notificationEventTypeIds) &&
-        Objects.equals(this.notificationTimeId, createUpdateHealthCheckFullPageCommand.notificationTimeId);
+            Objects.equals(this.notificationTimeId, createUpdateHealthCheckFullPageCommand.notificationTimeId) &&
+            Objects.equals(this.description, createUpdateHealthCheckFullPageCommand.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(httpMethodId, contentRegularExpression, contentNegativeRegularExpression, port, pageTimeout, elementTimeout, elementsTotalTimeout, fetchPageElements, maxRedirects, maxParallelRequests, generateHar, allowedElementErrorCount, contentSizeLimit, ignoreHtmlParsingTime, saveCookies, disableContentEncoding, content, contentType, ignoredElementsFilter, elementsFilter, errorTolerance, name, address, interval, paused, locationsFailoverEnabled, notificationTypeIds, notificationEventTypeIds, notificationTimeId);
+      return Objects.hash(httpMethodId, contentRegularExpression, contentNegativeRegularExpression, port, pageTimeout, elementTimeout, elementsTotalTimeout, fetchPageElements, maxRedirects, maxParallelRequests, generateHar, allowedElementErrorCount, contentSizeLimit, ignoreHtmlParsingTime, saveCookies, disableContentEncoding, content, contentType, ignoredElementsFilter, elementsFilter, errorTolerance, name, address, interval, paused, locationsFailoverEnabled, notificationTypeIds, notificationEventTypeIds, notificationTimeId, description);
   }
 
 
@@ -721,7 +744,7 @@ public class CreateUpdateHealthCheckFullPageCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateUpdateHealthCheckFullPageCommand {\n");
-    
+
     sb.append("    httpMethodId: ").append(toIndentedString(httpMethodId)).append("\n");
     sb.append("    contentRegularExpression: ").append(toIndentedString(contentRegularExpression)).append("\n");
     sb.append("    contentNegativeRegularExpression: ").append(toIndentedString(contentNegativeRegularExpression)).append("\n");
@@ -751,6 +774,7 @@ public class CreateUpdateHealthCheckFullPageCommand {
     sb.append("    notificationTypeIds: ").append(toIndentedString(notificationTypeIds)).append("\n");
     sb.append("    notificationEventTypeIds: ").append(toIndentedString(notificationEventTypeIds)).append("\n");
     sb.append("    notificationTimeId: ").append(toIndentedString(notificationTimeId)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

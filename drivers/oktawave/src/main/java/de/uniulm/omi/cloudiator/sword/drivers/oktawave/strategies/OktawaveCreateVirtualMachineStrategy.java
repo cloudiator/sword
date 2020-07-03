@@ -1,6 +1,10 @@
 package de.uniulm.omi.cloudiator.sword.drivers.oktawave.strategies;
 
-import com.oktawave.api.client.handler.*;
+import com.oktawave.api.client.ApiException;
+import com.oktawave.api.client.api.AccountApi;
+import com.oktawave.api.client.api.OciApi;
+import com.oktawave.api.client.api.OciTemplatesApi;
+import com.oktawave.api.client.api.TicketsApi;
 import com.oktawave.api.client.model.*;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
@@ -26,8 +30,10 @@ import java.io.OutputStreamWriter;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -67,9 +73,9 @@ public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachin
     public VirtualMachine apply(@Nullable VirtualMachineTemplate virtualMachineTemplate) {
         LOGGER.info("Creating instance from VirtualMachineTemplate: " + virtualMachineTemplate);
 
-        String instnaceName = namingStrategy.generateUniqueNameBasedOnName(virtualMachineTemplate.name(), 40);
-        if (instnaceName.length() > 40) {
-            throw new RuntimeException("InstanceName should be shorter than 40. Current value is " + instnaceName + ", size: " + instnaceName.length());
+        String vmName = namingStrategy.generateUniqueNameBasedOnName(virtualMachineTemplate.name(), 40);
+        if (vmName.length() > 40) {
+            throw new RuntimeException("InstanceName should be shorter than 40. Current value is " + vmName + ", size: " + vmName.length());
         }
         ExtendedKeyPair extendedKeyPair = keyPairGenerator.generate();
 
@@ -88,11 +94,13 @@ public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachin
         SshKey sshKey = tempSshKey;
 
         CreateInstanceCommand createInstanceCommand = new CreateInstanceCommand();
-        createInstanceCommand.setInstanceName(instnaceName);
+        createInstanceCommand.setInstanceName(vmName);
         createInstanceCommand.setInstancesCount(1);
         createInstanceCommand.setTemplateId(Integer.valueOf(virtualMachineTemplate.imageId()));
         createInstanceCommand.setTypeId(Integer.valueOf(virtualMachineTemplate.hardwareFlavorId()));
         createInstanceCommand.setSubregionId(Integer.valueOf(virtualMachineTemplate.locationId()));
+        createInstanceCommand.setDiskClass(48); // id 48 -> Tier 1
+        createInstanceCommand.setDiskSize(20); // default disk size
         if (sshKey != null) {
             createInstanceCommand.setSshKeysIds(Collections.singletonList(sshKey.getId()));
             createInstanceCommand.setAuthorizationMethodId(1398);
@@ -161,7 +169,21 @@ public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachin
     private AccessData getAccessData(Integer instanceId, Integer templateId, String privateKey) {
 
         try {
+            // get octawaveAccessData with retry mechanism
+            int maxAttempts = 3;
+            int attemptNumber = 0;
+            int sleepTime = 60000;
             com.oktawave.api.client.model.AccessData octawaveAccessData = ociApi.instancesGetAccessData(instanceId, null);
+            while (octawaveAccessData == null && attemptNumber < maxAttempts) {
+                sleep(sleepTime);
+                octawaveAccessData = ociApi.instancesGetAccessData(instanceId, null);
+                LOGGER.info("Sleep while waiting for availability of Oktawave access data");
+                attemptNumber++;
+            }
+
+            if (octawaveAccessData == null) {
+                throw new RuntimeException(String.format("Unable to gaining AccesessData. After %d attempts every %d millis is still null", maxAttempts, sleepTime));
+            }
             Template template = ociTemplatesApi.templatesGet_0(templateId, null);
 
             final String login = template.getCreationUser().getLogin();
@@ -187,7 +209,7 @@ public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachin
                 kpg = java.security.KeyPairGenerator.getInstance("RSA");
                 kpg.initialize(2048);
             } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException("No SuchAlgoritmException", e);
+                throw new RuntimeException("No SuchAlgorithmException", e);
             }
         }
 

@@ -23,7 +23,7 @@ import java.util.Objects;
  * Create/update VNC connection command
  */
 @ApiModel(description = "Create/update VNC connection command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateUpdateVncConnectionCommand {
   @SerializedName("SourceIp")
   private String sourceIp = null;
@@ -93,8 +93,8 @@ public class CreateUpdateVncConnectionCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateUpdateVncConnectionCommand {\n");
-    
-    sb.append("    sourceIp: ").append(toIndentedString(sourceIp)).append("\n");
+
+      sb.append("    sourceIp: ").append(toIndentedString(sourceIp)).append("\n");
     sb.append("    timeoutInMinutes: ").append(toIndentedString(timeoutInMinutes)).append("\n");
     sb.append("}");
     return sb.toString();

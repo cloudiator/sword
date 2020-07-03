@@ -28,7 +28,7 @@ import java.util.Objects;
  * Search params
  */
 @ApiModel(description = "Search params")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class BaseSearchParamsWithQuery {
   @SerializedName("Query")
   private String query = null;
@@ -213,8 +213,8 @@ public class BaseSearchParamsWithQuery {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class BaseSearchParamsWithQuery {\n");
-    
-    sb.append("    query: ").append(toIndentedString(query)).append("\n");
+
+      sb.append("    query: ").append(toIndentedString(query)).append("\n");
     sb.append("    pageSize: ").append(toIndentedString(pageSize)).append("\n");
     sb.append("    pageNumber: ").append(toIndentedString(pageNumber)).append("\n");
     sb.append("    orderBy: ").append(toIndentedString(orderBy)).append("\n");

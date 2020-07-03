@@ -26,7 +26,7 @@ import java.util.Objects;
  * Ping health check
  */
 @ApiModel(description = "Ping health check")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class HealthCheckPing {
   @SerializedName("PackageSize")
   private Integer packageSize = null;
@@ -81,6 +81,9 @@ public class HealthCheckPing {
 
   @SerializedName("LastValidCheck")
   private OffsetDateTime lastValidCheck = null;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public HealthCheckPing packageSize(Integer packageSize) {
     this.packageSize = packageSize;
@@ -422,6 +425,25 @@ public class HealthCheckPing {
     this.lastValidCheck = lastValidCheck;
   }
 
+    public HealthCheckPing description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -449,12 +471,13 @@ public class HealthCheckPing {
         Objects.equals(this.paused, healthCheckPing.paused) &&
         Objects.equals(this.suspended, healthCheckPing.suspended) &&
         Objects.equals(this.lastInvalidCheck, healthCheckPing.lastInvalidCheck) &&
-        Objects.equals(this.lastValidCheck, healthCheckPing.lastValidCheck);
+            Objects.equals(this.lastValidCheck, healthCheckPing.lastValidCheck) &&
+            Objects.equals(this.description, healthCheckPing.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(packageSize, replyTimeout, notificationTypes, notificationEventTypes, notificationTime, locationsFailoverEnabled, errorTolerance, id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck);
+      return Objects.hash(packageSize, replyTimeout, notificationTypes, notificationEventTypes, notificationTime, locationsFailoverEnabled, errorTolerance, id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck, description);
   }
 
 
@@ -481,6 +504,7 @@ public class HealthCheckPing {
     sb.append("    suspended: ").append(toIndentedString(suspended)).append("\n");
     sb.append("    lastInvalidCheck: ").append(toIndentedString(lastInvalidCheck)).append("\n");
     sb.append("    lastValidCheck: ").append(toIndentedString(lastValidCheck)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

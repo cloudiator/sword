@@ -18,14 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.remote.internal;
 
-import com.github.rholder.retry.Attempt;
-import com.github.rholder.retry.AttemptTimeLimiters;
-import com.github.rholder.retry.RetryException;
-import com.github.rholder.retry.RetryListener;
-import com.github.rholder.retry.Retryer;
-import com.github.rholder.retry.RetryerBuilder;
-import com.github.rholder.retry.StopStrategies;
-import com.github.rholder.retry.WaitStrategies;
+import com.github.rholder.retry.*;
 import com.google.common.base.MoreObjects;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -36,11 +29,12 @@ import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by daniel on 19.08.15.
@@ -57,11 +51,11 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
   @Inject(optional = true)
   @Named(Constants.SSH_FIXED_WAIT_SECONDS)
   private long
-      sshFixedWaitSeconds = 5;
+          sshFixedWaitSeconds = 120;
   @Inject(optional = true)
   @Named(Constants.SSH_ATTEMPT_TIME)
   private long
-      sshAttemptTime = 10;
+          sshAttemptTime = 240;
 
   @Inject
   RetryingConnectionFactory(@Base RemoteConnectionFactory remoteConnectionFactory) {

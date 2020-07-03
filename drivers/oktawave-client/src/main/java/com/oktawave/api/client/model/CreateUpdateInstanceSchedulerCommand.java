@@ -24,7 +24,7 @@ import java.util.Objects;
  * Create/update instance scheduler command
  */
 @ApiModel(description = "Create/update instance scheduler command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateUpdateInstanceSchedulerCommand {
   @SerializedName("Name")
   private String name = null;
@@ -34,6 +34,9 @@ public class CreateUpdateInstanceSchedulerCommand {
 
   @SerializedName("StartDate")
   private OffsetDateTime startDate = null;
+
+    @SerializedName("TimeZoneName")
+    private String timeZoneName = null;
 
   @SerializedName("CycleTypeId")
   private Integer cycleTypeId = null;
@@ -124,6 +127,25 @@ public class CreateUpdateInstanceSchedulerCommand {
   public void setStartDate(OffsetDateTime startDate) {
     this.startDate = startDate;
   }
+
+    public CreateUpdateInstanceSchedulerCommand timeZoneName(String timeZoneName) {
+        this.timeZoneName = timeZoneName;
+        return this;
+    }
+
+    /**
+     * Timezone name
+     *
+     * @return timeZoneName
+     **/
+    @ApiModelProperty(required = true, value = "Timezone name")
+    public String getTimeZoneName() {
+        return timeZoneName;
+    }
+
+    public void setTimeZoneName(String timeZoneName) {
+        this.timeZoneName = timeZoneName;
+    }
 
   public CreateUpdateInstanceSchedulerCommand cycleTypeId(Integer cycleTypeId) {
     this.cycleTypeId = cycleTypeId;
@@ -356,6 +378,7 @@ public class CreateUpdateInstanceSchedulerCommand {
     return Objects.equals(this.name, createUpdateInstanceSchedulerCommand.name) &&
         Objects.equals(this.typeId, createUpdateInstanceSchedulerCommand.typeId) &&
         Objects.equals(this.startDate, createUpdateInstanceSchedulerCommand.startDate) &&
+            Objects.equals(this.timeZoneName, createUpdateInstanceSchedulerCommand.timeZoneName) &&
         Objects.equals(this.cycleTypeId, createUpdateInstanceSchedulerCommand.cycleTypeId) &&
         Objects.equals(this.cycleNumber, createUpdateInstanceSchedulerCommand.cycleNumber) &&
         Objects.equals(this.actionTypeId, createUpdateInstanceSchedulerCommand.actionTypeId) &&
@@ -372,7 +395,7 @@ public class CreateUpdateInstanceSchedulerCommand {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, typeId, startDate, cycleTypeId, cycleNumber, actionTypeId, newInstanceTypeId, snapshotName, snapshotDescription, snapshotId, cloneName, storagePath, storageProjectId, isBackupsDaysLimit, backupsDaysLimit);
+      return Objects.hash(name, typeId, startDate, timeZoneName, cycleTypeId, cycleNumber, actionTypeId, newInstanceTypeId, snapshotName, snapshotDescription, snapshotId, cloneName, storagePath, storageProjectId, isBackupsDaysLimit, backupsDaysLimit);
   }
 
 
@@ -380,10 +403,11 @@ public class CreateUpdateInstanceSchedulerCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateUpdateInstanceSchedulerCommand {\n");
-    
+
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    typeId: ").append(toIndentedString(typeId)).append("\n");
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
+      sb.append("    timeZoneName: ").append(toIndentedString(timeZoneName)).append("\n");
     sb.append("    cycleTypeId: ").append(toIndentedString(cycleTypeId)).append("\n");
     sb.append("    cycleNumber: ").append(toIndentedString(cycleNumber)).append("\n");
     sb.append("    actionTypeId: ").append(toIndentedString(actionTypeId)).append("\n");

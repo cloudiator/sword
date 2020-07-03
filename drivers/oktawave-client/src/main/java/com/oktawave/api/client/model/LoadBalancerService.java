@@ -23,7 +23,7 @@ import java.util.Objects;
  * Load balancer service
  */
 @ApiModel(description = "Load balancer service")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class LoadBalancerService {
   @SerializedName("Instance")
   private NamedResource instance = null;
@@ -267,8 +267,8 @@ public class LoadBalancerService {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class LoadBalancerService {\n");
-    
-    sb.append("    instance: ").append(toIndentedString(instance)).append("\n");
+
+      sb.append("    instance: ").append(toIndentedString(instance)).append("\n");
     sb.append("    instanceState: ").append(toIndentedString(instanceState)).append("\n");
     sb.append("    ipAddress: ").append(toIndentedString(ipAddress)).append("\n");
     sb.append("    port: ").append(toIndentedString(port)).append("\n");

@@ -26,7 +26,7 @@ import java.util.Objects;
  * FullPage health check
  */
 @ApiModel(description = "FullPage health check")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class HealthCheckFullPage {
   @SerializedName("HttpMethod")
   private DictionaryItem httpMethod = null;
@@ -135,6 +135,9 @@ public class HealthCheckFullPage {
 
   @SerializedName("LastValidCheck")
   private OffsetDateTime lastValidCheck = null;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public HealthCheckFullPage httpMethod(DictionaryItem httpMethod) {
     this.httpMethod = httpMethod;
@@ -800,6 +803,25 @@ public class HealthCheckFullPage {
     this.lastValidCheck = lastValidCheck;
   }
 
+    public HealthCheckFullPage description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -845,12 +867,13 @@ public class HealthCheckFullPage {
         Objects.equals(this.paused, healthCheckFullPage.paused) &&
         Objects.equals(this.suspended, healthCheckFullPage.suspended) &&
         Objects.equals(this.lastInvalidCheck, healthCheckFullPage.lastInvalidCheck) &&
-        Objects.equals(this.lastValidCheck, healthCheckFullPage.lastValidCheck);
+            Objects.equals(this.lastValidCheck, healthCheckFullPage.lastValidCheck) &&
+            Objects.equals(this.description, healthCheckFullPage.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(httpMethod, contentRegularExpression, contentNegativeRegularExpression, port, pageTimeout, elementTimeout, elementsTotalTimeout, fetchPageElements, maxRedirects, maxParallelRequests, generateHar, allowedElementErrorCount, contentSizeLimit, ignoreHtmlParsingTime, saveCookies, disableContentEncoding, content, contentType, ignoredElementsFilter, elementsFilter, notificationTypes, notificationEventTypes, notificationTime, locationsFailoverEnabled, errorTolerance, id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck);
+      return Objects.hash(httpMethod, contentRegularExpression, contentNegativeRegularExpression, port, pageTimeout, elementTimeout, elementsTotalTimeout, fetchPageElements, maxRedirects, maxParallelRequests, generateHar, allowedElementErrorCount, contentSizeLimit, ignoreHtmlParsingTime, saveCookies, disableContentEncoding, content, contentType, ignoredElementsFilter, elementsFilter, notificationTypes, notificationEventTypes, notificationTime, locationsFailoverEnabled, errorTolerance, id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck, description);
   }
 
 
@@ -858,7 +881,7 @@ public class HealthCheckFullPage {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HealthCheckFullPage {\n");
-    
+
     sb.append("    httpMethod: ").append(toIndentedString(httpMethod)).append("\n");
     sb.append("    contentRegularExpression: ").append(toIndentedString(contentRegularExpression)).append("\n");
     sb.append("    contentNegativeRegularExpression: ").append(toIndentedString(contentNegativeRegularExpression)).append("\n");
@@ -895,6 +918,7 @@ public class HealthCheckFullPage {
     sb.append("    suspended: ").append(toIndentedString(suspended)).append("\n");
     sb.append("    lastInvalidCheck: ").append(toIndentedString(lastInvalidCheck)).append("\n");
     sb.append("    lastValidCheck: ").append(toIndentedString(lastValidCheck)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

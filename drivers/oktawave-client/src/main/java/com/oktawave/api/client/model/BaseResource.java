@@ -23,7 +23,7 @@ import java.util.Objects;
  * Resource reference
  */
 @ApiModel(description = "Resource reference")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class BaseResource {
   @SerializedName("Id")
   private Integer id = null;
@@ -69,8 +69,8 @@ public class BaseResource {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class BaseResource {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+
+      sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -23,7 +23,7 @@ import java.util.Objects;
  * Clone instance command
  */
 @ApiModel(description = "Clone instance command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CloneInstanceCommand {
   @SerializedName("CloneName")
   private String cloneName = null;

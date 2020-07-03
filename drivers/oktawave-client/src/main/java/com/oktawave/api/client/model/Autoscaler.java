@@ -23,7 +23,7 @@ import java.util.Objects;
  * Instance autoscaler settings
  */
 @ApiModel(description = "Instance autoscaler settings")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class Autoscaler {
   @SerializedName("AutoscalingMode")
   private DictionaryItem autoscalingMode = null;
@@ -113,8 +113,8 @@ public class Autoscaler {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Autoscaler {\n");
-    
-    sb.append("    autoscalingMode: ").append(toIndentedString(autoscalingMode)).append("\n");
+
+      sb.append("    autoscalingMode: ").append(toIndentedString(autoscalingMode)).append("\n");
     sb.append("    hotPlugEnabled: ").append(toIndentedString(hotPlugEnabled)).append("\n");
     sb.append("    autoscalingParameter: ").append(toIndentedString(autoscalingParameter)).append("\n");
     sb.append("}");

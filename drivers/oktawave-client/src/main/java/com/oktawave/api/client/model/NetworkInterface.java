@@ -23,7 +23,7 @@ import java.util.Objects;
  * Network interface
  */
 @ApiModel(description = "Network interface")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class NetworkInterface {
   @SerializedName("InterfaceId")
   private Integer interfaceId = null;
@@ -311,8 +311,8 @@ public class NetworkInterface {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NetworkInterface {\n");
-    
-    sb.append("    interfaceId: ").append(toIndentedString(interfaceId)).append("\n");
+
+      sb.append("    interfaceId: ").append(toIndentedString(interfaceId)).append("\n");
     sb.append("    macAddress: ").append(toIndentedString(macAddress)).append("\n");
     sb.append("    instance: ").append(toIndentedString(instance)).append("\n");
     sb.append("    opn: ").append(toIndentedString(opn)).append("\n");

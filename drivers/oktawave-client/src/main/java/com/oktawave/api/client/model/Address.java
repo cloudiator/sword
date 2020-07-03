@@ -23,7 +23,7 @@ import java.util.Objects;
  * Address
  */
 @ApiModel(description = "Address")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class Address {
   @SerializedName("Id")
   private Integer id = null;
@@ -201,8 +201,8 @@ public class Address {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Address {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+
+      sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    addressType: ").append(toIndentedString(addressType)).append("\n");
     sb.append("    street: ").append(toIndentedString(street)).append("\n");
     sb.append("    city: ").append(toIndentedString(city)).append("\n");

@@ -25,7 +25,7 @@ import java.util.Objects;
  * Create/update imap health check command
  */
 @ApiModel(description = "Create/update imap health check command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateUpdateHealthCheckSipCommand {
   @SerializedName("SipUserName")
   private String sipUserName = null;
@@ -62,6 +62,9 @@ public class CreateUpdateHealthCheckSipCommand {
 
   @SerializedName("NotificationTimeId")
   private Integer notificationTimeId = 1594;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public CreateUpdateHealthCheckSipCommand sipUserName(String sipUserName) {
     this.sipUserName = sipUserName;
@@ -297,6 +300,25 @@ public class CreateUpdateHealthCheckSipCommand {
     this.notificationTimeId = notificationTimeId;
   }
 
+    public CreateUpdateHealthCheckSipCommand description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -318,12 +340,13 @@ public class CreateUpdateHealthCheckSipCommand {
         Objects.equals(this.locationsFailoverEnabled, createUpdateHealthCheckSipCommand.locationsFailoverEnabled) &&
         Objects.equals(this.notificationTypeIds, createUpdateHealthCheckSipCommand.notificationTypeIds) &&
         Objects.equals(this.notificationEventTypeIds, createUpdateHealthCheckSipCommand.notificationEventTypeIds) &&
-        Objects.equals(this.notificationTimeId, createUpdateHealthCheckSipCommand.notificationTimeId);
+            Objects.equals(this.notificationTimeId, createUpdateHealthCheckSipCommand.notificationTimeId) &&
+            Objects.equals(this.description, createUpdateHealthCheckSipCommand.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(sipUserName, sipPassword, sipDomain, timeout, name, address, interval, paused, locationsFailoverEnabled, notificationTypeIds, notificationEventTypeIds, notificationTimeId);
+      return Objects.hash(sipUserName, sipPassword, sipDomain, timeout, name, address, interval, paused, locationsFailoverEnabled, notificationTypeIds, notificationEventTypeIds, notificationTimeId, description);
   }
 
 
@@ -331,7 +354,7 @@ public class CreateUpdateHealthCheckSipCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateUpdateHealthCheckSipCommand {\n");
-    
+
     sb.append("    sipUserName: ").append(toIndentedString(sipUserName)).append("\n");
     sb.append("    sipPassword: ").append(toIndentedString(sipPassword)).append("\n");
     sb.append("    sipDomain: ").append(toIndentedString(sipDomain)).append("\n");
@@ -344,6 +367,7 @@ public class CreateUpdateHealthCheckSipCommand {
     sb.append("    notificationTypeIds: ").append(toIndentedString(notificationTypeIds)).append("\n");
     sb.append("    notificationEventTypeIds: ").append(toIndentedString(notificationEventTypeIds)).append("\n");
     sb.append("    notificationTimeId: ").append(toIndentedString(notificationTimeId)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

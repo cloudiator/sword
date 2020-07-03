@@ -25,7 +25,7 @@ import java.util.Objects;
  * Run import command
  */
 @ApiModel(description = "Run import command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class RunImportCommand {
   @SerializedName("SubregionId")
   private Integer subregionId = null;
@@ -147,8 +147,8 @@ public class RunImportCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class RunImportCommand {\n");
-    
-    sb.append("    subregionId: ").append(toIndentedString(subregionId)).append("\n");
+
+      sb.append("    subregionId: ").append(toIndentedString(subregionId)).append("\n");
     sb.append("    typeId: ").append(toIndentedString(typeId)).append("\n");
     sb.append("    disks: ").append(toIndentedString(disks)).append("\n");
     sb.append("    network: ").append(toIndentedString(network)).append("\n");

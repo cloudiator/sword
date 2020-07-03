@@ -24,7 +24,7 @@ import java.util.Objects;
  * Group
  */
 @ApiModel(description = "Group")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class Group {
   @SerializedName("Id")
   private Integer id = null;
@@ -246,8 +246,8 @@ public class Group {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Group {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+
+      sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    isLoadBalancer: ").append(toIndentedString(isLoadBalancer)).append("\n");
     sb.append("    instancesCount: ").append(toIndentedString(instancesCount)).append("\n");

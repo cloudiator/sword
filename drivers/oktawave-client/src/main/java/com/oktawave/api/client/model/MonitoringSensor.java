@@ -23,7 +23,7 @@ import java.util.Objects;
  * Monitoring sensor
  */
 @ApiModel(description = "Monitoring sensor")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class MonitoringSensor {
   @SerializedName("Id")
   private Integer id = null;
@@ -179,8 +179,8 @@ public class MonitoringSensor {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MonitoringSensor {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+
+      sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    country: ").append(toIndentedString(country)).append("\n");
     sb.append("    city: ").append(toIndentedString(city)).append("\n");
     sb.append("    ipAddress: ").append(toIndentedString(ipAddress)).append("\n");

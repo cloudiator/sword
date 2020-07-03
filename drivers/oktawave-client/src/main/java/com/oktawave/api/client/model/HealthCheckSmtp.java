@@ -26,7 +26,7 @@ import java.util.Objects;
  * Ping health check
  */
 @ApiModel(description = "Ping health check")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class HealthCheckSmtp {
   @SerializedName("Port")
   private Integer port = null;
@@ -84,6 +84,9 @@ public class HealthCheckSmtp {
 
   @SerializedName("LastValidCheck")
   private OffsetDateTime lastValidCheck = null;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public HealthCheckSmtp port(Integer port) {
     this.port = port;
@@ -443,6 +446,25 @@ public class HealthCheckSmtp {
     this.lastValidCheck = lastValidCheck;
   }
 
+    public HealthCheckSmtp description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -471,12 +493,13 @@ public class HealthCheckSmtp {
         Objects.equals(this.paused, healthCheckSmtp.paused) &&
         Objects.equals(this.suspended, healthCheckSmtp.suspended) &&
         Objects.equals(this.lastInvalidCheck, healthCheckSmtp.lastInvalidCheck) &&
-        Objects.equals(this.lastValidCheck, healthCheckSmtp.lastValidCheck);
+            Objects.equals(this.lastValidCheck, healthCheckSmtp.lastValidCheck) &&
+            Objects.equals(this.description, healthCheckSmtp.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(port, timeout, replyTimeout, notificationTypes, notificationEventTypes, notificationTime, locationsFailoverEnabled, errorTolerance, id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck);
+      return Objects.hash(port, timeout, replyTimeout, notificationTypes, notificationEventTypes, notificationTime, locationsFailoverEnabled, errorTolerance, id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck, description);
   }
 
 
@@ -484,7 +507,7 @@ public class HealthCheckSmtp {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HealthCheckSmtp {\n");
-    
+
     sb.append("    port: ").append(toIndentedString(port)).append("\n");
     sb.append("    timeout: ").append(toIndentedString(timeout)).append("\n");
     sb.append("    replyTimeout: ").append(toIndentedString(replyTimeout)).append("\n");
@@ -504,6 +527,7 @@ public class HealthCheckSmtp {
     sb.append("    suspended: ").append(toIndentedString(suspended)).append("\n");
     sb.append("    lastInvalidCheck: ").append(toIndentedString(lastInvalidCheck)).append("\n");
     sb.append("    lastValidCheck: ").append(toIndentedString(lastValidCheck)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

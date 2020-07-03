@@ -17,7 +17,6 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,26 +24,13 @@ import java.util.Objects;
  * Resource with HATEOAS links
  */
 @ApiModel(description = "Resource with HATEOAS links")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class Resource {
   @SerializedName("Links")
   private List<Link> links = null;
 
   @SerializedName("Id")
   private Integer id = null;
-
-  public Resource links(List<Link> links) {
-    this.links = links;
-    return this;
-  }
-
-  public Resource addLinksItem(Link linksItem) {
-    if (this.links == null) {
-      this.links = new ArrayList<Link>();
-    }
-    this.links.add(linksItem);
-    return this;
-  }
 
    /**
    * Get links
@@ -53,10 +39,6 @@ public class Resource {
   @ApiModelProperty(value = "")
   public List<Link> getLinks() {
     return links;
-  }
-
-  public void setLinks(List<Link> links) {
-    this.links = links;
   }
 
   public Resource id(Integer id) {
@@ -101,8 +83,8 @@ public class Resource {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Resource {\n");
-    
-    sb.append("    links: ").append(toIndentedString(links)).append("\n");
+
+      sb.append("    links: ").append(toIndentedString(links)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();

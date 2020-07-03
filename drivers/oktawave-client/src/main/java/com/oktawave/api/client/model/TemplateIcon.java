@@ -23,7 +23,7 @@ import java.util.Objects;
  * Icon file
  */
 @ApiModel(description = "Icon file")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class TemplateIcon {
   @SerializedName("FileName")
   private String fileName = null;
@@ -91,8 +91,8 @@ public class TemplateIcon {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TemplateIcon {\n");
-    
-    sb.append("    fileName: ").append(toIndentedString(fileName)).append("\n");
+
+      sb.append("    fileName: ").append(toIndentedString(fileName)).append("\n");
     sb.append("    fileSource: ").append(toIndentedString(fileSource)).append("\n");
     sb.append("}");
     return sb.toString();

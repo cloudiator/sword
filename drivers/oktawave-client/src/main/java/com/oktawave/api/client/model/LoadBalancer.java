@@ -25,7 +25,7 @@ import java.util.Objects;
  * Load balancer
  */
 @ApiModel(description = "Load balancer")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class LoadBalancer {
   @SerializedName("GroupId")
   private Integer groupId = null;
@@ -44,6 +44,9 @@ public class LoadBalancer {
 
   @SerializedName("PortNumber")
   private Integer portNumber = null;
+
+    @SerializedName("TargetPortNumber")
+    private Integer targetPortNumber = null;
 
   @SerializedName("SessionPersistenceType")
   private DictionaryItem sessionPersistenceType = null;
@@ -173,6 +176,25 @@ public class LoadBalancer {
   public void setPortNumber(Integer portNumber) {
     this.portNumber = portNumber;
   }
+
+    public LoadBalancer targetPortNumber(Integer targetPortNumber) {
+        this.targetPortNumber = targetPortNumber;
+        return this;
+    }
+
+    /**
+     * Port number for \&quot;TargetPort\&quot; service type
+     *
+     * @return targetPortNumber
+     **/
+    @ApiModelProperty(value = "Port number for \"TargetPort\" service type")
+    public Integer getTargetPortNumber() {
+        return targetPortNumber;
+    }
+
+    public void setTargetPortNumber(Integer targetPortNumber) {
+        this.targetPortNumber = targetPortNumber;
+    }
 
   public LoadBalancer sessionPersistenceType(DictionaryItem sessionPersistenceType) {
     this.sessionPersistenceType = sessionPersistenceType;
@@ -324,6 +346,7 @@ public class LoadBalancer {
         Objects.equals(this.ipV6Address, loadBalancer.ipV6Address) &&
         Objects.equals(this.serviceType, loadBalancer.serviceType) &&
         Objects.equals(this.portNumber, loadBalancer.portNumber) &&
+            Objects.equals(this.targetPortNumber, loadBalancer.targetPortNumber) &&
         Objects.equals(this.sessionPersistenceType, loadBalancer.sessionPersistenceType) &&
         Objects.equals(this.algorithm, loadBalancer.algorithm) &&
         Objects.equals(this.ipVersion, loadBalancer.ipVersion) &&
@@ -335,7 +358,7 @@ public class LoadBalancer {
 
   @Override
   public int hashCode() {
-    return Objects.hash(groupId, groupName, ipAddress, ipV6Address, serviceType, portNumber, sessionPersistenceType, algorithm, ipVersion, healthCheckEnabled, sslEnabled, commonPersistenceForHttpAndHttpsEnabled, servers);
+      return Objects.hash(groupId, groupName, ipAddress, ipV6Address, serviceType, portNumber, targetPortNumber, sessionPersistenceType, algorithm, ipVersion, healthCheckEnabled, sslEnabled, commonPersistenceForHttpAndHttpsEnabled, servers);
   }
 
 
@@ -343,13 +366,14 @@ public class LoadBalancer {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class LoadBalancer {\n");
-    
+
     sb.append("    groupId: ").append(toIndentedString(groupId)).append("\n");
     sb.append("    groupName: ").append(toIndentedString(groupName)).append("\n");
     sb.append("    ipAddress: ").append(toIndentedString(ipAddress)).append("\n");
     sb.append("    ipV6Address: ").append(toIndentedString(ipV6Address)).append("\n");
     sb.append("    serviceType: ").append(toIndentedString(serviceType)).append("\n");
     sb.append("    portNumber: ").append(toIndentedString(portNumber)).append("\n");
+      sb.append("    targetPortNumber: ").append(toIndentedString(targetPortNumber)).append("\n");
     sb.append("    sessionPersistenceType: ").append(toIndentedString(sessionPersistenceType)).append("\n");
     sb.append("    algorithm: ").append(toIndentedString(algorithm)).append("\n");
     sb.append("    ipVersion: ").append(toIndentedString(ipVersion)).append("\n");

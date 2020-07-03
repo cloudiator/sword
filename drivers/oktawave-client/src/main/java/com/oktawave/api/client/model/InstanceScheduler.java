@@ -24,7 +24,7 @@ import java.util.Objects;
  * Instance scheduler
  */
 @ApiModel(description = "Instance scheduler")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class InstanceScheduler {
   @SerializedName("Id")
   private Integer id = null;
@@ -52,6 +52,9 @@ public class InstanceScheduler {
 
   @SerializedName("StartDate")
   private OffsetDateTime startDate = null;
+
+    @SerializedName("TimeZoneName")
+    private String timeZoneName = null;
 
   @SerializedName("CycleType")
   private DictionaryItem cycleType = null;
@@ -250,6 +253,25 @@ public class InstanceScheduler {
   public void setStartDate(OffsetDateTime startDate) {
     this.startDate = startDate;
   }
+
+    public InstanceScheduler timeZoneName(String timeZoneName) {
+        this.timeZoneName = timeZoneName;
+        return this;
+    }
+
+    /**
+     * Time zone name
+     *
+     * @return timeZoneName
+     **/
+    @ApiModelProperty(value = "Time zone name")
+    public String getTimeZoneName() {
+        return timeZoneName;
+    }
+
+    public void setTimeZoneName(String timeZoneName) {
+        this.timeZoneName = timeZoneName;
+    }
 
   public InstanceScheduler cycleType(DictionaryItem cycleType) {
     this.cycleType = cycleType;
@@ -486,6 +508,7 @@ public class InstanceScheduler {
         Objects.equals(this.type, instanceScheduler.type) &&
         Objects.equals(this.status, instanceScheduler.status) &&
         Objects.equals(this.startDate, instanceScheduler.startDate) &&
+            Objects.equals(this.timeZoneName, instanceScheduler.timeZoneName) &&
         Objects.equals(this.cycleType, instanceScheduler.cycleType) &&
         Objects.equals(this.cycleNumber, instanceScheduler.cycleNumber) &&
         Objects.equals(this.actionType, instanceScheduler.actionType) &&
@@ -502,7 +525,7 @@ public class InstanceScheduler {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, instance, creationDate, lastChangeDate, creationUser, type, status, startDate, cycleType, cycleNumber, actionType, newInstanceType, snapshotName, snapshotDescription, snapshot, cloneName, storagePath, storageProjectId, isBackupsDaysLimit, backupsDaysLimit);
+      return Objects.hash(id, name, instance, creationDate, lastChangeDate, creationUser, type, status, startDate, timeZoneName, cycleType, cycleNumber, actionType, newInstanceType, snapshotName, snapshotDescription, snapshot, cloneName, storagePath, storageProjectId, isBackupsDaysLimit, backupsDaysLimit);
   }
 
 
@@ -520,6 +543,7 @@ public class InstanceScheduler {
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
+      sb.append("    timeZoneName: ").append(toIndentedString(timeZoneName)).append("\n");
     sb.append("    cycleType: ").append(toIndentedString(cycleType)).append("\n");
     sb.append("    cycleNumber: ").append(toIndentedString(cycleNumber)).append("\n");
     sb.append("    actionType: ").append(toIndentedString(actionType)).append("\n");

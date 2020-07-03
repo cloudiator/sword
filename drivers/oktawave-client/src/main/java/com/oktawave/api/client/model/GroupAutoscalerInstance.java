@@ -23,7 +23,7 @@ import java.util.Objects;
  * Instance used by group autoscaler
  */
 @ApiModel(description = "Instance used by group autoscaler")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class GroupAutoscalerInstance {
   @SerializedName("Instance")
   private BaseResource instance = null;
@@ -91,8 +91,8 @@ public class GroupAutoscalerInstance {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class GroupAutoscalerInstance {\n");
-    
-    sb.append("    instance: ").append(toIndentedString(instance)).append("\n");
+
+      sb.append("    instance: ").append(toIndentedString(instance)).append("\n");
     sb.append("    orderNumber: ").append(toIndentedString(orderNumber)).append("\n");
     sb.append("}");
     return sb.toString();

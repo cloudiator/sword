@@ -29,7 +29,7 @@ import java.util.Objects;
  * Search params for instance events
  */
 @ApiModel(description = "Search params for instance events")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class EventsSearchParams {
   @SerializedName("UserId")
   private Integer userId = null;
@@ -280,8 +280,8 @@ public class EventsSearchParams {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EventsSearchParams {\n");
-    
-    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+
+      sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    dateFrom: ").append(toIndentedString(dateFrom)).append("\n");
     sb.append("    dateTo: ").append(toIndentedString(dateTo)).append("\n");
     sb.append("    operationTypeId: ").append(toIndentedString(operationTypeId)).append("\n");

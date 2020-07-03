@@ -16,33 +16,19 @@ package com.oktawave.api.client.model;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * ApiCollectionDictionaryItem
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ApiCollectionDictionaryItem {
   @SerializedName("Items")
   private List<DictionaryItem> items = null;
 
   @SerializedName("Meta")
   private ApiCollectionMetadata meta = null;
-
-  public ApiCollectionDictionaryItem items(List<DictionaryItem> items) {
-    this.items = items;
-    return this;
-  }
-
-  public ApiCollectionDictionaryItem addItemsItem(DictionaryItem itemsItem) {
-    if (this.items == null) {
-      this.items = new ArrayList<DictionaryItem>();
-    }
-    this.items.add(itemsItem);
-    return this;
-  }
 
    /**
    * Get items
@@ -51,10 +37,6 @@ public class ApiCollectionDictionaryItem {
   @ApiModelProperty(value = "")
   public List<DictionaryItem> getItems() {
     return items;
-  }
-
-  public void setItems(List<DictionaryItem> items) {
-    this.items = items;
   }
 
   public ApiCollectionDictionaryItem meta(ApiCollectionMetadata meta) {

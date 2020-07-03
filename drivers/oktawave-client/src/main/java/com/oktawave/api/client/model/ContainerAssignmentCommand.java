@@ -23,7 +23,7 @@ import java.util.Objects;
  * Container assignment
  */
 @ApiModel(description = "Container assignment")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ContainerAssignmentCommand {
   @SerializedName("InstanceId")
   private Integer instanceId = null;
@@ -91,8 +91,8 @@ public class ContainerAssignmentCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ContainerAssignmentCommand {\n");
-    
-    sb.append("    instanceId: ").append(toIndentedString(instanceId)).append("\n");
+
+      sb.append("    instanceId: ").append(toIndentedString(instanceId)).append("\n");
     sb.append("    ipId: ").append(toIndentedString(ipId)).append("\n");
     sb.append("}");
     return sb.toString();

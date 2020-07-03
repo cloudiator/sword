@@ -28,7 +28,7 @@ import java.util.Objects;
  * Search params for instances
  */
 @ApiModel(description = "Search params for instances")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class InstancesSearchParams {
   @SerializedName("TemplateTypeId")
   private Integer templateTypeId = null;
@@ -301,8 +301,8 @@ public class InstancesSearchParams {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class InstancesSearchParams {\n");
-    
-    sb.append("    templateTypeId: ").append(toIndentedString(templateTypeId)).append("\n");
+
+      sb.append("    templateTypeId: ").append(toIndentedString(templateTypeId)).append("\n");
     sb.append("    isTurnedOn: ").append(toIndentedString(isTurnedOn)).append("\n");
     sb.append("    subregionId: ").append(toIndentedString(subregionId)).append("\n");
     sb.append("    typeId: ").append(toIndentedString(typeId)).append("\n");

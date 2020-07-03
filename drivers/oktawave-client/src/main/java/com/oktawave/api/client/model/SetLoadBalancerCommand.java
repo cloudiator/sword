@@ -23,7 +23,7 @@ import java.util.Objects;
  * Set load balancer command
  */
 @ApiModel(description = "Set load balancer command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class SetLoadBalancerCommand {
   @SerializedName("SslEnabled")
   private Boolean sslEnabled = null;
@@ -33,6 +33,9 @@ public class SetLoadBalancerCommand {
 
   @SerializedName("PortNumber")
   private Integer portNumber = null;
+
+    @SerializedName("TargetPortNumber")
+    private Integer targetPortNumber = null;
 
   @SerializedName("SessionPersistenceType")
   private Integer sessionPersistenceType = null;
@@ -107,6 +110,27 @@ public class SetLoadBalancerCommand {
   public void setPortNumber(Integer portNumber) {
     this.portNumber = portNumber;
   }
+
+    public SetLoadBalancerCommand targetPortNumber(Integer targetPortNumber) {
+        this.targetPortNumber = targetPortNumber;
+        return this;
+    }
+
+    /**
+     * Port number for \&quot;TargetPort\&quot; load balancer service type
+     * minimum: 1
+     * maximum: 65535
+     *
+     * @return targetPortNumber
+     **/
+    @ApiModelProperty(value = "Port number for \"TargetPort\" load balancer service type")
+    public Integer getTargetPortNumber() {
+        return targetPortNumber;
+    }
+
+    public void setTargetPortNumber(Integer targetPortNumber) {
+        this.targetPortNumber = targetPortNumber;
+    }
 
   public SetLoadBalancerCommand sessionPersistenceType(Integer sessionPersistenceType) {
     this.sessionPersistenceType = sessionPersistenceType;
@@ -229,6 +253,7 @@ public class SetLoadBalancerCommand {
     return Objects.equals(this.sslEnabled, setLoadBalancerCommand.sslEnabled) &&
         Objects.equals(this.serviceType, setLoadBalancerCommand.serviceType) &&
         Objects.equals(this.portNumber, setLoadBalancerCommand.portNumber) &&
+            Objects.equals(this.targetPortNumber, setLoadBalancerCommand.targetPortNumber) &&
         Objects.equals(this.sessionPersistenceType, setLoadBalancerCommand.sessionPersistenceType) &&
         Objects.equals(this.loadBalancerAlgorithm, setLoadBalancerCommand.loadBalancerAlgorithm) &&
         Objects.equals(this.ipVersion, setLoadBalancerCommand.ipVersion) &&
@@ -239,7 +264,7 @@ public class SetLoadBalancerCommand {
 
   @Override
   public int hashCode() {
-    return Objects.hash(sslEnabled, serviceType, portNumber, sessionPersistenceType, loadBalancerAlgorithm, ipVersion, healthCheckEnabled, commonPersistenceForHttpAndHttpsEnabled, loadBalancerIpId);
+      return Objects.hash(sslEnabled, serviceType, portNumber, targetPortNumber, sessionPersistenceType, loadBalancerAlgorithm, ipVersion, healthCheckEnabled, commonPersistenceForHttpAndHttpsEnabled, loadBalancerIpId);
   }
 
 
@@ -247,10 +272,11 @@ public class SetLoadBalancerCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SetLoadBalancerCommand {\n");
-    
+
     sb.append("    sslEnabled: ").append(toIndentedString(sslEnabled)).append("\n");
     sb.append("    serviceType: ").append(toIndentedString(serviceType)).append("\n");
     sb.append("    portNumber: ").append(toIndentedString(portNumber)).append("\n");
+      sb.append("    targetPortNumber: ").append(toIndentedString(targetPortNumber)).append("\n");
     sb.append("    sessionPersistenceType: ").append(toIndentedString(sessionPersistenceType)).append("\n");
     sb.append("    loadBalancerAlgorithm: ").append(toIndentedString(loadBalancerAlgorithm)).append("\n");
     sb.append("    ipVersion: ").append(toIndentedString(ipVersion)).append("\n");

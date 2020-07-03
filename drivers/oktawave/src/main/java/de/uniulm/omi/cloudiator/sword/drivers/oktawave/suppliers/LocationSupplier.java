@@ -21,9 +21,8 @@ package de.uniulm.omi.cloudiator.sword.drivers.oktawave.suppliers;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.oktawave.api.client.handler.ApiException;
-import com.oktawave.api.client.handler.SubregionsApi;
-import com.oktawave.api.client.handler.auth.OAuth;
+import com.oktawave.api.client.ApiException;
+import com.oktawave.api.client.api.SubregionsApi;
 import com.oktawave.api.client.model.Subregion;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
@@ -52,7 +51,7 @@ public class LocationSupplier implements Supplier<Set<Location>> {
 
   @Inject
   public LocationSupplier(SubregionsApi subregionsApi, OneWayConverter<Subregion, Location> converter) {
-    this.converter = checkNotNull(converter, "converter is null");;
+      this.converter = checkNotNull(converter, "converter is null");
     this.subregionsApi = checkNotNull(subregionsApi, "subregionsApi is null");
   }
 

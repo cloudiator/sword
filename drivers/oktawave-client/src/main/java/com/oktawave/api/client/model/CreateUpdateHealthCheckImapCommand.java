@@ -25,7 +25,7 @@ import java.util.Objects;
  * Create/update imap health check command
  */
 @ApiModel(description = "Create/update imap health check command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateUpdateHealthCheckImapCommand {
   @SerializedName("Port")
   private Integer port = 143;
@@ -59,6 +59,9 @@ public class CreateUpdateHealthCheckImapCommand {
 
   @SerializedName("NotificationTimeId")
   private Integer notificationTimeId = 1594;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public CreateUpdateHealthCheckImapCommand port(Integer port) {
     this.port = port;
@@ -280,6 +283,25 @@ public class CreateUpdateHealthCheckImapCommand {
     this.notificationTimeId = notificationTimeId;
   }
 
+    public CreateUpdateHealthCheckImapCommand description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -300,12 +322,13 @@ public class CreateUpdateHealthCheckImapCommand {
         Objects.equals(this.locationsFailoverEnabled, createUpdateHealthCheckImapCommand.locationsFailoverEnabled) &&
         Objects.equals(this.notificationTypeIds, createUpdateHealthCheckImapCommand.notificationTypeIds) &&
         Objects.equals(this.notificationEventTypeIds, createUpdateHealthCheckImapCommand.notificationEventTypeIds) &&
-        Objects.equals(this.notificationTimeId, createUpdateHealthCheckImapCommand.notificationTimeId);
+            Objects.equals(this.notificationTimeId, createUpdateHealthCheckImapCommand.notificationTimeId) &&
+            Objects.equals(this.description, createUpdateHealthCheckImapCommand.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(port, timeout, errorTolerance, name, address, interval, paused, locationsFailoverEnabled, notificationTypeIds, notificationEventTypeIds, notificationTimeId);
+      return Objects.hash(port, timeout, errorTolerance, name, address, interval, paused, locationsFailoverEnabled, notificationTypeIds, notificationEventTypeIds, notificationTimeId, description);
   }
 
 
@@ -313,7 +336,7 @@ public class CreateUpdateHealthCheckImapCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateUpdateHealthCheckImapCommand {\n");
-    
+
     sb.append("    port: ").append(toIndentedString(port)).append("\n");
     sb.append("    timeout: ").append(toIndentedString(timeout)).append("\n");
     sb.append("    errorTolerance: ").append(toIndentedString(errorTolerance)).append("\n");
@@ -325,6 +348,7 @@ public class CreateUpdateHealthCheckImapCommand {
     sb.append("    notificationTypeIds: ").append(toIndentedString(notificationTypeIds)).append("\n");
     sb.append("    notificationEventTypeIds: ").append(toIndentedString(notificationEventTypeIds)).append("\n");
     sb.append("    notificationTimeId: ").append(toIndentedString(notificationTimeId)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

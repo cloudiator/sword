@@ -20,8 +20,8 @@ package de.uniulm.omi.cloudiator.sword.drivers.oktawave.suppliers;
 
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import com.oktawave.api.client.handler.ApiException;
-import com.oktawave.api.client.handler.OciApi;
+import com.oktawave.api.client.ApiException;
+import com.oktawave.api.client.api.OciApi;
 import com.oktawave.api.client.model.InstanceType;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;

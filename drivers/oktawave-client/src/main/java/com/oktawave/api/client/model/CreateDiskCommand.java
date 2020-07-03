@@ -25,7 +25,7 @@ import java.util.Objects;
  * Create disk command
  */
 @ApiModel(description = "Create disk command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateDiskCommand {
   @SerializedName("DiskName")
   private String diskName = null;
@@ -211,8 +211,8 @@ public class CreateDiskCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateDiskCommand {\n");
-    
-    sb.append("    diskName: ").append(toIndentedString(diskName)).append("\n");
+
+      sb.append("    diskName: ").append(toIndentedString(diskName)).append("\n");
     sb.append("    spaceCapacity: ").append(toIndentedString(spaceCapacity)).append("\n");
     sb.append("    tierId: ").append(toIndentedString(tierId)).append("\n");
     sb.append("    isShared: ").append(toIndentedString(isShared)).append("\n");

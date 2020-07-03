@@ -23,7 +23,7 @@ import java.util.Objects;
  * Attach instance to OPN command
  */
 @ApiModel(description = "Attach instance to OPN command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class AttachInstanceToOpnCommand {
   @SerializedName("OpnId")
   private Integer opnId = null;

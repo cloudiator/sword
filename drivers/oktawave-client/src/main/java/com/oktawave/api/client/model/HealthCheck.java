@@ -24,7 +24,7 @@ import java.util.Objects;
  * Health check
  */
 @ApiModel(description = "Health check")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class HealthCheck {
   @SerializedName("Id")
   private Integer id = null;
@@ -58,6 +58,9 @@ public class HealthCheck {
 
   @SerializedName("LastValidCheck")
   private OffsetDateTime lastValidCheck = null;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public HealthCheck id(Integer id) {
     this.id = id;
@@ -257,6 +260,25 @@ public class HealthCheck {
     this.lastValidCheck = lastValidCheck;
   }
 
+    public HealthCheck description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -277,12 +299,13 @@ public class HealthCheck {
         Objects.equals(this.paused, healthCheck.paused) &&
         Objects.equals(this.suspended, healthCheck.suspended) &&
         Objects.equals(this.lastInvalidCheck, healthCheck.lastInvalidCheck) &&
-        Objects.equals(this.lastValidCheck, healthCheck.lastValidCheck);
+            Objects.equals(this.lastValidCheck, healthCheck.lastValidCheck) &&
+            Objects.equals(this.description, healthCheck.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck);
+      return Objects.hash(id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck, description);
   }
 
 
@@ -290,7 +313,7 @@ public class HealthCheck {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HealthCheck {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    interval: ").append(toIndentedString(interval)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
@@ -302,6 +325,7 @@ public class HealthCheck {
     sb.append("    suspended: ").append(toIndentedString(suspended)).append("\n");
     sb.append("    lastInvalidCheck: ").append(toIndentedString(lastInvalidCheck)).append("\n");
     sb.append("    lastValidCheck: ").append(toIndentedString(lastValidCheck)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

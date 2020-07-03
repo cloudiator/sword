@@ -16,33 +16,19 @@ package com.oktawave.api.client.model;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * ApiCollectionDisk
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ApiCollectionDisk {
   @SerializedName("Items")
   private List<Disk> items = null;
 
   @SerializedName("Meta")
   private ApiCollectionMetadata meta = null;
-
-  public ApiCollectionDisk items(List<Disk> items) {
-    this.items = items;
-    return this;
-  }
-
-  public ApiCollectionDisk addItemsItem(Disk itemsItem) {
-    if (this.items == null) {
-      this.items = new ArrayList<Disk>();
-    }
-    this.items.add(itemsItem);
-    return this;
-  }
 
    /**
    * Get items
@@ -51,10 +37,6 @@ public class ApiCollectionDisk {
   @ApiModelProperty(value = "")
   public List<Disk> getItems() {
     return items;
-  }
-
-  public void setItems(List<Disk> items) {
-    this.items = items;
   }
 
   public ApiCollectionDisk meta(ApiCollectionMetadata meta) {
@@ -99,8 +81,8 @@ public class ApiCollectionDisk {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ApiCollectionDisk {\n");
-    
-    sb.append("    items: ").append(toIndentedString(items)).append("\n");
+
+      sb.append("    items: ").append(toIndentedString(items)).append("\n");
     sb.append("    meta: ").append(toIndentedString(meta)).append("\n");
     sb.append("}");
     return sb.toString();

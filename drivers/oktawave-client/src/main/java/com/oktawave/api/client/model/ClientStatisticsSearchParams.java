@@ -26,7 +26,7 @@ import java.util.Objects;
  * Search params for client statistics
  */
 @ApiModel(description = "Search params for client statistics")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ClientStatisticsSearchParams {
   @SerializedName("DateFrom")
   private OffsetDateTime dateFrom = null;
@@ -121,8 +121,8 @@ public class ClientStatisticsSearchParams {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ClientStatisticsSearchParams {\n");
-    
-    sb.append("    dateFrom: ").append(toIndentedString(dateFrom)).append("\n");
+
+      sb.append("    dateFrom: ").append(toIndentedString(dateFrom)).append("\n");
     sb.append("    dateTo: ").append(toIndentedString(dateTo)).append("\n");
     sb.append("    statisticTypes: ").append(toIndentedString(statisticTypes)).append("\n");
     sb.append("}");

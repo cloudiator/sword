@@ -1,7 +1,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.oktawave.strategies;
 
-import com.oktawave.api.client.handler.ApiException;
-import com.oktawave.api.client.handler.OciApi;
+import com.oktawave.api.client.ApiException;
+import com.oktawave.api.client.api.OciApi;
 import com.oktawave.api.client.model.DictionaryItem;
 import com.oktawave.api.client.model.Ticket;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;

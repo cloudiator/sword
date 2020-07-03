@@ -26,7 +26,7 @@ import java.util.Objects;
  * Imap health check
  */
 @ApiModel(description = "Imap health check")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class HealthCheckImap {
   @SerializedName("Port")
   private Integer port = null;
@@ -81,6 +81,9 @@ public class HealthCheckImap {
 
   @SerializedName("LastValidCheck")
   private OffsetDateTime lastValidCheck = null;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public HealthCheckImap port(Integer port) {
     this.port = port;
@@ -422,6 +425,25 @@ public class HealthCheckImap {
     this.lastValidCheck = lastValidCheck;
   }
 
+    public HealthCheckImap description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -449,12 +471,13 @@ public class HealthCheckImap {
         Objects.equals(this.paused, healthCheckImap.paused) &&
         Objects.equals(this.suspended, healthCheckImap.suspended) &&
         Objects.equals(this.lastInvalidCheck, healthCheckImap.lastInvalidCheck) &&
-        Objects.equals(this.lastValidCheck, healthCheckImap.lastValidCheck);
+            Objects.equals(this.lastValidCheck, healthCheckImap.lastValidCheck) &&
+            Objects.equals(this.description, healthCheckImap.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(port, timeout, notificationTypes, notificationEventTypes, notificationTime, locationsFailoverEnabled, errorTolerance, id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck);
+      return Objects.hash(port, timeout, notificationTypes, notificationEventTypes, notificationTime, locationsFailoverEnabled, errorTolerance, id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck, description);
   }
 
 
@@ -481,6 +504,7 @@ public class HealthCheckImap {
     sb.append("    suspended: ").append(toIndentedString(suspended)).append("\n");
     sb.append("    lastInvalidCheck: ").append(toIndentedString(lastInvalidCheck)).append("\n");
     sb.append("    lastValidCheck: ").append(toIndentedString(lastValidCheck)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

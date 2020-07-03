@@ -25,7 +25,7 @@ import java.util.Objects;
  * Create/update dns health check command
  */
 @ApiModel(description = "Create/update dns health check command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateUpdateHealthCheckDnsCommand {
   @SerializedName("Timeout")
   private Integer timeout = 10000;
@@ -68,6 +68,9 @@ public class CreateUpdateHealthCheckDnsCommand {
 
   @SerializedName("NotificationTimeId")
   private Integer notificationTimeId = 1594;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public CreateUpdateHealthCheckDnsCommand timeout(Integer timeout) {
     this.timeout = timeout;
@@ -341,6 +344,25 @@ public class CreateUpdateHealthCheckDnsCommand {
     this.notificationTimeId = notificationTimeId;
   }
 
+    public CreateUpdateHealthCheckDnsCommand description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -364,12 +386,13 @@ public class CreateUpdateHealthCheckDnsCommand {
         Objects.equals(this.locationsFailoverEnabled, createUpdateHealthCheckDnsCommand.locationsFailoverEnabled) &&
         Objects.equals(this.notificationTypeIds, createUpdateHealthCheckDnsCommand.notificationTypeIds) &&
         Objects.equals(this.notificationEventTypeIds, createUpdateHealthCheckDnsCommand.notificationEventTypeIds) &&
-        Objects.equals(this.notificationTimeId, createUpdateHealthCheckDnsCommand.notificationTimeId);
+            Objects.equals(this.notificationTimeId, createUpdateHealthCheckDnsCommand.notificationTimeId) &&
+            Objects.equals(this.description, createUpdateHealthCheckDnsCommand.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(timeout, recordTypeId, queryDomain, expectedResponseValue, recurse, errorTolerance, name, address, interval, paused, locationsFailoverEnabled, notificationTypeIds, notificationEventTypeIds, notificationTimeId);
+      return Objects.hash(timeout, recordTypeId, queryDomain, expectedResponseValue, recurse, errorTolerance, name, address, interval, paused, locationsFailoverEnabled, notificationTypeIds, notificationEventTypeIds, notificationTimeId, description);
   }
 
 
@@ -392,6 +415,7 @@ public class CreateUpdateHealthCheckDnsCommand {
     sb.append("    notificationTypeIds: ").append(toIndentedString(notificationTypeIds)).append("\n");
     sb.append("    notificationEventTypeIds: ").append(toIndentedString(notificationEventTypeIds)).append("\n");
     sb.append("    notificationTimeId: ").append(toIndentedString(notificationTimeId)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

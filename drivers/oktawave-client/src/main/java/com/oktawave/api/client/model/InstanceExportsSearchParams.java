@@ -28,7 +28,7 @@ import java.util.Objects;
  * Instance exports search params
  */
 @ApiModel(description = "Instance exports search params")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class InstanceExportsSearchParams {
   @SerializedName("StatusId")
   private Integer statusId = null;
@@ -213,8 +213,8 @@ public class InstanceExportsSearchParams {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class InstanceExportsSearchParams {\n");
-    
-    sb.append("    statusId: ").append(toIndentedString(statusId)).append("\n");
+
+      sb.append("    statusId: ").append(toIndentedString(statusId)).append("\n");
     sb.append("    pageSize: ").append(toIndentedString(pageSize)).append("\n");
     sb.append("    pageNumber: ").append(toIndentedString(pageNumber)).append("\n");
     sb.append("    orderBy: ").append(toIndentedString(orderBy)).append("\n");

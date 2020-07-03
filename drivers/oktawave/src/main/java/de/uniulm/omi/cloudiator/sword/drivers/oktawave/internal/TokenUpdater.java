@@ -1,8 +1,8 @@
 package de.uniulm.omi.cloudiator.sword.drivers.oktawave.internal;
 
 import com.google.gson.Gson;
-import com.oktawave.api.client.handler.ApiClient;
-import com.oktawave.api.client.handler.auth.OAuth;
+import com.oktawave.api.client.ApiClient;
+import com.oktawave.api.client.auth.OAuth;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -20,11 +20,6 @@ import java.util.Base64;
 public class TokenUpdater implements Runnable {
 
     private static Logger LOGGER = LoggerFactory.getLogger(TokenUpdater.class);
-
-//    private static final String USERNAME = "kmaterka@7bulls.com";
-//    private static final String PASSWORD = "Kmaterka123";
-
-
     private static final int TIME = 10;
 
     private ApiClient apiClient;
@@ -75,7 +70,7 @@ public class TokenUpdater implements Runnable {
                 }
             }
         } catch (IOException e) {
-            LOGGER.error("Error during geting token", e);
+            LOGGER.error("Error during getting token", e);
             Thread.currentThread().interrupt();
         }
     }

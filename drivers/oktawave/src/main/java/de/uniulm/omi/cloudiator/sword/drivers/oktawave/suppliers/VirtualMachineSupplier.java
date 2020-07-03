@@ -1,8 +1,8 @@
 package de.uniulm.omi.cloudiator.sword.drivers.oktawave.suppliers;
 
 import com.google.common.base.Supplier;
-import com.oktawave.api.client.handler.ApiException;
-import com.oktawave.api.client.handler.OciApi;
+import com.oktawave.api.client.ApiException;
+import com.oktawave.api.client.api.OciApi;
 import com.oktawave.api.client.model.Instance;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.drivers.oktawave.domain.InstanceWithAccessData;

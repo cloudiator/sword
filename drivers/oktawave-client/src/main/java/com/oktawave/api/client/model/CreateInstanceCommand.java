@@ -25,7 +25,7 @@ import java.util.Objects;
  * Create instance command
  */
 @ApiModel(description = "Create instance command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateInstanceCommand {
   @SerializedName("AuthorizationMethodId")
   private Integer authorizationMethodId = null;
@@ -303,8 +303,8 @@ public class CreateInstanceCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateInstanceCommand {\n");
-    
-    sb.append("    authorizationMethodId: ").append(toIndentedString(authorizationMethodId)).append("\n");
+
+      sb.append("    authorizationMethodId: ").append(toIndentedString(authorizationMethodId)).append("\n");
     sb.append("    diskClass: ").append(toIndentedString(diskClass)).append("\n");
     sb.append("    diskSize: ").append(toIndentedString(diskSize)).append("\n");
     sb.append("    instanceName: ").append(toIndentedString(instanceName)).append("\n");

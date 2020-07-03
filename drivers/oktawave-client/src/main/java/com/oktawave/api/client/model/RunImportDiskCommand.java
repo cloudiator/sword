@@ -23,7 +23,7 @@ import java.util.Objects;
  * Run import disk command
  */
 @ApiModel(description = "Run import disk command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class RunImportDiskCommand {
   @SerializedName("ImportDiskId")
   private Integer importDiskId = null;
@@ -91,8 +91,8 @@ public class RunImportDiskCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class RunImportDiskCommand {\n");
-    
-    sb.append("    importDiskId: ").append(toIndentedString(importDiskId)).append("\n");
+
+      sb.append("    importDiskId: ").append(toIndentedString(importDiskId)).append("\n");
     sb.append("    tierId: ").append(toIndentedString(tierId)).append("\n");
     sb.append("}");
     return sb.toString();

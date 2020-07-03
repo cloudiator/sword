@@ -23,7 +23,7 @@ import java.util.Objects;
  * Change container service state command
  */
 @ApiModel(description = "Change container service state command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ChangeContainerServiceStateCommand {
   @SerializedName("IpAddress")
   private String ipAddress = null;
@@ -135,8 +135,8 @@ public class ChangeContainerServiceStateCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ChangeContainerServiceStateCommand {\n");
-    
-    sb.append("    ipAddress: ").append(toIndentedString(ipAddress)).append("\n");
+
+      sb.append("    ipAddress: ").append(toIndentedString(ipAddress)).append("\n");
     sb.append("    port: ").append(toIndentedString(port)).append("\n");
     sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");
     sb.append("    graceful: ").append(toIndentedString(graceful)).append("\n");

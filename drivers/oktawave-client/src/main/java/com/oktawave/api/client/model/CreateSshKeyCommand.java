@@ -23,7 +23,7 @@ import java.util.Objects;
  * Create SSH key command
  */
 @ApiModel(description = "Create SSH key command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateSshKeyCommand {
   @SerializedName("SshKeyName")
   private String sshKeyName = null;
@@ -91,8 +91,8 @@ public class CreateSshKeyCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateSshKeyCommand {\n");
-    
-    sb.append("    sshKeyName: ").append(toIndentedString(sshKeyName)).append("\n");
+
+      sb.append("    sshKeyName: ").append(toIndentedString(sshKeyName)).append("\n");
     sb.append("    sshKey: ").append(toIndentedString(sshKey)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -23,7 +23,7 @@ import java.util.Objects;
  * Payment information
  */
 @ApiModel(description = "Payment information")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class PaymentDetails {
   @SerializedName("AccountNumber")
   private String accountNumber = null;
@@ -135,8 +135,8 @@ public class PaymentDetails {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PaymentDetails {\n");
-    
-    sb.append("    accountNumber: ").append(toIndentedString(accountNumber)).append("\n");
+
+      sb.append("    accountNumber: ").append(toIndentedString(accountNumber)).append("\n");
     sb.append("    externalAccountNumber: ").append(toIndentedString(externalAccountNumber)).append("\n");
     sb.append("    paymentMethod: ").append(toIndentedString(paymentMethod)).append("\n");
     sb.append("    vatRate: ").append(toIndentedString(vatRate)).append("\n");

@@ -24,7 +24,7 @@ import java.util.Objects;
  * Basic instance statistics
  */
 @ApiModel(description = "Basic instance statistics")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class InstanceStatistics {
   @SerializedName("Instance")
   private BaseResource instance = null;
@@ -158,8 +158,8 @@ public class InstanceStatistics {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class InstanceStatistics {\n");
-    
-    sb.append("    instance: ").append(toIndentedString(instance)).append("\n");
+
+      sb.append("    instance: ").append(toIndentedString(instance)).append("\n");
     sb.append("    statisticType: ").append(toIndentedString(statisticType)).append("\n");
     sb.append("    sampleTime: ").append(toIndentedString(sampleTime)).append("\n");
     sb.append("    details: ").append(toIndentedString(details)).append("\n");

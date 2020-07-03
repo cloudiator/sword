@@ -24,7 +24,7 @@ import java.util.Objects;
  * Import
  */
 @ApiModel(description = "Import")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ModelImport {
   @SerializedName("Id")
   private Integer id = null;
@@ -268,8 +268,8 @@ public class ModelImport {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelImport {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+
+      sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    creationDate: ").append(toIndentedString(creationDate)).append("\n");
     sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");

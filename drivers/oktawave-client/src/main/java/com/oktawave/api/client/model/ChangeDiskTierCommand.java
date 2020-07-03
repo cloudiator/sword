@@ -23,7 +23,7 @@ import java.util.Objects;
  * Change disk tier command
  */
 @ApiModel(description = "Change disk tier command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ChangeDiskTierCommand {
   @SerializedName("TierId")
   private Integer tierId = null;
@@ -69,8 +69,8 @@ public class ChangeDiskTierCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ChangeDiskTierCommand {\n");
-    
-    sb.append("    tierId: ").append(toIndentedString(tierId)).append("\n");
+
+      sb.append("    tierId: ").append(toIndentedString(tierId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

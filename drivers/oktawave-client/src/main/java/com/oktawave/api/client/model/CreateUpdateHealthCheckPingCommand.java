@@ -25,7 +25,7 @@ import java.util.Objects;
  * Create/update ping health check command
  */
 @ApiModel(description = "Create/update ping health check command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateUpdateHealthCheckPingCommand {
   @SerializedName("PackageSize")
   private Integer packageSize = 64;
@@ -59,6 +59,9 @@ public class CreateUpdateHealthCheckPingCommand {
 
   @SerializedName("NotificationTimeId")
   private Integer notificationTimeId = 1594;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public CreateUpdateHealthCheckPingCommand packageSize(Integer packageSize) {
     this.packageSize = packageSize;
@@ -280,6 +283,25 @@ public class CreateUpdateHealthCheckPingCommand {
     this.notificationTimeId = notificationTimeId;
   }
 
+    public CreateUpdateHealthCheckPingCommand description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -300,12 +322,13 @@ public class CreateUpdateHealthCheckPingCommand {
         Objects.equals(this.locationsFailoverEnabled, createUpdateHealthCheckPingCommand.locationsFailoverEnabled) &&
         Objects.equals(this.notificationTypeIds, createUpdateHealthCheckPingCommand.notificationTypeIds) &&
         Objects.equals(this.notificationEventTypeIds, createUpdateHealthCheckPingCommand.notificationEventTypeIds) &&
-        Objects.equals(this.notificationTimeId, createUpdateHealthCheckPingCommand.notificationTimeId);
+            Objects.equals(this.notificationTimeId, createUpdateHealthCheckPingCommand.notificationTimeId) &&
+            Objects.equals(this.description, createUpdateHealthCheckPingCommand.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(packageSize, replyTimeout, errorTolerance, name, address, interval, paused, locationsFailoverEnabled, notificationTypeIds, notificationEventTypeIds, notificationTimeId);
+      return Objects.hash(packageSize, replyTimeout, errorTolerance, name, address, interval, paused, locationsFailoverEnabled, notificationTypeIds, notificationEventTypeIds, notificationTimeId, description);
   }
 
 
@@ -313,7 +336,7 @@ public class CreateUpdateHealthCheckPingCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateUpdateHealthCheckPingCommand {\n");
-    
+
     sb.append("    packageSize: ").append(toIndentedString(packageSize)).append("\n");
     sb.append("    replyTimeout: ").append(toIndentedString(replyTimeout)).append("\n");
     sb.append("    errorTolerance: ").append(toIndentedString(errorTolerance)).append("\n");
@@ -325,6 +348,7 @@ public class CreateUpdateHealthCheckPingCommand {
     sb.append("    notificationTypeIds: ").append(toIndentedString(notificationTypeIds)).append("\n");
     sb.append("    notificationEventTypeIds: ").append(toIndentedString(notificationEventTypeIds)).append("\n");
     sb.append("    notificationTimeId: ").append(toIndentedString(notificationTimeId)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

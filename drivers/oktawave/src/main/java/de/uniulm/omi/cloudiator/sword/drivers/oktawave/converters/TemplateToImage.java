@@ -31,7 +31,7 @@ public class TemplateToImage implements OneWayConverter<Template, Image> {
     private OperatingSystem buildOs(Template template) {
         return OperatingSystemBuilder.newBuilder()
                 .architecture(buildIs64bit(template.getSoftware()))
-                .family(buildFaminy(template.getSystemCategory()))
+                .family(buildFamily(template.getSystemCategory()))
                 .version(buildVersion(template))
                 .build();
     }
@@ -46,7 +46,7 @@ public class TemplateToImage implements OneWayConverter<Template, Image> {
         return OperatingSystemArchitecture.UNKNOWN;
     }
 
-    private OperatingSystemFamily buildFaminy(DictionaryItem systemCategory) {
+    private OperatingSystemFamily buildFamily(DictionaryItem systemCategory) {
         for (OperatingSystemFamily value : OperatingSystemFamily.values()) {
             if (value.name().equalsIgnoreCase(systemCategory.getLabel())) {
                 return OperatingSystemFamily.fromValue(systemCategory.getLabel().toUpperCase());
@@ -57,7 +57,7 @@ public class TemplateToImage implements OneWayConverter<Template, Image> {
 
     private OperatingSystemVersion buildVersion(Template template) {
         try {
-            return OperatingSystemVersions.of(getVersion(template.getVersion()), template.getName());
+            return OperatingSystemVersions.ofNameAndVersion(getVersion(template.getVersion()), template.getName());
         } catch (NumberFormatException nfe) {
             LOGGER.warn("Could not parse version: " + template.getVersion() + " from template: " + template.getName() + ". OperatingSystemVersions.unknown will be returned");
             return OperatingSystemVersions.unknown();

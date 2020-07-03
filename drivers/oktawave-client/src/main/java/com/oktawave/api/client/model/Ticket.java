@@ -24,7 +24,7 @@ import java.util.Objects;
  * Ticket representing operation on service eg. instance, disk
  */
 @ApiModel(description = "Ticket representing operation on service eg. instance, disk")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class Ticket {
   @SerializedName("Id")
   private Long id = null;
@@ -268,8 +268,8 @@ public class Ticket {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Ticket {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+
+      sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    creationDate: ").append(toIndentedString(creationDate)).append("\n");
     sb.append("    creationUser: ").append(toIndentedString(creationUser)).append("\n");
     sb.append("    endDate: ").append(toIndentedString(endDate)).append("\n");

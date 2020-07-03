@@ -24,7 +24,7 @@ import java.util.Objects;
  * Instance
  */
 @ApiModel(description = "Instance")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class Instance {
   @SerializedName("Id")
   private Integer id = null;
@@ -73,6 +73,9 @@ public class Instance {
 
   @SerializedName("IpAddress")
   private String ipAddress = null;
+
+    @SerializedName("PrivateIpAddress")
+    private String privateIpAddress = null;
 
   @SerializedName("DnsAddress")
   private String dnsAddress = null;
@@ -389,6 +392,25 @@ public class Instance {
     this.ipAddress = ipAddress;
   }
 
+    public Instance privateIpAddress(String privateIpAddress) {
+        this.privateIpAddress = privateIpAddress;
+        return this;
+    }
+
+    /**
+     * Private IP address
+     *
+     * @return privateIpAddress
+     **/
+    @ApiModelProperty(value = "Private IP address")
+    public String getPrivateIpAddress() {
+        return privateIpAddress;
+    }
+
+    public void setPrivateIpAddress(String privateIpAddress) {
+        this.privateIpAddress = privateIpAddress;
+    }
+
   public Instance dnsAddress(String dnsAddress) {
     this.dnsAddress = dnsAddress;
     return this;
@@ -577,6 +599,7 @@ public class Instance {
         Objects.equals(this.monitStatus, instance.monitStatus) &&
         Objects.equals(this.templateType, instance.templateType) &&
         Objects.equals(this.ipAddress, instance.ipAddress) &&
+            Objects.equals(this.privateIpAddress, instance.privateIpAddress) &&
         Objects.equals(this.dnsAddress, instance.dnsAddress) &&
         Objects.equals(this.totalDisksCapacity, instance.totalDisksCapacity) &&
         Objects.equals(this.paymentType, instance.paymentType) &&
@@ -590,7 +613,7 @@ public class Instance {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, creationDate, creationUser, isLocked, lockingDate, template, subregion, type, status, systemCategory, autoscalingType, vmWareToolsStatus, monitStatus, templateType, ipAddress, dnsAddress, totalDisksCapacity, paymentType, healthCheck, scsiControllerType, isFreemium, cpuNumber, ramMb, supportType);
+      return Objects.hash(id, name, creationDate, creationUser, isLocked, lockingDate, template, subregion, type, status, systemCategory, autoscalingType, vmWareToolsStatus, monitStatus, templateType, ipAddress, privateIpAddress, dnsAddress, totalDisksCapacity, paymentType, healthCheck, scsiControllerType, isFreemium, cpuNumber, ramMb, supportType);
   }
 
 
@@ -615,6 +638,7 @@ public class Instance {
     sb.append("    monitStatus: ").append(toIndentedString(monitStatus)).append("\n");
     sb.append("    templateType: ").append(toIndentedString(templateType)).append("\n");
     sb.append("    ipAddress: ").append(toIndentedString(ipAddress)).append("\n");
+      sb.append("    privateIpAddress: ").append(toIndentedString(privateIpAddress)).append("\n");
     sb.append("    dnsAddress: ").append(toIndentedString(dnsAddress)).append("\n");
     sb.append("    totalDisksCapacity: ").append(toIndentedString(totalDisksCapacity)).append("\n");
     sb.append("    paymentType: ").append(toIndentedString(paymentType)).append("\n");

@@ -26,7 +26,7 @@ import java.util.Objects;
  * Dns health check
  */
 @ApiModel(description = "Dns health check")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class HealthCheckDns {
   @SerializedName("Timeout")
   private Integer timeout = null;
@@ -90,6 +90,9 @@ public class HealthCheckDns {
 
   @SerializedName("LastValidCheck")
   private OffsetDateTime lastValidCheck = null;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public HealthCheckDns timeout(Integer timeout) {
     this.timeout = timeout;
@@ -485,6 +488,25 @@ public class HealthCheckDns {
     this.lastValidCheck = lastValidCheck;
   }
 
+    public HealthCheckDns description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -515,12 +537,13 @@ public class HealthCheckDns {
         Objects.equals(this.paused, healthCheckDns.paused) &&
         Objects.equals(this.suspended, healthCheckDns.suspended) &&
         Objects.equals(this.lastInvalidCheck, healthCheckDns.lastInvalidCheck) &&
-        Objects.equals(this.lastValidCheck, healthCheckDns.lastValidCheck);
+            Objects.equals(this.lastValidCheck, healthCheckDns.lastValidCheck) &&
+            Objects.equals(this.description, healthCheckDns.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(timeout, recordType, queryDomain, expectedResponseValue, recurse, notificationTypes, notificationEventTypes, notificationTime, locationsFailoverEnabled, errorTolerance, id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck);
+      return Objects.hash(timeout, recordType, queryDomain, expectedResponseValue, recurse, notificationTypes, notificationEventTypes, notificationTime, locationsFailoverEnabled, errorTolerance, id, interval, name, address, serviceType, state, detailsLocation, paused, suspended, lastInvalidCheck, lastValidCheck, description);
   }
 
 
@@ -528,7 +551,7 @@ public class HealthCheckDns {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HealthCheckDns {\n");
-    
+
     sb.append("    timeout: ").append(toIndentedString(timeout)).append("\n");
     sb.append("    recordType: ").append(toIndentedString(recordType)).append("\n");
     sb.append("    queryDomain: ").append(toIndentedString(queryDomain)).append("\n");
@@ -550,6 +573,7 @@ public class HealthCheckDns {
     sb.append("    suspended: ").append(toIndentedString(suspended)).append("\n");
     sb.append("    lastInvalidCheck: ").append(toIndentedString(lastInvalidCheck)).append("\n");
     sb.append("    lastValidCheck: ").append(toIndentedString(lastValidCheck)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

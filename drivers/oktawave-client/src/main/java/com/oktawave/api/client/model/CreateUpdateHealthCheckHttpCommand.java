@@ -25,7 +25,7 @@ import java.util.Objects;
  * Create/update http health check command
  */
 @ApiModel(description = "Create/update http health check command")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-04-25T12:05:03.973+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class CreateUpdateHealthCheckHttpCommand {
   @SerializedName("HttpMethodId")
   private Integer httpMethodId = 1440;
@@ -74,6 +74,9 @@ public class CreateUpdateHealthCheckHttpCommand {
 
   @SerializedName("NotificationTimeId")
   private Integer notificationTimeId = 1594;
+
+    @SerializedName("Description")
+    private String description = null;
 
   public CreateUpdateHealthCheckHttpCommand httpMethodId(Integer httpMethodId) {
     this.httpMethodId = httpMethodId;
@@ -385,6 +388,25 @@ public class CreateUpdateHealthCheckHttpCommand {
     this.notificationTimeId = notificationTimeId;
   }
 
+    public CreateUpdateHealthCheckHttpCommand description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    /**
+     * Description
+     *
+     * @return description
+     **/
+    @ApiModelProperty(value = "Description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -410,12 +432,13 @@ public class CreateUpdateHealthCheckHttpCommand {
         Objects.equals(this.locationsFailoverEnabled, createUpdateHealthCheckHttpCommand.locationsFailoverEnabled) &&
         Objects.equals(this.notificationTypeIds, createUpdateHealthCheckHttpCommand.notificationTypeIds) &&
         Objects.equals(this.notificationEventTypeIds, createUpdateHealthCheckHttpCommand.notificationEventTypeIds) &&
-        Objects.equals(this.notificationTimeId, createUpdateHealthCheckHttpCommand.notificationTimeId);
+            Objects.equals(this.notificationTimeId, createUpdateHealthCheckHttpCommand.notificationTimeId) &&
+            Objects.equals(this.description, createUpdateHealthCheckHttpCommand.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(httpMethodId, contentRegularExpression, contentNegativeRegularExpression, port, timeout, content, contentType, errorTolerance, name, address, interval, paused, locationsFailoverEnabled, notificationTypeIds, notificationEventTypeIds, notificationTimeId);
+      return Objects.hash(httpMethodId, contentRegularExpression, contentNegativeRegularExpression, port, timeout, content, contentType, errorTolerance, name, address, interval, paused, locationsFailoverEnabled, notificationTypeIds, notificationEventTypeIds, notificationTimeId, description);
   }
 
 
@@ -423,7 +446,7 @@ public class CreateUpdateHealthCheckHttpCommand {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateUpdateHealthCheckHttpCommand {\n");
-    
+
     sb.append("    httpMethodId: ").append(toIndentedString(httpMethodId)).append("\n");
     sb.append("    contentRegularExpression: ").append(toIndentedString(contentRegularExpression)).append("\n");
     sb.append("    contentNegativeRegularExpression: ").append(toIndentedString(contentNegativeRegularExpression)).append("\n");
@@ -440,6 +463,7 @@ public class CreateUpdateHealthCheckHttpCommand {
     sb.append("    notificationTypeIds: ").append(toIndentedString(notificationTypeIds)).append("\n");
     sb.append("    notificationEventTypeIds: ").append(toIndentedString(notificationEventTypeIds)).append("\n");
     sb.append("    notificationTimeId: ").append(toIndentedString(notificationTimeId)).append("\n");
+      sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }
