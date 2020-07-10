@@ -43,6 +43,8 @@
         <module>simulation</module>
         <module>oktawave-client</module>
         <module>oktawave</module>
+        <module>oneStep</module>
+        <module>onestep-client</module>
     </modules>
 
   <dependencies>
