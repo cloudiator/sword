@@ -18,66 +18,32 @@
 
 package de.uniulm.omi.cloudiator.sword.onestep.suppliers;
 
-import client.ApiException;
-import client.api.RegionsApi;
 import client.model.Region;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
-import de.uniulm.omi.cloudiator.sword.properties.Constants;
+import de.uniulm.omi.cloudiator.sword.onestep.domain.ActiveRegionsSet;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class LocationSupplier implements Supplier<Set<Location>> {
-
-  private static Logger LOGGER = LoggerFactory.getLogger(LocationSupplier.class);
-
-  private final RegionsApi regionsApi;
+  private final ActiveRegionsSet activeRegionsSet;
   private final OneWayConverter<Region, Location> converter;
 
-  @Inject(optional = true)
-  @Named(Constants.SWORD_REGIONS)
-  private String regionFilter = null;
-  private Set<String> allowedRegions = null;
-
   @Inject
-  public LocationSupplier(RegionsApi regionsApi, OneWayConverter<Region, Location> converter) {
+  public LocationSupplier(ActiveRegionsSet activeRegionsSet, OneWayConverter<Region, Location> converter) {
       this.converter = checkNotNull(converter, "converter is null");
-    this.regionsApi = checkNotNull(regionsApi, "regionsApi is null");
-  }
-
-  private Set<String> getAllowedRegions() {
-    if (regionFilter != null && allowedRegions == null) {
-      allowedRegions = Arrays.stream(regionFilter.split("[,;]")).collect(Collectors.toSet());
-    }
-    return allowedRegions;
+      this.activeRegionsSet = checkNotNull(activeRegionsSet, "activeRegionsSet is null");
   }
 
   @Override
   public Set<Location> get() {
-
-    try {
-      Set<String> filter = getAllowedRegions();
-      return regionsApi.regionsGet(null)
-              .getItems()
-              .stream()
-              .filter(Region::isIsActive)
-              .filter(region -> filter == null || filter.contains(region.getName()))
-              .map(converter)
-              .collect(Collectors.toSet());
-    } catch (ApiException e) {
-      LOGGER.error("Could not get Subregion from Oktawave", e);
-    }
-
-    return new HashSet<>();
+    return activeRegionsSet.getRegions()
+            .stream()
+            .map(converter)
+            .collect(Collectors.toSet());
   }
 }

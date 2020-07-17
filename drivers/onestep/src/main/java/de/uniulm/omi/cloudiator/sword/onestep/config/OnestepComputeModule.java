@@ -36,14 +36,15 @@ import de.uniulm.omi.cloudiator.sword.onestep.converters.InstanceTypeToHardwareF
 import de.uniulm.omi.cloudiator.sword.onestep.converters.InstanceWithAccessDataToVirtualMachine;
 import de.uniulm.omi.cloudiator.sword.onestep.converters.RegionToLocation;
 import de.uniulm.omi.cloudiator.sword.onestep.converters.ImageTemplateToImage;
+import de.uniulm.omi.cloudiator.sword.onestep.domain.ActiveRegionsSet;
+import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplate;
 import de.uniulm.omi.cloudiator.sword.onestep.domain.InstanceWithAccessData;
+import de.uniulm.omi.cloudiator.sword.onestep.internal.ActiveRegionsProvider;
 import de.uniulm.omi.cloudiator.sword.onestep.internal.OnestepProvider;
 import de.uniulm.omi.cloudiator.sword.onestep.strategies.OktawaveCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.onestep.strategies.OktawaveDeleteVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.onestep.suppliers.HardwareSupplier;
-import de.uniulm.omi.cloudiator.sword.onestep.suppliers.ImageSupplier;
-import de.uniulm.omi.cloudiator.sword.onestep.suppliers.LocationSupplier;
-import de.uniulm.omi.cloudiator.sword.onestep.suppliers.VirtualMachineSupplier;
+import de.uniulm.omi.cloudiator.sword.onestep.suppliers.*;
+import de.uniulm.omi.cloudiator.sword.onestep.suppliers.ImageTemplatesProvider;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
@@ -60,6 +61,12 @@ public class OnestepComputeModule extends AbstractComputeModule {
     super.configure();
     // azure api
     bind(ApiClient.class).toProvider(OnestepProvider.class).in(Singleton.class);
+
+
+    //Note that those two classes are needed as:
+    //HardwareSupplier and ImageSupplier both needs same regions and operatingSystemsLists
+    bind(ActiveRegionsSet.class).toProvider(ActiveRegionsProvider.class).in(Singleton.class);
+    bind(ImageTemplate.class).toProvider(ImageTemplatesProvider.class).in(Singleton.class);
 
     bind(DictionariesApi.class).toInstance(new DictionariesApi());
     bind(SubregionsApi.class).toInstance(new SubregionsApi());

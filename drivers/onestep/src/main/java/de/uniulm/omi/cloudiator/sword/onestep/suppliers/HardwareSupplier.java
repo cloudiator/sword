@@ -18,12 +18,15 @@
 
 package de.uniulm.omi.cloudiator.sword.onestep.suppliers;
 
+import client.model.template_response.Cluster;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import com.oktawave.api.client.ApiException;
 import com.oktawave.api.client.api.OciApi;
 import com.oktawave.api.client.model.InstanceType;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplate;
+import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplatesSet;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,31 +41,34 @@ public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
 
     private static Logger LOGGER = LoggerFactory.getLogger(HardwareSupplier.class);
 
-    private final OciApi ociApi;
+    private final ImageTemplatesSet imageTemplatesSet;
     private final OneWayConverter<InstanceType, HardwareFlavor> hardwareConverter;
 
 
     @Inject
-    public HardwareSupplier(OciApi ociApi,
+    public HardwareSupplier(ImageTemplatesSet imageTemplatesSet,
                             OneWayConverter<InstanceType, HardwareFlavor> hardwareConverter) {
-        this.ociApi = checkNotNull(ociApi, "ociApi is null");
+        this.imageTemplatesSet = checkNotNull(imageTemplatesSet, "imageTemplatesSet is null");
         this.hardwareConverter = checkNotNull(hardwareConverter, "hardwareConverter is null");
-
     }
 
     @Override
     public Set<HardwareFlavor> get() {
-        Set<InstanceType> instanceTypes = new HashSet<>();
+        Set<Cluster> clusters = imageTemplatesSet.getImageTemplates()
+                .stream()
+                .map(ImageTemplate::getCluster)
+                .collect(Collectors.toSet());
 
-        try {
-            instanceTypes = new HashSet<>(ociApi.instancesGetInstancesTypes(null, null, null, null, null, null)
-                    .getItems());
-        } catch (ApiException e) {
-            LOGGER.error("Could not get InstanceType from Oktawave", e);
-        }
+
 
         return instanceTypes.stream()
                 .map(hardwareConverter)
                 .collect(Collectors.toSet());
+    }
+
+    private Set<HardwareFlavor> createAllPossibleHardwareFlavor(Set<Cluster> clusters) {
+        
+
+
     }
 }
