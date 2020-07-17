@@ -25,6 +25,8 @@ import com.oktawave.api.client.ApiException;
 import com.oktawave.api.client.api.OciApi;
 import com.oktawave.api.client.model.InstanceType;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
+import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavorBuilder;
+import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavorImpl;
 import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplate;
 import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplatesSet;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
@@ -38,7 +40,9 @@ import java.util.stream.Collectors;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
-
+    private static int CPU_STEP = 1;
+    private static int RAM_STEP_IN_GB = 1;
+    private static int DISK_STEP_IN_GB = 10;
     private static Logger LOGGER = LoggerFactory.getLogger(HardwareSupplier.class);
 
     private final ImageTemplatesSet imageTemplatesSet;
@@ -59,16 +63,33 @@ public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
                 .map(ImageTemplate::getCluster)
                 .collect(Collectors.toSet());
 
-
-
-        return instanceTypes.stream()
-                .map(hardwareConverter)
-                .collect(Collectors.toSet());
+        return createAllPossibleHardwareFlavors(clusters);
     }
 
-    private Set<HardwareFlavor> createAllPossibleHardwareFlavor(Set<Cluster> clusters) {
-        
+    private Set<HardwareFlavor> createAllPossibleHardwareFlavors(Set<Cluster> clusters) {
+        Set<HardwareFlavor> hardwareFlavors = new HashSet<>();
+        for (Cluster cluster : clusters) {
+            for (int cpu = cluster.getResources().getCpu().getMin(); cpu <= cluster.getResources().getCpu().getMax();
+                 cpu += CPU_STEP) {
+                for (int ram = cluster.getResources().getRam().getMin(); ram <= cluster.getResources().getRam().getMax();
+                     ram += RAM_STEP_IN_GB) {
+                    for (double disk = cluster.getResources().getPrimaryDisk().getMin(); disk <= cluster.getResources().getPrimaryDisk().getMax();
+                         disk += DISK_STEP_IN_GB) {
+                        hardwareFlavors.add(HardwareFlavorBuilder.newBuilder()
+                                .id(String.valueOf(cluster.getId()))
+                                .providerId(cluster.getName())
+                                .name(cluster.getName())
+                                .cores(cpu)
+                                .gbDisk(disk) //this is related to Template not to Hardware, so it must be empty
+                                .mbRam(ram)
+                                .build());
+                    }
+                }
 
+            }
 
+        }
+
+        return hardwareFlavors;
     }
 }
