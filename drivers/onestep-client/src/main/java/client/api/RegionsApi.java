@@ -13,14 +13,10 @@
 
 package client.api;
 
-import client.ApiException;
-import client.Configuration;
-import client.ProgressResponseBody;
+import client.*;
 import client.model.ApiCollectionRegion;
 import client.model.Region;
 import com.google.gson.reflect.TypeToken;
-import com.oktawave.api.client.ApiResponse;
-import com.oktawave.api.client.Pair;
 
 import java.io.IOException;
 import java.lang.reflect.Type;

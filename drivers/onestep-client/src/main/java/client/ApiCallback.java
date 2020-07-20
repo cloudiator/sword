@@ -13,8 +13,6 @@
 
 package client;
 
-import com.oktawave.api.client.ApiException;
-
 import java.util.List;
 import java.util.Map;
 

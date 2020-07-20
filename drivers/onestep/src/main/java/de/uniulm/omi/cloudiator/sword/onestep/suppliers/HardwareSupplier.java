@@ -21,12 +21,9 @@ package de.uniulm.omi.cloudiator.sword.onestep.suppliers;
 import client.model.template_response.Cluster;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import com.oktawave.api.client.ApiException;
-import com.oktawave.api.client.api.OciApi;
 import com.oktawave.api.client.model.InstanceType;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavorBuilder;
-import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavorImpl;
 import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplate;
 import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplatesSet;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
@@ -43,17 +40,13 @@ public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
     private static int CPU_STEP = 1;
     private static int RAM_STEP_IN_GB = 1;
     private static int DISK_STEP_IN_GB = 10;
-    private static Logger LOGGER = LoggerFactory.getLogger(HardwareSupplier.class);
 
     private final ImageTemplatesSet imageTemplatesSet;
-    private final OneWayConverter<InstanceType, HardwareFlavor> hardwareConverter;
-
 
     @Inject
     public HardwareSupplier(ImageTemplatesSet imageTemplatesSet,
                             OneWayConverter<InstanceType, HardwareFlavor> hardwareConverter) {
         this.imageTemplatesSet = checkNotNull(imageTemplatesSet, "imageTemplatesSet is null");
-        this.hardwareConverter = checkNotNull(hardwareConverter, "hardwareConverter is null");
     }
 
     @Override

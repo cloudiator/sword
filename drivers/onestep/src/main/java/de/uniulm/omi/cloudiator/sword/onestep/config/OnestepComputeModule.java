@@ -18,6 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.onestep.config;
 
+import client.model.Region;
 import com.google.common.base.Supplier;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -32,12 +33,12 @@ import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.onestep.converters.InstanceTypeToHardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.onestep.converters.InstanceWithAccessDataToVirtualMachine;
 import de.uniulm.omi.cloudiator.sword.onestep.converters.RegionToLocation;
 import de.uniulm.omi.cloudiator.sword.onestep.converters.ImageTemplateToImage;
 import de.uniulm.omi.cloudiator.sword.onestep.domain.ActiveRegionsSet;
 import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplate;
+import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplatesSet;
 import de.uniulm.omi.cloudiator.sword.onestep.domain.InstanceWithAccessData;
 import de.uniulm.omi.cloudiator.sword.onestep.internal.ActiveRegionsProvider;
 import de.uniulm.omi.cloudiator.sword.onestep.internal.OnestepProvider;
@@ -52,7 +53,7 @@ import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import java.util.Set;
 
 /**
- * Created by pszkup on 08.05.2019
+ * Created by mriedl 07.2020
  */
 public class OnestepComputeModule extends AbstractComputeModule {
 
@@ -62,11 +63,10 @@ public class OnestepComputeModule extends AbstractComputeModule {
     // azure api
     bind(ApiClient.class).toProvider(OnestepProvider.class).in(Singleton.class);
 
-
     //Note that those two classes are needed as:
     //HardwareSupplier and ImageSupplier both needs same regions and operatingSystemsLists
     bind(ActiveRegionsSet.class).toProvider(ActiveRegionsProvider.class).in(Singleton.class);
-    bind(ImageTemplate.class).toProvider(ImageTemplatesProvider.class).in(Singleton.class);
+    bind(ImageTemplatesSet.class).toProvider(ImageTemplatesProvider.class).in(Singleton.class);
 
     bind(DictionariesApi.class).toInstance(new DictionariesApi());
     bind(SubregionsApi.class).toInstance(new SubregionsApi());
@@ -75,9 +75,8 @@ public class OnestepComputeModule extends AbstractComputeModule {
     bind(OciApi.class).toInstance(new OciApi());
 
     // converters
-    bind(new TypeLiteral<OneWayConverter<Subregion, Location>>() {}).to(RegionToLocation.class);
-    bind(new TypeLiteral<OneWayConverter<InstanceType, HardwareFlavor>>() {}).to(InstanceTypeToHardwareFlavor.class);
-    bind(new TypeLiteral<OneWayConverter<Template, Image>>() {}).to(ImageTemplateToImage.class);
+    bind(new TypeLiteral<OneWayConverter<Region, Location>>() {}).to(RegionToLocation.class);
+    bind(new TypeLiteral<OneWayConverter<ImageTemplate, Image>>() {}).to(ImageTemplateToImage.class);
     bind(new TypeLiteral<OneWayConverter<InstanceWithAccessData, VirtualMachine>>() {}).to(InstanceWithAccessDataToVirtualMachine.class);
 
   }

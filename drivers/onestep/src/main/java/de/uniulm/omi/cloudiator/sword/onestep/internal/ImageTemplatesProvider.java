@@ -47,7 +47,6 @@ public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
     //Note that we need location get strategy as template requests require active regions only
     @Inject
     public ImageTemplatesProvider(ApiClient apiClient, TemplatesApi templatesApi,
-                                  OneWayConverter<ImageTemplate, Image> templateConverter,
                                   ActiveRegionsSet activeRegionsSet) {
         this.apiClient = apiClient;
         apiClient.setBasePath("https://staging.onestep.cloud/api/");

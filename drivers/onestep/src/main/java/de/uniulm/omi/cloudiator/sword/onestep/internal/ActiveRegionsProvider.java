@@ -73,7 +73,7 @@ public class ActiveRegionsProvider implements Provider<ActiveRegionsSet> {
                             .collect(Collectors.toSet())
             );
         } catch (ApiException e) {
-            LOGGER.error("Could not get Subregion from Oktawave", e);
+            LOGGER.error("Could not get regions from OneStep", e);
         }
 
         return new ActiveRegionsSet(new HashSet<>());

@@ -28,7 +28,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Created by pszkup on 08.05.2019
+ * Created by mriedl on 07.2020
  */
 public class OnestepProvider implements Provider<ApiClient> {
 
@@ -47,9 +47,6 @@ public class OnestepProvider implements Provider<ApiClient> {
         String usernameClient = cloud.credential().user();
         String passwordSecret = cloud.credential().password();
 
-        Pair<String, String> usernameClientPair = parse(usernameClient);
-        Pair<String, String> passwordSecretPair = parse(passwordSecret);
-
         ApiClient defaultClient = Configuration.getDefaultApiClient();
 
 //        defaultClient.setDebugging(true);
@@ -57,21 +54,11 @@ public class OnestepProvider implements Provider<ApiClient> {
         defaultClient.setReadTimeout(4 * 60000);
         defaultClient.setConnectTimeout(4 * 60000);
 
-        TokenUpdater tokenUpdater = new TokenUpdater(defaultClient, usernameClientPair.getRight(), passwordSecretPair.getRight(), usernameClientPair.getLeft(), passwordSecretPair.getLeft());
-        new Thread(tokenUpdater).start();
+        TokenSetter tokenSetter = new TokenSetter(defaultClient, usernameClient, passwordSecret);
+        tokenSetter.setToken();
 
         return defaultClient;
 
-    }
-
-    private Pair<String, String> parse(String string) {
-        int colonIndex = string.lastIndexOf(DELIMITER);
-        if (colonIndex == -1) {
-            throw new IllegalStateException("Expected user '" + string + "' to be of format xxx:yyy");
-        }
-        String left = string.substring(0, colonIndex);
-        String right = string.substring(colonIndex + 1);
-        return Pair.of(left, right);
     }
 
 }

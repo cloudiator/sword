@@ -14,10 +14,10 @@
 package client.api;
 
 import client.*;
-import com.oktawave.api.client.auth.ApiKeyAuth;
-import com.oktawave.api.client.auth.Authentication;
-import com.oktawave.api.client.auth.HttpBasicAuth;
-import com.oktawave.api.client.auth.OAuth;
+import client.auth.ApiKeyAuth;
+import client.auth.Authentication;
+import client.auth.HttpBasicAuth;
+import client.auth.OAuth;
 import com.squareup.okhttp.*;
 import com.squareup.okhttp.internal.http.HttpMethod;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
