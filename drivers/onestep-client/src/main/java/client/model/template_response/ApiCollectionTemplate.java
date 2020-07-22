@@ -22,7 +22,6 @@ import java.util.Objects;
 /**
  * ApiCollectionTemplate
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ApiCollectionTemplate {
   @SerializedName("operating_systems")
   private List<OperatingSystem> operatingSystems = null;

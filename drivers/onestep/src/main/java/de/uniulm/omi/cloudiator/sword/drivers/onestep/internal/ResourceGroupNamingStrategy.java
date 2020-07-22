@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.onestep.internal;
+package de.uniulm.omi.cloudiator.sword.drivers.onestep.internal;
 
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 

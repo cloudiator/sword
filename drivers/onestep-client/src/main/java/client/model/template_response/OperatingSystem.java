@@ -11,7 +11,6 @@ import java.util.Objects;
  * ImageTemplate
  */
 @ApiModel(description = "OperatingSystem")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class OperatingSystem {
     @SerializedName("id")
     private Integer id = null;

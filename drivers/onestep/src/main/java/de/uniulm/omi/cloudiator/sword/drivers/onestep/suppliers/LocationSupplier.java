@@ -16,36 +16,34 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.onestep.suppliers;
+package de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers;
 
+import client.model.Region;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import de.uniulm.omi.cloudiator.sword.domain.Image;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplate;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplatesSet;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ActiveRegionsSet;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ImageSupplier implements Supplier<Set<Image>> {
+import static com.google.common.base.Preconditions.checkNotNull;
 
-    private ImageTemplatesSet imageTemplatesSet;
-    private OneWayConverter<ImageTemplate, Image> converter;
+public class LocationSupplier implements Supplier<Set<Location>> {
+  private final ActiveRegionsSet activeRegionsSet;
+  private final OneWayConverter<Region, Location> converter;
 
-    @Inject
-    public ImageSupplier(ImageTemplatesSet imageTemplatesSet, OneWayConverter<ImageTemplate, Image> converter) {
-        this.imageTemplatesSet = imageTemplatesSet;
-        this.converter = converter;
-    }
+  @Inject
+  public LocationSupplier(ActiveRegionsSet activeRegionsSet, OneWayConverter<Region, Location> converter) {
+      this.converter = checkNotNull(converter, "converter is null");
+      this.activeRegionsSet = checkNotNull(activeRegionsSet, "activeRegionsSet is null");
+  }
 
-    @Override
-    public Set<Image> get() {
-
-        return imageTemplatesSet.getImageTemplates()
+  @Override
+  public Set<Location> get() {
+    return activeRegionsSet.getRegions()
             .stream()
             .map(converter)
             .collect(Collectors.toSet());
-    }
-
+  }
 }

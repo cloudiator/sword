@@ -1,7 +1,6 @@
 package client.model.template_response;
 
 import com.google.gson.annotations.SerializedName;
-import com.oktawave.api.client.model.Object;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -11,7 +10,6 @@ import java.util.Objects;
  * PrivateNetwork
  */
 @ApiModel(description = "ImageTemplate")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class PrivateNetwork {
     @SerializedName("id")
     private Integer id = null;

@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.onestep.suppliers;
+package de.uniulm.omi.cloudiator.sword.drivers.onestep.internal;
 
 import client.ApiException;
 import client.api.ApiClient;
@@ -25,11 +25,10 @@ import client.model.Region;
 import client.model.template_response.OperatingSystem;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import de.uniulm.omi.cloudiator.sword.domain.Image;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.ActiveRegionsSet;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplate;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplatesSet;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplate;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplatesSet;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ActiveRegionsSet;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.HardwareSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

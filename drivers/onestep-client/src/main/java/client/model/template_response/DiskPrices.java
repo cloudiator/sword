@@ -10,7 +10,6 @@ import java.util.Objects;
  * DiskPrices
  */
 @ApiModel(description = "DiskPrices")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class DiskPrices {
     @SerializedName("hdd")
     private Price hdd = null;

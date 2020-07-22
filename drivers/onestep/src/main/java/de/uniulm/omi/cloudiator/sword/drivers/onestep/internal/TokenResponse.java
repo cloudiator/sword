@@ -1,4 +1,4 @@
-package de.uniulm.omi.cloudiator.sword.onestep.internal;
+package de.uniulm.omi.cloudiator.sword.drivers.onestep.internal;
 
 
 import com.google.gson.annotations.SerializedName;

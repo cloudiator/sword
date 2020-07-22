@@ -1,9 +1,9 @@
-package de.uniulm.omi.cloudiator.sword.onestep.converters;
+package de.uniulm.omi.cloudiator.sword.drivers.onestep.converters;
 
 import de.uniulm.omi.cloudiator.domain.*;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.ImageBuilder;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplate;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplate;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

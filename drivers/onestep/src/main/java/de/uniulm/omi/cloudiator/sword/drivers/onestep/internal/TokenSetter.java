@@ -1,9 +1,8 @@
-package de.uniulm.omi.cloudiator.sword.onestep.internal;
+package de.uniulm.omi.cloudiator.sword.drivers.onestep.internal;
 
+import client.api.ApiClient;
+import client.auth.OAuth;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.oktawave.api.client.ApiClient;
-import com.oktawave.api.client.auth.OAuth;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;

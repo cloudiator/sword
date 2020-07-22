@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.onestep.internal;
+package de.uniulm.omi.cloudiator.sword.drivers.onestep.internal;
 
 import client.ApiException;
 import client.api.RegionsApi;
@@ -24,7 +24,7 @@ import client.model.Region;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.ActiveRegionsSet;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ActiveRegionsSet;
 import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.onestep.converters;
+package de.uniulm.omi.cloudiator.sword.drivers.onestep.converters;
 
 import client.model.Region;
 import de.uniulm.omi.cloudiator.domain.LocationScope;

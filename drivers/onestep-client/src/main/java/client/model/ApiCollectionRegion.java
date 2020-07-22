@@ -14,7 +14,6 @@
 package client.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.oktawave.api.client.model.ApiCollectionMetadata;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
@@ -23,13 +22,9 @@ import java.util.Objects;
 /**
  * ApiCollectionRegion
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ApiCollectionRegion {
   @SerializedName("Items")
   private List<Region> items = null;
-
-  @SerializedName("Meta")
-  private ApiCollectionMetadata meta = null;
 
    /**
    * Get items
@@ -40,25 +35,6 @@ public class ApiCollectionRegion {
     return items;
   }
 
-  public ApiCollectionRegion meta(ApiCollectionMetadata meta) {
-    this.meta = meta;
-    return this;
-  }
-
-   /**
-   * Get meta
-   * @return meta
-  **/
-  @ApiModelProperty(value = "")
-  public ApiCollectionMetadata getMeta() {
-    return meta;
-  }
-
-  public void setMeta(ApiCollectionMetadata meta) {
-    this.meta = meta;
-  }
-
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -68,13 +44,12 @@ public class ApiCollectionRegion {
       return false;
     }
     ApiCollectionRegion apiCollectionRegion = (ApiCollectionRegion) o;
-    return Objects.equals(this.items, apiCollectionRegion.items) &&
-        Objects.equals(this.meta, apiCollectionRegion.meta);
+    return Objects.equals(this.items, apiCollectionRegion.items);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(items, meta);
+    return Objects.hash(items);
   }
 
 
@@ -83,8 +58,7 @@ public class ApiCollectionRegion {
     StringBuilder sb = new StringBuilder();
     sb.append("class ApiCollectionRegion {\n");
 
-    sb.append("    items: ").append(toIndentedString(items)).append("\n");
-    sb.append("    meta: ").append(toIndentedString(meta)).append("\n");
+    sb.append("    regions: ").append(toIndentedString(items)).append("\n");
     sb.append("}");
     return sb.toString();
   }

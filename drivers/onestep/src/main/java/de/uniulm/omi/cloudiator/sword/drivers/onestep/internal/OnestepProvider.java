@@ -16,14 +16,13 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.onestep.internal;
+package de.uniulm.omi.cloudiator.sword.drivers.onestep.internal;
 
+import client.Configuration;
+import client.api.ApiClient;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.oktawave.api.client.ApiClient;
-import com.oktawave.api.client.Configuration;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
-import org.apache.commons.lang3.tuple.Pair;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

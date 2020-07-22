@@ -16,36 +16,31 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.onestep.config;
+package de.uniulm.omi.cloudiator.sword.drivers.onestep.config;
 
+import client.api.ApiClient;
 import client.model.Region;
 import com.google.common.base.Supplier;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import com.oktawave.api.client.ApiClient;
-import com.oktawave.api.client.api.*;
-import com.oktawave.api.client.model.InstanceType;
-import com.oktawave.api.client.model.Subregion;
-import com.oktawave.api.client.model.Template;
 import de.uniulm.omi.cloudiator.sword.config.AbstractComputeModule;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
-import de.uniulm.omi.cloudiator.sword.onestep.converters.InstanceWithAccessDataToVirtualMachine;
-import de.uniulm.omi.cloudiator.sword.onestep.converters.RegionToLocation;
-import de.uniulm.omi.cloudiator.sword.onestep.converters.ImageTemplateToImage;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.ActiveRegionsSet;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplate;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplatesSet;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.InstanceWithAccessData;
-import de.uniulm.omi.cloudiator.sword.onestep.internal.ActiveRegionsProvider;
-import de.uniulm.omi.cloudiator.sword.onestep.internal.OnestepProvider;
-import de.uniulm.omi.cloudiator.sword.onestep.strategies.OktawaveCreateVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.onestep.strategies.OktawaveDeleteVirtualMachineStrategy;
-import de.uniulm.omi.cloudiator.sword.onestep.suppliers.*;
-import de.uniulm.omi.cloudiator.sword.onestep.suppliers.ImageTemplatesProvider;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.converters.ImageTemplateToImage;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplate;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.HardwareSupplier;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.ImageSupplier;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.LocationSupplier;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.converters.RegionToLocation;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ActiveRegionsSet;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplatesSet;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.internal.ActiveRegionsProvider;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.internal.OnestepProvider;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.*;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.internal.ImageTemplatesProvider;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.DeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
@@ -68,16 +63,16 @@ public class OnestepComputeModule extends AbstractComputeModule {
     bind(ActiveRegionsSet.class).toProvider(ActiveRegionsProvider.class).in(Singleton.class);
     bind(ImageTemplatesSet.class).toProvider(ImageTemplatesProvider.class).in(Singleton.class);
 
-    bind(DictionariesApi.class).toInstance(new DictionariesApi());
-    bind(SubregionsApi.class).toInstance(new SubregionsApi());
-    bind(OciTemplatesApi.class).toInstance(new OciTemplatesApi());
-    bind(AccountApi.class).toInstance(new AccountApi());
-    bind(OciApi.class).toInstance(new OciApi());
+    //bind(DictionariesApi.class).toInstance(new DictionariesApi());
+    //bind(SubregionsApi.class).toInstance(new SubregionsApi());
+    //bind(OciTemplatesApi.class).toInstance(new OciTemplatesApi());
+    //bind(AccountApi.class).toInstance(new AccountApi());
+    //bind(OciApi.class).toInstance(new OciApi());
 
     // converters
     bind(new TypeLiteral<OneWayConverter<Region, Location>>() {}).to(RegionToLocation.class);
     bind(new TypeLiteral<OneWayConverter<ImageTemplate, Image>>() {}).to(ImageTemplateToImage.class);
-    bind(new TypeLiteral<OneWayConverter<InstanceWithAccessData, VirtualMachine>>() {}).to(InstanceWithAccessDataToVirtualMachine.class);
+    //bind(new TypeLiteral<OneWayConverter<InstanceWithAccessData, VirtualMachine>>() {}).to(InstanceWithAccessDataToVirtualMachine.class);
 
   }
 
@@ -98,17 +93,19 @@ public class OnestepComputeModule extends AbstractComputeModule {
 
   @Override
   protected Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
-    return injector.getInstance(VirtualMachineSupplier.class);
+    //return injector.getInstance(VirtualMachineSupplier.class);
+    return null;
   }
 
   @Override
   protected CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector) {
-    return injector.getInstance(OktawaveCreateVirtualMachineStrategy.class);
+    //return injector.getInstance(OktawaveCreateVirtualMachineStrategy.class);
+    return null;
   }
 
   @Override
   protected DeleteVirtualMachineStrategy deleteVirtualMachineStrategy(Injector injector) {
-    return injector.getInstance(OktawaveDeleteVirtualMachineStrategy.class);
+    return null; //return injector.getInstance(OktawaveDeleteVirtualMachineStrategy.class);
   }
 
 }

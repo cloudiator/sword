@@ -70,5 +70,10 @@
       <artifactId>drivers-oktawave</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>io.github.cloudiator.sword.drivers</groupId>
+      <artifactId>drivers-onestep</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>

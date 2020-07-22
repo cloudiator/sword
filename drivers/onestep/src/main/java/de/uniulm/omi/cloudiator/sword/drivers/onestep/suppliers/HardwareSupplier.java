@@ -16,19 +16,15 @@
  * under the License.
  */
 
-package de.uniulm.omi.cloudiator.sword.onestep.suppliers;
+package de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers;
 
 import client.model.template_response.Cluster;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
-import com.oktawave.api.client.model.InstanceType;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavorBuilder;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplate;
-import de.uniulm.omi.cloudiator.sword.onestep.domain.ImageTemplatesSet;
-import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplate;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplatesSet;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -44,8 +40,7 @@ public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
     private final ImageTemplatesSet imageTemplatesSet;
 
     @Inject
-    public HardwareSupplier(ImageTemplatesSet imageTemplatesSet,
-                            OneWayConverter<InstanceType, HardwareFlavor> hardwareConverter) {
+    public HardwareSupplier(ImageTemplatesSet imageTemplatesSet) {
         this.imageTemplatesSet = checkNotNull(imageTemplatesSet, "imageTemplatesSet is null");
     }
 

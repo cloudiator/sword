@@ -1,6 +1,5 @@
-package de.uniulm.omi.cloudiator.sword.onestep.domain;
+package de.uniulm.omi.cloudiator.sword.drivers.onestep.domain;
 
-import com.oktawave.api.client.model.Instance;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class InstanceWithAccessData {
 
-    private Instance instance;
+    //private Instance instance;
     private AccessData accessData;
 
 }

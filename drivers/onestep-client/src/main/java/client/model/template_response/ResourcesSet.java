@@ -10,7 +10,6 @@ import java.util.Objects;
  * ResourceSet
  */
 @ApiModel(description = "ResourceSet")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-03T15:23:33.358+01:00")
 public class ResourcesSet {
     @SerializedName("cpu")
     private Resource cpu = null;
