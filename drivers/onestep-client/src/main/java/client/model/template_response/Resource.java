@@ -29,7 +29,7 @@ public class Resource {
      * Id
      * @return id
      **/
-    @ApiModelProperty(value = "Id")
+    @ApiModelProperty(value = "Min")
     public Integer getMin() {
         return min;
     }
@@ -47,7 +47,7 @@ public class Resource {
      * Name
      * @return name
      **/
-    @ApiModelProperty(value = "Name")
+    @ApiModelProperty(value = "Max")
     public Integer getMax() {
         return max;
     }

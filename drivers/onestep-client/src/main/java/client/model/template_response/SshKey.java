@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * SshKey
  */
-@ApiModel(description = "ImageTemplate")
+@ApiModel(description = "SshKey")
 public class SshKey {
     @SerializedName("id")
     private Integer id = null;

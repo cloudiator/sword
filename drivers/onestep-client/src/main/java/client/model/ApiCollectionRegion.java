@@ -23,16 +23,16 @@ import java.util.Objects;
  * ApiCollectionRegion
  */
 public class ApiCollectionRegion {
-  @SerializedName("Items")
-  private List<Region> items = null;
+  @SerializedName("regions")
+  private List<Region> regions = null;
 
    /**
    * Get items
    * @return items
   **/
   @ApiModelProperty(value = "")
-  public List<Region> getItems() {
-    return items;
+  public List<Region> getRegions() {
+    return regions;
   }
 
   @Override
@@ -44,12 +44,12 @@ public class ApiCollectionRegion {
       return false;
     }
     ApiCollectionRegion apiCollectionRegion = (ApiCollectionRegion) o;
-    return Objects.equals(this.items, apiCollectionRegion.items);
+    return Objects.equals(this.regions, apiCollectionRegion.regions);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(items);
+    return Objects.hash(regions);
   }
 
 
@@ -58,7 +58,7 @@ public class ApiCollectionRegion {
     StringBuilder sb = new StringBuilder();
     sb.append("class ApiCollectionRegion {\n");
 
-    sb.append("    regions: ").append(toIndentedString(items)).append("\n");
+    sb.append("    regions: ").append(toIndentedString(regions)).append("\n");
     sb.append("}");
     return sb.toString();
   }

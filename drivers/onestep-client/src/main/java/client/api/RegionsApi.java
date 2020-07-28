@@ -57,7 +57,7 @@ public class RegionsApi {
         Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/subregions";
+        String localVarPath = "workspaces/" + apiClient.getCurrentWorkspace() + "/regions/";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -98,8 +98,6 @@ public class RegionsApi {
 
     @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call locationsGetValidateBeforeCall(String fields, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-
-
         com.squareup.okhttp.Call call = regionsGetCall(fields, progressListener, progressRequestListener);
         return call;
 
@@ -126,7 +124,7 @@ public class RegionsApi {
      */
     public ApiResponse<ApiCollectionRegion> regionsGetWithHttpInfo(String fields) throws ApiException {
         com.squareup.okhttp.Call call = locationsGetValidateBeforeCall(fields, null, null);
-        Type localVarReturnType = new TypeToken<Region>() {
+        Type localVarReturnType = new TypeToken<ApiCollectionRegion>() {
         }.getType();
         return apiClient.execute(call, localVarReturnType);
     }

@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * PrivateNetwork
  */
-@ApiModel(description = "ImageTemplate")
+@ApiModel(description = "PrivateNetwork")
 public class PrivateNetwork {
     @SerializedName("id")
     private Integer id = null;
@@ -20,7 +20,7 @@ public class PrivateNetwork {
     @SerializedName("name")
     private String name = null;
 
-    @SerializedName("fingerprint")
+    @SerializedName("network")
     private String network = null;
 
     public PrivateNetwork id(Integer id) {
@@ -86,7 +86,7 @@ public class PrivateNetwork {
      * Fingerprint
      * @return name
      **/
-    @ApiModelProperty(value = "Fingerprint")
+    @ApiModelProperty(value = "Network")
     public String getNetwork() {
         return network;
     }
@@ -119,10 +119,11 @@ public class PrivateNetwork {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class SshKey {\n");
+        sb.append("class PrivateNetwork {\n");
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
+        sb.append("    state: ").append(toIndentedString(state)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
-        sb.append("    fingerprint: ").append(toIndentedString(network)).append("\n");
+        sb.append("    network: ").append(toIndentedString(network)).append("\n");
         sb.append("}");
         return sb.toString();
     }

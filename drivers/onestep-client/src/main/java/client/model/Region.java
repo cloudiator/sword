@@ -1,6 +1,5 @@
 package client.model;
 
-import client.RegionState;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,13 +14,13 @@ public class Region {
     @SerializedName("name")
     private String name;
 
-    @SerializedName("fullName")
+    @SerializedName("full_name")
     private String fullName;
 
     @SerializedName("state")
-    private RegionState state;
+    private String state;
 
-    @SerializedName("isActive")
+    @SerializedName("active")
     private boolean isActive;
 
     public Region id(Integer id) {
@@ -62,7 +61,7 @@ public class Region {
         this.name = name;
     }
 
-    public Region FullName(String fullName) {
+    public Region fullName(String fullName) {
         this.fullName = fullName;
         return this;
     }
@@ -81,7 +80,7 @@ public class Region {
         this.fullName = fullName;
     }
 
-    public Region state(RegionState regionState) {
+    public Region state(String regionState) {
         this.state = regionState;
         return this;
     }
@@ -92,11 +91,11 @@ public class Region {
      * @return state
      **/
     @ApiModelProperty(value = "State")
-    public RegionState getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(RegionState state) {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -138,15 +137,14 @@ public class Region {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, isActive);
+        return Objects.hash(id, name, fullName, state, isActive);
     }
 
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class rregion {\n");
-
+        sb.append("class Region {\n");
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
         sb.append("    fullName: ").append(toIndentedString(fullName)).append("\n");

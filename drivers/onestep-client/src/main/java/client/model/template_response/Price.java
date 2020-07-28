@@ -26,7 +26,7 @@ public class Price {
      * Id
      * @return id
      **/
-    @ApiModelProperty(value = "Id")
+    @ApiModelProperty(value = "Cents")
     public Integer getCents() {
         return cents;
     }
@@ -44,7 +44,7 @@ public class Price {
      * Name
      * @return name
      **/
-    @ApiModelProperty(value = "Name")
+    @ApiModelProperty(value = "Currency")
     public String getCurrency() {
         return currency;
     }

@@ -9,21 +9,17 @@ import lombok.Setter;
 @Getter
 public class TokenResponse {
 
-    @SerializedName("username")
-    private String username;
+    @SerializedName("token")
+    private String token;
 
-    @SerializedName("authentication_token")
-    private String authentication_token;
-
-    @SerializedName("primary")
-    private boolean primary;
+    @SerializedName("locale")
+    private String locale;
 
     @Override
     public String toString() {
         return "TokenResponse{" +
-                "username='" + username + '\'' +
-                ", authentication_token=" + authentication_token +
-                ", primary='" + primary +
+                ", token=" + token +
+                ", locale='" + locale +
                 '}';
     }
 }

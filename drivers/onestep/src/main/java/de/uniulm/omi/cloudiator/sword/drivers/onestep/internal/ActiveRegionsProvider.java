@@ -19,6 +19,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.internal;
 
 import client.ApiException;
+import client.api.ApiClient;
 import client.api.RegionsApi;
 import client.model.Region;
 import com.google.inject.Inject;
@@ -41,6 +42,7 @@ public class ActiveRegionsProvider implements Provider<ActiveRegionsSet> {
     private static Logger LOGGER = LoggerFactory.getLogger(ActiveRegionsProvider.class);
 
     private final RegionsApi regionsApi;
+    private final ApiClient apiClient;
 
     @Inject(optional = true)
     @Named(Constants.SWORD_REGIONS)
@@ -48,8 +50,9 @@ public class ActiveRegionsProvider implements Provider<ActiveRegionsSet> {
     private Set<String> allowedRegions = null;
 
     @Inject
-    public ActiveRegionsProvider(RegionsApi regionsApi) {
+    public ActiveRegionsProvider(ApiClient apiClient, RegionsApi regionsApi) {
         this.regionsApi = checkNotNull(regionsApi, "regionsApi is null");
+        this.apiClient = checkNotNull(apiClient, "apiClient is null");
     }
 
     private Set<String> getAllowedRegions() {
@@ -66,7 +69,7 @@ public class ActiveRegionsProvider implements Provider<ActiveRegionsSet> {
             Set<String> filter = getAllowedRegions();
             return new ActiveRegionsSet(
                     regionsApi.regionsGet(null)
-                            .getItems()
+                            .getRegions()
                             .stream()
                             .filter(Region::isIsActive)
                             .filter(region -> filter == null || filter.contains(region.getName()))

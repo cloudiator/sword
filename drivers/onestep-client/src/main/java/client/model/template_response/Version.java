@@ -18,8 +18,8 @@ public class Version {
     @SerializedName("name")
     private String name = null;
 
-    @SerializedName("versions")
-    List<Cluster> clusters = null;
+    @SerializedName("clusters")
+    private List<Cluster> clusters = null;
 
     public Version id(Integer id) {
         this.id = id;

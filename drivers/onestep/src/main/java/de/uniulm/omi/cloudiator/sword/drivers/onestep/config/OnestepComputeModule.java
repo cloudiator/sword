@@ -19,6 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.config;
 
 import client.api.ApiClient;
+import client.api.RegionsApi;
+import client.api.TemplatesApi;
 import client.model.Region;
 import com.google.common.base.Supplier;
 import com.google.inject.Injector;
@@ -31,6 +33,8 @@ import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.converters.ImageTemplateToImage;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplate;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.strategies.OktawaveCreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.strategies.OktawaveDeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.HardwareSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.ImageSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.LocationSupplier;
@@ -58,14 +62,16 @@ public class OnestepComputeModule extends AbstractComputeModule {
     // azure api
     bind(ApiClient.class).toProvider(OnestepProvider.class).in(Singleton.class);
 
+    bind(RegionsApi.class).toInstance(new RegionsApi());
+    bind(TemplatesApi.class).toInstance(new TemplatesApi());
+
     //Note that those two classes are needed as:
     //HardwareSupplier and ImageSupplier both needs same regions and operatingSystemsLists
     bind(ActiveRegionsSet.class).toProvider(ActiveRegionsProvider.class).in(Singleton.class);
     bind(ImageTemplatesSet.class).toProvider(ImageTemplatesProvider.class).in(Singleton.class);
 
     //bind(DictionariesApi.class).toInstance(new DictionariesApi());
-    //bind(SubregionsApi.class).toInstance(new SubregionsApi());
-    //bind(OciTemplatesApi.class).toInstance(new OciTemplatesApi());
+
     //bind(AccountApi.class).toInstance(new AccountApi());
     //bind(OciApi.class).toInstance(new OciApi());
 
@@ -93,19 +99,17 @@ public class OnestepComputeModule extends AbstractComputeModule {
 
   @Override
   protected Supplier<Set<VirtualMachine>> virtualMachineSupplier(Injector injector) {
-    //return injector.getInstance(VirtualMachineSupplier.class);
-    return null;
+    return injector.getInstance(VirtualMachineSupplier.class);
   }
 
   @Override
   protected CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector) {
-    //return injector.getInstance(OktawaveCreateVirtualMachineStrategy.class);
-    return null;
+    return injector.getInstance(OktawaveCreateVirtualMachineStrategy.class);
   }
 
   @Override
   protected DeleteVirtualMachineStrategy deleteVirtualMachineStrategy(Injector injector) {
-    return null; //return injector.getInstance(OktawaveDeleteVirtualMachineStrategy.class);
+    return injector.getInstance(OktawaveDeleteVirtualMachineStrategy.class);
   }
 
 }

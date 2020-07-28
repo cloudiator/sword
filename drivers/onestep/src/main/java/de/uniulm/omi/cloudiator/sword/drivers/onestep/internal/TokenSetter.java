@@ -39,25 +39,29 @@ public class TokenSetter {
         }
 
         OAuth oauth2 = (OAuth) apiClient.getAuthentication("oauth2");
-        oauth2.setAccessToken(tokenResponse.getAuthentication_token());
-        LOGGER.info("AccessToken: " + oauth2.getAccessToken());
+        oauth2.setAccessToken(tokenResponse.getToken());
+        LOGGER.warn("AccessToken: " + oauth2.getAccessToken());
     }
 
     private TokenResponse getToken() throws IOException {
-        String json = "{ \"username\": \""+ username + "\", \"password\": \"" + password + "\" }";
+        String json = "{ \"email\": \""+ username + "\", \"password\": \"" +
+                password + "\", \"remember_me\": \"" + true + "\" }";
+        LOGGER.warn("Sending json: " + json);
         return getTokenResponse(new StringEntity(json));
     }
 
     private TokenResponse getTokenResponse(HttpEntity httpEntity) throws IOException {
         try (CloseableHttpClient httpclient = HttpClients.custom().build()) {
-            HttpPost httpPost = new HttpPost("https://panel.onestepcloud.pl/api/user/login");
+            HttpPost httpPost = new HttpPost("https://staging.onestep.cloud/api/sign_in");
             httpPost.setEntity(httpEntity);
             httpPost.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
 
             try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
                 String res = EntityUtils.toString(response.getEntity());
+                LOGGER.warn("auth message: " + res);
                 return new Gson().fromJson(res, TokenResponse.class);
             }
+
         }
     }
 }

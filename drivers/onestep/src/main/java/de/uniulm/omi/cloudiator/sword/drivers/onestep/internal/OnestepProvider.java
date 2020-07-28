@@ -23,6 +23,8 @@ import client.api.ApiClient;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import de.uniulm.omi.cloudiator.sword.domain.Cloud;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -30,8 +32,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by mriedl on 07.2020
  */
 public class OnestepProvider implements Provider<ApiClient> {
-
-    private final static String DELIMITER = ":";
+    private static Logger LOGGER = LoggerFactory.getLogger(OnestepProvider.class);
 
     private final Cloud cloud;
 
@@ -43,6 +44,8 @@ public class OnestepProvider implements Provider<ApiClient> {
 
     @Override
     public ApiClient get() {
+        LOGGER.warn("Setting token");
+        LOGGER.warn("Setting token");
         String usernameClient = cloud.credential().user();
         String passwordSecret = cloud.credential().password();
 
@@ -52,7 +55,10 @@ public class OnestepProvider implements Provider<ApiClient> {
         defaultClient.setWriteTimeout(4 * 60000);
         defaultClient.setReadTimeout(4 * 60000);
         defaultClient.setConnectTimeout(4 * 60000);
+        //ToDo get from cloud
+        defaultClient.setCurrentWorkspace(108);
 
+        LOGGER.warn("Setting token");
         TokenSetter tokenSetter = new TokenSetter(defaultClient, usernameClient, passwordSecret);
         tokenSetter.setToken();
 

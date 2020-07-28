@@ -13,16 +13,16 @@ import java.util.Objects;
 @ApiModel(description = "Cluster")
 public class Cluster {
     @SerializedName("id")
-    private Integer id = null;
+    private int id;
 
     @SerializedName("name")
     private String name = null;
 
     @SerializedName("description")
-    private String description = null;
+    private Description description = null;
 
     @SerializedName("max_additional_disks")
-    private Integer maxAdditionalDisks = null;
+    private int maxAdditionalDisks;
 
     @SerializedName("licences_price")
     private Price licencesPrice = null;
@@ -66,7 +66,7 @@ public class Cluster {
         this.name = name;
     }
 
-    public Cluster description(String description) {
+    public Cluster description(Description description) {
         this.description = description;
         return this;
     }
@@ -76,16 +76,16 @@ public class Cluster {
      * @return description
      **/
     @ApiModelProperty(value = "Description")
-    public String getDescription() {
+    public Description getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(Description description) {
         this.description = description;
     }
 
-    public Cluster maxAdditionalDisks(String maxAdditionalDisks) {
-        this.description = description;
+    public Cluster maxAdditionalDisks(int maxAdditionalDisks) {
+        this.maxAdditionalDisks = maxAdditionalDisks;
         return this;
     }
 
@@ -93,17 +93,17 @@ public class Cluster {
      * Description
      * @return description
      **/
-    @ApiModelProperty(value = "Description")
-    public Integer getMaxAdditionalDisks() {
+    @ApiModelProperty(value = "MaxAdditionalDisks")
+    public int getMaxAdditionalDisks() {
         return maxAdditionalDisks;
     }
 
-    public void setMaxAdditionalDisks(Integer maxAdditionalDisks) {
+    public void setMaxAdditionalDisks(int maxAdditionalDisks) {
         this.maxAdditionalDisks = maxAdditionalDisks;
     }
 
-    public Cluster licencesPrice(String licencesPrice) {
-        this.description = description;
+    public Cluster licencesPrice(Price licencesPrice) {
+        this.licencesPrice = licencesPrice;
         return this;
     }
 
@@ -120,7 +120,7 @@ public class Cluster {
         this.licencesPrice = licencesPrice;
     }
 
-    public Cluster recoucesSet(ResourcesSet resources) {
+    public Cluster resourcesSet(ResourcesSet resources) {
         this.resources = resources;
         return this;
     }
@@ -129,12 +129,12 @@ public class Cluster {
      * Description
      * @return description
      **/
-    @ApiModelProperty(value = "LicencesPrice")
+    @ApiModelProperty(value = "ResourcesSet ")
     public ResourcesSet getResources() {
         return resources;
     }
 
-    public void setLicencesPrice(ResourcesSet resources) {
+    public void setResourcesSet(ResourcesSet resources) {
         this.resources = resources;
     }
 

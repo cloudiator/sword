@@ -18,8 +18,11 @@ public class OperatingSystem {
     @SerializedName("name")
     private String name = null;
 
+    @SerializedName("authorisation_types")
+    private List<String> authorisationTypes = null;
+
     @SerializedName("versions")
-    List<Version> versions = null;
+    private List<Version> versions = null;
 
     public OperatingSystem id(Integer id) {
         this.id = id;
@@ -55,6 +58,24 @@ public class OperatingSystem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public OperatingSystem autorisationTypes(List<String> authorisation_types) {
+        this.authorisationTypes = authorisation_types;
+        return this;
+    }
+
+    /**
+     * Get diskTypes
+     * @return diskTypes
+     **/
+    @ApiModelProperty(value = "")
+    public List<String> getAuthorisationTypes() {
+        return authorisationTypes;
+    }
+
+    public void setAuthorisationTypes(List<String> authorisationTypes) {
+        this.authorisationTypes = authorisationTypes;
     }
 
     @ApiModelProperty(value = "")
