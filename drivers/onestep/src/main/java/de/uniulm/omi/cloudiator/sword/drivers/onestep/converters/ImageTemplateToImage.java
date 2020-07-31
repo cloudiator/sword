@@ -20,7 +20,7 @@ public class ImageTemplateToImage implements OneWayConverter<ImageTemplate, Imag
 
         String name = template.getOperatingSystemName();
         return ImageBuilder.newBuilder()
-                .id(String.valueOf(template.getOperatingSystemId()))
+                .id(String.valueOf(template.getVersionId())) //note that this value is unique, not operating system id
                 .providerId(name)
                 .name(name)
                 .os(buildOs(template))
@@ -46,11 +46,11 @@ public class ImageTemplateToImage implements OneWayConverter<ImageTemplate, Imag
     }
 
     private OperatingSystemVersion buildVersion(String versionName) {
-        int versionNo = getVersionNo(versionName);
+        String versionNo = getVersionNo(versionName);
         String versionSubName = getVersionSubName(versionName);
 
         try {
-            return OperatingSystemVersions.ofNameAndVersion(versionNo, versionSubName);
+            return OperatingSystemVersions.ofNameAndVersion(Integer.parseInt(versionNo.replace(".", "")), versionNo);
         } catch (NumberFormatException nfe) {
             LOGGER.warn("Could not parse version: " + versionNo + " from template: " + versionName + ". OperatingSystemVersions.unknown will be returned");
             return OperatingSystemVersions.unknown();
@@ -60,15 +60,20 @@ public class ImageTemplateToImage implements OneWayConverter<ImageTemplate, Imag
         }
     }
 
-    private int getVersionNo(String version) {
-        Pattern p = Pattern.compile("-?(\\d+\\.*)+");
+    private String getVersionNo(String version) {
+        Pattern p = Pattern.compile("-?\\d+");
         Matcher m = p.matcher(version);
-        int result = 0;
+        StringBuilder result = new StringBuilder();
+        // we allow only versions with up to one "."
         if (m.find()) {
-            result =  Integer.parseInt((m.group()).replace(".", ""));
+            result.append(m.group());
         }
 
-        return result;
+        if (m.find()) {
+            result.append(".").append(m.group());
+        }
+
+        return result.toString();
     }
 
     private String getVersionSubName(String version) {

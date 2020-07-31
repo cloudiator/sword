@@ -42,7 +42,6 @@ public class ActiveRegionsProvider implements Provider<ActiveRegionsSet> {
     private static Logger LOGGER = LoggerFactory.getLogger(ActiveRegionsProvider.class);
 
     private final RegionsApi regionsApi;
-    private final ApiClient apiClient;
 
     @Inject(optional = true)
     @Named(Constants.SWORD_REGIONS)
@@ -50,9 +49,8 @@ public class ActiveRegionsProvider implements Provider<ActiveRegionsSet> {
     private Set<String> allowedRegions = null;
 
     @Inject
-    public ActiveRegionsProvider(ApiClient apiClient, RegionsApi regionsApi) {
+    public ActiveRegionsProvider(RegionsApi regionsApi) {
         this.regionsApi = checkNotNull(regionsApi, "regionsApi is null");
-        this.apiClient = checkNotNull(apiClient, "apiClient is null");
     }
 
     private Set<String> getAllowedRegions() {

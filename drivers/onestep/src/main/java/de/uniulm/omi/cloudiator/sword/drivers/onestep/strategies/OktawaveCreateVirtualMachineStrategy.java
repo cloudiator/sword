@@ -1,8 +1,22 @@
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.strategies;
 
+import com.oktawave.api.client.ApiException;
+import com.oktawave.api.client.api.AccountApi;
+import com.oktawave.api.client.api.OciApi;
+import com.oktawave.api.client.api.OciTemplatesApi;
+import com.oktawave.api.client.api.TicketsApi;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
+import de.uniulm.omi.cloudiator.sword.drivers.oktawave.domain.AccessData;
+import de.uniulm.omi.cloudiator.sword.drivers.oktawave.domain.InstanceWithAccessData;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
+import org.bouncycastle.asn1.ASN1Encodable;
+import org.bouncycastle.asn1.ASN1Primitive;
+import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.util.io.pem.PemObject;
+import org.bouncycastle.util.io.pem.PemWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +40,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
     private static Logger LOGGER = LoggerFactory.getLogger(OktawaveCreateVirtualMachineStrategy.class);
-/*
+
     private final OciApi ociApi;
     private final AccountApi accountApi;
     private final TicketsApi ticketsApi;
@@ -34,24 +48,30 @@ public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachin
     private final NamingStrategy namingStrategy;
     private final OneWayConverter<InstanceWithAccessData, VirtualMachine> instanceConverter;
     private final KeyPairGenerator keyPairGenerator;
-*/
+
 
     @Inject
-    public OktawaveCreateVirtualMachineStrategy() {/*
+    public OktawaveCreateVirtualMachineStrategy(OciApi ociApi,
+                                                AccountApi accountApi,
+                                                TicketsApi ticketsApi,
+                                                OciTemplatesApi ociTemplatesApi,
+                                                NamingStrategy namingStrategy,
+                                                OneWayConverter<InstanceWithAccessData, VirtualMachine> instanceConverter
+    ) {
         this.ociApi = Objects.requireNonNull(ociApi);
         this.accountApi = Objects.requireNonNull(accountApi);
         this.ticketsApi = Objects.requireNonNull(ticketsApi);
         this.ociTemplatesApi = Objects.requireNonNull(ociTemplatesApi);
         this.namingStrategy = checkNotNull(namingStrategy);
         this.instanceConverter = instanceConverter;
-        this.keyPairGenerator = new RSAKeyPairGenerator();*/
+        this.keyPairGenerator = new RSAKeyPairGenerator();
     }
 
     @Nullable
     @Override
     public VirtualMachine apply(@Nullable VirtualMachineTemplate virtualMachineTemplate) {
         LOGGER.info("Creating instance from VirtualMachineTemplate: " + virtualMachineTemplate);
-/*
+
         String vmName = namingStrategy.generateUniqueNameBasedOnName(virtualMachineTemplate.name(), 40);
         if (vmName.length() > 40) {
             throw new RuntimeException("InstanceName should be shorter than 40. Current value is " + vmName + ", size: " + vmName.length());
@@ -136,8 +156,6 @@ public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachin
             throw new RuntimeException(e);
         }
         throw new RuntimeException("Something went wrong...");
-        */
-        return null;
     }
 
     private void sleep(long milis) {
@@ -146,7 +164,7 @@ public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachin
         } catch (InterruptedException e) {
         }
     }
-/*
+
     private AccessData getAccessData(Integer instanceId, Integer templateId, String privateKey) {
 
         try {
@@ -250,5 +268,5 @@ public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachin
         }
 
     }
-*/
+
 }

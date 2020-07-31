@@ -33,7 +33,6 @@ import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.converters.ImageTemplateToImage;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplate;
-import de.uniulm.omi.cloudiator.sword.drivers.onestep.strategies.OktawaveCreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.strategies.OktawaveDeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.HardwareSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.ImageSupplier;

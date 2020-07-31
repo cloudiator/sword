@@ -25,6 +25,7 @@ import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavorBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplate;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplatesSet;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.internal.HardwareFlavourNamingStrategy;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -56,22 +57,24 @@ public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
 
     private Set<HardwareFlavor> createAllPossibleHardwareFlavors(Set<Cluster> clusters) {
         Set<HardwareFlavor> hardwareFlavors = new HashSet<>();
+        int hardwareFlavourNo = 0;
         for (Cluster cluster : clusters) {
             for (int cpu = cluster.getResources().getCpu().getMin(); cpu <= cluster.getResources().getCpu().getMax();
                  cpu += CPU_STEP) {
                 for (int ram = cluster.getResources().getRam().getMin(); ram <= cluster.getResources().getRam().getMax();
                      ram += RAM_STEP_IN_GB) {
-                    for (double disk = cluster.getResources().getPrimaryDisk().getMin(); disk <= cluster.getResources().getPrimaryDisk().getMax();
-                         disk += DISK_STEP_IN_GB) {
+                    //for (double disk = cluster.getResources().getPrimaryDisk().getMin(); disk <= cluster.getResources().getPrimaryDisk().getMax();
+                     //    disk += DISK_STEP_IN_GB) {
                         hardwareFlavors.add(HardwareFlavorBuilder.newBuilder()
-                                .id(String.valueOf(cluster.getId()))
+                                .id(HardwareFlavourNamingStrategy.createHardwareFlavourNameFromClusterId(cluster.getId(), hardwareFlavourNo))
                                 .providerId(cluster.getName())
                                 .name(cluster.getName())
                                 .cores(cpu)
-                                .gbDisk(disk) //this is related to Template not to Hardware, so it must be empty
+                                .gbDisk(null) //this is related to Template not to Hardware, so it must be empty
                                 .mbRam(ram)
                                 .build());
-                    }
+                        hardwareFlavourNo++;
+                    //}
                 }
 
             }

@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
@@ -55,29 +56,29 @@ public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
 
     @Override
     public ImageTemplatesSet get() {
-        Set<OperatingSystem> operatingSystems = new HashSet<>();
+        Set<ImageTemplate> imageTemplates = new HashSet<>();
 
         for (Region region : activeRegionsSet.getRegions()) {
             try {
-                operatingSystems.addAll(templatesApi.templatesGet(apiClient.getCurrentWorkspace(), region.getId())
-                        .getOperatingSystems());
+                imageTemplates.addAll(operatingSystemsToImageTemplate(templatesApi.templatesGet(apiClient.getCurrentWorkspace(), region.getId())
+                        .getOperatingSystems(), region.getId()));
             } catch (ApiException e) {
                 LOGGER.error("Could not get Image Template from One Step Cloud", e);
             }
         }
 
-        return new ImageTemplatesSet(operatingSystemsToImageTemplate(operatingSystems));
+        return new ImageTemplatesSet(imageTemplates);
     }
 
     //This casting is necessary as from each operating system we can build multiple images
-    private Set<ImageTemplate> operatingSystemsToImageTemplate(Set<OperatingSystem> operatingSystems) {
+    private Set<ImageTemplate> operatingSystemsToImageTemplate(List<OperatingSystem> operatingSystems, int regionId) {
         Set<ImageTemplate> imageTemplates = new HashSet<>();
 
         operatingSystems.forEach(
                 operatingSystem -> operatingSystem.getVersions().forEach(
                         version -> version.getClusters().forEach(
                                 cluster -> imageTemplates.add(
-                                        new ImageTemplate(operatingSystem.getId(), operatingSystem.getName(), version.getName(), cluster)))));
+                                        new ImageTemplate(operatingSystem.getId(), operatingSystem.getName(), version.getId(), version.getName(), regionId, cluster)))));
 
         return imageTemplates;
     }

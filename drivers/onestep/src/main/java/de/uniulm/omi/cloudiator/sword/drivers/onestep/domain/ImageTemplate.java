@@ -9,6 +9,8 @@ import lombok.Getter;
 public class ImageTemplate {
     private int operatingSystemId;
     private String operatingSystemName;
+    private int versionId;
     private String versionName;
+    private int RegionId;
     private Cluster cluster;
 }

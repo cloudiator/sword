@@ -114,6 +114,7 @@ public class SubregionsApi {
      */
     public ApiCollectionSubregion subregionsGet(String fields) throws ApiException {
         ApiResponse<ApiCollectionSubregion> resp = subregionsGetWithHttpInfo(fields);
+
         return resp.getData();
     }
 
