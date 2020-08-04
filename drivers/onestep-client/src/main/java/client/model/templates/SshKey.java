@@ -1,27 +1,26 @@
-package client.model.template_response;
+package client.model.templates;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
- * Version
+ * SshKey
  */
-@ApiModel(description = "Version")
-public class Version {
+@ApiModel(description = "SshKey")
+public class SshKey {
     @SerializedName("id")
     private Integer id = null;
 
     @SerializedName("name")
     private String name = null;
 
-    @SerializedName("clusters")
-    private List<Cluster> clusters = null;
+    @SerializedName("fingerprint")
+    private String fingerprint = null;
 
-    public Version id(Integer id) {
+    public SshKey id(Integer id) {
         this.id = id;
         return this;
     }
@@ -39,7 +38,7 @@ public class Version {
         this.id = id;
     }
 
-    public Version name(String name) {
+    public SshKey name(String name) {
         this.name = name;
         return this;
     }
@@ -57,9 +56,22 @@ public class Version {
         this.name = name;
     }
 
-    @ApiModelProperty(value = "")
-    public List<Cluster> getClusters() {
-        return clusters;
+    public SshKey fingerprint(String fingerprint) {
+        this.fingerprint = fingerprint;
+        return this;
+    }
+
+    /**
+     * Fingerprint
+     * @return name
+     **/
+    @ApiModelProperty(value = "Fingerprint")
+    public String getFingerprint() {
+        return fingerprint;
+    }
+
+    public void setFingerprint(String fingerprint) {
+        this.fingerprint = fingerprint;
     }
 
     @Override
@@ -70,26 +82,25 @@ public class Version {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Version version = (Version) o;
-        return Objects.equals(this.id, version.id) &&
-                Objects.equals(this.name, version.name) &&
-                Objects.equals(this.clusters, version);
+        SshKey sshKey = (SshKey) o;
+        return Objects.equals(this.id, sshKey.id) &&
+                Objects.equals(this.name, sshKey.name) &&
+                Objects.equals(this.fingerprint, sshKey.fingerprint);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, clusters);
+        return Objects.hash(id, name, fingerprint);
     }
 
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class Version {\n");
-
+        sb.append("class SshKey {\n");
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
-        sb.append("    clusters: ").append(toIndentedString(clusters)).append("\n");
+        sb.append("    fingerprint: ").append(toIndentedString(fingerprint)).append("\n");
         sb.append("}");
         return sb.toString();
     }

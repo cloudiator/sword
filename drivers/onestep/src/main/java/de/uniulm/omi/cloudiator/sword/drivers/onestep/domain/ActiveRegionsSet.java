@@ -1,6 +1,6 @@
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.domain;
 
-import client.model.Region;
+import client.model.regions.Region;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

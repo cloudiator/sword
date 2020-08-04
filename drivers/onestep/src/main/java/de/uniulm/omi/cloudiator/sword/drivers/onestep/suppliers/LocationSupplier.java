@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers;
 
-import client.model.Region;
+import client.model.regions.Region;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.domain.Location;

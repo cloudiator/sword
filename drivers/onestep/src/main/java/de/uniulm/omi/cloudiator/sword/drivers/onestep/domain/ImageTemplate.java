@@ -1,6 +1,6 @@
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.domain;
 
-import client.model.template_response.Cluster;
+import client.model.templates.Cluster;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

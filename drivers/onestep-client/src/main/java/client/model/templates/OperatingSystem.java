@@ -1,26 +1,30 @@
-package client.model.template_response;
+package client.model.templates;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
- * SshKey
+ * ImageTemplate
  */
-@ApiModel(description = "SshKey")
-public class SshKey {
+@ApiModel(description = "OperatingSystem")
+public class OperatingSystem {
     @SerializedName("id")
     private Integer id = null;
 
     @SerializedName("name")
     private String name = null;
 
-    @SerializedName("fingerprint")
-    private String fingerprint = null;
+    @SerializedName("authorisation_types")
+    private List<String> authorisationTypes = null;
 
-    public SshKey id(Integer id) {
+    @SerializedName("versions")
+    private List<Version> versions = null;
+
+    public OperatingSystem id(Integer id) {
         this.id = id;
         return this;
     }
@@ -38,7 +42,7 @@ public class SshKey {
         this.id = id;
     }
 
-    public SshKey name(String name) {
+    public OperatingSystem name(String name) {
         this.name = name;
         return this;
     }
@@ -56,22 +60,27 @@ public class SshKey {
         this.name = name;
     }
 
-    public SshKey fingerprint(String fingerprint) {
-        this.fingerprint = fingerprint;
+    public OperatingSystem autorisationTypes(List<String> authorisation_types) {
+        this.authorisationTypes = authorisation_types;
         return this;
     }
 
     /**
-     * Fingerprint
-     * @return name
+     * Get diskTypes
+     * @return diskTypes
      **/
-    @ApiModelProperty(value = "Fingerprint")
-    public String getFingerprint() {
-        return fingerprint;
+    @ApiModelProperty(value = "")
+    public List<String> getAuthorisationTypes() {
+        return authorisationTypes;
     }
 
-    public void setFingerprint(String fingerprint) {
-        this.fingerprint = fingerprint;
+    public void setAuthorisationTypes(List<String> authorisationTypes) {
+        this.authorisationTypes = authorisationTypes;
+    }
+
+    @ApiModelProperty(value = "")
+    public List<Version> getVersions() {
+        return versions;
     }
 
     @Override
@@ -82,25 +91,26 @@ public class SshKey {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        SshKey sshKey = (SshKey) o;
-        return Objects.equals(this.id, sshKey.id) &&
-                Objects.equals(this.name, sshKey.name) &&
-                Objects.equals(this.fingerprint, sshKey.fingerprint);
+        OperatingSystem template = (OperatingSystem) o;
+        return Objects.equals(this.id, template.id) &&
+                Objects.equals(this.name, template.name) &&
+                Objects.equals(this.versions, template.versions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, fingerprint);
+        return Objects.hash(id, name, versions);
     }
 
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class SshKey {\n");
+        sb.append("class OperatingSystem {\n");
+
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
-        sb.append("    fingerprint: ").append(toIndentedString(fingerprint)).append("\n");
+        sb.append("    versions: ").append(toIndentedString(versions)).append("\n");
         sb.append("}");
         return sb.toString();
     }

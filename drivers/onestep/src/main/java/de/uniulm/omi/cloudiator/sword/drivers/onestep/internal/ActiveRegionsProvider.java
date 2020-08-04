@@ -19,9 +19,8 @@
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.internal;
 
 import client.ApiException;
-import client.api.ApiClient;
 import client.api.RegionsApi;
-import client.model.Region;
+import client.model.regions.Region;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;

@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers;
 
-import client.model.template_response.Cluster;
+import client.model.templates.Cluster;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;

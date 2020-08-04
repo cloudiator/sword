@@ -1,7 +1,7 @@
 package client.api;
 
 import client.*;
-import client.model.template_response.ApiCollectionTemplate;
+import client.model.templates.ApiCollectionTemplate;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;

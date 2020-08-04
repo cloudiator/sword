@@ -21,7 +21,7 @@ package de.uniulm.omi.cloudiator.sword.drivers.onestep.config;
 import client.api.ApiClient;
 import client.api.RegionsApi;
 import client.api.TemplatesApi;
-import client.model.Region;
+import client.model.regions.Region;
 import com.google.common.base.Supplier;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;

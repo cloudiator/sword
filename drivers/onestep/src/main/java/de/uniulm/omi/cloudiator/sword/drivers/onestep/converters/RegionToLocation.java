@@ -18,7 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.converters;
 
-import client.model.Region;
+import client.model.regions.Region;
 import de.uniulm.omi.cloudiator.domain.LocationScope;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.LocationBuilder;

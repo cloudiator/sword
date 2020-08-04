@@ -1,10 +1,9 @@
-package client.model.template_response;
+package client.model.templates;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.List;
 import java.util.Objects;
 
 /**

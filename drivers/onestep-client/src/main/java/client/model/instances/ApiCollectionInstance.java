@@ -11,7 +11,7 @@
  */
 
 
-package client.model;
+package client.model.instances;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,19 +20,19 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * ApiCollectionRegion
+ * ApiCollectionInstance
  */
-public class ApiCollectionRegion {
-  @SerializedName("regions")
-  private List<Region> regions = null;
+public class ApiCollectionInstance {
+  @SerializedName("virtual_machines")
+  private List<Instance> instances = null;
 
    /**
    * Get items
    * @return items
   **/
   @ApiModelProperty(value = "")
-  public List<Region> getRegions() {
-    return regions;
+  public List<Instance> getInstances() {
+    return instances;
   }
 
   @Override
@@ -43,22 +43,22 @@ public class ApiCollectionRegion {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ApiCollectionRegion apiCollectionRegion = (ApiCollectionRegion) o;
-    return Objects.equals(this.regions, apiCollectionRegion.regions);
+    ApiCollectionInstance apiCollectionInstance = (ApiCollectionInstance) o;
+    return Objects.equals(this.instances, apiCollectionInstance.instances) ;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(regions);
+    return Objects.hash(instances);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ApiCollectionRegion {\n");
+    sb.append("class ApiCollectionInstance {\n");
 
-    sb.append("    regions: ").append(toIndentedString(regions)).append("\n");
+      sb.append("    virtual_machines: ").append(toIndentedString(instances)).append("\n");
     sb.append("}");
     return sb.toString();
   }

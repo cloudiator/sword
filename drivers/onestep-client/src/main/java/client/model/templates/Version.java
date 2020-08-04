@@ -1,29 +1,27 @@
-package client.model.template_response;
+package client.model.templates;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
- * PrivateNetwork
+ * Version
  */
-@ApiModel(description = "PrivateNetwork")
-public class PrivateNetwork {
+@ApiModel(description = "Version")
+public class Version {
     @SerializedName("id")
     private Integer id = null;
-
-    @SerializedName("state")
-    private String state = null;
 
     @SerializedName("name")
     private String name = null;
 
-    @SerializedName("network")
-    private String network = null;
+    @SerializedName("clusters")
+    private List<Cluster> clusters = null;
 
-    public PrivateNetwork id(Integer id) {
+    public Version id(Integer id) {
         this.id = id;
         return this;
     }
@@ -41,25 +39,7 @@ public class PrivateNetwork {
         this.id = id;
     }
 
-    public PrivateNetwork state(String state) {
-        this.state = state;
-        return this;
-    }
-
-    /**
-     * Id
-     * @return id
-     **/
-    @ApiModelProperty(value = "State")
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public PrivateNetwork name(String name) {
+    public Version name(String name) {
         this.name = name;
         return this;
     }
@@ -77,22 +57,9 @@ public class PrivateNetwork {
         this.name = name;
     }
 
-    public PrivateNetwork network(String network) {
-        this.network = network;
-        return this;
-    }
-
-    /**
-     * Fingerprint
-     * @return name
-     **/
-    @ApiModelProperty(value = "Network")
-    public String getNetwork() {
-        return network;
-    }
-
-    public void setNetwork(String network) {
-        this.network = network;
+    @ApiModelProperty(value = "")
+    public List<Cluster> getClusters() {
+        return clusters;
     }
 
     @Override
@@ -103,27 +70,26 @@ public class PrivateNetwork {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PrivateNetwork privateNetwork = (PrivateNetwork) o;
-        return Objects.equals(this.id, privateNetwork.id) &&
-                Objects.equals(this.state, privateNetwork.state) &&
-                Objects.equals(this.name, privateNetwork.name) &&
-                Objects.equals(this.network, privateNetwork.network);
+        Version version = (Version) o;
+        return Objects.equals(this.id, version.id) &&
+                Objects.equals(this.name, version.name) &&
+                Objects.equals(this.clusters, version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, network);
+        return Objects.hash(id, name, clusters);
     }
 
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class PrivateNetwork {\n");
+        sb.append("class Version {\n");
+
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
-        sb.append("    state: ").append(toIndentedString(state)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
-        sb.append("    network: ").append(toIndentedString(network)).append("\n");
+        sb.append("    clusters: ").append(toIndentedString(clusters)).append("\n");
         sb.append("}");
         return sb.toString();
     }

@@ -1,4 +1,4 @@
-package client.model.template_response;
+package client.model.templates;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;

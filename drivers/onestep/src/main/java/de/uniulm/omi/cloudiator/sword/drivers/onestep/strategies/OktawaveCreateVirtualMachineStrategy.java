@@ -1,22 +1,23 @@
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.strategies;
 
-import com.oktawave.api.client.ApiException;
-import com.oktawave.api.client.api.AccountApi;
-import com.oktawave.api.client.api.OciApi;
-import com.oktawave.api.client.api.OciTemplatesApi;
-import com.oktawave.api.client.api.TicketsApi;
+import client.ApiException;
+import client.api.AccountApi;
+import client.api.InstancesApi;
+import client.model.instances.ApiCollectionInstance;
+import client.model.instances.CreateInstanceCommand;
+import client.model.account.CreateSshKeyCommand;
+import client.model.account.SshKeyId;
+import client.model.instances.Instance;
+import client.model.instances.InstanceId;
+import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
-import de.uniulm.omi.cloudiator.sword.drivers.oktawave.domain.AccessData;
-import de.uniulm.omi.cloudiator.sword.drivers.oktawave.domain.InstanceWithAccessData;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.InstanceWithAccessData;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.internal.HardwareFlavourNamingStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import org.bouncycastle.asn1.ASN1Encodable;
-import org.bouncycastle.asn1.ASN1Primitive;
-import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
-import org.bouncycastle.util.io.pem.PemObject;
-import org.bouncycastle.util.io.pem.PemWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,30 +42,33 @@ public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachin
 
     private static Logger LOGGER = LoggerFactory.getLogger(OktawaveCreateVirtualMachineStrategy.class);
 
-    private final OciApi ociApi;
+    private final InstancesApi instancesApi;
     private final AccountApi accountApi;
     private final TicketsApi ticketsApi;
     private final OciTemplatesApi ociTemplatesApi;
     private final NamingStrategy namingStrategy;
     private final OneWayConverter<InstanceWithAccessData, VirtualMachine> instanceConverter;
     private final KeyPairGenerator keyPairGenerator;
+    private final GetStrategy<String, HardwareFlavor> hardwareGetStrategy;
 
 
     @Inject
-    public OktawaveCreateVirtualMachineStrategy(OciApi ociApi,
+    public OktawaveCreateVirtualMachineStrategy(InstancesApi instancesApi,
                                                 AccountApi accountApi,
                                                 TicketsApi ticketsApi,
                                                 OciTemplatesApi ociTemplatesApi,
                                                 NamingStrategy namingStrategy,
-                                                OneWayConverter<InstanceWithAccessData, VirtualMachine> instanceConverter
+                                                OneWayConverter<InstanceWithAccessData, VirtualMachine> instanceConverter,
+                                                GetStrategy<String, HardwareFlavor> hardwareGetStrategy
     ) {
-        this.ociApi = Objects.requireNonNull(ociApi);
+        this.instancesApi = Objects.requireNonNull(instancesApi);
         this.accountApi = Objects.requireNonNull(accountApi);
         this.ticketsApi = Objects.requireNonNull(ticketsApi);
         this.ociTemplatesApi = Objects.requireNonNull(ociTemplatesApi);
         this.namingStrategy = checkNotNull(namingStrategy);
         this.instanceConverter = instanceConverter;
         this.keyPairGenerator = new RSAKeyPairGenerator();
+        this.hardwareGetStrategy = hardwareGetStrategy;
     }
 
     @Nullable
@@ -82,7 +86,7 @@ public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachin
         createSshKeyCommand.setSshKey(extendedKeyPair.getPublicKey());
         createSshKeyCommand.setSshKeyName(UUID.randomUUID().toString());
 
-        SshKey tempSshKey = null;
+        SshKeyId tempSshKey = null;
         try {
             tempSshKey = accountApi.accountPostSshKey(createSshKeyCommand);
         } catch (ApiException e) {
@@ -90,67 +94,61 @@ public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachin
             LOGGER.error("ApiException: " + e.getCode() + ", ResponseBody: " + e.getResponseBody());
         }
 
-        SshKey sshKey = tempSshKey;
+        SshKeyId sshKey = tempSshKey;
+
+        HardwareFlavor hardwareFlavor =  hardwareGetStrategy.get(Integer.valueOf(virtualMachineTemplate.hardwareFlavorId());
 
         CreateInstanceCommand createInstanceCommand = new CreateInstanceCommand();
-        createInstanceCommand.setInstanceName(vmName);
-        createInstanceCommand.setInstancesCount(1);
-        createInstanceCommand.setTemplateId(Integer.valueOf(virtualMachineTemplate.imageId()));
-        createInstanceCommand.setTypeId(Integer.valueOf(virtualMachineTemplate.hardwareFlavorId()));
-        createInstanceCommand.setSubregionId(Integer.valueOf(virtualMachineTemplate.locationId()));
-        createInstanceCommand.setDiskClass(48); // id 48 -> Tier 1
-        createInstanceCommand.setDiskSize(20); // default disk size
+        createInstanceCommand.setName(vmName);
+        createInstanceCommand.setOperatingSystemVersionId(Integer.valueOf(virtualMachineTemplate.imageId())); // id 48 -> Tier 1
+        createInstanceCommand.setCpuCores(hardwareFlavor.numberOfCores());
+        createInstanceCommand.setClusterId(HardwareFlavourNamingStrategy.getClusterIdFromHardwareFlavourName(hardwareFlavor.name()));
+        createInstanceCommand.setPrivateNetworkId(Integer.valueOf(virtualMachineTemplate.imageId()));
+        createInstanceCommand.setAuthorisation(Integer.valueOf(virtualMachineTemplate.locationId()));
+        createInstanceCommand.addDedicatedPublicIp(true);
+
         if (sshKey != null) {
-            createInstanceCommand.setSshKeysIds(Collections.singletonList(sshKey.getId()));
-            createInstanceCommand.setAuthorizationMethodId(1398);
+            createInstanceCommand.setAdditionalDisks(Collections.singletonList(sshKey.getId()));
+            createInstanceCommand.setName(1398);
         } else {
-            createInstanceCommand.setAuthorizationMethodId(1399);
+            createInstanceCommand.setName(1399);
         }
 
         try {
-            Ticket ticket = ociApi.instancesPost(createInstanceCommand);
-            while ("Running".equals(ticket.getStatus().getLabel())) {
+            InstanceId newInstance = instancesApi.instancesPost(createInstanceCommand);
 
-                sleep(5000);
+            Instance instance = null;
+            boolean isTurnedOn = false;
+            while (!isTurnedOn) {
+                ApiCollectionInstance apiCollectionInstance = instancesApi.instancesGet(null, null, null, null, null, null, null, null, null);
 
-                ticket = ticketsApi.ticketsGet_0(ticket.getId(), null);
-                LOGGER.info("Checking VM name: " + ticket.getObjectName() + " - " + ticket.getProgress() + "%");
-            }
+                String ids = apiCollectionInstance.getInstances().stream()
+                        .map(Instance::getId)
+                        .map(Integer::toString)
+                        .collect(Collectors.joining(",", "[", "]"));
 
-            if ("Succeed".equals(ticket.getStatus().getLabel())) {
+                LOGGER.info(String.format("Looking for instance Id: %s in %s", newInstance.getId(), ids));
 
-                Instance instance = null;
-                boolean isTurnedOn = false;
-                while (!isTurnedOn) {
-                    ApiCollectionInstance apiCollectionInstance = ociApi.instancesGet(null, null, null, null, null, null, null, null, null);
+                Optional<Instance> first = apiCollectionInstance
+                        .getInstances()
+                        .stream()
+                        .filter(i -> i.getId().equals(newInstance.getId()))
+                        .findFirst();
 
-                    String instanceName = ticket.getObjectName();
-                    String names = apiCollectionInstance.getItems().stream().map(Instance::getName).collect(Collectors.joining(",", "[", "]"));
+                String instanceName = first.get().getName();
 
-                    LOGGER.info(String.format("Looking for instanceName: %s in %s", instanceName, names));
-
-                    Optional<Instance> first = apiCollectionInstance
-                            .getItems()
-                            .stream()
-                            .filter(i -> i.getName().equalsIgnoreCase(instanceName))
-                            .findFirst();
-
-                    if (first.isPresent()) {
-                        if ("Powered On".equalsIgnoreCase(first.get().getStatus().getLabel())) {
-                            LOGGER.info(String.format("Instance: %s is in %s state", instanceName, first.get().getStatus().getLabel()));
-                            instance = first.get();
-                            isTurnedOn = true;
-                        } else {
-                            LOGGER.info(String.format("Instance: %s is in %s state. Waiting for initialization", instanceName, first.get().getStatus().getLabel()));
-                            sleep(3000);
-                        }
-                    } else {
-                        LOGGER.info(String.format("Instance: %s not created yet", instanceName));
-                    }
+                if ("powered_on".equalsIgnoreCase(first.get().getState())) {
+                    LOGGER.info(String.format("Instance: %s is in %s state", instanceName, first.get().getState()));
+                    instance = first.get();
+                    isTurnedOn = true;
+                } else {
+                    LOGGER.info(String.format("Instance: %s is in %s state. Waiting for initialization", instanceName, first.get().getState()));
+                    sleep(3000);
                 }
-
-                return instanceConverter.apply(new InstanceWithAccessData(instance, getAccessData(instance.getId(), instance.getTemplate().getId(), sshKey != null ? extendedKeyPair.getPrivateKey() : null)));
             }
+
+            return instanceConverter.apply(new InstanceWithAccessData(instance, getAccessData(instance.getId(), instance.getTemplate().getId(), sshKey != null ? extendedKeyPair.getPrivateKey() : null)));
+
         } catch (ApiException e) {
             LOGGER.error("ApiException: " + e.getCode() + ", ResponseBody: " + e.getResponseBody());
             throw new RuntimeException(e);
@@ -172,10 +170,10 @@ public class OktawaveCreateVirtualMachineStrategy implements CreateVirtualMachin
             int maxAttempts = 3;
             int attemptNumber = 0;
             int sleepTime = 60000;
-            com.oktawave.api.client.model.AccessData octawaveAccessData = ociApi.instancesGetAccessData(instanceId, null);
+            com.oktawave.api.client.model.AccessData octawaveAccessData = instancesApi.instancesGetAccessData(instanceId, null);
             while (octawaveAccessData == null && attemptNumber < maxAttempts) {
                 sleep(sleepTime);
-                octawaveAccessData = ociApi.instancesGetAccessData(instanceId, null);
+                octawaveAccessData = instancesApi.instancesGetAccessData(instanceId, null);
                 LOGGER.info("Sleep while waiting for availability of Oktawave access data");
                 attemptNumber++;
             }

@@ -1,4 +1,4 @@
-package client.model;
+package client.model.regions;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;

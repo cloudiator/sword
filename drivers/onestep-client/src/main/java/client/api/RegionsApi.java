@@ -14,8 +14,8 @@
 package client.api;
 
 import client.*;
-import client.model.ApiCollectionRegion;
-import client.model.Region;
+import client.model.regions.ApiCollectionRegion;
+import client.model.regions.Region;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
