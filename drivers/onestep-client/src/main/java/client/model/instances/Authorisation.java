@@ -3,6 +3,7 @@ package client.model.instances;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,8 +21,8 @@ public class Authorisation {
     }
 
     /**
-     * Id
-     * @return id
+     * Type
+     * @return type
      **/
     @ApiModelProperty(value = "type")
     public String getType() {
@@ -35,6 +36,17 @@ public class Authorisation {
     @ApiModelProperty(value = "ssh keys")
     public List<SshKey> getSshKeys() {
         return sshKeys;
+    }
+
+    public void addSshKey(Integer id, String publicKey) {
+        SshKey sshKey = new SshKey();
+        sshKey.setId(id);
+        sshKey.setPublicKey(publicKey);
+        if(sshKeys == null) {
+            sshKeys = new LinkedList<>();
+        } else {
+            sshKeys.add(sshKey);
+        }
     }
 
     @Override

@@ -14,12 +14,9 @@
 package client.api;
 
 import client.*;
-import client.model.instances.ApiCollectionInstance;
-import client.model.instances.CreateInstanceCommand;
-import client.model.instances.InstanceId;
+import client.model.instances.*;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,183 +42,44 @@ public class InstancesApi {
         this.apiClient = apiClient;
     }
 
-    /**
-     * Build call for instancesDelete
-     *
-     * @param id                      Instance identifie (required)
-     * @param deep                    Deletes also additional disks attached to instance (optional)
-     * @param progressListener        Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call instancesDeleteCall(Integer id, Boolean deep, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/instances/{id}"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        if (deep != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("deep", deep));
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-                "application/json", "text/json", "application/xml", "text/xml"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if (progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[]{"oauth2"};
-        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call instancesDeleteValidateBeforeCall(Integer id, Boolean deep, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call instancesDeleteValidateBeforeCall(int region, int vmId) throws ApiException {
 
-        // verify the required parameter 'id' is set
-        if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling instancesDelete(Async)");
-        }
+        String localVarPath = "/workspaces/ "+ apiClient.getCurrentWorkspace() + "/regions/" + region + "/virtual_machines/" + vmId;
 
-
-        com.squareup.okhttp.Call call = instancesDeleteCall(id, deep, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = instancesCall(null, localVarPath, "DELETE");
         return call;
-
     }
 
     /**
      * Delete instance
      *
-     * @param id   Instance identifie (required)
-     * @param deep Deletes also additional disks attached to instance (optional)
      * @return Ticket
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Ticket instancesDelete(Integer id, Boolean deep) throws ApiException {
-        ApiResponse<Ticket> resp = instancesDeleteWithHttpInfo(id, deep);
+    public EmptyResponse instancesDelete(int region, int vmId) throws ApiException {
+        ApiResponse<EmptyResponse> resp = instancesDeleteWithHttpInfo(region, vmId);
         return resp.getData();
     }
 
     /**
      * Delete instance
      *
-     * @param id   Instance identifie (required)
-     * @param deep Deletes also additional disks attached to instance (optional)
      * @return ApiResponse&lt;Ticket&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Ticket> instancesDeleteWithHttpInfo(Integer id, Boolean deep) throws ApiException {
-        com.squareup.okhttp.Call call = instancesDeleteValidateBeforeCall(id, deep, null, null);
-        Type localVarReturnType = new TypeToken<Ticket>() {
+    public ApiResponse<EmptyResponse> instancesDeleteWithHttpInfo(int region, int vmId) throws ApiException {
+        com.squareup.okhttp.Call call = instancesDeleteValidateBeforeCall(region, vmId);
+        Type localVarReturnType = new TypeToken<EmptyResponse>() {
         }.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
-    /**
-     * Build call for instancesGet
-     *
-     * @param templateTypeId          Template type id eg marketplace, oci instance (optional)
-     * @param isTurnedOn              Indicates wether an instance is turned on (optional)
-     * @param subregionId             Subregion Id (optional)
-     * @param typeId                  Type Id (optional)
-     * @param query                   Query (optional)
-     * @param pageSize                Page size (optional)
-     * @param pageNumber              Page number (optional)
-     * @param orderBy                 Order by (optional)
-     * @param fields                  Response fields filter (optional)
-     * @param progressListener        Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call instancesGetCall(Integer templateTypeId, Boolean isTurnedOn, Integer subregionId, Integer typeId, String query, Integer pageSize, Integer pageNumber, String orderBy, String fields, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/instances";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        if (templateTypeId != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("templateTypeId", templateTypeId));
-        if (isTurnedOn != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("isTurnedOn", isTurnedOn));
-        if (subregionId != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("subregionId", subregionId));
-        if (typeId != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("typeId", typeId));
-        if (query != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("query", query));
-        if (pageSize != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("pageSize", pageSize));
-        if (pageNumber != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("pageNumber", pageNumber));
-        if (orderBy != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("orderBy", orderBy));
-        if (fields != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("fields", fields));
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-                "application/json", "text/json", "application/xml", "text/xml"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if (progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[]{"oauth2"};
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call instancesGetValidateBeforeCall(Integer templateTypeId, Boolean isTurnedOn, Integer subregionId, Integer typeId, String query, Integer pageSize, Integer pageNumber, String orderBy, String fields, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call instancesGetValidateBeforeCall(int region) throws ApiException {
+        String localVarPath = "/workspaces/ "+ apiClient.getCurrentWorkspace() + "/regions/" + region + "/virtual_machines/";
 
-
-        com.squareup.okhttp.Call call = instancesGetCall(templateTypeId, isTurnedOn, subregionId, typeId, query, pageSize, pageNumber, orderBy, fields, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = instancesCall(null, localVarPath, "GET");
         return call;
 
     }
@@ -230,42 +88,57 @@ public class InstancesApi {
      * Returns instance list
      * Acceptable order values are: Type, Status, CreationDate, Name.
      *
-     * @param templateTypeId Template type id eg marketplace, oci instance (optional)
-     * @param isTurnedOn     Indicates wether an instance is turned on (optional)
-     * @param subregionId    Subregion Id (optional)
-     * @param typeId         Type Id (optional)
-     * @param query          Query (optional)
-     * @param pageSize       Page size (optional)
-     * @param pageNumber     Page number (optional)
-     * @param orderBy        Order by (optional)
-     * @param fields         Response fields filter (optional)
      * @return ApiCollectionInstance
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiCollectionInstance instancesGet(Integer templateTypeId, Boolean isTurnedOn, Integer subregionId, Integer typeId, String query, Integer pageSize, Integer pageNumber, String orderBy, String fields) throws ApiException {
-        ApiResponse<ApiCollectionInstance> resp = instancesGetWithHttpInfo(templateTypeId, isTurnedOn, subregionId, typeId, query, pageSize, pageNumber, orderBy, fields);
+    public ApiCollectionInstance instancesGet(int region) throws ApiException {
+        ApiResponse<ApiCollectionInstance> resp = instancesGetWithHttpInfo(region);
         return resp.getData();
     }
 
     /**
      * Returns instance list
      * Acceptable order values are: Type, Status, CreationDate, Name.
-     *
-     * @param templateTypeId Template type id eg marketplace, oci instance (optional)
-     * @param isTurnedOn     Indicates wether an instance is turned on (optional)
-     * @param subregionId    Subregion Id (optional)
-     * @param typeId         Type Id (optional)
-     * @param query          Query (optional)
-     * @param pageSize       Page size (optional)
-     * @param pageNumber     Page number (optional)
-     * @param orderBy        Order by (optional)
-     * @param fields         Response fields filter (optional)
      * @return ApiResponse&lt;ApiCollectionInstance&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<ApiCollectionInstance> instancesGetWithHttpInfo(Integer templateTypeId, Boolean isTurnedOn, Integer subregionId, Integer typeId, String query, Integer pageSize, Integer pageNumber, String orderBy, String fields) throws ApiException {
-        com.squareup.okhttp.Call call = instancesGetValidateBeforeCall(templateTypeId, isTurnedOn, subregionId, typeId, query, pageSize, pageNumber, orderBy, fields, null, null);
+    public ApiResponse<ApiCollectionInstance> instancesGetWithHttpInfo(int region) throws ApiException {
+        com.squareup.okhttp.Call call = instancesGetValidateBeforeCall(region);
         Type localVarReturnType = new TypeToken<ApiCollectionInstance>() {
+        }.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+
+    private com.squareup.okhttp.Call instanceDetailsGetValidateBeforeCall(int region, int vmId) throws ApiException {
+        String localVarPath = "/workspaces/ "+ apiClient.getCurrentWorkspace() + "/regions/" + region + "/virtual_machines/" + vmId;
+
+        com.squareup.okhttp.Call call = instancesCall(null, localVarPath, "GET");
+        return call;
+
+    }
+
+    /**
+     * Returns instance list
+     * Acceptable order values are: Type, Status, CreationDate, Name.
+     *
+     * @return ApiCollectionInstance
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public InstanceDetails instanceDetailsGet(int region, int vmId) throws ApiException {
+        ApiResponse<InstanceDetails> resp = instanceDetailsGetWithHttpInfo(region, vmId);
+        return resp.getData();
+    }
+
+    /**
+     * Returns instance list
+     * Acceptable order values are: Type, Status, CreationDate, Name.
+     * @return ApiResponse&lt;ApiCollectionInstance&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<InstanceDetails> instanceDetailsGetWithHttpInfo(int region, int vmId) throws ApiException {
+        com.squareup.okhttp.Call call = instanceDetailsGetValidateBeforeCall(region, vmId);
+        Type localVarReturnType = new TypeToken<InstanceDetails>() {
         }.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -273,17 +146,11 @@ public class InstancesApi {
     /**
      * Build call for instancesPost
      *
-     * @param command                 Create instance command (required)
-     * @param progressListener        Progress listener
-     * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call instancesPostCall(CreateInstanceCommand command, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = command;
-
-        // create path and map variables
-        String localVarPath = "/instances";
+    public com.squareup.okhttp.Call instancesCall(Object body, String localVarPath, String method) throws ApiException {
+        Object localVarPostBody = body;
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -304,32 +171,21 @@ public class InstancesApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            });
-        }
-
         String[] localVarAuthNames = new String[]{"oauth2"};
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(localVarPath, method, localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames);
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call instancesPostValidateBeforeCall(CreateInstanceCommand command, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call instancesPostValidateBeforeCall(CreateInstanceCommand command, int region, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
 
         // verify the required parameter 'command' is set
         if (command == null) {
             throw new ApiException("Missing the required parameter 'command' when calling instancesPost(Async)");
         }
 
+        String localVarPath = "/workspaces/ "+ apiClient.getCurrentWorkspace() + "/regions/" + region + "/virtual_machines/";
 
-        com.squareup.okhttp.Call call = instancesPostCall(command, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = instancesCall(command, localVarPath, "POST");
         return call;
 
     }
@@ -341,8 +197,8 @@ public class InstancesApi {
      * @return Ticket
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public InstanceId instancesPost(CreateInstanceCommand command) throws ApiException {
-        ApiResponse<InstanceId> resp = instancesPostWithHttpInfo(command);
+    public InstanceId instancesPost(CreateInstanceCommand command, int region) throws ApiException {
+        ApiResponse<InstanceId> resp = instancesPostWithHttpInfo(command, region);
         return resp.getData();
     }
 
@@ -353,100 +209,9 @@ public class InstancesApi {
      * @return ApiResponse&lt;Ticket&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<InstanceId> instancesPostWithHttpInfo(CreateInstanceCommand command) throws ApiException {
-        com.squareup.okhttp.Call call = instancesPostValidateBeforeCall(command, null, null);
+    public ApiResponse<InstanceId> instancesPostWithHttpInfo(CreateInstanceCommand command, int region) throws ApiException {
+        com.squareup.okhttp.Call call = instancesPostValidateBeforeCall(command, region, null, null);
         Type localVarReturnType = new TypeToken<InstanceId>() {
-        }.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Build call for instancesPowerOn
-     *
-     * @param id                      Instance identifier (required)
-     * @param progressListener        Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call instancesPowerOnCall(Integer id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/instances/{id}/power_on_ticket"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-                "application/json", "text/json", "application/xml", "text/xml"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if (progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[]{"oauth2"};
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call instancesPowerOnValidateBeforeCall(Integer id, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-
-        // verify the required parameter 'id' is set
-        if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling instancesPowerOn(Async)");
-        }
-
-
-        com.squareup.okhttp.Call call = instancesPowerOnCall(id, progressListener, progressRequestListener);
-        return call;
-
-    }
-
-    /**
-     * Power on instance
-     *
-     * @param id Instance identifier (required)
-     * @return Ticket
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public Ticket instancesPowerOn(Integer id) throws ApiException {
-        ApiResponse<Ticket> resp = instancesPowerOnWithHttpInfo(id);
-        return resp.getData();
-    }
-
-    /**
-     * Power on instance
-     *
-     * @param id Instance identifier (required)
-     * @return ApiResponse&lt;Ticket&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<Ticket> instancesPowerOnWithHttpInfo(Integer id) throws ApiException {
-        com.squareup.okhttp.Call call = instancesPowerOnValidateBeforeCall(id, null, null);
-        Type localVarReturnType = new TypeToken<Ticket>() {
         }.getType();
         return apiClient.execute(call, localVarReturnType);
     }

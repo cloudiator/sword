@@ -18,14 +18,15 @@ import client.auth.ApiKeyAuth;
 import client.auth.Authentication;
 import client.auth.HttpBasicAuth;
 import client.auth.OAuth;
+import client.model.InstanceData;
+import client.model.instances.Instance;
+import client.model.instances.InstanceDetails;
 import com.squareup.okhttp.*;
 import com.squareup.okhttp.internal.http.HttpMethod;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
 import okio.BufferedSink;
 import okio.Okio;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -76,6 +77,7 @@ public class ApiClient {
     private HttpLoggingInterceptor loggingInterceptor;
 
     private int currentWorkspace;
+    private List<InstanceData> instancesList = new LinkedList<>();
 
     /*
      * Constructor for ApiClient
@@ -105,6 +107,14 @@ public class ApiClient {
 
     public void setCurrentWorkspace(int workspace) {
         this.currentWorkspace = workspace;
+    }
+
+    public List<InstanceData> getInstancesList() {
+        return instancesList;
+    }
+
+    public void addInstance(InstanceData instance) {
+        this.instancesList.add(instance);
     }
 
     /**
@@ -952,12 +962,11 @@ public class ApiClient {
      * @param headerParams            The header parameters
      * @param formParams              The form parameters
      * @param authNames               The authentications to apply
-     * @param progressRequestListener Progress request listener
      * @return The HTTP call
      * @throws ApiException If fail to serialize the request body object
      */
-    public Call buildCall(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Request request = buildRequest(path, method, queryParams, collectionQueryParams, body, headerParams, formParams, authNames, progressRequestListener);
+    public Call buildCall(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames) throws ApiException {
+        Request request = buildRequest(path, method, queryParams, collectionQueryParams, body, headerParams, formParams, authNames);
 
         return httpClient.newCall(request);
     }
@@ -973,11 +982,10 @@ public class ApiClient {
      * @param headerParams            The header parameters
      * @param formParams              The form parameters
      * @param authNames               The authentications to apply
-     * @param progressRequestListener Progress request listener
      * @return The HTTP request
      * @throws ApiException If fail to serialize the request body object
      */
-    public Request buildRequest(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public Request buildRequest(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames) throws ApiException {
         updateParamsForAuth(authNames, queryParams, headerParams);
 
         final String url = buildUrl(path, queryParams, collectionQueryParams);
@@ -1009,16 +1017,7 @@ public class ApiClient {
             reqBody = serialize(body, contentType);
         }
 
-        Request request = null;
-
-        if (progressRequestListener != null && reqBody != null) {
-            ProgressRequestBody progressRequestBody = new ProgressRequestBody(reqBody, progressRequestListener);
-            request = reqBuilder.method(method, progressRequestBody).build();
-        } else {
-            request = reqBuilder.method(method, reqBody).build();
-        }
-
-        return request;
+        return reqBuilder.method(method, reqBody).build();
     }
 
     /**

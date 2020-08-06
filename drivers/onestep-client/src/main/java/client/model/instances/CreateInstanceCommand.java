@@ -39,7 +39,7 @@ public class CreateInstanceCommand {
   private Integer cpuCores = null;
 
   @SerializedName("ram")
-  private Integer ram = null;
+  private Long ram = null;
 
   @SerializedName("primary_disk")
   private Disk primaryDisk = null;
@@ -130,7 +130,7 @@ public class CreateInstanceCommand {
     this.cpuCores = cpuCores;
   }
 
-  public CreateInstanceCommand ram(Integer ram) {
+  public CreateInstanceCommand ram(Long ram) {
     this.ram = ram;
     return this;
   }
@@ -142,11 +142,11 @@ public class CreateInstanceCommand {
    * @return instancesCount
   **/
   @ApiModelProperty(value = "Count of instances")
-  public Integer getRam() {
+  public Long getRam() {
     return ram;
   }
 
-  public void setRam(Integer ram) {
+  public void setRam(Long ram) {
     this.ram = ram;
   }
 

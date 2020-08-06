@@ -18,9 +18,7 @@
 
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.config;
 
-import client.api.ApiClient;
-import client.api.RegionsApi;
-import client.api.TemplatesApi;
+import client.api.*;
 import client.model.regions.Region;
 import com.google.common.base.Supplier;
 import com.google.inject.Injector;
@@ -32,8 +30,11 @@ import de.uniulm.omi.cloudiator.sword.domain.Image;
 import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.converters.ImageTemplateToImage;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.converters.InstanceDataToVirtualMachine;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplate;
-import de.uniulm.omi.cloudiator.sword.drivers.onestep.strategies.OktawaveDeleteVirtualMachineStrategy;
+import client.model.InstanceData;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.strategies.OnestepCreateVirtualMachineStrategy;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.strategies.OnestepDeleteVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.HardwareSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.ImageSupplier;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.LocationSupplier;
@@ -58,7 +59,7 @@ public class OnestepComputeModule extends AbstractComputeModule {
   @Override
   protected void configure() {
     super.configure();
-    // azure api
+
     bind(ApiClient.class).toProvider(OnestepProvider.class).in(Singleton.class);
 
     bind(RegionsApi.class).toInstance(new RegionsApi());
@@ -69,15 +70,13 @@ public class OnestepComputeModule extends AbstractComputeModule {
     bind(ActiveRegionsSet.class).toProvider(ActiveRegionsProvider.class).in(Singleton.class);
     bind(ImageTemplatesSet.class).toProvider(ImageTemplatesProvider.class).in(Singleton.class);
 
-    //bind(DictionariesApi.class).toInstance(new DictionariesApi());
-
-    //bind(AccountApi.class).toInstance(new AccountApi());
-    //bind(OciApi.class).toInstance(new OciApi());
+    bind(InstancesApi.class).toInstance(new InstancesApi());
+    bind(AccountApi.class).toInstance(new AccountApi());
 
     // converters
     bind(new TypeLiteral<OneWayConverter<Region, Location>>() {}).to(RegionToLocation.class);
     bind(new TypeLiteral<OneWayConverter<ImageTemplate, Image>>() {}).to(ImageTemplateToImage.class);
-    //bind(new TypeLiteral<OneWayConverter<InstanceWithAccessData, VirtualMachine>>() {}).to(InstanceWithAccessDataToVirtualMachine.class);
+    bind(new TypeLiteral<OneWayConverter<InstanceData, VirtualMachine>>() {}).to(InstanceDataToVirtualMachine.class);
 
   }
 
@@ -103,12 +102,12 @@ public class OnestepComputeModule extends AbstractComputeModule {
 
   @Override
   protected CreateVirtualMachineStrategy createVirtualMachineStrategy(Injector injector) {
-    return injector.getInstance(OktawaveCreateVirtualMachineStrategy.class);
+    return injector.getInstance(OnestepCreateVirtualMachineStrategy.class);
   }
 
   @Override
   protected DeleteVirtualMachineStrategy deleteVirtualMachineStrategy(Injector injector) {
-    return injector.getInstance(OktawaveDeleteVirtualMachineStrategy.class);
+    return injector.getInstance(OnestepDeleteVirtualMachineStrategy.class);
   }
 
 }
