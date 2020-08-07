@@ -27,7 +27,7 @@ public class CreateSshKeyCommand {
   @SerializedName("name")
   private String sshKeyName = null;
 
-  @SerializedName("key")
+  @SerializedName("public_key")
   private String sshKey = null;
 
   public CreateSshKeyCommand sshKeyName(String sshKeyName) {

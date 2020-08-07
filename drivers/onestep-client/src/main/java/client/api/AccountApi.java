@@ -15,10 +15,8 @@ package client.api;
 
 import client.*;
 import client.model.account.CreateSshKeyCommand;
-import client.model.account.SshKeyId;
+import client.model.account.SshKeyResponse;
 import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,7 +53,7 @@ public class AccountApi {
         Object localVarPostBody = command;
 
         // create path and map variables
-        String localVarPath = "/account/sshkeys";
+        String localVarPath = "/ssh_keys";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -88,7 +86,6 @@ public class AccountApi {
             throw new ApiException("Missing the required parameter 'command' when calling accountPostSshKey(Async)");
         }
 
-
         com.squareup.okhttp.Call call = accountPostSshKeyCall(command);
         return call;
 
@@ -101,8 +98,8 @@ public class AccountApi {
      * @return SshKey
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public SshKeyId accountPostSshKey(CreateSshKeyCommand command) throws ApiException {
-        ApiResponse<SshKeyId> resp = accountPostSshKeyWithHttpInfo(command);
+    public SshKeyResponse accountPostSshKey(CreateSshKeyCommand command) throws ApiException {
+        ApiResponse<SshKeyResponse> resp = accountPostSshKeyWithHttpInfo(command);
         return resp.getData();
     }
 
@@ -113,9 +110,9 @@ public class AccountApi {
      * @return ApiResponse&lt;SshKey&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<SshKeyId> accountPostSshKeyWithHttpInfo(CreateSshKeyCommand command) throws ApiException {
+    public ApiResponse<SshKeyResponse> accountPostSshKeyWithHttpInfo(CreateSshKeyCommand command) throws ApiException {
         com.squareup.okhttp.Call call = accountPostSshKeyValidateBeforeCall(command);
-        Type localVarReturnType = new TypeToken<SshKeyId>() {
+        Type localVarReturnType = new TypeToken<SshKeyResponse>() {
         }.getType();
         return apiClient.execute(call, localVarReturnType);
     }

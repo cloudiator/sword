@@ -3,9 +3,9 @@ package de.uniulm.omi.cloudiator.sword.drivers.onestep.strategies;
 import client.ApiException;
 import client.api.AccountApi;
 import client.api.InstancesApi;
+import client.model.account.SshKeyResponse;
 import client.model.instances.*;
 import client.model.account.CreateSshKeyCommand;
-import client.model.account.SshKeyId;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
@@ -80,15 +80,16 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
         createSshKeyCommand.setSshKey(extendedKeyPair.getPublicKey());
         createSshKeyCommand.setSshKeyName(UUID.randomUUID().toString());
 
-        SshKeyId tempSshKey = null;
+        SshKeyResponse tempSshKey = null;
         try {
             tempSshKey = accountApi.accountPostSshKey(createSshKeyCommand);
         } catch (ApiException e) {
-            LOGGER.warn(" Could not register sshKey, User and password will be used");
+            LOGGER.warn(" Could not register sshKey, password authorisation will be set, but reaching machine via Melodic" +
+                    "will not be possible as password is sent through email");
             LOGGER.error("ApiException: " + e.getCode() + ", ResponseBody: " + e.getResponseBody());
         }
 
-        SshKeyId sshKey = tempSshKey;
+        SshKeyResponse sshKey = tempSshKey;
 
         HardwareFlavor hardwareFlavor =  hardwareGetStrategy.get(virtualMachineTemplate.hardwareFlavorId());
 
