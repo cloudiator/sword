@@ -10,7 +10,7 @@ import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachineTemplate;
 import client.model.InstanceData;
-import de.uniulm.omi.cloudiator.sword.drivers.onestep.internal.HardwareFlavourNamingStrategy;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.internal.HardwareFlavourIdStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.CreateVirtualMachineStrategy;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
 import de.uniulm.omi.cloudiator.sword.util.NamingStrategy;
@@ -97,7 +97,7 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
         CreateInstanceCommand createInstanceCommand = new CreateInstanceCommand();
         createInstanceCommand.setName(vmName);
         createInstanceCommand.setOperatingSystemVersionId(Integer.valueOf(virtualMachineTemplate.imageId())); // id 48 -> Tier 1
-        createInstanceCommand.setClusterId(HardwareFlavourNamingStrategy.getClusterIdFromHardwareFlavourName(hardwareFlavor.name()));
+        createInstanceCommand.setClusterId(HardwareFlavourIdStrategy.getClusterIdFromHardwareFlavourId(hardwareFlavor.id()));
         createInstanceCommand.setCpuCores(hardwareFlavor.numberOfCores());
         createInstanceCommand.setRam(hardwareFlavor.mbRam());
         createInstanceCommand.setHddPrimaryDisk(DISK_IN_GB);
@@ -113,7 +113,6 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
             authorisation.setType("password");
         }
         createInstanceCommand.setAuthorisation(authorisation);
-
         try {
             InstanceId newInstance = instancesApi.instancesPost(createInstanceCommand, regionId);
 
@@ -144,14 +143,14 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
                         throw new IllegalStateException("Created Vm's settings mismatch requested values");
                     }
 
-                    String instanceName = first.get().getName();
+                    String instanceName = createdInstance.getName();
 
-                    if ("powered_on".equalsIgnoreCase(first.get().getState())) {
-                        LOGGER.info(String.format("Instance: %s is in %s state", instanceName, first.get().getState()));
-                        instance = first.get();
+                    if ("on".equalsIgnoreCase(first.get().getState())) {
+                        LOGGER.info(String.format("Instance: %s is in %s state", instanceName, createdInstance.getState()));
+                        instance = createdInstance;
                         isTurnedOn = true;
                     } else {
-                        LOGGER.info(String.format("Instance: %s is in %s state. Waiting for initialization", instanceName, instance.getState()));
+                        LOGGER.info(String.format("Instance: %s is in %s state. Waiting for initialization", instanceName, createdInstance.getState()));
                         sleep(3000);
                     }
                 }
@@ -164,7 +163,7 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
                     virtualMachineTemplate.hardwareFlavorId(),
                     virtualMachineTemplate.imageId(),
                     virtualMachineTemplate.locationId(),
-                    sshKey != null ? extendedKeyPair.getPrivateKey() : null
+                    extendedKeyPair.getPrivateKey()
             );
             //store data for later use
             instancesApi.getApiClient().addInstance(instanceData);

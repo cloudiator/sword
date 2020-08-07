@@ -25,7 +25,7 @@ import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavor;
 import de.uniulm.omi.cloudiator.sword.domain.HardwareFlavorBuilder;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplate;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplatesSet;
-import de.uniulm.omi.cloudiator.sword.drivers.onestep.internal.HardwareFlavourNamingStrategy;
+import de.uniulm.omi.cloudiator.sword.drivers.onestep.internal.HardwareFlavourIdStrategy;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -66,7 +66,7 @@ public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
                     //for (double disk = cluster.getResources().getPrimaryDisk().getMin(); disk <= cluster.getResources().getPrimaryDisk().getMax();
                      //    disk += DISK_STEP_IN_GB) {
                         hardwareFlavors.add(HardwareFlavorBuilder.newBuilder()
-                                .id(HardwareFlavourNamingStrategy.createHardwareFlavourNameFromClusterId(cluster.getId(), hardwareFlavourNo))
+                                .id(HardwareFlavourIdStrategy.createHardwareFlavourIdromClusterId(cluster.getId(), hardwareFlavourNo))
                                 .providerId(cluster.getName())
                                 .name(cluster.getName())
                                 .cores(cpu)

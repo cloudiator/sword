@@ -8,13 +8,13 @@ import java.util.regex.Pattern;
  *  We need to create unique id for hardware flavour for each combination of disc/ram/cores. During wecreating
  *  virtual machines we need to be able to cast those ids to one of few clusterIds recognisable by OneStep
  */
-public class HardwareFlavourNamingStrategy {
+public class HardwareFlavourIdStrategy {
 
-    public static String createHardwareFlavourNameFromClusterId(int clusterId, int hardwareFlavourNumber) {
+    public static String createHardwareFlavourIdromClusterId(int clusterId, int hardwareFlavourNumber) {
         return clusterId + "-" + hardwareFlavourNumber;
     }
 
-    public static int getClusterIdFromHardwareFlavourName(String name) {
+    public static int getClusterIdFromHardwareFlavourId(String name) {
         Pattern p = Pattern.compile("-?(\\d)+");
         Matcher m = p.matcher(name);
         int result = 0;
