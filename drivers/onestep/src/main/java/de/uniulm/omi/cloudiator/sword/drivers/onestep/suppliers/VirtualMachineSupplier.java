@@ -5,8 +5,6 @@ import com.google.common.base.Supplier;
 import de.uniulm.omi.cloudiator.sword.domain.VirtualMachine;
 import client.model.InstanceData;
 import de.uniulm.omi.cloudiator.util.OneWayConverter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.Objects;
@@ -14,8 +12,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class VirtualMachineSupplier implements Supplier<Set<VirtualMachine>> {
-
-    private static Logger LOGGER = LoggerFactory.getLogger(VirtualMachineSupplier.class);
 
     private final ApiClient apiClient;
     private final OneWayConverter<InstanceData, VirtualMachine> instanceConverter;

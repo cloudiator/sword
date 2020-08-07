@@ -40,7 +40,6 @@ public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
 
     private static Logger LOGGER = LoggerFactory.getLogger(HardwareSupplier.class);
 
-    private final ApiClient apiClient;
     private final TemplatesApi templatesApi;
     private final ActiveRegionsSet activeRegionsSet;
 
@@ -48,7 +47,6 @@ public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
     @Inject
     public ImageTemplatesProvider(ApiClient apiClient, TemplatesApi templatesApi,
                                   ActiveRegionsSet activeRegionsSet) {
-        this.apiClient = apiClient;
         apiClient.setBasePath("https://staging.onestep.cloud/api/");
         this.templatesApi = templatesApi;
         this.activeRegionsSet = activeRegionsSet;
@@ -57,10 +55,11 @@ public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
     @Override
     public ImageTemplatesSet get() {
         Set<ImageTemplate> imageTemplates = new HashSet<>();
+        int workspace = templatesApi.getApiClient().getCurrentWorkspace();
 
         for (Region region : activeRegionsSet.getRegions()) {
             try {
-                imageTemplates.addAll(operatingSystemsToImageTemplate(templatesApi.templatesGet(apiClient.getCurrentWorkspace(), region.getId())
+                imageTemplates.addAll(operatingSystemsToImageTemplate(templatesApi.templatesGet(workspace, region.getId())
                         .getOperatingSystems(), region.getId()));
             } catch (ApiException e) {
                 LOGGER.error("Could not get Image Template from One Step Cloud", e);
@@ -78,7 +77,18 @@ public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
                 operatingSystem -> operatingSystem.getVersions().forEach(
                         version -> version.getClusters().forEach(
                                 cluster -> imageTemplates.add(
-                                        new ImageTemplate(operatingSystem.getId(), operatingSystem.getName(), version.getId(), version.getName(), regionId, cluster)))));
+                                        new ImageTemplate(
+                                                operatingSystem.getId(),
+                                                operatingSystem.getName(),
+                                                version.getId(),
+                                                version.getName(),
+                                                regionId,
+                                                cluster
+                                        )
+                                )
+                        )
+                )
+        );
 
         return imageTemplates;
     }

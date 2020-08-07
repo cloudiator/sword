@@ -64,11 +64,12 @@ public class ImageTemplateToImage implements OneWayConverter<ImageTemplate, Imag
         Pattern p = Pattern.compile("-?\\d+");
         Matcher m = p.matcher(version);
         StringBuilder result = new StringBuilder();
-        // we allow only versions with up to one "."
+
         if (m.find()) {
             result.append(m.group());
         }
 
+        // we allow only versions with up to one "."
         if (m.find()) {
             result.append(".").append(m.group());
         }

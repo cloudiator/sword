@@ -70,7 +70,7 @@ public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
                                 .providerId(cluster.getName())
                                 .name(cluster.getName())
                                 .cores(cpu)
-                                .gbDisk(null) //this is related to Template not to Hardware, so it must be empty
+                                .gbDisk(null) //This value will later be set during creation of the machine
                                 .mbRam(ram)
                                 .build());
                         hardwareFlavourNo++;

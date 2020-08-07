@@ -1,6 +1,7 @@
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.converters;
 
-import client.model.instances.InstanceDetails;
+import client.model.instances
+        .InstanceDetails;
 import de.uniulm.omi.cloudiator.sword.domain.*;
 import client.model.InstanceData;
 import de.uniulm.omi.cloudiator.sword.strategy.GetStrategy;
@@ -33,8 +34,8 @@ public class InstanceDataToVirtualMachine implements OneWayConverter<InstanceDat
         HardwareFlavor hardwareFlavor = hardwareGetStrategy.get(instanceData.getHardwareFlavourId());
         Image image = imageGetStrategy.get(instanceData.getImageId());
         Location location = locationGetStrategy.get(instanceData.getLocationId());
+        //ToDo if endpoint to get password would be provided, set username and password
         LoginCredential loginCredential = LoginCredentialBuilder.newBuilder()
-//                .username(accessData.getUser())
                 .username(null)
                 .privateKey(instanceData.getPrivateKey())
                 .password(null)

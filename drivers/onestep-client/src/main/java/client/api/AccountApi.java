@@ -45,329 +45,13 @@ public class AccountApi {
     }
 
     /**
-     * Build call for accountDeleteSshKey
-     *
-     * @param sshKeyId                SSH key id (required)
-     * @param progressListener        Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call accountDeleteSshKeyCall(Integer sshKeyId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/account/sshkeys/{sshKeyId}"
-                .replaceAll("\\{" + "sshKeyId" + "\\}", apiClient.escapeString(sshKeyId.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if (progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[]{"oauth2"};
-        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call accountDeleteSshKeyValidateBeforeCall(Integer sshKeyId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-
-        // verify the required parameter 'sshKeyId' is set
-        if (sshKeyId == null) {
-            throw new ApiException("Missing the required parameter 'sshKeyId' when calling accountDeleteSshKey(Async)");
-        }
-
-
-        com.squareup.okhttp.Call call = accountDeleteSshKeyCall(sshKeyId, progressListener, progressRequestListener);
-        return call;
-
-    }
-
-    /**
-     * Deletes SSH key
-     *
-     * @param sshKeyId SSH key id (required)
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public void accountDeleteSshKey(Integer sshKeyId) throws ApiException {
-        accountDeleteSshKeyWithHttpInfo(sshKeyId);
-    }
-
-    /**
-     * Deletes SSH key
-     *
-     * @param sshKeyId SSH key id (required)
-     * @return ApiResponse&lt;Void&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<Void> accountDeleteSshKeyWithHttpInfo(Integer sshKeyId) throws ApiException {
-        com.squareup.okhttp.Call call = accountDeleteSshKeyValidateBeforeCall(sshKeyId, null, null);
-        return apiClient.execute(call);
-    }
-
-    /**
-     * Build call for accountGet
-     *
-     * @param fields                  Response fields filter (optional)
-     * @param progressListener        Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call accountGetCall(String fields, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/account";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        if (fields != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("fields", fields));
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-                "application/json", "text/json", "application/xml", "text/xml"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if (progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[]{"oauth2"};
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call accountGetValidateBeforeCall(String fields, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-
-
-        com.squareup.okhttp.Call call = accountGetCall(fields, progressListener, progressRequestListener);
-        return call;
-
-    }
-
-    /**
-     * Build call for accountGetSshKey
-     *
-     * @param sshKeyId                SSH key id (required)
-     * @param fields                  Response fields filter (optional)
-     * @param progressListener        Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call accountGetSshKeyCall(Integer sshKeyId, String fields, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/account/sshkeys/{sshKeyId}"
-                .replaceAll("\\{" + "sshKeyId" + "\\}", apiClient.escapeString(sshKeyId.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        if (fields != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("fields", fields));
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-                "application/json", "text/json", "application/xml", "text/xml"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if (progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[]{"oauth2"};
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call accountGetSshKeyValidateBeforeCall(Integer sshKeyId, String fields, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-
-        // verify the required parameter 'sshKeyId' is set
-        if (sshKeyId == null) {
-            throw new ApiException("Missing the required parameter 'sshKeyId' when calling accountGetSshKey(Async)");
-        }
-
-
-        com.squareup.okhttp.Call call = accountGetSshKeyCall(sshKeyId, fields, progressListener, progressRequestListener);
-        return call;
-
-    }
-
-    /**
-     * Returns SSH key
-     *
-     * @param sshKeyId SSH key id (required)
-     * @param fields   Response fields filter (optional)
-     * @return SshKey
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public SshKeyId accountGetSshKey(Integer sshKeyId, String fields) throws ApiException {
-        ApiResponse<SshKeyId> resp = accountGetSshKeyWithHttpInfo(sshKeyId, fields);
-        return resp.getData();
-    }
-
-    /**
-     * Returns SSH key
-     *
-     * @param sshKeyId SSH key id (required)
-     * @param fields   Response fields filter (optional)
-     * @return ApiResponse&lt;SshKey&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<SshKeyId> accountGetSshKeyWithHttpInfo(Integer sshKeyId, String fields) throws ApiException {
-        com.squareup.okhttp.Call call = accountGetSshKeyValidateBeforeCall(sshKeyId, fields, null, null);
-        Type localVarReturnType = new TypeToken<SshKeyId>() {
-        }.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Build call for accountGetSshKeys
-     *
-     * @param pageSize                Page size (optional)
-     * @param pageNumber              Page number (optional)
-     * @param orderBy                 Order by (optional)
-     * @param fields                  Response fields filter (optional)
-     * @param progressListener        Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call accountGetSshKeysCall(Integer pageSize, Integer pageNumber, String orderBy, String fields, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/account/sshkeys";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        if (pageSize != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("pageSize", pageSize));
-        if (pageNumber != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("pageNumber", pageNumber));
-        if (orderBy != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("orderBy", orderBy));
-        if (fields != null)
-            localVarQueryParams.addAll(apiClient.parameterToPair("fields", fields));
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-                "application/json", "text/json", "application/xml", "text/xml"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if (progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[]{"oauth2"};
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call accountGetSshKeysValidateBeforeCall(Integer pageSize, Integer pageNumber, String orderBy, String fields, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-
-
-        com.squareup.okhttp.Call call = accountGetSshKeysCall(pageSize, pageNumber, orderBy, fields, progressListener, progressRequestListener);
-        return call;
-
-    }
-
-    /**
      * Build call for accountPostSshKey
      *
      * @param command                 Create SSH key command (required)
-     * @param progressListener        Progress listener
-     * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call accountPostSshKeyCall(CreateSshKeyCommand command, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call accountPostSshKeyCall(CreateSshKeyCommand command) throws ApiException {
         Object localVarPostBody = command;
 
         // create path and map variables
@@ -392,24 +76,12 @@ public class AccountApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                            .build();
-                }
-            });
-        }
-
         String[] localVarAuthNames = new String[]{"oauth2"};
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames);
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call accountPostSshKeyValidateBeforeCall(CreateSshKeyCommand command, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call accountPostSshKeyValidateBeforeCall(CreateSshKeyCommand command) throws ApiException {
 
         // verify the required parameter 'command' is set
         if (command == null) {
@@ -417,7 +89,7 @@ public class AccountApi {
         }
 
 
-        com.squareup.okhttp.Call call = accountPostSshKeyCall(command, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = accountPostSshKeyCall(command);
         return call;
 
     }
@@ -442,7 +114,7 @@ public class AccountApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<SshKeyId> accountPostSshKeyWithHttpInfo(CreateSshKeyCommand command) throws ApiException {
-        com.squareup.okhttp.Call call = accountPostSshKeyValidateBeforeCall(command, null, null);
+        com.squareup.okhttp.Call call = accountPostSshKeyValidateBeforeCall(command);
         Type localVarReturnType = new TypeToken<SshKeyId>() {
         }.getType();
         return apiClient.execute(call, localVarReturnType);

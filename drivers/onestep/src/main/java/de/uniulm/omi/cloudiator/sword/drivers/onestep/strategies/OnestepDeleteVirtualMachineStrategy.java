@@ -22,15 +22,16 @@ public class OnestepDeleteVirtualMachineStrategy implements DeleteVirtualMachine
     @Override
     public void apply(String s) {
         ApiClient apiClient = instancesApi.getApiClient();
-        int id = Integer.parseInt(s);
+        int vmId = Integer.parseInt(s);
         InstanceData instanceData = apiClient
                 .getInstancesList()
                 .stream()
-                .filter(e -> e.getInstanceDetails().getId().equals(id))
+                .filter(e -> e.getInstanceDetails().getId().equals(vmId))
                 .findFirst()
-                .get();
+                .orElseThrow(() -> new IllegalStateException("VirtualMachine requested to delete does't exist"));
         try {
-            EmptyResponse response = instancesApi.instancesDelete(Integer.parseInt(instanceData.getLocationId()), id);
+            EmptyResponse response = instancesApi.instancesDelete(Integer.parseInt(instanceData.getLocationId()), vmId);
+            instancesApi.getApiClient().deleteInstance(instanceData);
         } catch (ApiException e) {
             e.printStackTrace();
         }

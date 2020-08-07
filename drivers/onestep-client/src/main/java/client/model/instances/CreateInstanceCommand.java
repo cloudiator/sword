@@ -194,6 +194,13 @@ public class CreateInstanceCommand {
     this.additionalDisks = additionalDisks;
   }
 
+  public void setHddPrimaryDisk(int gbSize) {
+    Disk disk = new Disk();
+    disk.setType("hdd");
+    disk.setSize(gbSize);
+    this.setPrimaryDisk(disk);
+  }
+
   public CreateInstanceCommand authorisation(Authorisation authorisation) {
     this.authorisation = authorisation;
     return this;

@@ -19,8 +19,6 @@ import client.auth.Authentication;
 import client.auth.HttpBasicAuth;
 import client.auth.OAuth;
 import client.model.InstanceData;
-import client.model.instances.Instance;
-import client.model.instances.InstanceDetails;
 import com.squareup.okhttp.*;
 import com.squareup.okhttp.internal.http.HttpMethod;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
@@ -53,6 +51,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+/** This class is briefly based on Octawave client api
+ *  Major changes would be adding two fields: list of virtual machines
+ *  and current workspace
+ */
 public class ApiClient {
 
     private String basePath = "https://staging.onestep.cloud/api/";
@@ -61,11 +64,6 @@ public class ApiClient {
     private String tempFolderPath = null;
 
     private Map<String, Authentication> authentications;
-
-    private DateFormat dateFormat;
-    private DateFormat datetimeFormat;
-    private boolean lenientDatetimeFormat;
-    private int dateLength;
 
     private InputStream sslCaCert;
     private boolean verifyingSsl;
@@ -115,6 +113,10 @@ public class ApiClient {
 
     public void addInstance(InstanceData instance) {
         this.instancesList.add(instance);
+    }
+
+    public void deleteInstance(InstanceData instance) {
+        this.instancesList.removeIf(e -> e.equals(instance));
     }
 
     /**
@@ -237,10 +239,6 @@ public class ApiClient {
         this.keyManagers = managers;
         applySslSettings();
         return this;
-    }
-
-    public DateFormat getDateFormat() {
-        return dateFormat;
     }
 
     public ApiClient setDateFormat(DateFormat dateFormat) {
@@ -551,56 +549,6 @@ public class ApiClient {
     }
 
     /**
-     * Formats the specified collection query parameters to a list of {@code Pair} objects.
-     * <p>
-     * Note that the values of each of the returned Pair objects are percent-encoded.
-     *
-     * @param collectionFormat The collection format of the parameter.
-     * @param name             The name of the parameter.
-     * @param value            The value of the parameter.
-     * @return A list of {@code Pair} objects.
-     */
-    public List<Pair> parameterToPairs(String collectionFormat, String name, Collection value) {
-        List<Pair> params = new ArrayList<Pair>();
-
-        // preconditions
-        if (name == null || name.isEmpty() || value == null || value.isEmpty()) {
-            return params;
-        }
-
-        // create the params based on the collection format
-        if ("multi".equals(collectionFormat)) {
-            for (Object item : value) {
-                params.add(new Pair(name, escapeString(parameterToString(item))));
-            }
-            return params;
-        }
-
-        // collectionFormat is assumed to be "csv" by default
-        String delimiter = ",";
-
-        // escape all delimiters except commas, which are URI reserved
-        // characters
-        if ("ssv".equals(collectionFormat)) {
-            delimiter = escapeString(" ");
-        } else if ("tsv".equals(collectionFormat)) {
-            delimiter = escapeString("\t");
-        } else if ("pipes".equals(collectionFormat)) {
-            delimiter = escapeString("|");
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (Object item : value) {
-            sb.append(delimiter);
-            sb.append(escapeString(parameterToString(item)));
-        }
-
-        params.add(new Pair(name, sb.substring(delimiter.length())));
-
-        return params;
-    }
-
-    /**
      * Sanitize filename by removing path.
      * e.g. ../../sun.gif becomes sun.gif
      *
@@ -868,17 +816,6 @@ public class ApiClient {
         } catch (IOException e) {
             throw new ApiException(e);
         }
-    }
-
-    /**
-     * {@link #executeAsync(Call, Type, ApiCallback)}
-     *
-     * @param <T>      Type
-     * @param call     An instance of the Call object
-     * @param callback ApiCallback&lt;T&gt;
-     */
-    public <T> void executeAsync(Call call, ApiCallback<T> callback) {
-        executeAsync(call, null, callback);
     }
 
     /**

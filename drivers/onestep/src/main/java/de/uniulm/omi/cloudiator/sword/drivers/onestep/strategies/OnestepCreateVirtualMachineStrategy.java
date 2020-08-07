@@ -39,6 +39,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachineStrategy {
 
+    private static int DISK_IN_GB = 20;
     private static Logger LOGGER = LoggerFactory.getLogger(OnestepCreateVirtualMachineStrategy.class);
 
     private final InstancesApi instancesApi;
@@ -83,7 +84,7 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
         try {
             tempSshKey = accountApi.accountPostSshKey(createSshKeyCommand);
         } catch (ApiException e) {
-            LOGGER.warn("Could not create sshKey, User and password will be used");
+            LOGGER.warn(" Could not register sshKey, User and password will be used");
             LOGGER.error("ApiException: " + e.getCode() + ", ResponseBody: " + e.getResponseBody());
         }
 
@@ -91,17 +92,13 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
 
         HardwareFlavor hardwareFlavor =  hardwareGetStrategy.get(virtualMachineTemplate.hardwareFlavorId());
 
-        Disk disk = new Disk();
-        disk.setType("hdd");
-        disk.setSize(20);
-
         CreateInstanceCommand createInstanceCommand = new CreateInstanceCommand();
         createInstanceCommand.setName(vmName);
         createInstanceCommand.setOperatingSystemVersionId(Integer.valueOf(virtualMachineTemplate.imageId())); // id 48 -> Tier 1
         createInstanceCommand.setClusterId(HardwareFlavourNamingStrategy.getClusterIdFromHardwareFlavourName(hardwareFlavor.name()));
         createInstanceCommand.setCpuCores(hardwareFlavor.numberOfCores());
         createInstanceCommand.setRam(hardwareFlavor.mbRam());
-        createInstanceCommand.setPrimaryDisk(disk);
+        createInstanceCommand.setHddPrimaryDisk(DISK_IN_GB);
         createInstanceCommand.setAdditionalDisks(null);
         createInstanceCommand.setPrivateNetworkId(null);
         createInstanceCommand.addDedicatedPublicIp(true);
@@ -123,7 +120,9 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
             while (!isTurnedOn) {
                 ApiCollectionInstance apiCollectionInstance = instancesApi.instancesGet(Integer.parseInt(virtualMachineTemplate.locationId()));
 
-                String ids = apiCollectionInstance.getInstances().stream()
+                String ids = apiCollectionInstance
+                        .getInstances()
+                        .stream()
                         .map(i -> Integer.toString(i.getId()))
                         .collect(Collectors.joining(",", "[", "]"));
 
@@ -135,15 +134,24 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
                         .filter(i -> i.getId().equals(newInstance.getId()))
                         .findFirst();
 
-                String instanceName = first.get().getName();
+                if (first.isPresent()) {
+                    Instance createdInstance = first.get();
+                    if ((createdInstance.getCpuCores() != hardwareFlavor.numberOfCores()) ||
+                            (createdInstance.getRam() != hardwareFlavor.mbRam()) ||
+                            (createdInstance.getStorage() != DISK_IN_GB)) {
+                        throw new IllegalStateException("Created Vm's settings mismatch requested values");
+                    }
 
-                if ("powered_on".equalsIgnoreCase(first.get().getState())) {
-                    LOGGER.info(String.format("Instance: %s is in %s state", instanceName, first.get().getState()));
-                    instance = first.get();
-                    isTurnedOn = true;
-                } else {
-                    LOGGER.info(String.format("Instance: %s is in %s state. Waiting for initialization", instanceName, instance.getState()));
-                    sleep(3000);
+                    String instanceName = first.get().getName();
+
+                    if ("powered_on".equalsIgnoreCase(first.get().getState())) {
+                        LOGGER.info(String.format("Instance: %s is in %s state", instanceName, first.get().getState()));
+                        instance = first.get();
+                        isTurnedOn = true;
+                    } else {
+                        LOGGER.info(String.format("Instance: %s is in %s state. Waiting for initialization", instanceName, instance.getState()));
+                        sleep(3000);
+                    }
                 }
             }
 
@@ -156,6 +164,7 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
                     virtualMachineTemplate.locationId(),
                     sshKey != null ? extendedKeyPair.getPrivateKey() : null
             );
+            //store data for later use
             instancesApi.getApiClient().addInstance(instanceData);
 
             return instanceConverter.apply(instanceData);
