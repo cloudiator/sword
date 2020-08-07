@@ -22,7 +22,9 @@ import client.ApiException;
 import client.api.ApiClient;
 import client.api.TemplatesApi;
 import client.model.regions.Region;
+import client.model.templates.ApiCollectionTemplate;
 import client.model.templates.OperatingSystem;
+import client.model.templates.PrivateNetwork;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplate;
@@ -59,8 +61,19 @@ public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
 
         for (Region region : activeRegionsSet.getRegions()) {
             try {
-                imageTemplates.addAll(operatingSystemsToImageTemplate(templatesApi.templatesGet(workspace, region.getId())
-                        .getOperatingSystems(), region.getId()));
+                ApiCollectionTemplate apiCollectionTemplate = templatesApi.templatesGet(workspace, region.getId());
+                imageTemplates.addAll(operatingSystemsToImageTemplate(apiCollectionTemplate.getOperatingSystems(), region.getId()));
+
+                //we need to store private network as it will be needed during virtual machine creation
+                PrivateNetwork defaultPrivateNetwork = apiCollectionTemplate
+                        .getPrivateNetworks()
+                        .stream()
+                        .filter(e -> e.getName().equals("Default"))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalStateException("No default private network was found for region: " + region.getId()));
+
+                templatesApi.getApiClient().addDefaultPrivateNetwork(region.getId(), defaultPrivateNetwork);
+
             } catch (ApiException e) {
                 LOGGER.error("Could not get Image Template from One Step Cloud", e);
             }

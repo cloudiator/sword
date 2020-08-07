@@ -47,7 +47,7 @@ public class CreateInstanceCommand {
   @SerializedName("additional_disks")
   private List<Disk> additionalDisks = null;
 
-  @SerializedName("authorisation")
+  @SerializedName("authorization")
   private Authorisation authorisation = null;
 
   @SerializedName("private_network_id")
@@ -294,7 +294,7 @@ public class CreateInstanceCommand {
     sb.append("    cpuCores: ").append(toIndentedString(cpuCores)).append("\n");
     sb.append("    ram: ").append(toIndentedString(ram)).append("\n");
     sb.append("    primaryDisk: ").append(toIndentedString(primaryDisk)).append("\n");
-    sb.append("    additionalDisk: ").append(toIndentedString(additionalDisks)).append("\n");
+    sb.append("    additionalDisks: ").append(toIndentedString(additionalDisks)).append("\n");
     sb.append("    authorisation: ").append(toIndentedString(authorisation)).append("\n");
     sb.append("    privateNetworkId: ").append(toIndentedString(privateNetworkId)).append("\n");
     sb.append("    addDedicatedPublicIp: ").append(toIndentedString(addDedicatedPublicIp)).append("\n");

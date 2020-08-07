@@ -12,7 +12,7 @@ public class Authorisation {
    @SerializedName("type")
     private String type = null;
 
-    @SerializedName("ssk_keys")
+    @SerializedName("ssh_keys")
     private List<SshKey> sshKeys = null;
 
     public Authorisation type(String id) {
@@ -43,10 +43,10 @@ public class Authorisation {
         sshKey.setId(id);
         sshKey.setPublicKey(publicKey);
         if(sshKeys == null) {
-            sshKeys = new LinkedList<>();
-        } else {
-            sshKeys.add(sshKey);
+            this.sshKeys = new LinkedList<>();
         }
+
+        this.sshKeys.add(sshKey);
     }
 
     @Override

@@ -19,6 +19,7 @@ import client.auth.Authentication;
 import client.auth.HttpBasicAuth;
 import client.auth.OAuth;
 import client.model.InstanceData;
+import client.model.templates.PrivateNetwork;
 import com.squareup.okhttp.*;
 import com.squareup.okhttp.internal.http.HttpMethod;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
@@ -76,6 +77,7 @@ public class ApiClient {
 
     private int currentWorkspace;
     private List<InstanceData> instancesList = new LinkedList<>();
+    private Map<Integer, PrivateNetwork> defaultPrivateNetworkByRegionId = new HashMap<>();
 
     /*
      * Constructor for ApiClient
@@ -117,6 +119,14 @@ public class ApiClient {
 
     public void deleteInstance(InstanceData instance) {
         this.instancesList.removeIf(e -> e.equals(instance));
+    }
+
+    public void addDefaultPrivateNetwork(int regionId, PrivateNetwork privateNetwork) {
+        this.defaultPrivateNetworkByRegionId.put(regionId, privateNetwork);
+    }
+
+    public PrivateNetwork getDefaultPrivateNetwork(int regionId) {
+        return defaultPrivateNetworkByRegionId.get(regionId);
     }
 
     /**

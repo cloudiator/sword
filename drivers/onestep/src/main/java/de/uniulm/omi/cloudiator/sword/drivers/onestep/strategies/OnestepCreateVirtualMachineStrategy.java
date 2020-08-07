@@ -92,6 +92,7 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
         SshKeyResponse sshKey = tempSshKey;
 
         HardwareFlavor hardwareFlavor =  hardwareGetStrategy.get(virtualMachineTemplate.hardwareFlavorId());
+        int regionId = Integer.parseInt(virtualMachineTemplate.locationId());
 
         CreateInstanceCommand createInstanceCommand = new CreateInstanceCommand();
         createInstanceCommand.setName(vmName);
@@ -100,8 +101,8 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
         createInstanceCommand.setCpuCores(hardwareFlavor.numberOfCores());
         createInstanceCommand.setRam(hardwareFlavor.mbRam());
         createInstanceCommand.setHddPrimaryDisk(DISK_IN_GB);
-        createInstanceCommand.setAdditionalDisks(null);
-        createInstanceCommand.setPrivateNetworkId(null);
+        createInstanceCommand.setAdditionalDisks(new LinkedList<>());
+        createInstanceCommand.setPrivateNetworkId(accountApi.getApiClient().getDefaultPrivateNetwork(regionId).getId());
         createInstanceCommand.addDedicatedPublicIp(true);
 
         Authorisation authorisation = new Authorisation();
@@ -114,7 +115,7 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
         createInstanceCommand.setAuthorisation(authorisation);
 
         try {
-            InstanceId newInstance = instancesApi.instancesPost(createInstanceCommand, Integer.parseInt(virtualMachineTemplate.locationId()));
+            InstanceId newInstance = instancesApi.instancesPost(createInstanceCommand, regionId);
 
             Instance instance = null;
             boolean isTurnedOn = false;

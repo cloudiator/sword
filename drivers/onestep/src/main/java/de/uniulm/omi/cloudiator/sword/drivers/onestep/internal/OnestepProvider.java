@@ -44,8 +44,6 @@ public class OnestepProvider implements Provider<ApiClient> {
 
     @Override
     public ApiClient get() {
-        LOGGER.warn("Setting token");
-        LOGGER.warn("Setting token");
         String usernameClient = cloud.credential().user();
         String passwordSecret = cloud.credential().password();
 
