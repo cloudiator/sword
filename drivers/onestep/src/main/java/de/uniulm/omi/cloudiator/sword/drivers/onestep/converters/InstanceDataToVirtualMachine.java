@@ -36,9 +36,8 @@ public class InstanceDataToVirtualMachine implements OneWayConverter<InstanceDat
         Location location = locationGetStrategy.get(instanceData.getLocationId());
         //ToDo if endpoint to get password would be provided, set username and password
         LoginCredential loginCredential = LoginCredentialBuilder.newBuilder()
-                .username(null)
+                .username("osc")
                 .privateKey(instanceData.getPrivateKey())
-                .password(null)
                 .build();
 
         InstanceDetails instanceDetails = instanceData.getInstanceDetails();

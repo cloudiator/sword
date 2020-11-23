@@ -36,6 +36,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
     private static int CPU_STEP = 1;
     private static int RAM_STEP_IN_GB = 1;
+    private static int RAM_MAX_VALUE = 16;
     private static int DISK_STEP_IN_GB = 10;
 
     private final ImageTemplatesSet imageTemplatesSet;
@@ -61,7 +62,7 @@ public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
         for (Cluster cluster : clusters) {
             for (int cpu = cluster.getResources().getCpu().getMin(); cpu <= cluster.getResources().getCpu().getMax();
                  cpu += CPU_STEP) {
-                for (int ram = cluster.getResources().getRam().getMin(); ram <= cluster.getResources().getRam().getMax();
+                for (int ram = cluster.getResources().getRam().getMin(); ram <= (Math.min(cluster.getResources().getRam().getMax(), RAM_MAX_VALUE));
                      ram += RAM_STEP_IN_GB) {
                     //for (double disk = cluster.getResources().getPrimaryDisk().getMin(); disk <= cluster.getResources().getPrimaryDisk().getMax();
                      //    disk += DISK_STEP_IN_GB) {
@@ -71,7 +72,7 @@ public class HardwareSupplier implements Supplier<Set<HardwareFlavor>> {
                                 .name(cluster.getName())
                                 .cores(cpu)
                                 .gbDisk(null) //This value will later be set during creation of the machine
-                                .mbRam(ram)
+                                .mbRam(ram*1024)
                                 .build());
                         hardwareFlavourNo++;
                     //}

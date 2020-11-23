@@ -29,6 +29,7 @@ import de.uniulm.omi.cloudiator.sword.properties.Constants;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +40,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by daniel on 19.08.15.
  */
+@Slf4j
 class RetryingConnectionFactory implements RemoteConnectionFactory {
 
   private static final Logger LOGGER = LoggerFactory
@@ -69,7 +71,7 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
     LOGGER.info(String.format(
         "%s is opening a remote connection to remoteAddress: %s, remoteType: %s, loginCredential %s and port %s.",
         this, remoteAddress, remoteType, loginCredential, port));
-
+    log.warn("clientUsernameInSword: " + loginCredential.username());
     Callable<RemoteConnection> callable = () -> remoteConnectionFactory
         .createRemoteConnection(remoteAddress, remoteType, loginCredential, port);
 
@@ -79,6 +81,7 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
               @Override
               public <V> void onRetry(Attempt<V> attempt) {
                 if (attempt.hasException()) {
+                  log.warn("Attempt number %s received exception %s. Delay since initial start: %s");
                   LOGGER.debug(String.format(
                       "Attempt number %s received exception %s. Delay since initial start: %s",
                       attempt.getAttemptNumber(), attempt.getExceptionCause().getMessage(),
@@ -97,7 +100,7 @@ class RetryingConnectionFactory implements RemoteConnectionFactory {
     try {
       return remoteConnectionRetryer.call(callable);
     } catch (ExecutionException | RetryException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException(e + "clientUser="+ loginCredential.username());
     }
   }
 

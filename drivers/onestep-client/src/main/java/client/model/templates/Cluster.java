@@ -18,7 +18,7 @@ public class Cluster {
     private String name = null;
 
     @SerializedName("description")
-    private Description description = null;
+    private String description = null;
 
     @SerializedName("max_additional_disks")
     private int maxAdditionalDisks;
@@ -65,7 +65,7 @@ public class Cluster {
         this.name = name;
     }
 
-    public Cluster description(Description description) {
+    public Cluster description(String description) {
         this.description = description;
         return this;
     }
@@ -75,11 +75,11 @@ public class Cluster {
      * @return description
      **/
     @ApiModelProperty(value = "Description")
-    public Description getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Description description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

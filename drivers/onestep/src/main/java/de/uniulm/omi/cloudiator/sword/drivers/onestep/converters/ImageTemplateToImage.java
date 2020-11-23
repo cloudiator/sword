@@ -18,12 +18,13 @@ public class ImageTemplateToImage implements OneWayConverter<ImageTemplate, Imag
     @Override
     public Image apply(ImageTemplate template) {
 
-        String name = template.getOperatingSystemName();
+        String name = template.getOperatingSystemName() + "-" + getVersionNo(template.getVersionName());
         return ImageBuilder.newBuilder()
                 .id(String.valueOf(template.getVersionId())) //note that this value is unique, not operating system id
                 .providerId(name)
                 .name(name)
                 .os(buildOs(template))
+                .location(template.getLocation())
                 .build();
     }
 
@@ -61,7 +62,7 @@ public class ImageTemplateToImage implements OneWayConverter<ImageTemplate, Imag
     }
 
     private String getVersionNo(String version) {
-        Pattern p = Pattern.compile("-?\\d+");
+        Pattern p = Pattern.compile("\\d+");
         Matcher m = p.matcher(version);
         StringBuilder result = new StringBuilder();
 

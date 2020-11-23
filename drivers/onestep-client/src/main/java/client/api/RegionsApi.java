@@ -17,6 +17,7 @@ import client.*;
 import client.model.regions.ApiCollectionRegion;
 import client.model.regions.Region;
 import com.google.gson.reflect.TypeToken;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Slf4j
 public class RegionsApi {
     private ApiClient apiClient;
 
@@ -58,7 +59,7 @@ public class RegionsApi {
 
         // create path and map variables
         String localVarPath = "workspaces/" + apiClient.getCurrentWorkspace() + "/regions/";
-
+        log.warn(localVarPath);
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (fields != null)
@@ -112,6 +113,7 @@ public class RegionsApi {
      */
     public ApiCollectionRegion regionsGet(String fields) throws ApiException {
         ApiResponse<ApiCollectionRegion> resp = regionsGetWithHttpInfo(fields);
+        log.warn("clientData: {}", resp.getData().toString());
         return resp.getData();
     }
 

@@ -18,8 +18,8 @@ public class OperatingSystem {
     @SerializedName("name")
     private String name = null;
 
-    @SerializedName("authorisation_types")
-    private List<String> authorisationTypes = null;
+    @SerializedName("authorization_types")
+    private List<String> authorizationTypes = null;
 
     @SerializedName("versions")
     private List<Version> versions = null;
@@ -60,22 +60,22 @@ public class OperatingSystem {
         this.name = name;
     }
 
-    public OperatingSystem autorisationTypes(List<String> authorisation_types) {
-        this.authorisationTypes = authorisation_types;
+    public OperatingSystem authorizationTypes(List<String> authorization_types) {
+        this.authorizationTypes = authorization_types;
         return this;
     }
 
     /**
-     * Get diskTypes
-     * @return diskTypes
+     * Get diskAuthorizationTypes
+     * @return authorizationTypes
      **/
-    @ApiModelProperty(value = "")
-    public List<String> getAuthorisationTypes() {
-        return authorisationTypes;
+    @ApiModelProperty(value = "AuthorizationTypes")
+    public List<String> getAuthorizationTypes() {
+        return authorizationTypes;
     }
 
-    public void setAuthorisationTypes(List<String> authorisationTypes) {
-        this.authorisationTypes = authorisationTypes;
+    public void setAuthorizationTypes(List<String> authorizationTypes) {
+        this.authorizationTypes = authorizationTypes;
     }
 
     @ApiModelProperty(value = "")
@@ -94,12 +94,13 @@ public class OperatingSystem {
         OperatingSystem template = (OperatingSystem) o;
         return Objects.equals(this.id, template.id) &&
                 Objects.equals(this.name, template.name) &&
+                Objects.equals(this.authorizationTypes, template.authorizationTypes) &&
                 Objects.equals(this.versions, template.versions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, versions);
+        return Objects.hash(id, name, authorizationTypes, versions);
     }
 
 
@@ -107,9 +108,9 @@ public class OperatingSystem {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class OperatingSystem {\n");
-
         sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
+        sb.append("    authorization_types: ").append(toIndentedString(authorizationTypes)).append("\n");
         sb.append("    versions: ").append(toIndentedString(versions)).append("\n");
         sb.append("}");
         return sb.toString();

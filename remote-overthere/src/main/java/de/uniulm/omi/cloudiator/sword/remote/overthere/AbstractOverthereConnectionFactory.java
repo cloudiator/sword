@@ -26,16 +26,18 @@ import de.uniulm.omi.cloudiator.sword.domain.LoginCredential;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnection;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteConnectionFactory;
 import de.uniulm.omi.cloudiator.sword.remote.RemoteException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by daniel on 19.08.15.
  */
+@Slf4j
 public abstract class AbstractOverthereConnectionFactory implements RemoteConnectionFactory {
 
   @Override
   public RemoteConnection createRemoteConnection(String remoteAddress, RemoteType remoteType,
       LoginCredential loginCredential, int port) throws RemoteException {
-
+    log.warn("clientUser: " + loginCredential.username());
     checkArgument(loginCredential.username().isPresent(),
         "LoginCredential does not contain user name.");
     checkArgument(

@@ -26,6 +26,8 @@ import de.uniulm.omi.cloudiator.sword.domain.Cloud;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -53,8 +55,8 @@ public class OnestepProvider implements Provider<ApiClient> {
         defaultClient.setWriteTimeout(4 * 60000);
         defaultClient.setReadTimeout(4 * 60000);
         defaultClient.setConnectTimeout(4 * 60000);
-        //ToDo get from cloud
-        defaultClient.setCurrentWorkspace(108);
+        defaultClient.setCurrentWorkspace(Integer.parseInt(
+                Objects.requireNonNull(cloud.configuration().properties().getProperty("sword.osc.workspace.id"))));
 
         LOGGER.warn("Setting token");
         TokenSetter tokenSetter = new TokenSetter(defaultClient, usernameClient, passwordSecret);

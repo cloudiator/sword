@@ -93,13 +93,15 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
 
         HardwareFlavor hardwareFlavor =  hardwareGetStrategy.get(virtualMachineTemplate.hardwareFlavorId());
         int regionId = Integer.parseInt(virtualMachineTemplate.locationId());
+        assert hardwareFlavor != null;
+        long ramGb = hardwareFlavor.mbRam()/1024;
 
         CreateInstanceCommand createInstanceCommand = new CreateInstanceCommand();
         createInstanceCommand.setName(vmName);
         createInstanceCommand.setOperatingSystemVersionId(Integer.valueOf(virtualMachineTemplate.imageId())); // id 48 -> Tier 1
         createInstanceCommand.setClusterId(HardwareFlavourIdStrategy.getClusterIdFromHardwareFlavourId(hardwareFlavor.id()));
         createInstanceCommand.setCpuCores(hardwareFlavor.numberOfCores());
-        createInstanceCommand.setRam(hardwareFlavor.mbRam());
+        createInstanceCommand.setRam(ramGb);
         createInstanceCommand.setHddPrimaryDisk(DISK_IN_GB);
         createInstanceCommand.setAdditionalDisks(new LinkedList<>());
         createInstanceCommand.setPrivateNetworkId(accountApi.getApiClient().getDefaultPrivateNetwork(regionId).getId());
@@ -138,7 +140,7 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
                 if (first.isPresent()) {
                     Instance createdInstance = first.get();
                     if ((createdInstance.getCpuCores() != hardwareFlavor.numberOfCores()) ||
-                            (createdInstance.getRam() != hardwareFlavor.mbRam()) ||
+                            (createdInstance.getRam() != ramGb) ||
                             (createdInstance.getStorage() != DISK_IN_GB)) {
                         throw new IllegalStateException("Created Vm's settings mismatch requested values");
                     }

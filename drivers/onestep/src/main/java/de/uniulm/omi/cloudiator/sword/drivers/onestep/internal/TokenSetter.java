@@ -51,13 +51,13 @@ public class TokenSetter {
 
     private TokenResponse getTokenResponse(HttpEntity httpEntity) throws IOException {
         try (CloseableHttpClient httpclient = HttpClients.custom().build()) {
-            HttpPost httpPost = new HttpPost("https://staging.onestep.cloud/api/sign_in");
+            HttpPost httpPost = new HttpPost("https://panel.onestep.cloud/api/sign_in");
             httpPost.setEntity(httpEntity);
             httpPost.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
 
             try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
                 String res = EntityUtils.toString(response.getEntity());
-                LOGGER.info("auth message: " + res);
+                LOGGER.warn("auth message: " + res);
                 return new Gson().fromJson(res, TokenResponse.class);
             }
 

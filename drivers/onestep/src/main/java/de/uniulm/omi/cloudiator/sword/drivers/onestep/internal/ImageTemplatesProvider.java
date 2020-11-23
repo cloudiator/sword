@@ -27,10 +27,12 @@ import client.model.templates.OperatingSystem;
 import client.model.templates.PrivateNetwork;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplate;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ImageTemplatesSet;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.domain.ActiveRegionsSet;
 import de.uniulm.omi.cloudiator.sword.drivers.onestep.suppliers.HardwareSupplier;
+import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,14 +46,16 @@ public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
 
     private final TemplatesApi templatesApi;
     private final ActiveRegionsSet activeRegionsSet;
+    private final OneWayConverter<Region, Location> converter;
 
     //Note that we need location get strategy as template requests require active regions only
     @Inject
     public ImageTemplatesProvider(ApiClient apiClient, TemplatesApi templatesApi,
-                                  ActiveRegionsSet activeRegionsSet) {
-        apiClient.setBasePath("https://staging.onestep.cloud/api/");
+                                  ActiveRegionsSet activeRegionsSet, OneWayConverter<Region, Location> converter) {
+        apiClient.setBasePath("https://panel.onestep.cloud/api/");
         this.templatesApi = templatesApi;
         this.activeRegionsSet = activeRegionsSet;
+        this.converter = converter;
     }
 
     @Override
@@ -62,7 +66,7 @@ public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
         for (Region region : activeRegionsSet.getRegions()) {
             try {
                 ApiCollectionTemplate apiCollectionTemplate = templatesApi.templatesGet(workspace, region.getId());
-                imageTemplates.addAll(operatingSystemsToImageTemplate(apiCollectionTemplate.getOperatingSystems(), region.getId()));
+                imageTemplates.addAll(operatingSystemsToImageTemplate(apiCollectionTemplate.getOperatingSystems(), region));
 
                 //we need to store private network as it will be needed during virtual machine creation
                 PrivateNetwork defaultPrivateNetwork = apiCollectionTemplate
@@ -83,7 +87,7 @@ public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
     }
 
     //This casting is necessary as from each operating system we can build multiple images
-    private Set<ImageTemplate> operatingSystemsToImageTemplate(List<OperatingSystem> operatingSystems, int regionId) {
+    private Set<ImageTemplate> operatingSystemsToImageTemplate(List<OperatingSystem> operatingSystems, Region region) {
         Set<ImageTemplate> imageTemplates = new HashSet<>();
 
         operatingSystems.forEach(
@@ -95,7 +99,7 @@ public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
                                                 operatingSystem.getName(),
                                                 version.getId(),
                                                 version.getName(),
-                                                regionId,
+                                                converter.apply(region),
                                                 cluster
                                         )
                                 )

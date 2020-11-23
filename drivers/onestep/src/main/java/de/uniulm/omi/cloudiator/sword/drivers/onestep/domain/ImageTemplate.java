@@ -1,6 +1,8 @@
 package de.uniulm.omi.cloudiator.sword.drivers.onestep.domain;
 
+import client.model.regions.Region;
 import client.model.templates.Cluster;
+import de.uniulm.omi.cloudiator.sword.domain.Location;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,6 +13,6 @@ public class ImageTemplate {
     private String operatingSystemName;
     private int versionId;
     private String versionName;
-    private int RegionId;
+    private Location location;
     private Cluster cluster;
 }
