@@ -57,7 +57,6 @@ public class TokenSetter {
 
             try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
                 String res = EntityUtils.toString(response.getEntity());
-                LOGGER.warn("auth message: " + res);
                 return new Gson().fromJson(res, TokenResponse.class);
             }
 

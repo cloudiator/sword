@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
 //this class is from octawave client, adapted to one step cloud
 public class TemplatesApi {
     private ApiClient apiClient;
@@ -38,7 +37,6 @@ public class TemplatesApi {
 
         // create path and map variables
         String localVarPath = "workspaces/" + workspace +"/regions/" + region + "/virtual_machines/new";
-log.warn("clientPath: {}" , localVarPath);
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
 

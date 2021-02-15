@@ -58,7 +58,6 @@ import java.util.regex.Pattern;
  *  Major changes would be adding two fields: list of virtual machines
  *  and current workspace
  */
-@Slf4j
 public class ApiClient {
 
     private String basePath = "https://panel.onestepcloud.pl/api/";
@@ -658,7 +657,6 @@ public class ApiClient {
     @SuppressWarnings("unchecked")
     public <T> T deserialize(Response response, Type returnType) throws ApiException {
         if (response == null || returnType == null) {
-            log.warn("client deserielize with null");
             return null;
         }
 
@@ -685,7 +683,6 @@ public class ApiClient {
         }
 
         if (respBody == null || "".equals(respBody)) {
-            log.warn("client deserielize2 with null");
             return null;
         }
 
@@ -695,10 +692,8 @@ public class ApiClient {
             contentType = "application/json";
         }
         if (isJsonMime(contentType)) {
-            log.warn("client deserielize3 json: {} ", respBody);
             return json.deserialize(respBody, returnType);
         } else if (returnType.equals(String.class)) {
-            log.warn("client deserielize4 string: {}", respBody);
             // Expecting string, return the raw response body.
             return (T) respBody;
         } else {
@@ -887,7 +882,6 @@ public class ApiClient {
                         throw new ApiException(response.message(), e, response.code(), response.headers().toMultimap());
                     }
                 }
-                log.warn("ClientReceived null body");
                 return null;
             } else {
                 return deserialize(response, returnType);
