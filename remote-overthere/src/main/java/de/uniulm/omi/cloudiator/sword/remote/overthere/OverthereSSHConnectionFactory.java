@@ -29,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Created by daniel on 19.08.15.
  */
-@Slf4j
 public class OverthereSSHConnectionFactory extends AbstractOverthereConnectionFactory {
 
   @Override
@@ -37,7 +36,6 @@ public class OverthereSSHConnectionFactory extends AbstractOverthereConnectionFa
     connectionOptions.set(ConnectionOptions.OPERATING_SYSTEM, OperatingSystemFamily.UNIX);
     connectionOptions.set(SshConnectionBuilder.CONNECTION_TYPE, SshConnectionType.SFTP);
     connectionOptions.set(SshConnectionBuilder.ALLOCATE_DEFAULT_PTY, true);
-    log.warn("clientUser -connectionOptions - : "+ connectionOptions.toString());
     return connectionOptions;
   }
 

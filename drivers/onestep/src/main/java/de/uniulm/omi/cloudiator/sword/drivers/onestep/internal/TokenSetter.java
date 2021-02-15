@@ -51,7 +51,7 @@ public class TokenSetter {
 
     private TokenResponse getTokenResponse(HttpEntity httpEntity) throws IOException {
         try (CloseableHttpClient httpclient = HttpClients.custom().build()) {
-            HttpPost httpPost = new HttpPost("https://panel.onestep.cloud/api/sign_in");
+            HttpPost httpPost = new HttpPost("https://panel.onestepcloud.pl/api/sign_in");
             httpPost.setEntity(httpEntity);
             httpPost.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
 

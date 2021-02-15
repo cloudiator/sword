@@ -70,8 +70,8 @@ public class OnestepCreateVirtualMachineStrategy implements CreateVirtualMachine
     public VirtualMachine apply(@Nullable VirtualMachineTemplate virtualMachineTemplate) {
         LOGGER.info("Creating instance from VirtualMachineTemplate: " + virtualMachineTemplate);
 
-        String vmName = namingStrategy.generateUniqueNameBasedOnName(virtualMachineTemplate.name(), 40);
-        if (vmName.length() > 40) {
+        String vmName = namingStrategy.generateUniqueNameBasedOnName(virtualMachineTemplate.name(), 55);
+        if (vmName.length() > 55) {
             throw new RuntimeException("InstanceName should be shorter than 40. Current value is " + vmName + ", size: " + vmName.length());
         }
         ExtendedKeyPair extendedKeyPair = keyPairGenerator.generate();

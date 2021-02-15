@@ -37,7 +37,6 @@ public abstract class AbstractOverthereConnectionFactory implements RemoteConnec
   @Override
   public RemoteConnection createRemoteConnection(String remoteAddress, RemoteType remoteType,
       LoginCredential loginCredential, int port) throws RemoteException {
-    log.warn("clientUser: " + loginCredential.username());
     checkArgument(loginCredential.username().isPresent(),
         "LoginCredential does not contain user name.");
     checkArgument(

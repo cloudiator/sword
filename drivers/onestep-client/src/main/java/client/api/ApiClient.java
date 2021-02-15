@@ -61,7 +61,7 @@ import java.util.regex.Pattern;
 @Slf4j
 public class ApiClient {
 
-    private String basePath = "https://panel.onestep.cloud/api/";
+    private String basePath = "https://panel.onestepcloud.pl/api/";
     private boolean debugging = false;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
     private String tempFolderPath = null;

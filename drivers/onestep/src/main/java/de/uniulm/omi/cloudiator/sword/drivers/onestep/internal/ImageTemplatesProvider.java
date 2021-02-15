@@ -52,7 +52,7 @@ public class ImageTemplatesProvider implements Provider<ImageTemplatesSet> {
     @Inject
     public ImageTemplatesProvider(ApiClient apiClient, TemplatesApi templatesApi,
                                   ActiveRegionsSet activeRegionsSet, OneWayConverter<Region, Location> converter) {
-        apiClient.setBasePath("https://panel.onestep.cloud/api/");
+        apiClient.setBasePath("https://panel.onestepcloud.pl/api/");
         this.templatesApi = templatesApi;
         this.activeRegionsSet = activeRegionsSet;
         this.converter = converter;
